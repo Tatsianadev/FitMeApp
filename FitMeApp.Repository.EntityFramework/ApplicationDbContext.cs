@@ -1,9 +1,6 @@
-﻿
-using FitMeApp.Contracts;
+﻿using FitMeApp.Contracts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Data.Entity;
 
 namespace FitMeApp.Repository
 {
@@ -14,7 +11,7 @@ namespace FitMeApp.Repository
         //public DbSet<TrainerGymEntity> TrainerGym { get; set; }
         //public DbSet<GroupTrainingEntity> GroupTraining { get; set; }
 
-        public ApplicationDbContext(DbContextOptions <ApplicationDbContext> options):
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 
         {
             Database.EnsureCreated();

@@ -4,10 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FitMeApp
 {
@@ -25,8 +21,6 @@ namespace FitMeApp
         {
             services.AddConfigureServices();
             services.AddControllersWithViews();
-           
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,9 +41,8 @@ namespace FitMeApp
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication(); //added
+            app.UseAuthorization();           
 
             app.UseEndpoints(endpoints =>
             {

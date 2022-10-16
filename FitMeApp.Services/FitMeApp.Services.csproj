@@ -5,12 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
-    <ProjectReference Include="..\FitMeApp.Contracts\FitMeApp.Contracts.csproj" />
     <ProjectReference Include="..\FitMeApp.Repository.EntityFramework\FitMeApp.Repository.EntityFramework.csproj" />
   </ItemGroup>
 

@@ -1,14 +1,9 @@
-﻿using FitMeApp.Contracts;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using FitMeApp.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using FitMeApp.Common;
-
-
+using FitMeApp.Contracts;
 
 namespace FitMeApp.Services
 {
@@ -17,9 +12,12 @@ namespace FitMeApp.Services
         public static void AddConfigureServices(this IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionDb.GetConnectionString()));
-            services.AddIdentityCore<User>()
-                    .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentityCore<User>()
+            //        .AddRoles<IdentityRole>()
+            //        .AddEntityFrameworkStores<ApplicationDbContext>();
+            //.AddSignInManager<SignInManager<User>>();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
         }
     }
 }
