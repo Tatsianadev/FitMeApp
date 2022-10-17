@@ -28,18 +28,27 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                         </li>
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <p>Hello, @User.Identity.Name!</p>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UsersList">UsersData</a>
+                        </li>
+
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
+                                    Hello, @User.Identity.Name!
                                     <input type="submit" name="Logout" value="Logout" />
                                 </form>
-                            }
-                            else
-                            {
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            }
-                        </li>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>
