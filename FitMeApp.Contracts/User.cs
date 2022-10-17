@@ -5,8 +5,7 @@ namespace FitMeApp.Contracts
 {
     public class User:IdentityUser
     {
-        public int Age { get; set; }
-        public string Gender { get; set; }
         public int Year { get; set; }
+        public string Gender { get; set; }       
     }
 }

@@ -18,17 +18,27 @@
     </div>
     <div>
         <label asp-for="PhoneNumber"></label><br />
-        <input asp-for="PhoneNumber" />
+        <input asp-for="PhoneNumber" placeholder="(123)456789" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
     <div>
         <label asp-for="Year"></label><br />
         <input asp-for="Year" />
+        @*<select>
+            @for (int i = (DateTime.Now.Year - 80); i < DateTime.Now.Year; i++)
+            {
+                <option value="@i">@i</option>
+            }           
+        </select>*@
         <span asp-validation-for="Year"></span>
     </div>
     <div>
         <label asp-for="Gender"></label><br />
         <input asp-for="Gender" />
+    @*<select>
+        <option value="man">man</option>
+        <option value="woman">woman</option>
+    </select>*@
         <span asp-validation-for="Gender"></span>
     </div>
     <div>

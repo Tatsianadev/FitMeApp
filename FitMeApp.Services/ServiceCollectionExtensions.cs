@@ -9,15 +9,16 @@ namespace FitMeApp.Services
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddConfigureServices(this IServiceCollection services)
+        public static void RegisterDbContext(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionDb.GetConnectionString()));
-            //services.AddIdentityCore<User>()
-            //        .AddRoles<IdentityRole>()
-            //        .AddEntityFrameworkStores<ApplicationDbContext>();
-            //.AddSignInManager<SignInManager<User>>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DbConnecntion.GetConnectionString())); 
+        }
+
+        public static void RegisterIdentity(this IServiceCollection services)
+        {    
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
     }
 }
+
