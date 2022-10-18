@@ -92,7 +92,7 @@ namespace FitMeApp.Controllers
             {
 
                 throw e;
-            }            
+            }
         }
 
 
@@ -124,7 +124,7 @@ namespace FitMeApp.Controllers
                                 ModelState.AddModelError(string.Empty, error.Description);
                             }
                         }
-                    }                    
+                    }
                 }
                 return View(model);
             }
@@ -149,7 +149,67 @@ namespace FitMeApp.Controllers
             catch (Exception e)
             {
                 throw e;
-            }           
+            }
+        }
+
+
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                ChangePasswordViewModel model = new ChangePasswordViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    Email = user.Email
+                };
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = await _userManager.FindByIdAsync(model.Id);
+                    if (user != null)
+                    {
+                        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("UsersList");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "User is not found");  
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
