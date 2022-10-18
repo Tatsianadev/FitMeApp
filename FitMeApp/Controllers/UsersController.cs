@@ -63,9 +63,77 @@ namespace FitMeApp.Controllers
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                EditUserViewModel model = new EditUserViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Year = user.Year,
+                    Gender = user.Gender
+                };
+                return View(model);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }            
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = await _userManager.FindByIdAsync(model.Id);
+                    if (user != null)
+                    {
+                        user.UserName = model.Name;
+                        user.Email = model.Email;
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.Year = model.Year;
+                        user.Gender = model.Gender;
+
+                        var result = await _userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("UsersList");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
+                    }                    
+                }
+                return View(model);
+            }
+            catch (Exception e)
+            {
 
                 throw e;
             }
         }
+
     }
 }
