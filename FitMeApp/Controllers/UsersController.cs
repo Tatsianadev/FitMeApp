@@ -130,10 +130,26 @@ namespace FitMeApp.Controllers
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
 
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    var result = await _userManager.DeleteAsync(user);
+                }
+                return RedirectToAction("UsersList");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }           
+        }
     }
 }
