@@ -11,12 +11,17 @@ namespace FitMeApp.Services
     {
         public static void RegisterDbContext(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DbConnecntion.GetConnectionString())); 
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DbConnecntion.GetConnectionString()));
         }
 
         public static void RegisterIdentity(this IServiceCollection services)
-        {    
-            services.AddIdentity<User, IdentityRole>()
+        {
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                //options.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
     }

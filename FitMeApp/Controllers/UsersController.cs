@@ -176,8 +176,9 @@ namespace FitMeApp.Controllers
             }
         }
 
+        // user access
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePasswordWithOldPassword(ChangePasswordViewModel model)
         {
             try
             {
@@ -202,6 +203,46 @@ namespace FitMeApp.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "User is not found");  
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        // admin access
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordWithoutOldPassword(ChangePasswordViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = await _userManager.FindByIdAsync(model.Id);
+                    if (user != null)
+                    {
+                        var _passwordValidator =
+                            HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+                        var _passwordHasher =
+                            HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                        var result = await _passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
+                        if (result.Succeeded)
+                        {
+                            user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                            await _userManager.UpdateAsync(user);
+                            return RedirectToAction("UsersList");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
                     }
                 }
                 return View(model);
