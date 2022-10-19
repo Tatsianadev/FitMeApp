@@ -65,9 +65,37 @@ namespace FitMeApp.Controllers
             catch (Exception e)
             {
                 throw e;
-            }          
+            } 
+        }
 
-           
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                IdentityRole role = await _roleManager.FindByIdAsync(id);
+                if (role != null)
+                {
+                    var result = await _roleManager.DeleteAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("RolesList");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                return RedirectToAction("RolesList");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }           
         }
     }
 }
