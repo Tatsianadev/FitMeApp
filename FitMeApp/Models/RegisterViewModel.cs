@@ -4,7 +4,7 @@ namespace FitMeApp.Models
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required]        
         [Display(Name = "Name")]
         public string Name { get; set; }
 

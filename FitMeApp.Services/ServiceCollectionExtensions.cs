@@ -21,6 +21,7 @@ namespace FitMeApp.Services
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 //options.User.RequireUniqueEmail = true;
+                
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }

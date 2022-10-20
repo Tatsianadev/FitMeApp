@@ -1,0 +1,14 @@
+﻿@model IEnumerable<FitMeApp.Contracts.User>
+
+<h2>User-Roles list</h2>
+<table class="table">
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="EditCurrentUserRoles" asp-route-userid="@user.Id">Show roles</a>
+            </td>
+        </tr>
+    }
+</table>

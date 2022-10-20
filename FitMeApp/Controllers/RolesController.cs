@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Contracts;
+using FitMeApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -96,6 +97,69 @@ namespace FitMeApp.Controllers
             {
                 throw e;
             }           
+        }
+
+        
+        public IActionResult UserWithRolesList()
+        {
+            var users = _userManager.Users.ToList();
+            return View(users);
+        }
+
+        public async Task<IActionResult> EditCurrentUserRoles(string userId)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var allRoles = _roleManager.Roles.ToList();
+
+                ChangeCurrentUserRolesViewModel model = new ChangeCurrentUserRolesViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    UserRoles = userRoles,
+                    AllRoles = allRoles
+                };
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditCurrentUserRoles(string userId, IList<string> roles)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var allRoles = _roleManager.Roles.ToList();
+                var removedRoles = userRoles.Except(roles);
+                var addedRoles = roles.Except(userRoles).ToList();
+
+                await _userManager.RemoveFromRolesAsync(user, removedRoles);
+                await _userManager.AddToRolesAsync(user, addedRoles);
+
+                return RedirectToAction("UserWithRolesList");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
