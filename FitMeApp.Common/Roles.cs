@@ -10,4 +10,6 @@ namespace FitMeApp.Common
         user,
         blocked
     }
+
+
 }

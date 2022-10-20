@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
+    <ProjectReference Include="..\FitMeApp.Contracts\FitMeApp.Contracts.csproj" />
     <ProjectReference Include="..\FitMeApp.Repository.EntityFramework\FitMeApp.Repository.EntityFramework.csproj" />
   </ItemGroup>
 
