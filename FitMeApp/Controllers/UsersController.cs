@@ -2,6 +2,7 @@
 using FitMeApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace FitMeApp.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly ILogger _logger;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
+            _logger = loggerFactory.CreateLogger("UsersLogger");
         }
 
 
@@ -61,9 +64,10 @@ namespace FitMeApp.Controllers
                 }
                 return View();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
@@ -88,10 +92,10 @@ namespace FitMeApp.Controllers
                 return View(model);
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex; ;
             }
         }
 
@@ -128,9 +132,10 @@ namespace FitMeApp.Controllers
                 }
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex; ;
             }
         }
 
@@ -146,9 +151,10 @@ namespace FitMeApp.Controllers
                 }
                 return RedirectToAction("UsersList");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
@@ -170,9 +176,10 @@ namespace FitMeApp.Controllers
                 };
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
@@ -207,9 +214,10 @@ namespace FitMeApp.Controllers
                 }
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
@@ -247,9 +255,10 @@ namespace FitMeApp.Controllers
                 }
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
     }

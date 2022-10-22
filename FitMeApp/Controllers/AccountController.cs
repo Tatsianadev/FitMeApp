@@ -105,10 +105,10 @@ namespace FitMeApp.Controllers
                 return View(model);
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 

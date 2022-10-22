@@ -2,6 +2,7 @@
 using FitMeApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger _logger;
 
-        public RolesController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _logger = loggerFactory.CreateLogger("RollesLogger");
         }
 
         public IActionResult RolesList()
@@ -63,9 +66,10 @@ namespace FitMeApp.Controllers
                 }
                 return View(name);               
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             } 
         }
 
@@ -93,9 +97,10 @@ namespace FitMeApp.Controllers
                 }
                 return RedirectToAction("RolesList");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }           
         }
 
@@ -128,9 +133,10 @@ namespace FitMeApp.Controllers
                 };
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
@@ -156,9 +162,10 @@ namespace FitMeApp.Controllers
 
                 return RedirectToAction("UserWithRolesList");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
     }
