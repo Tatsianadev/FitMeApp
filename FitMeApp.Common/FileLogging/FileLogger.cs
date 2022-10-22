@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace FitMeApp.Common.Logging
+namespace FitMeApp.Common.FileLogging
 {
-    class FileLogger : ILogger
+    public class FileLogger : ILogger
     {
         private string filePath;
         private static object _lock = new object();

@@ -16,22 +16,23 @@ namespace FitMeApp.Controllers
         private readonly ILogger _logger;
        
         public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, 
-            ILogger<AccountController> logger)
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger("AccountLogger");
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            //_logger.LogInformation("Work checking");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
-        {
+        {            
             try
             {
                 if (ModelState.IsValid)
