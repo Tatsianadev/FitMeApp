@@ -25,7 +25,8 @@ namespace FitMeApp.Contracts
             if (await userManager.FindByEmailAsync(email) == null)
             {
                 User admin = new User(){UserName = email, Email = email};
-                IdentityResult result = await userManager.CreateAsync(admin);
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, Roles.admin.ToString());

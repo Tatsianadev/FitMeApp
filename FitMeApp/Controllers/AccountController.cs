@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+
 
 namespace FitMeApp.Controllers
 {
@@ -11,10 +13,14 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly ILogger _logger;
+       
+        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, 
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -55,9 +61,10 @@ namespace FitMeApp.Controllers
                 }
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }           
         }
 
