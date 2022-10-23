@@ -19,37 +19,37 @@ values
 ('Jean', 'Vilain', 'man', 'Damme.jpg'),
 ('Natalia', 'Romanoff', 'woman', 'Natasha.jpg'),
 ('Wanda', 'Maximoff', 'woman', 'Wanda.jpg'),
-('Gamora', 'Gamorak', 'woman', 'Camora.jpg')
+('Gamora', 'Gamorak', 'woman', 'Gamora.jpg')
 go
 
 
 insert into TrainerGym (TrainerId, GymId)
 values
-(1,5),
+(1,1),
 (1,3),
-(2,5),
+(2,1),
 (3,2),
 (3,4),
 (4,4),
-(5,5),
+(5,1),
 (5,2),
 (5,4),
 (6,3),
 (6,4),
-(7,5),
+(7,1),
 (7,2),
 (8,2),
 (8,3)
 go
 
 
-insert into GroupTrainings (Name, Description, TrainerId, GymId)
+insert into GroupClasses (Name, Description, TrainerId, GymId)
 values
 ('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body', 7, 2),
-('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups', 7,5),
+('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups', 7,1),
 ('HIIT', 'High-Intensity Interval Training - alternates short periods of intense exercise movements, followed by less intense “recovery” periods', 6,3),
 ('Water Aerobics', 'Engaging muscle endurance and strength in a low-impact setting', 4, 4),
 ('Cycling', 'Cardio workout that relies on a fitness center cycling machine', 4, 4),
-('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves', 5,5),
+('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves', 5,1),
 ('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core', 3, 2)
 go

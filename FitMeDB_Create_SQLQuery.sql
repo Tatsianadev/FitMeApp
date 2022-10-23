@@ -350,7 +350,7 @@ foreign key (GymId) references Gyms(Id)
 go
 
 
-create table GroupTrainings
+create table GroupClasses
 (
 Id int identity primary key not null,
 Name nvarchar(256) not null,
