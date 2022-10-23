@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.Services;
 
 namespace FitMeApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IRepository _repository;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -20,6 +22,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+             
             return View();
         }
 

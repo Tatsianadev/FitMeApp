@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using FitMeApp.Repository;
+using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Contracts;
+using FitMeApp.Repository.EntityFramework.Interfaces;
 
 namespace FitMeApp.Services
 {
@@ -23,7 +24,12 @@ namespace FitMeApp.Services
                 //options.User.RequireUniqueEmail = true;
                 
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();            
+        }
+
+        public static void RegisterDependencies(this IServiceCollection services)
+        {
+            services.AddScoped<IRepository, Repository.EntityFramework.Repository>();           
         }
     }
 }

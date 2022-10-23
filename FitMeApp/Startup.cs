@@ -24,6 +24,7 @@ namespace FitMeApp
         {
             services.RegisterDbContext();
             services.RegisterIdentity();
+            services.RegisterDependencies();
             services.AddControllersWithViews();
         }
 
