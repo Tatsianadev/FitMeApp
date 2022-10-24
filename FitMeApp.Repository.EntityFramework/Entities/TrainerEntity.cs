@@ -10,8 +10,8 @@ namespace FitMeApp.Repository.EntityFramework.Entities
     {
         public TrainerEntity()
         {
-            Gym = new HashSet<GymEntity>();
-            GroupClass = new HashSet<GroupClassEntity>();
+            Gyms = new HashSet<GymEntity>();
+            GroupClasses = new HashSet<GroupClassEntity>();
         }
 
         [Key]
@@ -20,7 +20,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-        public ICollection<GymEntity> Gym { get; set; }
-        public ICollection<GroupClassEntity> GroupClass { get; set; }
+        public ICollection<GymEntity> Gyms { get; set; }
+        public ICollection<GroupClassEntity> GroupClasses { get; set; }
     }
 }

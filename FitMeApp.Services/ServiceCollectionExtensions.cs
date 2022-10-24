@@ -5,6 +5,7 @@ using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Contracts;
 using FitMeApp.Repository.EntityFramework.Interfaces;
+using FitMeApp.Services.Mapping;
 
 namespace FitMeApp.Services
 {
@@ -29,7 +30,8 @@ namespace FitMeApp.Services
 
         public static void RegisterDependencies(this IServiceCollection services)
         {
-            services.AddScoped<IRepository, Repository.EntityFramework.Repository>();           
+            services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
+            services.AddScoped<IMapper, Mapper>();
         }
     }
 }

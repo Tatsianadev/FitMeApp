@@ -22,8 +22,8 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
         public GymEntity GetGym(int id)
-        {
-            GymEntity gym = _context.Gyms.First(x => x.Id == id);
+        {            
+            GymEntity gym = _context.Gyms.Where(x => x.Id == id).First();
             return gym;
         }
 
@@ -51,7 +51,7 @@ namespace FitMeApp.Repository.EntityFramework
             gym.Name = newItem.Name;
             gym.Address = newItem.Address;
             gym.Phone = newItem.Address;
-            gym.TrainerGymRelation = newItem.TrainerGymRelation;
+            //gym.TrainerGymRelation = newItem.TrainerGymRelation;
 
             var result = _context.SaveChanges();
             if (result > 0)

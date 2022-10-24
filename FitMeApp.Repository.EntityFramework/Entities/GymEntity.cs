@@ -9,14 +9,15 @@ namespace FitMeApp.Repository.EntityFramework.Entities
     public class GymEntity
     {
         public GymEntity()
-        {
-            TrainerGymRelation = new HashSet<TrainerGymEntity>();
+        {           
+            Trainers = new HashSet<TrainerEntity>();
         }
+
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public ICollection<TrainerGymEntity> TrainerGymRelation { get; set; }
+        public ICollection<TrainerEntity> Trainers { get; set; }
     }
 }

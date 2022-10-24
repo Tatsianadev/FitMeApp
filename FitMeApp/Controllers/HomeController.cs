@@ -7,23 +7,34 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Services;
+using FitMeApp.Services.Mapping;
 
 namespace FitMeApp.Controllers
 {
     public class HomeController : Controller
-    {
-        private readonly IRepository _repository;
+    {       
         private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IMapper mapper, ILogger<HomeController> logger)
         {
+            _mapper = mapper;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-             
-            return View();
+            try
+            {
+                var gym = _mapper.GetGymModel(1);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+          
         }
 
         public IActionResult Privacy()
