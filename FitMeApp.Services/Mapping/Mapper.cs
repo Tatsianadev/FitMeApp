@@ -1,4 +1,5 @@
-﻿using FitMeApp.Repository.EntityFramework.Interfaces;
+﻿
+using FitMeApp.Contracts.Interfaces;
 using FitMeApp.Services.Models;
 using Microsoft.Extensions.Logging;
 using System;

@@ -1,9 +1,9 @@
 ﻿using FitMeApp.Repository.EntityFramework.Entities;
-using FitMeApp.Repository.EntityFramework.Interfaces;
+using FitMeApp.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FitMeApp.Contracts.BaseEntities;
 
 namespace FitMeApp.Repository.EntityFramework
 {
@@ -15,20 +15,20 @@ namespace FitMeApp.Repository.EntityFramework
             _context = context;
         }
 
-        public IEnumerable<GymEntity> GetAllGyms()
+        public IEnumerable<GymEntityBase> GetAllGyms()
         {
             var gyms = _context.Gyms.ToList();
             return gyms;
         }
 
-        public GymEntity GetGym(int id)
+        public GymEntityBase GetGym(int id)
         {            
             GymEntity gym = _context.Gyms.Where(x => x.Id == id).First();
             return gym;
         }
 
 
-        public GymEntity AddGym(GymEntity item)
+        public GymEntityBase AddGym(GymEntityBase item)
         {
             if (item == null)
             {
@@ -40,14 +40,14 @@ namespace FitMeApp.Repository.EntityFramework
             return item;
         }
 
-        public bool UpdateGym(int id, GymEntity newItem)
+        public bool UpdateGym(int id, GymEntityBase newItem)
         {
             if (newItem == null)
             {
                 throw new NotImplementedException();
             }
 
-            GymEntity gym = _context.Gyms.First(x => x.Id == id);
+            GymEntityBase gym = _context.Gyms.First(x => x.Id == id);
             gym.Name = newItem.Name;
             gym.Address = newItem.Address;
             gym.Phone = newItem.Address;

@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Contracts;
-using FitMeApp.Repository.EntityFramework.Interfaces;
 using FitMeApp.Services.Mapping;
+using FitMeApp.Contracts.Interfaces;
 
 namespace FitMeApp.Services
 {

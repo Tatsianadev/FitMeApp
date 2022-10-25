@@ -15,4 +15,8 @@
     <ProjectReference Include="..\FitMeApp.Contracts\FitMeApp.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

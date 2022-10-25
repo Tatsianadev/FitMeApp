@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace FitMeApp.Contracts
+namespace FitMeApp.Common
 {
     public class User:IdentityUser
     {

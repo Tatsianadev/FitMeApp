@@ -1,4 +1,4 @@
-﻿using FitMeApp.Contracts;
+﻿using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
