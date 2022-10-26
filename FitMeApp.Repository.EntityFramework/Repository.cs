@@ -28,30 +28,35 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public GymEntityBase AddGym(GymEntityBase item)
+        public GymEntityBase AddGym(GymEntityBase gym)
         {
-            if (item == null)
+            if (gym == null)
             {
                 throw new NotImplementedException();
             }
 
-            _context.Add(item);
+            _context.Gyms.Add(new GymEntity()
+            {
+                Name = gym.Name,
+                Address = gym.Address,
+                Phone = gym.Phone
+            });
             _context.SaveChanges();
-            return item;
+            return gym;
         }
 
-        public bool UpdateGym(int id, GymEntityBase newItem)
+        public bool UpdateGym(int id, GymEntityBase newGymData)
         {
-            if (newItem == null)
+            if (newGymData == null)
             {
                 throw new NotImplementedException();
             }
 
             GymEntity gym = _context.Gyms.First(x => x.Id == id);
 
-            gym.Name = newItem.Name;
-            gym.Address = newItem.Address;
-            gym.Phone = newItem.Address;           
+            gym.Name = newGymData.Name;
+            gym.Address = newGymData.Address;
+            gym.Phone = newGymData.Address;           
 
             var result = _context.SaveChanges();
             if (result > 0)
@@ -79,8 +84,82 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
-
         //Trainers//
+
+        public IEnumerable<TrainerEntityBase> GetAllTrainers()
+        {
+            var trainers = _context.Trainers.ToList();
+            return trainers;
+        }
+
+        public TrainerEntityBase GetTrainer(int id)
+        {
+            var trainer = _context.Trainers.Where(x => x.Id == id).First();
+            return trainer;
+        }
+
+        public TrainerEntityBase AddTrainer(TrainerEntityBase trainer)
+        {
+            if (trainer == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            _context.Trainers.Add(new TrainerEntity()
+            {
+                FirstName = trainer.FirstName,
+                LastName = trainer.LastName,
+                Gender = trainer.Gender,
+                Picture = trainer.Picture
+            });
+
+            _context.SaveChanges();
+            return trainer;
+        }
+
+        public bool UpdateTrainer(int id, TrainerEntityBase newTrainerData)
+        {
+            if (newTrainerData == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            var trainer = _context.Trainers.Where(x => x.Id == id).First();
+            trainer.FirstName = newTrainerData.FirstName;
+            trainer.LastName = newTrainerData.LastName;
+            trainer.Gender = newTrainerData.Gender;
+            trainer.Picture = newTrainerData.Picture;
+
+            var result = _context.SaveChanges();
+            if (result>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        public bool DeleteTrainer(int id)
+        {
+            var trainer = _context.Trainers.Where(x => x.Id == id).First();
+             _context.Trainers.Remove(trainer);
+            var result = _context.SaveChanges();
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        //TrainersGym//
         public IEnumerable<TrainerEntityBase> GetTrainersOfGym(int gymId)
         {           
             var trainersGym = _context.TrainerGym.Where(x => x.GymId == gymId).ToList();
@@ -92,6 +171,19 @@ namespace FitMeApp.Repository.EntityFramework
                 staff.Add(trainer);
             }            
             return staff;
+        }
+
+        public IEnumerable<GymEntityBase> GetGymsOfTrainer(int trainerId)
+        {
+            var trainerGym = _context.TrainerGym.Where(x => x.TrainerId == trainerId).ToList();
+            var gyms = new List<GymEntityBase>();
+
+            foreach (var item in trainerGym)
+            {
+                var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
+                gyms.Add(gym);
+            }
+            return gyms;
         }
 
     }
