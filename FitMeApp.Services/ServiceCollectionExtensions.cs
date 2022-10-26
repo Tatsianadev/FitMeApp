@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
-using FitMeApp.Contracts;
-using FitMeApp.Services.Mapping;
 using FitMeApp.Contracts.Interfaces;
+using FitMeApp.Services.Interfaces;
 
 namespace FitMeApp.Services
 {
@@ -31,7 +30,8 @@ namespace FitMeApp.Services
         public static void RegisterDependencies(this IServiceCollection services)
         {
             services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
-            services.AddScoped<IMapper, Mapper>();
+            services.AddScoped<IFitMeService, FitMeService>();
+            
         }
     }
 }

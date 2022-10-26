@@ -12,6 +12,6 @@ namespace FitMeApp.Contracts.Interfaces
         bool UpdateGym(int id, GymEntityBase newItem);
         bool DeleteGym(int id);
 
-
+        IEnumerable<TrainerEntityBase> GetTrainersOfGym(int gymId);
     }
 }
