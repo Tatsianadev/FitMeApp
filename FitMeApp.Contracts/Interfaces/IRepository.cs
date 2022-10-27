@@ -23,6 +23,8 @@ namespace FitMeApp.Contracts.Interfaces
         //TrainersGym
         IEnumerable<TrainerEntityBase> GetTrainersOfGym(int gymId);
         IEnumerable<GymEntityBase> GetGymsOfTrainer(int trainerId);
+        IEnumerable<GroupClassEntityBase> GetGroupClassesOfGym(int gymId);
         IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId);
+    
     }
 }

@@ -11,5 +11,6 @@ namespace FitMeApp.Services.Models
         public string Address { get; set; }
         public string Phone { get; set; }
         public ICollection<TrainerModel> TrainerStaff { get; set; }
+        public ICollection<GroupClassModel> GroupClasses { get; set; }
     }
 }

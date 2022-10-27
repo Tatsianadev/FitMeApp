@@ -188,6 +188,18 @@ namespace FitMeApp.Repository.EntityFramework
             return gyms;
         }
 
+        public IEnumerable<GroupClassEntityBase> GetGroupClassesOfGym(int gymId)
+        {
+            var groupClassGymTrainer = _context.GroupClassGym.Where(x => x.GymId == gymId).ToList();
+            var groupClasses = new List<GroupClassEntity>();
+            foreach (var item in groupClassGymTrainer)
+            {
+                var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
+                groupClasses.Add(groupClass);
+            }
+            return groupClasses;
+        }
+
         public IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId)
         {
             var groupClassGymTrainer = _context.GroupClassGym.Where(x => x.TrainerId == trainerId).ToList();

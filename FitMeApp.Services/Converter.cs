@@ -19,9 +19,11 @@ namespace FitMeApp.Services
         }
 
 
-        public GymModel ConvertToGymModel(GymEntityBase entityBase, IEnumerable<TrainerEntityBase> trainers)
+        public GymModel ConvertToGymModel(GymEntityBase entityBase, IEnumerable<TrainerEntityBase> trainers, IEnumerable<GroupClassEntityBase> groupClasses)
         {
-            var trainerModels = new List<TrainerModel>(); 
+            var trainerModels = new List<TrainerModel>();
+            var groupClassModels = new List<GroupClassModel>();
+
             foreach (var trainer in trainers)
             {
                 trainerModels.Add(new TrainerModel()
@@ -35,13 +37,24 @@ namespace FitMeApp.Services
                 });
             }
 
+            foreach (var groupClass in groupClasses)
+            {
+                groupClassModels.Add(new GroupClassModel()
+                {
+                    Id = groupClass.Id,
+                    Name = groupClass.Name,
+                    Description = groupClass.Description
+                });
+            }
+
             var gymModel = new GymModel()
             {
                 Id = entityBase.Id,
                 Name = entityBase.Name,
                 Address = entityBase.Address,
                 Phone = entityBase.Phone,
-                TrainerStaff = trainerModels
+                TrainerStaff = trainerModels,
+                GroupClasses =groupClassModels
             };
 
             return gymModel;

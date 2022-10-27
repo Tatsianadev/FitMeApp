@@ -30,7 +30,8 @@ namespace FitMeApp.Services
                 foreach (var gym in gymEntityBases)
                 {
                     var trainers = _repository.GetTrainersOfGym(gym.Id);
-                    gymsModels.Add(_converter.ConvertToGymModel(gym, trainers));
+                    var groupClasses = _repository.GetGroupClassesOfGym(gym.Id);
+                    gymsModels.Add(_converter.ConvertToGymModel(gym, trainers, groupClasses));
                 }
 
                 return gymsModels;
