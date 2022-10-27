@@ -42,5 +42,28 @@ namespace FitMeApp.Services
             }
             
         }
+
+        public IEnumerable<TrainerModel> GetAllTrainers()
+        {
+            try
+            {
+                var trainers = _repository.GetAllTrainers();
+                var trainerModels = new List<TrainerModel>();
+                foreach (var trainer in trainers)
+                {
+                    var gyms = _repository.GetGymsOfTrainer(trainer.Id);
+                    var groupClasses = _repository.GetGroupClassesOfTrainer(trainer.Id);
+                    trainerModels.Add(_converter.ConvertToTrainerModel(trainer, gyms, groupClasses));
+                }
+
+                return trainerModels;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw ex;
+            }
+            
+        }
     }
 }

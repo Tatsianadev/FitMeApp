@@ -110,7 +110,8 @@ namespace FitMeApp.Repository.EntityFramework
                 FirstName = trainer.FirstName,
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
-                Picture = trainer.Picture
+                Picture = trainer.Picture,
+                Specialization = trainer.Specialization
             });
 
             _context.SaveChanges();
@@ -129,6 +130,7 @@ namespace FitMeApp.Repository.EntityFramework
             trainer.LastName = newTrainerData.LastName;
             trainer.Gender = newTrainerData.Gender;
             trainer.Picture = newTrainerData.Picture;
+            trainer.Specialization = newTrainerData.Specialization;
 
             var result = _context.SaveChanges();
             if (result>0)
@@ -184,6 +186,18 @@ namespace FitMeApp.Repository.EntityFramework
                 gyms.Add(gym);
             }
             return gyms;
+        }
+
+        public IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId)
+        {
+            var groupClassGymTrainer = _context.GroupClassGym.Where(x => x.TrainerId == trainerId).ToList();
+            var groupClasses = new List<GroupClassEntity>();
+            foreach (var item in groupClassGymTrainer)
+            {
+                var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
+                groupClasses.Add(groupClass);
+            }
+            return groupClasses;
         }
 
     }

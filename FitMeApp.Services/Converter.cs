@@ -55,9 +55,45 @@ namespace FitMeApp.Services
 
      
 
-        public TrainerModel GetTrainerModel(int id)
+        public TrainerModel ConvertToTrainerModel(TrainerEntityBase trainer, IEnumerable<GymEntityBase> gyms, IEnumerable<GroupClassEntityBase> groupClasses)
         {
-            throw new NotImplementedException();
+            var gymModels = new List<GymModel>();
+            var groupClassModels = new List<GroupClassModel>();
+           
+            foreach (var gym in gyms)
+            {
+                gymModels.Add(new GymModel()
+                {
+                    Id = gym.Id,
+                    Name = gym.Name,
+                    Address = gym.Address,
+                    Phone = gym.Phone
+                });
+            }
+
+            foreach (var groupClass in groupClasses)
+            {
+                groupClassModels.Add(new GroupClassModel()
+                {
+                    Id = groupClass.Id,
+                    Name = groupClass.Name,
+                    Description = groupClass.Description
+                });
+            }
+
+            var trainerModel = new TrainerModel()
+            {
+                Id = trainer.Id,
+                FirstName = trainer.FirstName,
+                LastName = trainer.LastName,
+                Gender = trainer.Gender,
+                Picture = trainer.Picture,
+                Specialization = trainer.Specialization,
+                Gyms = gymModels,
+                GroupClasses = groupClassModels
+            };
+
+            return trainerModel;
         }
     }
 }
