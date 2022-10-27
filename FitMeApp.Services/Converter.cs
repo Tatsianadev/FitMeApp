@@ -30,7 +30,8 @@ namespace FitMeApp.Services
                     FirstName = trainer.FirstName,
                     LastName = trainer.LastName,
                     Gender = trainer.Gender,
-                    Picture = trainer.Picture
+                    Picture = trainer.Picture,
+                    Specialization=trainer.Specialization
                 });
             }
 

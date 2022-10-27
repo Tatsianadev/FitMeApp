@@ -329,15 +329,25 @@ Phone nvarchar(256) null
 go
 
 
-create table Trainers
+
+CREATE TABLE [dbo].[Trainers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](128) NOT NULL,
+	[LastName] [nvarchar](256) NOT NULL,
+	[Gender] [nvarchar](50) NOT NULL,
+	[Picture] [nvarchar](256) NULL,
+	[Specialization] [nvarchar](250) NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-FirstName nvarchar(128) not null,
-LastName nvarchar(256) not null,
-Gender nvarchar(50) not null,
-Picture nvarchar(256) default 'DefaultPicture.jpg'
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Trainers] ADD  DEFAULT ('DefaultPicture.jpg') FOR [Picture]
+GO
+
+
 
 create table TrainerGym
 (
@@ -354,11 +364,20 @@ create table GroupClasses
 (
 Id int identity primary key not null,
 Name nvarchar(256) not null,
-Description nvarchar (max) null,
-TrainerId int not null,
+Description nvarchar (max) null
+)
+go
+
+
+
+create table GroupClassGym
+(
+Id int identity primary key not null,
+GroupClassId int not null,
 GymId int not null,
+TrainerId int not null, 
+foreign key (GroupClassId) references GroupClasses(Id),
 foreign key (GymId) references Gyms(Id),
 foreign key (TrainerId) references Trainers(Id)
 )
 go
-

@@ -8,9 +8,7 @@ namespace FitMeApp.Services.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public TrainerModel Trainer { get; set; }
-        public GymModel Gym { get; set; }
+        public string Description { get; set; }       
         
     }
 }

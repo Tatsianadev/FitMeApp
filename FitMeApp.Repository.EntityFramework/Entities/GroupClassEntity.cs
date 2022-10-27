@@ -14,7 +14,6 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         //public string Description { get; set; }
         //public int TrainerId { get; set; }
         //public int GymId { get; set; }
-        public virtual TrainerEntity Trainer { get; set; }
-        public virtual GymEntity Gym { get; set; }
+       
     }
 }

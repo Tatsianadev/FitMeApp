@@ -13,5 +13,6 @@ namespace FitMeApp.Contracts.BaseEntities
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
+        public string Specialization { get; set; }
     }
 }
