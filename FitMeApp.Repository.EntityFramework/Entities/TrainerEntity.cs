@@ -1,6 +1,5 @@
-﻿using FitMeApp.Contracts.BaseEntities;
+﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 

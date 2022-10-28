@@ -1,12 +1,9 @@
-﻿using FitMeApp.Contracts;
-using FitMeApp.Common;
+﻿using FitMeApp.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FitMeApp.Services

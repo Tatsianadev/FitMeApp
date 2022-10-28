@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FitMeApp.Contracts.BaseEntities
+namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
     public class TrainerEntityBase
     {

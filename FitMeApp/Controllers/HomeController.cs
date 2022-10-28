@@ -2,12 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using FitMeApp.Services;
-using FitMeApp.Services.Interfaces;
+using FitMeApp.Services.Contracts.Interfaces;
+
 
 namespace FitMeApp.Controllers
 {
@@ -26,9 +23,9 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var gyms = _fitMeService.GetAllGymModels();
-                var trainers = _fitMeService.GetAllTrainerModels();
-                var groupClasses = _fitMeService.GetAllGroupClassModels();
+                //var gyms = _fitMeService.GetAllGymModels();
+                //var trainers = _fitMeService.GetAllTrainerModels();
+                //var groupClasses = _fitMeService.GetAllGroupClassModels();
                 return View();
             }
             catch (Exception ex)

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace FitMeApp.Services.Models
+
+namespace FitMeApp.Services.Contracts.Models
 {
     public class GroupClassModel
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace FitMeApp.Contracts
+namespace FitMeApp.Services
 {
     public class RoleInitializer
     {

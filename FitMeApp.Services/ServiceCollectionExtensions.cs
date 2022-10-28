@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
-using FitMeApp.Contracts.Interfaces;
-using FitMeApp.Services.Interfaces;
+using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Interfaces;
 
 namespace FitMeApp.Services
 {

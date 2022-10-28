@@ -1,9 +1,8 @@
-﻿using FitMeApp.Services.Models;
-using System;
+﻿using FitMeApp.Services.Contracts.Models;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FitMeApp.Services.Interfaces
+
+namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IFitMeService
     {

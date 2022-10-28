@@ -13,8 +13,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
-    <ProjectReference Include="..\FitMeApp.Contracts\FitMeApp.Contracts.csproj" />
+    <ProjectReference Include="..\FitMeApp.Mapper\FitMeApp.Mapper.csproj" />
     <ProjectReference Include="..\FitMeApp.Repository.EntityFramework\FitMeApp.Repository.EntityFramework.csproj" />
+    <ProjectReference Include="..\FitMeApp.Services.Contracts\FitMeApp.Services.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

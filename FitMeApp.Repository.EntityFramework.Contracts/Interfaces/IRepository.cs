@@ -1,8 +1,8 @@
-﻿using FitMeApp.Contracts.BaseEntities;
+﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System.Collections.Generic;
 
 
-namespace FitMeApp.Contracts.Interfaces
+namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 {
     public interface IRepository
     {

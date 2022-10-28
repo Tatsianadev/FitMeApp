@@ -1,9 +1,9 @@
 ﻿using FitMeApp.Repository.EntityFramework.Entities;
-using FitMeApp.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FitMeApp.Contracts.BaseEntities;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 
 namespace FitMeApp.Repository.EntityFramework
 {

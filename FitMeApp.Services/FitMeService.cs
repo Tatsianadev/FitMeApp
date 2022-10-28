@@ -1,23 +1,24 @@
-﻿using FitMeApp.Contracts.Interfaces;
-using FitMeApp.Services.Interfaces;
-using FitMeApp.Services.Models;
+﻿using FitMeApp.Mapper;
+using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace FitMeApp.Services
 {
     public class FitMeService: IFitMeService
     {
         private readonly IRepository _repository;
-        private readonly Converter _converter;
+        private readonly EntityModelMapper _mapper;
         private readonly ILogger _logger;
         public FitMeService(IRepository repository, ILoggerFactory loggerFactory)
         {
             _repository = repository;
             _logger = loggerFactory.CreateLogger("FitMeServiceLogger");
-            _converter = new Converter(loggerFactory);
+            _mapper = new EntityModelMapper(loggerFactory);
         }
 
         public IEnumerable<GymModel> GetAllGymModels()
@@ -31,7 +32,7 @@ namespace FitMeApp.Services
                 {
                     var trainers = _repository.GetTrainersOfGym(gym.Id);
                     var groupClasses = _repository.GetGroupClassesOfGym(gym.Id);
-                    gymsModels.Add(_converter.ConvertToGymModel(gym, trainers, groupClasses));
+                    gymsModels.Add(_mapper.ConvertToGymModel(gym, trainers, groupClasses));
                 }
 
                 return gymsModels;
@@ -54,7 +55,7 @@ namespace FitMeApp.Services
                 {
                     var gyms = _repository.GetGymsOfTrainer(trainer.Id);
                     var groupClasses = _repository.GetGroupClassesOfTrainer(trainer.Id);
-                    trainerModels.Add(_converter.ConvertToTrainerModel(trainer, gyms, groupClasses));
+                    trainerModels.Add(_mapper.ConvertToTrainerModel(trainer, gyms, groupClasses));
                 }
 
                 return trainerModels;
@@ -78,7 +79,7 @@ namespace FitMeApp.Services
                 {
                     var trainers = _repository.GetTrainersOfGroupClass(groupClass.Id);
                     var gyms = _repository.GetGymsOfGroupClass(groupClass.Id);
-                    groupClassModels.Add(_converter.GetGroupClassModel(groupClass, trainers, gyms));
+                    groupClassModels.Add(_mapper.GetGroupClassModel(groupClass, trainers, gyms));
                 }
 
                 return groupClassModels;

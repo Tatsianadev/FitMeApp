@@ -12,8 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
-    <ProjectReference Include="..\FitMeApp.Contracts\FitMeApp.Contracts.csproj" />
+    <ProjectReference Include="..\FitMeApp.Mapper\FitMeApp.Mapper.csproj" />
     <ProjectReference Include="..\FitMeApp.Services\FitMeApp.Services.csproj" />
+    <ProjectReference Include="..\FitMeApp.WEB.Contracts\FitMeApp.WEB.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

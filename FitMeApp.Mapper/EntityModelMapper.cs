@@ -1,19 +1,16 @@
-﻿
-using FitMeApp.Contracts.BaseEntities;
-using FitMeApp.Contracts.Interfaces;
-using FitMeApp.Services.Models;
+﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FitMeApp.Services
+
+namespace FitMeApp.Mapper
 {
-    public class Converter 
+    public class EntityModelMapper 
     {
         
         private readonly ILogger _logger;
-        public Converter(ILoggerFactory loggerFactory)
+        public EntityModelMapper(ILoggerFactory loggerFactory)
         {           
             _logger = loggerFactory.CreateLogger("MapperLogger");
         }
