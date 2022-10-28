@@ -44,7 +44,7 @@ namespace FitMeApp.Services
             
         }
 
-        public IEnumerable<TrainerModel> GetAllTrainers()
+        public IEnumerable<TrainerModel> GetAllTrainerModels()
         {
             try
             {
@@ -63,7 +63,32 @@ namespace FitMeApp.Services
             {
                 _logger.LogError(ex, ex.Message);
                 throw ex;
+            }            
+        }
+
+
+        public ICollection<GroupClassModel> GetAllGroupClassModels()
+        {
+            try
+            {
+                var groupClasses = _repository.GetAllGroupClasses();
+                var groupClassModels = new List<GroupClassModel>();
+
+                foreach (var groupClass in groupClasses)
+                {
+                    var trainers = _repository.GetTrainersOfGroupClass(groupClass.Id);
+                    var gyms = _repository.GetGymsOfGroupClass(groupClass.Id);
+                    groupClassModels.Add(_converter.GetGroupClassModel(groupClass, trainers, gyms));
+                }
+
+                return groupClassModels;
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            
             
         }
     }

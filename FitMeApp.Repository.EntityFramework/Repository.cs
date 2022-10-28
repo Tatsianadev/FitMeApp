@@ -160,8 +160,78 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
+        //GroupClasses
+        public IEnumerable<GroupClassEntityBase> GetAllGroupClasses()
+        {
+            var groupClasses = _context.GroupClasses.ToList();
+            return groupClasses;
+        }
 
-        //TrainersGym//
+
+        public GroupClassEntityBase GetGroupClass(int id)
+        {
+            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
+            return groupClass;
+        }
+        
+        
+        public GroupClassEntityBase AddGroupClass(GroupClassEntityBase item)
+        {
+            if (item == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            _context.Add(new GroupClassEntity() 
+            { 
+                Name = item.Name,
+                Description = item.Description
+            });
+            _context.SaveChanges();
+            return item;
+        }
+
+
+        public bool UpdateGroupClass(int id, GroupClassEntityBase newGroupClassData)
+        {
+            if (newGroupClassData == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
+            groupClass.Name = newGroupClassData.Name;
+            groupClass.Description = newGroupClassData.Description;
+
+            var result = _context.SaveChanges();
+            if (result>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public bool DeleteGroupClass(int id)
+        {
+            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
+            _context.GroupClasses.Remove(groupClass);
+            var result = _context.SaveChanges();
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        //TrainersGym
         public IEnumerable<TrainerEntityBase> GetTrainersOfGym(int gymId)
         {           
             var trainersGym = _context.TrainerGym.Where(x => x.GymId == gymId).ToList();
@@ -210,6 +280,30 @@ namespace FitMeApp.Repository.EntityFramework
                 groupClasses.Add(groupClass);
             }
             return groupClasses;
+        }
+
+        public IEnumerable<TrainerEntityBase> GetTrainersOfGroupClass(int groupClassId)
+        {
+            var groupClassGymTrainers = _context.GroupClassGym.Where(x => x.GroupClassId == groupClassId).ToList();
+            var trainers = new List<TrainerEntityBase>();
+            foreach (var item in groupClassGymTrainers)
+            {
+                var trainer = _context.Trainers.Where(x => x.Id == item.TrainerId).First();
+                trainers.Add(trainer);
+            }
+            return trainers;
+        }
+
+        public IEnumerable<GymEntityBase> GetGymsOfGroupClass(int groupClassId)
+        {
+            var groupClassGymTrainers = _context.GroupClassGym.Where(x => x.GroupClassId == groupClassId).ToList();
+            var gyms = new List<GymEntityBase>();
+            foreach (var item in groupClassGymTrainers)
+            {
+                var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
+                gyms.Add(gym);
+            }
+            return gyms;
         }
 
     }

@@ -8,6 +8,7 @@ namespace FitMeApp.Services.Interfaces
     public interface IFitMeService
     {
         IEnumerable<GymModel> GetAllGymModels();
-        IEnumerable<TrainerModel> GetAllTrainers();
+        IEnumerable<TrainerModel> GetAllTrainerModels();
+        ICollection<GroupClassModel> GetAllGroupClassModels();
     }
 }
