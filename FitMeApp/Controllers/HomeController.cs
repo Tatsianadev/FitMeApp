@@ -26,7 +26,7 @@ namespace FitMeApp.Controllers
                 //var gyms = _fitMeService.GetAllGymModels();
                 //var trainers = _fitMeService.GetAllTrainerModels();
                 //var groupClasses = _fitMeService.GetAllGroupClassModels();
-                return View();
+                 return View();
             }
             catch (Exception ex)
             {

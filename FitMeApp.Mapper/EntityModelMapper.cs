@@ -57,17 +57,26 @@ namespace FitMeApp.Mapper
 
         public GymModel ConvertToGymModel(GymEntityBase entityBase, IEnumerable<TrainerEntityBase> trainers, IEnumerable<GroupClassEntityBase> groupClasses)
         {
-            var trainerModels = new List<TrainerModel>();
-            var groupClassModels = new List<GroupClassModel>();
-
+            var trainerModels = new List<TrainerModel>();            
+            int trainerId = 0; 
             foreach (var trainer in trainers)
             {
-                trainerModels.Add(ConvertToTrainerModelBase(trainer));
+                if (trainerId != trainer.Id)
+                {
+                    trainerModels.Add(ConvertToTrainerModelBase(trainer));
+                    trainerId = trainer.Id;
+                }                
             }
 
+            var groupClassModels = new List<GroupClassModel>();            
+            int groupClassId = 0;
             foreach (var groupClass in groupClasses)
             {
-                groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
+                if (groupClassId != groupClass.Id)
+                {
+                    groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
+                    groupClassId = groupClass.Id;
+                }                
             }
 
             var gymModel = new GymModel()
@@ -81,9 +90,7 @@ namespace FitMeApp.Mapper
             };
 
             return gymModel;
-        }
-
-       
+        }       
       
 
      
@@ -91,16 +98,26 @@ namespace FitMeApp.Mapper
         public TrainerModel ConvertToTrainerModel(TrainerEntityBase trainer, IEnumerable<GymEntityBase> gyms, IEnumerable<GroupClassEntityBase> groupClasses)
         {
             var gymModels = new List<GymModel>();
-            var groupClassModels = new List<GroupClassModel>();
-           
+            int gymId = 0;
             foreach (var gym in gyms)
             {
-                gymModels.Add(ConvertToGymModelBase(gym));
+                if (gymId != gym.Id)
+                {
+                    gymModels.Add(ConvertToGymModelBase(gym));
+                    gymId = gym.Id;
+                }                
             }
 
+            var groupClassModels = new List<GroupClassModel>();
+            int groupClassId = 0;
             foreach (var groupClass in groupClasses)
             {
-                groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
+                if (groupClassId != groupClass.Id)
+                {
+                    groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
+                    groupClassId = groupClass.Id;
+                }
+               
             }
 
             var trainerModel = new TrainerModel()

@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
   </ItemGroup>
 
