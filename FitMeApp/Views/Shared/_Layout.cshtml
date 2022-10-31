@@ -30,30 +30,25 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" asp-controller="Gyms" asp-action="Index">Gyms</a></li>
-                                <li><a class="dropdown-item" asp-controller="" asp-action="">Trainers</a></li>
-                                @*<li><hr class="dropdown-divider"></li>*@
+                                <li><a class="dropdown-item" asp-controller="" asp-action="">Trainers</a></li>                              
                                 <li><a class="dropdown-item" asp-controller="" asp-action="">Group Classes</a></li>
                             </ul>
-                        </li>
-                        @*<li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>*@
+                        </li>                       
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
                 <form method="post" class="d-flex" asp-controller="Account" asp-action="Logout">
                     @*<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">*@
-                    <span class="navbar-text">
+                    <span class="navbar-text" style="color:lightgray">
                         Hello, @User.Identity.Name!
                     </span>
+                    <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />
-
                 </form>
                     }
                     else
                     {
-                        <form class="d-flex">
-                            @*<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">*@
+                        <form class="d-flex">                           
                             <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Account" asp-action="LogIn">Login</a>
                             <a class="btn btn-sm btn-outline-secondary" style="margin-left:10px" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                         </form>
@@ -65,55 +60,55 @@
 
 
         @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitMeApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UsersList">UsersData</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="RolesList">RolesData</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gyms" asp-action="Index">Gyms</a>
-                        </li>
-
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitMeApp</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <form method="post" asp-controller="Account" asp-action="Logout">
-                                    Hello, @User.Identity.Name!
-                                    <input type="submit" name="Logout" value="Logout" />
-                                </form>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UsersList">UsersData</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="RolesList">RolesData</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Gyms" asp-action="Index">Gyms</a>
                             </li>
 
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
 
-                    </ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <form method="post" asp-controller="Account" asp-action="Logout">
+                                        Hello, @User.Identity.Name!
+                                        <input type="submit" name="Logout" value="Logout" />
+                                    </form>
+                                </li>
+
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>*@
+            </nav>*@
     </header>
     <div class="container">
         <main role="main" class="pb-3">

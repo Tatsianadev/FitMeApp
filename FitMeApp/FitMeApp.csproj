@@ -16,5 +16,26 @@
     <ProjectReference Include="..\FitMeApp.Services\FitMeApp.Services.csproj" />
     <ProjectReference Include="..\FitMeApp.WEB.Contracts\FitMeApp.WEB.Contracts.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="wwwroot\Content\images\background.jpg" />
+    <None Include="wwwroot\Content\images\Camora.jpg" />
+    <None Include="wwwroot\Content\images\Crews.jpg" />
+    <None Include="wwwroot\Content\images\Damme.jpg" />
+    <None Include="wwwroot\Content\images\diet.jpg" />
+    <None Include="wwwroot\Content\images\diet2.webp" />
+    <None Include="wwwroot\Content\images\groupClass.jpg" />
+    <None Include="wwwroot\Content\images\gym.jpg" />
+    <None Include="wwwroot\Content\images\gym2.webp" />
+    <None Include="wwwroot\Content\images\home1.jpg" />
+    <None Include="wwwroot\Content\images\home2.jpg" />
+    <None Include="wwwroot\Content\images\homeTraining.jpg" />
+    <None Include="wwwroot\Content\images\Lundgren.jpg" />
+    <None Include="wwwroot\Content\images\Natasha.jpg" />
+    <None Include="wwwroot\Content\images\personalTrainer.jpg" />
+    <None Include="wwwroot\Content\images\Stallone.jpg" />
+    <None Include="wwwroot\Content\images\Statham.jpg" />
+    <None Include="wwwroot\Content\images\Wanda.jpg" />
+  </ItemGroup>
 
 </Project>
