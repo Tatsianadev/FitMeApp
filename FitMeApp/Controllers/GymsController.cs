@@ -34,6 +34,14 @@ namespace FitMeApp.Controllers
                 gyms.Add(_mapper.MappGymModelToModelView(gym));
             }
 
+            var groupClassModels = _fitMeService.GetAllGroupClassModels();
+            List<string> groupClassNames = new List<string>();
+            foreach (var groupClass in groupClassModels)
+            {
+                groupClassNames.Add(groupClass.Name);
+            }
+            ViewBag.GroupClassNames = groupClassNames;
+
             return View(gyms);
         }
     }

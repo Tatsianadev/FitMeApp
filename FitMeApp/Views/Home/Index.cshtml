@@ -5,11 +5,19 @@
 <div class="text-center">
     @*<h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
-    <div>
-        <img src="/Content/images/background.jpg" class="img-fluid" alt="picture" style="height:200px">
-        <hr />
-        <br />
-       
+    <div class="container" style="background-color:lightgrey">
+        <div class="row">
+            <div class="col-md-3">                
+            </div>
+            <div class="col-md-6">
+                <img src="/Content/images/background.jpg" class="img-fluid" alt="picture" >
+            </div>
+            <div class="col-md-3">
+
+            </div>
+
+        </div>        
+        <hr />  
     </div>
     <div class="container" style="align-items:center">
         <div class="row">
@@ -19,7 +27,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Gyms</h5>
                         <p class="card-text">Choose a gym that will suit all your needs! Come and join the sports community!</p>
-                        <a asp-controller="Gyms" asp-action="Index" class="btn btn-primary">Choose GYM</a>
+                        <a asp-controller="Gyms" asp-action="Index" class="btn btn-dark">Choose GYM</a>
                     </div>
                 </div>
             </div>
@@ -31,7 +39,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Personal trainer</h5>
                         <p class="card-text">Do you want professional coaching support to achieve your dream body? Then come in and find Personal trainer for you!</p>
-                        <a asp-controller="Trainers" asp-action="Index" class="btn btn-primary">Trainers</a>
+                        <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark">Trainers</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +51,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Group Classes</h5>
                         <p class="card-text">Do you like to do exercises with like-minded people? Here you will find options for group fitness classes for every taste?</p>
-                        <a asp-controller="GroupClasses" asp-action="Index" class="btn btn-primary">Choose group classes</a>
+                        <a asp-controller="GroupClasses" asp-action="Index" class="btn btn-dark">Choose group classes</a>
                     </div>
                 </div>
             </div>            
@@ -55,7 +63,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Home training</h5>
                         <p class="card-text">Can't visit the gym? Or do you just prefer to work out in the comfort of your own home? Then you here!</p>
-                        <a asp-controller="GroupClasses" asp-action="Index" class="btn btn-primary">Home training programms</a>
+                        <a asp-controller="GroupClasses" asp-action="Index" class="btn btn-dark">Home training programms</a>
                     </div>
                 </div>
             </div>
@@ -67,7 +75,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Diet</h5>
                         <p class="card-text">Need help creating a quality and healthy diet? Consultations, diet plans, useful tips. You will find all this here!</p>
-                        <a asp-controller="Diet" asp-action="Index" class="btn btn-primary">Diet plans</a>
+                        <a asp-controller="Diet" asp-action="Index" class="btn btn-dark">Diet plans</a>
                     </div>
                 </div>
             </div>
