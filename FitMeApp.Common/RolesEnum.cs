@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FitMeApp.Common
 {
-    public enum Roles
+    public enum RolesEnum
     {
         admin,
         user,

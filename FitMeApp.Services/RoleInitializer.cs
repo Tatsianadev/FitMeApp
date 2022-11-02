@@ -11,13 +11,13 @@ namespace FitMeApp.Services
             string email = InitializedRoleData.GetAdminEmail();
             string password = InitializedRoleData.GetAdminPassword();
 
-            if (await roleManager.FindByNameAsync(Roles.admin.ToString()) == null)
+            if (await roleManager.FindByNameAsync(RolesEnum.admin.ToString()) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(Roles.admin.ToString()));
+                await roleManager.CreateAsync(new IdentityRole(RolesEnum.admin.ToString()));
             }
-            if (await roleManager.FindByNameAsync(Roles.user.ToString()) == null)
+            if (await roleManager.FindByNameAsync(RolesEnum.user.ToString()) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(Roles.user.ToString()));
+                await roleManager.CreateAsync(new IdentityRole(RolesEnum.user.ToString()));
             }
             if (await userManager.FindByEmailAsync(email) == null)
             {
@@ -26,7 +26,7 @@ namespace FitMeApp.Services
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, Roles.admin.ToString());
+                    await userManager.AddToRoleAsync(admin, RolesEnum.admin.ToString());
                 }
             }
         }

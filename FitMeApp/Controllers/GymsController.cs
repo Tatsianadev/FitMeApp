@@ -44,5 +44,39 @@ namespace FitMeApp.Controllers
 
             return View(gyms);
         }
+
+        [HttpPost]
+        public ActionResult Index(List<string> Districts, List<string> SelectedGroupClassNames)
+        {
+            var allGymModels = _fitMeService.GetAllGymModels();           
+            var selectedGyms = new List<GymViewModel>();
+
+            foreach (var gym in allGymModels)
+            {
+                bool gymAdded = false;
+                foreach (var CurrentGymGroupClass in gym.GroupClasses)
+                {
+                    foreach (var groupClassName in SelectedGroupClassNames)
+                    {
+                        if (CurrentGymGroupClass.Name == groupClassName && !gymAdded)
+                        {
+                            selectedGyms.Add(_mapper.MappGymModelToModelView(gym));
+                            gymAdded = true;
+                        }
+                    }
+                }
+            }
+
+            var allGroupClassModels = _fitMeService.GetAllGroupClassModels();
+            List<string> groupClassNames = new List<string>();
+            foreach (var groupClass in allGroupClassModels)
+            {
+                groupClassNames.Add(groupClass.Name);
+            }
+            ViewBag.GroupClassNames = groupClassNames;
+
+            return View(selectedGyms);
+        }
+
     }
 }
