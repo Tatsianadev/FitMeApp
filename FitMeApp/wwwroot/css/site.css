@@ -69,3 +69,20 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.table-schedule {
+    width: 30%;
+}
+.col1 {
+    width: 12%;
+    height:5px;
+    font-size:small;
+    color:dimgray;
+   
+}
+.col2 {
+    width: 18%;
+    height: 5px;
+    font-size: small;
+    color: dimgray;
+}

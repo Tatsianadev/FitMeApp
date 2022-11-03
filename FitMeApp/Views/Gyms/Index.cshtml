@@ -29,30 +29,7 @@
         <div class="card card-body">
             <form asp-controller="Gyms" asp-action="Index" method="post">
                 <div class="container">
-                    <div class="row">
-                        @*<div class="col-md-4">
-                            <p style="font:bold">
-                                Address
-                            </p>
-                            <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district1)" id="district 1">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    district 1
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district2)" id="district 2">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    district 2
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district3)" id="district 3">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    district 3
-                                </label>
-                            </div>
-                        </div>*@
+                    <div class="row">                        
                         <div class="col-md-4">
                             <p style="font:bold">
                                 Group classes
@@ -113,7 +90,7 @@
                     <h5>
                         @gym.Address
                     </h5>
-                    <a asp-controller="Gyms" asp-action="GymInfo" class="btn btn-dark">Show more</a>
+                    <a asp-controller="Gyms" asp-action="CurrentGymInfo" asp-route-gymId="@gym.Id" class="btn btn-dark">Show more</a>
                    
                 </div>
             </div>

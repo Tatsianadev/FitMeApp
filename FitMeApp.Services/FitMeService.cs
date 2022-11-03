@@ -45,6 +45,15 @@ namespace FitMeApp.Services
             
         }
 
+        public GymModel GetGymModel(int id)
+        {
+            var gymBaseEntity = _repository.GetGym(id);
+            var trainers = _repository.GetTrainersOfGym(id);
+            var groupClasses = _repository.GetGroupClassesOfGym(id);
+            GymModel gym = _mapper.ConvertToGymModel(gymBaseEntity, trainers, groupClasses);
+            return gym;
+        }
+
         public IEnumerable<TrainerModel> GetAllTrainerModels()
         {
             try

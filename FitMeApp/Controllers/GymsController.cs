@@ -72,8 +72,14 @@ namespace FitMeApp.Controllers
             {
                 _logger.LogError(ex, ex.Message); //show friendly Error Page!!
                 throw ex;
-            }
-            
+            }            
+        }
+
+        public IActionResult CurrentGymInfo(int gymId)
+        {
+            var gymModel = _fitMeService.GetGymModel(gymId);
+            GymViewModel gym = _mapper.MappGymModelToViewModel(gymModel);
+            return View(gym);
         }
 
     }
