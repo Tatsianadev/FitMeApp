@@ -11,4 +11,6 @@ namespace FitMeApp.Common
         district3 = 390
 
     }
+
+    
 }

@@ -9,5 +9,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<GymModel> GetAllGymModels();
         IEnumerable<TrainerModel> GetAllTrainerModels();
         ICollection<GroupClassModel> GetAllGroupClassModels();
+        IEnumerable<GymModel> GetGymsOfGroupClasses(List<int> groupClassesId);
     }
 }

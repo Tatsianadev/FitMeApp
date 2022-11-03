@@ -31,51 +31,49 @@ namespace FitMeApp.Controllers
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)
             {
-                gyms.Add(_mapper.MappGymModelToModelView(gym));
+                gyms.Add(_mapper.MappGymModelToViewModel(gym));
             }
 
             var groupClassModels = _fitMeService.GetAllGroupClassModels();
-            List<string> groupClassNames = new List<string>();
+            List<GroupClassViewModel> groupClasses = new List<GroupClassViewModel>();
             foreach (var groupClass in groupClassModels)
             {
-                groupClassNames.Add(groupClass.Name);
-            }
-            ViewBag.GroupClassNames = groupClassNames;
-
+                groupClasses.Add(_mapper.MappGroupClassModelToViewModel(groupClass));
+            }           
+            ViewBag.GroupClasses = groupClasses; 
+            
             return View(gyms);
         }
 
+
         [HttpPost]
-        public ActionResult Index(List<string> Districts, List<string> SelectedGroupClassNames)
+        public ActionResult Index(List<int> SelectedGroupClassesId)
         {
-            var allGymModels = _fitMeService.GetAllGymModels();           
-            var selectedGyms = new List<GymViewModel>();
-
-            foreach (var gym in allGymModels)
+            try
             {
-                bool gymAdded = false;
-                foreach (var CurrentGymGroupClass in gym.GroupClasses)
+                var selectedGymModels = _fitMeService.GetGymsOfGroupClasses(SelectedGroupClassesId);
+                List<GymViewModel> selectedGyms = new List<GymViewModel>();
+                foreach (var selectedGymModel in selectedGymModels)
                 {
-                    foreach (var groupClassName in SelectedGroupClassNames)
-                    {
-                        if (CurrentGymGroupClass.Name == groupClassName && !gymAdded)
-                        {
-                            selectedGyms.Add(_mapper.MappGymModelToModelView(gym));
-                            gymAdded = true;
-                        }
-                    }
+                    selectedGyms.Add(_mapper.MappGymModelToViewModel(selectedGymModel));
                 }
-            }
 
-            var allGroupClassModels = _fitMeService.GetAllGroupClassModels();
-            List<string> groupClassNames = new List<string>();
-            foreach (var groupClass in allGroupClassModels)
+                var groupClassModels = _fitMeService.GetAllGroupClassModels();
+                List<GroupClassViewModel> groupClasses = new List<GroupClassViewModel>();
+                foreach (var groupClass in groupClassModels)
+                {
+                    groupClasses.Add(_mapper.MappGroupClassModelToViewModel(groupClass));
+                }
+                ViewBag.GroupClasses = groupClasses;
+
+                return View(selectedGyms);
+            }
+            catch (Exception ex)
             {
-                groupClassNames.Add(groupClass.Name);
+                _logger.LogError(ex, ex.Message); //show friendly Error Page!!
+                throw ex;
             }
-            ViewBag.GroupClassNames = groupClassNames;
-
-            return View(selectedGyms);
+            
         }
 
     }

@@ -35,6 +35,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId);
         IEnumerable<TrainerEntityBase> GetTrainersOfGroupClass(int groupClassId);
         IEnumerable<GymEntityBase> GetGymsOfGroupClass(int groupClassId);
+        IEnumerable<GymEntityBase> GetGymsOfGroupClasses(List<int> groupClassesId);
 
 
     }

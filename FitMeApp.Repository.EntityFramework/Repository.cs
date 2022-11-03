@@ -260,7 +260,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<GroupClassEntityBase> GetGroupClassesOfGym(int gymId)
         {
-            var groupClassGymTrainer = _context.GroupClassGym.Where(x => x.GymId == gymId).ToList();
+            var groupClassGymTrainer = _context.GroupClassGymTrainer.Where(x => x.GymId == gymId).ToList();
             var groupClasses = new List<GroupClassEntity>();
             foreach (var item in groupClassGymTrainer)
             {
@@ -272,7 +272,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId)
         {
-            var groupClassGymTrainer = _context.GroupClassGym.Where(x => x.TrainerId == trainerId).ToList();
+            var groupClassGymTrainer = _context.GroupClassGymTrainer.Where(x => x.TrainerId == trainerId).ToList();
             var groupClasses = new List<GroupClassEntity>();
             foreach (var item in groupClassGymTrainer)
             {
@@ -284,7 +284,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<TrainerEntityBase> GetTrainersOfGroupClass(int groupClassId)
         {
-            var groupClassGymTrainers = _context.GroupClassGym.Where(x => x.GroupClassId == groupClassId).ToList();
+            var groupClassGymTrainers = _context.GroupClassGymTrainer.Where(x => x.GroupClassId == groupClassId).ToList();
             var trainers = new List<TrainerEntityBase>();
             foreach (var item in groupClassGymTrainers)
             {
@@ -296,15 +296,47 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<GymEntityBase> GetGymsOfGroupClass(int groupClassId)
         {
-            var groupClassGymTrainers = _context.GroupClassGym.Where(x => x.GroupClassId == groupClassId).ToList();
+            var groupClassGymTrainers = _context.GroupClassGymTrainer.Where(x => x.GroupClassId == groupClassId).ToList();
             var gyms = new List<GymEntityBase>();
+            bool gymAdded = false;
             foreach (var item in groupClassGymTrainers)
             {
                 var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
-                gyms.Add(gym);
+                if (!gymAdded)
+                {
+                    gyms.Add(gym);
+                    gymAdded = true;
+                }              
             }
             return gyms;
         }
+
+        public IEnumerable<GymEntityBase> GetGymsOfGroupClasses(List<int> groupClassesId)
+        {           
+            var groupClassGymTrainers = new List<GroupClassGymTrainerEntity>();                       
+            foreach (var groupClassId in groupClassesId)
+            {
+                var blockGroupClassGymTrainers = _context.GroupClassGymTrainer.Where(x => x.GroupClassId == groupClassId).ToList();
+                foreach (var item in blockGroupClassGymTrainers)
+                {              
+                    groupClassGymTrainers.Add(item);
+                }              
+            }
+
+            var gyms = new List<GymEntityBase>();            
+            foreach (var item in groupClassGymTrainers)
+            {
+                var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
+                if (!gyms.Contains(gym))
+                {
+                    gyms.Add(gym);                    
+                }
+            }
+            return gyms;
+        }
+
+
+
 
     }
 }

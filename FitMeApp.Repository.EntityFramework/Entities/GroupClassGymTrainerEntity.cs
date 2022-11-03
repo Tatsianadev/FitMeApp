@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
     [Table("GroupClassGym")]
-    public class GroupClassGymEntity
+    public class GroupClassGymTrainerEntity
     {
         [Key]
         public int Id { get; set; }

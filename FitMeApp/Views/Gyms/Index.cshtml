@@ -30,39 +30,39 @@
             <form asp-controller="Gyms" asp-action="Index" method="post">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4">
+                        @*<div class="col-md-4">
                             <p style="font:bold">
                                 Address
                             </p>
                             <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@FitMeApp.Common.DistrictPostCodeEnum.district1" id="district 1">
+                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district1)" id="district 1">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     district 1
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@FitMeApp.Common.DistrictPostCodeEnum.district2" id="district 2">
+                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district2)" id="district 2">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     district 2
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="Districts" type="checkbox" value="@FitMeApp.Common.DistrictPostCodeEnum.district3" id="district 3">
+                                <input class="form-check-input" name="Districts" type="checkbox" value="@((int)FitMeApp.Common.DistrictPostCodeEnum.district3)" id="district 3">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     district 3
                                 </label>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col-md-4">
                             <p style="font:bold">
                                 Group classes
                             </p>
-                            @foreach (var groupClassName in ViewBag.GroupClassNames)
+                            @foreach (var groupClass in ViewBag.GroupClasses)
                             {
                                 <div class="form-check">
-                                    <input class="form-check-input" name="SelectedGroupClassNames" type="checkbox" value="@groupClassName" id="@groupClassName">
+                                    <input class="form-check-input" name="SelectedGroupClassesId" type="checkbox" value="@groupClass.Id" id="@groupClass.Id">
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        @groupClassName
+                                        @groupClass.Name
                                     </label>
                                 </div>
                             }

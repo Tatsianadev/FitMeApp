@@ -46,7 +46,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public GymViewModel MappGymModelToModelView(GymModel gymModel)
+        public GymViewModel MappGymModelToViewModel(GymModel gymModel)
         {
             try
             {
