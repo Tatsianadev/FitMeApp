@@ -1,47 +1,86 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9">
-                <h3>@Model.Name</h3>
-                <h5>@Model.Address</h5>
-                <table class="table table-borderless table-sm table-schedule">                    
-                    <tbody>
-                        <tr>
-                            <td class="col1">Monday</td>
-                            <td class="col2">7:00 - 23.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Tuesday</td>
-                            <td class="col2">7:00 - 23.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Wednesday</td>
-                            <td class="col2">7:00 - 23.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Thursday</td>
-                            <td class="col2">7:00 - 23.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Friday</td>
-                            <td class="col2">7:00 - 23.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Saturday</td>
-                            <td class="col2">8:00 - 22.00</td>
-                        </tr>
-                        <tr>
-                            <td class="col1">Sunday</td>
-                            <td class="col2">8:00 - 21.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-3">
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h3>@Model.Name</h3>
+            <h5>@Model.Address</h5>
+            <h5>@Model.Phone</h5>
+            <table class="table table-borderless table-sm table-schedule">
+                <tbody>
+                    <tr>
+                        <td class="col1">Monday</td>
+                        <td class="col2">7:00 - 23.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Tuesday</td>
+                        <td class="col2">7:00 - 23.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Wednesday</td>
+                        <td class="col2">7:00 - 23.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Thursday</td>
+                        <td class="col2">7:00 - 23.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Friday</td>
+                        <td class="col2">7:00 - 23.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Saturday</td>
+                        <td class="col2">8:00 - 22.00</td>
+                    </tr>
+                    <tr>
+                        <td class="col1">Sunday</td>
+                        <td class="col2">8:00 - 21.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+
+    </div>
+
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-9">
+            <div class="container">
+                <div class="row">
+                    @foreach (var trainer in Model.TrainerStaff)
+                    {
+                        string picturePath = "/Content/Trainers/" + trainer.Picture;
+                        <div class="col-md-3">
+                            <div class="card" style="width: 170px;">
+                                <div style="height: 170px; text-align: center">
+                                    <img src="@picturePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+                                </div>
+                                
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
+</div>
