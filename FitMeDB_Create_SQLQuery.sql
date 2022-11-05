@@ -1,7 +1,7 @@
 USE [master]
 GO
 
-/****** Object:  Database [FitMeDB]    Script Date: 10/17/2022 3:50:17 PM ******/
+/****** Object:  Database [FitMeDB]    Script Date: 11/4/2022 5:56:12 PM ******/
 CREATE DATABASE [FitMeDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -108,6 +108,9 @@ GO
 
 ALTER DATABASE [FitMeDB] SET  READ_WRITE 
 GO
+
+
+
 
 --Identity--
 
@@ -337,6 +340,7 @@ CREATE TABLE [dbo].[Trainers](
 	[Gender] [nvarchar](50) NOT NULL,
 	[Picture] [nvarchar](256) NULL,
 	[Specialization] [nvarchar](250) NOT NULL,
+	[GymId] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -347,17 +351,11 @@ GO
 ALTER TABLE [dbo].[Trainers] ADD  DEFAULT ('DefaultPicture.jpg') FOR [Picture]
 GO
 
+ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO
 
 
-create table TrainerGym
-(
-Id int identity primary key not null,
-TrainerId int not null,
-GymId int not null,
-foreign key (TrainerId) references Trainers(Id),
-foreign key (GymId) references Gyms(Id)
-)
-go
 
 
 create table GroupClasses
@@ -370,14 +368,27 @@ go
 
 
 
-create table GroupClassGym
+
+CREATE TABLE [dbo].[GroupClassGymTrainer](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[GroupClassId] [int] NOT NULL,
+	[GymId] [int] NOT NULL,
+	[TrainerId] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-GroupClassId int not null,
-GymId int not null,
-TrainerId int not null, 
-foreign key (GroupClassId) references GroupClasses(Id),
-foreign key (GymId) references Gyms(Id),
-foreign key (TrainerId) references Trainers(Id)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([GroupClassId])
+REFERENCES [dbo].[GroupClasses] ([Id])
+GO
+
+ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO
+
+ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[Trainers] ([Id])
+GO

@@ -6,19 +6,19 @@ using System.Collections.Generic;
 
 namespace FitMeApp.Mapper
 {
-    public class EntityModelMapper 
+    public class EntityModelMapper
     {
-        
+
         private readonly ILogger _logger;
         public EntityModelMapper(ILoggerFactory loggerFactory)
-        {           
+        {
             _logger = loggerFactory.CreateLogger("MapperLogger");
         }
 
         //ModelBase - Model with properties as EntityBase classes have. Without references to other classes (foreign key connections). 
-        private GymModel ConvertToGymModelBase(GymEntityBase gym)
+        private GymModel MappGymEntityToModelBase(GymEntityBase gym)
         {
-            GymModel gymModel =  new GymModel()
+            GymModel gymModel = new GymModel()
             {
                 Id = gym.Id,
                 Name = gym.Name,
@@ -28,7 +28,7 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
-        private TrainerModel ConvertToTrainerModelBase(TrainerEntityBase trainer)
+        private TrainerModel MappTrainerEntityToModelBase(TrainerEntityBase trainer)
         {
             TrainerModel trainerModel = new TrainerModel()
             {
@@ -37,12 +37,13 @@ namespace FitMeApp.Mapper
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
-                Specialization = trainer.Specialization
+                Specialization = trainer.Specialization,
+                GymId = trainer.GymId
             };
             return trainerModel;
         }
 
-        private GroupClassModel ConvertToGroupClassModelBase(GroupClassEntityBase groupClass)
+        private GroupClassModel MappGroupClassEntityToModelBase(GroupClassEntityBase groupClass)
         {
             GroupClassModel groupClassModel = new GroupClassModel()
             {
@@ -55,69 +56,45 @@ namespace FitMeApp.Mapper
 
 
 
-        public GymModel ConvertToGymModel(GymEntityBase entityBase, IEnumerable<TrainerEntityBase> trainers, IEnumerable<GroupClassEntityBase> groupClasses)
+        public GymModel MappGymEntityBaseToModel(GymWithStaffAndGroupBase gym)
         {
-            var trainerModels = new List<TrainerModel>();            
-            int trainerId = 0; 
-            foreach (var trainer in trainers)
+            var trainerModels = new List<TrainerModel>();
+            foreach (var trainer in gym.Trainers)
             {
-                if (trainerId != trainer.Id)
-                {
-                    trainerModels.Add(ConvertToTrainerModelBase(trainer));
-                    trainerId = trainer.Id;
-                }                
+                trainerModels.Add(MappTrainerEntityToModelBase(trainer));
             }
 
-            var groupClassModels = new List<GroupClassModel>();            
-            int groupClassId = 0;
-            foreach (var groupClass in groupClasses)
+            var groupClassModels = new List<GroupClassModel>();
+            foreach (var groupClass in gym.GroupClasses)
             {
-                if (groupClassId != groupClass.Id)
-                {
-                    groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
-                    groupClassId = groupClass.Id;
-                }                
+                groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
             }
 
             var gymModel = new GymModel()
             {
-                Id = entityBase.Id,
-                Name = entityBase.Name,
-                Address = entityBase.Address,
-                Phone = entityBase.Phone,
+                Id = gym.Id,
+                Name = gym.Name,
+                Address = gym.Address,
+                Phone = gym.Phone,
                 TrainerStaff = trainerModels,
-                GroupClasses =groupClassModels
+                GroupClasses = groupClassModels
             };
 
             return gymModel;
-        }       
-      
+        }
 
-     
 
-        public TrainerModel ConvertToTrainerModel(TrainerEntityBase trainer, IEnumerable<GymEntityBase> gyms, IEnumerable<GroupClassEntityBase> groupClasses)
+
+
+        public TrainerModel MappTrainerEntityBaseToModel(TrainerWithGymAndGroupBase trainer)
         {
-            var gymModels = new List<GymModel>();
-            int gymId = 0;
-            foreach (var gym in gyms)
-            {
-                if (gymId != gym.Id)
-                {
-                    gymModels.Add(ConvertToGymModelBase(gym));
-                    gymId = gym.Id;
-                }                
-            }
+            var gymModel = new GymModel();
+            gymModel = MappGymEntityToModelBase(trainer.Gym);
 
             var groupClassModels = new List<GroupClassModel>();
-            int groupClassId = 0;
-            foreach (var groupClass in groupClasses)
+            foreach (var groupClass in trainer.GroupClasses)
             {
-                if (groupClassId != groupClass.Id)
-                {
-                    groupClassModels.Add(ConvertToGroupClassModelBase(groupClass));
-                    groupClassId = groupClass.Id;
-                }
-               
+                groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
             }
 
             var trainerModel = new TrainerModel()
@@ -128,35 +105,27 @@ namespace FitMeApp.Mapper
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
-                Gyms = gymModels,
+                Gym = gymModel,
                 GroupClasses = groupClassModels
             };
 
             return trainerModel;
         }
 
-        public GroupClassModel GetGroupClassModel(GroupClassEntityBase groupClass, IEnumerable<TrainerEntityBase> trainers, IEnumerable<GymEntityBase> gyms)
+
+
+        public GroupClassModel MappGroupClassEntityBaseToModel(GroupClassWithGymsAndTrainersBase groupClass)
         {
-            var trainerModels = new List<TrainerModel>();
-            var gymModels = new List<GymModel>();
-            int trainerId = 0;
-            int gymId = 0;
-            foreach (var trainer in trainers)
-            {                
-                if (trainerId != trainer.Id)
-                {
-                    trainerModels.Add(ConvertToTrainerModelBase(trainer));
-                }                
-                trainerId = trainer.Id;
+            var trainerModels = new List<TrainerModel>(); 
+            foreach (var trainer in groupClass.Trainers)
+            {             
+              trainerModels.Add(MappTrainerEntityToModelBase(trainer)); 
             }
 
-            foreach (var gym in gyms)
-            {
-                if (gymId != gym.Id)
-                {
-                    gymModels.Add(ConvertToGymModelBase(gym));
-                }
-                gymId = gym.Id;
+            var gymModels = new List<GymModel>();
+            foreach (var gym in groupClass.Gyms)
+            {                
+               gymModels.Add(MappGymEntityToModelBase(gym));                
             }
 
             GroupClassModel groupClassModel = new GroupClassModel()

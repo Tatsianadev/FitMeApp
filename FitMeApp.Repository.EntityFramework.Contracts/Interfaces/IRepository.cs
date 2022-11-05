@@ -27,15 +27,13 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool UpdateGroupClass(int id, GroupClassEntityBase newGroupClassData);
         bool DeleteGroupClass(int id);
 
+        //Gym - Trainer - GroupClass connection
+        GymWithStaffAndGroupBase GetGymWithStaffAndGroup(int gymId);
+        TrainerWithGymAndGroupBase GetTrainerWithGymAndGroup(int trainerId);
+        GroupClassWithGymsAndTrainersBase GetGroupClassWithGymsAndTrainers(int groupClassId);
 
-        //Trainers - Gyms - GroupClasses 
-        IEnumerable<TrainerEntityBase> GetTrainersOfGym(int gymId);
-        IEnumerable<GymEntityBase> GetGymsOfTrainer(int trainerId);
-        IEnumerable<GroupClassEntityBase> GetGroupClassesOfGym(int gymId);
-        IEnumerable<GroupClassEntityBase> GetGroupClassesOfTrainer(int trainerId);
-        IEnumerable<TrainerEntityBase> GetTrainersOfGroupClass(int groupClassId);
-        IEnumerable<GymEntityBase> GetGymsOfGroupClass(int groupClassId);
-        IEnumerable<GymEntityBase> GetGymsOfGroupClasses(List<int> groupClassesId);
+        //Filters
+        IEnumerable<GymWithStaffAndGroupBase> GetGymsOfGroupClasses(List<int> groupClassesId);
 
 
     }

@@ -12,7 +12,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string Gender { get; set; }
         public string Picture { get; set; }
         public string Specialization { get; set; }
-        public ICollection<GymViewModel> Gyms { get; set; }
+        public GymViewModel Gym { get; set; }
         public ICollection<GroupClassViewModel> GroupClasses { get; set; }
     }
 }

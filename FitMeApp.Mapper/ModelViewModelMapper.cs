@@ -83,12 +83,7 @@ namespace FitMeApp.Mapper
         {
             try
             {
-                List<GymViewModel> gymViewModels = new List<GymViewModel>();
-                foreach (var gymModel in trainerModel.Gyms)
-                {
-                    var gymViewModel = ConvertGymModelToViewModelBase(gymModel);
-                    gymViewModels.Add(gymViewModel);
-                }
+                GymViewModel gymViewModel = ConvertGymModelToViewModelBase(trainerModel.Gym);               
 
                 List<GroupClassViewModel> groupClassViewModels = new List<GroupClassViewModel>();
                 foreach (var groupClass in trainerModel.GroupClasses)
@@ -98,7 +93,7 @@ namespace FitMeApp.Mapper
                 }
 
                 TrainerViewModel trainerViewModel = ConvertTrainerModelToViewModelBase(trainerModel);
-                trainerViewModel.Gyms = gymViewModels;
+                trainerViewModel.Gym = gymViewModel;
                 trainerViewModel.GroupClasses = groupClassViewModels;
 
                 return trainerViewModel;
