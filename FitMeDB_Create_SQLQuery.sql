@@ -392,3 +392,33 @@ GO
 ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
 REFERENCES [dbo].[Trainers] ([Id])
 GO
+
+
+--Subscribtions
+
+create table SubscriptionTypes
+(
+Id int identity primary key not null,
+LifePeriod nvarchar(128) not null,
+GroupClassInclude bit not null,
+DietMonitoring bit not null,
+GymId int not null,
+Price int not null,
+Foreign key (GymId) references Gyms(Id)
+)
+go
+
+
+create table UserSubscriptions
+(
+Id int identity not null,
+UserId nvarchar(128) not null,
+SubscriptionTypeId int,
+HomeWorkoutId int,
+TrainerId int,
+BeginDate smalldatetime, 
+EndDate smalldatetime,
+
+Foreign key (TrainerId) references Trainers(Id)
+)
+go

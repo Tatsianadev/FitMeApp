@@ -12,6 +12,9 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<GroupClassEntity> GroupClasses { get; set; }
         public DbSet<GroupClassGymTrainerEntity> GroupClassGymTrainer { get; set; }
 
+        public DbSet<SubscriptionTypeEntity> SubscriptionType { get; set; }
+        public DbSet<UserSubscriptionEntity> UserSubscription { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 
         {

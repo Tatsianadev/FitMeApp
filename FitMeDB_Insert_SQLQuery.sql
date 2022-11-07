@@ -19,7 +19,14 @@ values
 ('Jean', 'Vilain', 'man', 'Damme.jpg', 'universal',4),
 ('Natalia', 'Romanoff', 'woman', 'Natasha.jpg','universal',1),
 ('Wanda', 'Maximoff', 'woman', 'Wanda.jpg', 'group',2),
-('Gamora', 'Gamorak', 'woman', 'Gamora.jpg','universal',3)
+('Gamora', 'Gamorak', 'woman', 'Gamora.jpg','universal',3),
+('Boxis', 'Strong', 'woman', 'Boxis.jpg','group',1),
+('Bruce', 'Lee', 'man', 'Bruce.jpg','group',4),
+('Marvel', 'Levram', 'woman', 'Marvel.jpg','personal',2),
+('Sonya', 'Night', 'woman', 'Sonya.jpg','personal',3),
+('Supwom', 'Nanual', 'woman', 'Supwom.jpg','personal',1),
+('Tor', 'Asgaard', 'man', 'Tor.jpg','personal',2),
+('Witcher', 'Moon', 'man', 'Witcher.jpg','personal',3)
 go
 
 
@@ -53,5 +60,40 @@ values
 (6,3,8),
 (5,4,4),
 (1,4,4),
-(7,4,5)
+(7,4,5),
+(7,1,9),
+(7,4,10)
+go
+
+
+insert into SubscriptionTypes (LifePeriod, GroupClassInclude, DietMonitoring, GymId, Price)
+values 
+('One time', 0, 0, 1, 7),
+('One time', 1, 0, 1, 9),
+('Month', 0, 0, 1, 50),
+('Month', 1, 0, 1, 60),
+('Month', 1, 1, 1, 65),
+
+('One time', 0, 0, 2, 8),
+('One time', 1, 0, 2, 10),
+('Month', 0, 0, 2, 55),
+('Month', 1, 0, 2, 65),
+('Month', 1, 1, 2, 70),
+
+('One time', 0, 0, 3, 7),
+('One time', 1, 0, 3, 9),
+('Month', 0, 0, 3, 53),
+('Month', 1, 0, 3, 62),
+('Month', 1, 1, 3, 66),
+
+('One time', 0, 0, 4, 6),
+('One time', 1, 0, 4, 8),
+('Month', 0, 0, 4, 48),
+('Month', 1, 0, 4, 52),
+('Month', 1, 1, 4, 60),
+
+('Month', 0, 1, 1, 55),
+('Month', 0, 1, 2, 58),
+('Month', 0, 1, 3, 60),
+('Month', 0, 1, 4, 53)
 go

@@ -248,7 +248,10 @@ namespace FitMeApp.Repository.EntityFramework
             foreach (var item in groupClassGymTrainer)
             {
                 var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
-                groupClasses.Add(groupClass);
+                if (!groupClasses.Contains(groupClass))
+                {
+                    groupClasses.Add(groupClass);
+                }               
             }
 
             GymWithStaffAndGroupBase gymWithStaffAndGroup = new GymWithStaffAndGroupBase()

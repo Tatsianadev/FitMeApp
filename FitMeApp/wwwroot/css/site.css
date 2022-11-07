@@ -71,18 +71,20 @@ body {
 }
 
 .table-schedule {
-    width: 30%;
+    width: 60%;
 }
 .col1 {
-    width: 12%;
+    width: 25%;
     height:5px;
     font-size:small;
     color:dimgray;
+    padding:0;
    
 }
 .col2 {
-    width: 18%;
+    width: 35%;
     height: 5px;
     font-size: small;
     color: dimgray;
+    padding: 0;
 }
