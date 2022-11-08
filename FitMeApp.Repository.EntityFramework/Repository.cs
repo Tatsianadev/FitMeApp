@@ -161,28 +161,28 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
         //GroupClasses
-        public IEnumerable<GroupClassEntityBase> GetAllGroupClasses()
+        public IEnumerable<ClassEntityBase> GetAllGroupClasses()
         {
-            var groupClasses = _context.GroupClasses.ToList();
+            var groupClasses = _context.Classes.ToList();
             return groupClasses;
         }
 
 
-        public GroupClassEntityBase GetGroupClass(int id)
+        public ClassEntityBase GetGroupClass(int id)
         {
-            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
+            var groupClass = _context.Classes.Where(x => x.Id == id).First();
             return groupClass;
         }
 
 
-        public GroupClassEntityBase AddGroupClass(GroupClassEntityBase item)
+        public ClassEntityBase AddGroupClass(ClassEntityBase item)
         {
             if (item == null)
             {
                 throw new NotImplementedException();
             }
 
-            _context.Add(new GroupClassEntity()
+            _context.Add(new ClassEntity()
             {
                 Name = item.Name,
                 Description = item.Description
@@ -192,14 +192,14 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool UpdateGroupClass(int id, GroupClassEntityBase newGroupClassData)
+        public bool UpdateGroupClass(int id, ClassEntityBase newGroupClassData)
         {
             if (newGroupClassData == null)
             {
                 throw new NotImplementedException();
             }
 
-            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
+            var groupClass = _context.Classes.Where(x => x.Id == id).First();
             groupClass.Name = newGroupClassData.Name;
             groupClass.Description = newGroupClassData.Description;
 
@@ -217,8 +217,8 @@ namespace FitMeApp.Repository.EntityFramework
 
         public bool DeleteGroupClass(int id)
         {
-            var groupClass = _context.GroupClasses.Where(x => x.Id == id).First();
-            _context.GroupClasses.Remove(groupClass);
+            var groupClass = _context.Classes.Where(x => x.Id == id).First();
+            _context.Classes.Remove(groupClass);
             var result = _context.SaveChanges();
             if (result > 0)
             {
@@ -232,40 +232,137 @@ namespace FitMeApp.Repository.EntityFramework
 
         //Gym - Trainer - GroupClass connection
 
-        public GymWithStaffAndGroupBase GetGymWithStaffAndGroup(int gymId)
+        public GymWithTrainersAndGroupBase GetGymWithStaffAndGroup(int gymId)
         {
-            var gym = _context.Gyms.Where(x => x.Id == gymId).First();
-
-            var trainersGym = _context.Trainers.Where(x => x.GymId == gymId).ToList();
-            var staff = new List<TrainerEntityBase>();
-            foreach (var trainer in trainersGym)
+            try
             {
-                staff.Add(trainer);
+                var gymsFullInfo = (from gym in _context.Gyms
+                                    join trainer in _context.Trainers
+                                    on gym.Id equals trainer.GymId
+                                    join classTrainer in _context.ClassTrainer
+                                    on trainer.Id equals classTrainer.TrainerId                                     
+                                    join Class in _context.Classes
+                                    on classTrainer.ClassId equals Class.Id                                   
+                                    where gym.Id == gymId
+                                    select new
+                                    {
+                                        GymId = gym.Id,
+                                        GymName = gym.Name,
+                                        GymAddress = gym.Address,
+                                        GymPhone = gym.Phone,
+                                        TrainerId = trainer.Id,
+                                        TrainerFirstName = trainer.FirstName,
+                                        TrainerLastName = trainer.LastName,
+                                        TrainerGender = trainer.Gender,
+                                        TrainerPicture = trainer.Picture,
+                                        TrainerSpecialization = trainer.Specialization,
+                                        ClassId = Class.Id,
+                                        ClassName = Class.Name,
+                                        ClassDescription = Class.Description
+                                    }).ToList();
+
+                var trainers = new List<TrainerEntityBase>();
+                int trainerId = 0;
+                var groupClasses = new List<ClassEntityBase>();
+                int classId = 0;
+                GymWithTrainersAndGroupBase gymWithTrainersAndClasses = new GymWithTrainersAndGroupBase();
+
+                var gymInfo = gymsFullInfo.First();
+                gymWithTrainersAndClasses.Id = gymInfo.GymId;
+                gymWithTrainersAndClasses.Name = gymInfo.GymName;
+                gymWithTrainersAndClasses.Phone = gymInfo.GymPhone;
+                gymWithTrainersAndClasses.Address = gymInfo.GymAddress;
+               
+                foreach (var item in gymsFullInfo)
+                { 
+                    if (trainerId != item.TrainerId)
+                    {
+                        trainers.Add(new TrainerEntityBase()
+                        {
+                            Id = item.TrainerId,
+                            FirstName = item.TrainerFirstName,
+                            LastName = item.TrainerLastName,
+                            Gender = item.TrainerGender,
+                            Picture = item.TrainerPicture,
+                            Specialization = item.TrainerSpecialization
+                            
+                        });
+                        trainerId = item.TrainerId;                        
+                    }
+
+                    if (classId != item.ClassId)
+                    {
+                        groupClasses.Add(new ClassEntityBase()
+                        {
+                            Id = item.ClassId,
+                            Name = item.ClassName,
+                            Description = item.ClassDescription
+                        });
+                        classId = item.ClassId;                        
+                    }
+                }
+
+                gymWithTrainersAndClasses.Trainers = trainers;
+                gymWithTrainersAndClasses.GroupClasses = groupClasses;
+
+
+                return gymWithTrainersAndClasses;
             }
-
-            var groupClassGymTrainer = _context.GroupClassGymTrainer.Where(x => x.GymId == gymId).ToList();
-            var groupClasses = new List<GroupClassEntity>();
-            foreach (var item in groupClassGymTrainer)
+            catch (Exception ex)
             {
-                var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
-                if (!groupClasses.Contains(groupClass))
-                {
-                    groupClasses.Add(groupClass);
-                }               
+
+                throw ex;
             }
+           
 
-            GymWithStaffAndGroupBase gymWithStaffAndGroup = new GymWithStaffAndGroupBase()
-            {
-                Id = gym.Id,
-                Name = gym.Name,
-                Address = gym.Address,
-                Phone = gym.Phone,
-                Trainers = staff,
-                GroupClasses = groupClasses
-            };
 
-            return gymWithStaffAndGroup;
+
+           
+
+
+
+            //var gym = _context.Gyms.Where(x => x.Id == gymId).First();
+
+            //var trainersGym = _context.Trainers.Where(x => x.GymId == gymId).ToList();
+            //var staff = new List<TrainerEntityBase>();
+            //foreach (var trainer in trainersGym)
+            //{
+            //    staff.Add(trainer);
+            //}
+
+            //var groupClassGymTrainer = _context.GroupClassTrainer.Where(x => x.GymId == gymId).ToList();
+            //var groupClasses = new List<GroupClassEntity>();
+            //foreach (var item in groupClassGymTrainer)
+            //{
+            //    var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
+            //    if (!groupClasses.Contains(groupClass))
+            //    {
+            //        groupClasses.Add(groupClass);
+            //    }               
+            //}
+
+            //GymWithStaffAndGroupBase gymWithStaffAndGroup = new GymWithStaffAndGroupBase()
+            //{
+            //    Id = gym.Id,
+            //    Name = gym.Name,
+            //    Address = gym.Address,
+            //    Phone = gym.Phone,
+            //    Trainers = staff,
+            //    GroupClasses = groupClasses
+            //};
+
+            //return gymWithStaffAndGroup;
         }
+
+        public void gettrainersByGym() { }
+        public void getClassesByGym() { }
+        public void getTrainersAndClassesbyGym()
+        {
+            gettrainersByGym();
+            getClassesByGym();
+            return;
+        }
+
 
 
         public TrainerWithGymAndGroupBase GetTrainerWithGymAndGroup(int trainerId)
@@ -273,11 +370,11 @@ namespace FitMeApp.Repository.EntityFramework
             var trainer = _context.Trainers.Where(x => x.Id == trainerId).First();
             var gym = _context.Gyms.Where(x => x.Id == trainer.GymId).First();
 
-            var groupClassGymTrainer = _context.GroupClassGymTrainer.Where(x => x.TrainerId == trainerId).ToList();
-            var groupClasses = new List<GroupClassEntity>();
+            var groupClassGymTrainer = _context.ClassTrainer.Where(x => x.TrainerId == trainerId).ToList();
+            var groupClasses = new List<ClassEntity>();
             foreach (var item in groupClassGymTrainer)
             {
-                var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
+                var groupClass = _context.Classes.Where(x => x.Id == item.ClassId).First();
                 groupClasses.Add(groupClass);
             }
 
@@ -299,7 +396,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GroupClassWithGymsAndTrainersBase GetGroupClassWithGymsAndTrainers(int groupClassId)
         {
-            var groupClassGymTrainers = _context.GroupClassGymTrainer.Where(x => x.GroupClassId == groupClassId).ToList();
+            var groupClassGymTrainers = _context.ClassTrainer.Where(x => x.ClassId == groupClassId).ToList();
             var trainers = new List<TrainerEntityBase>();
             foreach (var item in groupClassGymTrainers)
             {
@@ -308,16 +405,16 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             var gyms = new List<GymEntityBase>();
-            foreach (var item in groupClassGymTrainers)
-            {
-                var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
-                if (gyms.Contains(gym))
-                {
-                    gyms.Add(gym);
-                }
-            }
+            //foreach (var item in groupClassGymTrainers)
+            //{
+            //    var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
+            //    if (gyms.Contains(gym))
+            //    {
+            //        gyms.Add(gym);
+            //    }
+            //}
 
-            var groupClass = _context.GroupClasses.Where(x => x.Id == groupClassId).First();
+            var groupClass = _context.Classes.Where(x => x.Id == groupClassId).First();
             GroupClassWithGymsAndTrainersBase groupClassWithGymsAndTrainers = new GroupClassWithGymsAndTrainersBase()
             {
                 Id = groupClass.Id,
@@ -335,12 +432,12 @@ namespace FitMeApp.Repository.EntityFramework
 
         //Filters
 
-        public IEnumerable<GymWithStaffAndGroupBase> GetGymsOfGroupClasses(List<int> groupClassesId)
+        public IEnumerable<GymWithTrainersAndGroupBase> GetGymsOfGroupClasses(List<int> groupClassesId)
         {
-            var groupClassGymTrainers = new List<GroupClassGymTrainerEntity>();
+            var groupClassGymTrainers = new List<ClassTrainerEntity>();
             foreach (var groupClassId in groupClassesId)
             {
-                var blockGroupClassGymTrainers = _context.GroupClassGymTrainer.Where(x => x.GroupClassId == groupClassId).ToList();
+                var blockGroupClassGymTrainers = _context.ClassTrainer.Where(x => x.ClassId == groupClassId).ToList();
                 foreach (var item in blockGroupClassGymTrainers)
                 {
                     groupClassGymTrainers.Add(item);
@@ -348,16 +445,16 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             var gyms = new List<GymEntityBase>();
-            var gymsWithStaffAndGroups = new List<GymWithStaffAndGroupBase>();
-            foreach (var item in groupClassGymTrainers)
-            {
-                var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
-                if (!gyms.Contains(gym))
-                {
-                    gyms.Add(gym);
-                    gymsWithStaffAndGroups.Add(GetGymWithStaffAndGroup(gym.Id));
-                }
-            }
+            var gymsWithStaffAndGroups = new List<GymWithTrainersAndGroupBase>();
+            //foreach (var item in groupClassGymTrainers)
+            //{
+            //    var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
+            //    if (!gyms.Contains(gym))
+            //    {
+            //        gyms.Add(gym);
+            //        gymsWithStaffAndGroups.Add(GetGymWithStaffAndGroup(gym.Id));
+            //    }
+            //}
             return gymsWithStaffAndGroups;
         }
 

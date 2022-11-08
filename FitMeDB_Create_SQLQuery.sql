@@ -369,10 +369,9 @@ go
 
 
 
-CREATE TABLE [dbo].[GroupClassGymTrainer](
+CREATE TABLE [dbo].[ClassTrainer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[GroupClassId] [int] NOT NULL,
-	[GymId] [int] NOT NULL,
+	[ClassId] [int] NOT NULL,	
 	[TrainerId] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -381,17 +380,14 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([GroupClassId])
-REFERENCES [dbo].[GroupClasses] ([Id])
+ALTER TABLE [dbo].[ClassTrainer]  WITH CHECK ADD FOREIGN KEY([ClassId])
+REFERENCES [dbo].[Classes] ([Id])
 GO
 
-ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([GymId])
-REFERENCES [dbo].[Gyms] ([Id])
-GO
-
-ALTER TABLE [dbo].[GroupClassGymTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+ALTER TABLE [dbo].[ClassTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
 REFERENCES [dbo].[Trainers] ([Id])
 GO
+
 
 
 --Subscribtions

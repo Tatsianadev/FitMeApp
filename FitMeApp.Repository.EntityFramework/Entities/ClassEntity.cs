@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
-    [Table("GroupClasses")]
-    public class GroupClassEntity: GroupClassEntityBase
+    [Table("Classes")]
+    public class ClassEntity: ClassEntityBase
     {
-        public GroupClassEntity()
+        public ClassEntity()
         {
             this.Gyms = new HashSet<GymEntity>();
             this.Trainers = new HashSet<TrainerEntity>();

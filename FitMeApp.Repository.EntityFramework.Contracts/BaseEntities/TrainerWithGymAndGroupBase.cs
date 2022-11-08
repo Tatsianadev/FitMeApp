@@ -16,6 +16,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string Specialization { get; set; }
         //public int GymId { get; set; }
         public GymEntityBase Gym { get; set; }
-        public IEnumerable<GroupClassEntityBase> GroupClasses { get; set; }
+        public IEnumerable<ClassEntityBase> GroupClasses { get; set; }
     }
 }

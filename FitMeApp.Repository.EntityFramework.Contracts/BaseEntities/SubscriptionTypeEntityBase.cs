@@ -12,5 +12,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public bool DietMonitoring { get; set; }
         public int GymId { get; set; }
         public int Price { get; set; }
+        
     }
 }
