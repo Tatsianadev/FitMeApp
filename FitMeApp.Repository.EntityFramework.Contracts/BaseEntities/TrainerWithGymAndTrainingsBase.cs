@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
-    public class TrainerWithGymAndGroupBase
+    public class TrainerWithGymAndTrainingsBase
     {
         [Key]
         public int Id { get; set; }
@@ -13,9 +13,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-        public string Specialization { get; set; }
-        //public int GymId { get; set; }
+        public string Specialization { get; set; }        
         public GymEntityBase Gym { get; set; }
-        public IEnumerable<ClassEntityBase> GroupClasses { get; set; }
+        public IEnumerable<TrainingEntityBase> Trainings { get; set; }
     }
 }

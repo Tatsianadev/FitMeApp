@@ -31,7 +31,7 @@ go
 
 
 
-insert into GroupClasses (Name, Description)
+insert into Trainings (Name, Description)
 values
 ('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body'),
 ('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups'),
@@ -45,7 +45,7 @@ go
 
 
 
-insert into ClassTrainer (ClassId, TrainerId)
+insert into TrainingTrainer (TrainingId, TrainerId)
 values
 (1,1),
 (3,6),

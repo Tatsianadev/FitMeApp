@@ -358,7 +358,7 @@ GO
 
 
 
-create table GroupClasses
+create table Trainings
 (
 Id int identity primary key not null,
 Name nvarchar(256) not null,
@@ -369,9 +369,9 @@ go
 
 
 
-CREATE TABLE [dbo].[ClassTrainer](
+CREATE TABLE [dbo].[TrainingTrainer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ClassId] [int] NOT NULL,	
+	[TrainingId] [int] NOT NULL,	
 	[TrainerId] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -380,11 +380,11 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[ClassTrainer]  WITH CHECK ADD FOREIGN KEY([ClassId])
-REFERENCES [dbo].[Classes] ([Id])
+ALTER TABLE [dbo].[TrainingTrainer]  WITH CHECK ADD FOREIGN KEY([TrainingId])
+REFERENCES [dbo].[Trainings] ([Id])
 GO
 
-ALTER TABLE [dbo].[ClassTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+ALTER TABLE [dbo].[TrainingTrainer]  WITH CHECK ADD FOREIGN KEY([TrainerId])
 REFERENCES [dbo].[Trainers] ([Id])
 GO
 

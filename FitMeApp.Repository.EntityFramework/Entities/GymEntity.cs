@@ -11,15 +11,11 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         public GymEntity()
         {           
             Trainers = new HashSet<TrainerEntity>();
-            GroupClasses = new HashSet<ClassEntity>();
+            Trainings = new HashSet<TrainingEntity>();
         }
 
-        //[Key]
-        //public int Id { get; set; }
-        //public string Name { get; set; }
-        //public string Address { get; set; }
-        //public string Phone { get; set; }
+       
         public ICollection<TrainerEntity> Trainers { get; set; }
-        public ICollection<ClassEntity> GroupClasses { get; set; }
+        public ICollection<TrainingEntity> Trainings { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace FitMeApp.Services
 
                 foreach (var gym in gymEntityBases)
                 {
-                    var gymWithStaffAndGroups = _repository.GetGymWithStaffAndGroup(gym.Id);
+                    var gymWithStaffAndGroups = _repository.GetGymWithTrainersAndTrainings(gym.Id);
                     gymsModels.Add(_mapper.MappGymEntityBaseToModel(gymWithStaffAndGroups));
                 }
 
@@ -46,7 +46,7 @@ namespace FitMeApp.Services
 
         public GymModel GetGymModel(int id)
         {
-            var gymEntityBase = _repository.GetGymWithStaffAndGroup(id);           
+            var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
             GymModel gym = _mapper.MappGymEntityBaseToModel(gymEntityBase);
             return gym;
         }
@@ -59,7 +59,7 @@ namespace FitMeApp.Services
                 var trainerModels = new List<TrainerModel>();
                 foreach (var trainer in trainers)
                 {
-                    var trainerWithGymAndGroups = _repository.GetTrainerWithGymAndGroup(trainer.Id);
+                    var trainerWithGymAndGroups = _repository.GetTrainerWithGymAndTrainings(trainer.Id);
                     trainerModels.Add(_mapper.MappTrainerEntityBaseToModel(trainerWithGymAndGroups));
                 }
 
@@ -77,12 +77,12 @@ namespace FitMeApp.Services
         {
             try
             {
-                var groupClasses = _repository.GetAllGroupClasses();
+                var groupClasses = _repository.GetAllTrainings();
                 var groupClassModels = new List<GroupClassModel>();
 
                 foreach (var groupClass in groupClasses)
                 {
-                    var groupClassWithGymsAndTrainers = _repository.GetGroupClassWithGymsAndTrainers(groupClass.Id);
+                    var groupClassWithGymsAndTrainers = _repository.GetTrainingWithTrainerAndGym(groupClass.Id);
                     groupClassModels.Add(_mapper.MappGroupClassEntityBaseToModel(groupClassWithGymsAndTrainers));
                 }
 
@@ -99,7 +99,7 @@ namespace FitMeApp.Services
 
         public IEnumerable<GymModel> GetGymsOfGroupClasses(List<int> groupClassesId)
         {
-            var gymsWithStaffAndGroups = _repository.GetGymsOfGroupClasses(groupClassesId);          
+            var gymsWithStaffAndGroups = _repository.GetGymsByTrainings(groupClassesId);          
             List<GymModel> gyms = new List<GymModel>();
             foreach ( var gym in gymsWithStaffAndGroups)
             {                

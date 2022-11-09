@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
-    [Table("ClassTrainer")]
-    public class ClassTrainerEntity
+    [Table("TrainingTrainer")]
+    public class TrainingTrainerEntity
     {
         [Key]
         public int Id { get; set; }
-        public int ClassId { get; set; }        
+        public int TrainingId { get; set; }        
         public int TrainerId { get; set; }
-        public virtual ClassEntity Class { get; set; }       
+        public virtual TrainingEntity Training { get; set; }       
         public virtual TrainerEntity Trainer { get; set; }
     }
 }
