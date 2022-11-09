@@ -12,8 +12,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public IEnumerable<TrainerEntityBase> Trainers { get; set; }
-        public IEnumerable<ClassEntityBase> GroupClasses { get; set; }
+        public IEnumerable<TrainerWithGymAndGroupBase> Trainers { get; set; }
+        //public IEnumerable<ClassEntityBase> GroupClasses { get; set; }
 
 
     }

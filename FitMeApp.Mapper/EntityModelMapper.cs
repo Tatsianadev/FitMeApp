@@ -59,16 +59,16 @@ namespace FitMeApp.Mapper
         public GymModel MappGymEntityBaseToModel(GymWithTrainersAndGroupBase gym)
         {
             var trainerModels = new List<TrainerModel>();
-            foreach (var trainer in gym.Trainers)
-            {
-                trainerModels.Add(MappTrainerEntityToModelBase(trainer));
-            }
+            //foreach (var trainer in gym.Trainers)
+            //{
+            //    trainerModels.Add(MappTrainerEntityToModelBase(trainer));
+            //}
 
             var groupClassModels = new List<GroupClassModel>();
-            foreach (var groupClass in gym.GroupClasses)
-            {
-                groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
-            }
+            //foreach (var groupClass in gym.GroupClasses)
+            //{
+            //    groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
+            //}
 
             var gymModel = new GymModel()
             {

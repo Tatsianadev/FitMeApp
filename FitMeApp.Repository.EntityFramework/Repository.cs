@@ -261,10 +261,9 @@ namespace FitMeApp.Repository.EntityFramework
                                         ClassDescription = Class.Description
                                     }).ToList();
 
-                var trainers = new List<TrainerEntityBase>();
-                int trainerId = 0;
-                var groupClasses = new List<ClassEntityBase>();
-                int classId = 0;
+                var trainers = new List<TrainerWithGymAndGroupBase>();
+                List<int> trainersId = new List<int>();
+                
                 GymWithTrainersAndGroupBase gymWithTrainersAndClasses = new GymWithTrainersAndGroupBase();
 
                 var gymInfo = gymsFullInfo.First();
@@ -274,36 +273,53 @@ namespace FitMeApp.Repository.EntityFramework
                 gymWithTrainersAndClasses.Address = gymInfo.GymAddress;
                
                 foreach (var item in gymsFullInfo)
-                { 
-                    if (trainerId != item.TrainerId)
+                {
+                    var groupClass = new ClassEntityBase()
                     {
-                        trainers.Add(new TrainerEntityBase()
+                        Id = item.ClassId,
+                        Name = item.ClassName,
+                        Description = item.ClassDescription
+                    };
+
+                    if (!trainersId.Contains(item.TrainerId))
+                    {
+                        var groupClasses = new List<ClassEntityBase>();
+                        groupClasses.Add(groupClass);
+
+                        trainers.Add(new TrainerWithGymAndGroupBase()
                         {
                             Id = item.TrainerId,
                             FirstName = item.TrainerFirstName,
                             LastName = item.TrainerLastName,
                             Gender = item.TrainerGender,
                             Picture = item.TrainerPicture,
-                            Specialization = item.TrainerSpecialization
-                            
+                            Specialization = item.TrainerSpecialization,
+                            GroupClasses = groupClasses
                         });
-                        trainerId = item.TrainerId;                        
+                        trainersId.Add(item.TrainerId);                        
+                    }
+                    else
+                    {
+                        var currentTrainer = trainers.Where(x => x.Id == item.TrainerId).First();
+                        var currentTrainerClasses = currentTrainer.GroupClasses.ToList();
+                        currentTrainerClasses.Add(groupClass);
+                        trainers.Where(x => x.Id == item.TrainerId).First().GroupClasses = currentTrainerClasses;
+
                     }
 
-                    if (classId != item.ClassId)
-                    {
-                        groupClasses.Add(new ClassEntityBase()
-                        {
-                            Id = item.ClassId,
-                            Name = item.ClassName,
-                            Description = item.ClassDescription
-                        });
-                        classId = item.ClassId;                        
-                    }
+                    //if (classId != item.ClassId)
+                    //{
+                    //    groupClasses.Add(new ClassEntityBase()
+                    //    {
+                    //        Id = item.ClassId,
+                    //        Name = item.ClassName,
+                    //        Description = item.ClassDescription
+                    //    });
+                    //    classId = item.ClassId;                        
+                    //}
                 }
 
-                gymWithTrainersAndClasses.Trainers = trainers;
-                gymWithTrainersAndClasses.GroupClasses = groupClasses;
+                gymWithTrainersAndClasses.Trainers = trainers;              
 
 
                 return gymWithTrainersAndClasses;

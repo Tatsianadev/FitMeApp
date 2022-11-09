@@ -15,5 +15,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string Picture { get; set; }
         public string Specialization { get; set; }
         public int GymId { get; set; }
+        
     }
 }
