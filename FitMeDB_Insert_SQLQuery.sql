@@ -39,7 +39,7 @@ values
 ('Water Aerobics', 'Engaging muscle endurance and strength in a low-impact setting'),
 ('Cycling', 'Cardio workout that relies on a fitness center cycling machine'),
 ('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves'),
-('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core')
+('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core'),
 ('Personal training','Training under the guidance of a trainer')
 go
 

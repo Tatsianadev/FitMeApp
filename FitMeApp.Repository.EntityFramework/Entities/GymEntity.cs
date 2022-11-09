@@ -16,6 +16,6 @@ namespace FitMeApp.Repository.EntityFramework.Entities
 
        
         public ICollection<TrainerEntity> Trainers { get; set; }
-        public ICollection<TrainingEntity> Trainings { get; set; }
+       public ICollection<TrainingEntity> Trainings { get; set; }
     }
 }

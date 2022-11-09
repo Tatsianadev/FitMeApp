@@ -6,15 +6,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
     [Table("Trainings")]
-    public class TrainingEntity: TrainingEntityBase
+    public class TrainingEntity : TrainingEntityBase
     {
         public TrainingEntity()
         {
-                  
+            this.Gyms = new HashSet<GymEntity>();
+            this.Trainers = new HashSet<TrainerEntity>();
+
+
         }
-        
-        public virtual GymEntity Gym { get; set; }
-        public virtual TrainerEntity Trainer { get; set; }
+
+        public ICollection<GymEntity> Gyms { get; set; }
+        public ICollection<TrainerEntity> Trainers { get; set; }
 
     }
 }

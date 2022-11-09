@@ -163,15 +163,15 @@ namespace FitMeApp.Repository.EntityFramework
         //Trainings
         public IEnumerable<TrainingEntityBase> GetAllTrainings()
         {
-            var groupClasses = _context.Trainings.ToList();
-            return groupClasses;
+            var trainings = _context.Trainings.ToList();
+            return trainings;
         }
 
 
         public TrainingEntityBase GetTraining(int id)
         {
-            var groupClass = _context.Trainings.Where(x => x.Id == id).First();
-            return groupClass;
+            var training = _context.Trainings.Where(x => x.Id == id).First();
+            return training;
         }
 
 
@@ -303,8 +303,7 @@ namespace FitMeApp.Repository.EntityFramework
                         var currentTrainerTrainings = currentTrainer.Trainings.ToList();
                         currentTrainerTrainings.Add(training);
                         trainers.Where(x => x.Id == item.TrainerId).First().Trainings = currentTrainerTrainings;
-                    }
-                    
+                    }                    
                 }
 
                 gym.Trainers = trainers;

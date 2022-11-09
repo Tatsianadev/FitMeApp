@@ -28,8 +28,13 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
-        private TrainerModel MappTrainerEntityToModelBase(TrainerEntityBase trainer)
+        private TrainerModel MappTrainerEntityToModelBase(TrainerWithGymAndTrainingsBase trainer)
         {
+            var trainings = new List<GroupClassModel>();
+            foreach (var training in trainer.Trainings)
+            {
+                trainings.Add(MappGroupClassEntityToModelBase(training));
+            }
             TrainerModel trainerModel = new TrainerModel()
             {
                 Id = trainer.Id,
@@ -38,7 +43,8 @@ namespace FitMeApp.Mapper
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId
+                GroupClasses = trainings
+                
             };
             return trainerModel;
         }
@@ -59,12 +65,12 @@ namespace FitMeApp.Mapper
         public GymModel MappGymEntityBaseToModel(GymWithTrainersAndTrainings gym)
         {
             var trainerModels = new List<TrainerModel>();
-            //foreach (var trainer in gym.Trainers)
-            //{
-            //    trainerModels.Add(MappTrainerEntityToModelBase(trainer));
-            //}
+            foreach (var trainer in gym.Trainers)
+            {
+                trainerModels.Add(MappTrainerEntityToModelBase(trainer));
+            }
 
-            var groupClassModels = new List<GroupClassModel>();
+            //var groupClassModels = new List<GroupClassModel>();
             //foreach (var groupClass in gym.GroupClasses)
             //{
             //    groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
@@ -76,10 +82,8 @@ namespace FitMeApp.Mapper
                 Name = gym.Name,
                 Address = gym.Address,
                 Phone = gym.Phone,
-                TrainerStaff = trainerModels,
-                GroupClasses = groupClassModels
+                TrainerStaff = trainerModels                
             };
-
             return gymModel;
         }
 
@@ -117,10 +121,10 @@ namespace FitMeApp.Mapper
         public GroupClassModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
         {
             var trainerModels = new List<TrainerModel>(); 
-            foreach (var trainer in groupClass.Trainers)
-            {             
-              trainerModels.Add(MappTrainerEntityToModelBase(trainer)); 
-            }
+            //foreach (var trainer in groupClass.Trainers)
+            //{             
+            //  trainerModels.Add(MappTrainerEntityToModelBase(trainer)); 
+            //}
 
             var gymModels = new List<GymModel>();
             foreach (var gym in groupClass.Gyms)

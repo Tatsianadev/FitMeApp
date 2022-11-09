@@ -39,9 +39,9 @@ namespace FitMeApp.Controllers
             foreach (var groupClass in groupClassModels)
             {
                 groupClasses.Add(_mapper.MappGroupClassModelToViewModel(groupClass));
-            }           
-            ViewBag.GroupClasses = groupClasses; 
-            
+            }
+            ViewBag.GroupClasses = groupClasses;
+
             return View(gyms);
         }
 
