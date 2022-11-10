@@ -16,7 +16,7 @@ namespace FitMeApp.Mapper
         }
 
         //ModelBase - Model with properties as EntityBase classes have. Without references to other classes (foreign key connections). 
-        private GymModel MappGymEntityToModelBase(GymEntityBase gym)
+        public GymModel MappGymEntityBaseToModelBase(GymEntityBase gym)
         {
             GymModel gymModel = new GymModel()
             {
@@ -28,12 +28,12 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
-        private TrainerModel MappTrainerEntityToModelBase(TrainerWithGymAndTrainingsBase trainer)
+        public TrainerModel MappTrainerEntityBaseToModelBase(TrainerWithGymAndTrainingsBase trainer)
         {
-            var trainings = new List<GroupClassModel>();
+            var trainings = new List<TrainingModel>();
             foreach (var training in trainer.Trainings)
             {
-                trainings.Add(MappGroupClassEntityToModelBase(training));
+                trainings.Add(MappTrainingEntityBaseToModelBase(training));
             }
             TrainerModel trainerModel = new TrainerModel()
             {
@@ -43,21 +43,21 @@ namespace FitMeApp.Mapper
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
-                GroupClasses = trainings
-                
+                Trainings = trainings
+
             };
             return trainerModel;
         }
 
-        private GroupClassModel MappGroupClassEntityToModelBase(TrainingEntityBase groupClass)
+        public TrainingModel MappTrainingEntityBaseToModelBase(TrainingEntityBase training)
         {
-            GroupClassModel groupClassModel = new GroupClassModel()
+            TrainingModel trainingModel = new TrainingModel()
             {
-                Id = groupClass.Id,
-                Name = groupClass.Name,
-                Description = groupClass.Description
+                Id = training.Id,
+                Name = training.Name,
+                Description = training.Description
             };
-            return groupClassModel;
+            return trainingModel;
         }
 
 
@@ -67,14 +67,8 @@ namespace FitMeApp.Mapper
             var trainerModels = new List<TrainerModel>();
             foreach (var trainer in gym.Trainers)
             {
-                trainerModels.Add(MappTrainerEntityToModelBase(trainer));
+                trainerModels.Add(MappTrainerEntityBaseToModelBase(trainer));
             }
-
-            //var groupClassModels = new List<GroupClassModel>();
-            //foreach (var groupClass in gym.GroupClasses)
-            //{
-            //    groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
-            //}
 
             var gymModel = new GymModel()
             {
@@ -82,7 +76,7 @@ namespace FitMeApp.Mapper
                 Name = gym.Name,
                 Address = gym.Address,
                 Phone = gym.Phone,
-                TrainerStaff = trainerModels                
+                Trainers = trainerModels
             };
             return gymModel;
         }
@@ -93,12 +87,12 @@ namespace FitMeApp.Mapper
         public TrainerModel MappTrainerEntityBaseToModel(TrainerWithGymAndTrainingsBase trainer)
         {
             var gymModel = new GymModel();
-            gymModel = MappGymEntityToModelBase(trainer.Gym);
+            gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
 
-            var groupClassModels = new List<GroupClassModel>();
+            var groupClassModels = new List<TrainingModel>();
             foreach (var groupClass in trainer.Trainings)
             {
-                groupClassModels.Add(MappGroupClassEntityToModelBase(groupClass));
+                groupClassModels.Add(MappTrainingEntityBaseToModelBase(groupClass));
             }
 
             var trainerModel = new TrainerModel()
@@ -110,7 +104,7 @@ namespace FitMeApp.Mapper
                 Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
                 Gym = gymModel,
-                GroupClasses = groupClassModels
+                Trainings = groupClassModels
             };
 
             return trainerModel;
@@ -118,9 +112,9 @@ namespace FitMeApp.Mapper
 
 
 
-        public GroupClassModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
+        public TrainingModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
         {
-            var trainerModels = new List<TrainerModel>(); 
+            var trainerModels = new List<TrainerModel>();
             //foreach (var trainer in groupClass.Trainers)
             //{             
             //  trainerModels.Add(MappTrainerEntityToModelBase(trainer)); 
@@ -128,11 +122,11 @@ namespace FitMeApp.Mapper
 
             var gymModels = new List<GymModel>();
             foreach (var gym in groupClass.Gyms)
-            {                
-               gymModels.Add(MappGymEntityToModelBase(gym));                
+            {
+                gymModels.Add(MappGymEntityBaseToModelBase(gym));
             }
 
-            GroupClassModel groupClassModel = new GroupClassModel()
+            TrainingModel groupClassModel = new TrainingModel()
             {
                 Id = groupClass.Id,
                 Name = groupClass.Name,

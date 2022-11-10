@@ -21,6 +21,29 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper(loggerFactory);
         }
 
+        //public IEnumerable<GymModel> GetAllGymModels()
+        //{
+        //    try
+        //    {
+        //        var gymEntityBases = _repository.GetAllGyms();
+        //        var gymsModels = new List<GymModel>();
+
+        //        foreach (var gym in gymEntityBases)
+        //        {
+        //            var gymWithTrainersAndTrainings = _repository.GetGymWithTrainersAndTrainings(gym.Id);
+        //            gymsModels.Add(_mapper.MappGymEntityBaseToModel(gymWithTrainersAndTrainings));
+        //        }
+
+        //        return gymsModels;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //        throw ex;
+        //    }
+            
+        //}
+
         public IEnumerable<GymModel> GetAllGymModels()
         {
             try
@@ -29,11 +52,9 @@ namespace FitMeApp.Services
                 var gymsModels = new List<GymModel>();
 
                 foreach (var gym in gymEntityBases)
-                {
-                    var gymWithStaffAndGroups = _repository.GetGymWithTrainersAndTrainings(gym.Id);
-                    gymsModels.Add(_mapper.MappGymEntityBaseToModel(gymWithStaffAndGroups));
+                {                    
+                    gymsModels.Add(_mapper.MappGymEntityBaseToModelBase(gym));
                 }
-
                 return gymsModels;
             }
             catch (Exception ex)
@@ -41,7 +62,7 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw ex;
             }
-            
+
         }
 
         public GymModel GetGymModel(int id)
@@ -73,37 +94,59 @@ namespace FitMeApp.Services
         }
 
 
-        public ICollection<GroupClassModel> GetAllGroupClassModels()
+        //public ICollection<TrainingModel> GetAllTrainingModels()
+        //{
+        //    try
+        //    {
+        //        var groupClasses = _repository.GetAllTrainings();
+        //        var groupClassModels = new List<TrainingModel>();
+
+        //        foreach (var groupClass in groupClasses)
+        //        {
+        //            var groupClassWithGymsAndTrainers = _repository.GetTrainingWithTrainerAndGym(groupClass.Id);
+        //            groupClassModels.Add(_mapper.MappGroupClassEntityBaseToModel(groupClassWithGymsAndTrainers));
+        //        }
+
+        //        return groupClassModels;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //        throw;
+        //    }
+            
+            
+        //}
+
+        public ICollection<TrainingModel> GetAllTrainingModels()
         {
             try
             {
-                var groupClasses = _repository.GetAllTrainings();
-                var groupClassModels = new List<GroupClassModel>();
+                var trainings = _repository.GetAllTrainings();
+                var trainingModels = new List<TrainingModel>();
 
-                foreach (var groupClass in groupClasses)
-                {
-                    var groupClassWithGymsAndTrainers = _repository.GetTrainingWithTrainerAndGym(groupClass.Id);
-                    groupClassModels.Add(_mapper.MappGroupClassEntityBaseToModel(groupClassWithGymsAndTrainers));
+                foreach (var groupClass in trainings)
+                {                    
+                    trainingModels.Add(_mapper.MappTrainingEntityBaseToModelBase(groupClass));
                 }
-
-                return groupClassModels;
+                return trainingModels;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-            
-            
+
+
         }
 
-        public IEnumerable<GymModel> GetGymsOfGroupClasses(List<int> groupClassesId)
+        public IEnumerable<GymModel> GetGymsByTrainings(List<int> trainingsId)
         {
-            var gymsWithStaffAndGroups = _repository.GetGymsByTrainings(groupClassesId);          
+            var gymsByTrainings = _repository.GetGymsByTrainings(trainingsId);          
             List<GymModel> gyms = new List<GymModel>();
-            foreach ( var gym in gymsWithStaffAndGroups)
+            foreach ( var gym in gymsByTrainings)
             {                
-                gyms.Add(_mapper.MappGymEntityBaseToModel(gym));
+                gyms.Add(_mapper.MappGymEntityBaseToModelBase(gym));
             }
             return gyms;
         }

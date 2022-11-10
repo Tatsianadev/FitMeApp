@@ -32,12 +32,12 @@
                     <div class="row">                        
                         <div class="col-md-4">
                             <p style="font:bold">
-                                Group classes
+                                Training classes
                             </p>
-                            @foreach (var groupClass in ViewBag.GroupClasses)
+                            @foreach (var groupClass in ViewBag.Trainings)
                             {
                                 <div class="form-check">
-                                    <input class="form-check-input" name="SelectedGroupClassesId" type="checkbox" value="@groupClass.Id" id="@groupClass.Id">
+                                    <input class="form-check-input" name="SelectedTrainingsId" type="checkbox" value="@groupClass.Id" id="@groupClass.Id">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         @groupClass.Name
                                     </label>

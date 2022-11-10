@@ -8,7 +8,7 @@ namespace FitMeApp.Mapper
 {
     public class ModelViewModelMapper
     {
-        private GymViewModel ConvertGymModelToViewModelBase(GymModel gymModel)
+        public GymViewModel MappGymModelToViewModelBase(GymModel gymModel)
         {
             GymViewModel gymViewModel = new GymViewModel()
             {
@@ -21,12 +21,12 @@ namespace FitMeApp.Mapper
             return gymViewModel;
         }
 
-        private TrainerViewModel ConvertTrainerModelToViewModelBase(TrainerModel trainerModel)
+        public TrainerViewModel MappTrainerModelToViewModelBase(TrainerModel trainerModel)
         {
-            var trainingViewModels = new List<GroupClassViewModel>();
-            foreach (var training in trainerModel.GroupClasses)
+            var trainingViewModels = new List<TrainingViewModel>();
+            foreach (var training in trainerModel.Trainings)
             {
-                trainingViewModels.Add(ConvertGroupClassModelToViewModelBase(training));
+                trainingViewModels.Add(MappTrainingModelToViewModelBase(training));
             }
 
 
@@ -38,20 +38,20 @@ namespace FitMeApp.Mapper
                 Gender = trainerModel.Gender,
                 Picture = trainerModel.Picture,
                 Specialization = trainerModel.Specialization,
-                GroupClasses = trainingViewModels
+                Trainings = trainingViewModels
             };
             return trainerViewModel;
         }
 
-        private GroupClassViewModel ConvertGroupClassModelToViewModelBase(GroupClassModel groupClassModel)
+        public TrainingViewModel MappTrainingModelToViewModelBase(TrainingModel training)
         {
-            GroupClassViewModel groupClassViewModel = new GroupClassViewModel()
+            TrainingViewModel trainingViewModel = new TrainingViewModel()
             {
-                Id = groupClassModel.Id,
-                Name = groupClassModel.Name,
-                Description = groupClassModel.Description
+                Id = training.Id,
+                Name = training.Name,
+                Description = training.Description
             };
-            return groupClassViewModel;
+            return trainingViewModel;
         }
 
 
@@ -60,9 +60,9 @@ namespace FitMeApp.Mapper
             try
             {
                 List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-                foreach (var trainer in gymModel.TrainerStaff)
+                foreach (var trainer in gymModel.Trainers)
                 {
-                    var trainerViewModel = ConvertTrainerModelToViewModelBase(trainer);
+                    var trainerViewModel = MappTrainerModelToViewModelBase(trainer);
                     trainerViewModels.Add(trainerViewModel);
                 }
 
@@ -73,8 +73,8 @@ namespace FitMeApp.Mapper
                 //    groupClassViewModels.Add(groupClassViewModel);
                 //}
 
-                GymViewModel gymViewModel = ConvertGymModelToViewModelBase(gymModel);
-                gymViewModel.TrainerStaff = trainerViewModels;
+                GymViewModel gymViewModel = MappGymModelToViewModelBase(gymModel);
+                gymViewModel.Trainers = trainerViewModels;
                 
 
                 return gymViewModel;
@@ -92,18 +92,18 @@ namespace FitMeApp.Mapper
         {
             try
             {
-                GymViewModel gymViewModel = ConvertGymModelToViewModelBase(trainerModel.Gym);               
+                GymViewModel gymViewModel = MappGymModelToViewModelBase(trainerModel.Gym);               
 
-                List<GroupClassViewModel> groupClassViewModels = new List<GroupClassViewModel>();
-                foreach (var groupClass in trainerModel.GroupClasses)
+                List<TrainingViewModel> groupClassViewModels = new List<TrainingViewModel>();
+                foreach (var groupClass in trainerModel.Trainings)
                 {
-                    var groupClassViewModel = ConvertGroupClassModelToViewModelBase(groupClass);
+                    var groupClassViewModel = MappTrainingModelToViewModelBase(groupClass);
                     groupClassViewModels.Add(groupClassViewModel);
                 }
 
-                TrainerViewModel trainerViewModel = ConvertTrainerModelToViewModelBase(trainerModel);
+                TrainerViewModel trainerViewModel = MappTrainerModelToViewModelBase(trainerModel);
                 trainerViewModel.Gym = gymViewModel;
-                trainerViewModel.GroupClasses = groupClassViewModels;
+                trainerViewModel.Trainings = groupClassViewModels;
 
                 return trainerViewModel;
             }
@@ -115,25 +115,25 @@ namespace FitMeApp.Mapper
         }
 
 
-        public GroupClassViewModel MappGroupClassModelToViewModel(GroupClassModel groupClassModel)
+        public TrainingViewModel MappTrainingModelToViewModel(TrainingModel trainingModel)
         {
             try
             {
                 List<GymViewModel> gymViewModels = new List<GymViewModel>();
-                foreach (var gymModel in groupClassModel.Gyms)
+                foreach (var gymModel in trainingModel.Gyms)
                 {
-                    var gymViewModel = ConvertGymModelToViewModelBase(gymModel);
+                    var gymViewModel = MappGymModelToViewModelBase(gymModel);
                     gymViewModels.Add(gymViewModel);
                 }
 
                 List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-                foreach (var trainer in groupClassModel.Trainers)
+                foreach (var trainer in trainingModel.Trainers)
                 {
-                    var trainerViewModel = ConvertTrainerModelToViewModelBase(trainer);
+                    var trainerViewModel = MappTrainerModelToViewModelBase(trainer);
                     trainerViewModels.Add(trainerViewModel);
                 }
 
-                GroupClassViewModel groupClassViewModel = ConvertGroupClassModelToViewModelBase(groupClassModel);
+                TrainingViewModel groupClassViewModel = MappTrainingModelToViewModelBase(trainingModel);
                 groupClassViewModel.Gyms = gymViewModels;
                 groupClassViewModel.Trainers = trainerViewModels;
 

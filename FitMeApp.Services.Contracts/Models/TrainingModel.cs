@@ -3,7 +3,7 @@
 
 namespace FitMeApp.Services.Contracts.Models
 {
-    public class GroupClassModel
+    public class TrainingModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

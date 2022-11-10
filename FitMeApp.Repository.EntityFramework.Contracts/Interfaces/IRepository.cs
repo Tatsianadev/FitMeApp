@@ -33,7 +33,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int trainingId);
 
         //Filters
-        IEnumerable<GymWithTrainersAndTrainings> GetGymsByTrainings(List<int> trainingsId);
+        IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
 
 
     }

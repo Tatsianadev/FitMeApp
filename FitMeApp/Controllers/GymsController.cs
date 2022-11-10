@@ -31,40 +31,40 @@ namespace FitMeApp.Controllers
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)
             {
-                gyms.Add(_mapper.MappGymModelToViewModel(gym));
+                gyms.Add(_mapper.MappGymModelToViewModelBase(gym));
             }
 
-            var groupClassModels = _fitMeService.GetAllGroupClassModels();
-            List<GroupClassViewModel> groupClasses = new List<GroupClassViewModel>();
-            foreach (var groupClass in groupClassModels)
+            var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
+            List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+            foreach (var training in trainingModels)
             {
-                groupClasses.Add(_mapper.MappGroupClassModelToViewModel(groupClass));
+                trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
             }
-            ViewBag.GroupClasses = groupClasses;
+            ViewBag.Trainings = trainings;
 
             return View(gyms);
         }
 
 
         [HttpPost]
-        public ActionResult Index(List<int> SelectedGroupClassesId)
+        public ActionResult Index(List<int> SelectedTrainingsId)
         {
             try
             {
-                var selectedGymModels = _fitMeService.GetGymsOfGroupClasses(SelectedGroupClassesId);
+                var selectedGymModels = _fitMeService.GetGymsByTrainings(SelectedTrainingsId);
                 List<GymViewModel> selectedGyms = new List<GymViewModel>();
                 foreach (var selectedGymModel in selectedGymModels)
                 {
-                    selectedGyms.Add(_mapper.MappGymModelToViewModel(selectedGymModel));
+                    selectedGyms.Add(_mapper.MappGymModelToViewModelBase(selectedGymModel));
                 }
 
-                var groupClassModels = _fitMeService.GetAllGroupClassModels();
-                List<GroupClassViewModel> groupClasses = new List<GroupClassViewModel>();
-                foreach (var groupClass in groupClassModels)
+                var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
+                List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                foreach (var training in trainingModels)
                 {
-                    groupClasses.Add(_mapper.MappGroupClassModelToViewModel(groupClass));
+                    trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
                 }
-                ViewBag.GroupClasses = groupClasses;
+                ViewBag.Trainings = trainings;
 
                 return View(selectedGyms);
             }

@@ -427,30 +427,35 @@ namespace FitMeApp.Repository.EntityFramework
 
         //Filters
 
-        public IEnumerable<GymWithTrainersAndTrainings> GetGymsByTrainings(List<int> groupClassesId)
+        public IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId)
         {
-            var groupClassGymTrainers = new List<TrainingTrainerEntity>();
-            foreach (var groupClassId in groupClassesId)
-            {
-                var blockGroupClassGymTrainers = _context.TrainingTrainer.Where(x => x.TrainingId == groupClassId).ToList();
-                foreach (var item in blockGroupClassGymTrainers)
-                {
-                    groupClassGymTrainers.Add(item);
-                }
-            }
+            var gymsByTrainingIdJoin = (from trainingTrainer in _context.TrainingTrainer
+                                    join trainer in _context.Trainers
+                                    on trainingTrainer.TrainerId equals trainer.Id
+                                    join gymDb in _context.Gyms
+                                    on trainer.GymId equals gymDb.Id
+                                    where trainingsId.Contains(trainingTrainer.TrainingId)
+                                    select new
+                                    {
+                                        GymId = gymDb.Id,
+                                        GymName = gymDb.Name,
+                                        GymAddress = gymDb.Address,
+                                        GymPhone = gymDb.Phone
+                                    }).ToList().Distinct();
 
-            var gyms = new List<GymEntityBase>();
-            var gymsWithStaffAndGroups = new List<GymWithTrainersAndTrainings>();
-            //foreach (var item in groupClassGymTrainers)
-            //{
-            //    var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
-            //    if (!gyms.Contains(gym))
-            //    {
-            //        gyms.Add(gym);
-            //        gymsWithStaffAndGroups.Add(GetGymWithStaffAndGroup(gym.Id));
-            //    }
-            //}
-            return gymsWithStaffAndGroups;
+            List<GymEntityBase> gymsByTrainings = new List<GymEntityBase>();
+            foreach (var gym in gymsByTrainingIdJoin)
+            {
+                gymsByTrainings.Add(new GymEntityBase()
+                {
+                    Id = gym.GymId,
+                    Name = gym.GymName,
+                    Address = gym.GymAddress,
+                    Phone = gym.GymPhone
+                });
+            }                
+            
+            return gymsByTrainings;
         }
 
 
