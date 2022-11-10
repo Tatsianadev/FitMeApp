@@ -104,23 +104,25 @@
         <div class="col-md-9">
             <div class="container">
                 <div class="row">
-                    @*@foreach (var groupClass in Model.GroupClasses)
+
+                    @foreach (var training in ViewBag.Trainings)
                     {
-                        string picturePath = "/Content/GroupClasses/" + groupClass.Name + ".jpg";
+                        
+                        string picturePath = "/Content/GroupClasses/" + training.Name + ".jpg";
                         <div class="col-md-4">
                             <div class="card" style="width: 250px;">
                                 <div style="height: 150px; text-align: center">
                                     <img src="@picturePath" class="card-img-top" alt="..." style="height:100%; width:auto">
                                 </div>
                                 <div class="card-body" style="text-align: center">
-                                    <h6 class="card-title">@groupClass.Name</h6>
-                                    <p class="card-text" style="font:small">@groupClass.Description</p>
+                                    <h6 class="card-title">@training.Name</h6>
+                                    <p class="card-text" style="font:small">@training.Description</p>
                                     <a href="#" class="btn btn-dark btn-sm">Show more</a>
                                 </div>
                             </div>
                         </div>
 
-                    }*@
+                    }
                 </div>
                 
             </div>

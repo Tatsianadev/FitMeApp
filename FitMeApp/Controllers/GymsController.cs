@@ -79,6 +79,21 @@ namespace FitMeApp.Controllers
         {
             var gymModel = _fitMeService.GetGymModel(gymId);
             GymViewModel gym = _mapper.MappGymModelToViewModel(gymModel);
+            List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+            List<int> trainingsId = new List<int>();
+            foreach (var trainer in gym.Trainers)
+            {
+                foreach (var training in trainer.Trainings)
+                {
+                    if (!trainingsId.Contains(training.Id))
+                    {
+                        trainings.Add(training);
+                        trainingsId.Add(training.Id);
+                    }                   
+                }                
+            }
+            
+            ViewBag.Trainings = trainings;
             return View(gym);
         }
 
