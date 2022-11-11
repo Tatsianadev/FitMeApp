@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row" @*style="height:400px"*@>
-        <div class="col-md-6"  style="padding:15px" >
+        <div class="col-md-6" style="padding:15px">
             <h3>@Model.Name</h3>
             <h5>@Model.Address</h5>
             <h6>@Model.Phone</h6>
@@ -38,6 +38,10 @@
                     </tr>
                 </tbody>
             </table>
+            <div style="width:100%" >
+                <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width:50%">Subscriptions</a>
+            </div>
+            
         </div>
         <div class="col-md-6" style="padding:15px">
             <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">

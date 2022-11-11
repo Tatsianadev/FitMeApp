@@ -1,0 +1,56 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.SubscriptionViewModel>
+
+<div>
+    <h2>
+        Text about Subscriptions
+    </h2>
+</div>
+<div>
+    <p>
+        <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Filters
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <form asp-controller="Gyms" asp-action="Subscriptions" method="post">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p style="font:bold">
+                                Valid period
+                            </p>
+                            @foreach (var period in ViewBag.SubscriptionValidPeriods)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" name="selectedPeriods" type="checkbox" value="@period" id="@period">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        @period days
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" name="groupTrainingInclude" id="groupTrainingInclude">
+                                <label class="form-check-label" for="groupTrainingInclude">
+                                    Group trainings
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" name="dietMonitoring" id="dietMonitoring">
+                                <label class="form-check-label" for="dietMonitoring">
+                                    Diet monitoring
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="OK" class="btn btn-dark" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

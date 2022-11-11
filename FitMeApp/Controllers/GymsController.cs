@@ -98,17 +98,32 @@ namespace FitMeApp.Controllers
         }
 
 
-        [HttpPost]
+       
         public ActionResult Subscriptions(int gymId)
         {
             List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
+            List<int> subscriptionPeriods = new List<int>();
             var subscriptionModels = _fitMeService.GetSubscriptionsByGym(gymId);
 
             foreach (var subscriptionModel in subscriptionModels)
             {
                 subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                subscriptionPeriods.Add(subscriptionModel.ValidDays);
+                subscriptionPeriods = subscriptionPeriods.Distinct().ToList();
             }
+
+            ViewBag.SubscriptionValidPeriods = subscriptionPeriods;
             return View(subscriptions);
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult Subscriptions(List<int> selectedPeriods, bool groupTrainingInclude, bool dietMonitoring)
+        {
+            
+            return View();
         }
     }
 }
