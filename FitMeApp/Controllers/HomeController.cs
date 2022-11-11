@@ -23,7 +23,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var subscriptions = _fitMeService.GetSubscriptionsByGym(1);
+                //var subscriptions = _fitMeService.GetSubscriptionsByGym(1);
                
                  return View();
             }

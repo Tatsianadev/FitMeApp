@@ -423,7 +423,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGym(int gymId)
         {
-            var subscriptionsByGymJoin = (from gymSubscription in _context.GymSubscriptions
+            var subscriptionsPriceJoinByGym = (from gymSubscription in _context.GymSubscriptions
                                           join subscription in _context.Subscriptions
                                           on gymSubscription.SubscriptionId equals subscription.Id
                                           where gymSubscription.GymId == gymId
@@ -436,7 +436,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               Price = gymSubscription.Price
                                           });
             List<SubscriptionPriceBase> subscriptionsByGym = new List<SubscriptionPriceBase>();
-            foreach (var subscription in subscriptionsByGymJoin)
+            foreach (var subscription in subscriptionsPriceJoinByGym)
             {
                 subscriptionsByGym.Add(new SubscriptionPriceBase()
                 {

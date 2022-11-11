@@ -97,5 +97,18 @@ namespace FitMeApp.Controllers
             return View(gym);
         }
 
+
+        [HttpPost]
+        public ActionResult Subscriptions(int gymId)
+        {
+            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
+            var subscriptionModels = _fitMeService.GetSubscriptionsByGym(gymId);
+
+            foreach (var subscriptionModel in subscriptionModels)
+            {
+                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+            }
+            return View(subscriptions);
+        }
     }
 }

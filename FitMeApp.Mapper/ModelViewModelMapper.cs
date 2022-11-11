@@ -145,7 +145,20 @@ namespace FitMeApp.Mapper
 
                 throw ex;
             }
+        }
 
+
+        public SubscriptionViewModel MappSubscriptionModelToViewModel(SubscriptionModel subscriptionModel)
+        {
+            SubscriptionViewModel subscription = new SubscriptionViewModel()
+            {
+               Id = subscriptionModel.Id,
+               ValidDays = subscriptionModel.ValidDays,
+               GroupTrainingInclude = subscriptionModel.GroupTrainingInclude,
+               DietMonitoring = subscriptionModel.DietMonitoring,
+               Price = subscriptionModel.Price
+            };
+            return subscription;
         }
     }
 }
