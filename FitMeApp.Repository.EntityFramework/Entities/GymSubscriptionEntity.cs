@@ -1,20 +1,15 @@
 ﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
-    [Table("Trainers")]
-    public class TrainerEntity: TrainerEntityBase
+    [Table ("GymSubscriptions")]
+    public class GymSubscriptionEntity: GymSubscriptionEntityBase
     {
-        public TrainerEntity()
-        {            
-            Trainings = new HashSet<TrainingEntity>();
-        }
-
-        
         public GymEntity Gym { get; set; }
-        public ICollection<TrainingEntity> Trainings { get; set; }
+        public SubscriptionEntity Subscription { get; set; }
     }
 }

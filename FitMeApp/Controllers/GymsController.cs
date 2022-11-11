@@ -85,7 +85,7 @@ namespace FitMeApp.Controllers
             {
                 foreach (var training in trainer.Trainings)
                 {
-                    if (!trainingsId.Contains(training.Id))
+                    if (!trainingsId.Contains(training.Id)&&training.Name != "Personal training")
                     {
                         trainings.Add(training);
                         trainingsId.Add(training.Id);

@@ -392,29 +392,51 @@ GO
 
 --Subscribtions
 
-create table SubscriptionTypes
+CREATE TABLE [dbo].[Subscriptions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ValidDays] [int] NOT NULL,
+	[GroupTrainingInclude] [bit] NOT NULL,
+	[DietMonitoring] [bit] NOT NULL	
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-LifePeriod nvarchar(128) not null,
-GroupClassInclude bit not null,
-DietMonitoring bit not null,
-GymId int not null,
-Price int not null,
-Foreign key (GymId) references Gyms(Id)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 
-create table UserSubscriptions
-(
-Id int identity not null,
-UserId nvarchar(128) not null,
-SubscriptionTypeId int,
-HomeWorkoutId int,
-TrainerId int,
-BeginDate smalldatetime, 
-EndDate smalldatetime,
+CREATE TABLE [dbo].[GymSubscriptions](
+	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
+	[GymId] [int] NOT NULL,
+	[SubscriptionId] [int] NOT NULL,
+	[Price] [int] NULL
+) ON [PRIMARY]
+GO
 
-Foreign key (TrainerId) references Trainers(Id)
-)
-go
+ALTER TABLE [dbo].[GymSubscriptions]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO
+
+ALTER TABLE [dbo].[GymSubscriptions]  WITH CHECK ADD FOREIGN KEY([SubscriptionId])
+REFERENCES [dbo].[Subscriptions] ([Id])
+GO
+
+
+
+CREATE TABLE [dbo].[UserSubscriptions](
+	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
+	[UserId] [nvarchar](128) NOT NULL,
+	[GymSubscriptionId] [int] NOT NULL,
+	[TrainerId] [int] NULL,
+	[StartDate] [smalldatetime] NOT NULL,
+	[EndDate] [smalldatetime] NOT NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[Trainers] ([Id])
+GO
+
+ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([GymSubscriptionId])
+REFERENCES [dbo].[GymSubscriptions] ([Id])
+GO

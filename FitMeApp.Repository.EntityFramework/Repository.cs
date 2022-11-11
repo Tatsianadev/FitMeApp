@@ -303,7 +303,7 @@ namespace FitMeApp.Repository.EntityFramework
                         var currentTrainerTrainings = currentTrainer.Trainings.ToList();
                         currentTrainerTrainings.Add(training);
                         trainers.Where(x => x.Id == item.TrainerId).First().Trainings = currentTrainerTrainings;
-                    }                    
+                    }
                 }
 
                 gym.Trainers = trainers;
@@ -315,48 +315,9 @@ namespace FitMeApp.Repository.EntityFramework
 
                 throw ex;
             }
-
-
-
-
-
-
-
-
-            //var gym = _context.Gyms.Where(x => x.Id == gymId).First();
-
-            //var trainersGym = _context.Trainers.Where(x => x.GymId == gymId).ToList();
-            //var staff = new List<TrainerEntityBase>();
-            //foreach (var trainer in trainersGym)
-            //{
-            //    staff.Add(trainer);
-            //}
-
-            //var groupClassGymTrainer = _context.GroupClassTrainer.Where(x => x.GymId == gymId).ToList();
-            //var groupClasses = new List<GroupClassEntity>();
-            //foreach (var item in groupClassGymTrainer)
-            //{
-            //    var groupClass = _context.GroupClasses.Where(x => x.Id == item.GroupClassId).First();
-            //    if (!groupClasses.Contains(groupClass))
-            //    {
-            //        groupClasses.Add(groupClass);
-            //    }               
-            //}
-
-            //GymWithStaffAndGroupBase gymWithStaffAndGroup = new GymWithStaffAndGroupBase()
-            //{
-            //    Id = gym.Id,
-            //    Name = gym.Name,
-            //    Address = gym.Address,
-            //    Phone = gym.Phone,
-            //    Trainers = staff,
-            //    GroupClasses = groupClasses
-            //};
-
-            //return gymWithStaffAndGroup;
         }
 
-     
+
 
 
 
@@ -430,18 +391,18 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId)
         {
             var gymsByTrainingIdJoin = (from trainingTrainer in _context.TrainingTrainer
-                                    join trainer in _context.Trainers
-                                    on trainingTrainer.TrainerId equals trainer.Id
-                                    join gymDb in _context.Gyms
-                                    on trainer.GymId equals gymDb.Id
-                                    where trainingsId.Contains(trainingTrainer.TrainingId)
-                                    select new
-                                    {
-                                        GymId = gymDb.Id,
-                                        GymName = gymDb.Name,
-                                        GymAddress = gymDb.Address,
-                                        GymPhone = gymDb.Phone
-                                    }).ToList().Distinct();
+                                        join trainer in _context.Trainers
+                                        on trainingTrainer.TrainerId equals trainer.Id
+                                        join gymDb in _context.Gyms
+                                        on trainer.GymId equals gymDb.Id
+                                        where trainingsId.Contains(trainingTrainer.TrainingId)
+                                        select new
+                                        {
+                                            GymId = gymDb.Id,
+                                            GymName = gymDb.Name,
+                                            GymAddress = gymDb.Address,
+                                            GymPhone = gymDb.Phone
+                                        }).ToList().Distinct();
 
             List<GymEntityBase> gymsByTrainings = new List<GymEntityBase>();
             foreach (var gym in gymsByTrainingIdJoin)
@@ -453,12 +414,42 @@ namespace FitMeApp.Repository.EntityFramework
                     Address = gym.GymAddress,
                     Phone = gym.GymPhone
                 });
-            }                
-            
+            }
+
             return gymsByTrainings;
         }
 
+        // Subscribtions
 
+        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGym(int gymId)
+        {
+            var subscriptionsByGymJoin = (from gymSubscription in _context.GymSubscriptions
+                                          join subscription in _context.Subscriptions
+                                          on gymSubscription.SubscriptionId equals subscription.Id
+                                          where gymSubscription.GymId == gymId
+                                          select new
+                                          {
+                                              SubscriptionId = subscription.Id,
+                                              ValidDays = subscription.ValidDays,
+                                              GroupTrainingInclude = subscription.GroupTrainingInclude,
+                                              DietMonitoring = subscription.DietMonitoring,
+                                              Price = gymSubscription.Price
+                                          });
+            List<SubscriptionPriceBase> subscriptionsByGym = new List<SubscriptionPriceBase>();
+            foreach (var subscription in subscriptionsByGymJoin)
+            {
+                subscriptionsByGym.Add(new SubscriptionPriceBase()
+                {
+                    Id = subscription.SubscriptionId,
+                    ValidDays = subscription.ValidDays,
+                    GroupTrainingInclude = subscription.GroupTrainingInclude,
+                    DietMonitoring = subscription.DietMonitoring,
+                    Price = subscription.Price
+                });
+            }
+
+            return subscriptionsByGym;
+        }
 
 
     }

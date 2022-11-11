@@ -5,9 +5,9 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
-    public class SubscriptionTypeEntity:SubscriptionTypeEntityBase
-    {        
-
-        public GymEntity Gym { get; set; }
+    public class UserSubscriptionEntity: UserSubscriptionEntityBase
+    {
+        public virtual GymEntity Gym { get; set; }
+        public virtual SubscriptionEntity Subscription { get; set; }
     }
 }

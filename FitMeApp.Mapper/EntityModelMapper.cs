@@ -137,5 +137,19 @@ namespace FitMeApp.Mapper
 
             return groupClassModel;
         }
+
+
+        public SubscriptionModel MappSubscriptionPriceEntityBaseToModel(SubscriptionPriceBase subscriptionPrice)
+        {
+            SubscriptionModel subscriptionModel = new SubscriptionModel()
+            {
+                Id = subscriptionPrice.Id,
+                ValidDays = subscriptionPrice.ValidDays,
+                GroupTrainingInclude = subscriptionPrice.GroupTrainingInclude,
+                DietMonitoring = subscriptionPrice.DietMonitoring,
+                Price = subscriptionPrice.Price
+            };
+            return subscriptionModel;
+        }
     }
 }
