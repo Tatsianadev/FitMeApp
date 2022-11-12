@@ -112,6 +112,14 @@ namespace FitMeApp.Controllers
                 subscriptionPeriods = subscriptionPeriods.Distinct().ToList();
             }
 
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "") 
+                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                //subscription.Image = subscription.DietMonitoring?nameof(subscription.DietMonitoring):"";
+                
+            }
+
             ViewBag.SubscriptionValidPeriods = subscriptionPeriods;
             return View(subscriptions);
         }
@@ -120,7 +128,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Subscriptions(List<int> selectedPeriods, bool groupTrainingInclude, bool dietMonitoring)
+        public ActionResult Subscriptions(List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
         {
             
             return View();

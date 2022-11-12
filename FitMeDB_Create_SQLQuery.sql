@@ -395,7 +395,7 @@ GO
 CREATE TABLE [dbo].[Subscriptions](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ValidDays] [int] NOT NULL,
-	[GroupTrainingInclude] [bit] NOT NULL,
+	[GroupTraining] [bit] NOT NULL,
 	[DietMonitoring] [bit] NOT NULL	
 PRIMARY KEY CLUSTERED 
 (

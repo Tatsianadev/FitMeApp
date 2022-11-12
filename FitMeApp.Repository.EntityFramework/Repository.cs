@@ -431,7 +431,7 @@ namespace FitMeApp.Repository.EntityFramework
                                           {
                                               SubscriptionId = subscription.Id,
                                               ValidDays = subscription.ValidDays,
-                                              GroupTrainingInclude = subscription.GroupTrainingInclude,
+                                              GroupTrainingInclude = subscription.GroupTraining,
                                               DietMonitoring = subscription.DietMonitoring,
                                               Price = gymSubscription.Price
                                           });

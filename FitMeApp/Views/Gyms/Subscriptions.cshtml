@@ -31,9 +31,12 @@
                             }
                         </div>
                         <div class="col-md-4">
+                            <p style="font:bold">
+                                Other options
+                            </p>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" name="groupTrainingInclude" id="groupTrainingInclude">
-                                <label class="form-check-label" for="groupTrainingInclude">
+                                <input class="form-check-input" type="checkbox" value="true" name="groupTraining" id="groupTraining">
+                                <label class="form-check-label" for="groupTraining">
                                     Group trainings
                                 </label>
                             </div>
@@ -50,7 +53,29 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
+</div>
+<div class="container">
+    <div class="row">
+        @foreach (var subscription in Model)
+        {
+            string imagePath = "/Content/Subscriptions/gym"+subscription.Image+".jpg";
+
+
+            <div class="card" style="width: 25%;">
+
+                <img src="@imagePath" class="card-img-top" alt="..." style="height:150px; width:auto">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+
+        }
+
+    </div>
+
 </div>

@@ -78,7 +78,7 @@ values
 go
 
 
-insert into Subscriptions (ValidDays, GroupTrainingInclude, DietMonitoring)
+insert into Subscriptions (ValidDays, GroupTraining, DietMonitoring)
 values 
 (1,0,0)
 ,(1,1,0)
