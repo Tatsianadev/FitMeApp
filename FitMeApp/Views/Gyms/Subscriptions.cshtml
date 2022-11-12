@@ -63,13 +63,13 @@
             string imagePath = "/Content/Subscriptions/gym"+subscription.Image+".jpg";
 
 
-            <div class="card" style="width: 25%;">
+            <div class="card" style="width:28%;margin:15px">
 
-                <img src="@imagePath" class="card-img-top" alt="..." style="height:150px; width:auto">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
+                <img src="@imagePath" class="card-img-top" alt="..." style="height:170px; width:auto">
+                <div class="card-body" style="text-align:center">
+                    <h3 class="card-title" style="font:bold">@subscription.ValidDays days</h3>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-dark">Take it!</a>
                 </div>
             </div>
 
