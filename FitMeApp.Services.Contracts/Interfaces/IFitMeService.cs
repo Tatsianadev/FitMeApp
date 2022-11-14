@@ -11,7 +11,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<TrainerModel> GetAllTrainerModels();
         ICollection<TrainingModel> GetAllTrainingModels();
         IEnumerable<GymModel> GetGymsByTrainings(List<int> groupClassesId);
+        IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
 
         IEnumerable<SubscriptionModel> GetSubscriptionsByGym(int gymId);
+        List<int> GetAllSubscriptionPeriods();
+
     }
 }

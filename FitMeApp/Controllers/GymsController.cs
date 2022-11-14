@@ -101,26 +101,22 @@ namespace FitMeApp.Controllers
        
         public ActionResult Subscriptions(int gymId)
         {
-            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-            List<int> subscriptionPeriods = new List<int>();
+            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();           
             var subscriptionModels = _fitMeService.GetSubscriptionsByGym(gymId);
 
             foreach (var subscriptionModel in subscriptionModels)
             {
-                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
-                subscriptionPeriods.Add(subscriptionModel.ValidDays);
-                subscriptionPeriods = subscriptionPeriods.Distinct().ToList();
+                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));                
             }
 
             foreach (var subscription in subscriptions)
             {
                 subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "") 
-                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
-                //subscription.Image = subscription.DietMonitoring?nameof(subscription.DietMonitoring):"";
-                
+                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : ""); 
             }
 
-            ViewBag.SubscriptionValidPeriods = subscriptionPeriods;
+            ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+            ViewBag.GymId = gymId;
             return View(subscriptions);
         }
 
@@ -128,10 +124,23 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Subscriptions(List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
+        public ActionResult Subscriptions(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring, List<int> allPeriods)
         {
-            
-            return View();
+            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();           
+            var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+            foreach (var subscriptionModel in subscriptioModels)
+            {
+                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+            }
+
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+            }
+
+            ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+            return View(subscriptions);            
         }
     }
 }

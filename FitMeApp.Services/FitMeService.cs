@@ -151,6 +151,26 @@ namespace FitMeApp.Services
             return gyms;
         }
 
+        public IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
+        {
+            try
+            {
+                List<SubscriptionModel> subscriptionsModels = new List<SubscriptionModel>();
+                var subscriptionsEntity = _repository.GetSubscriptionsByGymByFilter(gymId, periods, groupTraining, dietMonitoring);
+                foreach (var subscription in subscriptionsEntity)
+                {
+                    subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
+                }
+                return subscriptionsModels;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw ex;
+            }
+
+        }
+
 
         public IEnumerable<SubscriptionModel> GetSubscriptionsByGym(int gymId)
         {
@@ -168,8 +188,13 @@ namespace FitMeApp.Services
             {
                 _logger.LogError(ex, ex.Message);
                 throw ex;
-            }
-           
+            }           
+        }
+
+        public List<int> GetAllSubscriptionPeriods()
+        {
+            List<int> allSubscriptionPeriods = _repository.GetAllSubscriptionPeriods();
+            return allSubscriptionPeriods;
         }
 
     }

@@ -153,30 +153,16 @@ namespace FitMeApp.Mapper
             SubscriptionViewModel subscription = new SubscriptionViewModel()
             {
                Id = subscriptionModel.Id,
+               GymId = subscriptionModel.GymId,
                ValidDays = subscriptionModel.ValidDays,
                GroupTraining = subscriptionModel.GroupTraining,
                DietMonitoring = subscriptionModel.DietMonitoring,
                Price = subscriptionModel.Price,
-               //Image = GetImageName(subscriptionModel)
+               
             };
             return subscription;
         }
 
-        //private string GetImageName(SubscriptionModel subscriptionModel)
-        //{
-        //    var name = "Training";
-        //    var fileExtension = ".jpg";
-        //    if (subscriptionModel.DietMonitoring)
-        //    {
-        //        name += nameof(subscriptionModel.DietMonitoring);
-        //    }
-
-        //    if (subscriptionModel.GroupTrainingInclude)
-        //    {
-        //        name += nameof(subscriptionModel.GroupTraining);
-        //    }
-
-        //    return name + fileExtension;
-        //}
+       
     }
 }

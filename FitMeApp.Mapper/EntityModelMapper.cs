@@ -144,6 +144,7 @@ namespace FitMeApp.Mapper
             SubscriptionModel subscriptionModel = new SubscriptionModel()
             {
                 Id = subscriptionPrice.Id,
+                GymId = subscriptionPrice.GymId,
                 ValidDays = subscriptionPrice.ValidDays,
                 GroupTraining = subscriptionPrice.GroupTrainingInclude,
                 DietMonitoring = subscriptionPrice.DietMonitoring,
