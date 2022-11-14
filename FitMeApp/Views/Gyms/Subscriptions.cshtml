@@ -35,13 +35,13 @@
                                 Other options
                             </p>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" name="groupTraining" id="groupTraining" checked>
+                                <input class="form-check-input" type="checkbox" value="true" name="groupTraining" id="groupTraining">
                                 <label class="form-check-label" for="groupTraining">
                                     Group trainings
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" name="dietMonitoring" id="dietMonitoring" checked>
+                                <input class="form-check-input" type="checkbox" value="true" name="dietMonitoring" id="dietMonitoring">
                                 <label class="form-check-label" for="dietMonitoring">
                                     Diet monitoring
                                 </label>
@@ -50,9 +50,10 @@
                     </div>
                     <div>
                         <input type="submit" value="OK" class="btn btn-dark" />
+                        <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.First().GymId" class="btn btn-dark">Clear filters</a>
                     </div>
                 </div>
-            </form>
+            </form>          
         </div>
     </div>
 </div>
