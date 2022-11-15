@@ -1,5 +1,6 @@
 ﻿using FitMeApp.Common;
 using FitMeApp.Models;
+using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -69,7 +70,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with creat new Role. Try again, please."
+                };
+                return View("CustomError", error);
             } 
         }
 
@@ -100,7 +105,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with delete Role. Try again, please."
+                };
+                return View("CustomError", error);
             }           
         }
 
@@ -136,7 +145,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with edit Role. Try again, please."
+                };
+                return View("CustomError", error);
             }
         }
 
@@ -165,7 +178,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with edit Role. Try again, please."
+                };
+                return View("CustomError", error);
             }
         }
     }

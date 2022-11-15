@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-
+using FitMeApp.WEB.Contracts.ViewModels;
 
 namespace FitMeApp.Controllers
 {
@@ -25,8 +25,7 @@ namespace FitMeApp.Controllers
 
         [HttpGet]
         public IActionResult Register()
-        {
-            //_logger.LogInformation("Work checking");
+        {            
             return View();
         }
 
@@ -65,7 +64,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with registration. Try again, please."
+                };
+                return View("CustomError", error);
             }           
         }
 
@@ -108,7 +111,11 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with login. Try again, please."
+                };
+                return View("CustomError", error);
             }
         }
 

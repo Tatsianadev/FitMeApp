@@ -70,8 +70,12 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message); //show friendly Error Page!!
-                throw ex;
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with using filters. Try again or not use filters, please."
+                };
+                return View("CustomError", error);
             }            
         }
 
@@ -124,23 +128,37 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Subscriptions(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring, List<int> allPeriods)
+        public ActionResult Subscriptions(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
         {
-            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();           
-            var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
-            foreach (var subscriptionModel in subscriptioModels)
+            try
             {
-                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
-            }
+                List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
+                var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+                foreach (var subscriptionModel in subscriptioModels)
+                {
+                    subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                }
 
-            foreach (var subscription in subscriptions)
+                foreach (var subscription in subscriptions)
+                {
+                    subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                        + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                }
+
+                ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+                return View(subscriptions);
+
+            }
+            catch (Exception ex)
             {
-                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with using filters. Try again or not use filters, please."
+                };
+                return View("CustomError", error);
             }
-
-            ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
-            return View(subscriptions);            
+            
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using FitMeApp.Services.Contracts.Interfaces;
-
+using FitMeApp.WEB.Contracts.ViewModels;
 
 namespace FitMeApp.Controllers
 {
@@ -23,9 +23,13 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                //var subscriptions = _fitMeService.GetSubscriptionsByGym(1);
-               
-                 return View();
+                //CustomErrorViewModel error = new CustomErrorViewModel()
+                //{
+                //    Message = "There was a problem with registration. Try again, please."
+                //};
+                //return View("CustomError", error);
+
+                return View();
             }
             catch (Exception ex)
             {
