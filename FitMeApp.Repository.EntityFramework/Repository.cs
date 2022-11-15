@@ -434,7 +434,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                             SubscriptionId = subscription.Id,
                                                             GymId = gymSubscription.GymId,
                                                             ValidDays = subscription.ValidDays,
-                                                            GroupTrainingInclude = subscription.GroupTraining,
+                                                            GroupTraining = subscription.GroupTraining,
                                                             DietMonitoring = subscription.DietMonitoring,
                                                             Price = gymSubscription.Price
                                                         });
@@ -447,7 +447,7 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = subscription.SubscriptionId,
                     GymId = subscription.GymId,
                     ValidDays = subscription.ValidDays,
-                    GroupTrainingInclude = subscription.GroupTrainingInclude,
+                    GroupTraining = subscription.GroupTraining,
                     DietMonitoring = subscription.DietMonitoring,
                     Price = subscription.Price
                 });
@@ -457,7 +457,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         // Subscribtions
 
-        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGym(int gymId)
+        public IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId)
         {
             var subscriptionsPriceJoinByGym = (from gymSubscription in _context.GymSubscriptions
                                                join subscription in _context.Subscriptions
@@ -468,7 +468,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                    SubscriptionId = subscription.Id,
                                                    GymId = gymSubscription.GymId,
                                                    ValidDays = subscription.ValidDays,
-                                                   GroupTrainingInclude = subscription.GroupTraining,
+                                                   GroupTraining = subscription.GroupTraining,
                                                    DietMonitoring = subscription.DietMonitoring,
                                                    Price = gymSubscription.Price
                                                });
@@ -480,7 +480,7 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = subscription.SubscriptionId,
                     GymId = subscription.GymId,
                     ValidDays = subscription.ValidDays,
-                    GroupTrainingInclude = subscription.GroupTrainingInclude,
+                    GroupTraining = subscription.GroupTraining,
                     DietMonitoring = subscription.DietMonitoring,
                     Price = subscription.Price
                 });
@@ -501,6 +501,36 @@ namespace FitMeApp.Repository.EntityFramework
             }                
                 
             return allSubscriptionPeriods;
+        }
+
+
+        public SubscriptionPriceBase GetSubscriptionByGym(int subscriptionId, int gymId)
+        {
+            var subscriptionGymJoin = (from gymSubscription in _context.GymSubscriptions
+                                       join subscription in _context.Subscriptions
+                                       on gymSubscription.SubscriptionId equals subscription.Id
+                                       where gymSubscription.GymId == gymId
+                                       where subscription.Id == subscriptionId
+                                       select new
+                                       {
+                                           SubscriptionId = subscription.Id,
+                                           GymId = gymSubscription.GymId,
+                                           ValidDays = subscription.ValidDays,
+                                           GroupTraining = subscription.GroupTraining,
+                                           DietMonitoring = subscription.DietMonitoring,
+                                           Price = gymSubscription.Price
+                                       }).First();
+
+            SubscriptionPriceBase currentSubscription = new SubscriptionPriceBase()
+            {
+                Id = subscriptionGymJoin.SubscriptionId,
+                GymId = subscriptionGymJoin.GymId,
+                ValidDays = subscriptionGymJoin.ValidDays,
+                GroupTraining = subscriptionGymJoin.GroupTraining,
+                DietMonitoring = subscriptionGymJoin.DietMonitoring,
+                Price = subscriptionGymJoin.Price
+            };
+            return currentSubscription;
         }
 
 

@@ -21,29 +21,7 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper(loggerFactory);
         }
 
-        //public IEnumerable<GymModel> GetAllGymModels()
-        //{
-        //    try
-        //    {
-        //        var gymEntityBases = _repository.GetAllGyms();
-        //        var gymsModels = new List<GymModel>();
-
-        //        foreach (var gym in gymEntityBases)
-        //        {
-        //            var gymWithTrainersAndTrainings = _repository.GetGymWithTrainersAndTrainings(gym.Id);
-        //            gymsModels.Add(_mapper.MappGymEntityBaseToModel(gymWithTrainersAndTrainings));
-        //        }
-
-        //        return gymsModels;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        throw ex;
-        //    }
-            
-        //}
-
+        
         public IEnumerable<GymModel> GetAllGymModels()
         {
             try
@@ -94,29 +72,7 @@ namespace FitMeApp.Services
         }
 
 
-        //public ICollection<TrainingModel> GetAllTrainingModels()
-        //{
-        //    try
-        //    {
-        //        var groupClasses = _repository.GetAllTrainings();
-        //        var groupClassModels = new List<TrainingModel>();
-
-        //        foreach (var groupClass in groupClasses)
-        //        {
-        //            var groupClassWithGymsAndTrainers = _repository.GetTrainingWithTrainerAndGym(groupClass.Id);
-        //            groupClassModels.Add(_mapper.MappGroupClassEntityBaseToModel(groupClassWithGymsAndTrainers));
-        //        }
-
-        //        return groupClassModels;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        throw;
-        //    }
-            
-            
-        //}
+       
 
         public ICollection<TrainingModel> GetAllTrainingModels()
         {
@@ -172,12 +128,12 @@ namespace FitMeApp.Services
         }
 
 
-        public IEnumerable<SubscriptionModel> GetSubscriptionsByGym(int gymId)
+        public IEnumerable<SubscriptionModel> GetAllSubscriptionsByGym(int gymId)
         {
             try
             {
                 List<SubscriptionModel> subscriptionsModels = new List<SubscriptionModel>();
-                var subscriptionsEntity = _repository.GetSubscriptionsByGym(gymId);
+                var subscriptionsEntity = _repository.GetAllSubscriptionsByGym(gymId);
                 foreach (var subscription in subscriptionsEntity)
                 {
                     subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
@@ -195,6 +151,13 @@ namespace FitMeApp.Services
         {
             List<int> allSubscriptionPeriods = _repository.GetAllSubscriptionPeriods();
             return allSubscriptionPeriods;
+        }
+
+        public SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId)
+        {
+            var subscriptionPriceEntityBase = _repository.GetSubscriptionByGym(subscriptionId, gymId);
+            SubscriptionModel subscriptionModel = _mapper.MappSubscriptionPriceEntityBaseToModel(subscriptionPriceEntityBase);
+            return subscriptionModel;
         }
 
     }

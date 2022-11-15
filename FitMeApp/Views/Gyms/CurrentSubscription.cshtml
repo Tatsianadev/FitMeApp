@@ -1,0 +1,65 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.SubscriptionViewModel
+
+
+
+<div class="container" style="text-align:center">
+    <div class="card border-dark" style="width:35%;margin:20px">
+        <div style="height:100px;">
+            @{string imagePath = "/Content/Subscriptions/gym" + Model.Image + ".jpg";}
+            <img src="@imagePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+        </div>
+        <hr style="margin-bottom:5px" />
+        <div class="card-body" style="text-align:center; padding:10px">
+            <h5 style="font:bold">Subscription for</h5>
+            <h3 class="card-title" style="font:bold">@Model.ValidDays @(Model.ValidDays==1?"day":"days")</h3>
+            <p class="card-text" style="text-align:left">
+                Include:
+                <br />
+                <div style="font:bold medium">
+                    - Access to the gym;
+                </div>                
+                <div style="font: small; text-align: left">
+                    Full access to the gym and sport equipment.<br />
+                    You can workout by your own or with personal trainer.<br />
+                    <span style="color:red">Attention:</span>
+                    Personal trainer services are not included in the subscription price.
+                </div>
+                <br />
+                @if (Model.GroupTraining == true)
+                {
+                    <div class="card-text" style="text-align: left; font: bold medium">
+                        - Group training;
+                    </div>
+                    <div style="font: small; text-align: left">
+                        You can attend all group classes.<br />
+                        <span style="color:red">Attention:</span>
+                        You will need to register for the class in advance.
+                    </div>
+                }
+                <br />
+                @if (Model.DietMonitoring == true)
+                {
+                    <div class="card-text" style="text-align: left; font: bold medium">
+                        - Diet monitoring;
+                    </div>
+                    <div style="font: small; text-align: left">
+                        You can use nutrition expert service to make your diet more effective, healthy and conveniet.<br />
+                        You will have a diet plan and you can consult with a nutrition expert.                      
+                    </div>
+                }
+            </p>
+            <div style="font:small">
+                Please set the start date 
+                <br />
+                <span style="font:smaller">(your subscription will be activated on the specified date)</span>
+            </div>
+            <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
+                <input type="date" name="startDate" />
+                <div class="card-footer">
+                    <h3 style="font:bold">@Model.Price $</h3>
+                    <input type="submit" asp-route-gynId="@Model.GymId" asp-route-subscriptionId="@Model.Id"  value="Take it!" class="btn btn-dark" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

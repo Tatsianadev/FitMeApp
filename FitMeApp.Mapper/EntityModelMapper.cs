@@ -146,7 +146,7 @@ namespace FitMeApp.Mapper
                 Id = subscriptionPrice.Id,
                 GymId = subscriptionPrice.GymId,
                 ValidDays = subscriptionPrice.ValidDays,
-                GroupTraining = subscriptionPrice.GroupTrainingInclude,
+                GroupTraining = subscriptionPrice.GroupTraining,
                 DietMonitoring = subscriptionPrice.DietMonitoring,
                 Price = subscriptionPrice.Price
             };

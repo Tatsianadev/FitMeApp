@@ -16,7 +16,7 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private ILogger _logger;
 
-        public GymsController(IFitMeService fitMeService, ILoggerFactory loggerFactory )
+        public GymsController(IFitMeService fitMeService, ILoggerFactory loggerFactory)
         {
             _fitMeService = fitMeService;
             _logger = loggerFactory.CreateLogger("GymsControllerLogger");
@@ -76,7 +76,7 @@ namespace FitMeApp.Controllers
                     Message = "There was a problem with using filters. Try again or not use filters, please."
                 };
                 return View("CustomError", error);
-            }            
+            }
         }
 
         public IActionResult CurrentGymInfo(int gymId)
@@ -89,34 +89,34 @@ namespace FitMeApp.Controllers
             {
                 foreach (var training in trainer.Trainings)
                 {
-                    if (!trainingsId.Contains(training.Id)&&training.Name != "Personal training")
+                    if (!trainingsId.Contains(training.Id) && training.Name != "Personal training")
                     {
                         trainings.Add(training);
                         trainingsId.Add(training.Id);
-                    }                   
-                }                
+                    }
+                }
             }
-            
+
             ViewBag.Trainings = trainings;
             return View(gym);
         }
 
 
-       
+
         public ActionResult Subscriptions(int gymId)
         {
-            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();           
-            var subscriptionModels = _fitMeService.GetSubscriptionsByGym(gymId);
+            List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
+            var subscriptionModels = _fitMeService.GetAllSubscriptionsByGym(gymId);
 
             foreach (var subscriptionModel in subscriptionModels)
             {
-                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));                
+                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
             }
 
             foreach (var subscription in subscriptions)
             {
-                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "") 
-                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : ""); 
+                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
             }
 
             ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
@@ -158,7 +158,25 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }
-            
+
+        }
+
+        public ActionResult CurrentSubscription(int subscriptionId, int gymId)
+        {
+            var subscriptionModel = _fitMeService.GetSubscriptionByGym(subscriptionId, gymId);
+            SubscriptionViewModel subscription = _mapper.MappSubscriptionModelToViewModel(subscriptionModel);
+
+            subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+
+            return View(subscription);
+        }
+
+
+        [HttpPost]
+        public ActionResult CurrentSubscription(int subscriptionId, int gymId, DateTime startDate)
+        {
+            return View();
         }
     }
 }

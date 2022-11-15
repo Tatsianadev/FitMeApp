@@ -37,8 +37,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
 
         //Subscriptions
-        IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGym(int gymId);
+        IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
+        SubscriptionPriceBase GetSubscriptionByGym(int subscriptionId, int gymId);
 
 
     }
