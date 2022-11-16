@@ -82,7 +82,16 @@
                         </p>
                         <div class="card-footer">
                             <h3 style="font:bold">@subscription.Price $</h3>
-                            <a asp-controller="Gyms" asp-action="CurrentSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Gyms" asp-action="CurrentSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Register" class="btn btn-dark">Take it!</a>
+
+                            }
+
                         </div>
                     </div>
                 </div>
