@@ -1,6 +1,9 @@
-﻿using FitMeApp.Mapper;
+﻿using FitMeApp.Common;
+using FitMeApp.Mapper;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,13 +17,16 @@ namespace FitMeApp.Controllers
     {
         private readonly IFitMeService _fitMeService;
         private readonly ModelViewModelMapper _mapper;
+        private readonly UserManager<User> _userManager;
         private ILogger _logger;
 
-        public GymsController(IFitMeService fitMeService, ILoggerFactory loggerFactory)
+        public GymsController(IFitMeService fitMeService, UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _fitMeService = fitMeService;
-            _logger = loggerFactory.CreateLogger("GymsControllerLogger");
             _mapper = new ModelViewModelMapper();
+            _userManager = userManager;
+            _logger = loggerFactory.CreateLogger("GymsControllerLogger");
+            
         }
 
 
@@ -174,8 +180,26 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult CurrentSubscription(int subscriptionId, int gymId, DateTime startDate)
+        [Authorize(Roles ="admin, user")]
+    
+        public ActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
         {
+            if (startDate.Date >= DateTime.Now.Date && startDate.Date<=DateTime.Now.AddDays(256).Date)
+            {
+                try
+                {
+                    string userId = _userManager.GetUserId(User);
+                    bool result = _fitMeService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+                    return View();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                
+            }
+
             return View();
         }
     }

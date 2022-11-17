@@ -7,7 +7,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
 {
     public class UserSubscriptionEntity: UserSubscriptionEntityBase
     {
-        public virtual GymEntity Gym { get; set; }
-        public virtual SubscriptionEntity Subscription { get; set; }
+        public virtual GymSubscriptionEntity GymSubscription { get; set; }
+        //public virtual TrainerEntity Trainer { get; set; }
     }
 }

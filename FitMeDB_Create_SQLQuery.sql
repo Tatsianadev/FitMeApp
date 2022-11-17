@@ -433,10 +433,6 @@ CREATE TABLE [dbo].[UserSubscriptions](
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([TrainerId])
-REFERENCES [dbo].[Trainers] ([Id])
-GO
-
 ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([GymSubscriptionId])
 REFERENCES [dbo].[GymSubscriptions] ([Id])
 GO

@@ -160,5 +160,12 @@ namespace FitMeApp.Services
             return subscriptionModel;
         }
 
+
+        public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
+        {
+            bool result = _repository.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+            return result;
+        }
+
     }
 }

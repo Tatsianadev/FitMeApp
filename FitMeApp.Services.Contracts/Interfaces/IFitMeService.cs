@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Services.Contracts.Models;
+using System;
 using System.Collections.Generic;
 
 
@@ -17,6 +18,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         List<int> GetAllSubscriptionPeriods();
 
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
+        bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
 
     }
 }

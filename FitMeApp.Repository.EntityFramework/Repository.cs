@@ -492,15 +492,20 @@ namespace FitMeApp.Repository.EntityFramework
         public List<int> GetAllSubscriptionPeriods()
         {
             List<int> allSubscriptionPeriods = new List<int>();
-            List<int> SubscriptionPeriods = new List<int>();
             var subscriptions = _context.Subscriptions;
             foreach (var subscription in subscriptions)
             {
                 allSubscriptionPeriods.Add(subscription.ValidDays);
                 allSubscriptionPeriods = allSubscriptionPeriods.Distinct().ToList();
-            }                
-                
+            }
+
             return allSubscriptionPeriods;
+        }
+
+        public int GetSubscriptionPeriod(int subscriptionId)
+        {
+            int period = _context.Subscriptions.Where(x => x.Id == subscriptionId).First().ValidDays;
+            return period;
         }
 
 
@@ -531,6 +536,31 @@ namespace FitMeApp.Repository.EntityFramework
                 Price = subscriptionGymJoin.Price
             };
             return currentSubscription;
+        }
+
+
+
+        public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
+        {
+            int gymSubscriptionId = _context.GymSubscriptions.Where(x => x.GymId == gymId && x.SubscriptionId == subscriptionId).First().Id;
+            int subscriptionPeriod = GetSubscriptionPeriod(subscriptionId);
+
+            UserSubscriptionEntity userSubscription = new UserSubscriptionEntity()
+            {
+                UserId = userId,
+                GymSubscriptionId = gymSubscriptionId,
+                StartDate = startDate,
+                EndDate = startDate.AddDays(subscriptionPeriod)
+
+            };
+            _context.UserSubscriptions.Add(userSubscription);
+
+            int addedEntry = _context.SaveChanges();
+            bool result = addedEntry > 0 ? true : false;
+
+            return result;
+
+
         }
 
 

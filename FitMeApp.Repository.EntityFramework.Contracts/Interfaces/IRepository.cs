@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using System;
 using System.Collections.Generic;
 
 
@@ -39,7 +40,11 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Subscriptions
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
+        int GetSubscriptionPeriod(int subscriptionId);
         SubscriptionPriceBase GetSubscriptionByGym(int subscriptionId, int gymId);
+
+        //UserSubscriptions
+        bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
 
 
     }
