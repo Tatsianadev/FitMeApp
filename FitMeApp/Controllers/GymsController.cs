@@ -190,7 +190,7 @@ namespace FitMeApp.Controllers
                 {
                     string userId = _userManager.GetUserId(User);
                     bool result = _fitMeService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
-                    return View();
+                    return View("SubscriptionCompleted");
                 }
                 catch (Exception ex)
                 {

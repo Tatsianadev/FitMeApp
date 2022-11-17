@@ -3,81 +3,93 @@
 
 
 <div class="container" style="text-align:center">
-    <div class="card border-dark" style="width:40%;margin:20px">
-        <div style="height:120px;">
-            @{string imagePath = "/Content/Subscriptions/gym" + Model.Image + ".jpg";}
-            <img src="@imagePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+    <div class="row">
+        <div class=" col-md-3">
+
         </div>
-        <hr style="margin-bottom:5px" />
-        <div class="card-body" style="padding:10px">
-            <h4 style="font: bold; text-align: center">Subscription for</h4>
-            <h2 class="card-title" style="text-align: center; font:bold">@Model.ValidDays @(Model.ValidDays==1?"day":"days")</h2>
-            <p @*class="card-text"*@ style="text-align:left">
-                Include:
-                <br />
-                <div style="text-align: left">
-                    <h5>
-                        - Access to the gym;
-                    </h5>                    
-                </div>                
-                <div style="text-align: left">                    
-                        <small>
-                            Full access to the gym and sport equipment.<br />
-                            You can workout by your own or with personal trainer.<br />
-                            <span style="color:red">Attention:</span>
-                            Personal trainer services are not included in the subscription price.
-                        </small>                                       
+        <div class=" col-md-6">
+            <div class="card border-dark" style="width:100%;margin:20px">
+                <div style="height:120px;">
+                    @{string imagePath = "/Content/Subscriptions/gym" + Model.Image + ".jpg";}
+                    <img src="@imagePath" class="card-img-top" alt="..." style="height:100%; width:auto">
                 </div>
-                <br />
-                @if (Model.GroupTraining == true)
-                {
-                    <div style="text-align: left; font: bold medium">
-                        <h5>
-                            - Group training;
-                        </h5>
-                       
+                <hr style="margin-bottom:5px" />
+                <div class="card-body" style="padding:10px">
+                    <h4 style="font: bold; text-align: center">Subscription for</h4>
+                    <h2 class="card-title" style="text-align: center; font:bold">@Model.ValidDays @(Model.ValidDays==1?"day":"days")</h2>
+                    <p @*class="card-text"*@ style="text-align:left">
+                        Include:
+                        <br />
+                        <div style="text-align: left">
+                            <h5>
+                                - Access to the gym;
+                            </h5>
+                        </div>
+                        <div style="text-align: left">
+                            <small>
+                                Full access to the gym and sport equipment.<br />
+                                You can workout by your own or with personal trainer.<br />
+                                <span style="color:red">Attention:</span>
+                                Personal trainer services are not included in the subscription price.
+                            </small>
+                        </div>
+                        <br />
+                        @if (Model.GroupTraining == true)
+                        {
+                            <div style="text-align: left; font: bold medium">
+                                <h5>
+                                    - Group training;
+                                </h5>
+
+                            </div>
+                            <div style="text-align: left">
+                                <small>
+                                    You can attend all group classes.<br />
+                                    <span style="color:red">Attention:</span>
+                                    You will need to register for the class in advance.
+                                </small>
+
+                            </div>
+                        }
+                        <br />
+                        @if (Model.DietMonitoring == true)
+                        {
+                            <div style="text-align: left; font: bold medium">
+                                <h5>
+                                    - Diet monitoring;
+                                </h5>
+
+                            </div>
+                            <div style="text-align: left">
+                                <small>
+                                    You can use nutrition expert service to make your diet more effective, healthy and conveniet.<br />
+                                    You will have a diet plan and you can consult with a nutrition expert.
+                                </small>
+
+                            </div>
+                        }
+                    </p>
+                    <div style="font:small">
+                        Please set the start date
+                        <br />
+                        <small>(your subscription will be activated on the specified date)</small>
                     </div>
-                    <div style="text-align: left">
-                        <small>
-                            You can attend all group classes.<br />
-                            <span style="color:red">Attention:</span>
-                            You will need to register for the class in advance.
-                        </small>
-                        
-                    </div>
-                }
-                <br />
-                @if (Model.DietMonitoring == true)
-                {
-                    <div style="text-align: left; font: bold medium">
-                        <h5>
-                            - Diet monitoring;
-                        </h5>
-                        
-                    </div>
-                    <div style="text-align: left">
-                        <small>
-                            You can use nutrition expert service to make your diet more effective, healthy and conveniet.<br />
-                            You will have a diet plan and you can consult with a nutrition expert.
-                        </small>
-                                          
-                    </div>
-                }
-            </p>
-            <div style="font:small">
-                Please set the start date 
-                <br />
-                <small>(your subscription will be activated on the specified date)</small>
+                    <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
+                        @{ string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                            string maxDate = DateTime.Today.AddDays(256).Date.ToString("yyyy-MM-dd");}
+                        <input type="date" name="startDate" min="@minDate" max="@maxDate" value="@minDate" />
+                        <div class="card-footer">
+                            <h3 style="font:bold">@Model.Price $</h3>
+                            <input type="submit" asp-route-gymId="@Model.GymId" asp-route-subscriptionId="@Model.Id" value="Take it!" class="btn btn-dark" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
-                @{ string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
-                    string maxDate = DateTime.Today.AddDays(256).Date.ToString("yyyy-MM-dd");}
-                <input type="date" name="startDate" min="@minDate" max="@maxDate" value="@minDate"/>
-                <div class="card-footer">
-                    <h3 style="font:bold">@Model.Price $</h3>
-                    <input type="submit" asp-route-gymId="@Model.GymId" asp-route-subscriptionId="@Model.Id"  value="Take it!" class="btn btn-dark" />
-                </div>
-            </form>
         </div>
+        <div class=" col-md-3">
+
+        </div>
+
     </div>
+   
 </div>
