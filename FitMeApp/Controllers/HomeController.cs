@@ -22,8 +22,7 @@ namespace FitMeApp.Controllers
         public IActionResult Index()
         {
             try
-            {
-                var trainers = _fitMeService.GetAllTrainerModels();
+            {                
 
                 return View();
             }

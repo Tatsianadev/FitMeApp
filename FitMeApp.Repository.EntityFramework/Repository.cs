@@ -343,21 +343,24 @@ namespace FitMeApp.Repository.EntityFramework
                                                    TrainingName = training.Name
                                                }).OrderBy(x => x.TrainerId).ToList();
 
-            List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
+            
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
             List<int> trainersId = new List<int>();
+            var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
 
             foreach (var item in allTrainersGymTrainingsJoin)
-            {
-                trainings.Add(new TrainingEntityBase()
-                {
-                    Id = item.TrainingId,
-                    Name = item.TrainingName
-                });
+            {   
 
                 if (!trainersId.Contains(item.TrainerId))
-                {  
-                    var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
+                {
+                    List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
+                    trainings.Add(new TrainingEntityBase()
+                    {
+                        Id = item.TrainingId,
+                        Name = item.TrainingName
+                    });
+
+                    trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
                     {
                         Id = item.TrainerId,
                         FirstName = item.FirstName,
@@ -371,13 +374,26 @@ namespace FitMeApp.Repository.EntityFramework
                             Name = item.GymName,
                             Address = item.GymAddress
                         },
-                        
+                        Trainings = trainings                        
                     };
 
                     trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
                     trainersId.Add(item.TrainerId);
                     //trainings.Clear();
+
                 }
+                else
+                {
+                    List<TrainingEntityBase> currentTrainerTrainings = trainerWithGymAndTrainings.Trainings.ToList();
+                    currentTrainerTrainings.Add(new TrainingEntityBase()
+                    {
+                        Id = item.TrainingId,
+                        Name = item.TrainingName
+                    });
+                    trainerWithGymAndTrainings.Trainings = currentTrainerTrainings;
+                }           
+
+                
             }
 
             return trainersWithGymAndTrainings;
