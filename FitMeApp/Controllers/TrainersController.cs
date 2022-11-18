@@ -1,4 +1,5 @@
-﻿using FitMeApp.Mapper;
+﻿using FitMeApp.Common;
+using FitMeApp.Mapper;
 using FitMeApp.Services;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
@@ -33,6 +34,19 @@ namespace FitMeApp.Controllers
             {
                 trainers.Add(_mapper.MappTrainerModelToViewModel(trainerModel));
             }
+
+            ViewBag.Genders = new List<GenderEnum>()
+            {
+                GenderEnum.man,
+                GenderEnum.woman                
+            };
+
+            ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
+            {
+                TrainerSpecializationsEnum.personal,
+                TrainerSpecializationsEnum.group,
+                TrainerSpecializationsEnum.universal
+            };
 
             return View(trainers);
         }

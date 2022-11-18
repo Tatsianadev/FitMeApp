@@ -1,0 +1,69 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h4>
+                    Text about trainers
+                </h4>
+                <h6>
+                    Text about filters and work woth page
+                </h6>
+            </div>
+            <div class="col-md-4">
+                <img src="#" alt="Trainer picture" />
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Filters
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form asp-controller="Trainers" asp-action="Index" method="post">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p style="font:bold">
+                                        Trainers gender
+                                    </p>
+                                    @foreach (var gender in ViewBag.Genders)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="SelectedGender" type="checkbox" value="@gender" id="@gender">
+                                            <label class="form-check-label" for="@gender">
+                                                @gender
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    <p style="font:bold">
+                                        Trainers specialization
+                                    </p>
+                                    @foreach (var specialization in ViewBag.Specializations)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="SelectedGender" type="checkbox" value="@specialization" id="@specialization">
+                                            <label class="form-check-label" for="@specialization">
+                                                @specialization training
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" value="OK" class="btn btn-dark" />
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
