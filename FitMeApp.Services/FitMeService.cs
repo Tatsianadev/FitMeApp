@@ -50,26 +50,26 @@ namespace FitMeApp.Services
             return gym;
         }
 
-        public IEnumerable<TrainerModel> GetAllTrainerModels()
-        {
-            try
-            {
-                var trainers = _repository.GetAllTrainers();
-                var trainerModels = new List<TrainerModel>();
-                foreach (var trainer in trainers)
-                {
-                    var trainerWithGymAndGroups = _repository.GetTrainerWithGymAndTrainings(trainer.Id);
-                    trainerModels.Add(_mapper.MappTrainerEntityBaseToModel(trainerWithGymAndGroups));
-                }
+        //public IEnumerable<TrainerModel> GetAllTrainerModels()
+        //{
+        //    try
+        //    {
+        //        var trainers = _repository.GetAllTrainers();
+        //        var trainerModels = new List<TrainerModel>();
+        //        foreach (var trainer in trainers)
+        //        {
+        //            var trainerWithGymAndGroups = _repository.GetTrainerWithGymAndTrainings(trainer.Id);
+        //            trainerModels.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerWithGymAndGroups));
+        //        }
 
-                return trainerModels;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw ex;
-            }            
-        }
+        //        return trainerModels;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //        throw ex;
+        //    }            
+        //}
 
 
        
@@ -165,6 +165,19 @@ namespace FitMeApp.Services
         {
             bool result = _repository.AddUserSubscription(userId, gymId, subscriptionId, startDate);
             return result;
+        }
+
+        //Trainers
+
+        public List<TrainerModel> GetAllTrainerModels()
+        {
+            var trainersEntity = _repository.GetAllTrainersWithGymAndTrainings();
+            List<TrainerModel> trainers = new List<TrainerModel>();
+            foreach (var trainerEntity in trainersEntity)
+            {
+                trainers.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
+            }
+            return trainers;
         }
 
     }

@@ -319,69 +319,87 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
+        public List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings()
+        {
+            var allTrainersGymTrainingsJoin = (from trainer in _context.Trainers
+                                               join gym in _context.Gyms
+                                               on trainer.GymId equals gym.Id
+                                               join trainingTrainer in _context.TrainingTrainer
+                                               on trainer.Id equals trainingTrainer.TrainerId
+                                               join training in _context.Trainings
+                                               on trainingTrainer.TrainingId equals training.Id
+                                               select new
+                                               {
+                                                   TrainerId = trainer.Id,
+                                                   FirstName = trainer.FirstName,
+                                                   LastName = trainer.LastName,
+                                                   Gender = trainer.Gender,
+                                                   Picture = trainer.Picture,
+                                                   Specialization = trainer.Specialization,
+                                                   GymId = gym.Id,
+                                                   GymName = gym.Name,
+                                                   GymAddress = gym.Address,
+                                                   TrainingId = training.Id,
+                                                   TrainingName = training.Name
+                                               }).OrderBy(x => x.TrainerId).ToList();
+
+            List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
+            List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
+            List<int> trainersId = new List<int>();
+
+            foreach (var item in allTrainersGymTrainingsJoin)
+            {
+                trainings.Add(new TrainingEntityBase()
+                {
+                    Id = item.TrainingId,
+                    Name = item.TrainingName
+                });
+
+                if (!trainersId.Contains(item.TrainerId))
+                {  
+                    var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
+                    {
+                        Id = item.TrainerId,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Gender = item.Gender,
+                        Picture = item.Picture,
+                        Specialization = item.Specialization,
+                        Gym = new GymEntityBase()
+                        {
+                            Id = item.GymId,
+                            Name = item.GymName,
+                            Address = item.GymAddress
+                        },
+                        
+                    };
+
+                    trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
+                    trainersId.Add(item.TrainerId);
+                    //trainings.Clear();
+                }
+            }
+
+            return trainersWithGymAndTrainings;
+        }
+
 
 
         public TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(int trainerId)
         {
-            var trainer = _context.Trainers.Where(x => x.Id == trainerId).First();
-            var gym = _context.Gyms.Where(x => x.Id == trainer.GymId).First();
 
-            var groupClassGymTrainer = _context.TrainingTrainer.Where(x => x.TrainerId == trainerId).ToList();
-            var groupClasses = new List<TrainingEntity>();
-            foreach (var item in groupClassGymTrainer)
-            {
-                var groupClass = _context.Trainings.Where(x => x.Id == item.TrainingId).First();
-                groupClasses.Add(groupClass);
-            }
-
-            TrainerWithGymAndTrainingsBase trainerWithGymAndGroup = new TrainerWithGymAndTrainingsBase()
-            {
-                Id = trainer.Id,
-                FirstName = trainer.FirstName,
-                LastName = trainer.LastName,
-                Gender = trainer.Gender,
-                Picture = trainer.Picture,
-                Specialization = trainer.Specialization,
-                Gym = gym,
-                Trainings = groupClasses
-            };
-
-            return trainerWithGymAndGroup;
+            return null;
 
         }
 
         public TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int groupClassId)
         {
-            var groupClassGymTrainers = _context.TrainingTrainer.Where(x => x.TrainingId == groupClassId).ToList();
-            var trainers = new List<TrainerEntityBase>();
-            foreach (var item in groupClassGymTrainers)
-            {
-                var trainer = _context.Trainers.Where(x => x.Id == item.TrainerId).First();
-                trainers.Add(trainer);
-            }
 
-            var gyms = new List<GymEntityBase>();
-            //foreach (var item in groupClassGymTrainers)
-            //{
-            //    var gym = _context.Gyms.Where(x => x.Id == item.GymId).First();
-            //    if (gyms.Contains(gym))
-            //    {
-            //        gyms.Add(gym);
-            //    }
-            //}
 
-            var groupClass = _context.Trainings.Where(x => x.Id == groupClassId).First();
-            TrainingWithTrainerAndGymBase groupClassWithGymsAndTrainers = new TrainingWithTrainerAndGymBase()
-            {
-                Id = groupClass.Id,
-                Name = groupClass.Name,
-                Description = groupClass.Description,
-                Gyms = gyms,
-                Trainers = trainers
-            };
-
-            return groupClassWithGymsAndTrainers;
+            return null;
         }
+
+
 
 
 

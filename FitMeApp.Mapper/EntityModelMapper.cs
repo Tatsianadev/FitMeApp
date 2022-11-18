@@ -84,15 +84,14 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainerModel MappTrainerEntityBaseToModel(TrainerWithGymAndTrainingsBase trainer)
-        {
-            var gymModel = new GymModel();
-            gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
+        public TrainerModel MappTrainerWithGymAndTrainingsBaseToModel(TrainerWithGymAndTrainingsBase trainer)
+        {            
+            GymModel gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
 
-            var groupClassModels = new List<TrainingModel>();
-            foreach (var groupClass in trainer.Trainings)
+            var trainings = new List<TrainingModel>();
+            foreach (var training in trainer.Trainings)
             {
-                groupClassModels.Add(MappTrainingEntityBaseToModelBase(groupClass));
+                trainings.Add(MappTrainingEntityBaseToModelBase(training));
             }
 
             var trainerModel = new TrainerModel()
@@ -104,7 +103,7 @@ namespace FitMeApp.Mapper
                 Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
                 Gym = gymModel,
-                Trainings = groupClassModels
+                Trainings = trainings
             };
 
             return trainerModel;
@@ -152,5 +151,8 @@ namespace FitMeApp.Mapper
             };
             return subscriptionModel;
         }
+
+
+        
     }
 }

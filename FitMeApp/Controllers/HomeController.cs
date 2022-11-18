@@ -23,11 +23,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                //CustomErrorViewModel error = new CustomErrorViewModel()
-                //{
-                //    Message = "There was a problem with registration. Try again, please."
-                //};
-                //return View("CustomError", error);
+                var trainers = _fitMeService.GetAllTrainerModels();
 
                 return View();
             }

@@ -30,6 +30,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
+        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(int trainerId);
         TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int trainingId);
 

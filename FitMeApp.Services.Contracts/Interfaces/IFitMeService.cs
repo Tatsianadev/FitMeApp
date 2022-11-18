@@ -9,7 +9,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     {
         IEnumerable<GymModel> GetAllGymModels();
         GymModel GetGymModel(int id);
-        IEnumerable<TrainerModel> GetAllTrainerModels();
+        //IEnumerable<TrainerModel> GetAllTrainerModels();
         ICollection<TrainingModel> GetAllTrainingModels();
         IEnumerable<GymModel> GetGymsByTrainings(List<int> groupClassesId);
         IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
@@ -19,6 +19,9 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
+
+        //Trainers
+        List<TrainerModel> GetAllTrainerModels();
 
     }
 }
