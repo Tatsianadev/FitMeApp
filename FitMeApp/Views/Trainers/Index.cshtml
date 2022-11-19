@@ -3,67 +3,128 @@
 
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <h4>
-                    Text about trainers
-                </h4>
-                <h6>
-                    Text about filters and work woth page
-                </h6>
-            </div>
-            <div class="col-md-4">
-                <img src="#" alt="Trainer picture" />
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>
+                Text about trainers
+            </h4>
+            <h6>
+                Text about filters and work woth page
+            </h6>
         </div>
-        <div class="row">
-            <p>
-                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Filters
-                </button>
-            </p>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <form asp-controller="Trainers" asp-action="Index" method="post">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p style="font:bold">
-                                        Trainers gender
-                                    </p>
-                                    @foreach (var gender in ViewBag.Genders)
-                                    {
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="SelectedGender" type="checkbox" value="@gender" id="@gender">
-                                            <label class="form-check-label" for="@gender">
-                                                @gender
-                                            </label>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-md-4">
-                                    <p style="font:bold">
-                                        Trainers specialization
-                                    </p>
-                                    @foreach (var specialization in ViewBag.Specializations)
-                                    {
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="SelectedGender" type="checkbox" value="@specialization" id="@specialization">
-                                            <label class="form-check-label" for="@specialization">
-                                                @specialization training
-                                            </label>
-                                        </div>
-                                    }
-                                </div>
+        <div class="col-md-4">
+            <img src="#" alt="Trainer picture" />
+        </div>
+    </div>
+    <div class="row">
+        <p>
+            <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Filters
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <form asp-controller="Trainers" asp-action="Index" method="post">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p style="font:bold">
+                                    Trainers gender
+                                </p>
+                                @foreach (var gender in ViewBag.Genders)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="SelectedGender" type="checkbox" value="@gender" id="@gender">
+                                        <label class="form-check-label" for="@gender">
+                                            @gender
+                                        </label>
+                                    </div>
+                                }
                             </div>
-                            <div>
-                                <input type="submit" value="OK" class="btn btn-dark" />
+                            <div class="col-md-4">
+                                <p style="font:bold">
+                                    Trainers specialization
+                                </p>
+                                @foreach (var specialization in ViewBag.Specializations)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="SelectedGender" type="checkbox" value="@specialization" id="@specialization">
+                                        <label class="form-check-label" for="@specialization">
+                                            @specialization training
+                                        </label>
+                                    </div>
+                                }
                             </div>
                         </div>
-                    </form>
+                        <div>
+                            <input type="submit" value="OK" class="btn btn-dark" />
+                            <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark">Clean filters</a>
+                        </div>
+                    </div>
+                </form>
 
-                </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="container" style="border-block:solid">
+
+    @foreach (var trainer in Model)
+    {
+        string picturePath = "/Content/Trainers/" + trainer.Picture;
+        <div class="row" style="height:380px; padding:15px; border-style:solid; border-color:grey ; margin:15px">
+            <div class="col-md-4" style="text-align:center">
+                <img src="@picturePath" alt="Alternate Text" style="height:330px; width:auto" />
+            </div>
+            <div class="col-md-8" style="padding:10px">
+                <table class="table">
+                     <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td style="font:bold">@trainer.FirstName @trainer.LastName</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Gym</td>
+                            <td style="text-decoration:double">@trainer.Gym.Name </td>
+                            <td>@trainer.Gym.Address</td>
+                        </tr>
+                        <tr>
+                            <td>Specialization</td>
+                            <td>@trainer.Specialization</td>
+                            <td>
+                                @foreach (var training in trainer.Trainings)
+                                {
+                                    string trainingEnum = training.Name + ", ";
+                                    @trainingEnum
+                                }                                                                                                                                              }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>@trainer.Gender</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Work hours</td>
+                            <td>
+                                <a asp-controller="Trainers" asp-action="Schedule" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Show</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a asp-controller="Trainers" asp-action="ApplyForTrainingWithTrainer" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>                    
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
