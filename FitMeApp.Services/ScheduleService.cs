@@ -23,6 +23,7 @@ namespace FitMeApp.Services
         public string GetFirstDayName(int month)
         {
             var firstDayName = new DateTime(2022, month, 1).DayOfWeek.ToString();
+            var firstDay = new DateTime(2022, month, 1).DayOfWeek;
             return firstDayName;
         }
 

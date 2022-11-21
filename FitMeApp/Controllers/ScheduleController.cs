@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,12 +38,16 @@ namespace FitMeApp.Controllers
                     LastDayName = _scheduleService.GetLastDayName(i)
                 });
             }
+            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             return View(months);
+
+            var date = new DateTime();
+            var day = date.DayOfWeek;
         }
 
         public IActionResult Calendar()
-        {  
-
+        {
+            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             return PartialView();
         }
     }

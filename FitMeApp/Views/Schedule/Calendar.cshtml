@@ -1,27 +1,190 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>
 
-@{ 
+@{
     Layout = null;
 }
 
-<div class="container">
+<div class="container" style="width:400px;border:solid; border-color:lightgray">
+
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-12" style="text-align:center">
+            @{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
+            @currentMonth
+        </div> 
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    @foreach (var dayName in ViewBag.DaysOfWeek)
+                    {
+                        <th scope="col" id="@dayName">@dayName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="0"></td>
+                    <td id="1"></td>
+                    <td id="2"></td>
+                    <td id="3"></td>
+                    <td id="4"></td>
+                    <td id="5"></td>
+                    <td id="6"></td>
 
-        </div>
-        <div class="col-md-8">
-            @foreach (var month in Model)
-            {
-                @month.Name
-                @month.DaysNumber
-                @month.FirstDayName
-                @month.LastDayName
-            }
-        </div>
-        <div class="col-md-2">
-
-        </div>
-
+                </tr>
+             
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
     </div>
 
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>
+
+    @{
+        Layout = null;
+    }
+
+    <div class="container" style="width:400px;border:solid; border-color:lightgray">
+        <div id="calendarCarousel" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+            <div class="row">
+                <div class="col-md-2">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#calendarCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                </div>
+                <div class="col-md-8" style="text-align:center">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            @{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
+                            @currentMonth
+                        </div>
+                        @foreach (var month in Model)
+                        {
+                            <div class="carousel-item">
+                                @month.Name
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="carousel-control-next" type="button" data-bs-target="#calendarCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            @foreach (var dayName in ViewBag.DaysOfWeek)
+                            {
+                                <th scope="col" id="@dayName">@dayName</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>*@
