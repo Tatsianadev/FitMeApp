@@ -14,7 +14,7 @@ namespace FitMeApp.Controllers
         private readonly IScheduleService _scheduleService;
         private readonly ILogger _logger;
 
-        public ScheduleController(IScheduleService scheduleService, LoggerFactory loggerFactory)
+        public ScheduleController(IScheduleService scheduleService, ILoggerFactory loggerFactory)
         {
             _scheduleService = scheduleService;
             _logger = loggerFactory.CreateLogger("ScheduleController");
@@ -25,11 +25,6 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Calendar()
-        {
             List<MonthViewModel> months = new List<MonthViewModel>();
             for (int i = 1; i < 13; i++)
             {
@@ -37,10 +32,16 @@ namespace FitMeApp.Controllers
                 {
                     Id = i,
                     Name = _scheduleService.GetMonthName(i),
-                    DaysNumber = _scheduleService.GetMonthDaysNumber(i)
+                    DaysNumber = _scheduleService.GetMonthDaysNumber(i),
+                    FirstDayName = _scheduleService.GetFirstDayName(i),
+                    LastDayName = _scheduleService.GetLastDayName(i)
                 });
             }
+            return View(months);
+        }
 
+        public IActionResult Calendar()
+        {  
 
             return PartialView();
         }

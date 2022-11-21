@@ -9,5 +9,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels.Schedule
         public int Id { get; set; }
         public string Name { get; set; }
         public int DaysNumber { get; set; }
+        public string FirstDayName { get; set; }
+        public string LastDayName { get; set; }
     }
 }

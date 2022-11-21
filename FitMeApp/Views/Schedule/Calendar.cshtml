@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>
+
+@{ 
+    Layout = null;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            @foreach (var month in Model)
+            {
+                @month.Name
+                @month.DaysNumber
+                @month.FirstDayName
+                @month.LastDayName
+            }
+        </div>
+        <div class="col-md-2">
+
+        </div>
+
+    </div>
+
+</div>
