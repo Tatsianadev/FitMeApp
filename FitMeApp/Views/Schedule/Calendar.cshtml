@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>
+﻿@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>*@
 
 @{
     Layout = null;
@@ -8,8 +8,12 @@
 
     <div class="row">
         <div class="col-md-12" style="text-align:center">
-            @{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
-            @currentMonth
+            @*@{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
+            @currentMonth*@
+            @{ string monthName =  DateTime.Today.Month.ToString();}
+            <div style="font-size:large">
+                @ViewBag.MonthName
+            </div>           
         </div> 
     </div>
     <div class="row">
@@ -23,59 +27,63 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td id="0"></td>
-                    <td id="1"></td>
-                    <td id="2"></td>
-                    <td id="3"></td>
-                    <td id="4"></td>
-                    <td id="5"></td>
-                    <td id="6"></td>
 
-                </tr>
-             
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @{int firstday = ((int)new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).DayOfWeek);
+                        int daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+                        int date = 1;
+                    }
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        if (firstday == i)
+                        {
+                            <td id="1_@i">@date</td>
+                            ++date;
+
+                            for (int j = i + 1; j < 7; j++)
+                            {
+                                <td id="1_@j">@date</td>
+                                ++date;
+                            }
+                            i = 7;
+                        }
+                        else
+                        {
+                            <td id="1_@i"></td>
+                        }
+                    }
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        <td id="2_@i">@date</td>
+                        ++date;
+                    }
                 </tr>
-                </tbody>
+                <tr>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        <td id="3_@i">@date</td>
+                        ++date;
+                    }
+                </tr>
+                <tr>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        <td id="4_@i">@date</td>
+                        ++date;
+                    }
+                </tr>
+                <tr>
+                    @for (int i = date; i <= daysInMonth; i++)
+                    {
+                        <td id="5_@i">@date</td>
+                        ++date;
+                    }                   
+                </tr>               
+            </tbody>
             </table>
     </div>
-
-
-
 </div>
 
 

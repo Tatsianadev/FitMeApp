@@ -26,23 +26,23 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            List<MonthViewModel> months = new List<MonthViewModel>();
-            for (int i = 1; i < 13; i++)
-            {
-                months.Add(new MonthViewModel()
-                {
-                    Id = i,
-                    Name = _scheduleService.GetMonthName(i),
-                    DaysNumber = _scheduleService.GetMonthDaysNumber(i),
-                    FirstDayName = _scheduleService.GetFirstDayName(i),
-                    LastDayName = _scheduleService.GetLastDayName(i)
-                });
-            }
+            //List<MonthViewModel> months = new List<MonthViewModel>();
+            //for (int i = 1; i < 13; i++)
+            //{
+            //    months.Add(new MonthViewModel()
+            //    {
+            //        Id = i,
+            //        Name = _scheduleService.GetMonthName(i),
+            //        DaysNumber = _scheduleService.GetMonthDaysNumber(i),
+            //        FirstDayName = _scheduleService.GetFirstDayName(i),
+            //        LastDayName = _scheduleService.GetLastDayName(i)
+            //    });
+            //}
+            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View(months);
+            return View();
 
-            var date = new DateTime();
-            var day = date.DayOfWeek;
+            
         }
 
         public IActionResult Calendar()
