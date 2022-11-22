@@ -8,4 +8,8 @@
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Schedule\" />
+  </ItemGroup>
+
 </Project>

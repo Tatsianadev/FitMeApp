@@ -1,5 +1,4 @@
 ﻿using FitMeApp.Services.Contracts.Interfaces;
-using FitMeApp.WEB.Contracts.ViewModels.Schedule;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

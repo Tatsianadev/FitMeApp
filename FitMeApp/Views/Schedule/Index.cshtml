@@ -1,7 +1,14 @@
-﻿@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>*@
-@model IDictionary<string, int>
+﻿@model IDictionary<string, int>
 
 
-<h1>Schadule Index View</h1>
+<h1>Schedule Index View</h1>
 
-@await Html.PartialAsync("Calendar")
+<div class="container">
+    <div class="col-md-3" style="border-right-color:lightgray; text-align:center; padding:10px,0px,10px,0px">
+        @await Html.PartialAsync("Calendar")
+    </div>
+    <div class="col-md-9">
+
+    </div>
+</div>
+

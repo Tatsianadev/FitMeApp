@@ -1,31 +1,28 @@
-﻿@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>*@
-
-@model IDictionary<string, int>
+﻿@model IDictionary<string, int>
 
 @{
     Layout = null;
 }
 
-<div class="container" style="width:400px;border:solid; border-color:lightgray">
+<div class="container" style="width:100%;border:solid; border-color:lightgray">
 
     <div class="row">
-        <div class="col-md-2" style="text-align:left">
+        <div class="col-md-2" style="text-align:center">
             @{ int previousYear = Model["year"] - 1;}
             <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@previousYear" asp-route-month="@Model["month"]" class="btn btn-light">&#60</a>
         </div>
         <div class="col-md-8" style="text-align:center">
-            <div id="currentYear">
-                @*@DateTime.Today.Year*@
+            <div id="currentYear" style="font-size:medium">               
                 @Model["year"]
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" style="text-align:center">
             @{ int nextYear = Model["year"] + 1;}
             <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@nextYear" asp-route-month="@Model["month"]" class="btn btn-light">&#62</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2" style="text-align:center">
             @{
                 int previousMonth = Model["month"] - 1;
                 if (previousMonth <= 0)
@@ -37,11 +34,11 @@
             <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
         </div>
         <div class="col-md-8" style="text-align:center">
-            <div style="font-size:large">
+            <div style="font-size:medium">
                 @ViewBag.MonthName
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" style="text-align:center">
             @{
                 int nextMonth = Model["month"] + 1;
                 if (nextMonth > 12)
@@ -54,7 +51,7 @@
         </div>
     </div>
     <div class="row">
-        <table class="table">
+        <table class="table-sm" style="text-align:center;font-size:small; width:100%">
             <thead>
                 <tr>
                     @foreach (var dayName in ViewBag.DaysOfWeek)
@@ -66,7 +63,7 @@
             <tbody>
 
                 <tr>
-                    @{int firstday = ((int)new DateTime(Model["year"], Model["month"], 1).DayOfWeek);
+                    @{  int firstday = ((int)new DateTime(Model["year"], Model["month"], 1).DayOfWeek);
                         int daysInMonth = DateTime.DaysInMonth(Model["year"], Model["month"]);
                         int date = 1;
                     }
@@ -136,107 +133,3 @@
 
 
 
-
-
-
-@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>
-
-    @{
-        Layout = null;
-    }
-
-    <div class="container" style="width:400px;border:solid; border-color:lightgray">
-        <div id="calendarCarousel" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
-            <div class="row">
-                <div class="col-md-2">
-                    <button class="carousel-control-prev" type="button" data-bs-target="#calendarCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                </div>
-                <div class="col-md-8" style="text-align:center">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            @{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
-                            @currentMonth
-                        </div>
-                        @foreach (var month in Model)
-                        {
-                            <div class="carousel-item">
-                                @month.Name
-                            </div>
-                        }
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <button class="carousel-control-next" type="button" data-bs-target="#calendarCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-
-            </div>
-            <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            @foreach (var dayName in ViewBag.DaysOfWeek)
-                            {
-                                <th scope="col" id="@dayName">@dayName</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-    </div>*@
