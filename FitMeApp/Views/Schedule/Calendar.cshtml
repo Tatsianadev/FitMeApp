@@ -14,26 +14,43 @@
             <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@previousYear" asp-route-month="@Model["month"]" class="btn btn-light">&#60</a>
         </div>
         <div class="col-md-8" style="text-align:center">
-            <div>
+            <div id="currentYear">
                 @*@DateTime.Today.Year*@
                 @Model["year"]
             </div>
         </div>
         <div class="col-md-2">
-
+            @{ int nextYear = Model["year"] + 1;}
+            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@nextYear" asp-route-month="@Model["month"]" class="btn btn-light">&#62</a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-2">
-
+            @{
+                int previousMonth = Model["month"] - 1;
+                if (previousMonth <= 0)
+                {
+                    previousMonth = 12;
+                    Model["year"] = previousYear;
+                };
+            }
+            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
         </div>
-        <div class="col-md-8" style="text-align:center">           
+        <div class="col-md-8" style="text-align:center">
             <div style="font-size:large">
                 @ViewBag.MonthName
             </div>
         </div>
         <div class="col-md-2">
-
+            @{
+                int nextMonth = Model["month"] + 1;
+                if (nextMonth > 12)
+                {
+                    nextMonth = 1;
+                    Model["year"] = nextYear;
+                };
+            }
+            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
         </div>
     </div>
     <div class="row">
@@ -95,9 +112,16 @@
                     }
                 </tr>
                 <tr>
-                    @for (int i = date; i <= daysInMonth; i++)
+                    @for (int i = 0; i < 7 && date <= daysInMonth; i++)
                     {
                         <td id="5_@i">@date</td>
+                        ++date;
+                    }
+                </tr>
+                <tr>
+                    @for (int i = 0; date <= daysInMonth; i++)
+                    {
+                        <td id="6_@i">@date</td>
                         ++date;
                     }
                 </tr>
