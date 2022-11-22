@@ -26,21 +26,17 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            //List<MonthViewModel> months = new List<MonthViewModel>();
-            //for (int i = 1; i < 13; i++)
-            //{
-            //    months.Add(new MonthViewModel()
-            //    {
-            //        Id = i,
-            //        Name = _scheduleService.GetMonthName(i),
-            //        DaysNumber = _scheduleService.GetMonthDaysNumber(i),
-            //        FirstDayName = _scheduleService.GetFirstDayName(i),
-            //        LastDayName = _scheduleService.GetLastDayName(i)
-            //    });
-            //}
+            int month = DateTime.Today.Month;
+            int year = DateTime.Today.Year;
+            Dictionary<string, int> calendarData = new Dictionary<string, int>()
+            {
+                {"year", year },
+                { "month", month}
+            };
+
             ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View();
+            return View(calendarData);
 
             
         }
@@ -49,6 +45,19 @@ namespace FitMeApp.Controllers
         {
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             return PartialView();
+        }
+
+        public IActionResult CalendarCarousel(int year, int month)
+        {           
+            Dictionary<string, int> calendarData = new Dictionary<string, int>()
+            {
+                {"year", year },
+                { "month", month}
+            };
+
+            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
+            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+            return View("Index", calendarData);
         }
     }
 }

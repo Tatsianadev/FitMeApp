@@ -1,5 +1,7 @@
 ﻿@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.Schedule.MonthViewModel>*@
 
+@model IDictionary<string, int>
+
 @{
     Layout = null;
 }
@@ -7,14 +9,32 @@
 <div class="container" style="width:400px;border:solid; border-color:lightgray">
 
     <div class="row">
-        <div class="col-md-12" style="text-align:center">
-            @*@{string currentMonth = Model.Where(x => x.Id == DateTime.Today.Month).ToList().First().Name;}
-            @currentMonth*@
-            @{ string monthName =  DateTime.Today.Month.ToString();}
+        <div class="col-md-2" style="text-align:left">
+            @{ int previousYear = Model["year"] - 1;}
+            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@previousYear" asp-route-month="@Model["month"]" class="btn btn-light">&#60</a>
+        </div>
+        <div class="col-md-8" style="text-align:center">
+            <div>
+                @*@DateTime.Today.Year*@
+                @Model["year"]
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8" style="text-align:center">           
             <div style="font-size:large">
                 @ViewBag.MonthName
-            </div>           
-        </div> 
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
     </div>
     <div class="row">
         <table class="table">
@@ -29,8 +49,8 @@
             <tbody>
 
                 <tr>
-                    @{int firstday = ((int)new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).DayOfWeek);
-                        int daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+                    @{int firstday = ((int)new DateTime(Model["year"], Model["month"], 1).DayOfWeek);
+                        int daysInMonth = DateTime.DaysInMonth(Model["year"], Model["month"]);
                         int date = 1;
                     }
                     @for (int i = 0; i < 7; i++)
@@ -79,10 +99,10 @@
                     {
                         <td id="5_@i">@date</td>
                         ++date;
-                    }                   
-                </tr>               
+                    }
+                </tr>
             </tbody>
-            </table>
+        </table>
     </div>
 </div>
 
