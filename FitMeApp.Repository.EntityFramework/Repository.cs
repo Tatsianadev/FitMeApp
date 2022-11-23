@@ -603,6 +603,19 @@ namespace FitMeApp.Repository.EntityFramework
             
         }
 
+        public IEnumerable<EventEntityBase> GetEventsByUser(string userId)
+        {
+            var userEvents = _context.Events.Where(x => x.UserId == userId).ToList();
+            return userEvents;
+        }
+
+        public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        {          
+            string dateOnly = dateTime.ToString("yyyy-MM-dd");
+            var userEvents = _context.Events.Where(x => x.UserId == userId || x.Date.ToString() == dateOnly).ToList();
+            return userEvents;
+        }
+
 
     }
 }

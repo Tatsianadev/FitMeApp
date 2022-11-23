@@ -25,8 +25,17 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+            try
+            {
+                var eventsByUser = _scheduleService.GetEventsByUser("7122f67c-d670-47d4-8afb-0fd14b76cec4");
+                var eventsByUserAndDate = _scheduleService.GetEventsByUserAndDate("afb2a4c0-7ff4-400c-98c1-448908b39e46", new DateTime(2022, 12, 8));
+            }
+            catch (Exception ex)
+            {
 
-            var events = _scheduleService.GetAllEvents();
+                throw ex;
+            }
+            
 
 
             int month = DateTime.Today.Month;

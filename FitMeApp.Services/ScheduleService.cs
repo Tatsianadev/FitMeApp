@@ -36,5 +36,27 @@ namespace FitMeApp.Services
             }
             return eventModels;
         }
+
+        public IEnumerable<EventModel> GetEventsByUser(string userId)
+        {
+            var eventEntityBases = _repository.GetEventsByUser(userId);
+            List<EventModel> eventModels = new List<EventModel>();
+            foreach (var entity in eventEntityBases)
+            {
+                eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
+            }
+            return eventModels;
+        }
+
+        public IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        {
+            var eventEntityBases = _repository.GetEventsByUserAndDate(userId,dateTime);
+            List<EventModel> eventModels = new List<EventModel>();
+            foreach (var entity in eventEntityBases)
+            {
+                eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
+            }
+            return eventModels;
+        }
     }
 }

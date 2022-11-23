@@ -49,6 +49,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Schedule
         IEnumerable<EventEntityBase> GetAllEvents();
+        IEnumerable<EventEntityBase> GetEventsByUser(string userId);
+        IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
 
 
     }
