@@ -47,6 +47,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
 
+        //Schedule
+        IEnumerable<EventEntityBase> GetAllEvents();
+
 
     }
 }

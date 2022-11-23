@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
+    <Compile Remove="ViewModels\Schedule\**" />
+    <EmbeddedResource Remove="ViewModels\Schedule\**" />
+    <None Remove="ViewModels\Schedule\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\Schedule\" />
+    <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
   </ItemGroup>
 
 </Project>

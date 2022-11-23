@@ -163,6 +163,23 @@ namespace FitMeApp.Mapper
             return subscription;
         }
 
+
+        public EventViewModel MappEventModelToViewModel(EventModel eventModel)
+        {
+            EventViewModel eventViewModel = new EventViewModel()
+            {
+                Id = eventModel.Id,
+                Date = eventModel.Date,
+                StartTime = eventModel.StartTime,
+                EndTime = eventModel.EndTime,
+                TrainerId = eventModel.TrainerId,
+                UserId = eventModel.UserId,
+                TrainingId = eventModel.TrainingId,
+                Status = eventModel.Status
+            };
+            return eventViewModel;
+        }
+
        
     }
 }

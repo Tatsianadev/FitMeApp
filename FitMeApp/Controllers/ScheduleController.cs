@@ -25,6 +25,10 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+
+            var events = _scheduleService.GetAllEvents();
+
+
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
             Dictionary<string, int> calendarData = new Dictionary<string, int>()

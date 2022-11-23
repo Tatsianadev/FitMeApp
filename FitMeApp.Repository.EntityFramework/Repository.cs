@@ -594,7 +594,13 @@ namespace FitMeApp.Repository.EntityFramework
 
             return result;
 
+        }
 
+        public IEnumerable<EventEntityBase> GetAllEvents()
+        {
+            var events = _context.Events.ToList();
+            return events;
+            
         }
 
 

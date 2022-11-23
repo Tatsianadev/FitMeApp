@@ -16,6 +16,9 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<GymSubscriptionEntity> GymSubscriptions { get; set; }
         public DbSet<UserSubscriptionEntity> UserSubscriptions { get; set; }
 
+        public DbSet<EventEntity> Events { get; set; }
+        
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 
         {

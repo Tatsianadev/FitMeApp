@@ -153,6 +153,23 @@ namespace FitMeApp.Mapper
         }
 
 
+        public EventModel MappEventEntityBaseToModel(EventEntityBase eventEntityBase)
+        {
+            EventModel eventModel = new EventModel()
+            {
+                Id = eventEntityBase.Id,
+                Date = eventEntityBase.Date,
+                StartTime = eventEntityBase.StartTime,
+                EndTime = eventEntityBase.EndTime,
+                TrainerId = eventEntityBase.TrainerId,
+                UserId = eventEntityBase.UserId,
+                TrainingId = eventEntityBase.TrainingId,
+                Status = eventEntityBase.Status
+            };
+
+            return eventModel;
+        }
+
         
     }
 }
