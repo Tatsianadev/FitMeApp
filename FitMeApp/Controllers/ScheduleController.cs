@@ -25,16 +25,16 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                var eventsByUser = _scheduleService.GetEventsByUser("7122f67c-d670-47d4-8afb-0fd14b76cec4");
-                var eventsByUserAndDate = _scheduleService.GetEventsByUserAndDate("afb2a4c0-7ff4-400c-98c1-448908b39e46", new DateTime(2022, 12, 8));
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    var eventsByUser = _scheduleService.GetEventsByUser("7122f67c-d670-47d4-8afb-0fd14b76cec4");
+            //    var eventsByUserAndDate = _scheduleService.GetEventsByUserAndDate("afb2a4c0-7ff4-400c-98c1-448908b39e46", new DateTime(2022, 12, 8));
+            //}
+            //catch (Exception ex)
+            //{
 
-                throw ex;
-            }
+            //    throw ex;
+            //}
             
 
 
@@ -70,6 +70,11 @@ namespace FitMeApp.Controllers
             ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             return View("Index", calendarData);
+        }
+
+        public IActionResult ShowEvents(int year, int month, int day)
+        {
+            return View();
         }
     }
 }
