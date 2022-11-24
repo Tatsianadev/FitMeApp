@@ -1,4 +1,4 @@
-﻿@model IDictionary<string, int>
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 @*PartialView (main page - /Schedule/Index)*@
 
 @{
@@ -9,14 +9,14 @@
     <div class="row">
         <div class="col-md-12" style="text-align:center">
             <div id="currentYear" style="font-size:medium">
-                @Model["day"] @ViewBag.MonthName @Model["year"]
+                @Model.Day @Model.MonthName @Model.Year
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12" style="text-align:center">
             <div style="font-size:medium">
-                @{ string dayName = new DateTime(Model["year"], Model["month"], Model["day"]).DayOfWeek.ToString();}
+                @{ string dayName = new DateTime(Model.Year, Model.Month, Model.Day).DayOfWeek.ToString();}
                 @dayName
             </div>
         </div>
@@ -36,7 +36,7 @@
                 {
 
                     <tr>
-                        @{rowTime = rowTime+30; }
+                        @{rowTime = rowTime + 30; }
                         <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@i</td>
                         <td id="(@i)_1_2">00</td>
                         <td id="(@i)_1_3"></td>

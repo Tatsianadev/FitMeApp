@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,71 +25,64 @@ namespace FitMeApp.Controllers
 
 
         public IActionResult Index()
-        {
-            //try
-            //{
-            //    var eventsByUser = _scheduleService.GetEventsByUser("7122f67c-d670-47d4-8afb-0fd14b76cec4");
-            //    var eventsByUserAndDate = _scheduleService.GetEventsByUserAndDate("afb2a4c0-7ff4-400c-98c1-448908b39e46", new DateTime(2022, 12, 8));
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw ex;
-            //}
-            
-
-
+        {        
             int month = DateTime.Today.Month;
-            int year = DateTime.Today.Year;
-            //int day = DateTime.Today.Day;
-            Dictionary<string, int> calendarEventData = new Dictionary<string, int>()
+            int year = DateTime.Today.Year;  
+
+            CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
-                {"year", year },
-                { "month", month}
-               
+                Year = year,
+                Month = month,
+                MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month),
+                Day = 0,
+                DayName = null,
+                Events = null
             };
-
-            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
+           
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View(calendarEventData);
-
-            
+            return View(model);            
         }
+
 
         //Caledar - PartialView
 
         public IActionResult Calendar()
-        {
-            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+        {            
             return PartialView();
         }
 
         public IActionResult CalendarCarousel(int year, int month)
-        {           
-            Dictionary<string, int> calendarData = new Dictionary<string, int>()
+        {    
+            CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
-                {"year", year },
-                { "month", month}
+                Year = year,
+                Month = month,
+                MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
+                Day = 0,
+                DayName = null,
+                Events = null
             };
-
-            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+           
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View("Index", calendarData);
+            return View("Index", model);
         }
+
 
         //Events - PartialView
         public IActionResult ShowEvents(int year, int month, int day)
         {
-            Dictionary<string, int> calendarEventData = new Dictionary<string, int>()
+            CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
-                {"year", year },
-                { "month", month},
-                {"day", day }
+                Year = year,
+                Month = month,
+                MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
+                Day = day,
+                DayName = new DateTime(year,month,day).DayOfWeek.ToString(),
+                Events = null
             };
-
-            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View("Index", calendarEventData);            
+            return View("Index", model);            
         }
 
         public IActionResult Events()

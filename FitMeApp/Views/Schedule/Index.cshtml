@@ -1,4 +1,4 @@
-﻿@model IDictionary<string, int>
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 
 
 <h1>Schedule Index View</h1>
@@ -9,7 +9,7 @@
             @await Html.PartialAsync("Calendar", Model)
         </div>
         <div class="col-md-8">
-            @if (Model.ContainsKey("day"))
+            @if (Model.Day != 0)
             {
                 @await Html.PartialAsync("Events", Model)
                
