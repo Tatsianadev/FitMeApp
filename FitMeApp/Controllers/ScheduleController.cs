@@ -86,7 +86,7 @@ namespace FitMeApp.Controllers
                 {"day", day }
             };
 
-            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
+            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             return View("Index", calendarEventData);            
         }

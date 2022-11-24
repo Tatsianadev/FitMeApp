@@ -1,11 +1,53 @@
 ﻿@model IDictionary<string, int>
+@*PartialView (main page - /Schedule/Index)*@
 
-<div>
-    @Model["year"]
-</div>
-<div>
-    @Model["month"]
-</div>
-<div>
-    @Model["day"]
+@{
+    Layout = null;
+}
+
+<div class="container" style="width:100%; border:solid; border-left-color:gray; border-right-color:gray">
+    <div class="row">
+        <div class="col-md-12" style="text-align:center">
+            <div id="currentYear" style="font-size:medium">
+                @Model["day"] @ViewBag.MonthName @Model["year"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="text-align:center">
+            <div style="font-size:medium">
+                @{ string dayName = new DateTime(Model["year"], Model["month"], Model["day"]).DayOfWeek.ToString();}
+                @dayName
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered" style="text-align:center;font-size:small; width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" colspan="2" width="15%">Time</th>
+                    <th scope="col" width="60%">Event</th>
+                    <th scope="col" width="20%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 24; i++)
+                {
+                <tr>
+
+                    <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@i</td>
+                    <td id="(@i)_1_2">00</td>
+                    <td id="(@i)_1_3"></td>
+                    <td id="(@i)_1_4"></td>
+
+                </tr>
+                <tr>
+                    <td id="(@i)_2_2">30</td>
+                    <td id="(@i)_2_3"></td>
+                    <td id="(@i)_2_4"></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
