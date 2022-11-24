@@ -27,11 +27,15 @@
                 int previousMonth = Model["month"] - 1;
                 if (previousMonth <= 0)
                 {
-                    previousMonth = 12;
-                    Model["year"] = previousYear;
+                    previousMonth = 12;                    
+                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model["year"]-1)" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
+                }
+                else
+                {
+                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
                 };
             }
-            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
+
         </div>
         <div class="col-md-8" style="text-align:center">
             <div style="font-size:medium">
@@ -43,11 +47,15 @@
                 int nextMonth = Model["month"] + 1;
                 if (nextMonth > 12)
                 {
-                    nextMonth = 1;
-                    Model["year"] = nextYear;
+                    nextMonth = 1;                   
+                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model["year"]+1)" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
+                }
+                else
+                {
+                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
                 };
             }
-            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model["year"]" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
+
         </div>
     </div>
     <div class="row">

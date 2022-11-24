@@ -40,18 +40,22 @@ namespace FitMeApp.Controllers
 
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
-            Dictionary<string, int> calendarData = new Dictionary<string, int>()
+            //int day = DateTime.Today.Day;
+            Dictionary<string, int> calendarEventData = new Dictionary<string, int>()
             {
                 {"year", year },
                 { "month", month}
+               
             };
 
             ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View(calendarData);
+            return View(calendarEventData);
 
             
         }
+
+        //Caledar - PartialView
 
         public IActionResult Calendar()
         {
@@ -72,9 +76,24 @@ namespace FitMeApp.Controllers
             return View("Index", calendarData);
         }
 
+        //Events - PartialView
         public IActionResult ShowEvents(int year, int month, int day)
         {
-            return View();
+            Dictionary<string, int> calendarEventData = new Dictionary<string, int>()
+            {
+                {"year", year },
+                { "month", month},
+                {"day", day }
+            };
+
+            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
+            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+            return View("Index", calendarEventData);            
+        }
+
+        public IActionResult Events()
+        {
+            return PartialView();
         }
     }
 }
