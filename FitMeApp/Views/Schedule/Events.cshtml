@@ -31,21 +31,24 @@
                 </tr>
             </thead>
             <tbody>
+                @{int rowTime = -30; }
                 @for (int i = 0; i < 24; i++)
                 {
-                <tr>
 
-                    <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@i</td>
-                    <td id="(@i)_1_2">00</td>
-                    <td id="(@i)_1_3"></td>
-                    <td id="(@i)_1_4"></td>
+                    <tr>
+                        @{rowTime = rowTime+30; }
+                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@i</td>
+                        <td id="(@i)_1_2">00</td>
+                        <td id="(@i)_1_3"></td>
+                        <td id="(@i)_1_4"></td>
 
-                </tr>
-                <tr>
-                    <td id="(@i)_2_2">30</td>
-                    <td id="(@i)_2_3"></td>
-                    <td id="(@i)_2_4"></td>
-                </tr>
+                    </tr>
+                    <tr>
+                        @{rowTime = rowTime + 30; }
+                        <td id="(@i)_2_2">30</td>
+                        <td id="(@i)_2_3"></td>
+                        <td id="(@i)_2_4"></td>
+                    </tr>
                 }
             </tbody>
         </table>
