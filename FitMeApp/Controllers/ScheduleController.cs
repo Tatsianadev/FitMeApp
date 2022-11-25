@@ -1,5 +1,9 @@
-﻿using FitMeApp.Services.Contracts.Interfaces;
+﻿using FitMeApp.Common;
+using FitMeApp.Mapper;
+using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,45 +17,23 @@ namespace FitMeApp.Controllers
     public class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
+        private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, ILoggerFactory loggerFactory)
+        public ScheduleController(IScheduleService scheduleService, UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _scheduleService = scheduleService;
+            _userManager = userManager;
             _logger = loggerFactory.CreateLogger("ScheduleController");
+            _mapper = new ModelViewModelMapper();
         }
 
 
 
 
         public IActionResult Index()
-        {
-            List<EventViewModel> testEvents = new List<EventViewModel>();
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 1,
-                Date = DateTime.Today.Date,
-                StartTime = 60,
-                EndTime = 120,
-                Status = "test1"
-            });
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 2,
-                Date = DateTime.Today.Date,
-                StartTime = 150,
-                EndTime = 240,
-                Status = "test2"
-            });
-
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 3,
-                Date = DateTime.Today.Date,
-                StartTime = 240,
-                EndTime = 270,
-                Status = "test3"
-            });
+        {   
 
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;  
@@ -63,7 +45,7 @@ namespace FitMeApp.Controllers
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month),
                 Day = 0,
                 DayName = null,
-                Events = testEvents
+                Events = null
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
@@ -79,45 +61,15 @@ namespace FitMeApp.Controllers
         }
 
         public IActionResult CalendarCarousel(int year, int month)
-        {
-            List<EventViewModel> testEvents = new List<EventViewModel>();
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 1,
-                Date = DateTime.Today.Date,
-                StartTime = 60,
-                EndTime = 120,
-                Status = "test1"
-            });
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 2,
-                Date = DateTime.Today.Date,
-                StartTime = 150,
-                EndTime = 240,
-                Status = "test2"
-            });
-
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 3,
-                Date = DateTime.Today.Date,
-                StartTime = 240,
-                EndTime = 270,
-                Status = "test3"
-            });
-
-
-
+        {            
 
             CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
                 Year = year,
                 Month = month,
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
-                Day = 0,
-                DayName = null,
-                Events = testEvents
+                Day = 0
+               
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
@@ -126,50 +78,41 @@ namespace FitMeApp.Controllers
 
 
         //Events - PartialView
+
+        [Authorize(Roles = "admin, user")]
         public IActionResult ShowEvents(int year, int month, int day)
         {
-            List<EventViewModel> testEvents = new List<EventViewModel>();
-            testEvents.Add(new EventViewModel()
+            try
             {
-                Id = 1,
-                Date = DateTime.Today.Date,
-                StartTime = 60,
-                EndTime = 120,
-                Status = "test1"
-            });
-            testEvents.Add(new EventViewModel()
+                DateTime currentDate = new DateTime(year, month, day);
+                string userId = _userManager.GetUserId(User);
+                var eventModels = _scheduleService.GetEventsByUserAndDate(userId, currentDate);
+
+                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
+                foreach (var eventModel in eventModels)
+                {
+                    eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
+                }
+
+                CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
+                {
+                    Year = year,
+                    Month = month,
+                    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
+                    Day = day,
+                    DayName = new DateTime(year, month, day).DayOfWeek.ToString(),
+                    Events = eventsViewModels
+                };
+
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+                return View("Index", model);
+            }
+            catch (Exception ex)
             {
-                Id = 2,
-                Date = DateTime.Today.Date,
-                StartTime = 150,
-                EndTime = 240,
-                Status = "test2"
-            });
 
-            testEvents.Add(new EventViewModel()
-            {
-                Id = 3,
-                Date = DateTime.Today.Date,
-                StartTime = 240,
-                EndTime = 270,
-                Status = "test3"
-            });
-
-
-
-
-            CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
-            {
-                Year = year,
-                Month = month,
-                MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
-                Day = day,
-                DayName = new DateTime(year,month,day).DayOfWeek.ToString(),
-                Events = testEvents
-            };
-            
-            ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            return View("Index", model);            
+                throw ex;
+            }
+                   
         }
 
         public IActionResult Events()

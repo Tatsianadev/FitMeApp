@@ -33,18 +33,18 @@
             <tbody>
                 @{int rowTime = 0;
 
-                    Dictionary<int, int> StartEndEvents = new Dictionary<int, int>();
-                    foreach (var item in Model.Events)
-                    {
-                        StartEndEvents.Add(item.StartTime, item.EndTime);
-                    };
+                    //Dictionary<int, int> StartEndEvents = new Dictionary<int, int>();
+                    //foreach (var item in Model.Events)
+                    //{
+                    //    StartEndEvents.Add(item.StartTime, item.EndTime);
+                    //};
                     bool secondPartOfHourDrawn = true;}
 
                 @for (int i = 0; i < 48; i++)
                 {
-                    @foreach (var eventItem in StartEndEvents)
+                    @foreach (var eventItem in Model.Events)
                     {
-                        while (eventItem.Key <= rowTime && eventItem.Value > rowTime)
+                        while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
                             if (secondPartOfHourDrawn)
                             {

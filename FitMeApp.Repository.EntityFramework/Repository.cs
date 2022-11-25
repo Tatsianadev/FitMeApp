@@ -612,7 +612,7 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {          
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
-            var userEvents = _context.Events.Where(x => x.UserId == userId || x.Date.ToString() == dateOnly).ToList();
+            var userEvents = _context.Events.Where(x => x.UserId == userId && x.Date.ToString() == dateOnly).OrderBy(x=>x.StartTime).ToList();
             return userEvents;
         }
 
