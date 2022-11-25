@@ -25,7 +25,34 @@ namespace FitMeApp.Controllers
 
 
         public IActionResult Index()
-        {        
+        {
+            List<EventViewModel> testEvents = new List<EventViewModel>();
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 1,
+                Date = DateTime.Today.Date,
+                StartTime = 60,
+                EndTime = 120,
+                Status = "test1"
+            });
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 2,
+                Date = DateTime.Today.Date,
+                StartTime = 150,
+                EndTime = 240,
+                Status = "test2"
+            });
+
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 3,
+                Date = DateTime.Today.Date,
+                StartTime = 240,
+                EndTime = 270,
+                Status = "test3"
+            });
+
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;  
 
@@ -36,7 +63,7 @@ namespace FitMeApp.Controllers
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month),
                 Day = 0,
                 DayName = null,
-                Events = null
+                Events = testEvents
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
@@ -52,7 +79,37 @@ namespace FitMeApp.Controllers
         }
 
         public IActionResult CalendarCarousel(int year, int month)
-        {    
+        {
+            List<EventViewModel> testEvents = new List<EventViewModel>();
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 1,
+                Date = DateTime.Today.Date,
+                StartTime = 60,
+                EndTime = 120,
+                Status = "test1"
+            });
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 2,
+                Date = DateTime.Today.Date,
+                StartTime = 150,
+                EndTime = 240,
+                Status = "test2"
+            });
+
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 3,
+                Date = DateTime.Today.Date,
+                StartTime = 240,
+                EndTime = 270,
+                Status = "test3"
+            });
+
+
+
+
             CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
                 Year = year,
@@ -60,7 +117,7 @@ namespace FitMeApp.Controllers
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
                 Day = 0,
                 DayName = null,
-                Events = null
+                Events = testEvents
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
@@ -71,6 +128,36 @@ namespace FitMeApp.Controllers
         //Events - PartialView
         public IActionResult ShowEvents(int year, int month, int day)
         {
+            List<EventViewModel> testEvents = new List<EventViewModel>();
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 1,
+                Date = DateTime.Today.Date,
+                StartTime = 60,
+                EndTime = 120,
+                Status = "test1"
+            });
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 2,
+                Date = DateTime.Today.Date,
+                StartTime = 150,
+                EndTime = 240,
+                Status = "test2"
+            });
+
+            testEvents.Add(new EventViewModel()
+            {
+                Id = 3,
+                Date = DateTime.Today.Date,
+                StartTime = 240,
+                EndTime = 270,
+                Status = "test3"
+            });
+
+
+
+
             CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
                 Year = year,
@@ -78,7 +165,7 @@ namespace FitMeApp.Controllers
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
                 Day = day,
                 DayName = new DateTime(year,month,day).DayOfWeek.ToString(),
-                Events = null
+                Events = testEvents
             };
             
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
