@@ -161,6 +161,23 @@ namespace FitMeApp.Mapper
                 Date = eventEntityBase.Date,
                 StartTime = eventEntityBase.StartTime,
                 EndTime = eventEntityBase.EndTime,
+                TrainerId = eventEntityBase.TrainerId,               
+                UserId = eventEntityBase.UserId,              
+                TrainingId = eventEntityBase.TrainingId,              
+                Status = eventEntityBase.Status
+            };
+
+            return eventModel;
+        }
+
+        public EventModel MappEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
+        {
+            EventModel eventModel = new EventModel()
+            {
+                Id = eventEntityBase.Id,
+                Date = eventEntityBase.Date,
+                StartTime = eventEntityBase.StartTime,
+                EndTime = eventEntityBase.EndTime,
                 TrainerId = eventEntityBase.TrainerId,
                 TrainerFirstName = eventEntityBase.TrainerFirstName,
                 TrainerLastName = eventEntityBase.TrainerLastName,
@@ -169,13 +186,13 @@ namespace FitMeApp.Mapper
                 UserId = eventEntityBase.UserId,
                 UserName = eventEntityBase.UserName,
                 TrainingId = eventEntityBase.TrainingId,
-                TrainingName  = eventEntityBase.TrainingName,
+                TrainingName = eventEntityBase.TrainingName,
                 Status = eventEntityBase.Status
             };
 
             return eventModel;
         }
 
-        
+
     }
 }

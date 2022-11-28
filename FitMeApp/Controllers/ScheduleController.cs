@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
 {
+    [Authorize(Roles = "admin, user")]
     public class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
@@ -49,6 +50,7 @@ namespace FitMeApp.Controllers
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+            ViewBag.EventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
             return View(model);            
         }
 

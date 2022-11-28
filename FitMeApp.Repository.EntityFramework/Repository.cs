@@ -616,7 +616,7 @@ namespace FitMeApp.Repository.EntityFramework
         //    return userEvents;
         //}
 
-        public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        public IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
 
@@ -649,10 +649,10 @@ namespace FitMeApp.Repository.EntityFramework
                                                        Status = events.Status})
                                                        .OrderBy(x=>x.StartTime).ToList();
 
-            List<EventEntityBase> eventsEntityBases = new List<EventEntityBase>();
+            List<EventWithNamesBase> eventsEntityBases = new List<EventWithNamesBase>();
             foreach (var entity in eventJoinTrainerTrainingUserGym)
             {
-                eventsEntityBases.Add(new EventEntityBase()
+                eventsEntityBases.Add(new EventWithNamesBase()
                 {
                     Id = entity.Id,
                     Date = entity.Date,
@@ -673,6 +673,25 @@ namespace FitMeApp.Repository.EntityFramework
             }                        
             
             return eventsEntityBases;
+        }
+
+
+        // to show Events count for each date on the calendar for current User
+        public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
+        {
+            var allEventsByUser = _context.Events.Where(x => x.UserId == userId).OrderBy(x => x.Date).ToList();
+            Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
+                        
+            foreach (var eventItem in allEventsByUser)
+            {
+                if (!dateEventCount.ContainsKey(eventItem.Date))
+                {                                    
+                    int eventCount = allEventsByUser.Where(x => x.Date == eventItem.Date).Count();
+                    dateEventCount.Add(eventItem.Date, eventCount);
+                }                
+            }
+
+            return dateEventCount;
         }
 
 

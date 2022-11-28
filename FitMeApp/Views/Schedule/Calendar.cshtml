@@ -1,5 +1,4 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
-
 @* PartialView (main page - /Schedule/Index) *@
 
 @{
@@ -29,7 +28,7 @@
                 int previousMonth = Model.Month - 1;
                 if (previousMonth <= 0)
                 {
-                    previousMonth = 12;                    
+                    previousMonth = 12;
                     <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model.Year-1)" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
                 }
                 else
@@ -49,7 +48,7 @@
                 int nextMonth = Model.Month + 1;
                 if (nextMonth > 12)
                 {
-                    nextMonth = 1;                   
+                    nextMonth = 1;
                     <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model.Year+1)" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
                 }
                 else
@@ -81,16 +80,15 @@
                     {
                         if (firstday == i)
                         {
-                            @*<td id="1_@i">@date</td>*@
                             <td id="1_@i">
-                                <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
+                                <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                                    @date                                    
+                                </a>                                
                             </td>
                             ++date;
 
                             for (int j = i + 1; j < 7; j++)
                             {
-                                @*<td id="1_@j">@date</td>*@
-
                                 <td id="1_@j">
                                     <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                                 </td>
@@ -107,8 +105,6 @@
                 <tr>
                     @for (int i = 0; i < 7; i++)
                     {
-                        @*<td id="2_@i">@date</td>*@
-
                         <td id="2_@i">
                             <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                         </td>
@@ -118,7 +114,6 @@
                 <tr>
                     @for (int i = 0; i < 7; i++)
                     {
-                        @*<td id="3_@i">@date</td>*@
                         <td id="3_@i">
                             <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                         </td>
@@ -128,7 +123,6 @@
                 <tr>
                     @for (int i = 0; i < 7; i++)
                     {
-                        @*<td id="4_@i">@date</td>*@
                         <td id="4_@i">
                             <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                         </td>
@@ -138,7 +132,6 @@
                 <tr>
                     @for (int i = 0; i < 7 && date <= daysInMonth; i++)
                     {
-                        @*<td id="5_@i">@date</td>*@
                         <td id="5_@i">
                             <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                         </td>
@@ -148,7 +141,6 @@
                 <tr>
                     @for (int i = 0; date <= daysInMonth; i++)
                     {
-                        @*<td id="6_@i">@date</td>*@
                         <td id="6_@i">
                             <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month]" asp-route-day="@date" class="btn btn-light btn-sm">@date</a>
                         </td>
