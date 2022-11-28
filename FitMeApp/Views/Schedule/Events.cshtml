@@ -45,26 +45,27 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr class="table-info">
+                                    <tr>
                                         <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">00</td>
-                                        <td id="(@i)_3">
-                                            Event: @eventItem.TrainingName
-                                            Trainer: @eventItem.TrainerFirstName @eventItem.TrainerLastName
-                                            Gym: @eventItem.GymName
+                                        <td class="table-info" id="(@i)_2">00</td>
+                                        <td class="table-info" id="(@i)_3">
+                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                            <span class="text-emphasize">Trainer:</span> @eventItem.TrainerFirstName @eventItem.TrainerLastName&#160
+                                            <span class="text-emphasize">Gym:</span> @eventItem.GymName
                                         </td>
-                                        <td id="(@i)_4">@eventItem.Status</td>
+                                        <td class="table-info" id="(@i)_4">@eventItem.Status</td>
                                     </tr>
+                                    eventsId.Add(eventItem.Id);
                                 }
                                 else
                                 {
-                                    <tr class="table-info">
+                                    <tr>
                                         <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">00</td>
-                                        <td id="(@i)_3">
+                                        <td class="table-info" id="(@i)_2">00</td>
+                                        <td class="table-info" id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td id="(@i)_4">-//-</td>
+                                        <td class="table-info" id="(@i)_4">-//-</td>
                                     </tr>
                                 }
                                 secondPartOfHourDrawn = false;
@@ -75,24 +76,25 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr class="table-info">
-                                        <td id="(@i)_2">30</td>
-                                        <td id="(@i)_3">
-                                            Event: @eventItem.TrainingName
-                                            Trainer: @eventItem.TrainerFirstName @eventItem.TrainerLastName
-                                            Gym: @eventItem.GymName
+                                    <tr>
+                                        <td class="table-info" id="(@i)_2">30</td>
+                                        <td class="table-info" id="(@i)_3">
+                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                            <span class="text-emphasize">Trainer:</span> @eventItem.TrainerFirstName @eventItem.TrainerLastName&#160
+                                            <span class="text-emphasize">Gym:</span> @eventItem.GymName
                                         </td>
-                                        <td id="(@i)_4">@eventItem.Status </td>
+                                        <td class="table-info" id="(@i)_4">@eventItem.Status </td>
                                     </tr>
+                                    eventsId.Add(eventItem.Id);
                                 }
                                 else
                                 {
-                                    <tr class="table-info">                                       
-                                        <td id="(@i)_2">00</td>
-                                        <td id="(@i)_3">
+                                    <tr>                                       
+                                        <td class="table-info" id="(@i)_2">00</td>
+                                        <td class="table-info" id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td id="(@i)_4">-//-</td>
+                                        <td class="table-info" id="(@i)_4">-//-</td>
                                     </tr>
                                 }
 

@@ -102,3 +102,11 @@ body {
         vertical-align: top;
         border-top: 1px solid #dee2e6;
     }
+
+
+
+.text-emphasize {
+    font-style:italic;
+    text-decoration:underline;   
+
+}
