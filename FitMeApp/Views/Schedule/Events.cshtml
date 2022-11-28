@@ -32,42 +32,73 @@
             </thead>
             <tbody>
                 @{int rowTime = 0;
-
-                    //Dictionary<int, int> StartEndEvents = new Dictionary<int, int>();
-                    //foreach (var item in Model.Events)
-                    //{
-                    //    StartEndEvents.Add(item.StartTime, item.EndTime);
-                    //};
                     bool secondPartOfHourDrawn = true;}
 
                 @for (int i = 0; i < 48; i++)
                 {
                     @foreach (var eventItem in Model.Events)
                     {
+                        List<int> eventsId = new List<int>();
                         while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
                             if (secondPartOfHourDrawn)
                             {
-                                <tr>
-                                    <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                    <td id="(@i)_1_2">00</td>
-                                    <td id="(@i)_1_3">Test event 1</td>
-                                    <td id="(@i)_1_4">Test status 1</td>
-                                </tr>
+                                if (!eventsId.Contains(eventItem.Id))
+                                {
+                                    <tr class="table-info">
+                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
+                                            Event: @eventItem.TrainingName
+                                            Trainer: @eventItem.TrainerFirstName @eventItem.TrainerLastName
+                                            Gym: @eventItem.GymName
+                                        </td>
+                                        <td id="(@i)_4">@eventItem.Status</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="table-info">
+                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
+                                            -//-
+                                        </td>
+                                        <td id="(@i)_4">-//-</td>
+                                    </tr>
+                                }
                                 secondPartOfHourDrawn = false;
                                 rowTime = rowTime + 30;
                                 i++;
                             }
                             else
                             {
-                                <tr>
-                                    <td id="(@i)_2_2">30</td>
-                                    <td id="(@i)_2_3">Test event part 2</td>
-                                    <td id="(@i)_2_4">Test status part 2 </td>
-                                </tr>
+                                if (!eventsId.Contains(eventItem.Id))
+                                {
+                                    <tr class="table-info">
+                                        <td id="(@i)_2">30</td>
+                                        <td id="(@i)_3">
+                                            Event: @eventItem.TrainingName
+                                            Trainer: @eventItem.TrainerFirstName @eventItem.TrainerLastName
+                                            Gym: @eventItem.GymName
+                                        </td>
+                                        <td id="(@i)_4">@eventItem.Status </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="table-info">                                       
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
+                                            -//-
+                                        </td>
+                                        <td id="(@i)_4">-//-</td>
+                                    </tr>
+                                }
+
                                 secondPartOfHourDrawn = true;
-                                i++;
                                 rowTime = rowTime + 30;
+                                i++;
                             }
                         }
 
@@ -76,9 +107,9 @@
                     {
                         <tr>
                             <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                            <td id="(@i)_1_2">00</td>
-                            <td id="(@i)_1_3"></td>
-                            <td id="(@i)_1_4"></td>
+                            <td id="(@i)_2">00</td>
+                            <td id="(@i)_3"></td>
+                            <td id="(@i)_4"></td>
                         </tr>
                         secondPartOfHourDrawn = false;
                         rowTime = rowTime + 30;
@@ -86,9 +117,9 @@
                     else
                     {
                         <tr>
-                            <td id="(@i)_2_2">30</td>
-                            <td id="(@i)_2_3"></td>
-                            <td id="(@i)_2_4"></td>
+                            <td id="(@i)_2">30</td>
+                            <td id="(@i)_3"></td>
+                            <td id="(@i)_4"></td>
                         </tr>
                         rowTime = rowTime + 30;
                         secondPartOfHourDrawn = true;

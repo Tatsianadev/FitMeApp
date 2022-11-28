@@ -609,11 +609,70 @@ namespace FitMeApp.Repository.EntityFramework
             return userEvents;
         }
 
+        //public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        //{          
+        //    string dateOnly = dateTime.ToString("yyyy-MM-dd");
+        //    var userEvents = _context.Events.Where(x => x.UserId == userId && x.Date.ToString() == dateOnly).OrderBy(x=>x.StartTime).ToList();
+        //    return userEvents;
+        //}
+
         public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
-        {          
+        {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
-            var userEvents = _context.Events.Where(x => x.UserId == userId && x.Date.ToString() == dateOnly).OrderBy(x=>x.StartTime).ToList();
-            return userEvents;
+
+            var eventJoinTrainerTrainingUserGym = (from events in _context.Events
+                                                   join user in _context.Users
+                                                   on events.UserId equals user.Id
+                                                   join trainer in _context.Trainers
+                                                   on events.TrainerId equals trainer.Id
+                                                   join gym in _context.Gyms
+                                                   on trainer.GymId equals gym.Id
+                                                   join training in _context.Trainings
+                                                   on events.TrainingId equals training.Id
+                                                   where events.UserId == userId
+                                                   where events.Date.ToString() == dateOnly
+                                                   select new
+                                                   {
+                                                       Id = events.Id,
+                                                       Date = events.Date,
+                                                       StartTime = events.StartTime,
+                                                       EndTime = events.EndTime,
+                                                       TrainerId = events.TrainerId,
+                                                       TrainerFirstName = trainer.FirstName,
+                                                       TrainerLastName = trainer.LastName,
+                                                       GymId = trainer.GymId,
+                                                       GymName = gym.Name,
+                                                       UserId = events.UserId,
+                                                       UserName = user.UserName,
+                                                       TrainingId = events.TrainingId,
+                                                       TrainingName = training.Name,
+                                                       Status = events.Status})
+                                                       .OrderBy(x=>x.StartTime).ToList();
+
+            List<EventEntityBase> eventsEntityBases = new List<EventEntityBase>();
+            foreach (var entity in eventJoinTrainerTrainingUserGym)
+            {
+                eventsEntityBases.Add(new EventEntityBase()
+                {
+                    Id = entity.Id,
+                    Date = entity.Date,
+                    StartTime = entity.StartTime,
+                    EndTime = entity.EndTime,
+                    TrainerId = entity.TrainerId,
+                    TrainerFirstName = entity.TrainerFirstName,
+                    TrainerLastName = entity.TrainerLastName,
+                    GymId = entity.GymId,
+                    GymName = entity.GymName,
+                    UserId = entity.UserId,
+                    UserName = entity.UserName,
+                    TrainingId = entity.TrainingId,
+                    TrainingName = entity.TrainingName,
+                    Status = entity.Status
+                });
+
+            }                        
+            
+            return eventsEntityBases;
         }
 
 

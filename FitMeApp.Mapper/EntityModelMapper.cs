@@ -162,8 +162,14 @@ namespace FitMeApp.Mapper
                 StartTime = eventEntityBase.StartTime,
                 EndTime = eventEntityBase.EndTime,
                 TrainerId = eventEntityBase.TrainerId,
+                TrainerFirstName = eventEntityBase.TrainerFirstName,
+                TrainerLastName = eventEntityBase.TrainerLastName,
+                GymId = eventEntityBase.GymId,
+                GymName = eventEntityBase.GymName,
                 UserId = eventEntityBase.UserId,
+                UserName = eventEntityBase.UserName,
                 TrainingId = eventEntityBase.TrainingId,
+                TrainingName  = eventEntityBase.TrainingName,
                 Status = eventEntityBase.Status
             };
 

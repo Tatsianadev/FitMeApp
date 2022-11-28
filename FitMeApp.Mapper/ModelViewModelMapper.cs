@@ -173,8 +173,14 @@ namespace FitMeApp.Mapper
                 StartTime = eventModel.StartTime,
                 EndTime = eventModel.EndTime,
                 TrainerId = eventModel.TrainerId,
+                TrainerFirstName = eventModel.TrainerFirstName,
+                TrainerLastName = eventModel.TrainerLastName,
+                GymId = eventModel.GymId,
+                GymName = eventModel.GymName,
                 UserId = eventModel.UserId,
+                UserName = eventModel.UserName,
                 TrainingId = eventModel.TrainingId,
+                TrainingName = eventModel.TrainingName,
                 Status = eventModel.Status
             };
             return eventViewModel;
