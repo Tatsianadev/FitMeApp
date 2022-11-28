@@ -60,7 +60,7 @@ namespace FitMeApp.Services
         }
 
 
-        public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
+        public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
         {
            var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);
            return dateEventsCount;

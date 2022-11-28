@@ -50,7 +50,7 @@ namespace FitMeApp.Controllers
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            ViewBag.EventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
             return View(model);            
         }
 
@@ -75,6 +75,7 @@ namespace FitMeApp.Controllers
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+            ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
             return View("Index", model);
         }
 
@@ -107,6 +108,7 @@ namespace FitMeApp.Controllers
                 };
 
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
                 return View("Index", model);
             }
             catch (Exception ex)

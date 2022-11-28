@@ -677,17 +677,17 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         // to show Events count for each date on the calendar for current User
-        public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
+        public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
         {
             var allEventsByUser = _context.Events.Where(x => x.UserId == userId).OrderBy(x => x.Date).ToList();
-            Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
+            Dictionary<string, int> dateEventCount = new Dictionary<string, int>();
                         
             foreach (var eventItem in allEventsByUser)
             {
-                if (!dateEventCount.ContainsKey(eventItem.Date))
+                if (!dateEventCount.ContainsKey((eventItem.Date).ToString("yyyy-MM-dd")))
                 {                                    
                     int eventCount = allEventsByUser.Where(x => x.Date == eventItem.Date).Count();
-                    dateEventCount.Add(eventItem.Date, eventCount);
+                    dateEventCount.Add(eventItem.Date.ToString("yyyy-MM-dd"), eventCount);
                 }                
             }
 
