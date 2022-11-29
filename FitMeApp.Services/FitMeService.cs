@@ -48,28 +48,7 @@ namespace FitMeApp.Services
             var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
             GymModel gym = _mapper.MappGymEntityBaseToModel(gymEntityBase);
             return gym;
-        }
-
-        //public IEnumerable<TrainerModel> GetAllTrainerModels()
-        //{
-        //    try
-        //    {
-        //        var trainers = _repository.GetAllTrainers();
-        //        var trainerModels = new List<TrainerModel>();
-        //        foreach (var trainer in trainers)
-        //        {
-        //            var trainerWithGymAndGroups = _repository.GetTrainerWithGymAndTrainings(trainer.Id);
-        //            trainerModels.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerWithGymAndGroups));
-        //        }
-
-        //        return trainerModels;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        throw ex;
-        //    }            
-        //}
+        }      
 
 
        

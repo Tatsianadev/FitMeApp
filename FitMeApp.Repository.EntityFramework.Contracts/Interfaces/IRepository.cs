@@ -16,10 +16,10 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Trainers
         IEnumerable<TrainerEntityBase> GetAllTrainers();
-        TrainerEntityBase GetTrainer(int id);
+        TrainerEntityBase GetTrainer(string id);
         TrainerEntityBase AddTrainer(TrainerEntityBase trainer);
-        bool UpdateTrainer(int id, TrainerEntityBase newTrainerData);
-        bool DeleteTrainer(int id);
+        bool UpdateTrainer(string id, TrainerEntityBase newTrainerData);
+        bool DeleteTrainer(string id);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
@@ -31,7 +31,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
         List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
-        TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(int trainerId);
+        TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
         TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int trainingId);
 
         //Filters
@@ -51,6 +51,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
+        IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<string, int> GetEventsCountForEachDateByUser(string userId);
 
 

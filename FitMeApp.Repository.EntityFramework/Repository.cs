@@ -92,7 +92,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainers;
         }
 
-        public TrainerEntityBase GetTrainer(int id)
+        public TrainerEntityBase GetTrainer(string id)
         {
             var trainer = _context.Trainers.Where(x => x.Id == id).First();
             return trainer;
@@ -107,6 +107,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.Trainers.Add(new TrainerEntity()
             {
+                Id = trainer.Id,
                 FirstName = trainer.FirstName,
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
@@ -118,7 +119,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainer;
         }
 
-        public bool UpdateTrainer(int id, TrainerEntityBase newTrainerData)
+        public bool UpdateTrainer(string id, TrainerEntityBase newTrainerData)
         {
             if (newTrainerData == null)
             {
@@ -145,7 +146,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool DeleteTrainer(int id)
+        public bool DeleteTrainer(string id)
         {
             var trainer = _context.Trainers.Where(x => x.Id == id).First();
             _context.Trainers.Remove(trainer);
@@ -262,7 +263,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               }).ToList();
 
                 var trainers = new List<TrainerWithGymAndTrainingsBase>();
-                List<int> addedTrainersId = new List<int>();
+                List<string> addedTrainersId = new List<string>();
 
                 GymWithTrainersAndTrainings gym = new GymWithTrainersAndTrainings();
                 var gymInfo = gymTrainerTrainingJoin.First();
@@ -345,7 +346,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
-            List<int> trainersId = new List<int>();
+            List<string> trainersId = new List<string>();
             var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
 
             foreach (var item in allTrainersGymTrainingsJoin)
@@ -401,7 +402,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(int trainerId)
+        public TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId)
         {
 
             return null;
@@ -676,6 +677,64 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date)
+        {
+            string dateOnly = date.ToString("yyyy-MM-dd");
+
+            var eventJoinTrainerTrainingUserGym = (from events in _context.Events
+                                                   join user in _context.Users
+                                                   on events.UserId equals user.Id
+                                                   join trainer in _context.Trainers
+                                                   on events.TrainerId equals trainer.Id
+                                                   join gym in _context.Gyms
+                                                   on trainer.GymId equals gym.Id
+                                                   join training in _context.Trainings
+                                                   on events.TrainingId equals training.Id
+                                                   where events.TrainerId == trainerId
+                                                   where events.Date.ToString() == dateOnly
+                                                   select new
+                                                   {
+                                                       Id = events.Id,
+                                                       Date = events.Date,
+                                                       StartTime = events.StartTime,
+                                                       EndTime = events.EndTime,
+                                                       //TrainerId = events.TrainerId,
+                                                       //TrainerFirstName = trainer.FirstName,
+                                                       //TrainerLastName = trainer.LastName,
+                                                       //GymId = trainer.GymId,
+                                                       //GymName = gym.Name,
+                                                       UserId = events.UserId,
+                                                       UserName = user.UserName,
+                                                       TrainingId = events.TrainingId,
+                                                       TrainingName = training.Name,
+                                                       Status = events.Status
+                                                   }).OrderBy(x => x.StartTime).ToList();
+
+            List<EventWithNamesBase> eventsEntityBases = new List<EventWithNamesBase>();
+            foreach (var entity in eventJoinTrainerTrainingUserGym)
+            {
+                eventsEntityBases.Add(new EventWithNamesBase()
+                {
+                    Id = entity.Id,
+                    Date = entity.Date,
+                    StartTime = entity.StartTime,
+                    EndTime = entity.EndTime,
+                    //TrainerId = entity.TrainerId,
+                    //TrainerFirstName = entity.TrainerFirstName,
+                    //TrainerLastName = entity.TrainerLastName,
+                    //GymId = entity.GymId,
+                    //GymName = entity.GymName,
+                    UserId = entity.UserId,
+                    UserName = entity.UserName,
+                    TrainingId = entity.TrainingId,
+                    TrainingName = entity.TrainingName,
+                    Status = entity.Status
+                });
+            }
+            return eventsEntityBases;
+        }
+
+
         // to show Events count for each date on the calendar for current User
         public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
         {
@@ -693,6 +752,8 @@ namespace FitMeApp.Repository.EntityFramework
 
             return dateEventCount;
         }
+
+
 
 
     }

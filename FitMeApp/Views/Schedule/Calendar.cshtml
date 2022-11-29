@@ -91,7 +91,7 @@
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     }
-                                </a>                                
+                                </a>
                             </td>
                             ++date;
 
@@ -119,60 +119,29 @@
                         }
                     }
                 </tr>
-                <tr>
-                    @for (int i = 0; i < 7; i++)
-                    {
-                        <td id="2_@i">
-                            <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
-                                @date
-                                @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
-                                {
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
-                                        <span class="visually-hidden">unread messages</span>
-                                    </span>
-                                }
-                            </a>
-                        </td>
-                        ++date;
-                    }
-                </tr>
-                <tr>
-                    @for (int i = 0; i < 7; i++)
-                    {
-                        <td id="3_@i">
-                            <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
-                                @date
-                                @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
-                                {
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
-                                        <span class="visually-hidden">unread messages</span>
-                                    </span>
-                                }
-                            </a>
-                        </td>
-                        ++date;
-                    }
-                </tr>
-                <tr>
-                    @for (int i = 0; i < 7; i++)
-                    {
-                        <td id="4_@i">
-                            <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
-                                @date
-                                @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
-                                {
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
-                                        <span class="visually-hidden">unread messages</span>
-                                    </span>
-                                }
-                            </a>
-                        </td>
-                        ++date;
-                    }
-                </tr>
+
+                @for (int j = 2; j < 5; j++)
+                {
+                    <tr>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <td id="@(j)_@i">
+                                <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                                    @date
+                                    @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                    {
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    }
+                                </a>
+                            </td>
+                            ++date;
+                        }
+                    </tr>
+                }
+               
                 <tr>
                     @for (int i = 0; i < 7 && date <= daysInMonth; i++)
                     {

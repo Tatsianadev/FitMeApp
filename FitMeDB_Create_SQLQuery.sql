@@ -334,7 +334,7 @@ go
 
 
 CREATE TABLE [dbo].[Trainers](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id] [nvarchar](256) NOT NULL,
 	[FirstName] [nvarchar](128) NOT NULL,
 	[LastName] [nvarchar](256) NOT NULL,
 	[Gender] [nvarchar](50) NOT NULL,
@@ -372,7 +372,7 @@ go
 CREATE TABLE [dbo].[TrainingTrainer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[TrainingId] [int] NOT NULL,	
-	[TrainerId] [int] NOT NULL,
+	[TrainerId] [nvarchar](256) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -427,7 +427,7 @@ CREATE TABLE [dbo].[UserSubscriptions](
 	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
 	[UserId] [nvarchar](128) NOT NULL,
 	[GymSubscriptionId] [int] NOT NULL,
-	[TrainerId] [int] NULL,
+	[TrainerId] [nvarchar](256) NULL,
 	[StartDate] [smalldatetime] NOT NULL,
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
@@ -444,7 +444,7 @@ CREATE TABLE [dbo].[Events](
 	[Date] [date] NOT NULL,
 	[StartTime] [int] NOT NULL,
 	[EndTime] [int] NOT NULL,
-	[TrainerId] [int] NULL,
+	[TrainerId] [nvarchar](256) NULL,
 	[UserId] [nvarchar](max) NULL,
 	[TrainingId] [int] NOT NULL,
 	[Status] [nvarchar](128) NULL,

@@ -10,7 +10,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         [Key]
         public int Id { get; set; }
         public int TrainingId { get; set; }        
-        public int TrainerId { get; set; }
+        public string TrainerId { get; set; }
         public virtual TrainingEntity Training { get; set; }       
         public virtual TrainerEntity Trainer { get; set; }
     }

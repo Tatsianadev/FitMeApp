@@ -10,7 +10,7 @@ namespace FitMeApp.Services.Contracts.Models
         public DateTime Date { get; set; }
         public int StartTime { get; set; }
         public int EndTime { get; set; }
-        public int TrainerId { get; set; }
+        public string TrainerId { get; set; }
         public string TrainerFirstName { get; set; }
         public string TrainerLastName { get; set; }
         public int GymId { get; set; }
