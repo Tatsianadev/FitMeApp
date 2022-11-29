@@ -70,7 +70,15 @@
                 </tr>
             </thead>
             <tbody>
-
+                @{string showEvents = "";
+                    if (User.IsInRole("trainer"))
+                    {
+                        showEvents = "ShowTrainersEvents";
+                    }
+                    else
+                    {
+                        showEvents = "ShowUsersEvents";
+                    }}
                 <tr>
                     @{ int firstday = ((int)new DateTime(Model.Year, Model.Month, 1).DayOfWeek);
                         int daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
@@ -81,8 +89,8 @@
                     {
                         if (firstday == i)
                         {
-                            <td id="1_@i">
-                                <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                            <td id="1_@i">                                
+                                <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                     @date
                                     @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
                                     {
@@ -98,7 +106,7 @@
                             for (int j = i + 1; j < 7; j++)
                             {
                                 <td id="1_@j">
-                                    <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                                    <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                         @date
                                         @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
                                         {
@@ -126,7 +134,7 @@
                         @for (int i = 0; i < 7; i++)
                         {
                             <td id="@(j)_@i">
-                                <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                                <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                     @date
                                     @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
                                     {
@@ -146,7 +154,7 @@
                     @for (int i = 0; i < 7 && date <= daysInMonth; i++)
                     {
                         <td id="5_@i">
-                            <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                            <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                 @date
                                 @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
                                 {
@@ -164,7 +172,7 @@
                     @for (int i = 0; date <= daysInMonth; i++)
                     {
                         <td id="6_@i">
-                            <a asp-controller="Schedule" asp-action="ShowEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month]" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                            <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month]" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                 @date
                                 @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
                                 {

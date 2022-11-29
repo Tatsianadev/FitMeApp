@@ -753,6 +753,23 @@ namespace FitMeApp.Repository.EntityFramework
             return dateEventCount;
         }
 
+        public IDictionary<string, int> GetEventsCountForEachDateByTrainer(string trainerId)
+        {
+            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
+            Dictionary<string, int> dateEventCount = new Dictionary<string, int>();
+
+            foreach (var eventItem in allEventsByTrainer)
+            {
+                if (!dateEventCount.ContainsKey((eventItem.Date).ToString("yyyy-MM-dd")))
+                {
+                    int eventCount = allEventsByTrainer.Where(x => x.Date == eventItem.Date).Count();
+                    dateEventCount.Add(eventItem.Date.ToString("yyyy-MM-dd"), eventCount);
+                }
+            }
+
+            return dateEventCount;
+        }
+
 
 
 

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
 {
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin, user, trainer")]
     public class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
@@ -32,7 +32,7 @@ namespace FitMeApp.Controllers
 
 
 
-
+       
         public IActionResult Index()
         {   
 
@@ -50,9 +50,18 @@ namespace FitMeApp.Controllers
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            if (User.IsInRole("trainer"))
+            {
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+            }
+            else
+            {
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            }            
             return View(model);            
         }
+
+
 
 
         //Caledar - PartialView
@@ -75,7 +84,14 @@ namespace FitMeApp.Controllers
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            if (User.IsInRole("trainer"))
+            {
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+            }
+            else
+            {
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            }
             return View("Index", model);
         }
 
@@ -83,7 +99,7 @@ namespace FitMeApp.Controllers
         //Events - PartialView
 
         [Authorize(Roles = "admin, user")]
-        public IActionResult ShowEvents(int year, int month, int day)
+        public IActionResult ShowUsersEvents(int year, int month, int day)
         {
             try
             {
@@ -117,6 +133,44 @@ namespace FitMeApp.Controllers
                 throw ex;
             }
                    
+        }
+
+
+        [Authorize(Roles = "trainer")]
+        public IActionResult ShowTrainersEvents(int year, int month, int day)
+        {
+            try
+            {
+                DateTime currentDate = new DateTime(year, month, day);
+                string userId = _userManager.GetUserId(User);
+                var eventModels = _scheduleService.GetEventsByUserAndDate(userId, currentDate);
+
+                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
+                foreach (var eventModel in eventModels)
+                {
+                    eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
+                }
+
+                CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
+                {
+                    Year = year,
+                    Month = month,
+                    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
+                    Day = day,
+                    DayName = new DateTime(year, month, day).DayOfWeek.ToString(),
+                    Events = eventsViewModels
+                };
+
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+                return View("Index", model);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public IActionResult Events()
