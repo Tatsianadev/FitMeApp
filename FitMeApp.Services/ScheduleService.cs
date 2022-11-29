@@ -60,6 +60,17 @@ namespace FitMeApp.Services
         }
 
 
+        public IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime)
+        {
+            var eventWithNamesBases = _repository.GetEventsByTrainerAndDate(trainerId, dateTime);
+            List<EventModel> eventModels = new List<EventModel>();
+            foreach (var entity in eventWithNamesBases)
+            {
+                eventModels.Add(_mapper.MappEventWithNamesBaseToModel(entity));
+            }
+            return eventModels;
+        }
+
         public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
         {
            var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);

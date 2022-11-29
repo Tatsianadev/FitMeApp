@@ -12,8 +12,16 @@
         <div class="col-md-8">
             @if (Model.Day != 0)
             {
-                @await Html.PartialAsync("Events", Model)
-               
+                if (User.IsInRole("trainer"))
+                {
+                    @await Html.PartialAsync("TrainersEvents", Model)
+                }
+                else
+                {
+                    @await Html.PartialAsync("UsersEvents", Model)
+                }
+
+
             }
 
         </div>

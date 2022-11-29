@@ -135,6 +135,7 @@ namespace FitMeApp.Controllers
                    
         }
 
+        // two methods because it's need different views
 
         [Authorize(Roles = "trainer")]
         public IActionResult ShowTrainersEvents(int year, int month, int day)
@@ -142,8 +143,8 @@ namespace FitMeApp.Controllers
             try
             {
                 DateTime currentDate = new DateTime(year, month, day);
-                string userId = _userManager.GetUserId(User);
-                var eventModels = _scheduleService.GetEventsByUserAndDate(userId, currentDate);
+                string trainerId = _userManager.GetUserId(User);
+                var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, currentDate);
 
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
@@ -163,6 +164,7 @@ namespace FitMeApp.Controllers
 
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+              
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -173,7 +175,12 @@ namespace FitMeApp.Controllers
 
         }
 
-        public IActionResult Events()
+        public IActionResult UsersEvents()
+        {
+            return PartialView();
+        }
+
+        public IActionResult TrainersEvents()
         {
             return PartialView();
         }
