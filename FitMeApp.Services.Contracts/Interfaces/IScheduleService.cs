@@ -13,5 +13,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
         IDictionary<string, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<string, int> GetEventsCountForEachDateByTrainer(string trainerId);
+        bool ChangeEventStatus(int eventId);
     }
 }

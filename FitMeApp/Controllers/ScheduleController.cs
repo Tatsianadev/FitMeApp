@@ -186,9 +186,23 @@ namespace FitMeApp.Controllers
         }
 
         [Authorize(Roles = "trainer")]       
-        public IActionResult ChangeEventsStatus(int eventId)
+        public IActionResult ChangeEventsStatus(int eventId, int year, int month, int day)
         {
-            return View();
+            bool result = _scheduleService.ChangeEventStatus(eventId);
+            if (result)
+            {
+                return View("ShowTrainersEvents");
+            }
+            else
+            {
+                _logger.LogError("failed to change evet status");
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "Failed to change evet status. Please try again."
+                };
+                return View("CustomError", error);
+            }
+           
         }
     }
 

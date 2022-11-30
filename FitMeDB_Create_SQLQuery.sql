@@ -444,10 +444,10 @@ CREATE TABLE [dbo].[Events](
 	[Date] [date] NOT NULL,
 	[StartTime] [int] NOT NULL,
 	[EndTime] [int] NOT NULL,
-	[TrainerId] [nvarchar](256) NULL,
+	[TrainerId] [nvarchar](256) NOT NULL,
 	[UserId] [nvarchar](max) NULL,
 	[TrainingId] [int] NOT NULL,
-	[Status] [nvarchar](128) NULL,
+	[Status] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

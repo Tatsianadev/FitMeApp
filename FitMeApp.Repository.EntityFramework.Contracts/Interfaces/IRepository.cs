@@ -54,6 +54,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<string, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<string, int> GetEventsCountForEachDateByTrainer(string trainerId);
+        bool ChangeEventStatus(int eventId);
+
 
 
     }

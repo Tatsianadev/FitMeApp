@@ -766,6 +766,25 @@ namespace FitMeApp.Repository.EntityFramework
             return dateEventCount;
         }
 
+        
+        public bool ChangeEventStatus(int eventId)
+        {
+            var currentEvent = _context.Events.Where(x => x.Id == eventId).First();
+
+            if (currentEvent.Status == Common.EventStatusEnum.Open)
+            {
+                currentEvent.Status = Common.EventStatusEnum.Confirmed;
+            }
+            else
+            {
+                currentEvent.Status = Common.EventStatusEnum.Open;
+            }
+            var changedEntry = _context.SaveChanges();
+            bool result = changedEntry > 0 ? true : false;
+
+            return result;
+        }
+
 
 
 
