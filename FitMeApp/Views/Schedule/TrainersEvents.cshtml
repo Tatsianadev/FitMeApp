@@ -25,9 +25,10 @@
         <table class="table table-bordered" style="text-align:center;font-size:small; width:100%">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" colspan="2" width="15%">Time</th>
-                    <th scope="col" width="60%">Event</th>
+                    <th scope="col" colspan="2" width="10%">Time</th>
+                    <th scope="col" width="50%">Event</th>
                     <th scope="col" width="20%">Status</th>
+                    <th scope="col" width="20%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +41,7 @@
                     {
                         List<int> eventsId = new List<int>();
                         string colorRow = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
+                        string changeStatusButtonValue = eventItem.Status == "Open" ? "Confirm" : "Cancel";
                         while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
                             if (secondPartOfHourDrawn)
@@ -51,9 +53,13 @@
                                         <td class="@colorRow" id="(@i)_2">00</td>
                                         <td class="@colorRow" id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
-                                            <span class="text-emphasize">Client:</span> @eventItem.UserName&#160                                          
+                                            <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">@eventItem.Status</td>
+
+                                        <td class="@colorRow" id="(@i)_5">
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                        </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
                                 }
@@ -66,6 +72,7 @@
                                             -//-
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">-//-</td>
+                                        <td class="@colorRow" id="(@i)_5">-//-</td>
                                     </tr>
                                 }
                                 secondPartOfHourDrawn = false;
@@ -80,9 +87,12 @@
                                         <td class="@colorRow" id="(@i)_2">30</td>
                                         <td class="@colorRow" id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
-                                            <span class="text-emphasize">Client:</span> @eventItem.UserName&#160                                          
+                                            <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">@eventItem.Status </td>
+                                        <td class="@colorRow" id="(@i)_5">                                          
+                                           <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>                                            
+                                        </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
                                 }
@@ -94,6 +104,7 @@
                                             -//-
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">-//-</td>
+                                        <td class="@colorRow" id="(@i)_5">-//-</td>
                                     </tr>
                                 }
 
@@ -111,6 +122,7 @@
                             <td id="(@i)_2">00</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
+                            <td id="(@i)_5"></td>
                         </tr>
                         secondPartOfHourDrawn = false;
                         rowTime = rowTime + 30;
@@ -121,6 +133,7 @@
                             <td id="(@i)_2">30</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
+                            <td id="(@i)_5"></td>
                         </tr>
                         rowTime = rowTime + 30;
                         secondPartOfHourDrawn = true;

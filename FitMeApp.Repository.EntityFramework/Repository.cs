@@ -379,8 +379,7 @@ namespace FitMeApp.Repository.EntityFramework
                     };
 
                     trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
-                    trainersId.Add(item.TrainerId);
-                    //trainings.Clear();
+                    trainersId.Add(item.TrainerId);                  
 
                 }
                 else
@@ -392,9 +391,7 @@ namespace FitMeApp.Repository.EntityFramework
                         Name = item.TrainingName
                     });
                     trainerWithGymAndTrainings.Trainings = currentTrainerTrainings;
-                }           
-
-                
+                }
             }
 
             return trainersWithGymAndTrainings;
@@ -457,7 +454,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
         {
-            var subscriptionsPriceJoinByGymByFilters = (from gymSubscription in _context.GymSubscriptions
+            var subscriptionsPriceByGymByFiltersJoin = (from gymSubscription in _context.GymSubscriptions
                                                         join subscription in _context.Subscriptions
                                                         on gymSubscription.SubscriptionId equals subscription.Id
                                                         where gymSubscription.GymId == gymId
@@ -475,7 +472,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         });
 
             List<SubscriptionPriceBase> subscriptions = new List<SubscriptionPriceBase>();
-            foreach (var subscription in subscriptionsPriceJoinByGymByFilters)
+            foreach (var subscription in subscriptionsPriceByGymByFiltersJoin)
             {
                 subscriptions.Add(new SubscriptionPriceBase()
                 {
@@ -494,7 +491,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId)
         {
-            var subscriptionsPriceJoinByGym = (from gymSubscription in _context.GymSubscriptions
+            var subscriptionsPriceByGymJoin = (from gymSubscription in _context.GymSubscriptions
                                                join subscription in _context.Subscriptions
                                                on gymSubscription.SubscriptionId equals subscription.Id
                                                where gymSubscription.GymId == gymId
@@ -508,7 +505,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                    Price = gymSubscription.Price
                                                });
             List<SubscriptionPriceBase> subscriptionsByGym = new List<SubscriptionPriceBase>();
-            foreach (var subscription in subscriptionsPriceJoinByGym)
+            foreach (var subscription in subscriptionsPriceByGymJoin)
             {
                 subscriptionsByGym.Add(new SubscriptionPriceBase()
                 {
@@ -539,12 +536,12 @@ namespace FitMeApp.Repository.EntityFramework
 
         public int GetSubscriptionPeriod(int subscriptionId)
         {
-            int period = _context.Subscriptions.Where(x => x.Id == subscriptionId).First().ValidDays;
-            return period;
+            int subscriptionPeriod = _context.Subscriptions.Where(x => x.Id == subscriptionId).First().ValidDays;
+            return subscriptionPeriod;
         }
 
 
-        public SubscriptionPriceBase GetSubscriptionByGym(int subscriptionId, int gymId)
+        public SubscriptionPriceBase GetSubscriptionWithPriceByGym(int subscriptionId, int gymId)
         {
             var subscriptionGymJoin = (from gymSubscription in _context.GymSubscriptions
                                        join subscription in _context.Subscriptions
@@ -561,7 +558,7 @@ namespace FitMeApp.Repository.EntityFramework
                                            Price = gymSubscription.Price
                                        }).First();
 
-            SubscriptionPriceBase currentSubscription = new SubscriptionPriceBase()
+            SubscriptionPriceBase subscriptionWithPrice = new SubscriptionPriceBase()
             {
                 Id = subscriptionGymJoin.SubscriptionId,
                 GymId = subscriptionGymJoin.GymId,
@@ -570,7 +567,7 @@ namespace FitMeApp.Repository.EntityFramework
                 DietMonitoring = subscriptionGymJoin.DietMonitoring,
                 Price = subscriptionGymJoin.Price
             };
-            return currentSubscription;
+            return subscriptionWithPrice;
         }
 
 
@@ -621,7 +618,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
 
-            var eventJoinTrainerTrainingUserGym = (from events in _context.Events
+            var eventTrainerTrainingUserGymJoin = (from events in _context.Events
                                                    join user in _context.Users
                                                    on events.UserId equals user.Id
                                                    join trainer in _context.Trainers
@@ -651,7 +648,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                        .OrderBy(x=>x.StartTime).ToList();
 
             List<EventWithNamesBase> eventsEntityBases = new List<EventWithNamesBase>();
-            foreach (var entity in eventJoinTrainerTrainingUserGym)
+            foreach (var entity in eventTrainerTrainingUserGymJoin)
             {
                 eventsEntityBases.Add(new EventWithNamesBase()
                 {
@@ -670,7 +667,6 @@ namespace FitMeApp.Repository.EntityFramework
                     TrainingName = entity.TrainingName,
                     Status = entity.Status
                 });
-
             }                        
             
             return eventsEntityBases;
@@ -681,7 +677,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
 
-            var eventJoinTrainerTrainingUserGym = (from events in _context.Events
+            var eventTrainerTrainingUserGymJoin = (from events in _context.Events
                                                    join user in _context.Users
                                                    on events.UserId equals user.Id
                                                    join trainer in _context.Trainers
@@ -711,7 +707,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                    }).OrderBy(x => x.StartTime).ToList();
 
             List<EventWithNamesBase> eventsEntityBases = new List<EventWithNamesBase>();
-            foreach (var entity in eventJoinTrainerTrainingUserGym)
+            foreach (var entity in eventTrainerTrainingUserGymJoin)
             {
                 eventsEntityBases.Add(new EventWithNamesBase()
                 {

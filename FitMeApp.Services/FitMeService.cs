@@ -134,7 +134,7 @@ namespace FitMeApp.Services
 
         public SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId)
         {
-            var subscriptionPriceEntityBase = _repository.GetSubscriptionByGym(subscriptionId, gymId);
+            var subscriptionPriceEntityBase = _repository.GetSubscriptionWithPriceByGym(subscriptionId, gymId);
             SubscriptionModel subscriptionModel = _mapper.MappSubscriptionPriceEntityBaseToModel(subscriptionPriceEntityBase);
             return subscriptionModel;
         }

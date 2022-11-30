@@ -184,5 +184,14 @@ namespace FitMeApp.Controllers
         {
             return PartialView();
         }
+
+        [Authorize(Roles = "trainer")]       
+        public IActionResult ChangeEventsStatus(int eventId)
+        {
+            return View();
+        }
     }
+
+
+
 }
