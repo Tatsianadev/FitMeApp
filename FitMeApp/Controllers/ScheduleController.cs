@@ -191,15 +191,14 @@ namespace FitMeApp.Controllers
             bool result = _scheduleService.ChangeEventStatus(eventId);
             if (result)
             {
-                 return ShowTrainersEvents(year, month, day);
-                //return View("ShowTrainersEvents");
+                 return ShowTrainersEvents(year, month, day);                
             }
             else
             {
-                _logger.LogError("failed to change evet status");
+                _logger.LogError("failed to change event status");
                 CustomErrorViewModel error = new CustomErrorViewModel()
                 {
-                    Message = "Failed to change evet status. Please try again."
+                    Message = "Failed to change event status. Please try again."
                 };
                 return View("CustomError", error);
             }

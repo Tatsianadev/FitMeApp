@@ -41,7 +41,7 @@
                     {
                         List<int> eventsId = new List<int>();
                         string colorRow = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
-                        string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? FitMeApp.Common.EventStatusEnum.Confirmed.ToString() : FitMeApp.Common.EventStatusEnum.Open.ToString();
+                        string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? "Cancel" : "Confirm";
                         while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
                             if (secondPartOfHourDrawn)
