@@ -91,7 +91,7 @@
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">@eventItem.Status </td>
                                         <td class="@colorRow" id="(@i)_5">                                          
-                                           <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>                                            
+                                           <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>                                            
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);

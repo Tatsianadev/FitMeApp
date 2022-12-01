@@ -191,7 +191,8 @@ namespace FitMeApp.Controllers
             bool result = _scheduleService.ChangeEventStatus(eventId);
             if (result)
             {
-                return View("ShowTrainersEvents");
+                 return ShowTrainersEvents(year, month, day);
+                //return View("ShowTrainersEvents");
             }
             else
             {
