@@ -9,20 +9,21 @@
             <div style="text-align:center; margin:20px">
                 <label>Name</label>
                 <h5><b>@Model.UserName</b></h5>
-                <br />
+
                 <label>Email</label>
                 <h5><b>@Model.Email</b></h5>
-                <br />
+
                 <label>Phone number</label>
                 <h5><b>@Model.PhoneNumber</b></h5>
-                <br />
+
                 <label>Year</label>
                 <h5><b>@Model.Year</b></h5>
-                <br />
+
                 <label>Gender</label>
                 <h5><b>@Model.Gender</b></h5>
-                <br />
+
                 <a asp-controller="Users" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
+                <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
             </div>
         </div>
         <div class="col-md-3">

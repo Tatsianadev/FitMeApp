@@ -1,6 +1,8 @@
 ﻿using FitMeApp.Common;
 using FitMeApp.Models;
+using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,26 +16,40 @@ namespace FitMeApp.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly IFitMeService _fitMeService;
         private readonly ILogger _logger;
 
-        public UsersController(UserManager<User> userManager, ILoggerFactory loggerFactory)
+        public UsersController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
+            _fitMeService = fitMeService;
             _logger = loggerFactory.CreateLogger("UsersLogger");
         }
 
-
+        [Authorize(Roles ="admin")]
         public IActionResult UsersList()
         {
             var users = _userManager.Users.ToList();
             return View(users);
         }
 
+
+        [Authorize(Roles = "admin, trainer, user")]
+        public async Task<IActionResult> UserPersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            return View(user);
+        }
+
+
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
@@ -128,7 +144,15 @@ namespace FitMeApp.Controllers
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("UsersList");
+                            if (!User.IsInRole("admin"))
+                            {
+                                return RedirectToAction("UserPersonalData");
+                            }
+                            else
+                            {
+                                return RedirectToAction("UsersList");
+                            }
+                            
                         }
                         else
                         {
@@ -153,6 +177,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
             try
@@ -204,7 +229,8 @@ namespace FitMeApp.Controllers
             }
         }
 
-        // user access
+       
+        [Authorize(Roles = "trainer, user")]
         [HttpPost]
         public async Task<IActionResult> ChangePasswordWithOldPassword(ChangePasswordViewModel model)
         {
@@ -218,7 +244,7 @@ namespace FitMeApp.Controllers
                         var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("UsersList");
+                            return RedirectToAction("UserPersonalData");
                         }
                         else
                         {
@@ -246,7 +272,8 @@ namespace FitMeApp.Controllers
             }
         }
 
-        // admin access
+       
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> ChangePasswordWithoutOldPassword(ChangePasswordViewModel model)
         {
@@ -289,6 +316,13 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }
+        }
+
+
+        public async Task<IActionResult> TrainerJobData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var trainer = 
         }
     }
 }
