@@ -319,10 +319,10 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> TrainerJobData()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var trainer = 
-        }
+        //public async Task<IActionResult> TrainerJobData()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    var trainer = _fitMeService.
+        //}
     }
 }

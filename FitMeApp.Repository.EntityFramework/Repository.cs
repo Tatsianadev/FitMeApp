@@ -401,8 +401,57 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId)
         {
+            var trainerGymTrainingJoin = (from trainer in _context.Trainers
+                                          join gym in _context.Gyms
+                                          on trainer.GymId equals gym.Id
+                                          join trainingTrainer in _context.TrainingTrainer
+                                          on trainer.Id equals trainingTrainer.TrainerId
+                                          join training in _context.Trainings
+                                          on trainingTrainer.TrainingId equals training.Id
+                                          where trainer.Id == trainerId
+                                          select new
+                                          {
+                                              Id = trainer.Id,
+                                              FirstName = trainer.FirstName,
+                                              LastName = trainer.LastName,
+                                              Specialization = trainer.Specialization,
+                                              Gender = trainer.Gender,
+                                              Picture = trainer.Picture,
+                                              GymId = trainer.GymId,
+                                              GymName = gym.Name,
+                                              TrainingId = training.Id,
+                                              TrainingName = training.Name
 
-            return null;
+                                          }).ToList();
+
+            List<TrainingEntity> trainings = new List<TrainingEntity>();
+            foreach (var item in trainerGymTrainingJoin)
+            {
+                trainings.Add(new TrainingEntity()
+                {
+                    Id = item.TrainingId,
+                    Name = item.TrainingName
+                });
+            }
+
+            var trainerEntity = trainerGymTrainingJoin.First();
+            TrainerWithGymAndTrainingsBase trainerWithGymAndTraining = new TrainerWithGymAndTrainingsBase()
+            {
+                Id = trainerEntity.Id,
+                FirstName = trainerEntity.FirstName,
+                LastName = trainerEntity.LastName,
+                Specialization = trainerEntity.Specialization,
+                Gender = trainerEntity.Gender,
+                Picture = trainerEntity.Picture,
+                Gym = new GymEntity()
+                {
+                    Id = trainerEntity.GymId,
+                    Name = trainerEntity.GymName
+                },
+                Trainings = trainings
+            };
+
+            return trainerWithGymAndTraining;
 
         }
 
