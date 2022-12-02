@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Common;
+using FitMeApp.Mapper;
 using FitMeApp.Models;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
@@ -13,17 +14,19 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
 {
-    public class UsersController : Controller
+    public class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly IFitMeService _fitMeService;
         private readonly ILogger _logger;
+        private readonly ModelViewModelMapper _mapper;
 
-        public UsersController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
+        public ProfileController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _fitMeService = fitMeService;
-            _logger = loggerFactory.CreateLogger("UsersLogger");
+            _logger = loggerFactory.CreateLogger("ProfileLogger");
+            _mapper = new ModelViewModelMapper();
         }
 
         [Authorize(Roles ="admin")]
@@ -319,10 +322,17 @@ namespace FitMeApp.Controllers
         }
 
 
-        //public async Task<IActionResult> TrainerJobData()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    var trainer = _fitMeService.
-        //}
+        public async Task<IActionResult> TrainerJobData()
+        {
+            var trainer = await _userManager.GetUserAsync(User);
+            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
+            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            return View(trainerViewModel);
+            DayOfWeek day=
+
+        }
+
+
+
     }
 }

@@ -22,6 +22,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();
+        TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
 
     }
 }

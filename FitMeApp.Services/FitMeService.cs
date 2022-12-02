@@ -159,5 +159,12 @@ namespace FitMeApp.Services
             return trainers;
         }
 
+        public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
+        {
+            var trainerWithGymAndTrainings = _repository.GetTrainerWithGymAndTrainings(trainerId);
+            TrainerModel trainer = _mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerWithGymAndTrainings);
+            return trainer;
+        }
+
     }
 }

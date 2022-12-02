@@ -424,10 +424,10 @@ namespace FitMeApp.Repository.EntityFramework
 
                                           }).ToList();
 
-            List<TrainingEntity> trainings = new List<TrainingEntity>();
+            List<TrainingEntity> trainingEntities = new List<TrainingEntity>();
             foreach (var item in trainerGymTrainingJoin)
             {
-                trainings.Add(new TrainingEntity()
+                trainingEntities.Add(new TrainingEntity()
                 {
                     Id = item.TrainingId,
                     Name = item.TrainingName
@@ -448,7 +448,7 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = trainerEntity.GymId,
                     Name = trainerEntity.GymName
                 },
-                Trainings = trainings
+                Trainings = trainingEntities
             };
 
             return trainerWithGymAndTraining;
