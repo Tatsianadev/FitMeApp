@@ -21,6 +21,7 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper(loggerFactory);
         }
 
+        //Gym
         
         public IEnumerable<GymModel> GetAllGymModels()
         {
@@ -48,10 +49,33 @@ namespace FitMeApp.Services
             var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
             GymModel gym = _mapper.MappGymEntityBaseToModel(gymEntityBase);
             return gym;
-        }      
+        }
 
 
-       
+        public IEnumerable<GymModel> GetGymsByTrainings(List<int> trainingsId)
+        {
+            var gymsByTrainings = _repository.GetGymsByTrainings(trainingsId);
+            List<GymModel> gyms = new List<GymModel>();
+            foreach (var gym in gymsByTrainings)
+            {
+                gyms.Add(_mapper.MappGymEntityBaseToModelBase(gym));
+            }
+            return gyms;
+        }
+
+        public IEnumerable<GymWorkHoursModel> GetWorksHoursByGym(int gymId)
+        {
+            var workHoursEntityBase = _repository.GetWorkHoursByGym(gymId);
+            List<GymWorkHoursModel> workHoursModels = new List<GymWorkHoursModel>();
+            foreach (var item in workHoursEntityBase)
+            {
+                workHoursModels.Add(_mapper.MappGymWorkHoursEntityBaseToModel(item));
+            }
+            return workHoursModels;
+        }
+
+
+        //Training
 
         public ICollection<TrainingModel> GetAllTrainingModels()
         {
@@ -75,16 +99,8 @@ namespace FitMeApp.Services
 
         }
 
-        public IEnumerable<GymModel> GetGymsByTrainings(List<int> trainingsId)
-        {
-            var gymsByTrainings = _repository.GetGymsByTrainings(trainingsId);          
-            List<GymModel> gyms = new List<GymModel>();
-            foreach ( var gym in gymsByTrainings)
-            {                
-                gyms.Add(_mapper.MappGymEntityBaseToModelBase(gym));
-            }
-            return gyms;
-        }
+
+        //Subscriptions
 
         public IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
         {

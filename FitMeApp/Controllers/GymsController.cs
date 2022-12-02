@@ -33,6 +33,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+            var workHours = _fitMeService.GetWorksHoursByGym(1);
+
             var gymModels = _fitMeService.GetAllGymModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)

@@ -194,5 +194,19 @@ namespace FitMeApp.Mapper
         }
 
 
+        public GymWorkHoursModel MappGymWorkHoursEntityBaseToModel(GymWorkHoursEntityBase gymWorkHoursEntityBase)
+        {
+            GymWorkHoursModel gymWorkHoursModel = new GymWorkHoursModel()
+            {
+                Id = gymWorkHoursEntityBase.Id,
+                DayName = gymWorkHoursEntityBase.DayOfWeekNumber,
+                GymId = gymWorkHoursEntityBase.GymId,
+                StartTime = gymWorkHoursEntityBase.StartTime,
+                EndTime = gymWorkHoursEntityBase.EndTime
+            };
+            return gymWorkHoursModel;
+        }
+
+
     }
 }

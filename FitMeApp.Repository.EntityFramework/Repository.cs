@@ -84,6 +84,12 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
+        public IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGym(int gymId)
+        {
+            var gymWorkHours = _context.GymWorkHours.Where(x => x.GymId == gymId).OrderBy(x => x.DayOfWeekNumber).ToList();
+            return gymWorkHours;
+        }
+
         //Trainers//
 
         public IEnumerable<TrainerEntityBase> GetAllTrainers()

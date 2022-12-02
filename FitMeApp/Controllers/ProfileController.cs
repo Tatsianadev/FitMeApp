@@ -328,7 +328,7 @@ namespace FitMeApp.Controllers
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
             return View(trainerViewModel);
-            DayOfWeek day=
+            
 
         }
 
