@@ -32,8 +32,7 @@ namespace FitMeApp.Controllers
 
 
         public IActionResult Index()
-        {
-            var workHours = _fitMeService.GetWorksHoursByGym(1);
+        {         
 
             var gymModels = _fitMeService.GetAllGymModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
@@ -106,6 +105,7 @@ namespace FitMeApp.Controllers
             }
 
             ViewBag.Trainings = trainings;
+            ViewBag.WorkHours = _fitMeService.GetWorksHoursByGym(gymId);
             return View(gym);
         }
 

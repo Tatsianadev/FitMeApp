@@ -8,35 +8,15 @@
             <h6>@Model.Phone</h6>
             <table class="table table-borderless table-sm table-schedule">
                 <tbody>
-                    <tr>
-                        <td class="col1">Monday</td>
-                        <td class="col2">7:00 - 23.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Tuesday</td>
-                        <td class="col2">7:00 - 23.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Wednesday</td>
-                        <td class="col2">7:00 - 23.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Thursday</td>
-                        <td class="col2">7:00 - 23.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Friday</td>
-                        <td class="col2">7:00 - 23.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Saturday</td>
-                        <td class="col2">8:00 - 22.00</td>
-                    </tr>
-                    <tr>
-                        <td class="col1">Sunday</td>
-                        <td class="col2">8:00 - 21.00</td>
-                    </tr>
-                </tbody>
+                    @foreach (var day in ViewBag.WorkHours)
+                    {
+                        <tr>
+                            <td class="col1">@day.DayName</td>
+                            <td class="col2">
+                                @(day.StartTime/60).00 - @(day.EndTime/60).00
+                            </td>
+                        </tr>
+                    }                   
             </table>
             <div style="width:100%" >
                 <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width:50%">Subscriptions</a>

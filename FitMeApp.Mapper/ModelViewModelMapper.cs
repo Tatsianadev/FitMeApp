@@ -187,8 +187,22 @@ namespace FitMeApp.Mapper
         }
 
 
-        
+        public GymWorkHoursViewModel MappGymWorkHoursModelToViewModel(GymWorkHoursModel gymWorkHoursModel)
+        {
+            GymWorkHoursViewModel gymWorkHoursViewModel = new GymWorkHoursViewModel()
+            {
+                Id = gymWorkHoursModel.Id,
+                DayName = gymWorkHoursModel.DayName,
+                GymId = gymWorkHoursModel.GymId,
+                StartTime = gymWorkHoursModel.StartTime,
+                EndTime = gymWorkHoursModel.EndTime
+            };
+            return gymWorkHoursViewModel;
+        }
 
-       
+
+
+
+
     }
 }
