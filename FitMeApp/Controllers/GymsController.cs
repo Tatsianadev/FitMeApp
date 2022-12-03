@@ -105,7 +105,7 @@ namespace FitMeApp.Controllers
             }
 
             ViewBag.Trainings = trainings;
-            ViewBag.WorkHours = _fitMeService.GetWorksHoursByGym(gymId);
+            ViewBag.WorkHours = _fitMeService.GetWorkHoursByGym(gymId);
             return View(gym);
         }
 

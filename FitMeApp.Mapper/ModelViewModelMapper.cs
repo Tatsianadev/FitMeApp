@@ -200,6 +200,20 @@ namespace FitMeApp.Mapper
             return gymWorkHoursViewModel;
         }
 
+        public TrainerWorkHoursViewModel MappTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursModel trainerWorkHoursModel)
+        {
+            TrainerWorkHoursViewModel trainerWorkHoursViewModel = new TrainerWorkHoursViewModel()
+            {
+                Id = trainerWorkHoursModel.Id,
+                TrainerId = trainerWorkHoursModel.TrainerId,
+                StartTime = trainerWorkHoursModel.StartTime,
+                EndTime = trainerWorkHoursModel.EndTime,
+                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
+                DayName = trainerWorkHoursModel.DayName
+            };
+            return trainerWorkHoursViewModel;
+        }
+
 
 
 

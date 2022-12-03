@@ -13,7 +13,27 @@
                         <tr>
                             <td class="col1">@day.DayName</td>
                             <td class="col2">
-                                @(day.StartTime/60).00 - @(day.EndTime/60).00
+                                @{ string startTime = "";
+                                    string endTime = "";}
+                                @if (day.StartTime % 60 == 0)
+                                {
+                                    startTime = (day.StartTime / 60) + ".00";
+                                }
+                                else
+                                {
+                                    startTime = Math.Truncate(((decimal)day.StartTime / 60)) + ".30";
+                                }
+
+                                @if (day.EndTime % 60 == 0)
+                                {
+                                    endTime = (day.EndTime / 60) + ".00";
+                                }
+                                else
+                                {
+                                    endTime = Math.Truncate(((decimal)day.EndTime / 60)) + ".30";
+                                }
+
+                                @startTime - @endTime
                             </td>
                         </tr>
                     }                   

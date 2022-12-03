@@ -63,7 +63,7 @@ namespace FitMeApp.Services
             return gyms;
         }
 
-        public IEnumerable<GymWorkHoursModel> GetWorksHoursByGym(int gymId)
+        public IEnumerable<GymWorkHoursModel> GetWorkHoursByGym(int gymId)
         {
             var workHoursEntityBase = _repository.GetWorkHoursByGym(gymId);
             List<GymWorkHoursModel> workHoursModels = new List<GymWorkHoursModel>();
@@ -95,8 +95,19 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
 
 
+
+        public IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId)
+        {
+            var workHoursEntityBase = _repository.GetWorkHoursByTrainer(trainerId);
+            List<TrainerWorkHoursModel> workHoursModels = new List<TrainerWorkHoursModel>();
+            foreach (var item in workHoursEntityBase)
+            {
+                workHoursModels.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToModel(item));
+            }
+            return workHoursModels;
         }
 
 

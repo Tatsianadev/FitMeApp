@@ -40,6 +40,8 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "admin, trainer, user")]
         public async Task<IActionResult> UserPersonalData()
         {
+            var workHours = _fitMeService.GetWorkHoursByTrainer("acc51bef-12d2-4933-ba98-646927663579");
+
             var user = await _userManager.GetUserAsync(User);
 
             return View(user);

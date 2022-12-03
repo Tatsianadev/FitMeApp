@@ -167,6 +167,39 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
+        public IEnumerable<TrainerWorkHoursWithDaysBase> GetWorkHoursByTrainer(string trainerId)
+        {
+            var trainerWorkHoursGymWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
+                                                    join gymWorkHours in _context.GymWorkHours
+                                                    on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
+                                                    where trainerWorkHours.TrainerId == trainerId
+                                                    select new
+                                                    {
+                                                        Id = trainerWorkHours.Id,
+                                                        TrainerId = trainerWorkHours.TrainerId,
+                                                        StartTime = trainerWorkHours.StartTime,
+                                                        EndTime = trainerWorkHours.EndTime,
+                                                        GymWorkHoursId = trainerWorkHours.GymWorkHoursId,
+                                                        DayName = gymWorkHours.DayOfWeekNumber
+                                                    }).ToList();
+
+            List<TrainerWorkHoursWithDaysBase> trainerWorkHoursWithDays = new List<TrainerWorkHoursWithDaysBase>();
+            foreach (var item in trainerWorkHoursGymWorkHoursJoin)
+            {
+                trainerWorkHoursWithDays.Add(new TrainerWorkHoursWithDaysBase()
+                {
+                    Id = item.Id,
+                    TrainerId = item.TrainerId,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime,
+                    GymWorkHoursId = item.GymWorkHoursId,
+                    DayName = item.DayName
+                });
+            }
+            return trainerWorkHoursWithDays;
+
+        }
+
         //Trainings
         public IEnumerable<TrainingEntityBase> GetAllTrainings()
         {
