@@ -330,11 +330,20 @@ namespace FitMeApp.Controllers
 
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
+            List<string> workDays = new List<string>();
+            Dictionary<DayOfWeek, int> startTime = new Dictionary<DayOfWeek, int>();
+            Dictionary<DayOfWeek, int> endTime = new Dictionary<DayOfWeek, int>();
             foreach (var item in workHoursModel)
             {
-                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToViewModel(item));
+                //workHoursViewModel.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToViewModel(item));
+                workDays.Add(item.DayName.ToString());
+                startTime.Add(item.DayName, item.StartTime);
+                endTime.Add(item.DayName, item.EndTime);
             }
-            ViewBag.WorkHours = workHoursViewModel;
+            //ViewBag.WorkHours = workHoursViewModel;
+            ViewBag.WorkDays = workDays;
+            ViewBag.StartHours = startTime;
+            ViewBag.EndHours = endTime;
             return View(trainerViewModel);
             
 

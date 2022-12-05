@@ -89,6 +89,24 @@ body {
     padding: 0;
 }
 
+.col3 {
+    width: 50%;
+    height: 10px;
+    text-align:left;
+    font-size: small;
+    font-style:italic;   
+    padding: 2px;
+}
+
+.col4 
+{
+    width: 50%;
+    height: 10px;
+    text-align: left;
+    font-size: medium;    
+    padding: 2px;
+}
+
 
 .table1 {
     width: 100%;
