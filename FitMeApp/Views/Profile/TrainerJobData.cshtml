@@ -28,6 +28,27 @@
                 </ul>
 
                 <label>Work hours</label>
+                <table>
+                   
+                    @for (int i = 0; i < 7; i++)
+                    {
+                    <tr>
+                        <td>@((DayOfWeek)i)</td>
+                        @foreach (var day in ViewBag.WorkHours)
+                        {
+                            if (day.DayName == (DayOfWeek)i)
+                            {
+                                <td></td>
+                            }
+
+                        }
+
+                    </tr>
+                    }
+
+                </table>
+                   
+                  
 
 
                 <a asp-controller="Profile" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>

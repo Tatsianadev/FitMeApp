@@ -39,11 +39,8 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "admin, trainer, user")]
         public async Task<IActionResult> UserPersonalData()
-        {
-            var workHours = _fitMeService.GetWorkHoursByTrainer("acc51bef-12d2-4933-ba98-646927663579");
-
+        { 
             var user = await _userManager.GetUserAsync(User);
-
             return View(user);
         }
 
@@ -206,6 +203,7 @@ namespace FitMeApp.Controllers
         }
 
 
+
         public async Task<IActionResult> ChangePassword(string id)
         {
             try
@@ -329,6 +327,14 @@ namespace FitMeApp.Controllers
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+
+            List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
+            var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
+            foreach (var item in workHoursModel)
+            {
+                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToViewModel(item));
+            }
+            ViewBag.WorkHours = workHoursViewModel;
             return View(trainerViewModel);
             
 
