@@ -19,9 +19,10 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<TrainerEntityBase> GetAllTrainers();
         TrainerEntityBase GetTrainer(string id);
         TrainerEntityBase AddTrainer(TrainerEntityBase trainer);
-        bool UpdateTrainer(string id, TrainerEntityBase newTrainerData);
+        bool UpdateTrainer(TrainerEntityBase newTrainerData);
         bool DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDaysBase> GetWorkHoursByTrainer(string trainerId);
+        bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();

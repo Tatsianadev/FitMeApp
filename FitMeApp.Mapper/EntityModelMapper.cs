@@ -49,6 +49,10 @@ namespace FitMeApp.Mapper
             return trainerModel;
         }
 
+
+     
+
+
         public TrainingModel MappTrainingEntityBaseToModelBase(TrainingEntityBase training)
         {
             TrainingModel trainingModel = new TrainingModel()
@@ -109,6 +113,40 @@ namespace FitMeApp.Mapper
             return trainerModel;
         }
 
+
+        public TrainerWithGymAndTrainingsBase MappTrainerModelToBase(TrainerModel trainerModel)
+        {
+            List<TrainingEntityBase> trainingEntityBases = new List<TrainingEntityBase>();
+            foreach (var training in trainerModel.Trainings)
+            {
+                trainingEntityBases.Add(new TrainingEntityBase()
+                {
+                    Id = training.Id,
+                    Name = training.Name,
+                    Description = training.Description
+                });
+            }
+
+            TrainerWithGymAndTrainingsBase trainerBase = new TrainerWithGymAndTrainingsBase()
+            {
+                Id = trainerModel.Id,
+                FirstName = trainerModel.FirstName,
+                LastName = trainerModel.LastName,
+                Gender = trainerModel.Gender,
+                Picture = trainerModel.Picture,
+                Specialization = trainerModel.Specialization,
+                Gym = new GymEntityBase()
+                {
+                    Id = trainerModel.Gym.Id,
+                    Name = trainerModel.Gym.Name,
+                    Address = trainerModel.Gym.Address,
+                    Phone = trainerModel.Picture
+                },
+                Trainings = trainingEntityBases
+            };
+
+            return trainerBase;
+        }
 
 
         public TrainingModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)

@@ -193,5 +193,14 @@ namespace FitMeApp.Services
             return trainer;
         }
 
+
+
+        public bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
+        {
+            var trainerBase = _mapper.MappTrainerModelToBase(newTrainerInfo);
+            bool result = _repository.UpdateTrainerWithGymAndTrainings(trainerBase);
+            return result;
+        }
+
     }
 }

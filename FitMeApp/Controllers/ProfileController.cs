@@ -323,7 +323,7 @@ namespace FitMeApp.Controllers
 
 
         public async Task<IActionResult> TrainerJobData()
-        {
+        {        
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
@@ -334,19 +334,56 @@ namespace FitMeApp.Controllers
             Dictionary<DayOfWeek, int> startTime = new Dictionary<DayOfWeek, int>();
             Dictionary<DayOfWeek, int> endTime = new Dictionary<DayOfWeek, int>();
             foreach (var item in workHoursModel)
-            {
-                //workHoursViewModel.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToViewModel(item));
+            {                
                 workDays.Add(item.DayName.ToString());
                 startTime.Add(item.DayName, item.StartTime);
                 endTime.Add(item.DayName, item.EndTime);
             }
-            //ViewBag.WorkHours = workHoursViewModel;
+            
             ViewBag.WorkDays = workDays;
             ViewBag.StartHours = startTime;
             ViewBag.EndHours = endTime;
-            return View(trainerViewModel);
             
+            return View(trainerViewModel);           
 
+        }
+
+        public IActionResult EditTrainerJobData(string trainerId)
+        {
+            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+
+            ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+            return View(trainerViewModel);
+        }
+
+
+        [Authorize(Roles = "trainer, admin")]
+        [HttpPost]
+        public IActionResult EditTrainerJobData(TrainerViewModel changedModel, List<int> trainingsId)
+        {
+            try
+            {
+                List<TrainerViewModel> newTrainings = new List<TrainerViewModel>();
+                foreach (var trainingId in trainingsId)
+                {
+                    newTrainings.Add(_fitMeService.)
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
+                    var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                }
+                return View("TrainerJobData");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+            
         }
 
 

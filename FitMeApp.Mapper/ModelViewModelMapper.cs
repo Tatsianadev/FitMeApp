@@ -115,6 +115,41 @@ namespace FitMeApp.Mapper
         }
 
 
+        public TrainerModel MappTrainerModelToBase(TrainerViewModel trainerViewModel)
+        {
+            List<TrainingModel> trainingModels = new List<TrainingModel>();
+            foreach (var training in trainerViewModel.Trainings)
+            {
+                trainingModels.Add(new TrainingModel()
+                {
+                    Id = training.Id,
+                    Name = training.Name,
+                    Description = training.Description
+                });
+            }
+
+            TrainerModel trainerModel = new TrainerModel()
+            {
+                Id = trainerViewModel.Id,
+                FirstName = trainerViewModel.FirstName,
+                LastName = trainerViewModel.LastName,
+                Gender = trainerViewModel.Gender,
+                Picture = trainerViewModel.Picture,
+                Specialization = trainerViewModel.Specialization,
+                Gym = new GymModel()
+                {
+                    Id = trainerViewModel.Gym.Id,
+                    Name = trainerViewModel.Gym.Name,
+                    Address = trainerViewModel.Gym.Address,
+                    Phone = trainerViewModel.Picture
+                },
+                Trainings = trainingModels
+            };
+
+            return trainerModel;
+        }
+
+
         public TrainingViewModel MappTrainingModelToViewModel(TrainingModel trainingModel)
         {
             try

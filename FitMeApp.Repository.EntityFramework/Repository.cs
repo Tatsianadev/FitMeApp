@@ -125,14 +125,14 @@ namespace FitMeApp.Repository.EntityFramework
             return trainer;
         }
 
-        public bool UpdateTrainer(string id, TrainerEntityBase newTrainerData)
+        public bool UpdateTrainer(TrainerEntityBase newTrainerData)
         {
             if (newTrainerData == null)
             {
                 throw new NotImplementedException();
             }
 
-            var trainer = _context.Trainers.Where(x => x.Id == id).First();
+            var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();
             trainer.FirstName = newTrainerData.FirstName;
             trainer.LastName = newTrainerData.LastName;
             trainer.Gender = newTrainerData.Gender;
@@ -389,8 +389,7 @@ namespace FitMeApp.Repository.EntityFramework
             var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
 
             foreach (var item in allTrainersGymTrainingsJoin)
-            {   
-
+            { 
                 if (!trainersId.Contains(item.TrainerId))
                 {
                     List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
@@ -418,7 +417,7 @@ namespace FitMeApp.Repository.EntityFramework
                     };
 
                     trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
-                    trainersId.Add(item.TrainerId);                  
+                    trainersId.Add(item.TrainerId);                
 
                 }
                 else
@@ -493,6 +492,56 @@ namespace FitMeApp.Repository.EntityFramework
             return trainerWithGymAndTraining;
 
         }
+
+        //Доделать!!!!
+        public bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo)
+        {
+            try
+            {
+                TrainerEntity trainer = new TrainerEntity()
+                {
+                    FirstName = newTrainerInfo.FirstName,
+                    LastName = newTrainerInfo.LastName,
+                    Gender = newTrainerInfo.Gender,
+                    Picture = newTrainerInfo.Picture,
+                    GymId = newTrainerInfo.Gym.Id,
+                    Specialization = newTrainerInfo.Specialization
+                };
+
+                bool result = UpdateTrainer(trainer);
+
+                var previousTrainingsId = trainer.Trainings.Select(x => x.Id);
+                var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id);
+
+                var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
+                var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
+
+                foreach (var trainingId in trainingsIdToDelete)
+                {
+                    var trainingTrainersConnection = _context.TrainingTrainer.Where(x => x.TrainerId == trainer.Id).Where(x => x.TrainingId == trainingId).First();
+                    _context.TrainingTrainer.Remove(trainingTrainersConnection);
+                }
+
+                foreach (var trainingId in trainingsIdToAdd)
+                {
+                    _context.TrainingTrainer.Add(new TrainingTrainerEntity()
+                    {
+                        TrainerId = trainer.Id,
+                        TrainingId = trainingId
+                    });
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+
+
 
         public TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int groupClassId)
         {

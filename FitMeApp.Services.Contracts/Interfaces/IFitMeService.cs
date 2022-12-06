@@ -26,7 +26,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();
+        bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
+        //bool UpdateTrainer(TrainerModel trainer);
+        
 
     }
 }

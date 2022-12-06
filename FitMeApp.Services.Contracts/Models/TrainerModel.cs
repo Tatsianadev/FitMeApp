@@ -12,7 +12,7 @@ namespace FitMeApp.Services.Contracts.Models
         public string Picture { get; set; }
         public string Specialization { get; set; }
         public int GymId { get; set; }
-        public GymModel Gym { get; set; }
+        public GymModel Gym { get; set; }       
         public ICollection<TrainingModel> Trainings { get; set; }
     }
 }
