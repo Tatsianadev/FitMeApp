@@ -97,18 +97,16 @@ namespace FitMeApp.Services
             }
         }
 
-
-
-        public IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId)
+        public TrainingModel GetTrainingModel(int trainingId)
         {
-            var workHoursEntityBase = _repository.GetWorkHoursByTrainer(trainerId);
-            List<TrainerWorkHoursModel> workHoursModels = new List<TrainerWorkHoursModel>();
-            foreach (var item in workHoursEntityBase)
-            {
-                workHoursModels.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToModel(item));
-            }
-            return workHoursModels;
+            var trainingEntity = _repository.GetTraining(trainingId);
+            TrainingModel trainingModel = _mapper.MappTrainingEntityBaseToModelBase(trainingEntity);
+            return trainingModel;
         }
+
+
+
+      
 
 
         //Subscriptions
@@ -193,6 +191,17 @@ namespace FitMeApp.Services
             return trainer;
         }
 
+
+        public IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId)
+        {
+            var workHoursEntityBase = _repository.GetWorkHoursByTrainer(trainerId);
+            List<TrainerWorkHoursModel> workHoursModels = new List<TrainerWorkHoursModel>();
+            foreach (var item in workHoursEntityBase)
+            {
+                workHoursModels.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToModel(item));
+            }
+            return workHoursModels;
+        }
 
 
         public bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)

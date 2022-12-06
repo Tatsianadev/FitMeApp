@@ -13,6 +13,8 @@
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Picture" />
+                    <input type="hidden" asp-for="Gym.Id" />
                     <table style="width:60%; margin:auto">
                         <tr>
                             <td class="col3">Name</td>

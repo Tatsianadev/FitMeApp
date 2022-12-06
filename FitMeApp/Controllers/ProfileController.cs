@@ -29,7 +29,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult UsersList()
         {
             var users = _userManager.Users.ToList();
@@ -39,7 +39,7 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "admin, trainer, user")]
         public async Task<IActionResult> UserPersonalData()
-        { 
+        {
             var user = await _userManager.GetUserAsync(User);
             return View(user);
         }
@@ -154,7 +154,7 @@ namespace FitMeApp.Controllers
                             {
                                 return RedirectToAction("UsersList");
                             }
-                            
+
                         }
                         else
                         {
@@ -232,7 +232,7 @@ namespace FitMeApp.Controllers
             }
         }
 
-       
+
         [Authorize(Roles = "trainer, user")]
         [HttpPost]
         public async Task<IActionResult> ChangePasswordWithOldPassword(ChangePasswordViewModel model)
@@ -259,7 +259,7 @@ namespace FitMeApp.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "User is not found");  
+                        ModelState.AddModelError(string.Empty, "User is not found");
                     }
                 }
                 return View(model);
@@ -275,7 +275,7 @@ namespace FitMeApp.Controllers
             }
         }
 
-       
+
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> ChangePasswordWithoutOldPassword(ChangePasswordViewModel model)
@@ -323,7 +323,7 @@ namespace FitMeApp.Controllers
 
 
         public async Task<IActionResult> TrainerJobData()
-        {        
+        {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
@@ -334,17 +334,17 @@ namespace FitMeApp.Controllers
             Dictionary<DayOfWeek, int> startTime = new Dictionary<DayOfWeek, int>();
             Dictionary<DayOfWeek, int> endTime = new Dictionary<DayOfWeek, int>();
             foreach (var item in workHoursModel)
-            {                
+            {
                 workDays.Add(item.DayName.ToString());
                 startTime.Add(item.DayName, item.StartTime);
                 endTime.Add(item.DayName, item.EndTime);
             }
-            
+
             ViewBag.WorkDays = workDays;
             ViewBag.StartHours = startTime;
             ViewBag.EndHours = endTime;
-            
-            return View(trainerViewModel);           
+
+            return View(trainerViewModel);
 
         }
 
@@ -364,26 +364,26 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                List<TrainerViewModel> newTrainings = new List<TrainerViewModel>();
+                List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
                 foreach (var trainingId in trainingsId)
                 {
-                    newTrainings.Add(_fitMeService.)
+                    newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
                 }
 
-                if (ModelState.IsValid)
-                {
-                    var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
-                    var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
-                }
-                return View("TrainerJobData");
+                changedModel.Trainings = newTrainings;
+
+                var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
+                var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
+
+                return RedirectToAction("TrainerJobData");
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
-            
-            
+
+
         }
 
 

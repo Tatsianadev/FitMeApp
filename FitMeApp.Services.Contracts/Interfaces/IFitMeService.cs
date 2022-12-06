@@ -14,7 +14,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Trainings
         ICollection<TrainingModel> GetAllTrainingModels();
-        IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
+        TrainingModel GetTrainingModel(int trainingId);
+       
 
         //Subscriptions
         IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
@@ -28,8 +29,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
         List<TrainerModel> GetAllTrainerModels();
         bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
+        IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
+
         //bool UpdateTrainer(TrainerModel trainer);
-        
+
 
     }
 }

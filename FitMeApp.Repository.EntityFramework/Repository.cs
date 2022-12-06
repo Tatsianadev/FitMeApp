@@ -498,8 +498,9 @@ namespace FitMeApp.Repository.EntityFramework
         {
             try
             {
-                TrainerEntity trainer = new TrainerEntity()
+                TrainerEntityBase trainer = new TrainerEntityBase()
                 {
+                    Id = newTrainerInfo.Id,
                     FirstName = newTrainerInfo.FirstName,
                     LastName = newTrainerInfo.LastName,
                     Gender = newTrainerInfo.Gender,
@@ -510,8 +511,8 @@ namespace FitMeApp.Repository.EntityFramework
 
                 bool result = UpdateTrainer(trainer);
 
-                var previousTrainingsId = trainer.Trainings.Select(x => x.Id);
-                var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id);
+                var previousTrainingsId = _context.TrainingTrainer.Where(x=>x.TrainerId == trainer.Id).Select(x => x.TrainingId).ToList();
+                var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
 
                 var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
                 var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
@@ -533,10 +534,10 @@ namespace FitMeApp.Repository.EntityFramework
 
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return false;
+                throw ex;
+                //return false;
             }
         }
 
