@@ -356,6 +356,7 @@ namespace FitMeApp.Controllers
 
             ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
             ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainerId);
+            ViewBag.ActualSubscriptionsCount = _fitMeService.GetActualSubscriptionsCountByTrainer(trainerId);
             return View(trainerViewModel);
         }
 

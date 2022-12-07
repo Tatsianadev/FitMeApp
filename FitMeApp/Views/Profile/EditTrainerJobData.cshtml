@@ -61,7 +61,7 @@
                             <td class="col3">Trainings</td>
                             <td class="col4">
                                 @{ List<int> trainingsId = Model.Trainings.Select(x => x.Id).ToList();}
-                                @if (ViewBag.ActualEventsCount > 0)
+                                @if (ViewBag.ActualEventsCount > 0 || ViewBag.ActualSubscriptionsCount > 0)
                                 {
                                     <div style="font-size:smaller; color:red">The function is not available while there are current events</div>
                                     @foreach (var training in Model.Trainings)

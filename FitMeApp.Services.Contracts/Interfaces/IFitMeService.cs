@@ -23,7 +23,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
         List<int> GetAllSubscriptionPeriods();
 
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
+
+        //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
+        int GetActualSubscriptionsCountByTrainer(string trainerId);
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();

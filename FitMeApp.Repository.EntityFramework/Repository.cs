@@ -741,7 +741,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-
+        //UserSubscriptions
         public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {
             int gymSubscriptionId = _context.GymSubscriptions.Where(x => x.GymId == gymId && x.SubscriptionId == subscriptionId).First().Id;
@@ -764,6 +764,19 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
+
+        public int GetActualSubscriptionsCountByTrainer(string trainerId)
+        {
+            var actualSubscriptionsCount = _context.UserSubscriptions
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.EndDate.Date >= DateTime.Now.Date)
+                .ToList().Count();
+            return actualSubscriptionsCount;
+        }
+
+
+
+        //Events
         public IEnumerable<EventEntityBase> GetAllEvents()
         {
             var events = _context.Events.ToList();
