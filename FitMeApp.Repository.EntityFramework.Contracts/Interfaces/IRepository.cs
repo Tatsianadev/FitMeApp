@@ -30,7 +30,11 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainingEntityBase AddTraining(TrainingEntityBase item);
         bool UpdateTraining(int id, TrainingEntityBase newTrainingData);
         bool DeleteTraining(int id);
-        
+
+        //Trainer-Training 
+        bool DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
+        bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
+
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
