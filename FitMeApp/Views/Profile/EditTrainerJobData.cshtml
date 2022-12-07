@@ -14,12 +14,17 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Picture" />
-                    <input type="hidden" asp-for="Gym.Id" />
+
                     <table style="width:60%; margin:auto">
                         <tr>
-                            <td class="col3">Name</td>
+                            <td class="col3">First name</td>
                             <td class="col4">
-                                <input type="text" asp-for="FirstName" class="form-control" />
+                                <input type="text" asp-for="FirstName" class="form-control" />                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col3">Last name</td>
+                            <td class="col4">                               
                                 <input type="text" asp-for="LastName" class="form-control" />
                             </td>
                         </tr>
@@ -32,7 +37,18 @@
                         <tr>
                             <td class="col3">Gym</td>
                             <td class="col4">
-                                <input type="text" asp-for="Gym.Name" class="form-control" />
+                                <input type="hidden" asp-for="Gym.Id" />
+                                <input type="hidden" asp-for="Gym.Name" />
+                                @Model.Gym.Name
+                                @*@if (ViewBag.ActualEventsCount > 0)
+                {
+                    <div style="font-size:smaller; color:red">The function is not available while there are current events</div>
+                    <input type="hidden" asp-for="Gym.Name" />
+                }
+                else
+                {
+                    <input type="text" asp-for="Gym.Name" class="form-control" />
+                }*@
                             </td>
                         </tr>
                         <tr>
@@ -45,11 +61,23 @@
                             <td class="col3">Trainings</td>
                             <td class="col4">
                                 @{ List<int> trainingsId = Model.Trainings.Select(x => x.Id).ToList();}
-                                @foreach (var training in ViewBag.AllTrainings)
+                                @if (ViewBag.ActualEventsCount > 0)
                                 {
-                                    <input type="checkbox" name="trainingsId" value="@training.Id"
-                                           @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />@training.Name <br />
+                                    <div style="font-size:smaller; color:red">The function is not available while there are current events</div>
+                                    @foreach (var training in Model.Trainings)
+                                    {
+                                        <input type="checkbox" name="trainingsId" value="@training.Id"
+                                               @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") hidden />
                                     }
+                                }
+                                else
+                                {
+                                    @foreach (var training in ViewBag.AllTrainings)
+                                    {
+                                        <input type="checkbox" name="trainingsId" value="@training.Id"
+                                               @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />@training.Name <br />
+                                        }
+                                }
 
                             </td>
                         </tr>
@@ -62,26 +90,26 @@
 
                 @*<hr />
 
-        <label><b>Work hours</b></label>
-        <table style="width: 60%; margin: auto">
-            @{List<string> workDays = ViewBag.WorkDays; }
-            @for (int i = 0; i < 7; i++)
-            {
-                <tr>
-                    <td class="col3">@((DayOfWeek)i)</td>
-                    @if (workDays.Contains(((DayOfWeek)i).ToString()))
-                    {
-                        <td class="col4">@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })</td>
-                    }
-                    else
-                    {
-                        <td class="col4"> - </td>
-                    }
-                </tr>
-            }
-        </table>*@
+                    <label><b>Work hours</b></label>
+                    <table style="width: 60%; margin: auto">
+                        @{List<string> workDays = ViewBag.WorkDays; }
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <tr>
+                                <td class="col3">@((DayOfWeek)i)</td>
+                                @if (workDays.Contains(((DayOfWeek)i).ToString()))
+                                {
+                                    <td class="col4">@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })</td>
+                                }
+                                else
+                                {
+                                    <td class="col4"> - </td>
+                                }
+                            </tr>
+                        }
+                    </table>*@
 
-                
+
 
             </div>
         </div>

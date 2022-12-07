@@ -211,5 +211,12 @@ namespace FitMeApp.Services
             return result;
         }
 
+        //Events
+        public int GetActualEventsCountByTrainer(string trainerId)
+        {
+            int actualEventsCount = _repository.GetActualEventsCountByTrainer(trainerId);
+            return actualEventsCount;
+        }
+
     }
 }

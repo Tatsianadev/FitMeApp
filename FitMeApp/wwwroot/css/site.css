@@ -93,6 +93,7 @@ body {
     width: 50%;
     height: 10px;
     text-align:left;
+    vertical-align:top;
     font-size: small;
     font-style:italic;   
     padding: 2px;

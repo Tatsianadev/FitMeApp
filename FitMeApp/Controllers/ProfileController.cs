@@ -343,6 +343,7 @@ namespace FitMeApp.Controllers
             ViewBag.WorkDays = workDays;
             ViewBag.StartHours = startTime;
             ViewBag.EndHours = endTime;
+            
 
             return View(trainerViewModel);
 
@@ -354,6 +355,7 @@ namespace FitMeApp.Controllers
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
 
             ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+            ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainerId);
             return View(trainerViewModel);
         }
 

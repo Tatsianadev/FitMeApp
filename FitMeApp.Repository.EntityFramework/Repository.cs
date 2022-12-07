@@ -956,6 +956,12 @@ namespace FitMeApp.Repository.EntityFramework
             return result;
         }
 
+        public int GetActualEventsCountByTrainer(string trainerId)
+        {            
+             var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
+            return actualEventsCount;
+        }
+
 
 
 
