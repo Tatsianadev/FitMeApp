@@ -544,32 +544,39 @@ namespace FitMeApp.Repository.EntityFramework
                 Specialization = newTrainerInfo.Specialization
             };
 
-            bool result = UpdateTrainer(newTrainerEntityBase);
-
-            var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
-            var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
-
-            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
-            var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
-
-            foreach (var trainingId in trainingsIdToDelete)
+            bool updateTrainerResult = UpdateTrainer(newTrainerEntityBase);
+            if (updateTrainerResult)
             {
-                bool deleteResult = DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                if (!deleteResult)
-                {
-                    result = false;
-                }
-            }
+                bool updateTrainingsResult = true;
+                var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
+                var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
 
-            foreach (var trainingId in trainingsIdToAdd)
-            {
-                bool addResult = AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                if (!addResult)
+                var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
+                var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
+
+                foreach (var trainingId in trainingsIdToDelete)
                 {
-                    result = false;
+                    bool deleteResult = DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                    if (!deleteResult)
+                    {
+                        updateTrainingsResult = false;
+                    }
                 }
+
+                foreach (var trainingId in trainingsIdToAdd)
+                {
+                    bool addResult = AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                    if (!addResult)
+                    {
+                        updateTrainingsResult = false;
+                    }
+                }
+                return true;
             }
-            return result;
+            else
+            {
+                return false;
+            }           
 
         }
 

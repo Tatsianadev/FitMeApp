@@ -367,21 +367,35 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
-                foreach (var trainingId in trainingsId)
+                if (ModelState.IsValid)
                 {
-                    newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
+                    List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
+                    foreach (var trainingId in trainingsId)
+                    {
+                        newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
+                    }
+
+                    changedModel.Trainings = newTrainings;
+
+                    var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
+                    var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
+
+                    return RedirectToAction("TrainerJobData");
                 }
-
-                changedModel.Trainings = newTrainings;
-
-                var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
-                var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
-
-                return RedirectToAction("TrainerJobData");
+                else
+                {
+                    return RedirectToAction("TrainerJobData"); //Доделать! сообщать о невалидных данных 
+                }
+               
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with change users job data. Try again, please."
+                };
+                return View("CustomError", error);
 
                 throw ex;
             }

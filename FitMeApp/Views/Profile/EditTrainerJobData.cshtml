@@ -19,19 +19,22 @@
                         <tr>
                             <td class="col3">First name</td>
                             <td class="col4">
-                                <input type="text" asp-for="FirstName" class="form-control" />                               
+                                <input type="text" asp-for="FirstName" class="form-control" />                                
+                                <span asp-validation-for="FirstName"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="col3">Last name</td>
-                            <td class="col4">                               
+                            <td class="col4">
                                 <input type="text" asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="col3">Gender</td>
                             <td class="col4">
                                 <input type="text" asp-for="Gender" class="form-control" />
+                                <span asp-validation-for="Gender"></span>
                             </td>
                         </tr>
                         <tr>
@@ -40,15 +43,6 @@
                                 <input type="hidden" asp-for="Gym.Id" />
                                 <input type="hidden" asp-for="Gym.Name" />
                                 @Model.Gym.Name
-                                @*@if (ViewBag.ActualEventsCount > 0)
-                {
-                    <div style="font-size:smaller; color:red">The function is not available while there are current events</div>
-                    <input type="hidden" asp-for="Gym.Name" />
-                }
-                else
-                {
-                    <input type="text" asp-for="Gym.Name" class="form-control" />
-                }*@
                             </td>
                         </tr>
                         <tr>
@@ -85,32 +79,6 @@
 
                     <input type="submit" value="Save" class="btn btn-outline-secondary" />
                 </form>
-
-
-
-                @*<hr />
-
-                    <label><b>Work hours</b></label>
-                    <table style="width: 60%; margin: auto">
-                        @{List<string> workDays = ViewBag.WorkDays; }
-                        @for (int i = 0; i < 7; i++)
-                        {
-                            <tr>
-                                <td class="col3">@((DayOfWeek)i)</td>
-                                @if (workDays.Contains(((DayOfWeek)i).ToString()))
-                                {
-                                    <td class="col4">@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })</td>
-                                }
-                                else
-                                {
-                                    <td class="col4"> - </td>
-                                }
-                            </tr>
-                        }
-                    </table>*@
-
-
-
             </div>
         </div>
         <div class="col-md-3">
