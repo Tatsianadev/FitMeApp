@@ -167,7 +167,7 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
-        public IEnumerable<TrainerWorkHoursWithDaysBase> GetWorkHoursByTrainer(string trainerId)
+        public IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId)
         {
             var trainerWorkHoursGymWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
                                                     join gymWorkHours in _context.GymWorkHours
@@ -183,10 +183,10 @@ namespace FitMeApp.Repository.EntityFramework
                                                         DayName = gymWorkHours.DayOfWeekNumber
                                                     }).ToList();
 
-            List<TrainerWorkHoursWithDaysBase> trainerWorkHoursWithDays = new List<TrainerWorkHoursWithDaysBase>();
+            List<TrainerWorkHoursWithDayBase> trainerWorkHoursWithDays = new List<TrainerWorkHoursWithDayBase>();
             foreach (var item in trainerWorkHoursGymWorkHoursJoin)
             {
-                trainerWorkHoursWithDays.Add(new TrainerWorkHoursWithDaysBase()
+                trainerWorkHoursWithDays.Add(new TrainerWorkHoursWithDayBase()
                 {
                     Id = item.Id,
                     TrainerId = item.TrainerId,
@@ -199,6 +199,55 @@ namespace FitMeApp.Repository.EntityFramework
             return trainerWorkHoursWithDays;
 
         }
+
+        public bool UpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursEntityBase> newWorkHours)
+        {
+            _context.Remove(_context.TrainerWorkHours.Where(x => x.TrainerId == trainerId));
+            _context.AddRange(newWorkHours);
+            int changedRowsCount = _context.SaveChanges();
+            if (changedRowsCount == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }          
+            
+        }
+
+        public bool CheckPossibilityUpdateWorkHoursByEvents(string trainerId, List<TrainerWorkHoursWithDayBase> newWorkHours)
+        {
+            var actualEvents = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.Date.Date >= DateTime.Now.Date)
+                .ToList();
+
+            var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
+            var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
+            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
+            {
+                return false;
+            }
+
+            foreach (var eventItem in actualEvents)
+            {
+                foreach (var newItem in newWorkHours)
+                {
+                    if (eventItem.Date.DayOfWeek == newItem.DayName)
+                    {
+                        if (eventItem.StartTime <= newItem.StartTime || eventItem.EndTime >= newItem.EndTime)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
 
         //Trainings
         public IEnumerable<TrainingEntityBase> GetAllTrainings()
@@ -864,6 +913,9 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+       
+
+
         public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date)
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
@@ -920,6 +972,9 @@ namespace FitMeApp.Repository.EntityFramework
             }
             return eventsEntityBases;
         }
+
+
+       
 
 
         // to show Events count for each date on the calendar for current User

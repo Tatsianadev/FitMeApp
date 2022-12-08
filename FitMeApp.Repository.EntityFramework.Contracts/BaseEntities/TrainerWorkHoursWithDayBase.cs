@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
-    public class TrainerWorkHoursWithDaysBase
+    public class TrainerWorkHoursWithDayBase
     {
         public int Id { get; set; }
         public string TrainerId { get; set; }

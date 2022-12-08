@@ -32,7 +32,7 @@
                         <td class="col3">Trainings</td>
                         <td class="col4">
 
-                            @foreach (var training in Model.Trainings.OrderBy(x=>x.Id))
+                            @foreach (var training in Model.Trainings.OrderBy(x => x.Id))
                             {
                                 @training.Name
                                 <br />
@@ -41,8 +41,9 @@
                         </td>
                     </tr>
                 </table>
+                <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
 
-                <hr />  
+                <hr />
 
                 <label><b>Work hours</b></label>
                 <table style="width: 60%; margin: auto">
@@ -63,8 +64,8 @@
                     }
                 </table>
 
-                <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
-                
+                <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit work hours</a>
+
             </div>
         </div>
         <div class="col-md-3">

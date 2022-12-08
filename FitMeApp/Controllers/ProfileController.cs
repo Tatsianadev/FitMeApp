@@ -384,7 +384,9 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("TrainerJobData"); //Доделать! сообщать о невалидных данных 
+                    ModelState.AddModelError("", "the form is filled out incorrectly");
+                    return RedirectToAction("TrainerJobData"); //Доделать! Найти способ вернуть эту же форму
+                                                               //с невалидной моделью и сообщать о невалидных данных 
                 }
                
             }

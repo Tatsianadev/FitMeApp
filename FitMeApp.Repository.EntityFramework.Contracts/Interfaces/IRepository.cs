@@ -21,8 +21,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainerEntityBase AddTrainer(TrainerEntityBase trainer);
         bool UpdateTrainer(TrainerEntityBase newTrainerData);
         bool DeleteTrainer(string id);
-        IEnumerable<TrainerWorkHoursWithDaysBase> GetWorkHoursByTrainer(string trainerId);
+        IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
         bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
+        bool CheckPossibilityUpdateWorkHoursByEvents(string trainerId, List<TrainerWorkHoursWithDayBase> newWorkHours);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();

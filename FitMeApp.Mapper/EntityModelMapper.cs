@@ -245,7 +245,7 @@ namespace FitMeApp.Mapper
             return gymWorkHoursModel;
         }
 
-        public TrainerWorkHoursModel MappTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursWithDaysBase trainerWorkHoursWithDaysBase)
+        public TrainerWorkHoursModel MappTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursWithDayBase trainerWorkHoursWithDaysBase)
         {
             TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
             {
