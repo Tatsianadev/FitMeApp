@@ -5,7 +5,7 @@ using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace FitMeApp.Services
 {
@@ -215,6 +215,74 @@ namespace FitMeApp.Services
             var trainerBase = _mapper.MappTrainerModelToBase(newTrainerInfo);
             bool result = _repository.UpdateTrainerWithGymAndTrainings(trainerBase);
             return result;
+        }
+
+
+        public bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
+        {
+            var gymWorkHours =_repository.GetWorkHoursByGym(gymId);
+            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id);
+            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId);
+                        
+            if (newGymWorkHoursId.Except(allGymWorkHoursId).Count() > 0)
+            {
+                return false;
+            }
+            foreach (var newTrainerWorkHours in newWorkHours)
+            {
+                var gymWorkStartTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().StartTime;
+                var gymWorkEndTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().EndTime;
+                if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime < newTrainerWorkHours.EndTime)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
+
+
+        public bool CheckFacilityUpdateTrainerWorkHoursByEvents(string trainerId, List<TrainerWorkHoursModel> newWorkHours)
+        {
+            var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
+
+            var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
+            var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
+            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
+            {
+                return false;
+            }
+
+            foreach (var eventItem in actualEvents)
+            {
+                foreach (var newTrainerWorkHours in newWorkHours)
+                {
+                    if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
+                    {
+                        if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
+        public bool CheckFacilityUpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursModel> newWorkHours)
+        {
+            int gymId = _repository.GetTrainer(trainerId).GymId;            
+            if (CheckFacilityUpdateTrainerWorkHoursByEvents(trainerId, newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymScedule(gymId,newWorkHours))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         //Events

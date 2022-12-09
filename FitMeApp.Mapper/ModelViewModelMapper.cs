@@ -235,7 +235,7 @@ namespace FitMeApp.Mapper
             return gymWorkHoursViewModel;
         }
 
-        public TrainerWorkHoursViewModel MappTrainerWorkHoursWithDaysBaseToViewModel(TrainerWorkHoursModel trainerWorkHoursModel)
+        public TrainerWorkHoursViewModel MappTrainerWorkHoursModelToViewModel(TrainerWorkHoursModel trainerWorkHoursModel)
         {
             TrainerWorkHoursViewModel trainerWorkHoursViewModel = new TrainerWorkHoursViewModel()
             {
@@ -247,6 +247,20 @@ namespace FitMeApp.Mapper
                 DayName = trainerWorkHoursModel.DayName
             };
             return trainerWorkHoursViewModel;
+        }
+
+        public TrainerWorkHoursModel MappTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
+        {
+            TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
+            {
+                Id = trainerWorkHoursViewModel.Id,
+                TrainerId = trainerWorkHoursViewModel.TrainerId,
+                StartTime = trainerWorkHoursViewModel.StartTime,
+                EndTime = trainerWorkHoursViewModel.EndTime,
+                GymWorkHoursId = trainerWorkHoursViewModel.GymWorkHoursId,
+                DayName = trainerWorkHoursViewModel.DayName
+            };
+            return trainerWorkHoursModel;
         }
 
 

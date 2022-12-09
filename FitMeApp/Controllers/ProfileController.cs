@@ -406,6 +406,51 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize(Roles ="trainer, admin")]
+        public IActionResult EditTrainerWorkHours()
+        {
+            string trainerId = _userManager.GetUserId(User);
+            var workHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
+            return View(workHours);
+        }
+
+
+        [Authorize(Roles = "trainer, admin")]
+        [HttpPost]
+        public IActionResult EditTrainerWorkHours(List<TrainerWorkHoursViewModel> newWorkHours)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string trainerId = _userManager.GetUserId(User);
+                    var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();
+                   
+                    bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(trainerId, newWorkHoursModels);
+                    if (result)
+                    {
+                        //Вызов метода UpdateTrainerWorkHours
+                        //return RedirectToAction("TrainerJobData");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("NewDataConflict", "There is new data conflict. Get sure there aren't gym schedule or actual events conflicts");
+                        return View(newWorkHours);
+                    }
+                }
+                return View(newWorkHours);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        }
+
+
+
 
     }
 }

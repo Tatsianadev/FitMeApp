@@ -215,62 +215,7 @@ namespace FitMeApp.Repository.EntityFramework
             }          
             
         }
-
-        public bool CheckPossibilityUpdateWorkHoursByEvents(string trainerId, List<TrainerWorkHoursWithDayBase> newWorkHours)
-        {
-            var actualEvents = _context.Events
-                .Where(x => x.TrainerId == trainerId)
-                .Where(x => x.Date.Date >= DateTime.Now.Date)
-                .ToList();
-
-            var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
-            var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
-            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
-            {
-                return false;
-            }
-
-            foreach (var eventItem in actualEvents)
-            {
-                foreach (var newTrainerWorkHours in newWorkHours)
-                {
-                    if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
-                    {
-                        if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            return true;
-
-        }
-
-
-        public bool CheckPossibilityToUpdateWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursWithDayBase> newWorkHours)
-        {
-            var gymWorkHours = GetWorkHoursByGym(gymId);
-            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id);
-            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId);
-            if (newGymWorkHoursId.Except(allGymWorkHoursId).Count() > 0)
-            {
-                return false;
-            }
-            foreach (var newTrainerWorkHours in newWorkHours)
-            {                
-                var gymWorkStartTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().StartTime;                                
-                var gymWorkEndTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().EndTime;
-                if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime< newTrainerWorkHours.EndTime)
-                {
-                    return false;
-                }
-            }
-
-            return true;            
-            
-        }
+           
 
 
         //Trainings
@@ -1059,6 +1004,39 @@ namespace FitMeApp.Repository.EntityFramework
         {            
              var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
             return actualEventsCount;
+        }
+
+        public IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId)
+        {
+            var actualEvents = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.Date.Date >= DateTime.Now.Date)
+                .ToList();
+            return actualEvents;
+
+            //var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
+            //var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
+            //if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
+            //{
+            //    return false;
+            //}
+
+            //foreach (var eventItem in actualEvents)
+            //{
+            //    foreach (var newTrainerWorkHours in newWorkHours)
+            //    {
+            //        if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
+            //        {
+            //            if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
+            //            {
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //}
+
+            //return true;
+
         }
 
 

@@ -22,9 +22,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool UpdateTrainer(TrainerEntityBase newTrainerData);
         bool DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
-        bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
-        bool CheckPossibilityUpdateWorkHoursByEvents(string trainerId, List<TrainerWorkHoursWithDayBase> newWorkHours);
-        bool CheckPossibilityToUpdateWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursWithDayBase> newWorkHours);
+        bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);        
+        
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
@@ -69,6 +68,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Events
         bool ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
+        IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
 
 
 
