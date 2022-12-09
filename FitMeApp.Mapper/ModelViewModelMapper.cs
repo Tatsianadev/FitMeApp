@@ -16,7 +16,7 @@ namespace FitMeApp.Mapper
                 Name = gymModel.Name,
                 Address = gymModel.Address,
                 Phone = gymModel.Phone,
-                
+
             };
             return gymViewModel;
         }
@@ -75,7 +75,7 @@ namespace FitMeApp.Mapper
 
                 GymViewModel gymViewModel = MappGymModelToViewModelBase(gymModel);
                 gymViewModel.Trainers = trainerViewModels;
-                
+
 
                 return gymViewModel;
             }
@@ -83,8 +83,8 @@ namespace FitMeApp.Mapper
             {
 
                 throw ex;
-            }           
-            
+            }
+
         }
 
 
@@ -92,7 +92,7 @@ namespace FitMeApp.Mapper
         {
             try
             {
-                GymViewModel gymViewModel = MappGymModelToViewModelBase(trainerModel.Gym);               
+                GymViewModel gymViewModel = MappGymModelToViewModelBase(trainerModel.Gym);
 
                 List<TrainingViewModel> groupClassViewModels = new List<TrainingViewModel>();
                 foreach (var groupClass in trainerModel.Trainings)
@@ -111,7 +111,7 @@ namespace FitMeApp.Mapper
             {
 
                 throw ex;
-            }            
+            }
         }
 
 
@@ -187,13 +187,13 @@ namespace FitMeApp.Mapper
         {
             SubscriptionViewModel subscription = new SubscriptionViewModel()
             {
-               Id = subscriptionModel.Id,
-               GymId = subscriptionModel.GymId,
-               ValidDays = subscriptionModel.ValidDays,
-               GroupTraining = subscriptionModel.GroupTraining,
-               DietMonitoring = subscriptionModel.DietMonitoring,
-               Price = subscriptionModel.Price,
-               
+                Id = subscriptionModel.Id,
+                GymId = subscriptionModel.GymId,
+                ValidDays = subscriptionModel.ValidDays,
+                GroupTraining = subscriptionModel.GroupTraining,
+                DietMonitoring = subscriptionModel.DietMonitoring,
+                Price = subscriptionModel.Price,
+
             };
             return subscription;
         }
@@ -241,8 +241,8 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerWorkHoursModel.Id,
                 TrainerId = trainerWorkHoursModel.TrainerId,
-                StartTime = trainerWorkHoursModel.StartTime,
-                EndTime = trainerWorkHoursModel.EndTime,
+                StartTime = ConvertIntTimeToString(trainerWorkHoursModel.StartTime),
+                EndTime = ConvertIntTimeToString(trainerWorkHoursModel.EndTime),
                 GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
                 DayName = trainerWorkHoursModel.DayName
             };
@@ -255,12 +255,44 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerWorkHoursViewModel.Id,
                 TrainerId = trainerWorkHoursViewModel.TrainerId,
-                StartTime = trainerWorkHoursViewModel.StartTime,
-                EndTime = trainerWorkHoursViewModel.EndTime,
+                StartTime = ConvertStringTimeToInt(trainerWorkHoursViewModel.StartTime),
+                EndTime = ConvertStringTimeToInt(trainerWorkHoursViewModel.EndTime),
                 GymWorkHoursId = trainerWorkHoursViewModel.GymWorkHoursId,
                 DayName = trainerWorkHoursViewModel.DayName
             };
             return trainerWorkHoursModel;
+        }
+
+
+        private string ConvertIntTimeToString(int intTime)
+        {
+            string stringTime;
+
+
+            if (intTime % 60 == 0)
+            {
+                stringTime = (intTime / 60).ToString() + ".00";
+            }
+            else
+            {
+                string remainder = (intTime % 60).ToString();
+                stringTime = Math.Truncate((decimal)intTime / 60).ToString() + remainder;
+            }
+
+            return stringTime;
+        }
+
+        private int ConvertStringTimeToInt(string stringTime)
+        {
+            //определение целой части
+            string integerPart = stringTime.Substring(0, stringTime.Length - 3);
+            
+            //щпределение дробной части
+            int pointIndex = stringTime.Length - 3;            
+            string remainder = stringTime.Remove(0, pointIndex);
+
+            int intTime = int.Parse(integerPart) * 60 + int.Parse(remainder);
+            return intTime;
         }
 
 

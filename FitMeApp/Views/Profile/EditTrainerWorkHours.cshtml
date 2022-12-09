@@ -1,0 +1,57 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6" style="border-left:solid; border-right:solid">
+            <div style="text-align:center; margin:20px">                
+                <label><b>Work hours</b></label>
+                <form action="/" method="post">
+                    <table style="width: 60%; margin: auto">
+                        @{List<string> workDays = Model.Select(x=>x.DayName.ToString()).ToList(); }
+                        @for (int i = 0; i < 7; i++)
+                        {
+                        <tr>
+                            <td class="col3">@((DayOfWeek)i)</td>
+                            @if (workDays.Contains(((DayOfWeek)i).ToString()))
+                            {
+                                <td class="col4">
+                                    @Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime
+                                </td>
+                                <td class="col4">
+                                    -
+                                </td>
+                                <td class="col4">
+                                    @Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="col4">-</td>
+                                <td class="col4">-</td>
+                                <td class="col4">-</td>
+
+                            }
+                        </tr>
+                        }
+                    </table>
+
+
+
+                </form>
+               
+
+                <a asp-controller="Profile" asp-action="EditTrainerJobData"  class="btn btn-dark" style="width:40%">Edit work hours</a>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+
+    </div>
+
+</div>
+

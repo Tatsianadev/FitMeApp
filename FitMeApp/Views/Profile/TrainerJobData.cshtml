@@ -1,4 +1,4 @@
-﻿@addTagHelper*, FitMeApp
+﻿@*@addTagHelper*, FitMeApp*@
 @model FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel
 
 <div class="container">
@@ -54,7 +54,10 @@
                             <td class="col3">@((DayOfWeek)i)</td>
                             @if (workDays.Contains(((DayOfWeek)i).ToString()))
                             {
-                                <td class="col4">@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })</td>
+                        <td class="col4">
+                            @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]
+                            @*@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })*@
+                        </td>
                             }
                             else
                             {
@@ -64,7 +67,7 @@
                     }
                 </table>
 
-                <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit work hours</a>
+                <a asp-controller="Profile" asp-action="EditTrainerWorkHours" class="btn btn-dark" style="width:40%">Edit work hours</a>
 
             </div>
         </div>

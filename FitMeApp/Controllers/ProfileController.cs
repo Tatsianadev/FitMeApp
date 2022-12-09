@@ -330,10 +330,15 @@ namespace FitMeApp.Controllers
 
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
-            List<string> workDays = new List<string>();
-            Dictionary<DayOfWeek, int> startTime = new Dictionary<DayOfWeek, int>();
-            Dictionary<DayOfWeek, int> endTime = new Dictionary<DayOfWeek, int>();
             foreach (var item in workHoursModel)
+            {
+                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
+            }
+
+            List<string> workDays = new List<string>();
+            Dictionary<DayOfWeek, string> startTime = new Dictionary<DayOfWeek, string>();
+            Dictionary<DayOfWeek, string> endTime = new Dictionary<DayOfWeek, string>();
+            foreach (var item in workHoursViewModel)
             {
                 workDays.Add(item.DayName.ToString());
                 startTime.Add(item.DayName, item.StartTime);
@@ -342,8 +347,7 @@ namespace FitMeApp.Controllers
 
             ViewBag.WorkDays = workDays;
             ViewBag.StartHours = startTime;
-            ViewBag.EndHours = endTime;
-            
+            ViewBag.EndHours = endTime;            
 
             return View(trainerViewModel);
 
@@ -410,8 +414,14 @@ namespace FitMeApp.Controllers
         public IActionResult EditTrainerWorkHours()
         {
             string trainerId = _userManager.GetUserId(User);
-            var workHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
-            return View(workHours);
+            var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainerId);
+
+            List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();           
+            foreach (var item in workHoursModel)
+            {
+                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
+            }
+            return View(workHoursViewModel);
         }
 
 
