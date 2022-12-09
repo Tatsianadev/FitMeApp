@@ -24,6 +24,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
         bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
         bool CheckPossibilityUpdateWorkHoursByEvents(string trainerId, List<TrainerWorkHoursWithDayBase> newWorkHours);
+        bool CheckPossibilityToUpdateWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursWithDayBase> newWorkHours);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();

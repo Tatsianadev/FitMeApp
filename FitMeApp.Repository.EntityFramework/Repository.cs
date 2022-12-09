@@ -232,11 +232,11 @@ namespace FitMeApp.Repository.EntityFramework
 
             foreach (var eventItem in actualEvents)
             {
-                foreach (var newItem in newWorkHours)
+                foreach (var newTrainerWorkHours in newWorkHours)
                 {
-                    if (eventItem.Date.DayOfWeek == newItem.DayName)
+                    if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
                     {
-                        if (eventItem.StartTime <= newItem.StartTime || eventItem.EndTime >= newItem.EndTime)
+                        if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
                         {
                             return false;
                         }
@@ -246,6 +246,30 @@ namespace FitMeApp.Repository.EntityFramework
 
             return true;
 
+        }
+
+
+        public bool CheckPossibilityToUpdateWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursWithDayBase> newWorkHours)
+        {
+            var gymWorkHours = GetWorkHoursByGym(gymId);
+            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id);
+            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId);
+            if (newGymWorkHoursId.Except(allGymWorkHoursId).Count() > 0)
+            {
+                return false;
+            }
+            foreach (var newTrainerWorkHours in newWorkHours)
+            {                
+                var gymWorkStartTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().StartTime;                                
+                var gymWorkEndTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().EndTime;
+                if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime< newTrainerWorkHours.EndTime)
+                {
+                    return false;
+                }
+            }
+
+            return true;            
+            
         }
 
 
