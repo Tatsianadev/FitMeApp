@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel>
+﻿@model List<FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel>
 
 <div class="container">
     <div class="row">
@@ -6,44 +6,62 @@
 
         </div>
         <div class="col-md-6" style="border-left:solid; border-right:solid">
-            <div style="text-align:center; margin:20px">                
+            <div style="text-align:center; margin:20px">
                 <label><b>Work hours</b></label>
-                <form action="/" method="post">
+                <form action="EditTrainerWorkHours" method="post">
                     <table style="width: 60%; margin: auto">
-                        @{List<string> workDays = Model.Select(x=>x.DayName.ToString()).ToList(); }
+                        @{List<string> workDays = Model.Select(x => x.DayName.ToString()).ToList(); }
                         @for (int i = 0; i < 7; i++)
                         {
+
                         <tr>
                             <td class="col3">@((DayOfWeek)i)</td>
                             @if (workDays.Contains(((DayOfWeek)i).ToString()))
                             {
-                                <td class="col4">
-                                    @Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime
-                                </td>
-                                <td class="col4">
-                                    -
-                                </td>
-                                <td class="col4">
-                                    @Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime
-                                </td>
+                                
+                                @for (int j = 0; j < Model.Count(); j++)
+                                {
+                                    @if (Model[j].DayName == (DayOfWeek)i)
+                                    {
+
+                                        <td class="col4">
+                                            <input type="hidden" asp-for="@Model[j].Id" />
+                                            <input type="hidden" asp-for="@Model[j].GymWorkHoursId" />
+                                            @*@{string startTime = Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime;}*@
+                                            <input type="text" asp-for="@Model[j].StartTime" class="form-control" />
+                                        </td>
+                                        <td class="col4">
+                                            -
+                                        </td>
+                                        <td class="col4">
+                                            @*@{string endTime = Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime;}*@
+                                            <input type="text" asp-for="@Model[j].EndTime" class="form-control" />
+                                        </td>
+                                    }
+                                }
                             }
                             else
                             {
+                                <td class="col4">
+                                    @{;}
+                                </td>
                                 <td class="col4">-</td>
-                                <td class="col4">-</td>
-                                <td class="col4">-</td>
+                                <td class="col4">-</td>                                
 
                             }
+
                         </tr>
                         }
                     </table>
 
+                    <input type="submit" value="Save" class="btn btn-outline-secondary" />
+
 
 
                 </form>
-               
 
-                <a asp-controller="Profile" asp-action="EditTrainerJobData"  class="btn btn-dark" style="width:40%">Edit work hours</a>
+
+                @*<a asp-controller="Profile" asp-action="EditTrainerJobData"  class="btn btn-dark" style="width:40%">Edit work hours</a>*@
 
             </div>
         </div>
