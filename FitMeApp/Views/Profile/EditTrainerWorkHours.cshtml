@@ -14,43 +14,52 @@
                         @for (int i = 0; i < 7; i++)
                         {
 
-                        <tr>
-                            <td class="col3">@((DayOfWeek)i)</td>
-                            @if (workDays.Contains(((DayOfWeek)i).ToString()))
-                            {
-                                
-                                @for (int j = 0; j < Model.Count(); j++)
-                                {
-                                    @if (Model[j].DayName == (DayOfWeek)i)
-                                    {
+                            <tr>
+                                <td class="col3">@((DayOfWeek)i)</td>
 
-                                        <td class="col4">
-                                            <input type="hidden" asp-for="@Model[j].Id" />
-                                            <input type="hidden" asp-for="@Model[j].GymWorkHoursId" />
-                                            @*@{string startTime = Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime;}*@
-                                            <input type="text" asp-for="@Model[j].StartTime" class="form-control" />
-                                        </td>
-                                        <td class="col4">
-                                            -
-                                        </td>
-                                        <td class="col4">
-                                            @*@{string endTime = Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime;}*@
-                                            <input type="text" asp-for="@Model[j].EndTime" class="form-control" />
-                                        </td>
+
+                                @if (workDays.Contains(((DayOfWeek)i).ToString()))
+                                {
+                                    @for (int j = 0; j < Model.Count(); j++)
+                                    {
+                                        @if (Model[j].DayName == (DayOfWeek)i)
+                                        {
+
+                                            <td class="col4">
+                                                <input type="hidden" asp-for="@Model[j].Id" />
+                                                <input type="hidden" asp-for="@Model[j].GymWorkHoursId" />
+                                                <input type="hidden" asp-for="@Model[j].DayName" />
+                                                <input type="text" asp-for="@Model[j].StartTime" class="form-control" />
+                                            </td>
+                                            <td class="col5">
+                                                -
+                                            </td>
+                                            <td class="col4">
+                                                <input type="text" asp-for="@Model[j].EndTime" class="form-control" />
+                                            </td>
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                <td class="col4">
-                                    @{;}
-                                </td>
-                                <td class="col4">-</td>
-                                <td class="col4">-</td>                                
+                                else
+                                {
+                                    <td class="col4">
+                                        @{FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel newItem = new FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel();
+                                            Model.Add(newItem);
+                                            int index = Model.IndexOf(newItem);
+                                            Model[index].DayName = (DayOfWeek)i;}
+                                        <input type="hidden" asp-for="@Model[index].DayName" />
+                                        <input type="text" asp-for="@Model[index].StartTime" class="form-control" />
+                                    </td>
+                                    <td class="col5">-</td>
+                                    <td class="col4">
+                                        <input type="text" asp-for="@Model[index].EndTime" class="form-control" />
+                                    </td>
 
-                            }
 
-                        </tr>
+
+                                }
+
+                            </tr>
                         }
                     </table>
 

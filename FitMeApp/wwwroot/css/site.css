@@ -101,12 +101,21 @@ body {
 
 .col4 
 {
-    width: 30%;
+    width: 25%;
     height: 10px;
     text-align: left;
     font-size: medium;    
     padding: 2px;
 }
+
+.col5 {
+    width: 10%;
+    height: 10px;
+    text-align: center;
+    font-size: medium;
+    padding: 2px;
+}
+
 
 
 .table1 {
