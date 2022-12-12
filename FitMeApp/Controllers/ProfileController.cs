@@ -347,7 +347,7 @@ namespace FitMeApp.Controllers
 
             ViewBag.WorkDays = workDays;
             ViewBag.StartHours = startTime;
-            ViewBag.EndHours = endTime;            
+            ViewBag.EndHours = endTime;
 
             return View(trainerViewModel);
 
@@ -392,7 +392,7 @@ namespace FitMeApp.Controllers
                     return RedirectToAction("TrainerJobData"); //Доделать! Найти способ вернуть эту же форму
                                                                //с невалидной моделью и сообщать о невалидных данных 
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -410,13 +410,13 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles ="trainer, admin")]
+        [Authorize(Roles = "trainer, admin")]
         public IActionResult EditTrainerWorkHours()
         {
             string trainerId = _userManager.GetUserId(User);
             var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainerId);
 
-            List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();           
+            List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             foreach (var item in workHoursModel)
             {
                 workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
@@ -431,32 +431,43 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00" && x.Id == 0);
+                foreach (var model in newWorkHours)
                 {
-                    string trainerId = _userManager.GetUserId(User);
-                    var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();
-                   
-                    bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(trainerId, newWorkHoursModels);
-                    if (result)
+                    int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
+                    int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
+                    if (startTimeInt < endTimeInt)
                     {
-                        //Вызов метода UpdateTrainerWorkHours
-                        //return RedirectToAction("TrainerJobData");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("NewDataConflict", "There is new data conflict. Get sure there aren't gym schedule or actual events conflicts");
+                        ModelState.AddModelError("NewDataConflict", "Start work time can't be later than End work time");
                         return View(newWorkHours);
                     }
                 }
+
+                
+                string trainerId = _userManager.GetUserId(User);
+                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();                
+
+                bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(trainerId, newWorkHoursModels);
+                if (result)
+                {
+                    //Вызов метода UpdateTrainerWorkHours
+                    //return RedirectToAction("TrainerJobData");
+                }
+                else
+                {
+                    ModelState.AddModelError("NewDataConflict", "There is new data conflict. Get sure there aren't gym schedule or actual events conflicts");
+                    return View(newWorkHours);
+                }
+
                 return View(newWorkHours);
 
             }
             catch (Exception ex)
             {
-                
+
                 throw ex;
             }
-           
+
         }
 
 

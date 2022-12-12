@@ -200,22 +200,97 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
-        public bool UpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursEntityBase> newWorkHours)
+        //public bool UpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursEntityBase> newWorkHours)
+        //{
+        //    _context.Remove(_context.TrainerWorkHours.Where(x => x.TrainerId == trainerId));
+        //    _context.AddRange(newWorkHours);
+        //    int changedRowsCount = _context.SaveChanges();
+        //    if (changedRowsCount == 0)
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }          
+            
+        //}
+
+
+        public bool AddTrainerWorkHours(TrainerWorkHoursWithDayBase workHoursBase)
         {
-            _context.Remove(_context.TrainerWorkHours.Where(x => x.TrainerId == trainerId));
-            _context.AddRange(newWorkHours);
-            int changedRowsCount = _context.SaveChanges();
-            if (changedRowsCount == 0)
+            if (_context.TrainerWorkHours.Find(workHoursBase.Id) == null)
             {
-                return false;
+                int gymId = _context.Trainers
+               .Where(x => x.Id == workHoursBase.TrainerId)
+               .First().GymId;
+
+                int gymWorkHoursId = _context.GymWorkHours
+                    .Where(x => x.GymId == gymId)
+                    .Where(x => x.DayOfWeekNumber == workHoursBase.DayName)
+                    .First().Id;
+
+                _context.TrainerWorkHours.Add(new TrainerWorkHoursEntity()
+                {
+                    TrainerId = workHoursBase.TrainerId,
+                    StartTime = workHoursBase.StartTime,
+                    EndTime = workHoursBase.EndTime,
+                    GymWorkHoursId = gymWorkHoursId
+                });
+
+                int addedRowsCount =_context.SaveChanges();
+                if (addedRowsCount>0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return true;
-            }          
-            
-        }
+                return false;
+            }
            
+        }
+
+        public bool DeleteTrainerWorkHours(int workHoursId)
+        {
+            _context.Remove(_context.TrainerWorkHours.Where(x => x.Id == workHoursId));
+            int deletedRowsCount = _context.SaveChanges();
+            if (deletedRowsCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool UpdateTrainerWorkHours(TrainerWorkHoursWithDayBase newTrainerWorkHours)
+        {
+            TrainerWorkHoursEntity workHoursEntity = _context.TrainerWorkHours
+                .Where(x => x.Id == newTrainerWorkHours.Id)
+                .First();
+
+            workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
+            workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
+            
+            int updatedRowsCount = _context.SaveChanges();            
+            if (updatedRowsCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
 
 
         //Trainings

@@ -241,8 +241,8 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerWorkHoursModel.Id,
                 TrainerId = trainerWorkHoursModel.TrainerId,
-                StartTime = ConvertIntTimeToString(trainerWorkHoursModel.StartTime),
-                EndTime = ConvertIntTimeToString(trainerWorkHoursModel.EndTime),
+                StartTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(trainerWorkHoursModel.StartTime),
+                EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(trainerWorkHoursModel.EndTime),
                 GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
                 DayName = trainerWorkHoursModel.DayName
             };
@@ -255,8 +255,8 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerWorkHoursViewModel.Id,
                 TrainerId = trainerWorkHoursViewModel.TrainerId,
-                StartTime = ConvertStringTimeToInt(trainerWorkHoursViewModel.StartTime),
-                EndTime = ConvertStringTimeToInt(trainerWorkHoursViewModel.EndTime),
+                StartTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.StartTime),
+                EndTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.EndTime),
                 GymWorkHoursId = trainerWorkHoursViewModel.GymWorkHoursId,
                 DayName = trainerWorkHoursViewModel.DayName
             };
@@ -264,36 +264,36 @@ namespace FitMeApp.Mapper
         }
 
 
-        private string ConvertIntTimeToString(int intTime)
-        {
-            string stringTime;
+        //private string ConvertIntTimeToString(int intTime)
+        //{
+        //    string stringTime;
 
 
-            if (intTime % 60 == 0)
-            {
-                stringTime = (intTime / 60).ToString() + ".00";
-            }
-            else
-            {
-                string remainder = (intTime % 60).ToString();
-                stringTime = Math.Truncate((decimal)intTime / 60).ToString() + remainder;
-            }
+        //    if (intTime % 60 == 0)
+        //    {
+        //        stringTime = (intTime / 60).ToString() + ".00";
+        //    }
+        //    else
+        //    {
+        //        string remainder = (intTime % 60).ToString();
+        //        stringTime = Math.Truncate((decimal)intTime / 60).ToString() + remainder;
+        //    }
 
-            return stringTime;
-        }
+        //    return stringTime;
+        //}
 
-        private int ConvertStringTimeToInt(string stringTime)
-        {
-            //определение целой части
-            string integerPart = stringTime.Substring(0, stringTime.Length - 3);
+        //public int ConvertStringTimeToInt(string stringTime)
+        //{
+        //    //определение целой части
+        //    string integerPart = stringTime.Substring(0, stringTime.Length - 3);
             
-            //щпределение дробной части
-            int pointIndex = stringTime.Length - 3;            
-            string remainder = stringTime.Remove(0, pointIndex);
+        //    //oпределение дробной части
+        //    int pointIndex = stringTime.Length - 3;            
+        //    string remainder = stringTime.Remove(0, pointIndex);
 
-            int intTime = int.Parse(integerPart) * 60 + int.Parse(remainder);
-            return intTime;
-        }
+        //    int intTime = int.Parse(integerPart) * 60 + int.Parse(remainder);
+        //    return intTime;
+        //}
 
 
 

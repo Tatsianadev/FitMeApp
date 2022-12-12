@@ -9,11 +9,11 @@
             <div style="text-align:center; margin:20px">
                 <label><b>Work hours</b></label>
                 <form action="EditTrainerWorkHours" method="post">
+                    <div asp-validation-summary="All" style="color:red"></div>
                     <table style="width: 80%; margin: auto">
                         @{List<string> workDays = Model.Select(x => x.DayName.ToString()).ToList(); }
                         @for (int i = 0; i < 7; i++)
                         {
-
                             <tr>
                                 <td class="col3">@((DayOfWeek)i)</td>
 
@@ -59,7 +59,6 @@
                                                 -
                                             </td>
                                             <td class="col4">
-
                                                 <select class="form-select" aria-label="Default select example" asp-for="@Model[j].EndTime">
                                                     @for (int t = 0; t < 24; t++)
                                                     {
@@ -118,9 +117,6 @@
                                         </select>
                                         @*<input type="text" asp-for="@Model[index].EndTime" class="form-control" />*@
                                     </td>
-
-
-
                                 }
 
                             </tr>
@@ -128,6 +124,8 @@
                     </table>
 
                     <input type="submit" value="Save" class="btn btn-outline-secondary" />
+
+
 
 
 

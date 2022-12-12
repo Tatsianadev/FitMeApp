@@ -285,6 +285,11 @@ namespace FitMeApp.Services
             }
         }
 
+        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
+        {
+           
+        }
+
         //Events
         public int GetActualEventsCountByTrainer(string trainerId)
         {
