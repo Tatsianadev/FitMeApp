@@ -453,7 +453,7 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-
+                
                 throw ex;
             }
            
