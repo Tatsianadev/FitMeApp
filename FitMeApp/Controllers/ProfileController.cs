@@ -447,6 +447,10 @@ namespace FitMeApp.Controllers
                 foreach (var model in newWorkHours)
                 {
                     model.TrainerId = trainerId;
+                    if (model.GymWorkHoursId == 0)
+                    {
+                        //здесь вызвать метод нахождения GymWorkHoursId и присвоить это значение свойству
+                    }
                 }
                 var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();                
 

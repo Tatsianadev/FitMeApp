@@ -90,6 +90,18 @@ namespace FitMeApp.Repository.EntityFramework
             return gymWorkHours;
         }
 
+
+        public int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek)
+        {
+            int gymWorkHoursId = _context.GymWorkHours
+                .Where(x => x.GymId == gymId)
+                .Where(x => x.DayOfWeekNumber == dayOfWeek)
+                .Select(x => x.Id)
+                .First();
+            return gymWorkHoursId;
+        }
+
+
         //Trainers//
 
         public IEnumerable<TrainerEntityBase> GetAllTrainers()
@@ -257,7 +269,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public bool DeleteTrainerWorkHours(int workHoursId)
         {
-            _context.Remove(_context.TrainerWorkHours.Where(x => x.Id == workHoursId));
+            _context.Remove(_context.TrainerWorkHours.Where(x => x.Id == workHoursId).First());
             int deletedRowsCount = _context.SaveChanges();
             if (deletedRowsCount > 0)
             {
@@ -279,15 +291,16 @@ namespace FitMeApp.Repository.EntityFramework
             workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
             workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
             
-            int updatedRowsCount = _context.SaveChanges();            
-            if (updatedRowsCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            int updatedRowsCount = _context.SaveChanges();
+            //if (updatedRowsCount > 0)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return true;
 
         }
 
@@ -1097,30 +1110,7 @@ namespace FitMeApp.Repository.EntityFramework
                 .Where(x => x.TrainerId == trainerId)
                 .Where(x => x.Date.Date >= DateTime.Now.Date)
                 .ToList();
-            return actualEvents;
-
-            //var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
-            //var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
-            //if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
-            //{
-            //    return false;
-            //}
-
-            //foreach (var eventItem in actualEvents)
-            //{
-            //    foreach (var newTrainerWorkHours in newWorkHours)
-            //    {
-            //        if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
-            //        {
-            //            if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
-            //            {
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //}
-
-            //return true;
+            return actualEvents;            
 
         }
 

@@ -221,8 +221,8 @@ namespace FitMeApp.Services
         public bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             var gymWorkHours =_repository.GetWorkHoursByGym(gymId);
-            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id);
-            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId);
+            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id).ToList();
+            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId).ToList();
                         
             if (newGymWorkHoursId.Except(allGymWorkHoursId).Count() > 0)
             {
@@ -293,7 +293,7 @@ namespace FitMeApp.Services
 
         public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
         {
-            string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();
+            string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();            
             List<int> previousTrainerWorkHoursId = _repository.GerAllTrainerWorkHoursId(trainerId).ToList();
             List<int> newTrainerWorkHoursId = trainerWorkHours.Select(x => x.Id).ToList();
 
@@ -309,10 +309,11 @@ namespace FitMeApp.Services
                 }               
             }
 
+           
             List<TrainerWorkHoursModel> rowsToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
             var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToBaseWithDayes(model)).ToList();
             foreach (var workHoursToAdd in entityRowsToAdd)
-            {
+            {                
                 result = _repository.AddTrainerWorkHours(workHoursToAdd);
                 if (result == false)
                 {

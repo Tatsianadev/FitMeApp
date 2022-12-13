@@ -14,6 +14,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool UpdateGym(int id, GymEntityBase newGymData);
         bool DeleteGym(int id);
         IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGym(int gymId);
+        int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
+        
 
         //Trainers
         IEnumerable<TrainerEntityBase> GetAllTrainers();
