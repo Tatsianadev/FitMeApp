@@ -449,6 +449,8 @@ namespace FitMeApp.Controllers
                     model.TrainerId = trainerId;
                     if (model.GymWorkHoursId == 0)
                     {
+                        //cоздать метод определения только gymId by trainerId
+                        //model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
                         //здесь вызвать метод нахождения GymWorkHoursId и присвоить это значение свойству
                     }
                 }

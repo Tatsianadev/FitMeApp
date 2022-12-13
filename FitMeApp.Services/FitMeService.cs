@@ -74,6 +74,13 @@ namespace FitMeApp.Services
             return workHoursModels;
         }
 
+        public int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek)
+        {
+            int gymWorkHoursId = _repository.GetGymWorkHoursId(gymId, dayOfWeek);
+            return gymWorkHoursId;
+        }
+
+
 
         //Training
 
