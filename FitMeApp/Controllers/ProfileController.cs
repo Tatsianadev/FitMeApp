@@ -431,35 +431,44 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00" && x.Id == 0);
+                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00");
                 foreach (var model in newWorkHours)
                 {
                     int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
                     int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
-                    if (startTimeInt < endTimeInt)
+                    if (startTimeInt > endTimeInt)
                     {
                         ModelState.AddModelError("NewDataConflict", "Start work time can't be later than End work time");
                         return View(newWorkHours);
                     }
                 }
-
                 
                 string trainerId = _userManager.GetUserId(User);
+                foreach (var model in newWorkHours)
+                {
+                    model.TrainerId = trainerId;
+                }
                 var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();                
 
-                bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(trainerId, newWorkHoursModels);
+                bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)
                 {
-                    //Вызов метода UpdateTrainerWorkHours
-                    //return RedirectToAction("TrainerJobData");
+                    bool updateSecces = _fitMeService.UpdateTrainerWorkHours(newWorkHoursModels);
+                    if (updateSecces)
+                    {
+                        return RedirectToAction("TrainerJobData");
+                    }
+                    else
+                    {
+                        return View(newWorkHours);
+                    }
+                    
                 }
                 else
                 {
-                    ModelState.AddModelError("NewDataConflict", "There is new data conflict. Get sure there aren't gym schedule or actual events conflicts");
+                    ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with new data.");
                     return View(newWorkHours);
-                }
-
-                return View(newWorkHours);
+                }               
 
             }
             catch (Exception ex)

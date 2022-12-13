@@ -291,6 +291,16 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
+        public IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId)
+        {
+            List<int> allTrainerWorkHoursId = _context.TrainerWorkHours
+                .Where(x => x.TrainerId == trainerId)
+                .Select(x => x.Id)
+                .ToList();
+
+            return allTrainerWorkHoursId;
+        }
+
 
 
         //Trainings

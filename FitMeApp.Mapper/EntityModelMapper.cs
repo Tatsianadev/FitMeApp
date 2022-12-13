@@ -259,6 +259,20 @@ namespace FitMeApp.Mapper
             return trainerWorkHoursModel;
         }
 
+        public TrainerWorkHoursWithDayBase MappTrainerWorkHoursModelToBaseWithDayes(TrainerWorkHoursModel trainerWorkHoursModel)
+        {
+            TrainerWorkHoursWithDayBase trainerWorkHoursWithDayes = new TrainerWorkHoursWithDayBase()
+            {
+                Id = trainerWorkHoursModel.Id,
+                TrainerId = trainerWorkHoursModel.TrainerId,
+                StartTime = trainerWorkHoursModel.StartTime,
+                EndTime = trainerWorkHoursModel.EndTime,
+                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
+                DayName = trainerWorkHoursModel.DayName
+            };
+            return trainerWorkHoursWithDayes;
+        }
+
 
     }
 }

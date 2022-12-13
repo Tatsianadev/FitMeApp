@@ -243,9 +243,14 @@ namespace FitMeApp.Services
         }
 
 
-        public bool CheckFacilityUpdateTrainerWorkHoursByEvents(string trainerId, List<TrainerWorkHoursModel> newWorkHours)
+        public bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours)
         {
-            var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
+            string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
+            var actualEvents = _repository.GetActualEventsByTrainer(trainerId); 
+            if (actualEvents.Count() == 0)
+            {
+                return true;
+            }
 
             var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
             var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
@@ -272,10 +277,11 @@ namespace FitMeApp.Services
 
         }
 
-        public bool CheckFacilityUpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursModel> newWorkHours)
+        public bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours)
         {
+            string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
             int gymId = _repository.GetTrainer(trainerId).GymId;            
-            if (CheckFacilityUpdateTrainerWorkHoursByEvents(trainerId, newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymScedule(gymId,newWorkHours))
+            if (CheckFacilityUpdateTrainerWorkHoursByEvents(newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymScedule(gymId,newWorkHours))
             {
                 return true;
             }
@@ -287,7 +293,46 @@ namespace FitMeApp.Services
 
         public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
         {
+            string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();
+            List<int> previousTrainerWorkHoursId = _repository.GerAllTrainerWorkHoursId(trainerId).ToList();
+            List<int> newTrainerWorkHoursId = trainerWorkHours.Select(x => x.Id).ToList();
+
+            bool result = true;
            
+            List<int> idRowsToDelete = previousTrainerWorkHoursId.Except(newTrainerWorkHoursId).ToList();
+            foreach (var workHoursId in idRowsToDelete)
+            {
+                result = _repository.DeleteTrainerWorkHours(workHoursId);
+                if (result == false)
+                {
+                    return false;
+                }               
+            }
+
+            List<TrainerWorkHoursModel> rowsToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
+            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToBaseWithDayes(model)).ToList();
+            foreach (var workHoursToAdd in entityRowsToAdd)
+            {
+                result = _repository.AddTrainerWorkHours(workHoursToAdd);
+                if (result == false)
+                {
+                    return false;
+                }
+            }
+
+            List<TrainerWorkHoursModel> rowsToUpdate = trainerWorkHours.Where(x => x.Id != 0).ToList();
+            var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MappTrainerWorkHoursModelToBaseWithDayes(model)).ToList();
+            foreach (var workHoursToUpdate in entityRowsToUpdate)
+            {
+                result = _repository.UpdateTrainerWorkHours(workHoursToUpdate);
+                if (result == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
         }
 
         //Events
