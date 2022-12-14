@@ -51,7 +51,7 @@
                                                 </select>
                                                 <input type="hidden" asp-for="@Model[j].Id" />
                                                 <input type="hidden" asp-for="@Model[j].GymWorkHoursId" />
-                                                <input type="hidden" asp-for="@Model[j].DayName" />                                               
+                                                <input type="hidden" asp-for="@Model[j].DayName" />
                                             </td>
                                             <td class="col5">
                                                 -
@@ -79,9 +79,7 @@
                                                         }
 
                                                     }
-                                                </select>
-
-                                                @*<input type="text" asp-for="@Model[j].EndTime" class="form-control" />*@
+                                                </select>                                               
                                             </td>
                                         }
                                     }
@@ -100,9 +98,7 @@
                                                 <option value="@(t+".00")">@(t+".00")</option>
                                                 <option value="@(t+".30")">@(t+".30")</option>
                                             }
-                                        </select>
-
-                                        @*<input type="text" asp-for="@Model[index].StartTime" class="form-control" />*@
+                                        </select>                                      
                                     </td>
                                     <td class="col5">-</td>
                                     <td class="col4">
@@ -112,25 +108,18 @@
                                                 <option value="@(t+".00")">@(t+".00")</option>
                                                 <option value="@(t+".30")">@(t+".30")</option>
                                             }
-                                        </select>
-                                        @*<input type="text" asp-for="@Model[index].EndTime" class="form-control" />*@
+                                        </select>                                      
                                     </td>
                                 }
 
                             </tr>
                         }
                     </table>
+                    <br />
 
-                    <input type="submit" value="Save" class="btn btn-outline-secondary" />
-
-
-
-
-
-                </form>
-
-
-                @*<a asp-controller="Profile" asp-action="EditTrainerJobData"  class="btn btn-dark" style="width:40%">Edit work hours</a>*@
+                    <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%" />
+                    <a asp-controller="Profile" asp-action="TrainerJobData" class="btn btn-dark" style="width:30%">Back</a>
+                </form>             
 
             </div>
         </div>

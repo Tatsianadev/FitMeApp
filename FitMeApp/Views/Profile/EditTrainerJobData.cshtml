@@ -15,11 +15,11 @@
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Picture" />
 
-                    <table style="width:60%; margin:auto">
+                    <table style="width:80%; margin:auto">
                         <tr>
                             <td class="col3">First name</td>
                             <td class="col4">
-                                <input type="text" asp-for="FirstName" class="form-control" />                                
+                                <input type="text" asp-for="FirstName" class="form-control" />
                                 <span asp-validation-for="FirstName"></span>
                             </td>
                         </tr>
@@ -76,8 +76,9 @@
                             </td>
                         </tr>
                     </table>
-
-                    <input type="submit" value="Save" class="btn btn-outline-secondary" />
+                    <br />
+                    <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%"/>
+                    <a asp-controller="Profile" asp-action="TrainerJobData" class="btn btn-dark" style="width:30%">Back</a>
                 </form>
             </div>
         </div>
