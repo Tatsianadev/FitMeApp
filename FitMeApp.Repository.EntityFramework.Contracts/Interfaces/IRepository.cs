@@ -28,7 +28,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool DeleteTrainerWorkHours(int workHoursId);
         bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
-        
+        IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+
 
 
         //Trainings
@@ -63,9 +64,13 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         int GetActualSubscriptionsCountByTrainer(string trainerId);
+        UserSubscriptionEntityBase GetSubscriptionByUser(string userId);
 
-        //Schedule
-        IEnumerable<EventEntityBase> GetAllEvents();
+
+       
+
+       //Schedule
+       IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
         IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);

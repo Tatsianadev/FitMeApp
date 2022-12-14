@@ -403,7 +403,7 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
 
-                throw ex;
+                //throw ex;
             }
 
 
@@ -473,17 +473,45 @@ namespace FitMeApp.Controllers
                 {
                     ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with new data.");
                     return View(newWorkHours);
-                }               
+                }             
 
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with change work hours data. Try again, please."
+                };
+                return View("CustomError", error);
 
-                throw ex;
+                //throw ex;                
             }
 
         }
 
+
+
+        [Authorize(Roles = "trainer, admin")]
+        public IActionResult ClientsList()
+        {
+            string trainerId = _userManager.GetUserId(User);
+            List<string> clientsId = _fitMeService.GetAllClientsIdByTrainer(trainerId).ToList();
+            List<User> allClientsByTrainer = new List<User>();
+            foreach (var clientId in clientsId)
+            {
+                var client = _userManager.Users.Where(x => x.Id == clientId).First();
+                allClientsByTrainer.Add(client);
+            }
+            
+            return View(allClientsByTrainer);
+        }
+
+
+        public IActionResult ClientSubscription(string clientId)
+        {
+            return View();
+        }
 
 
 

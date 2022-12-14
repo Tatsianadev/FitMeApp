@@ -212,7 +212,17 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
-       
+        public IEnumerable<string> GetAllClientsIdByTrainer(string trainerId)
+        {
+            List<string> clientsId = _context.UserSubscriptions
+                .Where(x => x.TrainerId == trainerId)
+                .Select(x => x.UserId)
+                .ToList();
+
+            return clientsId;
+        }
+
+
         //Edit Trainer WorkHours methods
         public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
         {
@@ -864,6 +874,22 @@ namespace FitMeApp.Repository.EntityFramework
                 .ToList().Count();
             return actualSubscriptionsCount;
         }
+
+        public UserSubscriptionEntityBase GetSubscriptionByUser(string userId)
+        {
+            var userSubscription = _context.UserSubscriptions.Where(x => x.UserId == userId).First();
+            return userSubscription;
+        }
+
+
+        //public IEnumerable<UserSubscriptionEntityBase> GetAllUserSubscriptionsByTrainer(string trainerId)
+        //{
+        //    var allUserSubscriptions = _context.UserSubscriptions
+        //        .Where(x => x.TrainerId == trainerId)
+        //        .ToList();
+
+        //    return allUserSubscriptions;
+        //}
 
 
 

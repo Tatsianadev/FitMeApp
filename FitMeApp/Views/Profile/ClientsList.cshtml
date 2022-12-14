@@ -1,0 +1,36 @@
+﻿@model IEnumerable<FitMeApp.Common.User>
+
+@{
+    ViewBag.Title = "List of Trainers clients";
+}
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Year</th>
+            <th>Gender</th>
+            <th></th>
+        </tr>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.UserName</td>
+                <td>@client.Email</td>
+                <td>@client.PhoneNumber</td>
+                <td>@client.Year</td>
+                <td>@client.Gender</td>
+                <td>
+                    <a class="btn btn-outline-secondary" asp-action="ClientSubscription" asp-route-id="@client.Id">Show subscription</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <div>
+        <a class="btn btn-dark" asp-controller="Home" asp-action="Index">Back</a>
+    </div>
+</div>
+
+

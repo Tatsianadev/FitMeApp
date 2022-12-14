@@ -29,6 +29,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         int GetActualSubscriptionsCountByTrainer(string trainerId);
+     
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();
@@ -39,6 +40,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours);
         bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
+        IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
 
         //Events
         int GetActualEventsCountByTrainer(string trainerId);

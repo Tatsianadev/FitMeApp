@@ -349,6 +349,13 @@ namespace FitMeApp.Services
 
         }
 
+
+        public IEnumerable<string> GetAllClientsIdByTrainer(string trainerId)
+        {
+            List<string> clientsId = _repository.GetAllClientsIdByTrainer(trainerId).ToList();
+            return clientsId;
+        }
+
         //Events
         public int GetActualEventsCountByTrainer(string trainerId)
         {
