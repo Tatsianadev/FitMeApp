@@ -18,7 +18,7 @@ namespace FitMeApp.Common
             else
             {
                 string remainder = (intTime % 60).ToString();
-                stringTime = Math.Truncate((decimal)intTime / 60).ToString() + remainder;
+                stringTime = Math.Truncate((decimal)intTime / 60).ToString() + "." + remainder;
             }
 
             return stringTime;

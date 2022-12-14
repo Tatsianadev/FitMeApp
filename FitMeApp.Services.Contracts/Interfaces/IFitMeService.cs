@@ -12,6 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<GymModel> GetGymsByTrainings(List<int> groupClassesId);
         IEnumerable<GymWorkHoursModel> GetWorkHoursByGym(int gymId);
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
+        int GetGymIdByTrainer(string trainerId);    
 
         //Trainings
         ICollection<TrainingModel> GetAllTrainingModels();

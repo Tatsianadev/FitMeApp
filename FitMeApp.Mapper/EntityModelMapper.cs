@@ -259,18 +259,18 @@ namespace FitMeApp.Mapper
             return trainerWorkHoursModel;
         }
 
-        public TrainerWorkHoursWithDayBase MappTrainerWorkHoursModelToBaseWithDayes(TrainerWorkHoursModel trainerWorkHoursModel)
+        public TrainerWorkHoursEntityBase MappTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
         {
-            TrainerWorkHoursWithDayBase trainerWorkHoursWithDayes = new TrainerWorkHoursWithDayBase()
+            TrainerWorkHoursEntityBase trainerWorkHourEntity = new TrainerWorkHoursEntityBase()
             {
                 Id = trainerWorkHoursModel.Id,
                 TrainerId = trainerWorkHoursModel.TrainerId,
                 StartTime = trainerWorkHoursModel.StartTime,
                 EndTime = trainerWorkHoursModel.EndTime,
                 GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
-                DayName = trainerWorkHoursModel.DayName
+                
             };
-            return trainerWorkHoursWithDayes;
+            return trainerWorkHourEntity;
         }
 
 

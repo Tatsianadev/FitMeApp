@@ -80,6 +80,12 @@ namespace FitMeApp.Services
             return gymWorkHoursId;
         }
 
+        public int GetGymIdByTrainer(string trainerId)
+        {
+            int gymId = _repository.GetTrainer(trainerId).GymId;
+            return gymId;
+        }
+
 
 
         //Training
@@ -227,15 +233,15 @@ namespace FitMeApp.Services
 
         public bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
-            var gymWorkHours =_repository.GetWorkHoursByGym(gymId);
-            var allGymWorkHoursId = gymWorkHours.Select(x => x.Id).ToList();
-            var newGymWorkHoursId = newWorkHours.Select(x => x.GymWorkHoursId).ToList();
-                        
-            if (newGymWorkHoursId.Except(allGymWorkHoursId).Count() > 0)
+            List<DayOfWeek> gymWorkDayes = _repository.GetWorkHoursByGym(gymId).Select(x => x.DayOfWeekNumber).ToList();
+            List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
+            if (newTrainerWorkDayes.Except(gymWorkDayes).Count() > 0) // проверка, тренер работает только в дни, когда работает зал
             {
                 return false;
             }
-            foreach (var newTrainerWorkHours in newWorkHours)
+
+            var gymWorkHours =_repository.GetWorkHoursByGym(gymId);          
+            foreach (var newTrainerWorkHours in newWorkHours) //проверка, чтобы рабочие часы тренера не выходили за пределы рабочих часов зала
             {
                 var gymWorkStartTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().StartTime;
                 var gymWorkEndTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().EndTime;
@@ -318,7 +324,7 @@ namespace FitMeApp.Services
 
            
             List<TrainerWorkHoursModel> rowsToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
-            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToBaseWithDayes(model)).ToList();
+            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToAdd in entityRowsToAdd)
             {                
                 result = _repository.AddTrainerWorkHours(workHoursToAdd);
@@ -329,7 +335,7 @@ namespace FitMeApp.Services
             }
 
             List<TrainerWorkHoursModel> rowsToUpdate = trainerWorkHours.Where(x => x.Id != 0).ToList();
-            var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MappTrainerWorkHoursModelToBaseWithDayes(model)).ToList();
+            var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToUpdate in entityRowsToUpdate)
             {
                 result = _repository.UpdateTrainerWorkHours(workHoursToUpdate);

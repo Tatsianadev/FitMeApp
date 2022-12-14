@@ -431,8 +431,8 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00");
-                foreach (var model in newWorkHours)
+                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //удаляем все нерабочие дни из графика
+                foreach (var model in newWorkHours)                                        //проверяем, что время начала работы не позднее времени окончания
                 {
                     int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
                     int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
@@ -444,14 +444,13 @@ namespace FitMeApp.Controllers
                 }
                 
                 string trainerId = _userManager.GetUserId(User);
-                foreach (var model in newWorkHours)
+                foreach (var model in newWorkHours)                         //заполняем недостающие данные модели для НОВЫХ рабочих дней
                 {
                     model.TrainerId = trainerId;
                     if (model.GymWorkHoursId == 0)
                     {
-                        //cоздать метод определения только gymId by trainerId
-                        //model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
-                        //здесь вызвать метод нахождения GymWorkHoursId и присвоить это значение свойству
+                        int gymId = _fitMeService.GetGymIdByTrainer(trainerId);                        
+                        model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);                       
                     }
                 }
                 var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();                
@@ -459,8 +458,8 @@ namespace FitMeApp.Controllers
                 bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)
                 {
-                    bool updateSecces = _fitMeService.UpdateTrainerWorkHours(newWorkHoursModels);
-                    if (updateSecces)
+                    bool updateSuccess = _fitMeService.UpdateTrainerWorkHours(newWorkHoursModels);
+                    if (updateSuccess)
                     {
                         return RedirectToAction("TrainerJobData");
                     }

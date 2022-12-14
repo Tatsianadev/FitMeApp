@@ -212,42 +212,18 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
-        //public bool UpdateTrainerWorkHours(string trainerId, List<TrainerWorkHoursEntityBase> newWorkHours)
-        //{
-        //    _context.Remove(_context.TrainerWorkHours.Where(x => x.TrainerId == trainerId));
-        //    _context.AddRange(newWorkHours);
-        //    int changedRowsCount = _context.SaveChanges();
-        //    if (changedRowsCount == 0)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }          
-            
-        //}
-
-
-        public bool AddTrainerWorkHours(TrainerWorkHoursWithDayBase workHoursBase)
+       
+        //Edit Trainer WorkHours methods
+        public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
         {
             if (_context.TrainerWorkHours.Find(workHoursBase.Id) == null)
-            {
-                int gymId = _context.Trainers
-               .Where(x => x.Id == workHoursBase.TrainerId)
-               .First().GymId;
-
-                int gymWorkHoursId = _context.GymWorkHours
-                    .Where(x => x.GymId == gymId)
-                    .Where(x => x.DayOfWeekNumber == workHoursBase.DayName)
-                    .First().Id;
-
+            {   
                 _context.TrainerWorkHours.Add(new TrainerWorkHoursEntity()
                 {
                     TrainerId = workHoursBase.TrainerId,
                     StartTime = workHoursBase.StartTime,
                     EndTime = workHoursBase.EndTime,
-                    GymWorkHoursId = gymWorkHoursId
+                    GymWorkHoursId = workHoursBase.GymWorkHoursId
                 });
 
                 int addedRowsCount =_context.SaveChanges();
@@ -279,11 +255,10 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 return false;
             }
-
         }
 
-        public bool UpdateTrainerWorkHours(TrainerWorkHoursWithDayBase newTrainerWorkHours)
-        {
+        public bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours)
+        {           
             TrainerWorkHoursEntity workHoursEntity = _context.TrainerWorkHours
                 .Where(x => x.Id == newTrainerWorkHours.Id)
                 .First();
@@ -292,14 +267,7 @@ namespace FitMeApp.Repository.EntityFramework
             workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
             
             int updatedRowsCount = _context.SaveChanges();
-            //if (updatedRowsCount > 0)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
+           
             return true;
 
         }
