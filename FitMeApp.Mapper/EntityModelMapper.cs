@@ -274,5 +274,22 @@ namespace FitMeApp.Mapper
         }
 
 
+        public UserSubscriptionModel MappUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionWithIncludedOptionsBase subscriptionBase)
+        {
+            UserSubscriptionModel subscriptionModel = new UserSubscriptionModel()
+            {
+                Id = subscriptionBase.Id,
+                UserId = subscriptionBase.UserId,
+                GymSubscriptionId = subscriptionBase.GymSubscriptionId,
+                TrainerId = subscriptionBase.TrainerId,
+                StartDate = subscriptionBase.StartDate,
+                EndDate = subscriptionBase.EndDate,
+                GroupTraining = subscriptionBase.GroupTraining,
+                DietMonitoring = subscriptionBase.DietMonitoring
+            };
+            return subscriptionModel;
+        }
+
+
     }
 }

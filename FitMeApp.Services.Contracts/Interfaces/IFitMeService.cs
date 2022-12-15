@@ -29,6 +29,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         int GetActualSubscriptionsCountByTrainer(string trainerId);
+        IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
+
      
 
         //Trainers

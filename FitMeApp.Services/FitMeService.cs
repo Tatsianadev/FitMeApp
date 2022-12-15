@@ -190,6 +190,17 @@ namespace FitMeApp.Services
             return actualSubscriptionsCount;
         }
 
+        public IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId)
+        {
+            var userSubscrioptionsBase = _repository.GetUserSubscriptionsFullInfo(userId);
+            List<UserSubscriptionModel> userSubscriptionsModel = new List<UserSubscriptionModel>();
+            foreach (var baseItem in userSubscrioptionsBase)
+            {
+                userSubscriptionsModel.Add(_mapper.MappUserSubscriptionWithIncludedOptionsBaseToModel(baseItem));
+            }           
+            return userSubscriptionsModel;
+        }
+
         //Trainers
 
         public List<TrainerModel> GetAllTrainerModels()

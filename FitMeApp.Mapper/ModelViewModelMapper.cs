@@ -264,6 +264,23 @@ namespace FitMeApp.Mapper
         }
 
 
+        public UserSubscriptionViewModel MappUserSubscriptionModelToViewModel(UserSubscriptionModel userSubscriptionModel)
+        {
+            UserSubscriptionViewModel userSubscriptionViewModel = new UserSubscriptionViewModel()
+            {
+                Id = userSubscriptionModel.Id,
+                UserId = userSubscriptionModel.UserId,
+                GymSubscriptionId = userSubscriptionModel.GymSubscriptionId,
+                TrainerId = userSubscriptionModel.TrainerId,
+                StartDate = userSubscriptionModel.StartDate,
+                EndDate = userSubscriptionModel.EndDate,
+                GroupTraining = userSubscriptionModel.GroupTraining,
+                DietMonitoring = userSubscriptionModel.DietMonitoring
+            };
+            return userSubscriptionViewModel;
+        }
+
+
         //private string ConvertIntTimeToString(int intTime)
         //{
         //    string stringTime;
@@ -286,7 +303,7 @@ namespace FitMeApp.Mapper
         //{
         //    //определение целой части
         //    string integerPart = stringTime.Substring(0, stringTime.Length - 3);
-            
+
         //    //oпределение дробной части
         //    int pointIndex = stringTime.Length - 3;            
         //    string remainder = stringTime.Remove(0, pointIndex);

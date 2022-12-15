@@ -875,22 +875,47 @@ namespace FitMeApp.Repository.EntityFramework
             return actualSubscriptionsCount;
         }
 
-        public UserSubscriptionEntityBase GetSubscriptionByUser(string userId)
+        public IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId)
         {
-            var userSubscription = _context.UserSubscriptions.Where(x => x.UserId == userId).First();
-            return userSubscription;
+            var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
+                                    join gymSubscr in _context.GymSubscriptions
+                                    on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                    join subscr in _context.Subscriptions
+                                    on gymSubscr.SubscriptionId equals subscr.Id
+                                    where userSubscr.UserId == userId
+                                    select new
+                                    {
+                                        Id = userSubscr.Id,
+                                        UserId = userSubscr.UserId,
+                                        GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                        TrainerId = userSubscr.TrainerId,
+                                        StartDate = userSubscr.StartDate,
+                                        EndDate = userSubscr.EndDate,
+                                        GroupTraining = subscr.GroupTraining,
+                                        DietMonitoring = subscr.DietMonitoring
+                                    }).ToList();
+
+            List<UserSubscriptionWithIncludedOptionsBase> userSubscriptions = new List<UserSubscriptionWithIncludedOptionsBase>();
+            foreach (var joinItem in userSubscriptionsJoin)
+            {
+                userSubscriptions.Add(new UserSubscriptionWithIncludedOptionsBase()
+                {
+                    Id = joinItem.Id,
+                    UserId = joinItem.UserId,
+                    GymSubscriptionId = joinItem.GymSubscriptionId,
+                    TrainerId = joinItem.TrainerId,
+                    StartDate = joinItem.StartDate,
+                    EndDate = joinItem.EndDate,
+                    GroupTraining = joinItem.GroupTraining,
+                    DietMonitoring = joinItem.DietMonitoring
+                });
+            }           
+
+            return userSubscriptions;
         }
 
 
-        //public IEnumerable<UserSubscriptionEntityBase> GetAllUserSubscriptionsByTrainer(string trainerId)
-        //{
-        //    var allUserSubscriptions = _context.UserSubscriptions
-        //        .Where(x => x.TrainerId == trainerId)
-        //        .ToList();
-
-        //    return allUserSubscriptions;
-        //}
-
+     
 
 
         //Events

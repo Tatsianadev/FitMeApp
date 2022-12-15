@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.UserSubscriptionViewModel>
+
+@{
+    ViewBag.Title = "List of clients subscriptions";
+}
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Group classes</th>
+            <th>Diet monitoring</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        @{int rowNumber = 0; }
+        @foreach (var subscription in Model)
+        {
+            rowNumber++;
+            <tr>
+                <td>@rowNumber</td>
+                <td>
+                    @if (subscription.GroupTraining)
+                    {
+                        <img src="~/Content/images/yes.jpg" alt="Alternate Text" style="height:30px;width:auto" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/no.jpg" alt="Alternate Text" style="height:30px;width:auto" />
+                    }
+                </td>
+                <td>
+                    @if (subscription.DietMonitoring)
+                    {
+                        <img src="~/Content/images/yes.jpg" alt="yes" style="height:30px;width:auto" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/no.jpg" alt="no" style="height:30px;width:auto" />
+                    }
+                </td>
+                <td>@subscription.StartDate.Date.ToString("yyyy-MM-dd")</td>
+                <td>@subscription.EndDate.Date.ToString("yyyy-MM-dd")</td>
+                <td>@(subscription.EndDate.Date >= DateTime.Now?"valid":"closed")</td>
+
+            </tr>
+        }
+    </table>
+    <div>
+        <a class="btn btn-dark" asp-controller="Profile" asp-action="ClientsList">Back</a>
+    </div>
+</div>
+

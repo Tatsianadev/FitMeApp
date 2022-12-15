@@ -510,7 +510,17 @@ namespace FitMeApp.Controllers
 
         public IActionResult ClientSubscription(string clientId)
         {
-            return View();
+            if (clientId != null)
+            {
+                var clientSubscriptionsModels = _fitMeService.GetUserSubscriptions(clientId);
+                List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
+                foreach (var modelItem in clientSubscriptionsModels)
+                {
+                    userSubscViewModels.Add(_mapper.MappUserSubscriptionModelToViewModel(modelItem));
+                }                    
+                return View(userSubscViewModels);
+            }
+            return RedirectToAction("ClientsList");
         }
 
 
