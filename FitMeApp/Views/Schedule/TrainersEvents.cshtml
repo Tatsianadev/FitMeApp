@@ -1,4 +1,5 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@addTagHelper *, FitMeApp
+@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 @*PartialView (main page - /Schedule/Index)*@
 
 @{
@@ -33,10 +34,23 @@
             </thead>
             <tbody>
                 @{int rowTime = 0;
-                    bool secondPartOfHourDrawn = true;}
+                    bool secondPartOfHourDrawn = true;
+                    Dictionary<string, int> startWork = ViewBag.StartWork;
+                    Dictionary<string, int> endWork = ViewBag.EndWork;
+                    bool isOffTime;
+                }
 
                 @for (int i = 0; i < 48; i++)
                 {
+                    if ((i * 30) < startWork[dayName] || (i * 30) > endWork[dayName])
+                    {
+                        isOffTime = true;
+                    }
+                    else
+                    {
+                        isOffTime = false;
+                    }
+
                     @foreach (var eventItem in Model.Events)
                     {
                         List<int> eventsId = new List<int>();
@@ -58,7 +72,7 @@
                                         <td class="@colorRow" id="(@i)_4">@eventItem.Status</td>
 
                                         <td class="@colorRow" id="(@i)_5">
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day"  class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
@@ -90,8 +104,8 @@
                                             <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
                                         <td class="@colorRow" id="(@i)_4">@eventItem.Status </td>
-                                        <td class="@colorRow" id="(@i)_5">                                          
-                                           <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>                                            
+                                        <td class="@colorRow" id="(@i)_5">
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
@@ -118,11 +132,11 @@
                     if (secondPartOfHourDrawn)
                     {
                         <tr>
-                            <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                            <td id="(@i)_2">00</td>
-                            <td id="(@i)_3"></td>
-                            <td id="(@i)_4"></td>
-                            <td id="(@i)_5"></td>
+                            <td rowspan="2" class="@(isOffTime?"table-warning":"")" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_2">00</td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_3"></td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_4"></td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_5"></td>
                         </tr>
                         secondPartOfHourDrawn = false;
                         rowTime = rowTime + 30;
@@ -130,10 +144,10 @@
                     else
                     {
                         <tr>
-                            <td id="(@i)_2">30</td>
-                            <td id="(@i)_3"></td>
-                            <td id="(@i)_4"></td>
-                            <td id="(@i)_5"></td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_2">30</td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_3"></td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_4"></td>
+                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_5"></td>
                         </tr>
                         rowTime = rowTime + 30;
                         secondPartOfHourDrawn = true;

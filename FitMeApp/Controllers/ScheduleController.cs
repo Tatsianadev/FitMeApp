@@ -18,13 +18,15 @@ namespace FitMeApp.Controllers
     public class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
+        private readonly IFitMeService _fitMeService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, UserManager<User> userManager, ILoggerFactory loggerFactory)
+        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _scheduleService = scheduleService;
+            _fitMeService = fitMeService;
             _userManager = userManager;
             _logger = loggerFactory.CreateLogger("ScheduleController");
             _mapper = new ModelViewModelMapper();
@@ -124,7 +126,7 @@ namespace FitMeApp.Controllers
                 };
 
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));                
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -163,7 +165,20 @@ namespace FitMeApp.Controllers
                 };
 
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(trainerId);
+
+                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
+                Dictionary<string, int> startWork = new Dictionary<string, int>();
+                Dictionary<string, int> endWork = new Dictionary<string, int>();
+                foreach (var item in trainerWorkHours)
+                {
+                    startWork.Add(item.DayName.ToString(), item.StartTime);
+                    endWork.Add(item.DayName.ToString(), item.EndTime);
+                }
+
+                ViewBag.StartWork = startWork;
+                ViewBag.EndWork = endWork;
+
               
                 return View("Index", model);
             }
