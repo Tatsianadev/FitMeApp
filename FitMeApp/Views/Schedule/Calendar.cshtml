@@ -10,7 +10,15 @@
     <div class="row">
         <div class="col-md-2" style="text-align:center">
             @{ int previousYear = Model.Year - 1;}
-            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@previousYear" asp-route-month="@Model.Month" class="btn btn-light">&#60</a>
+            <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                <input type="hidden" asp-for="Year" value="@previousYear" />
+                <input type="hidden" asp-for="Month" value="@Model.Month" />
+                @foreach (var item in Model.DatesEventsCount)
+                {
+                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                }
+                <input type="submit" value="&#60" class="btn btn-light" />
+            </form>           
         </div>
         <div class="col-md-8" style="text-align:center">
             <div id="currentYear" style="font-size:medium">
@@ -19,7 +27,15 @@
         </div>
         <div class="col-md-2" style="text-align:center">
             @{ int nextYear = Model.Year + 1;}
-            <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@nextYear" asp-route-month="@Model.Month" class="btn btn-light">&#62</a>
+            <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                <input type="hidden" asp-for="Year" value="@nextYear" />
+                <input type="hidden" asp-for="Month" value="@Model.Month" />
+                @foreach (var item in Model.DatesEventsCount)
+                {
+                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                }
+                <input type="submit" value="&#62" class="btn btn-light" />
+            </form>           
         </div>
     </div>
     <div class="row">
@@ -29,11 +45,27 @@
                 if (previousMonth <= 0)
                 {
                     previousMonth = 12;
-                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model.Year-1)" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
+                    <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                        <input type="hidden" asp-for="Year" value="@(Model.Year-1)" />
+                        <input type="hidden" asp-for="Month" value="@previousMonth" />
+                        @foreach (var item in Model.DatesEventsCount)
+                        {
+                            <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                        }
+                        <input type="submit" value="&#60" class="btn btn-light" />
+                    </form>                  
                 }
                 else
                 {
-                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model.Year" asp-route-month="@previousMonth" class="btn btn-light">&#60</a>
+                    <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                        <input type="hidden" asp-for="Year" value="@Model.Year" />
+                        <input type="hidden" asp-for="Month" value="@previousMonth" />
+                        @foreach (var item in Model.DatesEventsCount)
+                        {
+                            <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                        }
+                        <input type="submit" value="&#60" class="btn btn-light" />
+                    </form>                  
                 };
             }
 
@@ -49,11 +81,27 @@
                 if (nextMonth > 12)
                 {
                     nextMonth = 1;
-                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@(Model.Year+1)" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
+                    <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                        <input type="hidden" asp-for="Year" value="@(Model.Year+1)" />
+                        <input type="hidden" asp-for="Month" value="@nextMonth" />
+                        @foreach (var item in Model.DatesEventsCount)
+                        {
+                            <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                        }
+                        <input type="submit" value="&#62" class="btn btn-light" />
+                    </form>                   
                 }
                 else
                 {
-                    <a asp-controller="Schedule" asp-action="CalendarCarousel" asp-route-year="@Model.Year" asp-route-month="@nextMonth" class="btn btn-light">&#62</a>
+                    <form asp-controller="Schedule" asp-action="CalendarCarousel">
+                        <input type="hidden" asp-for="Year" value="@Model.Year" />
+                        <input type="hidden" asp-for="Month" value="@nextMonth" />
+                        @foreach (var item in Model.DatesEventsCount)
+                        {
+                            <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                        }
+                        <input type="submit" value="&#62" class="btn btn-light" />
+                    </form>                   
                 };
             }
 
@@ -82,8 +130,7 @@
                 <tr>
                     @{ int firstday = ((int)new DateTime(Model.Year, Model.Month, 1).DayOfWeek);
                         int daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
-                        int date = 1;
-                        Dictionary<string, int> datesEventsCount = ViewBag.DatesEventsCount;
+                        int date = 1;                       
                     }
                     @for (int i = 0; i < 7; i++)
                     {
@@ -92,10 +139,10 @@
                             <td id="1_@i">                                
                                 <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                     @date
-                                    @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                    @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
                                     {
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                            @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     }
@@ -108,10 +155,10 @@
                                 <td id="1_@j">
                                     <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                         @date
-                                        @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                        @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
                                         {
                                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                                @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
                                                 <span class="visually-hidden">unread messages</span>
                                             </span>
                                         }
@@ -136,10 +183,10 @@
                             <td id="@(j)_@i">
                                 <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                     @date
-                                    @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                    @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
                                     {
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                            @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     }
@@ -156,10 +203,10 @@
                         <td id="5_@i">
                             <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                 @date
-                                @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
                                 {
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                        @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
                                         <span class="visually-hidden">unread messages</span>
                                     </span>
                                 }
@@ -174,10 +221,10 @@
                         <td id="6_@i">
                             <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month]" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
                                 @date
-                                @if (datesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")))
+                                @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
                                 {
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @datesEventsCount[new DateTime(Model.Year, Model.Month, date).ToString("yyyy-MM-dd")]
+                                        @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
                                         <span class="visually-hidden">unread messages</span>
                                     </span>
                                 }

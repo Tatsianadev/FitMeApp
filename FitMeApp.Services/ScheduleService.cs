@@ -71,13 +71,13 @@ namespace FitMeApp.Services
             return eventModels;
         }
 
-        public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
+        public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
         {
            var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);
            return dateEventsCount;
         }
 
-        public IDictionary<string, int> GetEventsCountForEachDateByTrainer(string trainerId)
+        public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
             var dateEventsCount = _repository.GetEventsCountForEachDateByTrainer(trainerId);
             return dateEventsCount;

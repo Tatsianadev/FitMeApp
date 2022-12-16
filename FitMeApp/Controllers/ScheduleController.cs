@@ -39,7 +39,7 @@ namespace FitMeApp.Controllers
         {   
 
             int month = DateTime.Today.Month;
-            int year = DateTime.Today.Year;  
+            int year = DateTime.Today.Year;
 
             CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
             {
@@ -47,18 +47,18 @@ namespace FitMeApp.Controllers
                 Month = month,
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month),
                 Day = 0,
-                DayName = null,
+                DayName = null,               
                 Events = null
             };
            
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             if (User.IsInRole("trainer"))
             {
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+               model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
             }
             else
             {
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+                model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
             }            
             return View(model);            
         }
@@ -73,27 +73,12 @@ namespace FitMeApp.Controllers
             return PartialView();
         }
 
-        public IActionResult CalendarCarousel(int year, int month)
-        {            
-
-            CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
-            {
-                Year = year,
-                Month = month,
-                MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
-                Day = 0
-               
-            };
-           
+        [HttpPost]
+        public IActionResult CalendarCarousel(CurrentDayEventsViewModel model)
+        {
+            model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-            if (User.IsInRole("trainer"))
-            {
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
-            }
-            else
-            {
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
-            }
+            
             return View("Index", model);
         }
 

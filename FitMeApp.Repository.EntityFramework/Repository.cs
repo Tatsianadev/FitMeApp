@@ -1064,34 +1064,34 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         // to show Events count for each date on the calendar for current User
-        public IDictionary<string, int> GetEventsCountForEachDateByUser(string userId)
+        public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
         {
             var allEventsByUser = _context.Events.Where(x => x.UserId == userId).OrderBy(x => x.Date).ToList();
-            Dictionary<string, int> dateEventCount = new Dictionary<string, int>();
+            Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
             foreach (var eventItem in allEventsByUser)
             {
-                if (!dateEventCount.ContainsKey((eventItem.Date).ToString("yyyy-MM-dd")))
+                if (!dateEventCount.ContainsKey(eventItem.Date))
                 {
                     int eventCount = allEventsByUser.Where(x => x.Date == eventItem.Date).Count();
-                    dateEventCount.Add(eventItem.Date.ToString("yyyy-MM-dd"), eventCount);
+                    dateEventCount.Add(eventItem.Date, eventCount);
                 }
             }
 
             return dateEventCount;
         }
 
-        public IDictionary<string, int> GetEventsCountForEachDateByTrainer(string trainerId)
+        public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
-            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
-            Dictionary<string, int> dateEventCount = new Dictionary<string, int>();
+            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();            
+            Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
             foreach (var eventItem in allEventsByTrainer)
             {
-                if (!dateEventCount.ContainsKey((eventItem.Date).ToString("yyyy-MM-dd")))
+                if (!dateEventCount.ContainsKey(eventItem.Date))
                 {
                     int eventCount = allEventsByTrainer.Where(x => x.Date == eventItem.Date).Count();
-                    dateEventCount.Add(eventItem.Date.ToString("yyyy-MM-dd"), eventCount);
+                    dateEventCount.Add(eventItem.Date, eventCount);
                 }
             }
 

@@ -11,6 +11,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string MonthName { get; set; }
         public int  Day { get; set; }
         public string DayName { get; set; }
+        public IDictionary<DateTime, int> DatesEventsCount { get; set; }
         public ICollection<EventViewModel> Events { get; set; }
     }
 }
