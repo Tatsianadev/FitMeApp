@@ -35,23 +35,20 @@
                 @{int rowTime = 0;
                     bool secondPartOfHourDrawn = true;
                     Dictionary<string, int> startWork = ViewBag.StartWork;
-                    Dictionary<string, int> endWork = ViewBag.EndWork;
-                    //bool isOffTime;
+                    Dictionary<string, int> endWork = ViewBag.EndWork;                    
                     string styleForWorkOffTime = "";
                 }
 
                 @for (int i = 0; i < 48; i++)
                 {
                     if ((i * 30) < startWork[dayName] || (i * 30) >= endWork[dayName])
-                    {
-                        //isOffTime = true;
+                    {                       
                         styleForWorkOffTime = "table-secondary";
                     }
                     else
                     {
                         styleForWorkOffTime = "";
                     }
-
 
                     @foreach (var eventItem in Model.Events)
                     {
@@ -64,16 +61,16 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr>
+                                    <tr class="@colorRow">
                                         <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="@colorRow" id="(@i)_2">00</td>
-                                        <td class="@colorRow" id="(@i)_3">
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
-                                        <td class="@colorRow" id="(@i)_4">@eventItem.Status</td>
+                                        <td id="(@i)_4">@eventItem.Status</td>
 
-                                        <td class="@colorRow" id="(@i)_5">
+                                        <td id="(@i)_5">
                                             <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
@@ -81,14 +78,14 @@
                                 }
                                 else
                                 {
-                                    <tr>
+                                    <tr class="@colorRow">
                                         <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="@colorRow" id="(@i)_2">00</td>
-                                        <td class="@colorRow" id="(@i)_3">
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td class="@colorRow" id="(@i)_4">-//-</td>
-                                        <td class="@colorRow" id="(@i)_5">-//-</td>
+                                        <td id="(@i)_4">-//-</td>
+                                        <td id="(@i)_5">-//-</td>
                                     </tr>
                                 }
                                 secondPartOfHourDrawn = false;
@@ -99,14 +96,14 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr>
-                                        <td class="@colorRow" id="(@i)_2">30</td>
-                                        <td class="@colorRow" id="(@i)_3">
+                                    <tr class="@colorRow">
+                                        <td id="(@i)_2">30</td>
+                                        <td id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
-                                        <td class="@colorRow" id="(@i)_4">@eventItem.Status </td>
-                                        <td class="@colorRow" id="(@i)_5">
+                                        <td id="(@i)_4">@eventItem.Status </td>
+                                        <td id="(@i)_5">
                                             <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
@@ -114,13 +111,13 @@
                                 }
                                 else
                                 {
-                                    <tr>
-                                        <td class="@colorRow" id="(@i)_2">30</td>
-                                        <td class="@colorRow" id="(@i)_3">
+                                    <tr class="@colorRow">
+                                        <td id="(@i)_2">30</td>
+                                        <td  id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td class="@colorRow" id="(@i)_4">-//-</td>
-                                        <td class="@colorRow" id="(@i)_5">-//-</td>
+                                        <td id="(@i)_4">-//-</td>
+                                        <td id="(@i)_5">-//-</td>
                                     </tr>
                                 }
 

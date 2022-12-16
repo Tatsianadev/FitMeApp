@@ -13,8 +13,12 @@
             @if (Model.Day != 0)
             {
                 if (User.IsInRole("trainer"))
-                {
-                    @await Html.PartialAsync("TrainersEvents", Model)
+                {  
+                        //@await Html.PartialAsync("TrainerDayOff")
+                   
+                        @await Html.PartialAsync("TrainersEvents", Model)
+                   
+
                 }
                 else
                 {
