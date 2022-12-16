@@ -138,3 +138,12 @@ body {
     text-decoration:underline;   
 
 }
+
+/*.workOff-table,
+.workOff-table th,
+.workOff-table td
+{
+    background-color:gray;
+    border-color:black;
+    color:lightgray;
+}*/

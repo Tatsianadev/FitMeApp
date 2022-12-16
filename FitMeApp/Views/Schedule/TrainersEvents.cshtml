@@ -1,5 +1,4 @@
-﻿@addTagHelper *, FitMeApp
-@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 @*PartialView (main page - /Schedule/Index)*@
 
 @{
@@ -37,19 +36,22 @@
                     bool secondPartOfHourDrawn = true;
                     Dictionary<string, int> startWork = ViewBag.StartWork;
                     Dictionary<string, int> endWork = ViewBag.EndWork;
-                    bool isOffTime;
+                    //bool isOffTime;
+                    string styleForWorkOffTime = "";
                 }
 
                 @for (int i = 0; i < 48; i++)
                 {
-                    if ((i * 30) < startWork[dayName] || (i * 30) > endWork[dayName])
+                    if ((i * 30) < startWork[dayName] || (i * 30) >= endWork[dayName])
                     {
-                        isOffTime = true;
+                        //isOffTime = true;
+                        styleForWorkOffTime = "table-secondary";
                     }
                     else
                     {
-                        isOffTime = false;
+                        styleForWorkOffTime = "";
                     }
+
 
                     @foreach (var eventItem in Model.Events)
                     {
@@ -131,23 +133,23 @@
                     }
                     if (secondPartOfHourDrawn)
                     {
-                        <tr>
-                            <td rowspan="2" class="@(isOffTime?"table-warning":"")" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_2">00</td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_3"></td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_4"></td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_5"></td>
+                        <tr class="@styleForWorkOffTime">
+                            <td rowspan="2"  style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                            <td id="(@i)_2">00</td>
+                            <td id="(@i)_3"></td>
+                            <td id="(@i)_4"></td>
+                            <td id="(@i)_5"></td>
                         </tr>
                         secondPartOfHourDrawn = false;
                         rowTime = rowTime + 30;
                     }
                     else
                     {
-                        <tr>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_2">30</td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_3"></td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_4"></td>
-                            <td class="@(isOffTime?"table-warning":"")" id="(@i)_5"></td>
+                        <tr class="@styleForWorkOffTime">
+                            <td id="(@i)_2">30</td>
+                            <td id="(@i)_3"></td>
+                            <td id="(@i)_4"></td>
+                            <td id="(@i)_5"></td>
                         </tr>
                         rowTime = rowTime + 30;
                         secondPartOfHourDrawn = true;
