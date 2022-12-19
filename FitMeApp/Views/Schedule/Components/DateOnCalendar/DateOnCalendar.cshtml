@@ -1,20 +1,13 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 
-@{string showEvents = "";
-    if (User.IsInRole("trainer"))
-    {
-        showEvents = "ShowTrainersEvents";
-    }
-    else
-    {
-        showEvents = "ShowUsersEvents";
-    }}
+@{string showEventsAcrionName = ViewBag.ShowEventsActionName;
+    int dayNumber = ViewBag.DayNumber;}
 
-<form asp-controller="Schedule" asp-action="@showEvents" method="post">
+<form asp-controller="Schedule" asp-action="@showEventsAcrionName" method="post">
     <input type="hidden" asp-for="Year" value="@Model.Year" />
     <input type="hidden" asp-for="Month" value="@Model.Month" />
-    <input type="hidden" asp-for="Day" value="@Model.Day" />
-    @{ string dayName = new DateTime(Model.Year, Model.Month, Model.Day).DayOfWeek.ToString(); }
+    <input type="hidden" asp-for="Day" value="@dayNumber" />
+    @{ string dayName = new DateTime(Model.Year, Model.Month, dayNumber).DayOfWeek.ToString(); }
     <input type="hidden" asp-for="DayName" value="@dayName" />
     @foreach (var item in Model.DatesEventsCount)
     {
@@ -22,12 +15,12 @@
     }
 
     <div class="btn btn-light btn-sm position-relative" style="padding:0px">
-        <input type="submit" value=" @Model.Day" class="btn btn-light btn-sm">
+        <input type="submit" value=" @dayNumber" class="btn btn-light btn-sm">
 
-        @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, Model.Day)))
+        @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, dayNumber)))
         {
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, Model.Day)]
+                @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, dayNumber)]
                 <span class="visually-hidden">unread messages</span>
             </span>
         }

@@ -138,9 +138,9 @@
                         if (firstday == i)
                         {
                             <td id="1_@i">
-                                @{DateTime currentDate = new DateTime(Model.Year, Model.Month, date);
-                                    Model.Day = currentDate.Day;}
-                                @await Component.InvokeAsync("DateOnCalendar", Model)
+                                @{DateTime currentDate = new DateTime(Model.Year, Model.Month, date);}
+
+                                @await Component.InvokeAsync("DateOnCalendar", new { model = Model, dayNumber = date, showEventsActionName = showEvents})
 
                                 <!--<form asp-controller="Schedule" asp-action="@showEvents" method="post">
                                     <input type="hidden" asp-for="Year" value="@Model.Year" />

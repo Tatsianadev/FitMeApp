@@ -10,9 +10,10 @@ namespace FitMeApp.ViewComponents
 {
     public class DateOnCalendarViewComponent: ViewComponent
     {
-        public IViewComponentResult Invoke(CurrentDayEventsViewModel model)
+        public IViewComponentResult Invoke(CurrentDayEventsViewModel model, int dayNumber,  string showEventsActionName)
         {
-            
+            ViewBag.DayNumber = dayNumber;
+            ViewBag.ShowEventsActionName = showEventsActionName;
             return View("DateOnCalendar", model);
         }
     }
