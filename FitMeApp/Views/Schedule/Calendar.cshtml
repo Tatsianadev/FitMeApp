@@ -1,4 +1,5 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@addTagHelper *, FitMeApp
+@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
 @* PartialView (main page - /Schedule/Index) *@
 
 @{
@@ -18,7 +19,7 @@
                     <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                 }
                 <input type="submit" value="&#60" class="btn btn-light" />
-            </form>           
+            </form>
         </div>
         <div class="col-md-8" style="text-align:center">
             <div id="currentYear" style="font-size:medium">
@@ -35,7 +36,7 @@
                     <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                 }
                 <input type="submit" value="&#62" class="btn btn-light" />
-            </form>           
+            </form>
         </div>
     </div>
     <div class="row">
@@ -53,7 +54,7 @@
                             <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                         }
                         <input type="submit" value="&#60" class="btn btn-light" />
-                    </form>                  
+                    </form>
                 }
                 else
                 {
@@ -65,7 +66,7 @@
                             <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                         }
                         <input type="submit" value="&#60" class="btn btn-light" />
-                    </form>                  
+                    </form>
                 };
             }
 
@@ -89,7 +90,7 @@
                             <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                         }
                         <input type="submit" value="&#62" class="btn btn-light" />
-                    </form>                   
+                    </form>
                 }
                 else
                 {
@@ -101,7 +102,7 @@
                             <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                         }
                         <input type="submit" value="&#62" class="btn btn-light" />
-                    </form>                   
+                    </form>
                 };
             }
 
@@ -130,23 +131,55 @@
                 <tr>
                     @{ int firstday = ((int)new DateTime(Model.Year, Model.Month, 1).DayOfWeek);
                         int daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
-                        int date = 1;                       
+                        int date = 1;
                     }
                     @for (int i = 0; i < 7; i++)
                     {
                         if (firstday == i)
                         {
-                            <td id="1_@i">                                
-                                <a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
-                                    @date
-                                    @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
+                            <td id="1_@i">
+                                @{DateTime currentDate = new DateTime(Model.Year, Model.Month, date);
+                                    Model.Day = currentDate.Day;}
+                                @await Component.InvokeAsync("DateOnCalendar", Model)
+
+                                <!--<form asp-controller="Schedule" asp-action="@showEvents" method="post">
+                                    <input type="hidden" asp-for="Year" value="@Model.Year" />
+                                    <input type="hidden" asp-for="Month" value="@Model.Month" />
+                                    <input type="hidden" asp-for="Day" value="@date" />
+                                    @{ string dayName = new DateTime(Model.Year, Model.Month, date).DayOfWeek.ToString(); }
+                                    <input type="hidden" asp-for="DayName" value="@dayName" />
+                                    @foreach (var item in Model.DatesEventsCount)
                                     {
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
+                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                                     }
-                                </a>
+                                    <div class="btn btn-light btn-sm position-relative" style="padding:0px">
+                                        <input type="submit" value=" @date" class="btn btn-light btn-sm">
+                                        @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
+                                        {
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
+                                                <span class="visually-hidden">unread messages</span>
+                                            </span>
+                                        }
+
+                                    </div>-->
+
+
+
+
+
+                                    @*<a asp-controller="Schedule" asp-action="@showEvents" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@date" class="btn btn-light btn-sm position-relative">
+                                            @date
+                                            @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, date)))
+                                            {
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                    @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, date)]
+                                                    <span class="visually-hidden">unread messages</span>
+                                                </span>
+                                            }
+                                        </a>*@
+                                <!--</form>-->
+
                             </td>
                             ++date;
 
@@ -196,7 +229,7 @@
                         }
                     </tr>
                 }
-               
+
                 <tr>
                     @for (int i = 0; i < 7 && date <= daysInMonth; i++)
                     {
