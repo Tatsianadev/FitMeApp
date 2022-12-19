@@ -1,4 +1,4 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 
 
 <h1>Schedule</h1>
@@ -10,12 +10,12 @@
             @await Html.PartialAsync("Calendar", Model)
         </div>
         <div class="col-md-8">
-            @if (Model.Day != 0)
+            @if (Model.DayOnCalendarSelected)
             {
                 if (User.IsInRole("trainer"))
-                {  
-                        //@await Html.PartialAsync("TrainerDayOff")
-                   
+                {
+                    //@await Html.PartialAsync("TrainerDayOff")
+
                         @await Html.PartialAsync("TrainersEvents", Model)
                    
 

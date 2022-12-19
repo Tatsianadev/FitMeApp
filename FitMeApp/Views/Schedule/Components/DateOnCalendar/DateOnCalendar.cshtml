@@ -1,14 +1,13 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 
 @{string showEventsAcrionName = ViewBag.ShowEventsActionName;
-    int dayNumber = ViewBag.DayNumber;}
+    int dayNumber = ViewBag.DayNumber;
+    DateTime currentDate = new DateTime(Model.Date.Year, Model.Date.Month, dayNumber);}
 
 <form asp-controller="Schedule" asp-action="@showEventsAcrionName" method="post">
-    <input type="hidden" asp-for="Year" value="@Model.Year" />
-    <input type="hidden" asp-for="Month" value="@Model.Month" />
-    <input type="hidden" asp-for="Day" value="@dayNumber" />
-    @{ string dayName = new DateTime(Model.Year, Model.Month, dayNumber).DayOfWeek.ToString(); }
-    <input type="hidden" asp-for="DayName" value="@dayName" />
+
+    <input type="hidden" asp-for="Date" value="@currentDate" />
+    <input type="hidden" asp-for="DayOnCalendarSelected" value="@true" />    
     @foreach (var item in Model.DatesEventsCount)
     {
         <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
@@ -16,14 +15,21 @@
 
     <div class="btn btn-light btn-sm position-relative" style="padding:0px">
         <input type="submit" value=" @dayNumber" class="btn btn-light btn-sm">
-
-        @if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, dayNumber)))
+        @if (Model.DatesEventsCount.ContainsKey(currentDate))
         {
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, dayNumber)]
+                @Model.DatesEventsCount[currentDate]
                 <span class="visually-hidden">unread messages</span>
             </span>
         }
+
+        @*@if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, dayNumber)))
+            {
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, dayNumber)]
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            }*@
 
     </div>
 </form>

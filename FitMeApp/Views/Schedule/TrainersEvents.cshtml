@@ -1,4 +1,4 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CurrentDayEventsViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 @*PartialView (main page - /Schedule/Index)*@
 
 @{
@@ -9,14 +9,14 @@
     <div class="row">
         <div class="col-md-12" style="text-align:center">
             <div id="currentYear" style="font-size:medium">
-                @Model.Day @Model.MonthName @Model.Year
+                @Model.Date.Day @Model.MonthName @Model.Date.Year
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12" style="text-align:center">
             <div style="font-size:medium">
-                @{ string dayName = new DateTime(Model.Year, Model.Month, Model.Day).DayOfWeek.ToString();}
+                @{ string dayName = Model.Date.DayOfWeek.ToString();}
                 @dayName
             </div>
         </div>
@@ -71,7 +71,7 @@
                                         <td id="(@i)_4">@eventItem.Status</td>
 
                                         <td id="(@i)_5">
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Date.Year" asp-route-month="@Model.Date.Month" asp-route-day="@Model.Date.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
@@ -104,7 +104,7 @@
                                         </td>
                                         <td id="(@i)_4">@eventItem.Status </td>
                                         <td id="(@i)_5">
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Year" asp-route-month="@Model.Month" asp-route-day="@Model.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Date.Year" asp-route-month="@Model.Date.Month" asp-route-day="@Model.Date.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
