@@ -82,39 +82,25 @@ namespace FitMeApp.Controllers
         //Events - PartialView
 
         [Authorize(Roles = "admin, user")]
-        public IActionResult ShowUsersEvents(int year, int month, int day)
+        public IActionResult ShowUsersEvents(CalendarPageWithEventsViewModel model)
         {
             try
-            {
-                DateTime currentDate = new DateTime(year, month, day);
-                string userId = _userManager.GetUserId(User);
-                var eventModels = _scheduleService.GetEventsByUserAndDate(userId, currentDate);
+            {                
+                string userId = _userManager.GetUserId(User);               
 
+                var eventModels = _scheduleService.GetEventsByUserAndDate(userId, model.Date);
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
                     eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
                 }
 
-                //CurrentDayEventsViewModel model = new CurrentDayEventsViewModel()
-                //{
-                //    Year = year,
-                //    Month = month,
-                //    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
-                //    Day = day,
-                //    DayName = new DateTime(year, month, day).DayOfWeek.ToString(),
-                //    Events = eventsViewModels
-                //};
+                model.Events = eventsViewModels;
+                model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
+                model.SelectedDayIsWorkOff = false;                             
 
-                CalendarPageWithEventsViewModel model = new CalendarPageWithEventsViewModel()
-                {
-                    Date = currentDate,
-                    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month),
-                    Events = eventsViewModels
-                };
-
-                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;  
+                
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -194,8 +180,7 @@ namespace FitMeApp.Controllers
             bool result = _scheduleService.ChangeEventStatus(eventId);
             if (result)
             {
-                return ShowTrainersEvents(model);
-                //return View(); //для теста.
+                return ShowTrainersEvents(model);                
             }
             else
             {

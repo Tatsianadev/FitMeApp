@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-12" style="text-align:center">
             <div style="font-size:medium">
-                @{ string dayName = new DateTime(Model.Date.Year, Model.Date.Month, Model.Date.Day).DayOfWeek.ToString();}
+                @{ string dayName = Model.Date.DayOfWeek.ToString();}
                 @dayName
             </div>
         </div>
