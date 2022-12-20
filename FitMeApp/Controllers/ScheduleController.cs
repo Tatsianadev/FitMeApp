@@ -133,28 +133,18 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                
-                //DateTime currentDate = new DateTime(1,1,1);
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 string trainerId = _userManager.GetUserId(User);
                 var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
-                var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
-                if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, возвращать DayOff picture вместо расписания
+                var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();               
+
+                if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
                 {
-                    //CurrentDayEventsViewModel modelForCalendar = new CurrentDayEventsViewModel()
-                    //{
-                    //    Year = year,
-                    //    Month = month,
-                    //    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month),
-                    //    Day = 0,
-                    //    DayName = null,
-                    //    Events = null
-                    //};
-                    //return View("Index", modelForCalendar);
+                    model.SelectedDayIsWorkOff = true;
+                    return View("Index", model);
                 }
 
-
                 var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, model.Date);
-
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
@@ -163,28 +153,14 @@ namespace FitMeApp.Controllers
 
                 model.Events = eventsViewModels;
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
-              
+                model.SelectedDayIsWorkOff = false;                          
 
-                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                //ViewBag.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(trainerId);
-
-
-                Dictionary<string, int> startWork = new Dictionary<string, int>();
-                Dictionary<string, int> endWork = new Dictionary<string, int>();
-                foreach (var item in trainerWorkHours)
-                {
-                    startWork.Add(item.DayName.ToString(), item.StartTime);
-                    endWork.Add(item.DayName.ToString(), item.EndTime);
-                }
-
+                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x=>x.StartTime).First();
+                int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
                 ViewBag.StartWork = startWork;
-                ViewBag.EndWork = endWork;
-
+                ViewBag.EndWork = endWork;               
 
                 return View("Index", model);
-
-
-
 
             }
             catch (Exception ex)
@@ -205,21 +181,21 @@ namespace FitMeApp.Controllers
             return PartialView();
         }
 
-        //public IActionResult TrainerDayOff()
-        //{
-        //    return PartialView();
-        //}
+        public IActionResult TrainerDayOff()
+        {
+            return PartialView();
+        }
 
 
 
-        [Authorize(Roles = "trainer")]
-        public IActionResult ChangeEventsStatus(int eventId, int year, int month, int day)
+        [Authorize(Roles = "trainer")]        
+        public IActionResult ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
         {
             bool result = _scheduleService.ChangeEventStatus(eventId);
             if (result)
             {
-                //return ShowTrainersEvents(year, month, day);
-                return View(); //для теста.
+                return ShowTrainersEvents(model);
+                //return View(); //для теста.
             }
             else
             {

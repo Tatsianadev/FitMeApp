@@ -33,15 +33,13 @@
             </thead>
             <tbody>
                 @{int rowTime = 0;
-                    bool secondPartOfHourDrawn = true;
-                    Dictionary<string, int> startWork = ViewBag.StartWork;
-                    Dictionary<string, int> endWork = ViewBag.EndWork;                    
+                    bool secondPartOfHourDrawn = true;                              
                     string styleForWorkOffTime = "";
                 }
 
                 @for (int i = 0; i < 48; i++)
                 {
-                    if ((i * 30) < startWork[dayName] || (i * 30) >= endWork[dayName])
+                    if ((i * 30) < ViewBag.StartWork || (i * 30) >= ViewBag.EndWork)
                     {                       
                         styleForWorkOffTime = "table-secondary";
                     }
@@ -103,8 +101,8 @@
                                             <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
                                         <td id="(@i)_4">@eventItem.Status </td>
-                                        <td id="(@i)_5">
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Date.Year" asp-route-month="@Model.Date.Month" asp-route-day="@Model.Date.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                        <td id="(@i)_5">                                            
+                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-model="@Model" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
