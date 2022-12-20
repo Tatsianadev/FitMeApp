@@ -69,7 +69,17 @@
                                         <td id="(@i)_4">@eventItem.Status</td>
 
                                         <td id="(@i)_5">
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Date.Year" asp-route-month="@Model.Date.Month" asp-route-day="@Model.Date.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                            <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                @foreach (var item in Model.DatesEventsCount)
+                                                {
+                                                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                }
+                                                <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                            </form>
+                                            @*<a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-year="@Model.Date.Year" asp-route-month="@Model.Date.Month" asp-route-day="@Model.Date.Day" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>*@
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
@@ -101,8 +111,18 @@
                                             <span class="text-emphasize">Client:</span> @eventItem.UserName&#160
                                         </td>
                                         <td id="(@i)_4">@eventItem.Status </td>
-                                        <td id="(@i)_5">                                            
-                                            <a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-model="@Model" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>
+                                        <td id="(@i)_5">
+                                            <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                @foreach (var item in Model.DatesEventsCount)
+                                                {
+                                                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                }
+                                                <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                            </form>
+                                            @*<a asp-controller="Schedule" asp-action="ChangeEventsStatus" asp-route-eventId="@eventItem.Id" asp-route-model="@Model" class="btn btn-outline-primary btn-sm">@changeStatusButtonValue</a>*@
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
