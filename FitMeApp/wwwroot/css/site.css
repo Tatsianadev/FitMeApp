@@ -116,6 +116,15 @@ body {
     padding: 2px;
 }
 
+.col6 {
+    width: 60%;
+    height: 5px;
+    text-align: left;
+    font-size: smaller;
+    padding: 2px;
+}
+
+
 
 
 .table1 {

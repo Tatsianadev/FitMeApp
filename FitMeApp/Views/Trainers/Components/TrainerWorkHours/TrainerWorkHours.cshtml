@@ -1,0 +1,21 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel>
+
+<table style="width: 100%; margin: auto">
+    @{List<string> workDays = ViewBag.WorkDays; }
+    @for (int i = 0; i < 7; i++)
+    {
+        <tr>
+            <td class="col3">@((DayOfWeek)i)</td>
+            @if (Model.Select(x => x.DayName).ToList().Contains((DayOfWeek)i))
+            {
+                <td class="col6">                   
+                    @Model.Where(x => x.DayName == ((DayOfWeek)i)).Select(x => x.StartTime).First().ToString() -  @Model.Where(x => x.DayName == ((DayOfWeek)i)).Select(x => x.EndTime).First().ToString()
+                </td>
+            }
+            else
+            {
+                <td class="col6"> - </td>
+            }
+        </tr>
+    }
+</table>

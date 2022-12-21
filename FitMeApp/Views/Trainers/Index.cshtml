@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
+﻿@addTagHelper *, FitMeApp
+@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
 
 
 
@@ -112,7 +113,17 @@
                         <tr>
                             <td>Work hours</td>
                             <td>
-                                <a asp-controller="Trainers" asp-action="Schedule" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Show</a>
+                                @*<a asp-controller="Trainers" asp-action="Schedule" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Show</a>*@
+                                <p>
+                                    <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapseExample_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapseExample_@trainer.Id">
+                                       Show
+                                    </a>                                   
+                                </p>
+                                <div class="collapse" id="collapseExample_@trainer.Id">
+                                    <div class="card card-body">
+                                        @await Component.InvokeAsync("TrainerWorkHours", new { trainerId = trainer.Id })
+                                    </div>
+                                </div>
                             </td>
                             <td></td>
                         </tr>

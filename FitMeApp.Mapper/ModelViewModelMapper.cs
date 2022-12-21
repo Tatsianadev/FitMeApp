@@ -246,6 +246,7 @@ namespace FitMeApp.Mapper
                 GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
                 DayName = trainerWorkHoursModel.DayName
             };
+            
             return trainerWorkHoursViewModel;
         }
 

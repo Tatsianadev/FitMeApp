@@ -22,14 +22,5 @@
                 <span class="visually-hidden">unread messages</span>
             </span>
         }
-
-        @*@if (Model.DatesEventsCount.ContainsKey(new DateTime(Model.Year, Model.Month, dayNumber)))
-            {
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    @Model.DatesEventsCount[new DateTime(Model.Year, Model.Month, dayNumber)]
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            }*@
-
     </div>
 </form>

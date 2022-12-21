@@ -195,7 +195,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         EndTime = trainerWorkHours.EndTime,
                                                         GymWorkHoursId = trainerWorkHours.GymWorkHoursId,
                                                         DayName = gymWorkHours.DayOfWeekNumber
-                                                    }).ToList();
+                                                    }).OrderBy(x=>x.DayName).ToList();
 
             List<TrainerWorkHoursWithDayBase> trainerWorkHoursWithDays = new List<TrainerWorkHoursWithDayBase>();
             foreach (var item in trainerWorkHoursGymWorkHoursJoin)

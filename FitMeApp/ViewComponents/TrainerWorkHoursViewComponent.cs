@@ -1,4 +1,7 @@
-﻿using FitMeApp.WEB.Contracts.ViewModels;
+﻿using FitMeApp.Mapper;
+using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.WEB.Contracts.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,34 +9,29 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.ViewComponents
 {
-    public class TrainerWorkHoursViewComponent
+
+    public class TrainerWorkHoursViewComponent: ViewComponent
     {
-        public string Invoke(int startTime, int endTime)
+        private readonly IFitMeService _fitMeService;
+        private readonly ModelViewModelMapper _mapper;
+        public TrainerWorkHoursViewComponent(IFitMeService fitMeService)
         {
-            string startTimeToPrint;
-            string endTimeToPrint;
-
-            if (startTime%60 == 0)
-            {
-                startTimeToPrint = (startTime / 60).ToString()+".00";
-            }
-            else
-            {
-                string remainder = (startTime % 60).ToString();
-                startTimeToPrint = Math.Truncate((decimal)startTime / 60).ToString() + remainder;
-            }
-
-            if (endTime % 60 == 0)
-            {
-                endTimeToPrint = (endTime / 60).ToString() + ".00";
-            }
-            else
-            {
-                string remainder = (endTime % 60).ToString();
-                endTimeToPrint = Math.Truncate((decimal)endTime / 60).ToString() + remainder;
-            }
-
-            return $"{startTimeToPrint} - {endTimeToPrint}";
+            _fitMeService = fitMeService;
+            _mapper = new ModelViewModelMapper();
         }
+
+        public IViewComponentResult Invoke(string trainerId)
+        {
+            var trainerWorkHoursModels = _fitMeService.GetWorkHoursByTrainer(trainerId);
+            List<TrainerWorkHoursViewModel> trainerWorkHoursViewModels = new List<TrainerWorkHoursViewModel>();
+            foreach (var model in trainerWorkHoursModels)
+            {
+                trainerWorkHoursViewModels.Add(_mapper.MappTrainerWorkHoursModelToViewModel(model));
+            }
+            return View("TrainerWorkHours", trainerWorkHoursViewModels);
+        }
+
+
+
     }
 }
