@@ -50,5 +50,18 @@ namespace FitMeApp.Controllers
 
             return View(trainers);
         }
+
+
+        [HttpPost]
+        public IActionResult TrainersFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations)
+        {
+            if (selectedGenders == null && selectedGenders == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var trainerModels = _fitMeService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
+            return View();
+        }
     }
 }

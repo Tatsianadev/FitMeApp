@@ -1,4 +1,5 @@
-﻿using FitMeApp.Services.Contracts.Models;
+﻿using FitMeApp.Common;
+using FitMeApp.Services.Contracts.Models;
 using System;
 using System.Collections.Generic;
 
@@ -43,6 +44,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+        IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
 
         //Events
         int GetActualEventsCountByTrainer(string trainerId);

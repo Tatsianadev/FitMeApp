@@ -1,4 +1,5 @@
-﻿using FitMeApp.Mapper;
+﻿using FitMeApp.Common;
+using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
@@ -365,6 +366,30 @@ namespace FitMeApp.Services
         {
             List<string> clientsId = _repository.GetAllClientsIdByTrainer(trainerId).ToList();
             return clientsId;
+        }
+
+
+        public IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations)
+        {
+            List<string> selectedGendersString = new List<string>();
+            foreach (var item in selectedGenders)
+            {
+                selectedGendersString.Add(item.ToString());
+            }
+
+            List<string> selectedSpecializationsString = new List<string>();
+            foreach (var item in selectedSpecializations)
+            {
+                selectedSpecializationsString.Add(item.ToString());
+            }
+
+            var trainersBaseByFilter = _repository.GetTrainersWithGymAndTrainengsByFilter(selectedGendersString, selectedSpecializationsString);
+            List<TrainerModel> trainerModels = new List<TrainerModel>();
+            foreach (var trainerBase in trainersBaseByFilter)
+            {
+                trainerModels.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerBase));
+            }
+            return trainerModels;
         }
 
         //Events

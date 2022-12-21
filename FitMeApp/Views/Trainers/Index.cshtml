@@ -10,7 +10,7 @@
                 Text about trainers
             </h4>
             <h6>
-                Text about filters and work woth page
+                Text about filters and work with page
             </h6>
         </div>
         <div class="col-md-4">
@@ -25,7 +25,7 @@
         </p>
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
-                <form asp-controller="Trainers" asp-action="Index" method="post">
+                <form asp-controller="Trainers" asp-action="TrainersFilter" method="post">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-4">
@@ -35,7 +35,7 @@
                                 @foreach (var gender in ViewBag.Genders)
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" name="SelectedGender" type="checkbox" value="@gender" id="@gender">
+                                        <input class="form-check-input" name="selectedGenders" type="checkbox" value="@gender" id="@gender">
                                         <label class="form-check-label" for="@gender">
                                             @gender
                                         </label>
@@ -49,7 +49,7 @@
                                 @foreach (var specialization in ViewBag.Specializations)
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" name="SelectedGender" type="checkbox" value="@specialization" id="@specialization">
+                                        <input class="form-check-input" name="selectedSpecializations" type="checkbox" value="@specialization" id="@specialization" multiple>
                                         <label class="form-check-label" for="@specialization">
                                             @specialization training
                                         </label>
@@ -95,11 +95,13 @@
                             <td>Specialization</td>
                             <td>@trainer.Specialization</td>
                             <td>
+                                @{ string trainingsNamesEnum="";}
                                 @foreach (var training in trainer.Trainings)
                                 {
-                                    string trainingEnum = training.Name + ", ";
-                                    @trainingEnum
-                                }                                                                                                                                              }
+                                    trainingsNamesEnum = training.Name + ", ";
+                                }
+
+                                @trainingsNamesEnum
                             </td>
                         </tr>
                         <tr>

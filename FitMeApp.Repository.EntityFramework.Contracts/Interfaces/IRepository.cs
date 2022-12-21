@@ -1,4 +1,5 @@
-﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+﻿using FitMeApp.Common;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System;
 using System.Collections.Generic;
 
@@ -29,6 +30,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+       
 
 
 
@@ -54,6 +56,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Filters
         IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
         IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
+        IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainengsByFilter(List<string> selectedGenders, List<string> selectedSpecializations);
 
         //Subscriptions
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId);

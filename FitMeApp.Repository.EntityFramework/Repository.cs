@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
+using FitMeApp.Common;
 
 namespace FitMeApp.Repository.EntityFramework
 {
@@ -756,6 +757,85 @@ namespace FitMeApp.Repository.EntityFramework
                 });
             }
             return subscriptions;
+        }
+
+
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainengsByFilter(List<string> selectedGenders, List<string> selectedSpecializations)
+        {
+            var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
+                                               join gym in _context.Gyms
+                                               on trainer.GymId equals gym.Id
+                                               join trainingTrainer in _context.TrainingTrainer
+                                               on trainer.Id equals trainingTrainer.TrainerId
+                                               join training in _context.Trainings
+                                               on trainingTrainer.TrainingId equals training.Id
+                                               where selectedGenders.Contains(trainer.Gender)
+                                               where selectedSpecializations.Contains(trainer.Specialization)
+                                               select new
+                                               {
+                                                   TrainerId = trainer.Id,
+                                                   FirstName = trainer.FirstName,
+                                                   LastName = trainer.LastName,
+                                                   Gender = trainer.Gender,
+                                                   Picture = trainer.Picture,
+                                                   Specialization = trainer.Specialization,
+                                                   GymId = gym.Id,
+                                                   GymName = gym.Name,
+                                                   GymAddress = gym.Address,
+                                                   TrainingId = training.Id,
+                                                   TrainingName = training.Name
+                                               }).OrderBy(x => x.TrainerId).ToList();
+
+
+            List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
+            List<string> trainersId = new List<string>();
+            var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
+
+            foreach (var item in trainersGymTrainingsByFilterJoin)
+            {
+                if (!trainersId.Contains(item.TrainerId))
+                {
+                    List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
+                    trainings.Add(new TrainingEntityBase()
+                    {
+                        Id = item.TrainingId,
+                        Name = item.TrainingName
+                    });
+
+                    trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
+                    {
+                        Id = item.TrainerId,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Gender = item.Gender,
+                        Picture = item.Picture,
+                        Specialization = item.Specialization,
+                        Gym = new GymEntityBase()
+                        {
+                            Id = item.GymId,
+                            Name = item.GymName,
+                            Address = item.GymAddress
+                        },
+                        Trainings = trainings
+                    };
+
+                    trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
+                    trainersId.Add(item.TrainerId);
+
+                }
+                else
+                {
+                    List<TrainingEntityBase> currentTrainerTrainings = trainerWithGymAndTrainings.Trainings.ToList();
+                    currentTrainerTrainings.Add(new TrainingEntityBase()
+                    {
+                        Id = item.TrainingId,
+                        Name = item.TrainingName
+                    });
+                    trainerWithGymAndTrainings.Trainings = currentTrainerTrainings;
+                }
+            }
+
+            return trainersWithGymAndTrainings;
         }
 
         // Subscribtions
