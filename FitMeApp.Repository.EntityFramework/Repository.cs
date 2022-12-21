@@ -520,54 +520,6 @@ namespace FitMeApp.Repository.EntityFramework
 
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = ConvertJoinResultToTrainerWithGymAndTrainingsBase(allTrainersGymTrainingsJoin);
 
-            //List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
-            //List<string> trainersId = new List<string>();
-            //var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
-
-            //foreach (var item in allTrainersGymTrainingsJoin)
-            //{
-            //    if (!trainersId.Contains(item.TrainerId))
-            //    {
-            //        List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
-            //        trainings.Add(new TrainingEntityBase()
-            //        {
-            //            Id = item.TrainingId,
-            //            Name = item.TrainingName
-            //        });
-
-            //        trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
-            //        {
-            //            Id = item.TrainerId,
-            //            FirstName = item.FirstName,
-            //            LastName = item.LastName,
-            //            Gender = item.Gender,
-            //            Picture = item.Picture,
-            //            Specialization = item.Specialization,
-            //            Gym = new GymEntityBase()
-            //            {
-            //                Id = item.GymId,
-            //                Name = item.GymName,
-            //                Address = item.GymAddress
-            //            },
-            //            Trainings = trainings
-            //        };
-
-            //        trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
-            //        trainersId.Add(item.TrainerId);
-
-            //    }
-            //    else
-            //    {
-            //        List<TrainingEntityBase> currentTrainerTrainings = trainerWithGymAndTrainings.Trainings.ToList();
-            //        currentTrainerTrainings.Add(new TrainingEntityBase()
-            //        {
-            //            Id = item.TrainingId,
-            //            Name = item.TrainingName
-            //        });
-            //        trainerWithGymAndTrainings.Trainings = currentTrainerTrainings;
-            //    }
-            //}
-
             return trainersWithGymAndTrainings;
         }
 
@@ -608,7 +560,6 @@ namespace FitMeApp.Repository.EntityFramework
 
                     trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
                     trainersId.Add(item.TrainerId);
-
                 }
                 else
                 {
@@ -845,56 +796,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                }).OrderBy(x => x.TrainerId).ToList();
 
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = ConvertJoinResultToTrainerWithGymAndTrainingsBase(trainersGymTrainingsByFilterJoin);
-
-
-            //List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
-            //List<string> trainersId = new List<string>();
-            //var trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase();
-
-            //foreach (var item in trainersGymTrainingsByFilterJoin)
-            //{
-            //    if (!trainersId.Contains(item.TrainerId))
-            //    {
-            //        List<TrainingEntityBase> trainings = new List<TrainingEntityBase>();
-            //        trainings.Add(new TrainingEntityBase()
-            //        {
-            //            Id = item.TrainingId,
-            //            Name = item.TrainingName
-            //        });
-
-            //        trainerWithGymAndTrainings = new TrainerWithGymAndTrainingsBase()
-            //        {
-            //            Id = item.TrainerId,
-            //            FirstName = item.FirstName,
-            //            LastName = item.LastName,
-            //            Gender = item.Gender,
-            //            Picture = item.Picture,
-            //            Specialization = item.Specialization,
-            //            Gym = new GymEntityBase()
-            //            {
-            //                Id = item.GymId,
-            //                Name = item.GymName,
-            //                Address = item.GymAddress
-            //            },
-            //            Trainings = trainings
-            //        };
-
-            //        trainersWithGymAndTrainings.Add(trainerWithGymAndTrainings);
-            //        trainersId.Add(item.TrainerId);
-
-            //    }
-            //    else
-            //    {
-            //        List<TrainingEntityBase> currentTrainerTrainings = trainerWithGymAndTrainings.Trainings.ToList();
-            //        currentTrainerTrainings.Add(new TrainingEntityBase()
-            //        {
-            //            Id = item.TrainingId,
-            //            Name = item.TrainingName
-            //        });
-            //        trainerWithGymAndTrainings.Trainings = currentTrainerTrainings;
-            //    }
-            //}
-
+            
             return trainersWithGymAndTrainings;
         }
 
