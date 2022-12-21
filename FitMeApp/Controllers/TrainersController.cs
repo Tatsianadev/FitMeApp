@@ -55,13 +55,42 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult TrainersFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations)
         {
-            if (selectedGenders == null && selectedGenders == null)
+            if (selectedGenders.Count == 0 && selectedSpecializations.Count == 0)
             {
                 return RedirectToAction("Index");
             }
+            
+            if (selectedGenders.Count == 0)
+            {
+                selectedGenders = Enum.GetValues(typeof(GenderEnum)).Cast<GenderEnum>().ToList();
+            }
 
+            if (selectedSpecializations.Count == 0)
+            {
+                selectedSpecializations = Enum.GetValues(typeof(TrainerSpecializationsEnum)).Cast<TrainerSpecializationsEnum>().ToList();
+            }
+            
             var trainerModels = _fitMeService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
-            return View();
+            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
+            foreach (var trainerModel in trainerModels)
+            {
+                trainerViewModels.Add(_mapper.MappTrainerModelToViewModel(trainerModel));
+            }
+
+            ViewBag.Genders = new List<GenderEnum>()
+            {
+                GenderEnum.man,
+                GenderEnum.woman
+            };
+
+            ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
+            {
+                TrainerSpecializationsEnum.personal,
+                TrainerSpecializationsEnum.group,
+                TrainerSpecializationsEnum.universal
+            };
+
+            return View("Index", trainerViewModels);
         }
     }
 }

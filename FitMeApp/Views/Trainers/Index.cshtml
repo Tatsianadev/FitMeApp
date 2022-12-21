@@ -98,7 +98,7 @@
                                 @{ string trainingsNamesEnum="";}
                                 @foreach (var training in trainer.Trainings)
                                 {
-                                    trainingsNamesEnum = training.Name + ", ";
+                                    trainingsNamesEnum = trainingsNamesEnum + training.Name + ", ";
                                 }
 
                                 @trainingsNamesEnum
