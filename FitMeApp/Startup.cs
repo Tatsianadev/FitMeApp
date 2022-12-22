@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FitMeApp.Common.FileLogging;
 using System.IO;
+using FitMeApp.Chat;
 
 namespace FitMeApp
 {
@@ -26,6 +27,7 @@ namespace FitMeApp
             services.RegisterIdentity();
             services.RegisterDependencies();
             services.AddControllersWithViews();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +59,9 @@ namespace FitMeApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/chat");  //added to chat
+
             });
         }
     }

@@ -75,7 +75,7 @@
     @foreach (var trainer in Model)
     {
         string picturePath = "/Content/Trainers/" + trainer.Picture;
-        <div class="row" style="height:380px; padding:15px; border-style:solid; border-color:grey ; margin:15px">
+        <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
             <div class="col-md-4" style="text-align:center">
                 <img src="@picturePath" alt="Alternate Text" style="height:330px; width:auto" />
             </div>
@@ -115,11 +115,11 @@
                             <td>
                                 @*<a asp-controller="Trainers" asp-action="Schedule" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Show</a>*@
                                 <p>
-                                    <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapseExample_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapseExample_@trainer.Id">
+                                    <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapse_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapse_@trainer.Id">
                                        Show
                                     </a>                                   
                                 </p>
-                                <div class="collapse" id="collapseExample_@trainer.Id">
+                                <div class="collapse" id="collapse_@trainer.Id">
                                     <div class="card card-body">
                                         @await Component.InvokeAsync("TrainerWorkHours", new { trainerId = trainer.Id })
                                     </div>
