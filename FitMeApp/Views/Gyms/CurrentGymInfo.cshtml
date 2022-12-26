@@ -14,7 +14,7 @@
                         <tr>
                             <td class="col1">@day.DayName</td>
                             <td class="col2">
-                                @await Component.InvokeAsync("TrainerWorkHours", new { startTime = day.StartTime, endTime = day.EndTime })                               
+                                @await Component.InvokeAsync("IntHoursAsString", new { startTime = day.StartTime, endTime = day.EndTime })                               
                             </td>
                         </tr>
                     }

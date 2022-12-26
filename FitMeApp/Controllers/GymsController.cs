@@ -58,22 +58,30 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var selectedGymModels = _fitMeService.GetGymsByTrainings(SelectedTrainingsId);
-                List<GymViewModel> selectedGyms = new List<GymViewModel>();
-                foreach (var selectedGymModel in selectedGymModels)
+                if (SelectedTrainingsId.Count == 0)
                 {
-                    selectedGyms.Add(_mapper.MappGymModelToViewModelBase(selectedGymModel));
+                    return RedirectToAction("Index");
                 }
-
-                var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
-                List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                foreach (var training in trainingModels)
+                else
                 {
-                    trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
-                }
-                ViewBag.Trainings = trainings;
+                    var selectedGymModels = _fitMeService.GetGymsByTrainings(SelectedTrainingsId);
+                    List<GymViewModel> selectedGyms = new List<GymViewModel>();
+                    foreach (var selectedGymModel in selectedGymModels)
+                    {
+                        selectedGyms.Add(_mapper.MappGymModelToViewModelBase(selectedGymModel));
+                    }
 
-                return View(selectedGyms);
+                    var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
+                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                    foreach (var training in trainingModels)
+                    {
+                        trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
+                    }
+                    ViewBag.Trainings = trainings;
+
+                    return View(selectedGyms);
+                }
+                
             }
             catch (Exception ex)
             {

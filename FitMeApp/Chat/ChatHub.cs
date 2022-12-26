@@ -11,12 +11,7 @@ namespace FitMeApp.Chat
 {
     public class ChatHub: Hub
     {
-        private readonly UserManager<User> _userManager;
-        public ChatHub(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
-
+        
         [Authorize]
         public async Task Send(string message, string receiverName)
         {
