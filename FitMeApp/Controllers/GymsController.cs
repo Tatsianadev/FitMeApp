@@ -148,21 +148,28 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-                var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
-                foreach (var subscriptionModel in subscriptioModels)
+                if (selectedPeriods.Count == 0 && groupTraining == false && dietMonitoring == false)
                 {
-                    subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                    return RedirectToAction("Subscriptions", new { gymId = gymId });
                 }
-
-                foreach (var subscription in subscriptions)
+                else
                 {
-                    subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                        + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
-                }
+                    List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
+                    var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+                    foreach (var subscriptionModel in subscriptioModels)
+                    {
+                        subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                    }
 
-                ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
-                return View(subscriptions);
+                    foreach (var subscription in subscriptions)
+                    {
+                        subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                            + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                    }
+
+                    ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+                    return View(subscriptions);
+                }               
 
             }
             catch (Exception ex)
