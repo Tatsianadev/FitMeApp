@@ -7,11 +7,12 @@
 
         </div>
         <div class="col-md-8" style="border-left:solid; border-right:solid">
+            <br />
             <div class=" container">
                 <div class="row">
                     <div class="col-md-4">
                         @{ string imageParth = "/Content/Trainers/" + Model.Picture;}
-                        <img src="@imageParth" alt="trainerImage" style="height:200px; width:auto; margin:10px" />
+                        <img src="@imageParth" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
                         <table style="width:100%; margin:auto">
@@ -62,47 +63,12 @@
                             </tr>
                         </table>
                         <a asp-controller="Profile" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
-
+                        <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
                     </div>
                 </div>
 
             </div>
             <div style="text-align:center; margin:20px">
-
-
-                @*<table style="width:60%; margin:auto">
-                        <tr>
-                            <td class="col3">Name</td>
-                            <td class="col4">@Model.FirstName @Model.LastName</td>
-                        </tr>
-                        <tr>
-                            <td class="col3">Gender</td>
-                            <td class="col4">@Model.Gender</td>
-                        </tr>
-                        <tr>
-                            <td class="col3">Gym</td>
-                            <td class="col4">@Model.Gym.Name</td>
-                        </tr>
-                        <tr>
-                            <td class="col3">Specialization</td>
-                            <td class="col4">@Model.Specialization</td>
-                        </tr>
-                        <tr>
-                            <td class="col3">Trainings</td>
-                            <td class="col4">
-
-                                @foreach (var training in Model.Trainings.OrderBy(x => x.Id))
-                                {
-                                    @training.Name
-                                    <br />
-                                }
-
-                            </td>
-                        </tr>
-                    </table>
-                    <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>*@
-
-
                 <hr />
                 <label><b>Work hours</b></label>
                 <table style="width: 60%; margin: auto">

@@ -13,13 +13,15 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
        
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, 
+        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger("AccountLogger");
         }
 
@@ -38,7 +40,7 @@ namespace FitMeApp.Controllers
                 {
                     User user = new User()
                     {
-                        UserName = model.Name,       //login method PasswordSignInAsync() works by userName only
+                        UserName = model.Email,      
                         Email = model.Email,
                         PhoneNumber = model.PhoneNumber,
                         Year = model.Year,
@@ -48,7 +50,9 @@ namespace FitMeApp.Controllers
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
+                        
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -88,8 +92,8 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                   var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
-                    //var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                   //var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
+                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
                         if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))

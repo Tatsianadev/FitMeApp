@@ -251,7 +251,15 @@ namespace FitMeApp.Controllers
                         var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("UserPersonalData");
+                            if (User.IsInRole("trainer"))
+                            {
+                                return RedirectToAction("TrainerPersonalData");
+                            }
+                            else
+                            {
+                                return RedirectToAction("UserPersonalData");
+                            }
+                           
                         }
                         else
                         {

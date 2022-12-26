@@ -8,13 +8,13 @@ namespace FitMeApp.Models
 {
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Name")]
-        public string Name { get; set; }
-
         //[Required]
         //[Display(Name = "Email")]
-        //public string Email { get; set; }
+        //public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

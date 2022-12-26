@@ -4,9 +4,9 @@ namespace FitMeApp.Models
 {
     public class RegisterViewModel
     {
-        [Required]        
-        [Display(Name = "Name")]
-        public string Name { get; set; }
+        //[Required]
+        //[Display(Name = "Name")]
+        //public string Name { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
