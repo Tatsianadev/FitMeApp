@@ -6,11 +6,11 @@
 <h2>User registration</h2>
 <form method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
-    <div>
+    @*<div>
         <label asp-for="Name"></label><br />
         <input asp-for="Name" />
         <span asp-validation-for="Name"></span>
-    </div>
+    </div>*@
     <div>
         <label asp-for="Email"></label><br />
         <input asp-for="Email" />

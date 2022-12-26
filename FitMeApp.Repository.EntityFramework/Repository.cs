@@ -114,7 +114,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerEntityBase GetTrainer(string id)
         {
-            var trainer = _context.Trainers.Where(x => x.Id == id).First();
+            var trainer = _context.Trainers.Where(x => x.Id == id).First(); 
             return trainer;
         }
 
@@ -587,7 +587,7 @@ namespace FitMeApp.Repository.EntityFramework
                                           join trainingTrainer in _context.TrainingTrainer
                                           on trainer.Id equals trainingTrainer.TrainerId
                                           join training in _context.Trainings
-                                          on trainingTrainer.TrainingId equals training.Id
+                                          on trainingTrainer.TrainingId equals training.Id                                          
                                           where trainer.Id == trainerId
                                           select new
                                           {

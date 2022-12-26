@@ -38,7 +38,7 @@ namespace FitMeApp.Controllers
                 {
                     User user = new User()
                     {
-                        UserName = model.Name,
+                        UserName = model.Name,       //login method PasswordSignInAsync() works by userName only
                         Email = model.Email,
                         PhoneNumber = model.PhoneNumber,
                         Year = model.Year,
@@ -88,7 +88,8 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
+                   var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
+                    //var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
                         if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))

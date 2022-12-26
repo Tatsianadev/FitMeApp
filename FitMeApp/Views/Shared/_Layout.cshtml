@@ -54,10 +54,17 @@
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerJobData">Job data</a></li>
+                                    @if (User.IsInRole("trainer"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalData">Personal data</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                                    }
                                     <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
+
                                 </ul>
                             </div>
                             <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />

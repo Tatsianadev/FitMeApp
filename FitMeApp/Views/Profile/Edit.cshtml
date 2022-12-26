@@ -21,7 +21,7 @@
         <input type="text" asp-for="PhoneNumber" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Year" class="control-label">Год рождения</label>
+        <label asp-for="Year" class="control-label">Year</label>
         <input type="number" asp-for="Year" class="form-control" />
     </div>
     <div class="form-group">
@@ -30,6 +30,14 @@
     </div>
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-outline-secondary" />
-        <a asp-controller="Profile" asp-action="UserPersonalData" class="btn btn-dark">Back</a>
+        @if (User.IsInRole("trainer"))
+        {
+            <a asp-controller="Profile" asp-action="TrainerPersonalData" class="btn btn-dark">Back</a>
+        }
+        else
+        {
+            <a asp-controller="Profile" asp-action="UserPersonalData" class="btn btn-dark">Back</a>
+        }
+
     </div>
 </form>

@@ -37,7 +37,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "admin, trainer, user")]
+        [Authorize(Roles = "admin, user")]
         public async Task<IActionResult> UserPersonalData()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -146,13 +146,17 @@ namespace FitMeApp.Controllers
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
                         {
-                            if (!User.IsInRole("admin"))
+                            if (User.IsInRole("admin"))
+                            {                                
+                                return RedirectToAction("UsersList");
+                            }
+                            else if(User.IsInRole("trainer"))
                             {
-                                return RedirectToAction("UserPersonalData");
+                                return RedirectToAction("TrainerPersonalData");
                             }
                             else
                             {
-                                return RedirectToAction("UsersList");
+                                return RedirectToAction("UserPersonalData");
                             }
 
                         }
@@ -322,11 +326,15 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> TrainerJobData()
+        [Authorize(Roles = "admin, trainer")]
+        public async Task<IActionResult> TrainerPersonalData()
         {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            trainerViewModel.Email = trainer.Email;
+            trainerViewModel.Phone = trainer.PhoneNumber;
+            trainerViewModel.Year = trainer.Year;
 
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
@@ -353,7 +361,7 @@ namespace FitMeApp.Controllers
 
         }
 
-        public IActionResult EditTrainerJobData(string trainerId)
+        public IActionResult EditTrainerPersonalData(string trainerId)
         {
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
@@ -367,7 +375,7 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer, admin")]
         [HttpPost]
-        public IActionResult EditTrainerJobData(TrainerViewModel changedModel, List<int> trainingsId)
+        public IActionResult EditTrainerPersonalData(TrainerViewModel changedModel, List<int> trainingsId)
         {
             try
             {
@@ -384,12 +392,12 @@ namespace FitMeApp.Controllers
                     var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
                     var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
-                    return RedirectToAction("TrainerJobData");
+                    return RedirectToAction("TrainerPersonalData");
                 }
                 else
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
-                    return RedirectToAction("TrainerJobData"); //Доделать! Найти способ вернуть эту же форму
+                    return RedirectToAction("TrainerPersonalData"); //Доделать! Найти способ вернуть эту же форму
                                                                //с невалидной моделью и сообщать о невалидных данных 
                 }
 

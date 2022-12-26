@@ -18,6 +18,9 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string Picture { get; set; }
         [Required]
         public string Specialization { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public int Year { get; set; }
         public GymViewModel Gym { get; set; }
 
         public ICollection<TrainingViewModel> Trainings { get; set; }
