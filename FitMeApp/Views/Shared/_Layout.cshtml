@@ -39,8 +39,8 @@
                             </ul>
                         </li>
                         @*<li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Schedule" asp-action="Index">Schedule</a>
-                        </li>*@
+                                <a class="nav-link active" asp-area="" asp-controller="Schedule" asp-action="Index">Schedule</a>
+                            </li>*@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -54,12 +54,20 @@
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
+                                    }
+
                                     @if (User.IsInRole("trainer"))
                                     {
                                         <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
                                         <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
                                     }
-                                    else
+
+                                    @if (User.IsInRole("user"))
                                     {
                                         <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
                                     }

@@ -59,7 +59,7 @@ namespace FitMeApp.Controllers
                 {
                     User user = new User()
                     {
-                        UserName = model.Name,
+                        UserName = model.Email,
                         Email = model.Email,
                         PhoneNumber = model.PhoneNumber,
                         Year = model.Year,
@@ -175,7 +175,7 @@ namespace FitMeApp.Controllers
                     User user = await _userManager.FindByIdAsync(model.Id);
                     if (user != null)
                     {
-                        user.UserName = model.Name;
+                        user.UserName = model.Email;
                         user.Email = model.Email;
                         user.PhoneNumber = model.PhoneNumber;
                         user.Year = model.Year;
