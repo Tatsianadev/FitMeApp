@@ -584,3 +584,14 @@ Content root path: D:\stud\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Invalid password for user.
+User d4c42aa6-8a45-4243-8207-77e633c2f77c failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp

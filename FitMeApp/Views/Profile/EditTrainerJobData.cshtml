@@ -57,7 +57,7 @@
                                 @{ List<int> trainingsId = Model.Trainings.Select(x => x.Id).ToList();}
                                 @if (ViewBag.ActualEventsCount > 0 || ViewBag.ActualSubscriptionsCount > 0)
                                 {
-                                    <div style="font-size:smaller; color:red">The function is not available while there are current events</div>
+                                <div style="font-size:smaller; color:red">You can't change this option while you have actual events or users subdcriptions</div>
                                     @foreach (var training in Model.Trainings)
                                     {
                                         <input type="checkbox" name="trainingsId" value="@training.Id"
