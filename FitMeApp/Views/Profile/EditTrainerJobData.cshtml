@@ -10,7 +10,7 @@
                 @{ string imageParth = "/Content/Trainers/" + Model.Picture;}
                 <img src="@imageParth" alt="trainerImage" style="height:200px; width:auto; margin:10px" />
 
-                <form asp-action="EditTrainerPersonalData" asp-controller="Profile" method="post">
+                <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Picture" />
@@ -78,7 +78,7 @@
                     </table>
                     <br />
                     <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%"/>
-                    <a asp-controller="Profile" asp-action="TrainerPersonalData" class="btn btn-dark" style="width:30%">Back</a>
+                    <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-dark" style="width:30%">Back</a>
                 </form>
             </div>
         </div>

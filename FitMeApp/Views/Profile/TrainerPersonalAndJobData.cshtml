@@ -41,7 +41,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <a asp-controller="Profile" asp-action="EditTrainerPersonalbData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit job data</a>
+                        <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit job data</a>
                         <hr />
 
                         <table style="width:100%; margin:auto">
@@ -62,7 +62,7 @@
                                 <td class="col4">@Model.Year</td>
                             </tr>
                         </table>
-                        <a asp-controller="Profile" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
+                        <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
                         <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
                     </div>
                 </div>

@@ -29,6 +29,9 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
+
+        //admin options
+
         [Authorize(Roles = "admin")]
         public IActionResult UsersList()
         {
@@ -37,19 +40,14 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> UserPersonalData()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            return View(user);
-        }
-
 
         [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
         }
+
+
 
         [Authorize(Roles = "admin")]
         [HttpPost]
@@ -94,7 +92,46 @@ namespace FitMeApp.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(string id)
+
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                User user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    var result = await _userManager.DeleteAsync(user);
+                }
+                return RedirectToAction("UsersList");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with delete User. Try again, please."
+                };
+                return View("CustomError", error);
+            }
+        }
+
+
+
+
+        //User profile
+
+        [Authorize(Roles = "admin, user")]
+        public async Task<IActionResult> UserPersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return View(user);
+        }
+                
+       
+
+        public async Task<IActionResult> EditPersonalData(string id)
         {
             try
             {
@@ -127,8 +164,9 @@ namespace FitMeApp.Controllers
         }
 
 
+
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> EditPersonalData(EditUserViewModel model)
         {
             try
             {
@@ -152,7 +190,7 @@ namespace FitMeApp.Controllers
                             }
                             else if(User.IsInRole("trainer"))
                             {
-                                return RedirectToAction("TrainerPersonalData");
+                                return RedirectToAction("TrainerPersonalAndJobData");
                             }
                             else
                             {
@@ -183,30 +221,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(string id)
-        {
-            try
-            {
-                User user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                {
-                    var result = await _userManager.DeleteAsync(user);
-                }
-                return RedirectToAction("UsersList");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with delete User. Try again, please."
-                };
-                return View("CustomError", error);
-            }
-        }
+       
 
-
+        //Change password
 
         public async Task<IActionResult> ChangePassword(string id)
         {
@@ -334,8 +351,11 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "admin, trainer")]
-        public async Task<IActionResult> TrainerPersonalData()
+
+        // Trainer profile
+
+        [Authorize(Roles = "trainer")]
+        public async Task<IActionResult> TrainerPersonalAndJobData()
         {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
@@ -369,7 +389,7 @@ namespace FitMeApp.Controllers
 
         }
 
-        public IActionResult EditTrainerPersonalData(string trainerId)
+        public IActionResult EditTrainerJobData(string trainerId)
         {
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
@@ -381,9 +401,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "trainer, admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult EditTrainerPersonalData(TrainerViewModel changedModel, List<int> trainingsId)
+        public IActionResult EditTrainerJobData(TrainerViewModel changedModel, List<int> trainingsId)
         {
             try
             {
@@ -421,12 +441,10 @@ namespace FitMeApp.Controllers
 
                 //throw ex;
             }
-
-
         }
 
 
-        [Authorize(Roles = "trainer, admin")]
+        [Authorize(Roles = "trainer")]
         public IActionResult EditTrainerWorkHours()
         {
             string trainerId = _userManager.GetUserId(User);
@@ -441,7 +459,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize(Roles = "trainer, admin")]
+        [Authorize(Roles = "trainer")]
         [HttpPost]
         public IActionResult EditTrainerWorkHours(List<TrainerWorkHoursViewModel> newWorkHours)
         {
@@ -508,7 +526,7 @@ namespace FitMeApp.Controllers
 
 
 
-        [Authorize(Roles = "trainer, admin")]
+        [Authorize(Roles = "trainer")]
         public IActionResult ClientsList()
         {
             string trainerId = _userManager.GetUserId(User);
@@ -524,6 +542,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize(Roles = "trainer")]
         public IActionResult ClientSubscription(string clientId)
         {
             if (clientId != null)

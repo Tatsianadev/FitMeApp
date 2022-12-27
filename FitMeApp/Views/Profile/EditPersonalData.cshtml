@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Edit User";
 }
-<form asp-action="Edit" asp-controller="Profile">
+<form asp-action="EditPersonalData" asp-controller="Profile">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <input type="hidden" asp-for="Id" />
@@ -32,7 +32,7 @@
         <input type="submit" value="Save" class="btn btn-outline-secondary" />
         @if (User.IsInRole("trainer"))
         {
-            <a asp-controller="Profile" asp-action="TrainerPersonalData" class="btn btn-dark">Back</a>
+            <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-dark">Back</a>
         }
         else
         {

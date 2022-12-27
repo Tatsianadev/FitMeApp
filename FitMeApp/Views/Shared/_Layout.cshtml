@@ -56,7 +56,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     @if (User.IsInRole("trainer"))
                                     {
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalData">Personal data</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
                                         <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
                                     }
                                     else
