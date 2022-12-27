@@ -30,6 +30,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+        bool DeleteTrainerWorkHoursByTrainer(string trainerId);
+
        
 
 
@@ -44,6 +46,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Trainer-Training 
         bool DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
+        bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
 
 
         //Gym - Trainer - Training connection

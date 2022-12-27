@@ -169,16 +169,21 @@ namespace FitMeApp.Repository.EntityFramework
         public bool DeleteTrainer(string id)
         {
             var trainer = _context.Trainers.Where(x => x.Id == id).First();
-            _context.Trainers.Remove(trainer);
-            var result = _context.SaveChanges();
-            if (result > 0)
+            if (trainer != null)
             {
-                return true;
+                _context.Trainers.Remove(trainer);
+                var result = _context.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return true;
+           
         }
 
         public IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId)
@@ -224,6 +229,25 @@ namespace FitMeApp.Repository.EntityFramework
             return clientsId;
         }
 
+
+        public bool DeleteTrainerWorkHoursByTrainer(string trainerId)
+        {
+            var trainerWorkHours = _context.TrainerWorkHours.Where(x => x.TrainerId == trainerId).ToList();
+            if (trainerWorkHours.Count > 0)
+            {
+                _context.TrainerWorkHours.RemoveRange(trainerWorkHours);
+                int deletedTrainerWorkHoursCount = _context.SaveChanges();
+                if (deletedTrainerWorkHoursCount == trainerWorkHours.Count)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         //Edit Trainer WorkHours methods
         public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
@@ -403,6 +427,25 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
+        {
+            var allTrainingsByTrainer = _context.TrainingTrainer.Where(x => x.TrainerId == trainerId).ToList();
+            if (allTrainingsByTrainer.Count > 0)
+            {
+                _context.TrainingTrainer.RemoveRange(allTrainingsByTrainer);
+                int deleteCount = _context.SaveChanges();
+
+                if (deleteCount == allTrainingsByTrainer.Count)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }           
+            return true;
+        }
 
         //Gym - Trainer - Trainings connection
 

@@ -7,6 +7,7 @@ namespace FitMeApp.Common
     public enum RolesEnum
     {
         admin,
+        trainer,
         user,
         blocked
     }

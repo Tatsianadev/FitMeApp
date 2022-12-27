@@ -45,10 +45,15 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
+        bool DeleteTrainer(string id);
+        bool DeleteTrainerWorkHoursByTrainer(string trainerId);
 
         //Events
         int GetActualEventsCountByTrainer(string trainerId);
 
+
+        //TrainingTrainer 
+        bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
 
 
     }

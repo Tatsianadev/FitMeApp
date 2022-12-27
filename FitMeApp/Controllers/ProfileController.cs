@@ -102,6 +102,32 @@ namespace FitMeApp.Controllers
                 User user = await _userManager.FindByIdAsync(id);
                 if (user != null)
                 {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    if (userRoles.Contains(Common.RolesEnum.trainer.ToString()))
+                    {
+                        int actualEventsCount = _fitMeService.GetActualEventsCountByTrainer(user.Id);
+                        int actualSubscriptionsCount = _fitMeService.GetActualSubscriptionsCountByTrainer(user.Id);
+                        if (actualEventsCount > 0 || actualSubscriptionsCount > 0)
+                        {
+                            //передать сообщение о невозможности удаления
+                            return RedirectToAction("UsersList");
+                        }
+                        else
+                        {
+                            bool deleteFromTrainersTableResult = _fitMeService.DeleteTrainer(user.Id);
+                            bool deleteAllTrainingsTrainerConnectionResult = _fitMeService.DeleteAllTrainingTrainerConnectionsByTrainer(user.Id);
+                            bool deleteTrainerWorkHoursResult = _fitMeService.DeleteTrainerWorkHoursByTrainer(user.Id);
+                            if (deleteFromTrainersTableResult == false || deleteAllTrainingsTrainerConnectionResult == false || deleteTrainerWorkHoursResult == false)
+                            {
+                                CustomErrorViewModel error = new CustomErrorViewModel()
+                                {
+                                    Message = "There was a problem with delete User. Try again, please."
+                                };
+                                return View("CustomError", error);
+                            }
+                        }
+
+                    }
                     var result = await _userManager.DeleteAsync(user);
                 }
                 return RedirectToAction("UsersList");

@@ -392,11 +392,33 @@ namespace FitMeApp.Services
             return trainerModels;
         }
 
+
+        public bool DeleteTrainer(string id)
+        {
+            bool result = _repository.DeleteTrainer(id);
+            return result;
+        }
+
+
+        public bool DeleteTrainerWorkHoursByTrainer(string trainerId)
+        {
+            bool result = _repository.DeleteTrainerWorkHoursByTrainer(trainerId);
+            return result;
+        }
+
+
         //Events
         public int GetActualEventsCountByTrainer(string trainerId)
         {
             int actualEventsCount = _repository.GetActualEventsCountByTrainer(trainerId);
             return actualEventsCount;
+        }
+
+        //TrainingTrainer
+        public bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
+        {
+            bool result = _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
+            return result;
         }
 
     }
