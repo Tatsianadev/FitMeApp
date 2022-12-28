@@ -130,11 +130,32 @@ namespace FitMeApp.Controllers
                             Picture = model.Picture,
                             GymId = model.GymId
                         };
-                        
-                        return RedirectToAction("UsersList");
-                    }
-                }
 
+                        var trainerModel = _mapper.MappTrainerViewModelToModel(trainer);
+                        var trainerTableFillingResult = _fitMeService.AddTrainer(trainerModel);
+                        if (trainerTableFillingResult)
+                        {
+                            foreach (var trainingId in model.TrainingsId)
+                            {
+                                _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);
+                                return RedirectToAction("UsersList");
+                            }
+                        }
+                        else
+                        {
+                            await _userManager.DeleteAsync(user);
+                            ModelState.AddModelError("", "Failed to create a new Trainer.Please make sure all fields are correct and try again.");                            
+                        }
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }                
+                return View();
             }
             catch (Exception ex)
             {
@@ -204,8 +225,8 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             return View(user);
         }
-                
-       
+
+
 
         public async Task<IActionResult> EditPersonalData(string id)
         {
@@ -261,10 +282,10 @@ namespace FitMeApp.Controllers
                         if (result.Succeeded)
                         {
                             if (User.IsInRole("admin"))
-                            {                                
+                            {
                                 return RedirectToAction("UsersList");
                             }
-                            else if(User.IsInRole("trainer"))
+                            else if (User.IsInRole("trainer"))
                             {
                                 return RedirectToAction("TrainerPersonalAndJobData");
                             }
@@ -296,7 +317,7 @@ namespace FitMeApp.Controllers
         }
 
 
-       
+
 
         //Change password
 
@@ -351,7 +372,7 @@ namespace FitMeApp.Controllers
                             {
                                 return RedirectToAction("UserPersonalData");
                             }
-                           
+
                         }
                         else
                         {
@@ -493,7 +514,7 @@ namespace FitMeApp.Controllers
 
                     changedModel.Trainings = newTrainings;
 
-                    var trainerModel = _mapper.MappTrainerModelToBase(changedModel);
+                    var trainerModel = _mapper.MappTrainerViewModelToModel(changedModel);
                     var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
                     return RedirectToAction("TrainerPersonalAndJobData");
@@ -553,18 +574,18 @@ namespace FitMeApp.Controllers
                         return View(newWorkHours);
                     }
                 }
-                
+
                 string trainerId = _userManager.GetUserId(User);
                 foreach (var model in newWorkHours)                         //заполняем недостающие данные модели для НОВЫХ рабочих дней
                 {
                     model.TrainerId = trainerId;
                     if (model.GymWorkHoursId == 0)
                     {
-                        int gymId = _fitMeService.GetGymIdByTrainer(trainerId);                        
-                        model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);                       
+                        int gymId = _fitMeService.GetGymIdByTrainer(trainerId);
+                        model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
-                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();                
+                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();
 
                 bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)
@@ -578,13 +599,13 @@ namespace FitMeApp.Controllers
                     {
                         return View(newWorkHours);
                     }
-                    
+
                 }
                 else
                 {
                     ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with new data.");
                     return View(newWorkHours);
-                }             
+                }
 
             }
             catch (Exception ex)
@@ -614,7 +635,7 @@ namespace FitMeApp.Controllers
                 var client = _userManager.Users.Where(x => x.Id == clientId).First();
                 allClientsByTrainer.Add(client);
             }
-            
+
             return View(allClientsByTrainer);
         }
 
@@ -629,7 +650,7 @@ namespace FitMeApp.Controllers
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
                     userSubscViewModels.Add(_mapper.MappUserSubscriptionModelToViewModel(modelItem));
-                }                    
+                }
                 return View(userSubscViewModels);
             }
             return RedirectToAction("ClientsList");

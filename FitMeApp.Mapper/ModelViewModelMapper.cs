@@ -115,7 +115,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public TrainerModel MappTrainerModelToBase(TrainerViewModel trainerViewModel)
+        public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
         {
             List<TrainingModel> trainingModels = new List<TrainingModel>();
             foreach (var training in trainerViewModel.Trainings)
