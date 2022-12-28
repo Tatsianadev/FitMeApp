@@ -47,6 +47,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
         bool DeleteTrainer(string id);
         bool DeleteTrainerWorkHoursByTrainer(string trainerId);
+        bool AddTrainer(TrainerModel trainer);
 
         //Events
         int GetActualEventsCountByTrainer(string trainerId);
@@ -54,6 +55,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //TrainingTrainer 
         bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
+        bool AddTrainingTrainerConnection(string trainerId, int trainingId);
 
 
     }

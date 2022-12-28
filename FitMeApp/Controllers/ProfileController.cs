@@ -95,6 +95,56 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
+        public IActionResult CreateTrainer()
+        {
+            return View();
+        }
+
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public async Task<IActionResult> CreateTrainer(CreateTrainerViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = new User()
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        Year = model.Year,
+                        Gender = model.Gender
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        TrainerViewModel trainer = new TrainerViewModel()
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Specialization = model.Specialization,
+                            Gender = model.Gender,
+                            Picture = model.Picture,
+                            GymId = model.GymId
+                        };
+                        
+                        return RedirectToAction("UsersList");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
             try

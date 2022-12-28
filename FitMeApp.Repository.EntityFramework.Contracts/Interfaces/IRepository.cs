@@ -21,7 +21,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Trainers
         IEnumerable<TrainerEntityBase> GetAllTrainers();
         TrainerEntityBase GetTrainer(string id);
-        TrainerEntityBase AddTrainer(TrainerEntityBase trainer);
+        bool AddTrainer(TrainerEntityBase trainer);
         bool UpdateTrainer(TrainerEntityBase newTrainerData);
         bool DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);       

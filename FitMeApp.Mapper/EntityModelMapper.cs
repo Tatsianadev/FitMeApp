@@ -42,14 +42,12 @@ namespace FitMeApp.Mapper
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
-                Specialization = trainer.Specialization,
+                Specialization = trainer.Specialization,                
                 Trainings = trainings
 
             };
             return trainerModel;
         }
-
-
      
 
 
@@ -66,6 +64,8 @@ namespace FitMeApp.Mapper
 
 
 
+
+        //Model - full info for Service layer 
         public GymModel MappGymEntityBaseToModel(GymWithTrainersAndTrainings gym)
         {
             var trainerModels = new List<TrainerModel>();
@@ -114,39 +114,6 @@ namespace FitMeApp.Mapper
         }
 
 
-        public TrainerWithGymAndTrainingsBase MappTrainerModelToBase(TrainerModel trainerModel)
-        {
-            List<TrainingEntityBase> trainingEntityBases = new List<TrainingEntityBase>();
-            foreach (var training in trainerModel.Trainings)
-            {
-                trainingEntityBases.Add(new TrainingEntityBase()
-                {
-                    Id = training.Id,
-                    Name = training.Name,
-                    Description = training.Description
-                });
-            }
-
-            TrainerWithGymAndTrainingsBase trainerBase = new TrainerWithGymAndTrainingsBase()
-            {
-                Id = trainerModel.Id,
-                FirstName = trainerModel.FirstName,
-                LastName = trainerModel.LastName,
-                Gender = trainerModel.Gender,
-                Picture = trainerModel.Picture,
-                Specialization = trainerModel.Specialization,
-                Gym = new GymEntityBase()
-                {
-                    Id = trainerModel.Gym.Id,
-                    Name = trainerModel.Gym.Name,
-                    Address = trainerModel.Gym.Address,
-                    Phone = trainerModel.Picture
-                },
-                Trainings = trainingEntityBases
-            };
-
-            return trainerBase;
-        }
 
 
         public TrainingModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
@@ -245,6 +212,7 @@ namespace FitMeApp.Mapper
             return gymWorkHoursModel;
         }
 
+
         public TrainerWorkHoursModel MappTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursWithDayBase trainerWorkHoursWithDaysBase)
         {
             TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
@@ -258,20 +226,7 @@ namespace FitMeApp.Mapper
             };
             return trainerWorkHoursModel;
         }
-
-        public TrainerWorkHoursEntityBase MappTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
-        {
-            TrainerWorkHoursEntityBase trainerWorkHourEntity = new TrainerWorkHoursEntityBase()
-            {
-                Id = trainerWorkHoursModel.Id,
-                TrainerId = trainerWorkHoursModel.TrainerId,
-                StartTime = trainerWorkHoursModel.StartTime,
-                EndTime = trainerWorkHoursModel.EndTime,
-                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
-                
-            };
-            return trainerWorkHourEntity;
-        }
+       
 
 
         public UserSubscriptionModel MappUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionWithIncludedOptionsBase subscriptionBase)
@@ -288,6 +243,81 @@ namespace FitMeApp.Mapper
                 DietMonitoring = subscriptionBase.DietMonitoring
             };
             return subscriptionModel;
+        }
+
+
+
+
+
+        //Model -> Entity
+        public TrainerWithGymAndTrainingsBase MappTrainerModelToTrainerWithGymAndTrainingsBase(TrainerModel trainerModel)
+        {
+            List<TrainingEntityBase> trainingEntityBases = new List<TrainingEntityBase>();
+            foreach (var training in trainerModel.Trainings)
+            {
+                trainingEntityBases.Add(new TrainingEntityBase()
+                {
+                    Id = training.Id,
+                    Name = training.Name,
+                    Description = training.Description
+                });
+            }
+
+            TrainerWithGymAndTrainingsBase trainerBase = new TrainerWithGymAndTrainingsBase()
+            {
+                Id = trainerModel.Id,
+                FirstName = trainerModel.FirstName,
+                LastName = trainerModel.LastName,
+                Gender = trainerModel.Gender,
+                Picture = trainerModel.Picture,
+                Specialization = trainerModel.Specialization,
+                Gym = new GymEntityBase()
+                {
+                    Id = trainerModel.Gym.Id,
+                    Name = trainerModel.Gym.Name,
+                    Address = trainerModel.Gym.Address,
+                    Phone = trainerModel.Picture
+                },
+                Trainings = trainingEntityBases
+            };
+
+            return trainerBase;
+        }
+
+
+
+
+        public TrainerEntityBase MappTrainerModelToEntityBase(TrainerModel trainerModel)
+        {
+            TrainerEntityBase trainerEntityBase = new TrainerEntityBase()
+            {
+                Id = trainerModel.Id,
+                FirstName = trainerModel.FirstName,
+                LastName = trainerModel.LastName,
+                Gender = trainerModel.Gender,
+                Picture = trainerModel.Picture,
+                Specialization = trainerModel.Specialization,
+                GymId = trainerModel.GymId
+            };
+            return trainerEntityBase;
+        }
+
+
+        
+
+
+        public TrainerWorkHoursEntityBase MappTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
+        {
+            TrainerWorkHoursEntityBase trainerWorkHourEntity = new TrainerWorkHoursEntityBase()
+            {
+                Id = trainerWorkHoursModel.Id,
+                TrainerId = trainerWorkHoursModel.TrainerId,
+                StartTime = trainerWorkHoursModel.StartTime,
+                EndTime = trainerWorkHoursModel.EndTime,
+                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
+
+            };
+            return trainerWorkHourEntity;
         }
 
 

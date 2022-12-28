@@ -118,7 +118,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainer;
         }
 
-        public TrainerEntityBase AddTrainer(TrainerEntityBase trainer)
+        public bool AddTrainer(TrainerEntityBase trainer)
         {
             if (trainer == null)
             {
@@ -132,11 +132,20 @@ namespace FitMeApp.Repository.EntityFramework
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
                 Picture = trainer.Picture,
-                Specialization = trainer.Specialization
+                Specialization = trainer.Specialization,
+                GymId = trainer.GymId
             });
 
-            _context.SaveChanges();
-            return trainer;
+            int addedRowCount =_context.SaveChanges();
+            if (addedRowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         public bool UpdateTrainer(TrainerEntityBase newTrainerData)

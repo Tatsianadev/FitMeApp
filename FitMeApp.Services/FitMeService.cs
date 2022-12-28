@@ -237,7 +237,7 @@ namespace FitMeApp.Services
 
         public bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
         {
-            var trainerBase = _mapper.MappTrainerModelToBase(newTrainerInfo);
+            var trainerBase = _mapper.MappTrainerModelToTrainerWithGymAndTrainingsBase(newTrainerInfo);
             bool result = _repository.UpdateTrainerWithGymAndTrainings(trainerBase);
             return result;
         }
@@ -406,6 +406,13 @@ namespace FitMeApp.Services
             return result;
         }
 
+        public bool AddTrainer(TrainerModel trainer)
+        {
+            var trainerEntityBase = _mapper.MappTrainerModelToEntityBase(trainer);
+            bool result = _repository.AddTrainer(trainerEntityBase);
+            return result;            
+        }
+
 
         //Events
         public int GetActualEventsCountByTrainer(string trainerId)
@@ -418,6 +425,12 @@ namespace FitMeApp.Services
         public bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
         {
             bool result = _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
+            return result;
+        }
+
+        public bool AddTrainingTrainerConnection(string trainerId, int trainingId)
+        {
+            bool result = _repository.AddTrainingTrainerConnection(trainerId, trainingId);
             return result;
         }
 
