@@ -113,41 +113,7 @@ namespace FitMeApp.Mapper
                 throw ex;
             }
         }
-
-
-        public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
-        {
-            List<TrainingModel> trainingModels = new List<TrainingModel>();
-            foreach (var training in trainerViewModel.Trainings)
-            {
-                trainingModels.Add(new TrainingModel()
-                {
-                    Id = training.Id,
-                    Name = training.Name,
-                    Description = training.Description
-                });
-            }
-
-            TrainerModel trainerModel = new TrainerModel()
-            {
-                Id = trainerViewModel.Id,
-                FirstName = trainerViewModel.FirstName,
-                LastName = trainerViewModel.LastName,
-                Gender = trainerViewModel.Gender,
-                Picture = trainerViewModel.Picture,
-                Specialization = trainerViewModel.Specialization,
-                Gym = new GymModel()
-                {
-                    Id = trainerViewModel.Gym.Id,
-                    Name = trainerViewModel.Gym.Name,
-                    Address = trainerViewModel.Gym.Address,
-                    Phone = trainerViewModel.Picture
-                },
-                Trainings = trainingModels
-            };
-
-            return trainerModel;
-        }
+        
 
 
         public TrainingViewModel MappTrainingModelToViewModel(TrainingModel trainingModel)
@@ -250,20 +216,7 @@ namespace FitMeApp.Mapper
             return trainerWorkHoursViewModel;
         }
 
-        public TrainerWorkHoursModel MappTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
-        {
-            TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
-            {
-                Id = trainerWorkHoursViewModel.Id,
-                TrainerId = trainerWorkHoursViewModel.TrainerId,
-                StartTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.StartTime),
-                EndTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.EndTime),
-                GymWorkHoursId = trainerWorkHoursViewModel.GymWorkHoursId,
-                DayName = trainerWorkHoursViewModel.DayName
-            };
-            return trainerWorkHoursModel;
-        }
-
+       
 
         public UserSubscriptionViewModel MappUserSubscriptionModelToViewModel(UserSubscriptionModel userSubscriptionModel)
         {
@@ -280,6 +233,84 @@ namespace FitMeApp.Mapper
             };
             return userSubscriptionViewModel;
         }
+
+
+
+
+        //Reverse: ViewModel -> Model
+
+        public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
+        {
+            List<TrainingModel> trainingModels = new List<TrainingModel>();
+            foreach (var training in trainerViewModel.Trainings)
+            {
+                trainingModels.Add(new TrainingModel()
+                {
+                    Id = training.Id,
+                    Name = training.Name,
+                    Description = training.Description
+                });
+            }
+
+            TrainerModel trainerModel = new TrainerModel()
+            {
+                Id = trainerViewModel.Id,
+                FirstName = trainerViewModel.FirstName,
+                LastName = trainerViewModel.LastName,
+                Gender = trainerViewModel.Gender,
+                Picture = trainerViewModel.Picture,
+                Specialization = trainerViewModel.Specialization,
+                Gym = new GymModel()
+                {
+                    Id = trainerViewModel.Gym.Id,
+                    Name = trainerViewModel.Gym.Name,
+                    Address = trainerViewModel.Gym.Address,
+                    Phone = trainerViewModel.Picture
+                },
+                Trainings = trainingModels
+            };
+
+            return trainerModel;
+        }
+
+
+
+        public TrainerModel MappTrainerViewModelToModelBase(TrainerViewModel trainerViewModel)
+        {
+            TrainerModel trainerModel = new TrainerModel()
+            {
+                Id = trainerViewModel.Id,
+                FirstName = trainerViewModel.FirstName,
+                LastName = trainerViewModel.LastName,
+                Gender = trainerViewModel.Gender,
+                Picture = trainerViewModel.Picture,
+                Specialization = trainerViewModel.Specialization,
+                GymId = trainerViewModel.GymId
+            };
+
+            return trainerModel;
+        }
+
+
+
+
+
+        public TrainerWorkHoursModel MappTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
+        {
+            TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
+            {
+                Id = trainerWorkHoursViewModel.Id,
+                TrainerId = trainerWorkHoursViewModel.TrainerId,
+                StartTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.StartTime),
+                EndTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(trainerWorkHoursViewModel.EndTime),
+                GymWorkHoursId = trainerWorkHoursViewModel.GymWorkHoursId,
+                DayName = trainerWorkHoursViewModel.DayName
+            };
+            return trainerWorkHoursModel;
+        }
+
+
+
 
 
         //private string ConvertIntTimeToString(int intTime)

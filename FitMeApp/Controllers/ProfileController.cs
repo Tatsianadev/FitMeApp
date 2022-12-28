@@ -123,6 +123,7 @@ namespace FitMeApp.Controllers
                     {
                         TrainerViewModel trainer = new TrainerViewModel()
                         {
+                            Id = user.Id,
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             Specialization = model.Specialization,
@@ -131,7 +132,7 @@ namespace FitMeApp.Controllers
                             GymId = model.GymId
                         };
 
-                        var trainerModel = _mapper.MappTrainerViewModelToModel(trainer);
+                        var trainerModel = _mapper.MappTrainerViewModelToModelBase(trainer);
                         var trainerTableFillingResult = _fitMeService.AddTrainer(trainerModel);
                         if (trainerTableFillingResult)
                         {
@@ -160,7 +161,13 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with creat new Trainer. Try again, please."
+                };
+                return View("CustomError", error);
+                
             }
         }
 
