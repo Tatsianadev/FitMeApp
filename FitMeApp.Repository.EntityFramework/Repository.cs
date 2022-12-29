@@ -58,7 +58,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             gym.Name = newGymData.Name;
             gym.Address = newGymData.Address;
-            gym.Phone = newGymData.Address;
+            gym.Phone = newGymData.Phone;
 
             var result = _context.SaveChanges();
             if (result > 0)
@@ -128,10 +128,10 @@ namespace FitMeApp.Repository.EntityFramework
             _context.Trainers.Add(new TrainerEntity()
             {
                 Id = trainer.Id,
-                FirstName = trainer.FirstName,
-                LastName = trainer.LastName,
-                Gender = trainer.Gender,
-                Picture = trainer.Picture,
+                //FirstName = trainer.FirstName,
+                //LastName = trainer.LastName,
+                //Gender = trainer.Gender,
+                //Picture = trainer.Picture,
                 Specialization = trainer.Specialization,
                 GymId = trainer.GymId
             });
@@ -156,10 +156,10 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();
-            trainer.FirstName = newTrainerData.FirstName;
-            trainer.LastName = newTrainerData.LastName;
-            trainer.Gender = newTrainerData.Gender;
-            trainer.Picture = newTrainerData.Picture;
+            //trainer.FirstName = newTrainerData.FirstName;
+            //trainer.LastName = newTrainerData.LastName;
+            //trainer.Gender = newTrainerData.Gender;
+            //trainer.Picture = newTrainerData.Picture;
             trainer.Specialization = newTrainerData.Specialization;
 
             var result = _context.SaveChanges();
@@ -465,6 +465,8 @@ namespace FitMeApp.Repository.EntityFramework
                 var gymTrainerTrainingJoin = (from gymDb in _context.Gyms
                                               join trainer in _context.Trainers
                                               on gymDb.Id equals trainer.GymId
+                                              join user in _context.Users
+                                              on trainer.Id equals user.Id
                                               join trainingTrainer in _context.TrainingTrainer
                                               on trainer.Id equals trainingTrainer.TrainerId
                                               join training in _context.Trainings
@@ -477,10 +479,10 @@ namespace FitMeApp.Repository.EntityFramework
                                                   GymAddress = gymDb.Address,
                                                   GymPhone = gymDb.Phone,
                                                   TrainerId = trainer.Id,
-                                                  TrainerFirstName = trainer.FirstName,
-                                                  TrainerLastName = trainer.LastName,
-                                                  TrainerGender = trainer.Gender,
-                                                  TrainerPicture = trainer.Picture,
+                                                  TrainerFirstName = user.FirstName,
+                                                  TrainerLastName = user.LastName,
+                                                  TrainerGender = user.Gender,
+                                                  TrainerPicture = user.Avatar,
                                                   TrainerSpecialization = trainer.Specialization,
                                                   TrainingId = training.Id,
                                                   TrainingName = training.Name,
@@ -548,6 +550,8 @@ namespace FitMeApp.Repository.EntityFramework
         public List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings()
         {
             var allTrainersGymTrainingsJoin = (from trainer in _context.Trainers
+                                               join user in _context.Users
+                                               on trainer.Id equals user.Id
                                                join gym in _context.Gyms
                                                on trainer.GymId equals gym.Id
                                                join trainingTrainer in _context.TrainingTrainer
@@ -557,10 +561,10 @@ namespace FitMeApp.Repository.EntityFramework
                                                select new TrainerWithGymAndTrainingsJoin()
                                                {
                                                    TrainerId = trainer.Id,
-                                                   FirstName = trainer.FirstName,
-                                                   LastName = trainer.LastName,
-                                                   Gender = trainer.Gender,
-                                                   Picture = trainer.Picture,
+                                                   FirstName = user.FirstName,
+                                                   LastName = user.LastName,
+                                                   Gender = user.Gender,
+                                                   Picture = user.Avatar,
                                                    Specialization = trainer.Specialization,
                                                    GymId = gym.Id,
                                                    GymName = gym.Name,
@@ -634,6 +638,8 @@ namespace FitMeApp.Repository.EntityFramework
         public TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId)
         {
             var trainerGymTrainingJoin = (from trainer in _context.Trainers
+                                          join user in _context.Users
+                                          on trainer.Id equals user.Id
                                           join gym in _context.Gyms
                                           on trainer.GymId equals gym.Id
                                           join trainingTrainer in _context.TrainingTrainer
@@ -644,11 +650,11 @@ namespace FitMeApp.Repository.EntityFramework
                                           select new
                                           {
                                               Id = trainer.Id,
-                                              FirstName = trainer.FirstName,
-                                              LastName = trainer.LastName,
+                                              FirstName = user.FirstName,
+                                              LastName = user.LastName,
                                               Specialization = trainer.Specialization,
-                                              Gender = trainer.Gender,
-                                              Picture = trainer.Picture,
+                                              Gender = user.Gender,
+                                              Picture = user.Avatar,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
                                               TrainingId = training.Id,
@@ -692,10 +698,10 @@ namespace FitMeApp.Repository.EntityFramework
             TrainerEntityBase newTrainerEntityBase = new TrainerEntityBase()
             {
                 Id = newTrainerInfo.Id,
-                FirstName = newTrainerInfo.FirstName,
-                LastName = newTrainerInfo.LastName,
-                Gender = newTrainerInfo.Gender,
-                Picture = newTrainerInfo.Picture,
+                //FirstName = newTrainerInfo.FirstName,
+                //LastName = newTrainerInfo.LastName,
+                //Gender = newTrainerInfo.Gender,
+                //Picture = newTrainerInfo.Picture,
                 GymId = newTrainerInfo.Gym.Id,
                 Specialization = newTrainerInfo.Specialization
             };
@@ -824,21 +830,23 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainengsByFilter(List<string> selectedGenders, List<string> selectedSpecializations)
         {
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
+                                                    join user in _context.Users
+                                                    on trainer.Id equals user.Id
                                                join gym in _context.Gyms
                                                on trainer.GymId equals gym.Id
                                                join trainingTrainer in _context.TrainingTrainer
                                                on trainer.Id equals trainingTrainer.TrainerId
                                                join training in _context.Trainings
                                                on trainingTrainer.TrainingId equals training.Id
-                                               where selectedGenders.Contains(trainer.Gender)
+                                               where selectedGenders.Contains(user.Gender)
                                                where selectedSpecializations.Contains(trainer.Specialization)
                                                select new TrainerWithGymAndTrainingsJoin()
                                                {
                                                    TrainerId = trainer.Id,
-                                                   FirstName = trainer.FirstName,
-                                                   LastName = trainer.LastName,
-                                                   Gender = trainer.Gender,
-                                                   Picture = trainer.Picture,
+                                                   FirstName = user.FirstName,
+                                                   LastName = user.LastName,
+                                                   Gender = user.Gender,
+                                                   Picture = user.Avatar,
                                                    Specialization = trainer.Specialization,
                                                    GymId = gym.Id,
                                                    GymName = gym.Name,
@@ -1040,6 +1048,8 @@ namespace FitMeApp.Repository.EntityFramework
             var eventTrainerTrainingUserGymJoin = (from events in _context.Events
                                                    join user in _context.Users
                                                    on events.UserId equals user.Id
+                                                   join userTr in _context.Users
+                                                   on events.TrainerId equals userTr.Id
                                                    join trainer in _context.Trainers
                                                    on events.TrainerId equals trainer.Id
                                                    join gym in _context.Gyms
@@ -1055,8 +1065,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                        StartTime = events.StartTime,
                                                        EndTime = events.EndTime,
                                                        TrainerId = events.TrainerId,
-                                                       TrainerFirstName = trainer.FirstName,
-                                                       TrainerLastName = trainer.LastName,
+                                                       TrainerFirstName = userTr.FirstName,
+                                                       TrainerLastName = userTr.LastName,
                                                        GymId = trainer.GymId,
                                                        GymName = gym.Name,
                                                        UserId = events.UserId,

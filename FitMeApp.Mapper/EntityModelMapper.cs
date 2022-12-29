@@ -292,10 +292,10 @@ namespace FitMeApp.Mapper
             TrainerEntityBase trainerEntityBase = new TrainerEntityBase()
             {
                 Id = trainerModel.Id,
-                FirstName = trainerModel.FirstName,
-                LastName = trainerModel.LastName,
-                Gender = trainerModel.Gender,
-                Picture = trainerModel.Picture,
+                //FirstName = trainerModel.FirstName,
+                //LastName = trainerModel.LastName,
+                //Gender = trainerModel.Gender,
+                //Picture = trainerModel.Picture,
                 Specialization = trainerModel.Specialization,
                 GymId = trainerModel.GymId
             };

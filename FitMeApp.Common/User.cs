@@ -5,7 +5,10 @@ namespace FitMeApp.Common
 {
     public class User:IdentityUser
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int Year { get; set; }
-        public string Gender { get; set; }       
+        public string Gender { get; set; }
+        public string Avatar { get; set; }
     }
 }
