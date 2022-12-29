@@ -61,9 +61,12 @@ namespace FitMeApp.Controllers
                     {
                         UserName = model.Email,
                         Email = model.Email,
-                        PhoneNumber = model.PhoneNumber,
-                        Year = model.Year,
-                        Gender = model.Gender
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+
+                        //PhoneNumber = model.PhoneNumber,
+                        //Year = model.Year,
+                        //Gender = model.Gender
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -247,11 +250,14 @@ namespace FitMeApp.Controllers
                 EditUserViewModel model = new EditUserViewModel()
                 {
                     Id = user.Id,
-                    Name = user.UserName,
+                    //Name = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     Year = user.Year,
-                    Gender = user.Gender
+                    Gender = user.Gender,
+                    Avatar = user.Avatar
                 };
                 return View(model);
 
@@ -280,10 +286,13 @@ namespace FitMeApp.Controllers
                     if (user != null)
                     {
                         user.UserName = model.Email;
+                        user.FirstName = model.FirstName;
+                        user.LastName = model.LastName;
                         user.Email = model.Email;
                         user.PhoneNumber = model.PhoneNumber;
                         user.Year = model.Year;
                         user.Gender = model.Gender;
+                        user.Avatar = model.Avatar;
 
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)

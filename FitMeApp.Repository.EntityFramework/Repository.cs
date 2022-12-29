@@ -127,11 +127,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.Trainers.Add(new TrainerEntity()
             {
-                Id = trainer.Id,
-                //FirstName = trainer.FirstName,
-                //LastName = trainer.LastName,
-                //Gender = trainer.Gender,
-                //Picture = trainer.Picture,
+                Id = trainer.Id,               
                 Specialization = trainer.Specialization,
                 GymId = trainer.GymId
             });
@@ -155,11 +151,7 @@ namespace FitMeApp.Repository.EntityFramework
                 throw new NotImplementedException();
             }
 
-            var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();
-            //trainer.FirstName = newTrainerData.FirstName;
-            //trainer.LastName = newTrainerData.LastName;
-            //trainer.Gender = newTrainerData.Gender;
-            //trainer.Picture = newTrainerData.Picture;
+            var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();           
             trainer.Specialization = newTrainerData.Specialization;
 
             var result = _context.SaveChanges();
@@ -697,11 +689,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             TrainerEntityBase newTrainerEntityBase = new TrainerEntityBase()
             {
-                Id = newTrainerInfo.Id,
-                //FirstName = newTrainerInfo.FirstName,
-                //LastName = newTrainerInfo.LastName,
-                //Gender = newTrainerInfo.Gender,
-                //Picture = newTrainerInfo.Picture,
+                Id = newTrainerInfo.Id,               
                 GymId = newTrainerInfo.Gym.Id,
                 Specialization = newTrainerInfo.Specialization
             };
@@ -1034,12 +1022,7 @@ namespace FitMeApp.Repository.EntityFramework
             return userEvents;
         }
 
-        //public IEnumerable<EventEntityBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
-        //{          
-        //    string dateOnly = dateTime.ToString("yyyy-MM-dd");
-        //    var userEvents = _context.Events.Where(x => x.UserId == userId && x.Date.ToString() == dateOnly).OrderBy(x=>x.StartTime).ToList();
-        //    return userEvents;
-        //}
+       
 
         public IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
@@ -1126,12 +1109,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                        Id = events.Id,
                                                        Date = events.Date,
                                                        StartTime = events.StartTime,
-                                                       EndTime = events.EndTime,
-                                                       //TrainerId = events.TrainerId,
-                                                       //TrainerFirstName = trainer.FirstName,
-                                                       //TrainerLastName = trainer.LastName,
-                                                       //GymId = trainer.GymId,
-                                                       //GymName = gym.Name,
+                                                       EndTime = events.EndTime,                                                     
                                                        UserId = events.UserId,
                                                        UserName = user.UserName,
                                                        TrainingId = events.TrainingId,
@@ -1147,12 +1125,7 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = entity.Id,
                     Date = entity.Date,
                     StartTime = entity.StartTime,
-                    EndTime = entity.EndTime,
-                    //TrainerId = entity.TrainerId,
-                    //TrainerFirstName = entity.TrainerFirstName,
-                    //TrainerLastName = entity.TrainerLastName,
-                    //GymId = entity.GymId,
-                    //GymName = entity.GymName,
+                    EndTime = entity.EndTime,                   
                     UserId = entity.UserId,
                     UserName = entity.UserName,
                     TrainingId = entity.TrainingId,

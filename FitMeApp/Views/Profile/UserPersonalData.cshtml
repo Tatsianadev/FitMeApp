@@ -7,8 +7,11 @@
         </div>
         <div class="col-md-6" style="border-left:solid; border-right:solid">
             <div style="text-align:center; margin:20px">
-                <label>Name</label>
-                <h5><b>@Model.UserName</b></h5>
+                <label>First Name</label>
+                <h5><b>@Model.FirstName</b></h5>
+
+                <label>Last Name</label>
+                <h5><b>@Model.LastName</b></h5>
 
                 <label>Email</label>
                 <h5><b>@Model.Email</b></h5>
@@ -21,6 +24,9 @@
 
                 <label>Gender</label>
                 <h5><b>@Model.Gender</b></h5>
+
+                @*<label>Avatar</label>
+                <h5><b>@Model.Avatar</b></h5>*@
 
                 <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
                 <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>

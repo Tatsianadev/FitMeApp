@@ -6,41 +6,36 @@
 <h2>User registration</h2>
 <form method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
-    @*<div>
-        <label asp-for="Name"></label><br />
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>*@
+    <div>
+        <label asp-for="FirstName"></label><br />
+        <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div>
+        <label asp-for="LastName"></label><br />
+        <input asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
     <div>
         <label asp-for="Email"></label><br />
         <input asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
-    <div>
+    @*<div>
         <label asp-for="PhoneNumber"></label><br />
         <input asp-for="PhoneNumber" placeholder="(123)456789" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
     <div>
         <label asp-for="Year"></label><br />
-        <input asp-for="Year" />
-        @*<select>
-            @for (int i = (DateTime.Now.Year - 80); i < DateTime.Now.Year; i++)
-            {
-                <option value="@i">@i</option>
-            }           
-        </select>*@
+        <input asp-for="Year" />       
         <span asp-validation-for="Year"></span>
     </div>
     <div>
         <label asp-for="Gender"></label><br />
-        <input asp-for="Gender" />
-    @*<select>
-        <option value="man">man</option>
-        <option value="woman">woman</option>
-    </select>*@
+        <input asp-for="Gender" />       
         <span asp-validation-for="Gender"></span>
-    </div>
+    </div>*@
     <div>
         <label asp-for="Password"></label><br />
         <input asp-for="Password" />

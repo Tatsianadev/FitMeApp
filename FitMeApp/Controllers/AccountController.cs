@@ -42,9 +42,11 @@ namespace FitMeApp.Controllers
                     {
                         UserName = model.Email,      
                         Email = model.Email,
-                        PhoneNumber = model.PhoneNumber,
-                        Year = model.Year,
-                        Gender = model.Gender
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                        //PhoneNumber = model.PhoneNumber,
+                        //Year = model.Year,
+                        //Gender = model.Gender
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
