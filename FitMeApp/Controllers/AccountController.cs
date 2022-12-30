@@ -27,7 +27,7 @@ namespace FitMeApp.Controllers
 
         [HttpGet]
         public IActionResult Register()
-        {            
+        {  
             return View();
         }
 

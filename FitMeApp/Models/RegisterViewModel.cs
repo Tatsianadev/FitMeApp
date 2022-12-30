@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FitMeApp.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace FitMeApp.Models
 {
@@ -35,5 +36,7 @@ namespace FitMeApp.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string PasswordConfirm { get; set; }
+
+        public RolesEnum Role { get; set; }
     }
 }
