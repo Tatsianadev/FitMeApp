@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FitMeApp.Common;
+using System.Collections.Generic;
 
 
 namespace FitMeApp.Services.Contracts.Models
@@ -11,6 +12,7 @@ namespace FitMeApp.Services.Contracts.Models
         public string Gender { get; set; }
         public string Picture { get; set; }
         public string Specialization { get; set; }
+        public TrainerConfirmStatusEnum Status { get; set; }
         public int GymId { get; set; }
         public GymModel Gym { get; set; }       
         public ICollection<TrainingModel> Trainings { get; set; }

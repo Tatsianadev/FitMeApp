@@ -38,6 +38,7 @@ namespace FitMeApp.Mapper
                 Gender = trainerModel.Gender,
                 Picture = trainerModel.Picture,
                 Specialization = trainerModel.Specialization,
+                Status = trainerModel.Status,
                 Trainings = trainingViewModels
             };
             return trainerViewModel;
@@ -259,7 +260,8 @@ namespace FitMeApp.Mapper
                 LastName = trainerViewModel.LastName,
                 Gender = trainerViewModel.Gender,
                 Picture = trainerViewModel.Picture,
-                Specialization = trainerViewModel.Specialization,
+                Specialization = trainerViewModel.Specialization,   
+                Status = trainerViewModel.Status,
                 Gym = new GymModel()
                 {
                     Id = trainerViewModel.GymId
@@ -285,6 +287,7 @@ namespace FitMeApp.Mapper
                 Gender = trainerViewModel.Gender,
                 Picture = trainerViewModel.Picture,
                 Specialization = trainerViewModel.Specialization,
+                Status = trainerViewModel.Status,
                 GymId = trainerViewModel.Gym.Id
             };
 

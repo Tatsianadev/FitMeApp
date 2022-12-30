@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMeApp.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -12,7 +13,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string Id { get; set; }      
         [Required]
         public string Specialization { get; set; }
-        public int GymId { get; set; }
-        
+        public int GymId { get; set; }        
+        public TrainerConfirmStatusEnum Status { get; set; }
+
     }
 }

@@ -11,10 +11,10 @@
 
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />                  
-
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Status" />
                     <table style="width:80%; margin:auto">
-                       
+
                         <tr>
                             <td class="col3">Gym</td>
                             <td class="col4">
@@ -32,14 +32,14 @@
                         <tr>
                             <td class="col3">Trainings</td>
                             <td class="col4">
-                               
+
                                 @if (ViewBag.ActualEventsCount > 0 || ViewBag.ActualSubscriptionsCount > 0)
                                 {
                                     <div style="font-size:smaller; color:red">You can't change this option while you have actual events or users subdcriptions</div>
                                     @foreach (var trainingId in Model.TrainingsId)
                                     {
                                         @*<input type="checkbox" name="TrainingsId" value="@trainingId"
-                                               @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") hidden />*@
+                            @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") hidden />*@
                                         <input type="checkbox" name="TrainingsId" value="@trainingId" checked="checked" hidden />
                                     }
                                 }
@@ -56,7 +56,7 @@
                         </tr>
                     </table>
                     <br />
-                    <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%"/>
+                    <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%" />
                     <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-dark" style="width:30%">Back</a>
                 </form>
             </div>

@@ -512,6 +512,7 @@ namespace FitMeApp.Controllers
                 GymId = trainerViewModel.Gym.Id,
                 GymName = trainerViewModel.Gym.Name,
                 Specialization = trainerViewModel.Specialization,
+                Status = trainerViewModel.Status,
                 TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList()
             };
 
@@ -541,6 +542,7 @@ namespace FitMeApp.Controllers
                         Id = changedModel.Id,
                         GymId = changedModel.GymId,
                         Specialization = changedModel.Specialization,
+                        Status = changedModel.Status,
                         Trainings = newTrainings
                     }; 
 
@@ -552,7 +554,7 @@ namespace FitMeApp.Controllers
                 else
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
-                    return RedirectToAction("TrainerPersonalAndJobData", changedModel);                     
+                    return View(changedModel);                     
                 }
 
             }

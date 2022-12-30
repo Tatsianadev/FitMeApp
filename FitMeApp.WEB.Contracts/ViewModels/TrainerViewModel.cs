@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMeApp.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -21,9 +22,11 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string Email { get; set; }
         public string Phone { get; set; }
         public int Year { get; set; }
+        public TrainerConfirmStatusEnum Status { get; set; }
         public GymViewModel Gym { get; set; }
         public int  GymId { get; set; }
 
         public ICollection<TrainingViewModel> Trainings { get; set; }
+
     }
 }

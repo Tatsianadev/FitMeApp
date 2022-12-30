@@ -129,7 +129,8 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId
+                GymId = trainer.GymId,
+                Status = trainer.Status
             });
 
             int addedRowCount = _context.SaveChanges();
@@ -154,6 +155,8 @@ namespace FitMeApp.Repository.EntityFramework
 
             var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();
             trainer.Specialization = newTrainerData.Specialization;
+            trainer.Status = newTrainerData.Status;
+            trainer.GymId = newTrainerData.GymId;
 
             _context.SaveChanges();
             //return true;
@@ -458,6 +461,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               join training in _context.Trainings
                                               on trainingTrainer.TrainingId equals training.Id
                                               where gymDb.Id == gymId
+                                              where trainer.Status == TrainerConfirmStatusEnum.confirm
                                               select new
                                               {
                                                   GymId = gymDb.Id,
@@ -472,7 +476,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                   TrainerSpecialization = trainer.Specialization,
                                                   TrainingId = training.Id,
                                                   TrainingName = training.Name,
-                                                  TrainingDescription = training.Description
+                                                  TrainingDescription = training.Description,
+                                                  TrainerStatus = trainer.Status
                                               }).ToList();
 
                 var trainers = new List<TrainerWithGymAndTrainingsBase>();
@@ -507,7 +512,8 @@ namespace FitMeApp.Repository.EntityFramework
                             Gender = item.TrainerGender,
                             Picture = item.TrainerPicture,
                             Specialization = item.TrainerSpecialization,
-                            Trainings = trainings
+                            Trainings = trainings,
+                            Status = item.TrainerStatus
                         });
                         addedTrainersId.Add(item.TrainerId);
                     }
@@ -552,6 +558,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                    Gender = user.Gender,
                                                    Picture = user.Avatar,
                                                    Specialization = trainer.Specialization,
+                                                   Status = trainer.Status,
                                                    GymId = gym.Id,
                                                    GymName = gym.Name,
                                                    GymAddress = gym.Address,
@@ -591,6 +598,7 @@ namespace FitMeApp.Repository.EntityFramework
                         Gender = item.Gender,
                         Picture = item.Picture,
                         Specialization = item.Specialization,
+                        Status = item.Status,
                         Gym = new GymEntityBase()
                         {
                             Id = item.GymId,
@@ -641,6 +649,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               Specialization = trainer.Specialization,
                                               Gender = user.Gender,
                                               Picture = user.Avatar,
+                                              Status = trainer.Status,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
                                               TrainingId = training.Id,
@@ -667,6 +676,7 @@ namespace FitMeApp.Repository.EntityFramework
                 Specialization = trainerEntity.Specialization,
                 Gender = trainerEntity.Gender,
                 Picture = trainerEntity.Picture,
+                Status = trainerEntity.Status,
                 Gym = new GymEntity()
                 {
                     Id = trainerEntity.GymId,
@@ -685,7 +695,8 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = newTrainerInfo.Id,
                 GymId = newTrainerInfo.Gym.Id,
-                Specialization = newTrainerInfo.Specialization
+                Specialization = newTrainerInfo.Specialization,
+                Status = newTrainerInfo.Status
             };
 
             UpdateTrainer(newTrainerEntityBase);
@@ -815,6 +826,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                     on trainingTrainer.TrainingId equals training.Id
                                                     where selectedGenders.Contains(user.Gender)
                                                     where selectedSpecializations.Contains(trainer.Specialization)
+                                                    where trainer.Status == TrainerConfirmStatusEnum.confirm
                                                     select new TrainerWithGymAndTrainingsJoin()
                                                     {
                                                         TrainerId = trainer.Id,
@@ -823,6 +835,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         Gender = user.Gender,
                                                         Picture = user.Avatar,
                                                         Specialization = trainer.Specialization,
+                                                        Status = trainer.Status,
                                                         GymId = gym.Id,
                                                         GymName = gym.Name,
                                                         GymAddress = gym.Address,
