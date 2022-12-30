@@ -243,13 +243,13 @@ namespace FitMeApp.Mapper
         public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
         {
             List<TrainingModel> trainingModels = new List<TrainingModel>();
-            foreach (var training in trainerViewModel.Trainings)
+            foreach (var trainingId in trainerViewModel.TrainingsId)
             {
                 trainingModels.Add(new TrainingModel()
                 {
-                    Id = training.Id,
-                    Name = training.Name,
-                    Description = training.Description
+                    Id = trainingId,
+                    //Name = training.Name,
+                    //Description = training.Description
                 });
             }
 

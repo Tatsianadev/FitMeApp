@@ -6,6 +6,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using FitMeApp.WEB.Contracts.ViewModels;
+using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Mapper;
 
 namespace FitMeApp.Controllers
 {
@@ -14,14 +16,18 @@ namespace FitMeApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IFitMeService _fitMeService;
+        private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
        
         public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
-            ILoggerFactory loggerFactory)
+            IFitMeService fitMeService, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _fitMeService = fitMeService;
+            _mapper = new ModelViewModelMapper();
             _logger = loggerFactory.CreateLogger("AccountLogger");
         }
 
@@ -53,8 +59,13 @@ namespace FitMeApp.Controllers
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
+                       
+                        if (model.Role == RolesEnum.trainer)
+                        {
+                           
+                            return RedirectToAction("Index", "Home");
+                        }
                         await _signInManager.SignInAsync(user, false);
-                        
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -76,6 +87,57 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }           
+        }
+
+        public IActionResult RegisterTrainerJobData()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RegisterTrainerJobData(EditTrainerJobDataModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    TrainerViewModel trainerViewModel = new TrainerViewModel()
+                    {
+                        Id = model.Id,
+                        GymId = model.GymId,
+                        Specialization = model.Specialization,
+                        TrainingsId = model.TrainingsId,
+                        Status = TrainerConfirmStatusEnum.pending
+                    };
+
+                    var trainerModel = _mapper.MappTrainerViewModelToModel(trainerViewModel);
+                    var result = _fitMeService.AddTrainer(trainerModel);
+                    if (result)
+                    {
+                        foreach (var trainingId in model.TrainingsId)
+                        {
+                            _fitMeService.AddTrainingTrainerConnection(model.Id, trainingId);
+                            return View("Index", "Home");
+                        }                       
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Failed to add trainers data. Please check all fields and try one again");
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with registration trainers data." +
+                    "Please try fill form again on Profile page."
+                };
+                return View("CustomError", error);
+            }
+            
         }
 
 

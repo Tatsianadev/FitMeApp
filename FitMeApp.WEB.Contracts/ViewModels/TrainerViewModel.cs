@@ -27,6 +27,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int  GymId { get; set; }
 
         public ICollection<TrainingViewModel> Trainings { get; set; }
+        public List<int> TrainingsId { get; set; }
 
     }
 }

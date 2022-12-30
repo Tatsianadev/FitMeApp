@@ -531,11 +531,11 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
-                    foreach (var trainingId in changedModel.TrainingsId)
-                    {
-                        newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
-                    }                    
+                    //List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
+                    //foreach (var trainingId in changedModel.TrainingsId)
+                    //{
+                    //    newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
+                    //}                    
 
                     TrainerViewModel newTrainerInfo = new TrainerViewModel()
                     {
@@ -543,7 +543,7 @@ namespace FitMeApp.Controllers
                         GymId = changedModel.GymId,
                         Specialization = changedModel.Specialization,
                         Status = changedModel.Status,
-                        Trainings = newTrainings
+                        TrainingsId = changedModel.TrainingsId
                     }; 
 
                     var trainerModel = _mapper.MappTrainerViewModelToModel(newTrainerInfo);

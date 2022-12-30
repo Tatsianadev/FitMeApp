@@ -260,8 +260,8 @@ namespace FitMeApp.Mapper
                 trainingEntityBases.Add(new TrainingEntityBase()
                 {
                     Id = training.Id,
-                    Name = training.Name,
-                    Description = training.Description
+                    //Name = training.Name,
+                    //Description = training.Description
                 });
             }
 
@@ -277,9 +277,9 @@ namespace FitMeApp.Mapper
                 Gym = new GymEntityBase()
                 {
                     Id = trainerModel.Gym.Id,
-                    Name = trainerModel.Gym.Name,
-                    Address = trainerModel.Gym.Address,
-                    Phone = trainerModel.Gym.Phone
+                    //Name = trainerModel.Gym.Name,
+                    //Address = trainerModel.Gym.Address,
+                    //Phone = trainerModel.Gym.Phone
                 },
                 Trainings = trainingEntityBases
             };
