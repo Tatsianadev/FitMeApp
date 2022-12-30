@@ -114,7 +114,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerEntityBase GetTrainer(string id)
         {
-            var trainer = _context.Trainers.Where(x => x.Id == id).First(); 
+            var trainer = _context.Trainers.Where(x => x.Id == id).First();
             return trainer;
         }
 
@@ -127,12 +127,12 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.Trainers.Add(new TrainerEntity()
             {
-                Id = trainer.Id,               
+                Id = trainer.Id,
                 Specialization = trainer.Specialization,
                 GymId = trainer.GymId
             });
 
-            int addedRowCount =_context.SaveChanges();
+            int addedRowCount = _context.SaveChanges();
             if (addedRowCount > 0)
             {
                 return true;
@@ -141,28 +141,22 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 return false;
             }
-            
+
         }
 
-        public bool UpdateTrainer(TrainerEntityBase newTrainerData)
+        public void UpdateTrainer(TrainerEntityBase newTrainerData)
         {
+
             if (newTrainerData == null)
             {
                 throw new NotImplementedException();
             }
 
-            var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();           
+            var trainer = _context.Trainers.Where(x => x.Id == newTrainerData.Id).First();
             trainer.Specialization = newTrainerData.Specialization;
 
-            var result = _context.SaveChanges();
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _context.SaveChanges();
+            //return true;
 
         }
 
@@ -184,7 +178,7 @@ namespace FitMeApp.Repository.EntityFramework
                 }
             }
             return true;
-           
+
         }
 
         public IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId)
@@ -201,7 +195,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         EndTime = trainerWorkHours.EndTime,
                                                         GymWorkHoursId = trainerWorkHours.GymWorkHoursId,
                                                         DayName = gymWorkHours.DayOfWeekNumber
-                                                    }).OrderBy(x=>x.DayName).ToList();
+                                                    }).OrderBy(x => x.DayName).ToList();
 
             List<TrainerWorkHoursWithDayBase> trainerWorkHoursWithDays = new List<TrainerWorkHoursWithDayBase>();
             foreach (var item in trainerWorkHoursGymWorkHoursJoin)
@@ -254,7 +248,7 @@ namespace FitMeApp.Repository.EntityFramework
         public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
         {
             if (_context.TrainerWorkHours.Find(workHoursBase.Id) == null)
-            {   
+            {
                 _context.TrainerWorkHours.Add(new TrainerWorkHoursEntity()
                 {
                     TrainerId = workHoursBase.TrainerId,
@@ -263,8 +257,8 @@ namespace FitMeApp.Repository.EntityFramework
                     GymWorkHoursId = workHoursBase.GymWorkHoursId
                 });
 
-                int addedRowsCount =_context.SaveChanges();
-                if (addedRowsCount>0)
+                int addedRowsCount = _context.SaveChanges();
+                if (addedRowsCount > 0)
                 {
                     return true;
                 }
@@ -277,7 +271,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 return false;
             }
-           
+
         }
 
         public bool DeleteTrainerWorkHours(int workHoursId)
@@ -295,16 +289,16 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
         public bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours)
-        {           
+        {
             TrainerWorkHoursEntity workHoursEntity = _context.TrainerWorkHours
                 .Where(x => x.Id == newTrainerWorkHours.Id)
                 .First();
 
             workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
             workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
-            
+
             int updatedRowsCount = _context.SaveChanges();
-           
+
             return true;
 
         }
@@ -444,7 +438,7 @@ namespace FitMeApp.Repository.EntityFramework
                 {
                     return false;
                 }
-            }           
+            }
             return true;
         }
 
@@ -637,7 +631,7 @@ namespace FitMeApp.Repository.EntityFramework
                                           join trainingTrainer in _context.TrainingTrainer
                                           on trainer.Id equals trainingTrainer.TrainerId
                                           join training in _context.Trainings
-                                          on trainingTrainer.TrainingId equals training.Id                                          
+                                          on trainingTrainer.TrainingId equals training.Id
                                           where trainer.Id == trainerId
                                           select new
                                           {
@@ -689,45 +683,38 @@ namespace FitMeApp.Repository.EntityFramework
         {
             TrainerEntityBase newTrainerEntityBase = new TrainerEntityBase()
             {
-                Id = newTrainerInfo.Id,               
+                Id = newTrainerInfo.Id,
                 GymId = newTrainerInfo.Gym.Id,
                 Specialization = newTrainerInfo.Specialization
             };
 
-            bool updateTrainerResult = UpdateTrainer(newTrainerEntityBase);
-            if (updateTrainerResult)
+            UpdateTrainer(newTrainerEntityBase);
+
+            bool updateTrainingsTrainerConnectionResult = true;
+            var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
+            var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
+
+            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
+            var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
+
+            foreach (var trainingId in trainingsIdToDelete)
             {
-                bool updateTrainingsResult = true;
-                var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
-                var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
-
-                var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
-                var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
-
-                foreach (var trainingId in trainingsIdToDelete)
+                bool deleteResult = DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                if (!deleteResult)
                 {
-                    bool deleteResult = DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                    if (!deleteResult)
-                    {
-                        updateTrainingsResult = false;
-                    }
+                    updateTrainingsTrainerConnectionResult = false;
                 }
-
-                foreach (var trainingId in trainingsIdToAdd)
-                {
-                    bool addResult = AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                    if (!addResult)
-                    {
-                        updateTrainingsResult = false;
-                    }
-                }
-                return true;
             }
-            else
-            {
-                return false;
-            }           
 
+            foreach (var trainingId in trainingsIdToAdd)
+            {
+                bool addResult = AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                if (!addResult)
+                {
+                    updateTrainingsTrainerConnectionResult = false;
+                }
+            }
+            return true;
         }
 
 
@@ -820,31 +807,31 @@ namespace FitMeApp.Repository.EntityFramework
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
                                                     join user in _context.Users
                                                     on trainer.Id equals user.Id
-                                               join gym in _context.Gyms
-                                               on trainer.GymId equals gym.Id
-                                               join trainingTrainer in _context.TrainingTrainer
-                                               on trainer.Id equals trainingTrainer.TrainerId
-                                               join training in _context.Trainings
-                                               on trainingTrainer.TrainingId equals training.Id
-                                               where selectedGenders.Contains(user.Gender)
-                                               where selectedSpecializations.Contains(trainer.Specialization)
-                                               select new TrainerWithGymAndTrainingsJoin()
-                                               {
-                                                   TrainerId = trainer.Id,
-                                                   FirstName = user.FirstName,
-                                                   LastName = user.LastName,
-                                                   Gender = user.Gender,
-                                                   Picture = user.Avatar,
-                                                   Specialization = trainer.Specialization,
-                                                   GymId = gym.Id,
-                                                   GymName = gym.Name,
-                                                   GymAddress = gym.Address,
-                                                   TrainingId = training.Id,
-                                                   TrainingName = training.Name
-                                               }).OrderBy(x => x.TrainerId).ToList();
+                                                    join gym in _context.Gyms
+                                                    on trainer.GymId equals gym.Id
+                                                    join trainingTrainer in _context.TrainingTrainer
+                                                    on trainer.Id equals trainingTrainer.TrainerId
+                                                    join training in _context.Trainings
+                                                    on trainingTrainer.TrainingId equals training.Id
+                                                    where selectedGenders.Contains(user.Gender)
+                                                    where selectedSpecializations.Contains(trainer.Specialization)
+                                                    select new TrainerWithGymAndTrainingsJoin()
+                                                    {
+                                                        TrainerId = trainer.Id,
+                                                        FirstName = user.FirstName,
+                                                        LastName = user.LastName,
+                                                        Gender = user.Gender,
+                                                        Picture = user.Avatar,
+                                                        Specialization = trainer.Specialization,
+                                                        GymId = gym.Id,
+                                                        GymName = gym.Name,
+                                                        GymAddress = gym.Address,
+                                                        TrainingId = training.Id,
+                                                        TrainingName = training.Name
+                                                    }).OrderBy(x => x.TrainerId).ToList();
 
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = ConvertJoinResultToTrainerWithGymAndTrainingsBase(trainersGymTrainingsByFilterJoin);
-            
+
             return trainersWithGymAndTrainings;
         }
 
@@ -968,22 +955,22 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId)
         {
             var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
-                                    join gymSubscr in _context.GymSubscriptions
-                                    on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                                    join subscr in _context.Subscriptions
-                                    on gymSubscr.SubscriptionId equals subscr.Id
-                                    where userSubscr.UserId == userId
-                                    select new
-                                    {
-                                        Id = userSubscr.Id,
-                                        UserId = userSubscr.UserId,
-                                        GymSubscriptionId = userSubscr.GymSubscriptionId,
-                                        TrainerId = userSubscr.TrainerId,
-                                        StartDate = userSubscr.StartDate,
-                                        EndDate = userSubscr.EndDate,
-                                        GroupTraining = subscr.GroupTraining,
-                                        DietMonitoring = subscr.DietMonitoring
-                                    }).ToList();
+                                         join gymSubscr in _context.GymSubscriptions
+                                         on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                         join subscr in _context.Subscriptions
+                                         on gymSubscr.SubscriptionId equals subscr.Id
+                                         where userSubscr.UserId == userId
+                                         select new
+                                         {
+                                             Id = userSubscr.Id,
+                                             UserId = userSubscr.UserId,
+                                             GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                             TrainerId = userSubscr.TrainerId,
+                                             StartDate = userSubscr.StartDate,
+                                             EndDate = userSubscr.EndDate,
+                                             GroupTraining = subscr.GroupTraining,
+                                             DietMonitoring = subscr.DietMonitoring
+                                         }).ToList();
 
             List<UserSubscriptionWithIncludedOptionsBase> userSubscriptions = new List<UserSubscriptionWithIncludedOptionsBase>();
             foreach (var joinItem in userSubscriptionsJoin)
@@ -999,13 +986,13 @@ namespace FitMeApp.Repository.EntityFramework
                     GroupTraining = joinItem.GroupTraining,
                     DietMonitoring = joinItem.DietMonitoring
                 });
-            }           
+            }
 
             return userSubscriptions;
         }
 
 
-     
+
 
 
         //Events
@@ -1022,7 +1009,7 @@ namespace FitMeApp.Repository.EntityFramework
             return userEvents;
         }
 
-       
+
 
         public IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
@@ -1086,7 +1073,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-       
+
 
 
         public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date)
@@ -1109,7 +1096,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                        Id = events.Id,
                                                        Date = events.Date,
                                                        StartTime = events.StartTime,
-                                                       EndTime = events.EndTime,                                                     
+                                                       EndTime = events.EndTime,
                                                        UserId = events.UserId,
                                                        UserName = user.UserName,
                                                        TrainingId = events.TrainingId,
@@ -1125,7 +1112,7 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = entity.Id,
                     Date = entity.Date,
                     StartTime = entity.StartTime,
-                    EndTime = entity.EndTime,                   
+                    EndTime = entity.EndTime,
                     UserId = entity.UserId,
                     UserName = entity.UserName,
                     TrainingId = entity.TrainingId,
@@ -1137,7 +1124,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-       
+
 
 
         // to show Events count for each date on the calendar for current User
@@ -1160,7 +1147,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
-            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();            
+            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
             Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
             foreach (var eventItem in allEventsByTrainer)
@@ -1195,8 +1182,8 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
         public int GetActualEventsCountByTrainer(string trainerId)
-        {            
-             var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
+        {
+            var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
             return actualEventsCount;
         }
 
@@ -1206,7 +1193,7 @@ namespace FitMeApp.Repository.EntityFramework
                 .Where(x => x.TrainerId == trainerId)
                 .Where(x => x.Date.Date >= DateTime.Now.Date)
                 .ToList();
-            return actualEvents;            
+            return actualEvents;
 
         }
 

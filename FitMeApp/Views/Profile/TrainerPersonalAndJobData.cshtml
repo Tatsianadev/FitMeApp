@@ -15,11 +15,38 @@
                         <img src="@imageParth" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
+
                         <table style="width:100%; margin:auto">
                             <tr>
-                                <td class="col3">Name</td>
-                                <td class="col4">@Model.FirstName @Model.LastName</td>
+                                <td class="col3">First Name</td>
+                                <td class="col4">@Model.FirstName</td>
                             </tr>
+                            <tr>
+                                <td class="col3">Last Name</td>
+                                <td class="col4">@Model.LastName</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Email</td>
+                                <td class="col4">@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Phone</td>
+                                <td class="col4">@Model.Phone</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Gender</td>
+                                <td class="col4">@Model.Gender</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Year</td>
+                                <td class="col4">@Model.Year</td>
+                            </tr>
+                        </table>
+                        <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
+                        <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
+                        <hr />
+
+                        <table style="width:100%; margin:auto">
                             <tr>
                                 <td class="col3">Gym</td>
                                 <td class="col4">@Model.Gym.Name</td>
@@ -42,28 +69,7 @@
                             </tr>
                         </table>
                         <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit job data</a>
-                        <hr />
 
-                        <table style="width:100%; margin:auto">
-                            <tr>
-                                <td class="col3">Email</td>
-                                <td class="col4">@Model.Email</td>
-                            </tr>
-                            <tr>
-                                <td class="col3">Phone</td>
-                                <td class="col4">@Model.Phone</td>
-                            </tr>
-                            <tr>
-                                <td class="col3">Gender</td>
-                                <td class="col4">@Model.Gender</td>
-                            </tr>
-                            <tr>
-                                <td class="col3">Year</td>
-                                <td class="col4">@Model.Year</td>
-                            </tr>
-                        </table>
-                        <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
-                        <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
                     </div>
                 </div>
 
@@ -80,8 +86,7 @@
                             @if (workDays.Contains(((DayOfWeek)i).ToString()))
                             {
                                 <td class="col4">
-                                    @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]
-                                    @*@await Component.InvokeAsync("TrainerWorkHours", new { startTime = ViewBag.StartHours[(DayOfWeek)i], endTime = ViewBag.EndHours[(DayOfWeek)i] })*@
+                                    @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]                                  
                                 </td>
                             }
                             else

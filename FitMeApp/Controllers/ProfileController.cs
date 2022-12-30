@@ -506,31 +506,45 @@ namespace FitMeApp.Controllers
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
+            {
+                Id = trainerViewModel.Id,
+                GymId = trainerViewModel.Gym.Id,
+                GymName = trainerViewModel.Gym.Name,
+                Specialization = trainerViewModel.Specialization,
+                TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList()
+            };
 
             ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
             ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainer.Id);
             ViewBag.ActualSubscriptionsCount = _fitMeService.GetActualSubscriptionsCountByTrainer(trainer.Id);
-            return View(trainerViewModel);
+            return View(trainerJobData);
         }
 
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult EditTrainerJobData(TrainerViewModel changedModel, List<int> trainingsId)
+        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     List<TrainingViewModel> newTrainings = new List<TrainingViewModel>();
-                    foreach (var trainingId in trainingsId)
+                    foreach (var trainingId in changedModel.TrainingsId)
                     {
                         newTrainings.Add(_mapper.MappTrainingModelToViewModelBase(_fitMeService.GetTrainingModel(trainingId)));
-                    }
+                    }                    
 
-                    changedModel.Trainings = newTrainings;
+                    TrainerViewModel newTrainerInfo = new TrainerViewModel()
+                    {
+                        Id = changedModel.Id,
+                        GymId = changedModel.GymId,
+                        Specialization = changedModel.Specialization,
+                        Trainings = newTrainings
+                    }; 
 
-                    var trainerModel = _mapper.MappTrainerViewModelToModel(changedModel);
+                    var trainerModel = _mapper.MappTrainerViewModelToModel(newTrainerInfo);
                     var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
                     return RedirectToAction("TrainerPersonalAndJobData");
@@ -538,9 +552,7 @@ namespace FitMeApp.Controllers
                 else
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
-                    /*return RedirectToAction("TrainerPersonalAndJobData");*/ //Доделать! Найти способ вернуть эту же форму
-                                                                              //с невалидной моделью и сообщать о невалидных данных
-                    return View();
+                    return RedirectToAction("TrainerPersonalAndJobData", changedModel);                     
                 }
 
             }
@@ -552,8 +564,6 @@ namespace FitMeApp.Controllers
                     Message = "There was a problem with change users job data. Try again, please."
                 };
                 return View("CustomError", error);
-
-                //throw ex;
             }
         }
 

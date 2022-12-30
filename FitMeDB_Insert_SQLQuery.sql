@@ -10,23 +10,43 @@ values
 ('FitProfit', '97 BlueStreet, 379-45, Gdansk', '(048)358-09-08' )
 go
 
-insert into Trainers (Id, FirstName, LastName, Gender, Picture, Specialization, GymId)
+--insert into Trainers (Id, FirstName, LastName, Gender, Picture, Specialization, GymId)
+--values
+--('acc51bef-12d2-4933-ba98-646927663579', 'Barney', 'Ross', 'man', 'Stallone.jpg','universal',1),
+--('d51f7f69-c30f-4842-8a61-b4a9890f00ed','Lee', 'Christmas', 'man', 'Statham.jpg', 'personal',2),
+--('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'Gunnar', 'Jensen', 'man', 'Lundgren.jpg','universal',3),
+--('08b2b361-1115-44db-97fa-ce9cd34366d7', 'Terry', 'Caesar', 'man', 'Crews.jpg', 'group',4),
+--('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'Jean', 'Vilain', 'man', 'Damme.jpg', 'universal',4),
+--('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'Natalia', 'Romanoff', 'woman', 'Natasha.jpg','universal',1),
+--('0a329324-af6f-4afa-ad33-384a9f3af275', 'Wanda', 'Maximoff', 'woman', 'Wanda.jpg', 'group',2),
+--('83192926-4d5b-4a27-93f1-a2958c69f069', 'Gamora', 'Gamorak', 'woman', 'Gamora.jpg','universal',3),
+--('5f91c6cf-7708-4b35-a070-99ed79752302', 'Boxis', 'Strong', 'woman', 'Boxis.jpg','group',1),
+--('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'Bruce', 'Lee', 'man', 'Bruce.jpg','group',4),
+--('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'Marvel', 'Levram', 'woman', 'Marvel.jpg','personal',2),
+--('f6b480ef-aa5c-467f-8382-5199a395d585', 'Sonya', 'Night', 'woman', 'Sonya.jpg','personal',3),
+--('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'Supwom', 'Nanual', 'woman', 'Supwom.jpg','personal',1),
+--('69e23278-6b00-4f40-a555-02ef12ffd09b', 'Tor', 'Asgaard', 'man', 'Tor.jpg','personal',2),
+--('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'Witcher', 'Moon', 'man', 'Witcher.jpg','personal',3)
+--go
+
+
+insert into Trainers (Id, Specialization, GymId)
 values
-('acc51bef-12d2-4933-ba98-646927663579', 'Barney', 'Ross', 'man', 'Stallone.jpg','universal',1),
-('d51f7f69-c30f-4842-8a61-b4a9890f00ed','Lee', 'Christmas', 'man', 'Statham.jpg', 'personal',2),
-('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'Gunnar', 'Jensen', 'man', 'Lundgren.jpg','universal',3),
-('08b2b361-1115-44db-97fa-ce9cd34366d7', 'Terry', 'Caesar', 'man', 'Crews.jpg', 'group',4),
-('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'Jean', 'Vilain', 'man', 'Damme.jpg', 'universal',4),
-('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'Natalia', 'Romanoff', 'woman', 'Natasha.jpg','universal',1),
-('0a329324-af6f-4afa-ad33-384a9f3af275', 'Wanda', 'Maximoff', 'woman', 'Wanda.jpg', 'group',2),
-('83192926-4d5b-4a27-93f1-a2958c69f069', 'Gamora', 'Gamorak', 'woman', 'Gamora.jpg','universal',3),
-('5f91c6cf-7708-4b35-a070-99ed79752302', 'Boxis', 'Strong', 'woman', 'Boxis.jpg','group',1),
-('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'Bruce', 'Lee', 'man', 'Bruce.jpg','group',4),
-('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'Marvel', 'Levram', 'woman', 'Marvel.jpg','personal',2),
-('f6b480ef-aa5c-467f-8382-5199a395d585', 'Sonya', 'Night', 'woman', 'Sonya.jpg','personal',3),
-('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'Supwom', 'Nanual', 'woman', 'Supwom.jpg','personal',1),
-('69e23278-6b00-4f40-a555-02ef12ffd09b', 'Tor', 'Asgaard', 'man', 'Tor.jpg','personal',2),
-('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'Witcher', 'Moon', 'man', 'Witcher.jpg','personal',3)
+('acc51bef-12d2-4933-ba98-646927663579', 'universal',1),
+('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2),
+('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3),
+('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4),
+('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4),
+('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1),
+('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2),
+('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3),
+('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1),
+('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4),
+('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2),
+('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3),
+('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1),
+('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2),
+('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3)
 go
 
 

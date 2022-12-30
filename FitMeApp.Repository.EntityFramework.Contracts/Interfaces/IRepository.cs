@@ -22,7 +22,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<TrainerEntityBase> GetAllTrainers();
         TrainerEntityBase GetTrainer(string id);
         bool AddTrainer(TrainerEntityBase trainer);
-        bool UpdateTrainer(TrainerEntityBase newTrainerData);
+        void UpdateTrainer(TrainerEntityBase newTrainerData);
         bool DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);       
         bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
