@@ -49,10 +49,9 @@ namespace FitMeApp.Controllers
                         UserName = model.Email,      
                         Email = model.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName
-                        //PhoneNumber = model.PhoneNumber,
-                        //Year = model.Year,
-                        //Gender = model.Gender
+                        LastName = model.LastName,
+                        Avatar = "defaultAvatar.jpg"
+                        
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -105,22 +104,25 @@ namespace FitMeApp.Controllers
                     var user = await _userManager.GetUserAsync(User);
                     TrainerViewModel trainerViewModel = new TrainerViewModel()
                     {
-                        Id = user.Id,
-                        GymId = model.GymId,
+                        Id = user.Id,                        
                         Specialization = model.Specialization,
                         TrainingsId = model.TrainingsId,
-                        Status = TrainerConfirmStatusEnum.pending
+                        Status = TrainerConfirmStatusEnum.pending,
+                        Gym = new GymViewModel()
+                        {
+                            Id = model.GymId
+                        }
                     };
 
-                    var trainerModel = _mapper.MappTrainerViewModelToModel(trainerViewModel);
+                    var trainerModel = _mapper.MappTrainerViewModelToModelBase(trainerViewModel);
                     var result = _fitMeService.AddTrainer(trainerModel);
                     if (result)
                     {
                         foreach (var trainingId in model.TrainingsId)
                         {
-                            _fitMeService.AddTrainingTrainerConnection(model.Id, trainingId);
-                            return View("Index", "Home");
-                        }                       
+                            _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);                           
+                        }
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -157,8 +159,7 @@ namespace FitMeApp.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
-                   //var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
+                {                  
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {

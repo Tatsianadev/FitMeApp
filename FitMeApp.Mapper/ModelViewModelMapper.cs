@@ -240,6 +240,19 @@ namespace FitMeApp.Mapper
 
         //Reverse: ViewModel -> Model
 
+        public GymModel MappGymViewModelToModel(GymViewModel gymViewModel)
+        {
+            GymModel gymModel = new GymModel()
+            {
+                Id = gymViewModel.Id,
+                Name = gymViewModel.Name,
+                Address = gymViewModel.Address,
+                Phone = gymViewModel.Phone
+            };
+            return gymModel;
+        }
+
+
         public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
         {
             List<TrainingModel> trainingModels = new List<TrainingModel>();
@@ -247,30 +260,20 @@ namespace FitMeApp.Mapper
             {
                 trainingModels.Add(new TrainingModel()
                 {
-                    Id = trainingId,
-                    //Name = training.Name,
-                    //Description = training.Description
+                    Id = trainingId                    
                 });
             }
 
-            TrainerModel trainerModel = new TrainerModel()
+            foreach (var training in trainerViewModel.Trainings)
             {
-                Id = trainerViewModel.Id,
-                FirstName = trainerViewModel.FirstName,
-                LastName = trainerViewModel.LastName,
-                Gender = trainerViewModel.Gender,
-                Picture = trainerViewModel.Picture,
-                Specialization = trainerViewModel.Specialization,   
-                Status = trainerViewModel.Status,
-                Gym = new GymModel()
+                trainingModels.Add(new TrainingModel()
                 {
-                    Id = trainerViewModel.GymId
-                    //Name = trainerViewModel.Gym.Name,
-                    //Address = trainerViewModel.Gym.Address,
-                    //Phone = trainerViewModel.Picture
-                },
-                Trainings = trainingModels
-            };
+                    Id = training.Id
+                });
+            }
+
+            TrainerModel trainerModel = MappTrainerViewModelToModelBase(trainerViewModel);
+            trainerModel.Trainings = trainingModels;          
 
             return trainerModel;
         }
@@ -287,8 +290,8 @@ namespace FitMeApp.Mapper
                 Gender = trainerViewModel.Gender,
                 Picture = trainerViewModel.Picture,
                 Specialization = trainerViewModel.Specialization,
-                Status = trainerViewModel.Status,
-                GymId = trainerViewModel.Gym.Id
+                Status = trainerViewModel.Status,                
+                Gym = MappGymViewModelToModel(trainerViewModel.Gym)
             };
 
             return trainerModel;

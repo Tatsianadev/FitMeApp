@@ -26,10 +26,14 @@
                 <h5><b>@Model.Gender</b></h5>
 
                 @*<label>Avatar</label>
-                <h5><b>@Model.Avatar</b></h5>*@
+                    <h5><b>@Model.Avatar</b></h5>*@
 
-                <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
-                <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
+                <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:30%">Edit</a>
+                <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:30%">Change Password</a>
+                @if (!User.IsInRole("trainer"))
+                {
+                    <a asp-controller="Account" asp-action="RegisterTrainerPart" class="btn btn-dark" style="width:30%">Apply for a Trainer Role</a>
+                }
             </div>
         </div>
         <div class="col-md-3">
