@@ -59,13 +59,11 @@ namespace FitMeApp.Controllers
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
-                       
-                        if (model.Role == RolesEnum.trainer)
-                        {
-                           
-                            return RedirectToAction("Index", "Home");
-                        }
                         await _signInManager.SignInAsync(user, false);
+                        if (model.Role == RolesEnum.trainer)
+                        {                           
+                            return RedirectToAction("RegisterTrainerPart");
+                        }                        
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -89,21 +87,25 @@ namespace FitMeApp.Controllers
             }           
         }
 
-        public IActionResult RegisterTrainerJobData()
+        public IActionResult RegisterTrainerPart()
         {
+            ViewBag.Gyms = _fitMeService.GetAllGymModels();
+            ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
+            ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
             return View();
         }
 
         [HttpPost]
-        public IActionResult RegisterTrainerJobData(EditTrainerJobDataModel model)
+        public async Task<IActionResult> RegisterTrainerPart(EditTrainerJobDataModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var user = await _userManager.GetUserAsync(User);
                     TrainerViewModel trainerViewModel = new TrainerViewModel()
                     {
-                        Id = model.Id,
+                        Id = user.Id,
                         GymId = model.GymId,
                         Specialization = model.Specialization,
                         TrainingsId = model.TrainingsId,

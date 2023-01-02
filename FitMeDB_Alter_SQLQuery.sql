@@ -38,3 +38,7 @@ go
 alter table Trainers
 drop column Gender
 go
+
+alter table Trainers
+add Status int
+go
