@@ -17,101 +17,90 @@
                             <tr>
                                 <td class="col3">@((DayOfWeek)i)</td>
 
-
                                 @if (workDays.Contains(((DayOfWeek)i).ToString()))
                                 {
-                                    @for (int j = 0; j < Model.Count(); j++)
-                                    {
-                                        @if (Model[j].DayName == (DayOfWeek)i)
-                                        {
+                                    <td class="col4">
+                                        <select class="form-select" aria-label="Default select example" asp-for="@Model[i].StartTime">
+                                            @for (int t = 0; t < 24; t++)
+                                            {                                                
+                                                if (Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime == (t + ".00"))
+                                                {
+                                                    <option value="@Model[i].StartTime" selected>@Model[i].StartTime</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@(t+".00")">@(t+".00")</option>
+                                                }
 
-                                            <td class="col4">
-                                                <select class="form-select" aria-label="Default select example" asp-for="@Model[j].StartTime">
-                                                    @for (int t = 0; t < 24; t++)
-                                                    {
-                                                        if (Model[j].StartTime == (t + ".00"))
-                                                        {
-                                                            <option value="@Model[j].StartTime" selected>@Model[j].StartTime</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@(t+".00")">@(t+".00")</option>
-                                                        }
+                                                if (Model.Where(x => x.DayName == (DayOfWeek)i).First().StartTime == (t + ".30"))
+                                                {
+                                                    <option value="@Model[i].StartTime" selected>@Model[i].StartTime</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@(t+".30")">@(t+".30")</option>
+                                                }
 
-                                                        if (Model[j].StartTime == (t + ".30"))
-                                                        {
-                                                            <option value="@Model[j].StartTime" selected>@Model[j].StartTime</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@(t+".30")">@(t+".30")</option>
-                                                        }
+                                            }
+                                        </select>
+                                        <input type="hidden" asp-for="@Model[i].Id" />
+                                        <input type="hidden" asp-for="@Model[i].GymWorkHoursId" />
+                                        <input type="hidden" asp-for="@Model[i].DayName" />
+                                    </td>
+                                    <td class="col5">
+                                        -
+                                    </td>
+                                    <td class="col4">
+                                        <select class="form-select" aria-label="Default select example" asp-for="@Model[i].EndTime">
+                                            @for (int t = 0; t < 24; t++)
+                                            {
+                                                if (Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime == (t + ".00"))
+                                                {
+                                                    <option value="@Model[i].EndTime" selected>@Model[i].EndTime</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@(t+".00")">@(t+".00")</option>
+                                                }
 
-                                                    }
-                                                </select>
-                                                <input type="hidden" asp-for="@Model[j].Id" />
-                                                <input type="hidden" asp-for="@Model[j].GymWorkHoursId" />
-                                                <input type="hidden" asp-for="@Model[j].DayName" />
-                                            </td>
-                                            <td class="col5">
-                                                -
-                                            </td>
-                                            <td class="col4">
-                                                <select class="form-select" aria-label="Default select example" asp-for="@Model[j].EndTime">
-                                                    @for (int t = 0; t < 24; t++)
-                                                    {
-                                                        if (Model[j].EndTime == (t + ".00"))
-                                                        {
-                                                            <option value="@Model[j].EndTime" selected>@Model[j].EndTime</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@(t+".00")">@(t+".00")</option>
-                                                        }
-
-                                                        if (Model[j].EndTime == (t + ".30"))
-                                                        {
-                                                            <option value="@Model[j].EndTime" selected>@Model[j].EndTime</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@(t+".30")">@(t+".30")</option>
-                                                        }
-
-                                                    }
-                                                </select>                                               
-                                            </td>
-                                        }
-                                    }
-                                }
+                                                if (Model.Where(x => x.DayName == (DayOfWeek)i).First().EndTime == (t + ".30"))
+                                                {
+                                                    <option value="@Model[i].EndTime" selected>@Model[i].EndTime</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@(t+".30")">@(t+".30")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                }                                
                                 else
                                 {
-                                    <td class="col4">
-                                        @{FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel newItem = new FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel();
-                                            Model.Add(newItem);
-                                            int index = Model.IndexOf(newItem);
-                                            Model[index].DayName = (DayOfWeek)i;}
-                                        <input type="hidden" asp-for="@Model[index].DayName" />
-                                        <select class="form-select" aria-label="Default select example" asp-for="@Model[index].StartTime">
-                                            @for (int t = 0; t < 24; t++)
-                                            {
-                                                <option value="@(t+".00")">@(t+".00")</option>
-                                                <option value="@(t+".30")">@(t+".30")</option>
-                                            }
-                                        </select>                                      
-                                    </td>
-                                    <td class="col5">-</td>
-                                    <td class="col4">
-                                        <select class="form-select" aria-label="Default select example" asp-for="@Model[index].EndTime">
-                                            @for (int t = 0; t < 24; t++)
-                                            {
-                                                <option value="@(t+".00")">@(t+".00")</option>
-                                                <option value="@(t+".30")">@(t+".30")</option>
-                                            }
-                                        </select>                                      
-                                    </td>
+                                <td class="col4">
+                                    @{FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel newItem = new FitMeApp.WEB.Contracts.ViewModels.TrainerWorkHoursViewModel();
+                                        Model.Add(newItem);                                        
+                                        Model[i].DayName = (DayOfWeek)i;}
+                                    <input type="hidden" asp-for="@Model[i].DayName" />
+                                    <select class="form-select" aria-label="Default select example" asp-for="@Model[i].StartTime">
+                                        @for (int t = 0; t < 24; t++)
+                                        {
+                                            <option value="@(t+".00")">@(t+".00")</option>
+                                            <option value="@(t+".30")">@(t+".30")</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="col5">-</td>
+                                <td class="col4">
+                                    <select class="form-select" aria-label="Default select example" asp-for="@Model[i].EndTime">
+                                        @for (int t = 0; t < 24; t++)
+                                        {
+                                            <option value="@(t+".00")">@(t+".00")</option>
+                                            <option value="@(t+".30")">@(t+".30")</option>
+                                        }
+                                    </select>
+                                </td>
                                 }
-
                             </tr>
                         }
                     </table>
@@ -119,7 +108,7 @@
 
                     <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%" />
                     <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-dark" style="width:30%">Back</a>
-                </form>             
+                </form>
 
             </div>
         </div>
@@ -130,4 +119,8 @@
     </div>
 
 </div>
+
+
+
+
 

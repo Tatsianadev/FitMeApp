@@ -248,7 +248,7 @@ namespace FitMeApp.Controllers
                 }
                 EditUserViewModel model = new EditUserViewModel()
                 {
-                    Id = user.Id,                    
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -540,9 +540,9 @@ namespace FitMeApp.Controllers
 
                     TrainerViewModel newTrainerInfo = new TrainerViewModel()
                     {
-                        Id = changedModel.Id,                                           
+                        Id = changedModel.Id,
                         Specialization = changedModel.Specialization,
-                        Status = changedModel.Status,                        
+                        Status = changedModel.Status,
                         Trainings = trainings,
                         Gym = new GymViewModel()
                         {
@@ -585,7 +585,23 @@ namespace FitMeApp.Controllers
             {
                 workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
             }
-            return View(workHoursViewModel);
+
+            foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                if (!workHoursViewModel.Select(x => x.DayName).Contains((DayOfWeek)item))
+                {
+                    workHoursViewModel.Add(new TrainerWorkHoursViewModel()
+                    {
+                        DayName = (DayOfWeek)item,
+                        StartTime = "0.00",
+                        EndTime = "0.00"
+                    });
+
+                }
+            }
+            List<TrainerWorkHoursViewModel> orderedWorkHours = workHoursViewModel.OrderBy(x => ((int)x.DayName)).ToList();
+
+            return View(orderedWorkHours);
         }
 
 
@@ -635,8 +651,23 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
+
+                    foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+                    {
+                        if (!newWorkHours.Select(x => x.DayName).Contains((DayOfWeek)item))
+                        {
+                            newWorkHours.Add(new TrainerWorkHoursViewModel()
+                            {
+                                DayName = (DayOfWeek)item,
+                                StartTime = "0.00",
+                                EndTime = "0.00"
+                            });
+
+                        }
+                    }
+                    List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();
                     ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with new data.");
-                    return View(newWorkHours);
+                    return View(orderedWorkHours);
                 }
 
             }

@@ -8,7 +8,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
     {       
         public DateTime Date { get; set; } //отображает страницу в календаре (Calendar partial view) и конкретный указатель даты в Events partial view 
         public bool DayOnCalendarSelected { get; set; } //флаг для отображения/скртытия Events partial view 
-        public bool SelectedDayIsWorkOff { get; set; } //флаг для переадресации на WorkOff partial view
+        public bool SelectedDayIsWorkOff { get; set; } //флаг для переадресации на WorkOff partial view       
         public string MonthName { get; set; }       
         public IDictionary<DateTime, int> DatesEventsCount { get; set; } //коллекция, поскольку на ОДНОЙ странице календаря должны отображаться события для всех дней в месяце 
         public ICollection<EventViewModel> Events { get; set; } //поле имеет значение только после выбора конкретной даты 

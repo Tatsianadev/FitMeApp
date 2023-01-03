@@ -37,6 +37,12 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+            var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
+            if (trainerWorkHours.Count() == 0)
+            {               
+                return View("NoTrainerWorkHours");
+            }
+           
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
@@ -121,7 +127,7 @@ namespace FitMeApp.Controllers
             {
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 string trainerId = _userManager.GetUserId(User);
-                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
+                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);               
                 var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();               
 
                 if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
@@ -139,7 +145,7 @@ namespace FitMeApp.Controllers
 
                 model.Events = eventsViewModels;
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
-                model.SelectedDayIsWorkOff = false;                          
+                model.SelectedDayIsWorkOff = false;               
 
                 int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x=>x.StartTime).First();
                 int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
@@ -170,6 +176,11 @@ namespace FitMeApp.Controllers
         public IActionResult TrainerDayOff()
         {
             return PartialView();
+        }
+
+        public IActionResult NoTrainerWorkHours()
+        {
+            return View();
         }
 
 
