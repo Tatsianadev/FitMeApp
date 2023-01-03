@@ -78,6 +78,10 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult CalendarCarousel(CalendarPageWithEventsViewModel model)
         {
+            if (model.DatesEventsCount == null) 
+            {
+                model.DatesEventsCount = new Dictionary<DateTime, int>();
+            }
             model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
 
@@ -126,6 +130,10 @@ namespace FitMeApp.Controllers
             try
             {
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+                if (model.DatesEventsCount == null)
+                {
+                    model.DatesEventsCount = new Dictionary<DateTime, int>();
+                }                
                 string trainerId = _userManager.GetUserId(User);
                 var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);               
                 var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();               

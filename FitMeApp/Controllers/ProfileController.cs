@@ -596,7 +596,6 @@ namespace FitMeApp.Controllers
                         StartTime = "0.00",
                         EndTime = "0.00"
                     });
-
                 }
             }
             List<TrainerWorkHoursViewModel> orderedWorkHours = workHoursViewModel.OrderBy(x => ((int)x.DayName)).ToList();
@@ -651,7 +650,6 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-
                     foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
                     {
                         if (!newWorkHours.Select(x => x.DayName).Contains((DayOfWeek)item))
@@ -662,7 +660,6 @@ namespace FitMeApp.Controllers
                                 StartTime = "0.00",
                                 EndTime = "0.00"
                             });
-
                         }
                     }
                     List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();

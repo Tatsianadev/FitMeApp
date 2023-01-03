@@ -16,6 +16,7 @@
 
                 <input type="hidden" asp-for="Date" value="@carouselBackYear" />
                 <input type="hidden" asp-for="DayOnCalendarSelected" value="@false" />
+                
                 @foreach (var item in Model.DatesEventsCount)
                 {
                     <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
