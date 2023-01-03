@@ -23,11 +23,8 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string Phone { get; set; }
         public int Year { get; set; }
         public TrainerConfirmStatusEnum Status { get; set; }
-        public GymViewModel Gym { get; set; }
-        //public int  GymId { get; set; }
-
+        public GymViewModel Gym { get; set; }       
         public ICollection<TrainingViewModel> Trainings { get; set; }
-        public List<int> TrainingsId { get; set; }
-
+       
     }
 }

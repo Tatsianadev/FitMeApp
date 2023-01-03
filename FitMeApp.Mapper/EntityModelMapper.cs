@@ -259,27 +259,18 @@ namespace FitMeApp.Mapper
             {
                 trainingEntityBases.Add(new TrainingEntityBase()
                 {
-                    Id = training.Id,
-                    //Name = training.Name,
-                    //Description = training.Description
+                    Id = training.Id                   
                 });
             }
-
+            
             TrainerWithGymAndTrainingsBase trainerBase = new TrainerWithGymAndTrainingsBase()
             {
-                Id = trainerModel.Id,
-                FirstName = trainerModel.FirstName,
-                LastName = trainerModel.LastName,
-                Gender = trainerModel.Gender,
-                Picture = trainerModel.Picture,
+                Id = trainerModel.Id,                
                 Specialization = trainerModel.Specialization,
                 Status = trainerModel.Status,
                 Gym = new GymEntityBase()
                 {
-                    Id = trainerModel.Gym.Id,
-                    //Name = trainerModel.Gym.Name,
-                    //Address = trainerModel.Gym.Address,
-                    //Phone = trainerModel.Gym.Phone
+                    Id = trainerModel.Gym.Id                   
                 },
                 Trainings = trainingEntityBases
             };

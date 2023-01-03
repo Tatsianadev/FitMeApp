@@ -529,13 +529,21 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                    foreach (var trainingId in changedModel.TrainingsId)
+                    {
+                        trainings.Add(new TrainingViewModel()
+                        {
+                            Id = trainingId
+                        });
+                    }
+
                     TrainerViewModel newTrainerInfo = new TrainerViewModel()
                     {
                         Id = changedModel.Id,                                           
                         Specialization = changedModel.Specialization,
-                        Status = changedModel.Status,
-                        TrainingsId = changedModel.TrainingsId,
+                        Status = changedModel.Status,                        
+                        Trainings = trainings,
                         Gym = new GymViewModel()
                         {
                             Id = changedModel.GymId
@@ -641,7 +649,6 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
 
-                //throw ex;                
             }
 
         }

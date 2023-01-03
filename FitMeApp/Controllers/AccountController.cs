@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Mapper;
+using System.Collections.Generic;
 
 namespace FitMeApp.Controllers
 {
@@ -101,12 +102,20 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                    foreach (var trainingId in model.TrainingsId)
+                    {
+                        trainings.Add(new TrainingViewModel()
+                        {
+                            Id = trainingId
+                        });
+                    }
                     var user = await _userManager.GetUserAsync(User);
                     TrainerViewModel trainerViewModel = new TrainerViewModel()
                     {
-                        Id = user.Id,                        
-                        Specialization = model.Specialization,
-                        TrainingsId = model.TrainingsId,
+                        Id = user.Id,
+                        Specialization = model.Specialization,                       
+                        Trainings = trainings,
                         Status = TrainerConfirmStatusEnum.pending,
                         Gym = new GymViewModel()
                         {
