@@ -951,3 +951,39 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: D:\stud\projects\FitMeApp\FitMeApp
 User validation failed: DuplicateUserName.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Invalid password for user.
+User ab976d26-13e1-48d5-a8aa-26c502c7fd3c failed to provide the correct password.
+Invalid password for user.
+User ab976d26-13e1-48d5-a8aa-26c502c7fd3c failed to provide the correct password.
+Invalid password for user.
+User ab976d26-13e1-48d5-a8aa-26c502c7fd3c failed to provide the correct password.
+Invalid password for user.
+User eafe1c68-bd1a-4dcc-9613-3d7c5dba4a6a failed to provide the correct password.
+Invalid password for user.
+User eafe1c68-bd1a-4dcc-9613-3d7c5dba4a6a failed to provide the correct password.
+Invalid password for user.
+User eafe1c68-bd1a-4dcc-9613-3d7c5dba4a6a failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp

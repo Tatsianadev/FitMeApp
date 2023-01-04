@@ -37,10 +37,13 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
-            if (trainerWorkHours.Count() == 0)
+            if (User.IsInRole("trainer"))
             {
-                return View("NoTrainerWorkHours");
+                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
+                if (trainerWorkHours.Count() == 0)
+                {
+                    return View("NoTrainerWorkHours");
+                }
             }
 
             int month = DateTime.Today.Month;
@@ -125,7 +128,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;                            
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 string trainerId = _userManager.GetUserId(User);
                 var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
                 var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();

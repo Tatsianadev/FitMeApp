@@ -2,44 +2,56 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
 
         </div>
-        <div class="col-md-6" style="border-left:solid; border-right:solid">
-            <div style="text-align:center; margin:20px">
-                <label>First Name</label>
-                <h5><b>@Model.FirstName</b></h5>
+        <div class="col-md-8" >
+            <br />
+            <div class="container" style="border:solid; padding:15px" >
+                <div class="row">
+                    <div class="col-md-4">
+                        @{ string imageParth = "/Content/images/" + Model.Avatar;}
+                        <img src="@imageParth" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
+                    </div>
+                    <div class="col-md-8" style="align-content:center">
+                        <table style="width:100%; margin:auto">
+                            <tr>
+                                <td class="col3">First Name</td>
+                                <td class="col4">@Model.FirstName</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Last Name</td>
+                                <td class="col4">@Model.LastName</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Email</td>
+                                <td class="col4">@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Phone</td>
+                                <td class="col4">@Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Gender</td>
+                                <td class="col4">@Model.Gender</td>
+                            </tr>
+                            <tr>
+                                <td class="col3">Year</td>
+                                <td class="col4">@Model.Year</td>
+                            </tr>
+                        </table>
+                        <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
+                        <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
+                        <hr />
+                        @if (!User.IsInRole("trainer"))
+                        {
+                            <a asp-controller="Account" asp-action="RegisterTrainerPart" class="btn btn-dark" style="width:100%">Apply for a Trainer Role</a>
+                        }
+                    </div>
+                    <div class="col-md-2">
 
-                <label>Last Name</label>
-                <h5><b>@Model.LastName</b></h5>
+                    </div>
 
-                <label>Email</label>
-                <h5><b>@Model.Email</b></h5>
+                </div>
 
-                <label>Phone number</label>
-                <h5><b>@Model.PhoneNumber</b></h5>
-
-                <label>Year</label>
-                <h5><b>@Model.Year</b></h5>
-
-                <label>Gender</label>
-                <h5><b>@Model.Gender</b></h5>
-
-                @*<label>Avatar</label>
-                    <h5><b>@Model.Avatar</b></h5>*@
-
-                <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:30%">Edit</a>
-                <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:30%">Change Password</a>
-                @if (!User.IsInRole("trainer"))
-                {
-                    <a asp-controller="Account" asp-action="RegisterTrainerPart" class="btn btn-dark" style="width:30%">Apply for a Trainer Role</a>
-                }
             </div>
-        </div>
-        <div class="col-md-3">
-
-        </div>
-
-    </div>
-
-</div>
