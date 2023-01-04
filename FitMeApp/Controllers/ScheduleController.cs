@@ -39,10 +39,10 @@ namespace FitMeApp.Controllers
         {
             var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
             if (trainerWorkHours.Count() == 0)
-            {               
+            {
                 return View("NoTrainerWorkHours");
             }
-           
+
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
@@ -78,10 +78,6 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult CalendarCarousel(CalendarPageWithEventsViewModel model)
         {
-            if (model.DatesEventsCount == null) 
-            {
-                model.DatesEventsCount = new Dictionary<DateTime, int>();
-            }
             model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
 
@@ -95,8 +91,8 @@ namespace FitMeApp.Controllers
         public IActionResult ShowUsersEvents(CalendarPageWithEventsViewModel model)
         {
             try
-            {                
-                string userId = _userManager.GetUserId(User);               
+            {
+                string userId = _userManager.GetUserId(User);
 
                 var eventModels = _scheduleService.GetEventsByUserAndDate(userId, model.Date);
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
@@ -107,10 +103,10 @@ namespace FitMeApp.Controllers
 
                 model.Events = eventsViewModels;
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
-                model.SelectedDayIsWorkOff = false;                             
+                model.SelectedDayIsWorkOff = false;
 
-                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;  
-                
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -129,14 +125,10 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                if (model.DatesEventsCount == null)
-                {
-                    model.DatesEventsCount = new Dictionary<DateTime, int>();
-                }                
+                ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;                            
                 string trainerId = _userManager.GetUserId(User);
-                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);               
-                var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();               
+                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
+                var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
                 if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
                 {
@@ -149,16 +141,16 @@ namespace FitMeApp.Controllers
                 foreach (var eventModel in eventModels)
                 {
                     eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
-                }               
+                }
 
                 model.Events = eventsViewModels;
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
-                model.SelectedDayIsWorkOff = false;               
+                model.SelectedDayIsWorkOff = false;
 
-                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x=>x.StartTime).First();
+                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
                 int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
                 ViewBag.StartWork = startWork;
-                ViewBag.EndWork = endWork;               
+                ViewBag.EndWork = endWork;
 
                 return View("Index", model);
 
@@ -193,13 +185,13 @@ namespace FitMeApp.Controllers
 
 
 
-        [Authorize(Roles = "trainer")]        
+        [Authorize(Roles = "trainer")]
         public IActionResult ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
         {
             bool result = _scheduleService.ChangeEventStatus(eventId);
             if (result)
             {
-                return ShowTrainersEvents(model);                
+                return ShowTrainersEvents(model);
             }
             else
             {

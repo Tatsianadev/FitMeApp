@@ -6,6 +6,11 @@
     Layout = null;
 }
 
+@if (Model.DatesEventsCount == null)
+{
+    Model.DatesEventsCount = new Dictionary<DateTime, int>();
+}
+
 <div class="container" style="width:100%;border:solid; border-color:lightgray">
 
     <div class="row">
