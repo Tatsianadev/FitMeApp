@@ -32,22 +32,18 @@
                 </tr>
             </thead>
             <tbody>
-                @{int rowTime = 0;
-                    bool secondPartOfHourDrawn = true;                              
-                    string styleForWorkOffTime = "";
+                @{int rowTime = ViewBag.StartWork; //начальное значение времени для отрисовки расписания
+                    bool secondPartOfHourDrawn = true;                   
+                    int startScheduleTime = ViewBag.StartWork / 30;
+                    int endScheduleTime = ViewBag.EndWork / 30;
+                    if ((ViewBag.StartWork % 60) != 0)
+                    {
+                        secondPartOfHourDrawn = false;
+                    }
                 }
 
-                @for (int i = 0; i < 48; i++)
-                {
-                    if ((i * 30) < ViewBag.StartWork || (i * 30) >= ViewBag.EndWork)
-                    {                       
-                        styleForWorkOffTime = "table-secondary";
-                    }
-                    else
-                    {
-                        styleForWorkOffTime = "";
-                    }
-
+                @for (int i = startScheduleTime; i < endScheduleTime; i++)
+                { 
                     @foreach (var eventItem in Model.Events)
                     {
                         List<int> eventsId = new List<int>();
@@ -60,7 +56,7 @@
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
                                     <tr class="@colorRow">
-                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">00</td>
                                         <td id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
@@ -78,7 +74,7 @@
                                                 }
                                                 <input type="hidden" name="eventId" value="@eventItem.Id" />
                                                 <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
-                                            </form>                                          
+                                            </form>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
@@ -86,7 +82,7 @@
                                 else
                                 {
                                     <tr class="@colorRow">
-                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">00</td>
                                         <td id="(@i)_3">
                                             -//-
@@ -103,7 +99,8 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr class="@colorRow">
+                                    <tr class="@colorRow" style="border-bottom:solid">
+                                        <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">30</td>
                                         <td id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
@@ -120,16 +117,17 @@
                                                 }
                                                 <input type="hidden" name="eventId" value="@eventItem.Id" />
                                                 <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
-                                            </form>                                          
+                                            </form>
                                         </td>
                                     </tr>
                                     eventsId.Add(eventItem.Id);
                                 }
                                 else
                                 {
-                                    <tr class="@colorRow">
+                                    <tr class="@colorRow" style="border-bottom:solid">
+                                        <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">30</td>
-                                        <td  id="(@i)_3">
+                                        <td id="(@i)_3">
                                             -//-
                                         </td>
                                         <td id="(@i)_4">-//-</td>
@@ -146,8 +144,8 @@
                     }
                     if (secondPartOfHourDrawn)
                     {
-                        <tr class="@styleForWorkOffTime">
-                            <td rowspan="2"  style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                        <tr >
+                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                             <td id="(@i)_2">00</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
@@ -158,7 +156,8 @@
                     }
                     else
                     {
-                        <tr class="@styleForWorkOffTime">
+                        <tr  style="border-bottom:solid">
+                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                             <td id="(@i)_2">30</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
@@ -172,4 +171,6 @@
         </table>
     </div>
 </div>
+
+
 
