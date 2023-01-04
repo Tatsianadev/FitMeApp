@@ -46,7 +46,7 @@
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
                                     <tr>
-                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
                                         <td class="table-info" id="(@i)_2">00</td>
                                         <td class="table-info" id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
@@ -60,7 +60,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                         <td class="table-info" id="(@i)_2">00</td>
                                         <td class="table-info" id="(@i)_3">
                                             -//-
@@ -76,7 +76,8 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr>
+                                    <tr style="border-bottom:2px solid">
+                                        <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                         <td class="table-info" id="(@i)_2">30</td>
                                         <td class="table-info" id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
@@ -89,8 +90,9 @@
                                 }
                                 else
                                 {
-                                    <tr>                                       
-                                        <td class="table-info" id="(@i)_2">00</td>
+                                    <tr style="border-bottom:2px solid">
+                                        <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                        <td class="table-info" id="(@i)_2">30</td>
                                         <td class="table-info" id="(@i)_3">
                                             -//-
                                         </td>
@@ -108,7 +110,7 @@
                     if (secondPartOfHourDrawn)
                     {
                         <tr>
-                            <td rowspan="2" style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                             <td id="(@i)_2">00</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
@@ -118,7 +120,8 @@
                     }
                     else
                     {
-                        <tr>
+                        <tr style="border-bottom:2px solid">
+                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                             <td id="(@i)_2">30</td>
                             <td id="(@i)_3"></td>
                             <td id="(@i)_4"></td>
