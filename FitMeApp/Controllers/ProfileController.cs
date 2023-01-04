@@ -40,140 +40,6 @@ namespace FitMeApp.Controllers
         }
 
 
-
-        //[Authorize(Roles = "admin")]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-
-
-        //[Authorize(Roles = "admin")]
-        //[HttpPost]
-        //public async Task<IActionResult> Create(CreateUserViewModel model)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            User user = new User()
-        //            {
-        //                UserName = model.Email,
-        //                Email = model.Email,
-        //                FirstName = model.FirstName,
-        //                LastName = model.LastName
-        //            };
-
-        //            var result = await _userManager.CreateAsync(user, model.Password);
-        //            if (result.Succeeded)
-        //            {
-        //                return RedirectToAction("UsersList");
-        //            }
-        //            else
-        //            {
-        //                foreach (var error in result.Errors)
-        //                {
-        //                    ModelState.AddModelError(string.Empty, error.Description);
-        //                }
-        //            }
-        //        }
-        //        return View();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        CustomErrorViewModel error = new CustomErrorViewModel()
-        //        {
-        //            Message = "There was a problem with creat new User. Try again, please."
-        //        };
-        //        return View("CustomError", error);
-        //    }
-        //}
-
-
-
-        //[Authorize(Roles = "admin")]
-        //public IActionResult CreateTrainer()
-        //{
-        //    return View();
-        //}
-
-
-        //[Authorize(Roles = "admin")]
-        //[HttpPost]
-        //public async Task<IActionResult> CreateTrainer(CreateTrainerViewModel model)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            User user = new User()
-        //            {
-        //                UserName = model.Email,
-        //                Email = model.Email,
-        //                PhoneNumber = model.PhoneNumber,
-        //                Year = model.Year,
-        //                Gender = model.Gender
-        //            };
-
-        //            var result = await _userManager.CreateAsync(user, model.Password);
-        //            if (result.Succeeded)
-        //            {
-        //                TrainerViewModel trainer = new TrainerViewModel()
-        //                {
-        //                    Id = user.Id,
-        //                    FirstName = model.FirstName,
-        //                    LastName = model.LastName,
-        //                    Specialization = model.Specialization,
-        //                    Gender = model.Gender,
-        //                    Picture = model.Picture,                            
-        //                    Gym = new GymViewModel()
-        //                    {
-        //                        Id = model.GymId
-        //                    }
-        //                };
-
-        //                var trainerModel = _mapper.MappTrainerViewModelToModelBase(trainer);
-        //                var trainerTableFillingResult = _fitMeService.AddTrainer(trainerModel);
-        //                if (trainerTableFillingResult)
-        //                {
-        //                    foreach (var trainingId in model.TrainingsId)
-        //                    {
-        //                        _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);
-        //                        return RedirectToAction("UsersList");
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    await _userManager.DeleteAsync(user);
-        //                    ModelState.AddModelError("", "Failed to create a new Trainer.Please make sure all fields are correct and try again.");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                foreach (var error in result.Errors)
-        //                {
-        //                    ModelState.AddModelError("", error.Description);
-        //                }
-        //            }
-        //        }
-        //        return View();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        _logger.LogError(ex, ex.Message);
-        //        CustomErrorViewModel error = new CustomErrorViewModel()
-        //        {
-        //            Message = "There was a problem with creat new Trainer. Try again, please."
-        //        };
-        //        return View("CustomError", error);
-
-        //    }
-        //}
-
-
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -206,9 +72,8 @@ namespace FitMeApp.Controllers
                                 return View("CustomError", error);
                             }
                         }
-
                     }
-                    var result = await _userManager.DeleteAsync(user);
+                    await _userManager.DeleteAsync(user);
                 }
                 return RedirectToAction("UsersList");
             }
@@ -234,7 +99,6 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             return View(user);
         }
-
 
 
         public async Task<IActionResult> EditPersonalData(string id)
@@ -312,7 +176,7 @@ namespace FitMeApp.Controllers
                         {
                             foreach (var error in result.Errors)
                             {
-                                ModelState.AddModelError(string.Empty, error.Description);
+                                ModelState.AddModelError(string.Empty, error.Description);                               
                             }
                         }
                     }
@@ -646,7 +510,6 @@ namespace FitMeApp.Controllers
                     {
                         return View(newWorkHours);
                     }
-
                 }
                 else
                 {

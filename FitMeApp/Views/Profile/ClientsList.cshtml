@@ -7,7 +7,8 @@
 <div class="container">
     <table class="table">
         <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Year</th>
@@ -17,7 +18,8 @@
         @foreach (var client in Model)
         {
             <tr>
-                <td>@client.UserName</td>
+                <td>@client.FirstName</td>
+                <td>@client.LastName</td>
                 <td>@client.Email</td>
                 <td>@client.PhoneNumber</td>
                 <td>@client.Year</td>
