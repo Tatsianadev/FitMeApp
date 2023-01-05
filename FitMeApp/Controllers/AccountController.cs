@@ -63,8 +63,9 @@ namespace FitMeApp.Controllers
                         if (model.Role == RolesEnum.trainer)
                         {                           
                             return RedirectToAction("RegisterTrainerPart");
-                        }                        
-                        return RedirectToAction("Index", "Home");
+                        }
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = false });
                     }
                     else
                     {
@@ -131,7 +132,8 @@ namespace FitMeApp.Controllers
                         {
                             _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);                           
                         }
-                        return RedirectToAction("Index", "Home");
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
                     }
                     else
                     {
@@ -153,6 +155,13 @@ namespace FitMeApp.Controllers
             
         }
 
+
+        public async Task<IActionResult> RegisterAsUserCompleted(bool applyedForTrainerRole)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
+            return View(user);
+        }
 
         [HttpGet]
         public IActionResult Login(string returnUrl)

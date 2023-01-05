@@ -1005,3 +1005,16 @@ Content root path: D:\stud\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+User validation failed: DuplicateUserName.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
