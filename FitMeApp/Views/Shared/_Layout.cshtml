@@ -51,38 +51,43 @@
                     </span>
 
                     @if (User.IsInRole("admin"))
-                {
+                    {
                         @await Component.InvokeAsync("AdminProfile");
+                    }
+
+                    @if (User.IsInRole("user"))
+                    {
+                        @await Component.InvokeAsync("UserProfile");
+                    }
+                    @*<div class="dropdown position-relative">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+            </a>
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @if (User.IsInRole("admin"))
+                {
+                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
+                    <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
                 }
-                        @*<div class="dropdown position-relative">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                Profile
-                            </a>
-                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                <span class="visually-hidden">New alerts</span>
-                            </span>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                @if (User.IsInRole("admin"))
-                                {
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
-                                }
 
-                                @if (User.IsInRole("trainer"))
-                                {
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
-                                }
+                @if (User.IsInRole("trainer"))
+                {
+                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
+                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
+                }
 
-                                @if (User.IsInRole("user"))
-                                {
-                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-                                }
-                                <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
+                @if (User.IsInRole("user"))
+                {
+                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                }
+                <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
 
-                            </ul>
-                        </div>*@
+            </ul>
+        </div>*@
                     <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />
                 </form>
                     }

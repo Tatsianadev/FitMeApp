@@ -1045,3 +1045,16 @@ An unhandled exception has occurred while executing the request.
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Invalid password for user.
+User afb2a4c0-7ff4-400c-98c1-448908b39e46 failed to provide the correct password.
+Invalid password for user.
+User afb2a4c0-7ff4-400c-98c1-448908b39e46 failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp
