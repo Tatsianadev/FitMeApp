@@ -191,7 +191,9 @@ namespace FitMeApp.Mapper
                 GymId = eventEntityBase.GymId,
                 GymName = eventEntityBase.GymName,
                 UserId = eventEntityBase.UserId,
-                UserName = eventEntityBase.UserName,
+                //UserName = eventEntityBase.UserName,
+                UserFirstName = eventEntityBase.UserFirstName,
+                UserLastName = eventEntityBase.UserLastName,
                 TrainingId = eventEntityBase.TrainingId,
                 TrainingName = eventEntityBase.TrainingName,
                 Status = eventEntityBase.Status

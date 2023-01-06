@@ -180,7 +180,9 @@ namespace FitMeApp.Mapper
                 GymId = eventModel.GymId,
                 GymName = eventModel.GymName,
                 UserId = eventModel.UserId,
-                UserName = eventModel.UserName,
+                //UserName = eventModel.UserName,
+                UserFirstName = eventModel.UserFirstName,
+                UserLastName = eventModel.UserLastName,
                 TrainingId = eventModel.TrainingId,
                 TrainingName = eventModel.TrainingName,
                 Status = eventModel.Status

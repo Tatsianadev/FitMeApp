@@ -1066,3 +1066,6 @@ User 7d1b0307-a5f2-494e-935c-828bdf39afe2 failed to provide the correct password
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\stud\projects\FitMeApp\FitMeApp

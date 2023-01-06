@@ -1053,7 +1053,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                        GymId = trainer.GymId,
                                                        GymName = gym.Name,
                                                        UserId = events.UserId,
-                                                       UserName = user.UserName,
+                                                       //UserName = user.UserName,
                                                        TrainingId = events.TrainingId,
                                                        TrainingName = training.Name,
                                                        Status = events.Status
@@ -1075,7 +1075,7 @@ namespace FitMeApp.Repository.EntityFramework
                     GymId = entity.GymId,
                     GymName = entity.GymName,
                     UserId = entity.UserId,
-                    UserName = entity.UserName,
+                    //UserName = entity.UserName,
                     TrainingId = entity.TrainingId,
                     TrainingName = entity.TrainingName,
                     Status = entity.Status
@@ -1111,7 +1111,9 @@ namespace FitMeApp.Repository.EntityFramework
                                                        StartTime = events.StartTime,
                                                        EndTime = events.EndTime,
                                                        UserId = events.UserId,
-                                                       UserName = user.UserName,
+                                                       //UserName = user.UserName,
+                                                       UserFirstName = user.FirstName,
+                                                       UserLastName = user.LastName,
                                                        TrainingId = events.TrainingId,
                                                        TrainingName = training.Name,
                                                        Status = events.Status
@@ -1127,7 +1129,9 @@ namespace FitMeApp.Repository.EntityFramework
                     StartTime = entity.StartTime,
                     EndTime = entity.EndTime,
                     UserId = entity.UserId,
-                    UserName = entity.UserName,
+                    //UserName = entity.UserName,
+                    UserFirstName = entity.UserFirstName,
+                    UserLastName = entity.UserLastName,
                     TrainingId = entity.TrainingId,
                     TrainingName = entity.TrainingName,
                     Status = entity.Status
