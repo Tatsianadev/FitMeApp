@@ -278,6 +278,9 @@ CREATE TABLE [dbo].[AspNetUsers](
 	[LockoutEnd] [datetimeoffset](7) NULL,
 	[LockoutEnabled] [bit] NOT NULL,
 	[AccessFailedCount] [int] NOT NULL,
+	[FirstName] [nvarchar](256) NULL,
+	[LastName] [nvarchar](256) NULL,
+	[Avatar] [nvarchar](256) NULL,
  CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -335,20 +338,14 @@ go
 
 CREATE TABLE [dbo].[Trainers](
 	[Id] [nvarchar](256) NOT NULL,
-	[FirstName] [nvarchar](128) NOT NULL,
-	[LastName] [nvarchar](256) NOT NULL,
-	[Gender] [nvarchar](50) NOT NULL,
-	[Picture] [nvarchar](256) NULL,
 	[Specialization] [nvarchar](250) NOT NULL,
 	[GymId] [int] NULL,
+	[Status] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Trainers] ADD  DEFAULT ('DefaultPicture.jpg') FOR [Picture]
 GO
 
 ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([GymId])

@@ -44,39 +44,47 @@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <form method="post" class="d-flex" asp-controller="Account" asp-action="Logout">
-                            @*<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">*@
-                            <span class="navbar-text" style="color:lightgray">
-                                Hello, @User.Identity.Name!
+                <form method="post" class="d-flex" asp-controller="Account" asp-action="Logout">
+                    @*<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">*@
+                    <span class="navbar-text" style="color:lightgray">
+                        Hello, @User.Identity.Name!
+                    </span>
+
+                    @if (User.IsInRole("admin"))
+                {
+                        @await Component.InvokeAsync("AdminProfile");
+                }
+                        @*<div class="dropdown position-relative">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </a>
+                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
                             </span>
-                            <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Profile
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    @if (User.IsInRole("admin"))
-                                    {
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
-                                    }
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
+                                }
 
-                                    @if (User.IsInRole("trainer"))
-                                    {
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
-                                    }
+                                @if (User.IsInRole("trainer"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">Clients</a></li>
+                                }
 
-                                    @if (User.IsInRole("user"))
-                                    {
-                                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-                                    }
-                                    <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
+                                @if (User.IsInRole("user"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+                                }
+                                <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
 
-                                </ul>
-                            </div>
-                            <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />
-                        </form>
+                            </ul>
+                        </div>*@
+                    <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />
+                </form>
                     }
                     else
                     {

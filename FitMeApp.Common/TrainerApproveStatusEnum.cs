@@ -4,10 +4,10 @@ using System.Text;
 
 namespace FitMeApp.Common
 {
-    public enum TrainerConfirmStatusEnum
+    public enum TrainerApproveStatusEnum
     {
         pending = 0,
-        confirm = 1
+        aproved = 1
 
     }
 }

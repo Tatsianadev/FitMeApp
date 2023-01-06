@@ -461,7 +461,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               join training in _context.Trainings
                                               on trainingTrainer.TrainingId equals training.Id
                                               where gymDb.Id == gymId
-                                              where trainer.Status == TrainerConfirmStatusEnum.confirm
+                                              where trainer.Status == TrainerApproveStatusEnum.aproved
                                               select new
                                               {
                                                   GymId = gymDb.Id,
@@ -826,7 +826,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                     on trainingTrainer.TrainingId equals training.Id
                                                     where selectedGenders.Contains(user.Gender)
                                                     where selectedSpecializations.Contains(trainer.Specialization)
-                                                    where trainer.Status == TrainerConfirmStatusEnum.confirm
+                                                    where trainer.Status == TrainerApproveStatusEnum.aproved
                                                     select new TrainerWithGymAndTrainingsJoin()
                                                     {
                                                         TrainerId = trainer.Id,

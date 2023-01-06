@@ -117,7 +117,7 @@ namespace FitMeApp.Controllers
                         Id = user.Id,
                         Specialization = model.Specialization,                       
                         Trainings = trainings,
-                        Status = TrainerConfirmStatusEnum.pending,
+                        Status = TrainerApproveStatusEnum.pending,
                         Gym = new GymViewModel()
                         {
                             Id = model.GymId

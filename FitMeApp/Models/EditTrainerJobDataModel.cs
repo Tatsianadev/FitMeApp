@@ -17,6 +17,6 @@ namespace FitMeApp.Models
         public string GymName { get; set; }
         [Required]
         public List<int> TrainingsId { get; set; }
-        public TrainerConfirmStatusEnum Status { get; set; }
+        public TrainerApproveStatusEnum Status { get; set; }
     }
 }
