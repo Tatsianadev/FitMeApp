@@ -112,6 +112,34 @@ namespace FitMeApp.Repository.EntityFramework
             return trainers;
         }
 
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithNames()
+        {
+            var trainersUsersJoin = (from trainer in _context.Trainers
+                                     join user in _context.Users
+                                     on trainer.Id equals user.Id
+                                     select new
+                                     {
+                                         Id = trainer.Id,
+                                         FirstName = user.FirstName,
+                                         LastName = user.LastName,
+                                         Status = trainer.Status
+                                     }).ToList();
+
+            List<TrainerWithGymAndTrainingsBase> trainers = new List<TrainerWithGymAndTrainingsBase>();
+            foreach (var trainerUserJoin in trainersUsersJoin)
+            {
+                trainers.Add(new TrainerWithGymAndTrainingsBase()
+                {
+                    Id = trainerUserJoin.Id,
+                    FirstName = trainerUserJoin.FirstName,
+                    LastName = trainerUserJoin.LastName,
+                    Status = trainerUserJoin.Status
+                });
+            }
+
+            return trainers;
+        }
+
         public TrainerEntityBase GetTrainer(string id)
         {
             var trainer = _context.Trainers.Where(x => x.Id == id).First();

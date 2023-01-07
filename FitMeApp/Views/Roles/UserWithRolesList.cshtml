@@ -4,11 +4,12 @@
 <table class="table">
     @foreach (var user in Model)
     {
-        <tr>
-            <td>@user.UserName</td>
-            <td>
-                <a class="btn btn-sm btn-primary" asp-action="EditCurrentUserRoles" asp-route-userid="@user.Id">Show roles</a>
-            </td>
-        </tr>
+    <tr>
+        <td>@user.FirstName</td>
+        <td>@user.LastName</td>
+        <td>
+            <a class="btn btn-sm btn-primary" asp-action="EditCurrentUserRoles" asp-route-userid="@user.Id">Show roles</a>
+        </td>
+    </tr>
     }
 </table>

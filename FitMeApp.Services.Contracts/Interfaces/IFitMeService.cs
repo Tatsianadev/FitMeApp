@@ -8,6 +8,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IFitMeService
     {
+        //Gyms
         IEnumerable<GymModel> GetAllGymModels();
         GymModel GetGymModel(int id);
         IEnumerable<GymModel> GetGymsByTrainings(List<int> groupClassesId);
@@ -36,6 +37,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();
+        IEnumerable<TrainerModel> GetAllTrainersNames();
         bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);

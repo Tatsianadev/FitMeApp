@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
+
+@{
+    ViewBag.Title = "List of Trainers";
+}
+
+<div class="container">
+    <div>
+        <h3> Trainers List</h3>
+    </div>
+    <table class="table" style="width:50%">
+        <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th></th>
+        </tr>
+        @{ int rowNumber = 0;}
+        @foreach (var trainer in Model)
+        {
+            rowNumber++;
+            string trStyle = trainer.Status == FitMeApp.Common.TrainerApproveStatusEnum.aproved ? "" : "table-warning";
+            <tr class="@trStyle">
+                <td>@rowNumber</td>
+                <td>@trainer.FirstName</td>
+                <td>@trainer.LastName</td>
+                @if (trainer.Status == FitMeApp.Common.TrainerApproveStatusEnum.pending)
+                {
+                    <td>
+                        <a class="btn btn-sm btn-primary" asp-action="ShowTrainerApplication" asp-route-trainerId="@trainer.Id">New application</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+            </tr>
+        }
+    </table>
+
+</div>
+
+

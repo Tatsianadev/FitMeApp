@@ -90,14 +90,22 @@ namespace FitMeApp.Mapper
 
 
         public TrainerModel MappTrainerWithGymAndTrainingsBaseToModel(TrainerWithGymAndTrainingsBase trainer)
-        {            
-            GymModel gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
+        {
+            GymModel gymModel = new GymModel();
+            if (trainer.Gym != null)
+            {
+                gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
+            }           
 
             var trainings = new List<TrainingModel>();
-            foreach (var training in trainer.Trainings)
+            if (trainer.Trainings != null)
             {
-                trainings.Add(MappTrainingEntityBaseToModelBase(training));
+                foreach (var training in trainer.Trainings)
+                {
+                    trainings.Add(MappTrainingEntityBaseToModelBase(training));
+                }
             }
+            
 
             var trainerModel = new TrainerModel()
             {

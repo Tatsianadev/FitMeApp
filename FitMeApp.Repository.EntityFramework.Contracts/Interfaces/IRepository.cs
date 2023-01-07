@@ -19,7 +19,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         
 
         //Trainers
-        IEnumerable<TrainerEntityBase> GetAllTrainers();
+        IEnumerable<TrainerEntityBase> GetAllTrainers();        
         TrainerEntityBase GetTrainer(string id);
         bool AddTrainer(TrainerEntityBase trainer);
         void UpdateTrainer(TrainerEntityBase newTrainerData);
@@ -38,6 +38,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
+        IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithNames();
         TrainingEntityBase GetTraining(int id);
         TrainingEntityBase AddTraining(TrainingEntityBase item);
         bool UpdateTraining(int id, TrainingEntityBase newTrainingData);
@@ -51,7 +52,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
-        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
+        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();       
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
         bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
         TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int trainingId);

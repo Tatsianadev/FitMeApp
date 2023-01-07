@@ -215,6 +215,17 @@ namespace FitMeApp.Services
             return trainers;
         }
 
+        public IEnumerable<TrainerModel> GetAllTrainersNames()
+        {
+            var trainersEntity = _repository.GetAllTrainersWithNames();
+            List<TrainerModel> trainers = new List<TrainerModel>();
+            foreach (var trainerEntity in trainersEntity)
+            {
+                trainers.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
+            }
+            return trainers;
+        }
+
         public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
         {
             var trainerWithGymAndTrainings = _repository.GetTrainerWithGymAndTrainings(trainerId);

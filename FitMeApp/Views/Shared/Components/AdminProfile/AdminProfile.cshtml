@@ -11,18 +11,19 @@
         </span>
     }
 
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-        <li>
-            <a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">
-                Users
-                @if (ViewBag.TrainersInPendingCount > 0)
-                {
+<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
+    <li>
+        <a class="dropdown-item" asp-controller="Profile" asp-action="TrainersList">
+           Trainers
+            @if (ViewBag.TrainersInPendingCount > 0)
+            {
                 <span class="badge bg-secondary">@ViewBag.TrainersInPendingCount</span>
-                }
-            </a>
-        </li>
-        <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
-        <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
-    </ul>
+            }
+        </a>
+    </li>
+    <li><a class="dropdown-item" asp-controller="Roles" asp-action="RolesList">Roles</a></li>
+    <li><a class="dropdown-item" asp-controller="Schedule" asp-action="Index">Schedule</a></li>
+</ul>
 </div>
