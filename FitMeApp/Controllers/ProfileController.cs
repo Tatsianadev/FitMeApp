@@ -51,6 +51,13 @@ namespace FitMeApp.Controllers
             return View(trainerViewModels);
         }
 
+        public IActionResult ShowTrainerApplication(string trainerId)
+        {
+            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            return View(trainerViewModel);
+        }
+
 
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
