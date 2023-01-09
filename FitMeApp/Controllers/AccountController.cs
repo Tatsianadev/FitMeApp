@@ -92,12 +92,13 @@ namespace FitMeApp.Controllers
         {
             ViewBag.Gyms = _fitMeService.GetAllGymModels();
             ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
+            ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
             ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTrainerPart(EditTrainerJobDataModel model)
+        public async Task<IActionResult> RegisterTrainerPart(TrainerRoleAppViewModel model)
         {
             try
             {
@@ -112,9 +113,13 @@ namespace FitMeApp.Controllers
                         });
                     }
                     var user = await _userManager.GetUserAsync(User);
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.Gender = model.Gender;
+                    user.Year = model.Year;
+
                     TrainerViewModel trainerViewModel = new TrainerViewModel()
                     {
-                        Id = user.Id,
+                        Id = user.Id,                        
                         Specialization = model.Specialization,                       
                         Trainings = trainings,
                         Status = TrainerApproveStatusEnum.pending,
@@ -132,7 +137,7 @@ namespace FitMeApp.Controllers
                         {
                             _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);                           
                         }
-                        //return RedirectToAction("Index", "Home");
+                       
                         return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
                     }
                     else
@@ -140,6 +145,12 @@ namespace FitMeApp.Controllers
                         ModelState.AddModelError("", "Failed to add trainers data. Please check all fields and try one again");
                     }
                 }
+
+                ViewBag.Gyms = _fitMeService.GetAllGymModels();
+                ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
+                ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
+                ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
+
                 return View(model);
             }
             catch (Exception ex)

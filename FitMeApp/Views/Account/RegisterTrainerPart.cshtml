@@ -1,4 +1,4 @@
-﻿@model FitMeApp.Models.EditTrainerJobDataModel
+﻿@model FitMeApp.Models.TrainerRoleAppViewModel
 
 <h2>Trainer part registration</h2>
 <form method="post" asp-controller="Account" asp-action="RegisterTrainerPart">
@@ -6,7 +6,28 @@
     @*<div>
             <input type="hidden" asp-for="Id" />
         </div>*@
-
+    <div>
+        <label asp-for="PhoneNumber" class="control-label">Phone number</label>
+        <input type="text" asp-for="PhoneNumber" value="" placeholder="(111)111111" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Year" class="control-label">Year of birth</label>
+        <select id="year" asp-for="Year" class="form-select">
+            @for (int i = 1920; i < DateTime.Now.Year; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label asp-for="Gender">Gender</label>
+        <select class="form-select" asp-for="Gender">
+            @foreach (var gender in ViewBag.Gender)
+            {
+                <option value="@gender">@gender</option>
+            }
+        </select>
+    </div>
     <div>
         <label asp-for="GymId">Gym</label><br />
         <select class="form-select" asp-for="GymId">
