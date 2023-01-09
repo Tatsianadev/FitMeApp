@@ -254,6 +254,13 @@ namespace FitMeApp.Services
         }
 
 
+        public void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus)
+        {
+            var trainer = _repository.GetTrainer(trainerId);
+            trainer.Status = newStatus;
+           _repository.UpdateTrainer(trainer);            
+        }
+
         public bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             List<DayOfWeek> gymWorkDayes = _repository.GetWorkHoursByGym(gymId).Select(x => x.DayOfWeekNumber).ToList();

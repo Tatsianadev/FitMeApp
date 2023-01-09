@@ -24,6 +24,7 @@ namespace FitMeApp.Controllers
         public ProfileController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
+
             _fitMeService = fitMeService;
             _logger = loggerFactory.CreateLogger("ProfileLogger");
             _mapper = new ModelViewModelMapper();
@@ -51,11 +52,49 @@ namespace FitMeApp.Controllers
             return View(trainerViewModels);
         }
 
-        public IActionResult ShowTrainerApplication(string trainerId)
+        public async Task<IActionResult> ShowTrainerApplication(string trainerId)
         {
+            var user = await _userManager.FindByIdAsync(trainerId);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            trainerViewModel.Email = user.Email;
+            trainerViewModel.Phone = user.PhoneNumber;
+            trainerViewModel.Year = user.Year;
             return View(trainerViewModel);
+        }
+
+        public async Task<IActionResult> ApproveTrainerApplication(string trainerId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(trainerId);
+                var trainerPartInfo = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+                if (trainerPartInfo != null)
+                {
+                    _fitMeService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.aproved);
+                    await _userManager.RemoveFromRoleAsync(user, RolesEnum.user.ToString());
+                    await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
+                    return RedirectToAction("TrainersList");
+                }
+                else
+                {
+                    CustomErrorViewModel error = new CustomErrorViewModel()
+                    {
+                        Message = "User is not found. Please try again"
+                    };
+                    return View("CustomError", error);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = $"Failed to approve application for Trainer Role. Please try again"
+                };
+                return View("CustomError", error);
+            }
+           
         }
 
 
@@ -195,7 +234,7 @@ namespace FitMeApp.Controllers
                         {
                             foreach (var error in result.Errors)
                             {
-                                ModelState.AddModelError(string.Empty, error.Description);                               
+                                ModelState.AddModelError(string.Empty, error.Description);
                             }
                         }
                     }

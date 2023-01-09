@@ -34,7 +34,7 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerModel.Id,
                 FirstName = trainerModel.FirstName,
-                LastName = trainerModel.LastName,
+                LastName = trainerModel.LastName,                
                 Gender = trainerModel.Gender,
                 Picture = trainerModel.Picture,
                 Specialization = trainerModel.Specialization,
@@ -104,7 +104,8 @@ namespace FitMeApp.Mapper
 
                 TrainerViewModel trainerViewModel = MappTrainerModelToViewModelBase(trainerModel);
                 trainerViewModel.Gym = gymViewModel;
-                trainerViewModel.Trainings = groupClassViewModels;
+                //trainerViewModel.Trainings = groupClassViewModels;
+               
 
                 return trainerViewModel;
             }
