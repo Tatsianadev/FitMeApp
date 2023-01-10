@@ -28,6 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="" asp-action="">Contacts</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="ChatRoom" asp-action="ChatRoom">Chat</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Trainings
@@ -39,8 +42,8 @@
                             </ul>
                         </li>
                         @*<li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Schedule" asp-action="Index">Schedule</a>
-                            </li>*@
+            <a class="nav-link active" asp-area="" asp-controller="Schedule" asp-action="Index">Schedule</a>
+        </li>*@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
