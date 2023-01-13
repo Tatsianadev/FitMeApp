@@ -26,7 +26,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = loggerFactory.CreateLogger("GymsControllerLogger");
-            
+           
         }
 
 

@@ -23,7 +23,8 @@ namespace FitMeApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterDbContext();
+            var connectionString = Configuration.GetConnectionString("Default");
+            services.RegisterDbContext(connectionString);
             services.RegisterIdentity();
             services.RegisterDependencies();
             services.AddControllersWithViews();

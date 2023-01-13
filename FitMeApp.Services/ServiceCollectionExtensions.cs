@@ -10,9 +10,9 @@ namespace FitMeApp.Services
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterDbContext(this IServiceCollection services)
+        public static void RegisterDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DbConnecntion.GetConnectionString()));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         }
 
         public static void RegisterIdentity(this IServiceCollection services)

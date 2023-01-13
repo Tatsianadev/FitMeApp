@@ -10,46 +10,25 @@ values
 ('FitProfit', '97 BlueStreet, 379-45, Gdansk', '(048)358-09-08' )
 go
 
---insert into Trainers (Id, FirstName, LastName, Gender, Picture, Specialization, GymId)
---values
---('acc51bef-12d2-4933-ba98-646927663579', 'Barney', 'Ross', 'man', 'Stallone.jpg','universal',1),
---('d51f7f69-c30f-4842-8a61-b4a9890f00ed','Lee', 'Christmas', 'man', 'Statham.jpg', 'personal',2),
---('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'Gunnar', 'Jensen', 'man', 'Lundgren.jpg','universal',3),
---('08b2b361-1115-44db-97fa-ce9cd34366d7', 'Terry', 'Caesar', 'man', 'Crews.jpg', 'group',4),
---('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'Jean', 'Vilain', 'man', 'Damme.jpg', 'universal',4),
---('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'Natalia', 'Romanoff', 'woman', 'Natasha.jpg','universal',1),
---('0a329324-af6f-4afa-ad33-384a9f3af275', 'Wanda', 'Maximoff', 'woman', 'Wanda.jpg', 'group',2),
---('83192926-4d5b-4a27-93f1-a2958c69f069', 'Gamora', 'Gamorak', 'woman', 'Gamora.jpg','universal',3),
---('5f91c6cf-7708-4b35-a070-99ed79752302', 'Boxis', 'Strong', 'woman', 'Boxis.jpg','group',1),
---('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'Bruce', 'Lee', 'man', 'Bruce.jpg','group',4),
---('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'Marvel', 'Levram', 'woman', 'Marvel.jpg','personal',2),
---('f6b480ef-aa5c-467f-8382-5199a395d585', 'Sonya', 'Night', 'woman', 'Sonya.jpg','personal',3),
---('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'Supwom', 'Nanual', 'woman', 'Supwom.jpg','personal',1),
---('69e23278-6b00-4f40-a555-02ef12ffd09b', 'Tor', 'Asgaard', 'man', 'Tor.jpg','personal',2),
---('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'Witcher', 'Moon', 'man', 'Witcher.jpg','personal',3)
---go
 
 
-
-
-
-insert into Trainers (Id, Specialization, GymId)
+insert into Trainers (Id, Specialization, GymId, Status)
 values
-('acc51bef-12d2-4933-ba98-646927663579', 'universal',1),
-('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2),
-('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3),
-('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4),
-('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4),
-('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1),
-('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2),
-('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3),
-('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1),
-('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4),
-('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2),
-('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3),
-('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1),
-('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2),
-('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3)
+('acc51bef-12d2-4933-ba98-646927663579', 'universal',1,1),
+('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2,1),
+('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3,1),
+('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4,1),
+('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4,1),
+('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1,1),
+('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2,1),
+('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3,1),
+('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1,1),
+('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4,1),
+('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2,1),
+('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3,1),
+('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1,1),
+('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2,1),
+('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3,1)
 go
 
 
@@ -87,7 +66,6 @@ go
 
 
 
-
 insert into Trainings (Name, Description)
 values
 ('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body'),
@@ -99,7 +77,6 @@ values
 ('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core'),
 ('Personal training','Training under the guidance of a trainer')
 go
-
 
 
 
@@ -211,6 +188,7 @@ INSERT INTO [dbo].[Events]
 GO
 
 
+
 insert GymWorkHours (DayOfWeekNumber, GymId,StartTime,EndTime)
 values 
 (0,	1, 540,	1200)
@@ -242,6 +220,7 @@ values
 ,(6, 3,	540, 1260)
 ,(6, 4,	600, 1320)
 go
+
 
 
 insert TrainerWorkHours (TrainerId, StartTime,EndTime,GymWorkHoursId)
@@ -333,6 +312,7 @@ go
   go
 
 
+
 insert AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
 values ('410c528f-e262-404c-80bf-ab4fb5014cc5', 'user', 'USER', 'ae7eb6ef-9961-49a8-8414-dc9ba8e7b5e9')
 , ('aa25d694-f274-49b9-8ddc-ab40b1b9044d', 'blocked', 'BLOCKED', 'a2b7170e-25d8-42f6-bd79-8dd22a547757')
@@ -341,94 +321,93 @@ values ('410c528f-e262-404c-80bf-ab4fb5014cc5', 'user', 'USER', 'ae7eb6ef-9961-4
 go
 
 
+
 insert AspNetUserRoles (UserId, RoleId)
 values ('08b2b361-1115-44db-97fa-ce9cd34366d7', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('0a329324-af6f-4afa-ad33-384a9f3af275', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('5f91c6cf-7708-4b35-a070-99ed79752302', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('69e23278-6b00-4f40-a555-02ef12ffd09b', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
-,('7814a313-235e-4865-933e-3ef5fe685783', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('83192926-4d5b-4a27-93f1-a2958c69f069', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
-,('8dba4dea-6fd5-4e2f-a658-486ab2b0ea35', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('acc51bef-12d2-4933-ba98-646927663579', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
-,('f1ac14ec-8129-4247-8023-7e547fdcc92b', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('f6b480ef-aa5c-467f-8382-5199a395d585', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'b5cb8169-ea31-4f9a-becd-df56b1d53756')
 ,('7122f67c-d670-47d4-8afb-0fd14b76cec4', 'c1073fb7-a6de-4530-a285-68bfc4652624')
 go
 
 
+
 insert AspNetUsers(Id, Year,Gender,UserName,NormalizedUserName, Email, NormalizedEmail, 
 EmailConfirmed, PasswordHash,SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed,
 TwoFactorEnabled, LockoutEnd, LockoutEnabled,AccessFailedCount, FirstName,LastName,Avatar)
-values ('08b2b361-1115-44db-97fa-ce9cd34366d7', '1983', 'man', 'terry@gmail.com', 'TERRY@GMAIL.COM', 
-'terry@gmail.com', 'TERRY@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEA+yeMUHnLSvqEPa/2tW4OCpKz/NRnrpKncstTkv6eqM6E7Za0RG/xJ26dq8zxcbng==',
-'HVVHMKWCU4EVWODRXS2ZDSFBL3UDGQDL', 'c629f12c-6cd7-43f5-b814-edcfdb5ae297', '(111)222666', '0', '0', 'NULL', '1', '0',
+values ('08b2b361-1115-44db-97fa-ce9cd34366d7', 1983, 'man', 'terry@gmail.com', 'TERRY@GMAIL.COM', 
+'terry@gmail.com', 'TERRY@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEA+yeMUHnLSvqEPa/2tW4OCpKz/NRnrpKncstTkv6eqM6E7Za0RG/xJ26dq8zxcbng==',
+'HVVHMKWCU4EVWODRXS2ZDSFBL3UDGQDL', 'c629f12c-6cd7-43f5-b814-edcfdb5ae297', '(111)222666', 0, 0, NULL, 1, 0,
 'Terry', 'Caesar', 'Crews.jpg')
-,('0a329324-af6f-4afa-ad33-384a9f3af275', '1990', 'woman', 'wanda@gmail.com', 'WANDA@GMAIL.COM', 
-'wanda@gmail.com', 'WANDA@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEOI2k0sg9OcZH+54JmQpea4cYU6vbC0J089VLTcLRrTlMs5+mhZQpqDIo5nu4jJg5A==',
-'4Q5MKZBSJ5H3KUQYYQMPJ4NRMCD2TW6L', '2bfd0876-ebd0-412c-9df9-6d56cc445681', '(111)222999', '0', '0', 'NULL', '1', '0',
+,('0a329324-af6f-4afa-ad33-384a9f3af275', 1990, 'woman', 'wanda@gmail.com', 'WANDA@GMAIL.COM', 
+'wanda@gmail.com', 'WANDA@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEOI2k0sg9OcZH+54JmQpea4cYU6vbC0J089VLTcLRrTlMs5+mhZQpqDIo5nu4jJg5A==',
+'4Q5MKZBSJ5H3KUQYYQMPJ4NRMCD2TW6L', '2bfd0876-ebd0-412c-9df9-6d56cc445681', '(111)222999', 0, 0, NULL, 1, 0,
 'Wanda', 'Maximoff', 'Wanda.jpg')
-,('5f91c6cf-7708-4b35-a070-99ed79752302', '1993', 'woman', 'boxis@gmail.com', 'BOXIS@GMAIL.COM', 
-'boxis@gmail.com', 'BOXIS@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEImDrRKtvqv8ONnEXW3w9c+JzNtCCYv0TFIkK7oHTTITkfb+DQk1BheZQBbfAzAGLg==',
-'7LDCRMFQ7RCE7RZ2G3QYRD4PN4HCIYRH', 'ff1404e5-c937-46f3-a9d4-443b490b8526', '(111)333222', '0', '0', 'NULL', '1', '0',
+,('5f91c6cf-7708-4b35-a070-99ed79752302', 1993, 'woman', 'boxis@gmail.com', 'BOXIS@GMAIL.COM', 
+'boxis@gmail.com', 'BOXIS@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEImDrRKtvqv8ONnEXW3w9c+JzNtCCYv0TFIkK7oHTTITkfb+DQk1BheZQBbfAzAGLg==',
+'7LDCRMFQ7RCE7RZ2G3QYRD4PN4HCIYRH', 'ff1404e5-c937-46f3-a9d4-443b490b8526', '(111)333222', 0, 0, NULL, 1, 0,
 'Boxis', 'Strong', 'Boxis.jpg')
-,('69e23278-6b00-4f40-a555-02ef12ffd09b', '1994', 'man', 'tor@gmail.com', 'BTOR@GMAIL.COM', 
-'tor@gmail.com', 'TOR@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEIvzr/RaN3KoaY8f57Qp8OAHbz0WOjK5VNz3EB63YJEzm96H5oTulT23imns/W7W8A==',
-'2Z7PE4EXQ7KXCNXWNGOIQJTFXZSUN2ZI', '9367fa06-dbad-4a1b-bd38-ce9b606d30a2', '(111)333888', '0', '0', 'NULL', '1', '0',
+,('69e23278-6b00-4f40-a555-02ef12ffd09b', 1994, 'man', 'tor@gmail.com', 'BTOR@GMAIL.COM', 
+'tor@gmail.com', 'TOR@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEIvzr/RaN3KoaY8f57Qp8OAHbz0WOjK5VNz3EB63YJEzm96H5oTulT23imns/W7W8A==',
+'2Z7PE4EXQ7KXCNXWNGOIQJTFXZSUN2ZI', '9367fa06-dbad-4a1b-bd38-ce9b606d30a2', '(111)333888', 0, 0, NULL, 1, 0,
 'Tor', 'Asgaard', 'Tor.jpg')
-,('763a257a-7b4b-45d5-a5ac-caa75c51bae9', '1980', 'man', 'gunnar@gmail.com', 'GUNNAR@GMAIL.COM', 
-'gunnar@gmail.com', 'GUNNAR@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEMRuB4NuCPgKod1N4JVwD1Bz2DnSx3CI5TfCZdoL6Nhzc3NZpTyyUBam8ky6oc4iQA==',
-'CKAZB2ZRTXRYRX7ZXXFLSWYSV4R7RCTX', 'c4cf0542-9d1b-4ba0-92b7-af7b68d250f8', '(111)222444', '0', '0', 'NULL', '1', '0',
+,('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 1980, 'man', 'gunnar@gmail.com', 'GUNNAR@GMAIL.COM', 
+'gunnar@gmail.com', 'GUNNAR@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEMRuB4NuCPgKod1N4JVwD1Bz2DnSx3CI5TfCZdoL6Nhzc3NZpTyyUBam8ky6oc4iQA==',
+'CKAZB2ZRTXRYRX7ZXXFLSWYSV4R7RCTX', 'c4cf0542-9d1b-4ba0-92b7-af7b68d250f8', '(111)222444', 0, 0, NULL, 1, 0,
 'Gunnar', 'Jensen', 'Lundgren.jpg')
-,('7d1b0307-a5f2-494e-935c-828bdf39afe2', '1987', 'man', 'bruce@gmail.com', 'BRUCE@GMAIL.COM', 
-'bruce@gmail.com', 'BRUCE@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEPRU3W8JisO0dbCDkfR9RyQn/ol2mhpiBj1+30nsniCxaa3BeGB5ufPv2XWo0x9G/w==',
-'RIL42QCPUX7P753ATWIKH36FSRN3X6BE', '07771852-170e-499a-a07c-9f7f1091bdc5', '(111)333445', '0', '0', 'NULL', '1', '0',
+,('7d1b0307-a5f2-494e-935c-828bdf39afe2', 1987, 'man', 'bruce@gmail.com', 'BRUCE@GMAIL.COM', 
+'bruce@gmail.com', 'BRUCE@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEPRU3W8JisO0dbCDkfR9RyQn/ol2mhpiBj1+30nsniCxaa3BeGB5ufPv2XWo0x9G/w==',
+'RIL42QCPUX7P753ATWIKH36FSRN3X6BE', '07771852-170e-499a-a07c-9f7f1091bdc5', '(111)333445', 0, 0, NULL, 1, 0,
 'Bruce', 'Lee', 'Bruce.jpg')
-,('83192926-4d5b-4a27-93f1-a2958c69f069', '1988', 'woman', 'gamora@gmail.com', 'GAMORA@GMAIL.COM', 
-'gamora@gmail.com', 'GAMORA@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEPg3WsSBXu3hC48dwZGMhu0tV//9HTWOXb67xNyoDze9S10K9mVhQ7GLquub01C+uA==',
-'NRNGUOBZSCCO4YV2RHDO7JUSMCL7PQI7', 'a8db310a-39e1-48dd-aa9f-fe08a117c4c8', '(111)333111', '0', '0', 'NULL', '1', '0',
+,('83192926-4d5b-4a27-93f1-a2958c69f069', 1988, 'woman', 'gamora@gmail.com', 'GAMORA@GMAIL.COM', 
+'gamora@gmail.com', 'GAMORA@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEPg3WsSBXu3hC48dwZGMhu0tV//9HTWOXb67xNyoDze9S10K9mVhQ7GLquub01C+uA==',
+'NRNGUOBZSCCO4YV2RHDO7JUSMCL7PQI7', 'a8db310a-39e1-48dd-aa9f-fe08a117c4c8', '(111)333111', 0, 0, NULL, 1, 0,
 'Gamora', 'Gamorak', 'Gamora.jpg')
-,('85ffe910-0a85-40ba-82fa-192d445ab5c5', '1990', 'man', 'witcher@gmail.com', 'WITCHER@GMAIL.COM', 
-'witcher@gmail.com', 'WITCHER@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEJOKnEzFOES/m3EhJ6Y4j61Bn/KI22WdzUtA0kO8t8rLkpQFw5bZwbz4N2LiwNh7VA==',
-'6RFV2PXZBDAXYAWHPLIFQNH3EVK2ZMRA', '096988b2-23de-4cff-a385-7dc2c202d92f', '(111)333999', '0', '0', 'NULL', '1', '0',
+,('85ffe910-0a85-40ba-82fa-192d445ab5c5', 1990, 'man', 'witcher@gmail.com', 'WITCHER@GMAIL.COM', 
+'witcher@gmail.com', 'WITCHER@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEJOKnEzFOES/m3EhJ6Y4j61Bn/KI22WdzUtA0kO8t8rLkpQFw5bZwbz4N2LiwNh7VA==',
+'6RFV2PXZBDAXYAWHPLIFQNH3EVK2ZMRA', '096988b2-23de-4cff-a385-7dc2c202d92f', '(111)333999', 0, 0, NULL, 1, 0,
 'Witcher', 'Moon', 'Witcher.jpg')
-,('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', '1988', 'woman', 'supwom@gmail.com', 'SUPWOM@GMAIL.COM', 
-'supwom@gmail.com', 'SUPWOM@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEBaxJxjmio9Etn9Viiyf63GNqrp1NCdSaEAoDaJsF5LEYXwcLNgSrCRuvmStysXo8Q==',
-'IEKZGTTWCKP45GVC42DVSROHMTRLX7CS', '348cba9d-9a4a-4368-a1d6-ea54d4c5df4c', '(111)333777', '0', '0', 'NULL', '1', '0',
+,('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 1988, 'woman', 'supwom@gmail.com', 'SUPWOM@GMAIL.COM', 
+'supwom@gmail.com', 'SUPWOM@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEBaxJxjmio9Etn9Viiyf63GNqrp1NCdSaEAoDaJsF5LEYXwcLNgSrCRuvmStysXo8Q==',
+'IEKZGTTWCKP45GVC42DVSROHMTRLX7CS', '348cba9d-9a4a-4368-a1d6-ea54d4c5df4c', '(111)333777', 0, 0, NULL, 1, 0,
 'Supwom', 'Nanual', 'Supwom.jpg')
-,('acc51bef-12d2-4933-ba98-646927663579', '1975', 'man', 'barney@gmail.com', 'BARNEY@GMAIL.COM', 
-'barney@gmail.com', 'BARNEY@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEBBH0aE0iUVjQxZ8y9RMIq+9/AOL6v602ZJSRV6/EREO6sGyw/ckM8+9hnMN5XHpTg==',
-'HJBCZRJMBH2ZKXERMQ37BBZ6FHWD4AHH', '8477de83-3ae5-4917-8a4a-91d2b0978aee', '(111)222333', '0', '0', 'NULL', '1', '0',
+,('acc51bef-12d2-4933-ba98-646927663579', 1975, 'man', 'barney@gmail.com', 'BARNEY@GMAIL.COM', 
+'barney@gmail.com', 'BARNEY@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEBBH0aE0iUVjQxZ8y9RMIq+9/AOL6v602ZJSRV6/EREO6sGyw/ckM8+9hnMN5XHpTg==',
+'HJBCZRJMBH2ZKXERMQ37BBZ6FHWD4AHH', '8477de83-3ae5-4917-8a4a-91d2b0978aee', '(111)222333', 0, 0, NULL, 1, 0,
 'Barney', 'Ross', 'Stallone.jpg')
-,('d51f7f69-c30f-4842-8a61-b4a9890f00ed', '1977', 'man', 'lee@gmail.com', 'LEE@GMAIL.COM', 
-'lee@gmail.com', 'LEE@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEGXMLKxzT5tFWwpdr2oKz3Z6W9+Cm2mhXypeH0ftnF6TuD5nCYEQtX/tgzZw7bNN0A==',
-'FCRGP2MUZW6KEAS57OLGFQYMCHPOCDPO', '20d97599-c9da-4eb6-9596-a47702a74089', '(111)333444', '0', '0', 'NULL', '1', '0',
+,('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 1977, 'man', 'lee@gmail.com', 'LEE@GMAIL.COM', 
+'lee@gmail.com', 'LEE@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEGXMLKxzT5tFWwpdr2oKz3Z6W9+Cm2mhXypeH0ftnF6TuD5nCYEQtX/tgzZw7bNN0A==',
+'FCRGP2MUZW6KEAS57OLGFQYMCHPOCDPO', '20d97599-c9da-4eb6-9596-a47702a74089', '(111)333444', 0, 0, NULL, 1, 0,
 'Lee', 'Christmas', 'Statham.jpg')
-,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', '1995', 'woman', 'marvel@gmail.com', 'MARVEL@GMAIL.COM', 
-'marvel@gmail.com', 'MARVEL@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEGJXXBGlmpnb8KXC0XF7EkegUA5ZA5vM0gkdBrjHDceSFicGA1R+ng8a5IsNb6VTTA==',
-'5GOJUFPU6CMUKLV5X74GXNVA2AVZKVPG', '0613c5b1-2c47-4cbc-a113-bdef69c76da4', '(111)333555', '0', '0', 'NULL', '1', '0',
+,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 1995, 'woman', 'marvel@gmail.com', 'MARVEL@GMAIL.COM', 
+'marvel@gmail.com', 'MARVEL@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEGJXXBGlmpnb8KXC0XF7EkegUA5ZA5vM0gkdBrjHDceSFicGA1R+ng8a5IsNb6VTTA==',
+'5GOJUFPU6CMUKLV5X74GXNVA2AVZKVPG', '0613c5b1-2c47-4cbc-a113-bdef69c76da4', '(111)333555', 0, 0, NULL, 1, 0,
 'Marvel', 'Levram', 'Marvel.jpg')
-,('e985d062-69f4-40fd-aa35-ff35dc1ca911', '1973', 'man', 'jean@gmail.com', 'JEAN@GMAIL.COM', 
-'jean@gmail.com', 'JEAN@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAECP6q8P1xItlmEJwzj/N9+NWEWygRA5a1Xg2PjKe62a76V+DbJ6qC9i8YKaFl7gb0g==',
-'6K2XAPAZK23QUU7F6C3WVNPV2ETHNW6F', '2d6619ae-ba5d-480d-ab70-f2092d40362d', '(111)222777', '0', '0', 'NULL', '1', '0',
+,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 1973, 'man', 'jean@gmail.com', 'JEAN@GMAIL.COM', 
+'jean@gmail.com', 'JEAN@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAECP6q8P1xItlmEJwzj/N9+NWEWygRA5a1Xg2PjKe62a76V+DbJ6qC9i8YKaFl7gb0g==',
+'6K2XAPAZK23QUU7F6C3WVNPV2ETHNW6F', '2d6619ae-ba5d-480d-ab70-f2092d40362d', '(111)222777', 0, 0, NULL, 1, 0,
 'Jean', 'Vilain', 'Damme.jpg')
-,('f6b480ef-aa5c-467f-8382-5199a395d585', '1996', 'woman', 'sonya@gmail.com', 'SONYA@GMAIL.COM', 
-'sonya@gmail.com', 'SONYA@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEJGVQR1xOIkuVO0GuAwT3ifjmPW2gfbTyUC08v1pa776uK+p9bUIqGL7Hx5t/bTuUA==',
-'2UB75R4WOUPEWQHVJLBFNCQAQVBSSNNK', '70c79250-b38f-4a15-8fe9-da9828518fb6', '(111)333666', '0', '0', 'NULL', '1', '0',
+,('f6b480ef-aa5c-467f-8382-5199a395d585', 1996, 'woman', 'sonya@gmail.com', 'SONYA@GMAIL.COM', 
+'sonya@gmail.com', 'SONYA@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEJGVQR1xOIkuVO0GuAwT3ifjmPW2gfbTyUC08v1pa776uK+p9bUIqGL7Hx5t/bTuUA==',
+'2UB75R4WOUPEWQHVJLBFNCQAQVBSSNNK', '70c79250-b38f-4a15-8fe9-da9828518fb6', '(111)333666', 0, 0, NULL, 1, 0,
 'Sonya', 'Night', 'Sonya.jpg')
-,('f90f2e2c-821e-4651-91d7-105d56ddbee7', '1986', 'woman', 'natalia@gmail.com', 'NATALIA@GMAIL.COM', 
-'natalia@gmail.com', 'NATALIA@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEDB3p/38dQ13/aLBd/ifgzSMQUSwng5gDEPL5h3ohpq1gqRkas5PHiUomNZ4VWjV8A==',
-'WLHNXMZLEYVJ7PHBKU2LB7RM537N6VXY', '6614037c-5cac-49f0-b9f8-92302104afb5', '(111)222888', '0', '0', 'NULL', '1', '0',
+,('f90f2e2c-821e-4651-91d7-105d56ddbee7', 1986, 'woman', 'natalia@gmail.com', 'NATALIA@GMAIL.COM', 
+'natalia@gmail.com', 'NATALIA@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEDB3p/38dQ13/aLBd/ifgzSMQUSwng5gDEPL5h3ohpq1gqRkas5PHiUomNZ4VWjV8A==',
+'WLHNXMZLEYVJ7PHBKU2LB7RM537N6VXY', '6614037c-5cac-49f0-b9f8-92302104afb5', '(111)222888', 0, 0, NULL, 1, 0,
 'Natalia', 'Romanoff', 'Natasha.jpg')
-,('7122f67c-d670-47d4-8afb-0fd14b76cec4', '1990', 'woman', 'user1@gmail.com', 'USER1@GMAIL.COM', 
-'user1@gmail.com', 'USER1@GMAIL.COM', '0', 'AQAAAAEAACcQAAAAEHi4aY3vkEzvdZ45s6vDMYK/8HSpx9M5MiGOHqYbLPRBc2Cxu+ccfbidqhg2SitjLQ==',
-'ST4TBI57WWUH2BB6AB2TED6D3ME6QOXD', '8d2e8f75-a142-40e1-abbc-9f7a5d9c6c19', '(123)456789', '0', '0', 'NULL', '1', '0',
+,('7122f67c-d670-47d4-8afb-0fd14b76cec4', 1990, 'woman', 'user1@gmail.com', 'USER1@GMAIL.COM', 
+'user1@gmail.com', 'USER1@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEHi4aY3vkEzvdZ45s6vDMYK/8HSpx9M5MiGOHqYbLPRBc2Cxu+ccfbidqhg2SitjLQ==',
+'ST4TBI57WWUH2BB6AB2TED6D3ME6QOXD', '8d2e8f75-a142-40e1-abbc-9f7a5d9c6c19', '(123)456789', 0, 0, NULL, 1, 0,
 'User1', 'Admin1', 'NULL')
 go

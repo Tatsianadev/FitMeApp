@@ -23,15 +23,12 @@ namespace FitMeApp.Controllers
         {
             try
             {                
-                
                 return View();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-          
         }
 
 
