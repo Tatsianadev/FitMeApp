@@ -18,11 +18,11 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainersController(IFitMeService fitMeService, ILoggerFactory loggerFactory)
+        public TrainersController(IFitMeService fitMeService, ILogger<TrainersController> logger)
         {
             _fitMeService = fitMeService;
             _mapper = new ModelViewModelMapper();
-            _logger = loggerFactory.CreateLogger("TrainersController");
+            _logger = logger;
         }
 
 

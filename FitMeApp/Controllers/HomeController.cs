@@ -22,26 +22,10 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            try
-            {  
-                //throw  new  Exception("test logger");
-               
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("test logger" + DateTime.Now, ex.Message);
-               
-                //throw ex;
-            }
             return View();
         }
-
-
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
+        
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

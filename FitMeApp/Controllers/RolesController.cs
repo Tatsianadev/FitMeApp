@@ -17,11 +17,11 @@ namespace FitMeApp.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
 
-        public RolesController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ILoggerFactory loggerFactory)
+        public RolesController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ILogger<RolesController> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _logger = loggerFactory.CreateLogger("RollesLogger");
+            _logger = logger;
         }
 
         public IActionResult RolesList()

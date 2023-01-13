@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FitMeApp
 {
@@ -19,14 +20,21 @@ namespace FitMeApp
 
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build(); 
-            
-            await ServiceProviderExtensions.RoleInitializeAsync(host);
-            
-            
-           
 
-            host.Run();
+            try
+            {
+                var host = CreateHostBuilder(args).Build();
+                await ServiceProviderExtensions.RoleInitializeAsync(host);
+
+                await host.RunAsync();
+            }
+            catch (Exception ex)
+            {
+                var loggerFactory = CreateHostBuilder(args).Build().Services.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger(nameof(Main));
+                logger.LogError(nameof(Main), ex.Message);
+               
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

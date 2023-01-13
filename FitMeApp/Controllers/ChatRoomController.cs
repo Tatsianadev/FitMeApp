@@ -16,11 +16,11 @@ namespace FitMeApp.Controllers
         private readonly IFitMeService _fitMeService;       
         private readonly ILogger _logger;
 
-        public ChatRoomController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
+        public ChatRoomController(UserManager<User> userManager, IFitMeService fitMeService, ILogger<ChatRoomController> logger)
         {
             _userManager = userManager;           
             _fitMeService = fitMeService;           
-            _logger = loggerFactory.CreateLogger("ChatLogger");
+            _logger = logger;
         }
 
         public async Task<IActionResult> ChatRoom()

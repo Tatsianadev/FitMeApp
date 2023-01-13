@@ -22,14 +22,14 @@ namespace FitMeApp.Controllers
         private readonly ILogger _logger;
        
         public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService, ILoggerFactory loggerFactory)
+            IFitMeService fitMeService, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _fitMeService = fitMeService;
             _mapper = new ModelViewModelMapper();
-            _logger = loggerFactory.CreateLogger("AccountLogger");
+            _logger = logger;
         }
 
         [HttpGet]
@@ -64,7 +64,7 @@ namespace FitMeApp.Controllers
                         {                           
                             return RedirectToAction("RegisterTrainerPart");
                         }
-                        //return RedirectToAction("Index", "Home");
+                        
                         return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = false });
                     }
                     else

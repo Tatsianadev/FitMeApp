@@ -21,12 +21,11 @@ namespace FitMeApp.Controllers
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ProfileController(UserManager<User> userManager, IFitMeService fitMeService, ILoggerFactory loggerFactory)
+        public ProfileController(UserManager<User> userManager, IFitMeService fitMeService, ILogger<ProfileController> logger)
         {
             _userManager = userManager;
-
             _fitMeService = fitMeService;
-            _logger = loggerFactory.CreateLogger("ProfileLogger");
+            _logger = logger;
             _mapper = new ModelViewModelMapper();
         }
 

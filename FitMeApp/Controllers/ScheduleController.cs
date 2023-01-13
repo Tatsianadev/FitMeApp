@@ -23,12 +23,12 @@ namespace FitMeApp.Controllers
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, UserManager<User> userManager, ILoggerFactory loggerFactory)
+        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, UserManager<User> userManager, ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
             _fitMeService = fitMeService;
             _userManager = userManager;
-            _logger = loggerFactory.CreateLogger("ScheduleController");
+            _logger = logger;
             _mapper = new ModelViewModelMapper();
         }
 
