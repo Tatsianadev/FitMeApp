@@ -20,7 +20,7 @@ namespace FitMeApp.Controllers
         private readonly UserManager<User> _userManager;
         private ILogger _logger;
 
-        public GymsController(IFitMeService fitMeService, UserManager<User> userManager, ILoggerFactory loggerFactory)
+        public GymsController(IFitMeService fitMeService, UserManager<User> userManager, ILoggerFactory loggerFactory, ILogger<GymsController> logger)
         {
             _fitMeService = fitMeService;
             _mapper = new ModelViewModelMapper();
@@ -32,8 +32,8 @@ namespace FitMeApp.Controllers
 
 
         public IActionResult Index()
-        {         
-
+        {
+            _logger.LogInformation($"{nameof(GymsController)}");
             var gymModels = _fitMeService.GetAllGymModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)

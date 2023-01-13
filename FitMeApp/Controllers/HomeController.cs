@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+//using ASP;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
 
@@ -11,7 +12,7 @@ namespace FitMeApp.Controllers
     public class HomeController : Controller
     {
         private readonly IFitMeService _fitMeService;
-        private readonly ILogger<HomeController> _logger;       
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(IFitMeService fitMeService, ILogger<HomeController> logger)
         {
@@ -22,13 +23,17 @@ namespace FitMeApp.Controllers
         public IActionResult Index()
         {
             try
-            {                
-                return View();
+            {  
+                //throw  new  Exception("test logger");
+               
             }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogError("test logger" + DateTime.Now, ex.Message);
+               
+                //throw ex;
             }
+            return View();
         }
 
 

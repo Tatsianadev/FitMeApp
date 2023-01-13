@@ -20,7 +20,7 @@ namespace FitMeApp.Common.FileLogging
 
         public void Dispose()
         {
-           
+
         }
     }
 }

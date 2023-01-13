@@ -1,35 +1,39 @@
-
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
-Application started. Press Ctrl+C to shut down.
-Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
-Application started. Press Ctrl+C to shut down.
-Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
-An unhandled exception has occurred while executing the request.
-Application started. Press Ctrl+C to shut down.
-Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
-Application started. Press Ctrl+C to shut down.
-Hosting environment: Development
-Content root path: D:\stud\projects\FitMeApp\FitMeApp
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger1/13/2023 5:47:07 PM
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger1/13/2023 6:05:30 PM
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger1/13/2023 6:06:45 PM
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger1/13/2023 6:14:00 PM
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+test logger1/13/2023 6:16:54 PM
+GymsController
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp

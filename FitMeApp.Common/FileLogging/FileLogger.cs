@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FitMeApp.Common.FileLogging
 {
-    public class FileLogger : ILogger
+    public class FileLogger : ILogger, IDisposable
     {
         private string filePath;
         private static object _lock = new object();
@@ -17,8 +17,10 @@ namespace FitMeApp.Common.FileLogging
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            return null;
+            return this;
         }
+
+        public void Dispose() { }
 
         public bool IsEnabled(LogLevel logLevel)
         {

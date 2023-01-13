@@ -5,6 +5,8 @@ using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
+using Microsoft.Extensions.Logging;
+using FitMeApp.Common.FileLogging;
 
 namespace FitMeApp.Services
 {
@@ -21,7 +23,7 @@ namespace FitMeApp.Services
             {
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                //options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = true;
                 
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();            
@@ -32,7 +34,8 @@ namespace FitMeApp.Services
             services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
             services.AddScoped<IFitMeService, FitMeService>();
             services.AddScoped<IScheduleService, ScheduleService>();
-            
+            //services.AddScoped<ILogger, CustomLogger>();
+
         }
     }
 }
