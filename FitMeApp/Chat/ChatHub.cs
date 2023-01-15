@@ -13,21 +13,23 @@ namespace FitMeApp.Chat
     {
         
         [Authorize]
-        public async Task Send(string message, string receiverName)
+        public async Task Send(string message, string userName)
         {
-            var userName = Context.User.Identity.Name;
-            if (Context.UserIdentifier != receiverName)
-            {
-                await Clients.User(Context.UserIdentifier).SendAsync("Receive", message, userName);
-                await Clients.User(receiverName).SendAsync("Receive", message, userName);
-            }
-            
+            //var userName = Context.User.Identity.Name;
+            //if (Context.UserIdentifier != receiverName)
+            //{
+            //    //await Clients.User(Context.UserIdentifier).SendAsync("Receive", message, userName);
+            //    //await Clients.User(receiverName).SendAsync("Receive", message, userName);
+            //}
+
+            await Clients.All.SendAsync("Send", message, userName);
+
         }
 
-        public async override Task OnConnectedAsync()
-        {
-            await Clients.All.SendAsync("Notify", $"Приветствуем {Context.UserIdentifier}");
-            await base.OnConnectedAsync();
-        }
+        //public async override Task OnConnectedAsync()
+        //{
+        //    await Clients.All.SendAsync("Notify", $"Приветствуем {Context.UserIdentifier}");
+        //    await base.OnConnectedAsync();
+        //}
     }
 }

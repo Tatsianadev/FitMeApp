@@ -25,9 +25,9 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> ChatRoom()
         {
-            ViewBag.ReceiverName = "ross@gmail.com";
-            var user = await _userManager.GetUserAsync(User);
-            return View(user);
+            //ViewBag.ReceiverName = "ross@gmail.com";
+            //var user = await _userManager.GetUserAsync(User);
+            return View();
         }
     }
 }

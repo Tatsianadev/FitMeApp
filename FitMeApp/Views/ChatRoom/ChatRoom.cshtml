@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>ChatRoom</title>
+</head>
+<body>
+    <div id="loginBlock">
+        <p>Enter your Login</p>
+        <input type="text" id="loginBox" />
+        <input type="button" id="loginBtn" value="Login" />
+    </div>
+    <div id="header"></div><br />
+    <div id="messageBlock">
+        <input type="text" id="message" />
+        <input type="button" id="sendBtn" value="Send" />
+    </div>
+    <div id="chatRoom"></div>
+    <br />
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+        let userName = '';
+        hubConnection.on("Send",
+            function (message, userName) {
+                let userNameElem = document.createElement("b");
+                userNameElem.appendChild(document.createTextNode(userName + ": "));
+
+                let elem = document.createElement("p");
+                elem.appendChild(userNameElem);
+                elem.appendChild(document.createTextNode(message));
+                let firstElem = document.getElementById("chatRoom").firstChild;
+                document.getElementById("chatRoom").insertBefore(elem, firstElem);
+            });
+
+        document.getElementById("loginBtn").addEventListener("click",
+            function (e) {
+                userName = document.getElementById("loginBox").value;
+                document.getElementById("header").innerHTML = '<h4>Welcome, ' + userName + '! </h4>';
+            });
+
+        document.getElementById("sendBtn").addEventListener("click",
+            function (e) {
+                let message = document.getElementById("message").value;
+                hubConnection.invoke("Send", message, userName);
+            });
+
+        hubConnection.start();
+    </script>
+</body>
