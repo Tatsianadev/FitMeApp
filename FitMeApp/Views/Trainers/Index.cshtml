@@ -8,66 +8,68 @@
     <div class="row">
         <div class="col-md-8">
             <h4>
-                Text about trainers
+                All Trainers on one page!
             </h4>
             <h6>
-                Text about filters and work with page
+                You can use filters to find the most suitable trainer for you.
             </h6>
-        </div>
-        <div class="col-md-4">
-            <img src="#" alt="Trainer picture" />
-        </div>
-    </div>
-    <div class="row">
-        <p>
-            <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Filters
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                <form asp-controller="Trainers" asp-action="TrainersFilter" method="post">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <p style="font:bold">
-                                    Trainers gender
-                                </p>
-                                @foreach (var gender in ViewBag.Genders)
-                                {
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="selectedGenders" type="checkbox" value="@gender" id="@gender">
-                                        <label class="form-check-label" for="@gender">
-                                            @gender
-                                        </label>
-                                    </div>
-                                }
+            <hr />
+            <p>
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Filters
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form asp-controller="Trainers" asp-action="TrainersFilter" method="post">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p style="font:bold">
+                                        Trainers gender
+                                    </p>
+                                    @foreach (var gender in ViewBag.Genders)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="selectedGenders" type="checkbox" value="@gender" id="@gender">
+                                            <label class="form-check-label" for="@gender">
+                                                @gender
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    <p style="font:bold">
+                                        Trainers specialization
+                                    </p>
+                                    @foreach (var specialization in ViewBag.Specializations)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="selectedSpecializations" type="checkbox" value="@specialization" id="@specialization" multiple>
+                                            <label class="form-check-label" for="@specialization">
+                                                @specialization training
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <p style="font:bold">
-                                    Trainers specialization
-                                </p>
-                                @foreach (var specialization in ViewBag.Specializations)
-                                {
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="selectedSpecializations" type="checkbox" value="@specialization" id="@specialization" multiple>
-                                        <label class="form-check-label" for="@specialization">
-                                            @specialization training
-                                        </label>
-                                    </div>
-                                }
+                            <div>
+                                <input type="submit" value="OK" class="btn btn-dark" />
+                                <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark">Clean filters</a>
                             </div>
                         </div>
-                        <div>
-                            <input type="submit" value="OK" class="btn btn-dark" />
-                            <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark">Clean filters</a>
-                        </div>
-                    </div>
-                </form>
+                    </form>
 
+                </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <img src="/Content/images/gym4.jpg" class="d-block w-100" alt="picture" style="margin:15px">
+        </div>
     </div>
+    @*<div class="row">
+       
+    </div>*@
 </div>
 
 <div class="container" style="border-block:solid">
