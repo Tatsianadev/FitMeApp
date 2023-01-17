@@ -31,7 +31,7 @@ namespace FitMeApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UserChatList()
+        public async Task<IActionResult> UserChat()
         {
             try
             {
@@ -46,6 +46,13 @@ namespace FitMeApp.Controllers
             
             return View();
         }
+
+        public ActionResult ChatList()
+        {
+            return PartialView();
+        }
+
+
 
         public async Task<IActionResult> ChatOneToOne(string toId, string toName)
         {
