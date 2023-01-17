@@ -411,3 +411,12 @@ values ('08b2b361-1115-44db-97fa-ce9cd34366d7', 1983, 'man', 'terry@gmail.com', 
 'ST4TBI57WWUH2BB6AB2TED6D3ME6QOXD', '8d2e8f75-a142-40e1-abbc-9f7a5d9c6c19', '(123)456789', 0, 0, NULL, 1, 0,
 'User1', 'Admin1', 'NULL')
 go
+
+
+
+
+insert ChatMessages (SenderId, ReceiverId, Message, Date)
+values
+('f6b480ef-aa5c-467f-8382-5199a395d585', 'e985d062-69f4-40fd-aa35-ff35dc1ca911', 'Hi, Jean!', '2023-01-11 10:53:00')
+,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'f6b480ef-aa5c-467f-8382-5199a395d585', 'Hi, Sonya!', '2023-01-11 10:58:20')
+go

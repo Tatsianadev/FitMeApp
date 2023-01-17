@@ -15,11 +15,11 @@ namespace FitMeApp.Services
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
         private readonly ILogger _logger;
-        public FitMeService(IRepository repository, ILoggerFactory loggerFactory)
+        public FitMeService(IRepository repository, ILogger<FitMeService> logger)
         {
             _repository = repository;
-            _logger = loggerFactory.CreateLogger("FitMeServiceLogger");
-            _mapper = new EntityModelMapper(loggerFactory);
+            _logger = logger;
+            _mapper = new EntityModelMapper();
         }
 
         //Gym

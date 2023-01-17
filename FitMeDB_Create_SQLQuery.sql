@@ -493,4 +493,15 @@ foreign key (GymWorkHoursId) references GymWorkHours(Id)
 go
 
 
+create table ChatMessages
+(
+Id int identity primary key not null,
+SenderId nvarchar(256) not null,
+ReceiverId nvarchar(256) not null,
+Message nvarchar(max) not null,
+Date smalldatetime not null
+)
+go
+
+
 

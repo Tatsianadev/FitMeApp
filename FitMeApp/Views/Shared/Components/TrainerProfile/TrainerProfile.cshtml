@@ -8,26 +8,27 @@
             <span class="visually-hidden">New alerts</span>
         </span>
     }
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
-        <li>
-            <a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">
-                Clients
-                @if (@ViewBag.ClientsToAddCount > 0)
-                {
-                    <span class="badge bg-secondary">@ViewBag.ClientsToAddCount</span>
-                }
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" asp-controller="Schedule" asp-action="Index">
-                Schedule
-                @if (@ViewBag.OpenedEventsCount > 0)
-                {
-                    <span class="badge bg-secondary">@ViewBag.OpenedEventsCount</span>
-                }
-            </a>
-        </li>
-        <li><a class="dropdown-item" asp-controller="Profile" asp-action="Subscriptions">Subscriptions</a></li>
-    </ul>
+<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="TrainerPersonalAndJobData">Personal data</a></li>
+    <li>
+        <a class="dropdown-item" asp-controller="Profile" asp-action="ClientsList">
+            Clients
+            @if (@ViewBag.ClientsToAddCount > 0)
+            {
+                <span class="badge bg-secondary">@ViewBag.ClientsToAddCount</span>
+            }
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" asp-controller="Schedule" asp-action="Index">
+            Schedule
+            @if (@ViewBag.OpenedEventsCount > 0)
+            {
+                <span class="badge bg-secondary">@ViewBag.OpenedEventsCount</span>
+            }
+        </a>
+    </li>
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="Subscriptions">Subscriptions</a></li>
+    <li><a class="dropdown-item" asp-controller="ChatRoom" asp-action="UserChatList">Chat</a></li>
+</ul>
 </div>

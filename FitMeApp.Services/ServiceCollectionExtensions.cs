@@ -35,7 +35,8 @@ namespace FitMeApp.Services
             services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
             services.AddScoped<IFitMeService, FitMeService>();
             services.AddScoped<IScheduleService, ScheduleService>();
-            
+            services.AddScoped<IChatService, ChatService>();
+
         }
     }
 }

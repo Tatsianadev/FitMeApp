@@ -9,12 +9,6 @@ namespace FitMeApp.Mapper
     public class EntityModelMapper
     {
 
-        private readonly ILogger _logger;
-        public EntityModelMapper(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger("MapperLogger");
-        }
-
         //ModelBase - Model with properties as EntityBase classes have. Without references to other classes (foreign key connections). 
         public GymModel MappGymEntityBaseToModelBase(GymEntityBase gym)
         {
@@ -256,6 +250,23 @@ namespace FitMeApp.Mapper
             };
             return subscriptionModel;
         }
+
+         //Chat
+         public ChatMessageModel MapChatMessageEntityBaseToModel(ChatMessageEntityBase messageEntityBase)
+         {
+             ChatMessageModel messageModel = new ChatMessageModel()
+             {
+                 Id = messageEntityBase.Id,
+                 ReceiverId = messageEntityBase.ReceiverId,
+                 SenderId = messageEntityBase.SenderId,
+                 Message = messageEntityBase.Message,
+                 Date = messageEntityBase.Date
+             };
+
+             return messageModel;
+         }
+
+
 
 
 

@@ -238,6 +238,20 @@ namespace FitMeApp.Mapper
             return userSubscriptionViewModel;
         }
 
+        public ChatMessageViewModel MapChatMessageModelToViewModel(ChatMessageModel messageModel)
+        {
+            ChatMessageViewModel messageViewModel = new ChatMessageViewModel()
+            {
+                Id = messageModel.Id,
+                ReceiverId = messageModel.ReceiverId,
+                SenderId = messageModel.SenderId,
+                Message = messageModel.Message,
+                Date = messageModel.Date
+            };
+
+            return messageViewModel;
+        }
+
 
 
 

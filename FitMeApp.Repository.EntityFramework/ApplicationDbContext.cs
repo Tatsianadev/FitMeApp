@@ -20,6 +20,8 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<GymWorkHoursEntity> GymWorkHours { get; set; }
         public DbSet<TrainerWorkHoursEntity> TrainerWorkHours { get; set; }
 
+        public DbSet<ChatMessageEntity> ChatMessages { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 

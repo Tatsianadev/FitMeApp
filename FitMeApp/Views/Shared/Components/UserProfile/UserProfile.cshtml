@@ -9,17 +9,18 @@
             <span class="visually-hidden">New alerts</span>
         </span>
     }
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
-        <li>
-            <a class="dropdown-item" asp-controller="Schedule" asp-action="Index">
-                Schedule
-                @if (@ViewBag.ChangedEventsCount > 0)
-                {
-                    <span class="badge bg-secondary">@ViewBag.ChangedEventsCount</span>
-                }
-            </a>
-        </li>
-        <li><a class="dropdown-item" asp-controller="Profile" asp-action="Subscriptions">Subscriptions</a></li>
-    </ul>
+<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
+    <li>
+        <a class="dropdown-item" asp-controller="Schedule" asp-action="Index">
+            Schedule
+            @if (@ViewBag.ChangedEventsCount > 0)
+            {
+                <span class="badge bg-secondary">@ViewBag.ChangedEventsCount</span>
+            }
+        </a>
+    </li>
+    <li><a class="dropdown-item" asp-controller="Profile" asp-action="Subscriptions">Subscriptions</a></li>
+    <li><a class="dropdown-item" asp-controller="ChatRoom" asp-action="UserChatList">Chat</a></li>
+</ul>
 </div>

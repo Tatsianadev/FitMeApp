@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Common;
@@ -1240,6 +1241,18 @@ namespace FitMeApp.Repository.EntityFramework
                 .ToList();
             return actualEvents;
 
+        }
+
+
+        //Chat
+
+        public IEnumerable<ChatMessageEntityBase> GetAllMessagesByUser(string userId)
+        {
+            var messages = _context.ChatMessages
+                .Where(x => x.ReceiverId == userId || x.SenderId == userId)
+                .OrderBy(x => x.Date)
+                .Take(20);
+            return messages;
         }
 
 

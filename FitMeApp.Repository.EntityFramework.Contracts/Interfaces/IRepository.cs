@@ -89,6 +89,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int GetActualEventsCountByTrainer(string trainerId);
         IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
 
+        //Chat
+        IEnumerable<ChatMessageEntityBase> GetAllMessagesByUser(string userId);
 
 
     }
