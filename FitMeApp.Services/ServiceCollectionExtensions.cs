@@ -7,6 +7,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.Extensions.Logging;
 using FitMeApp.Common.FileLogging;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FitMeApp.Services
 {
@@ -34,7 +35,7 @@ namespace FitMeApp.Services
             services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
             services.AddScoped<IFitMeService, FitMeService>();
             services.AddScoped<IScheduleService, ScheduleService>();
-
+            
         }
     }
 }

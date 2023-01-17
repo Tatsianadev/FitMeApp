@@ -1,0 +1,19 @@
+﻿@model IDictionary<string, string>
+
+<div class="container">
+    <div id="fromLabel">
+        <p>
+            From <b>@Model["fromName"]</b>
+        </p>
+    </div>
+    <hr/>
+    <div id="toBlock">
+        <p>
+            From <b>@Model["toName"]</b>
+        </p>
+        <input id="message" type="text"/>
+        <input id="sendBtn" type="button" value="Send"/>
+    </div>
+    
+</div>
+   

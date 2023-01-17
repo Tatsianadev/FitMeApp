@@ -15,13 +15,7 @@ namespace FitMeApp.Chat
         [Authorize]
         public async Task Send(string message, string userName)
         {
-            //var userName = Context.User.Identity.Name;
-            //if (Context.UserIdentifier != receiverName)
-            //{
-            //    //await Clients.User(Context.UserIdentifier).SendAsync("Receive", message, userName);
-            //    //await Clients.User(receiverName).SendAsync("Receive", message, userName);
-            //}
-
+            var userId = Context.UserIdentifier;
             await Clients.All.SendAsync("Send", message, userName);
 
         }
