@@ -7,6 +7,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IChatService
     {
-        IEnumerable<ChatMessageModel> GetAllMessagesByUser(string userId);
+        IEnumerable<ChatMessageModel> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId);
+        IEnumerable<string> GetAllContactsIdByUser(string userId);
     }
 }

@@ -22,14 +22,14 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper();
         }
 
-        public IEnumerable<ChatMessageModel> GetAllMessagesByUser(string userId)
+        public IEnumerable<ChatMessageModel> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId)
         {
-            if (userId == null)
+            if (senderId == null || receiverId == null)
             {
-                throw new ArgumentNullException(nameof(userId));
+                throw new ArgumentNullException(nameof(senderId));
             }
 
-            var messagesEntityBase = _repository.GetAllMessagesByUser(userId);
+            var messagesEntityBase = _repository.GetAllMessagesBetweenTwoUsers(senderId, receiverId);
             List<ChatMessageModel> messagesModels = new List<ChatMessageModel>();
             foreach (var entity in messagesEntityBase)
             {
@@ -37,6 +37,12 @@ namespace FitMeApp.Services
             }
 
             return messagesModels;
+        }
+
+        public IEnumerable<string> GetAllContactsIdByUser(string userId)
+        {
+            var allContactsId = _repository.GetAllContactsIdByUser(userId);
+            return allContactsId;
         }
 
     }

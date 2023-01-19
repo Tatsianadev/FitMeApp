@@ -36,21 +36,20 @@ namespace FitMeApp.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var messagesModels = _chatService.GetAllMessagesByUser(user.Id);
+                var messagesModels = _chatService.GetSenderReceiwerMessagesCollection(user.Id);
+               
+                return View(messagesModels);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                
+
             }
-            
-            return View();
+
+            //return View();
         }
 
-        public ActionResult ChatList()
-        {
-            return PartialView();
-        }
+      
 
 
 

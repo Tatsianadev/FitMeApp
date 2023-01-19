@@ -1250,9 +1250,51 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var messages = _context.ChatMessages
                 .Where(x => x.ReceiverId == userId || x.SenderId == userId)
+                .OrderBy(x => x.Date);
+                return messages;
+        }
+
+        public IEnumerable<ChatMessageEntityBase> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId)
+        {
+            var messages = _context.ChatMessages
+                .Where(x => x.SenderId == senderId || x.ReceiverId == senderId)
+                .Where(x => x.SenderId == receiverId || x.ReceiverId == receiverId)
                 .OrderBy(x => x.Date)
-                .Take(20);
+                .Take(50);
             return messages;
+        }
+
+        public IEnumerable<string> GetAllContactsIdByUser(string userId)
+        {
+            var receiversId = _context.ChatMessages
+                .Where(x => x.SenderId == userId)
+                .OrderBy(x => x.Date)
+                .Select(x => x.ReceiverId)
+                .ToList();
+
+            var sendersId = _context.ChatMessages
+                .Where(x => x.ReceiverId == userId)
+                .OrderBy(x => x.Date)
+                .Select(x => x.SenderId)
+                .ToList();
+
+            List<string> allContactsId = new List<string>();
+            foreach (var receiverId in receiversId)
+            {
+                if (!allContactsId.Contains(receiverId))
+                {
+                    allContactsId.Add(receiverId);
+                }
+            }
+
+            foreach (var senderId in sendersId)
+            {
+                if (!allContactsId.Contains(senderId))
+                {
+                    allContactsId.Add(senderId);
+                }
+            }
+            return allContactsId;
         }
 
 
