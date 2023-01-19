@@ -1,15 +1,28 @@
-﻿@model IEnumerable<FitMeApp.Common.User>
-   
+﻿@using System.Data.Entity.Migrations.Model
+@model IEnumerable<FitMeApp.Common.User>
 
-<div>
-    this is chatList
-</div>
+
+
 <ul class="list-group">
     @foreach (var contact in Model)
     {
-        <li class="list-group-item">@contact.FirstName  @contact.LastName</li>
+        string avatarPath = "/Content/Trainers/" + contact.Avatar;@*move all avatars to Content folder*@
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-3" >
+                    <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px" />
+                </div>
+                <div class="col-md-6">
+                    @contact.FirstName @contact.LastName
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-dark btn-sm">Chat</button>
+                </div>
+            </div>
+            <br/>
+        </li>
     }
-    
-
 </ul>
+
+
 
