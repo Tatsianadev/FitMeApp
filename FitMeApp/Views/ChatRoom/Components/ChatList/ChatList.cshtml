@@ -1,0 +1,15 @@
+﻿@model IEnumerable<FitMeApp.Common.User>
+   
+
+<div>
+    this is chatList
+</div>
+<ul class="list-group">
+    @foreach (var contact in Model)
+    {
+        <li class="list-group-item">@contact.FirstName  @contact.LastName</li>
+    }
+    
+
+</ul>
+

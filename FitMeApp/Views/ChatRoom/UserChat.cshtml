@@ -1,11 +1,11 @@
-﻿@*@model FitMeApp.WEB.Contracts.ViewModels.ChatMessageViewModel*@
+﻿@model IEnumerable<string>
 <div>
     <h3>Chat</h3>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-           @await  Component.InvokeAsync("ChatList");
+           @await  Component.InvokeAsync("ChatList", new{ contactsId = Model});
         </div>
         <div class="col-md-8">
 

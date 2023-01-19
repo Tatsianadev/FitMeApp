@@ -36,9 +36,9 @@ namespace FitMeApp.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var messagesModels = _chatService.GetSenderReceiwerMessagesCollection(user.Id);
-               
-                return View(messagesModels);
+                var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id);
+                
+                return View(allContactsIdByUser);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace FitMeApp.Controllers
 
             }
 
-            //return View();
+            return View();
         }
 
       
