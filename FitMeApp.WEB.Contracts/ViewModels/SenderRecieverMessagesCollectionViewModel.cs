@@ -12,7 +12,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string ReceiverFirstName { get; set; }
         public string ReceiverLastName { get; set; }
         public string ReceiverAvatar { get; set; }
-        public IEnumerable<ChatMessageViewModel> Messages { get; set; }
+        public List<ChatMessageViewModel> Messages { get; set; }
 
 
     }

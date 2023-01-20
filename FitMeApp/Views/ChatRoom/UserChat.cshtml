@@ -1,4 +1,4 @@
-﻿@model IEnumerable<string>
+﻿@model FitMeApp.WEB.Contracts.ViewModels.UserChatMainPageViewModel
 <div>
     <h3>Chat</h3>
 </div>
@@ -6,10 +6,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-           @await  Component.InvokeAsync("ChatList", new{ contactsId = Model})
+           @await  Component.InvokeAsync("ChatList", new{ contactsId = Model.ContactsId})
         </div>
         <div class="col-md-8">
-
+            @if (Model.ReceiverId != null)
+            {
+                @await Component.InvokeAsync("ChatOneToOne", new { senderId = Model.SenderId, receiverId = Model.ReceiverId})
+            }
         </div>
     </div>
 </div>
