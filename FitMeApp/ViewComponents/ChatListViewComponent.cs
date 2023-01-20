@@ -34,7 +34,7 @@ namespace FitMeApp.ViewComponents
             {
                 if (contactsId.Count == 0)
                 {
-                    return View("ChatListEmpty");
+                    return View("ChatListIsEmpty");
                 }
 
                 List<User> contacts = new List<User>();
@@ -43,7 +43,7 @@ namespace FitMeApp.ViewComponents
                     var contact = _userManager.Users.Where(x => x.Id == contactId).First();
                     contacts.Add(contact);
                 }
-
+                
                 return View("ChatList", contacts);
             }
             catch (Exception ex)
