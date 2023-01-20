@@ -8,18 +8,25 @@
     {
         string avatarPath = "/Content/Trainers/" + contact.Avatar;@*move all avatars to Content folder*@
         <li class="list-group-item">
-            <div class="row">
-                <div class="col-md-3" >
-                    <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px" />
+            <div class="container" style="text-align: center">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row" >
+                            <div style="width: 100%; text-align: center">
+                                @contact.FirstName @contact.LastName
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <button type="button" class="btn btn-outline-dark btn-sm">Chat</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    @contact.FirstName @contact.LastName
-                </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-outline-dark btn-sm">Chat</button>
-                </div>
+                <br />
             </div>
-            <br/>
         </li>
     }
 </ul>

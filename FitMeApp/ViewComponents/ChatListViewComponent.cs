@@ -30,14 +30,38 @@ namespace FitMeApp.ViewComponents
 
         public IViewComponentResult Invoke(List<string> contactsId)
         {
-            List<User> contacts = new List<User>(); 
-            foreach (var contactId in contactsId)
+            try
             {
-                var contact = _userManager.Users.Where(x => x.Id == contactId).First();
-                contacts.Add(contact);
+                if (contactsId.Count == 0)
+                {
+                    return View("ChatListEmpty");
+                }
+
+                List<User> contacts = new List<User>();
+                foreach (var contactId in contactsId)
+                {
+                    var contact = _userManager.Users.Where(x => x.Id == contactId).First();
+                    contacts.Add(contact);
+                }
+
+                return View("ChatList", contacts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with ChatPage. Please, try again."
+                };
+                return View("CustomError", error);
             }
             
-            return View("ChatList", contacts);
+                
+            
+           
+                
+          
+           
         }
     }
 }
