@@ -33,17 +33,21 @@ namespace FitMeApp.ViewComponents
             var sender = _userManager.Users.Where(x=> x.Id == senderId).First();
             var receiver = _userManager.Users.Where(x => x.Id == receiverId).First(); ;
             var messageModels = _chatService.GetAllMessagesBetweenTwoUsers(sender.Id, receiverId);
-            SenderRecieverMessagesCollectionViewModel messagesViewModel = new SenderRecieverMessagesCollectionViewModel();
-            messagesViewModel.SenderFirstName = sender.FirstName;
-            messagesViewModel.SenderLastName = sender.LastName;
-            messagesViewModel.SenderAvatar = sender.Avatar;
-            messagesViewModel.ReceiverFirstName = receiver.FirstName;
-            messagesViewModel.ReceiverLastName = receiver.LastName;
-            messagesViewModel.ReceiverAvatar = receiver.Avatar;
+            SenderRecieverMessagesCollectionViewModel chatBetweenToPeople = new SenderRecieverMessagesCollectionViewModel();
+            chatBetweenToPeople.SenderFirstName = sender.FirstName;
+            chatBetweenToPeople.SenderLastName = sender.LastName;
+            chatBetweenToPeople.SenderAvatar = sender.Avatar;
+            chatBetweenToPeople.ReceiverFirstName = receiver.FirstName;
+            chatBetweenToPeople.ReceiverLastName = receiver.LastName;
+            chatBetweenToPeople.ReceiverAvatar = receiver.Avatar;
+
+            List<ChatMessageViewModel> messagesViewModels = new List<ChatMessageViewModel>();
             foreach (var messageModel in messageModels)
             {
-                messagesViewModel.Messages.Add(_mapper.MapChatMessageModelToViewModel(messageModel));
+                messagesViewModels.Add(_mapper.MapChatMessageModelToViewModel(messageModel));
             }
+
+            chatBetweenToPeople.Messages = messagesViewModels;
             return View();
         }
     }

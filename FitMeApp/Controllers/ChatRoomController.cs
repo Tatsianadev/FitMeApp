@@ -40,12 +40,8 @@ namespace FitMeApp.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id);
-                UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel();
-                foreach (var contactId in allContactsIdByUser)
-                {
-                    viewModel.ContactsId.Add(contactId);
-                }
+                var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id).ToList();
+                UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel(){ ContactsId = allContactsIdByUser };
 
                 return View(viewModel);
             }
@@ -58,12 +54,13 @@ namespace FitMeApp.Controllers
             return View();
         }
 
-
-        public async Task<IActionResult> ContactToChatSelected(List<string> allContactsIdByUser, string receiverId)
+        
+        public async Task<IActionResult> ContactToChatSelected(string receiverId)
         {
             var sender = await _userManager.GetUserAsync(User);
+            var allContactsIdBySender = _chatService.GetAllContactsIdByUser(sender.Id).ToList();
             UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel();
-            viewModel.ContactsId = allContactsIdByUser;
+            viewModel.ContactsId = allContactsIdBySender;
             viewModel.SenderId = sender.Id;
             viewModel.ReceiverId = receiverId;
 

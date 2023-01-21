@@ -1,31 +1,37 @@
 ﻿@using System.Data.Entity.Migrations.Model
+@using System.Linq
 @model IEnumerable<FitMeApp.Common.User>
 
 
 
 <ul class="list-group">
+    @{
+        List<string> allContactsIdByUser = new List<string>();
+        allContactsIdByUser = Model.Select(x => x.Id).ToList();
+    }
     @foreach (var contact in Model)
     {
-        string avatarPath = "/Content/images/" + contact.Avatar;@*move all avatars to Content folder*@
+        string avatarPath = "/Content/images/" + contact.Avatar;
         <li class="list-group-item">
             <div class="container" style="text-align: center">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px" />
+                        <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px"/>
                     </div>
                     <div class="col-md-9">
-                        <div class="row" >
+                        <div class="row">
                             <div style="width: 100%; text-align: center">
                                 @contact.FirstName @contact.LastName
                             </div>
-                           
+
                         </div>
                         <div class="row">
-                            <button type="button" class="btn btn-outline-dark btn-sm">Chat</button>
+                            <a asp-controller="ChatRoom" asp-action="ContactToChatSelected" asp-route-receiverId="@contact.Id" class="btn btn-outline-dark btn-sm">Chat</a>
+                            @*<button type="button" class="btn btn-outline-dark btn-sm">Chat</button>*@
                         </div>
                     </div>
                 </div>
-                <br />
+                <br/>
             </div>
         </li>
     }
