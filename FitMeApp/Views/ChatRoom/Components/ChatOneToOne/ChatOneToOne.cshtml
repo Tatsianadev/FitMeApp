@@ -1,7 +1,61 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model FitMeApp.WEB.Contracts.ViewModels.SenderRecieverMessagesCollectionViewModel
 
-this is chat one to one
+@{
+    string senderAvatarPath = "/Content/images/" + Model.SenderAvatar;
+    string receiverAvatarPath = "/Content/images/" + Model.ReceiverAvatar;
+}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 15%">
+           <img src="@receiverAvatarPath" style="width: 80%; height: auto"/> 
+        </th>
+        <th scope="col" style="width: 70%"></th>
+        <th scope="col" style="width: 15%">
+            <img src="@senderAvatarPath" style="width: 80%; height: auto"/> 
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var message in Model.Messages)
+    {
+        if (message.SenderId == Model.ReceiverId)
+        {
+            <tr>
+                <th style="background-color: lightsteelblue">
+                    <div >
+                        @Model.ReceiverFirstName
+                    </div>
+                </th>
+                <td style="background-color: lightsteelblue">
+                    <div style="font-size: 15pt;">
+                        <div style="font-size: 100%; text-align: left"> @message.Message</div>
+                        <div style="font-size: 45%; color: gray; text-align: left">@message.Date</div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td></td>
+                <td style="background-color: bisque">
+                    <div style="font-size: 15pt; background-color: bisque">
+                        <div style="font-size: 100%; text-align: right"> @message.Message</div>
+                        <div style="font-size: 45%; color: gray; text-align: right">@message.Date</div>
+                    </div>
+                </td>
+                <th style="background-color: bisque">
+                    <div>
+                        @Model.SenderFirstName
+                    </div>
+                </th>
+            </tr>
+            
+        }
+    }
+   
+
+    </tbody>
+</table>

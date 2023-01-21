@@ -1,10 +1,10 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 
-@{string showEventsAcrionName = ViewBag.ShowEventsActionName;
+@{string showEventsActionName = ViewBag.ShowEventsActionName;
     int dayNumber = ViewBag.DayNumber;
     DateTime currentDate = new DateTime(Model.Date.Year, Model.Date.Month, dayNumber);}
 
-<form asp-controller="Schedule" asp-action="@showEventsAcrionName" method="post">
+<form asp-controller="Schedule" asp-action="@showEventsActionName" method="post">
 
     <input type="hidden" asp-for="Date" value="@currentDate" />
     <input type="hidden" asp-for="DayOnCalendarSelected" value="@true" />    

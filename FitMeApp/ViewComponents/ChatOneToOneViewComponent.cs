@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.ViewComponents
 {
-    public class ChatOneToOneViewComponent: ViewComponent
+    public class ChatOneToOneViewComponent : ViewComponent
     {
         private readonly IChatService _chatService;
         private readonly UserManager<User> _userManager;
@@ -30,16 +30,21 @@ namespace FitMeApp.ViewComponents
 
         public IViewComponentResult Invoke(string senderId, string receiverId)
         {
-            var sender = _userManager.Users.Where(x=> x.Id == senderId).First();
+            var sender = _userManager.Users.Where(x => x.Id == senderId).First();
             var receiver = _userManager.Users.Where(x => x.Id == receiverId).First(); ;
             var messageModels = _chatService.GetAllMessagesBetweenTwoUsers(sender.Id, receiverId);
-            SenderRecieverMessagesCollectionViewModel chatBetweenToPeople = new SenderRecieverMessagesCollectionViewModel();
-            chatBetweenToPeople.SenderFirstName = sender.FirstName;
-            chatBetweenToPeople.SenderLastName = sender.LastName;
-            chatBetweenToPeople.SenderAvatar = sender.Avatar;
-            chatBetweenToPeople.ReceiverFirstName = receiver.FirstName;
-            chatBetweenToPeople.ReceiverLastName = receiver.LastName;
-            chatBetweenToPeople.ReceiverAvatar = receiver.Avatar;
+            SenderRecieverMessagesCollectionViewModel chatBetweenToPeople =
+                new SenderRecieverMessagesCollectionViewModel()
+                {
+                    SenderId = senderId,
+                    SenderFirstName = sender.FirstName,
+                    SenderLastName = sender.LastName,
+                    SenderAvatar = sender.Avatar,
+                    ReceiverId = receiverId,
+                    ReceiverFirstName = receiver.FirstName,
+                    ReceiverLastName = receiver.LastName,
+                    ReceiverAvatar = receiver.Avatar
+                };
 
             List<ChatMessageViewModel> messagesViewModels = new List<ChatMessageViewModel>();
             foreach (var messageModel in messageModels)
@@ -48,7 +53,7 @@ namespace FitMeApp.ViewComponents
             }
 
             chatBetweenToPeople.Messages = messagesViewModels;
-            return View();
+            return View("ChatOneToOne", chatBetweenToPeople);
         }
     }
 }
