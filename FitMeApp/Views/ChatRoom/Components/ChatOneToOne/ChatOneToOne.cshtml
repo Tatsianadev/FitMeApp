@@ -4,58 +4,80 @@
     string senderAvatarPath = "/Content/images/" + Model.SenderAvatar;
     string receiverAvatarPath = "/Content/images/" + Model.ReceiverAvatar;
 }
-<table class="table">
+
+<style>
+    div.scroll {
+        width: 100%;
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 20px;
+        margin: 0px 15px;
+        padding: 0px 5px;
+    }
+</style>
+
+
+<table class="table" style="margin: 0px">
     <thead>
     <tr>
         <th scope="col" style="width: 15%">
-           <img src="@receiverAvatarPath" style="width: 80%; height: auto"/> 
+            <img src="@receiverAvatarPath" style="width: 80%; height: auto" />
         </th>
         <th scope="col" style="width: 70%"></th>
         <th scope="col" style="width: 15%">
-            <img src="@senderAvatarPath" style="width: 80%; height: auto"/> 
+            <img src="@senderAvatarPath" style="width: 80%; height: auto" />
         </th>
     </tr>
     </thead>
-    <tbody>
-    @foreach (var message in Model.Messages)
-    {
-        if (message.SenderId == Model.ReceiverId)
-        {
-            <tr>
-                <th style="background-color: lightsteelblue">
-                    <div >
-                        @Model.ReceiverFirstName
-                    </div>
-                </th>
-                <td style="background-color: lightsteelblue">
-                    <div style="font-size: 15pt;">
-                        <div style="font-size: 100%; text-align: left"> @message.Message</div>
-                        <div style="font-size: 45%; color: gray; text-align: left">@message.Date</div>
-                    </div>
-                </td>
-                <td></td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td></td>
-                <td style="background-color: bisque">
-                    <div style="font-size: 15pt; background-color: bisque">
-                        <div style="font-size: 100%; text-align: right"> @message.Message</div>
-                        <div style="font-size: 45%; color: gray; text-align: right">@message.Date</div>
-                    </div>
-                </td>
-                <th style="background-color: bisque">
-                    <div>
-                        @Model.SenderFirstName
-                    </div>
-                </th>
-            </tr>
-            
-        }
-    }
-   
-
-    </tbody>
 </table>
+<div class="scroll">
+    <table class="table">
+        <tbody>
+        @foreach (var message in Model.Messages)
+        {
+            if (message.SenderId == Model.ReceiverId)
+            {
+                <tr>
+                    <th style="background-color: lightsteelblue">
+                        <div>
+                            @Model.ReceiverFirstName
+                        </div>
+                    </th>
+                    <td style="background-color: lightsteelblue">
+                        <div style="font-size: 13pt;">
+                            <div style="font-size: 100%; text-align: left"> @message.Message</div>
+                            <div style="font-size: 50%; color: gray; text-align: left">@message.Date</div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td style="background-color: bisque">
+                        <div style="font-size: 13pt; background-color: bisque">
+                            <div style="font-size: 100%; text-align: right"> @message.Message</div>
+                            <div style="font-size: 50%; color: gray; text-align: right">@message.Date</div>
+                        </div>
+                    </td>
+                    <th style="background-color: bisque">
+                        <div>
+                            @Model.SenderFirstName
+                        </div>
+                    </th>
+                </tr>
+
+            }
+        }
+
+
+        </tbody>
+
+
+
+    </table>
+</div>
+
