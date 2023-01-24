@@ -79,6 +79,7 @@
 <div id="chatRoom"></div>
 <div id="messageBlock">
     <input type="hidden" id="receiverId" value="@Model.ReceiverId" />
+    <input type="hidden" id="senderId" value="@Model.SenderId" />
     <input type="text" id="message" />
     <input type="button" id="sendBtn" value="Send" class="btn btn-outline-dark btn-sm" />
 </div>
@@ -88,17 +89,21 @@
         .build();
 
     hubConnection.on("Send",
-        function (message, receiverId) {
+        function (message, receiverId, senderId) {
             $.post(`https://localhost:44384/api/addmessagetodb`,
                     {
                         message: message,
-                        receiverId: receiverId
+                        receiverId: receiverId,
+                        senderId: senderId
                     })
                 .done(function(data) {
                     if (data == true) {
+                        let receiverElem = document.createElement("b");
+                        receiverElem.appendChild(document.createTextNode(receiverId + ": "));
+
                         let elem = document.createElement("p");
-                       /* elem.appendChild(userNameElem);*/
                         elem.appendChild(document.createTextNode(message));
+                        elem.appendChild(receiverElem);
                         let firstElem = document.getElementById("chatRoom").firstChild;
                         document.getElementById("chatRoom").insertBefore(elem, firstElem);
                     }
@@ -108,7 +113,7 @@
     document.getElementById("sendBtn").addEventListener("click", function (e) {
         let message = document.getElementById("message").value;
         let receiverId = document.getElementById("receiverId").value;
-            hubConnection.invoke("Send", message, receiverId);
+            hubConnection.invoke("Send", message, receiverId, senderId);
     });
 
     document.onload(hubConnection.start());

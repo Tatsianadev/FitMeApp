@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.WEB.Contracts.ViewModels;
 
 namespace FitMeApp.APIControllers
 {
@@ -19,8 +20,18 @@ namespace FitMeApp.APIControllers
 
         [HttpPost]
         [Route("addmessagetodb")]
-        public bool AddMessageToDb(string message, string receiverId)
+        public bool AddMessageToDb(string message, string receiverId, string senderId)
         {
+            DateTime messageTime = DateTime.Now;
+            ChatMessageViewModel messageViewModel = new ChatMessageViewModel()
+            {
+                SenderId = senderId,
+                ReceiverId = receiverId,
+                Message = message,
+                Date = messageTime
+            };
+
+            
             return true;
         }
 
