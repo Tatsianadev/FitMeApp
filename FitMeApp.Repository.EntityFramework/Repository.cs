@@ -1298,6 +1298,26 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public bool AddMessage(ChatMessageEntityBase message)
+        {
+            ChatMessageEntity messageEntity = new ChatMessageEntity()
+            {
+                SenderId = message.SenderId,
+                ReceiverId = message.ReceiverId,
+                Message = message.Message,
+                Date = message.Date
+            };
+
+            _context.ChatMessages.Add(messageEntity);
+            int addedRowsCount =  _context.SaveChanges();
+            if (addedRowsCount <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
 
 
     }

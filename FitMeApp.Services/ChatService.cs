@@ -45,5 +45,12 @@ namespace FitMeApp.Services
             return allContactsId;
         }
 
+        public bool AddMessage(ChatMessageModel message)
+        {
+            var messageEntityBase = _mapper.MapChatMessageModelToEntityBase(message);
+            bool result = _repository.AddMessage(messageEntityBase);
+            return result;
+        }
+
     }
 }

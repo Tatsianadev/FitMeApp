@@ -113,6 +113,7 @@
     document.getElementById("sendBtn").addEventListener("click", function (e) {
         let message = document.getElementById("message").value;
         let receiverId = document.getElementById("receiverId").value;
+        let senderId = document.getElementById("senderId").value;
             hubConnection.invoke("Send", message, receiverId, senderId);
     });
 

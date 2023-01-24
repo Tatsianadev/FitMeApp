@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
+using FitMeApp.Mapper;
 
 namespace FitMeApp.APIControllers
 {
@@ -12,10 +13,12 @@ namespace FitMeApp.APIControllers
     public class ApiController : Controller
     {
         private readonly IChatService _chatService;
+        private readonly ModelViewModelMapper _mapper;
 
         public ApiController(IChatService chatService)
         {
             _chatService = chatService;
+            _mapper = new ModelViewModelMapper();
         }
 
         [HttpPost]
@@ -31,8 +34,9 @@ namespace FitMeApp.APIControllers
                 Date = messageTime
             };
 
-            
-            return true;
+            var messageModel = _mapper.MapChatMessageViewModelToModel(messageViewModel);
+            bool result = _chatService.AddMessage(messageModel);
+            return result;
         }
 
     }

@@ -334,6 +334,20 @@ namespace FitMeApp.Mapper
 
 
 
+        public ChatMessageModel MapChatMessageViewModelToModel(ChatMessageViewModel messageViewModel)
+        {
+            ChatMessageModel messageModel = new ChatMessageModel()
+            {
+                ReceiverId = messageViewModel.ReceiverId,
+                SenderId = messageViewModel.SenderId,
+                Message = messageViewModel.Message,
+                Date = messageViewModel.Date
+            };
+
+            return messageModel;
+        }
+
+
 
 
         //private string ConvertIntTimeToString(int intTime)

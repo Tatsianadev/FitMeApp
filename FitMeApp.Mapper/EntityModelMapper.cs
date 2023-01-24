@@ -326,12 +326,24 @@ namespace FitMeApp.Mapper
                 TrainerId = trainerWorkHoursModel.TrainerId,
                 StartTime = trainerWorkHoursModel.StartTime,
                 EndTime = trainerWorkHoursModel.EndTime,
-                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
-
+                GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId
             };
             return trainerWorkHourEntity;
         }
 
+
+        public ChatMessageEntityBase MapChatMessageModelToEntityBase(ChatMessageModel messageModel)
+        {
+            ChatMessageEntityBase messageEntityBase = new ChatMessageEntityBase()
+            {
+                ReceiverId = messageModel.ReceiverId,
+                SenderId = messageModel.SenderId,
+                Message = messageModel.Message,
+                Date = messageModel.Date
+            };
+
+            return messageEntityBase;
+        }
 
     }
 }
