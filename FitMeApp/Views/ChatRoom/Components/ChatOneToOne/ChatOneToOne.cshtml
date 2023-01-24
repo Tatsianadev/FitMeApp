@@ -4,7 +4,7 @@
     string senderAvatarPath = "/Content/images/" + Model.SenderAvatar;
     string receiverAvatarPath = "/Content/images/" + Model.ReceiverAvatar;
 }
-
+<script src="~/js/signalr/dist/browser/signalr.min.js"></script>
 <style>
     div.scroll {
         width: 100%;
@@ -20,64 +20,100 @@
 
 <table class="table" style="margin: 0px">
     <thead>
-    <tr>
-        <th scope="col" style="width: 15%">
-            <img src="@receiverAvatarPath" style="width: 80%; height: auto" />
-        </th>
-        <th scope="col" style="width: 70%"></th>
-        <th scope="col" style="width: 15%">
-            <img src="@senderAvatarPath" style="width: 80%; height: auto" />
-        </th>
-    </tr>
+        <tr>
+            <th scope="col" style="width: 15%">
+                <img src="@receiverAvatarPath" style="width: 80%; height: auto" />
+            </th>
+            <th scope="col" style="width: 70%"></th>
+            <th scope="col" style="width: 15%">
+                <img src="@senderAvatarPath" style="width: 80%; height: auto" />
+            </th>
+        </tr>
     </thead>
 </table>
 <div class="scroll">
     <table class="table">
         <tbody>
-        @foreach (var message in Model.Messages)
-        {
-            if (message.SenderId == Model.ReceiverId)
+            @foreach (var message in Model.Messages)
             {
-                <tr>
-                    <th style="background-color: lightsteelblue">
-                        <div>
-                            @Model.ReceiverFirstName
-                        </div>
-                    </th>
-                    <td style="background-color: lightsteelblue">
-                        <div style="font-size: 13pt;">
-                            <div style="font-size: 100%; text-align: left"> @message.Message</div>
-                            <div style="font-size: 50%; color: gray; text-align: left">@message.Date</div>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
+                if (message.SenderId == Model.ReceiverId)
+                {
+                    <tr>
+                        <th style="background-color: lightsteelblue">
+                            <div>
+                                @Model.ReceiverFirstName
+                            </div>
+                        </th>
+                        <td style="background-color: lightsteelblue">
+                            <div style="font-size: 13pt;">
+                                <div style="font-size: 100%; text-align: left"> @message.Message</div>
+                                <div style="font-size: 50%; color: gray; text-align: left">@message.Date</div>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td style="background-color: bisque">
+                            <div style="font-size: 13pt; background-color: bisque">
+                                <div style="font-size: 100%; text-align: right"> @message.Message</div>
+                                <div style="font-size: 50%; color: gray; text-align: right">@message.Date</div>
+                            </div>
+                        </td>
+                        <th style="background-color: bisque">
+                            <div>
+                                @Model.SenderFirstName
+                            </div>
+                        </th>
+                    </tr>
+
+                }
             }
-            else
-            {
-                <tr>
-                    <td></td>
-                    <td style="background-color: bisque">
-                        <div style="font-size: 13pt; background-color: bisque">
-                            <div style="font-size: 100%; text-align: right"> @message.Message</div>
-                            <div style="font-size: 50%; color: gray; text-align: right">@message.Date</div>
-                        </div>
-                    </td>
-                    <th style="background-color: bisque">
-                        <div>
-                            @Model.SenderFirstName
-                        </div>
-                    </th>
-                </tr>
-
-            }
-        }
-
-
         </tbody>
-
-
-
     </table>
 </div>
+<div>test hub</div>
+<div id="chatRoom"></div>
+<div id="messageBlock">
+    <input type="hidden" id="receiverId" value="@Model.ReceiverId" />
+    <input type="text" id="message" />
+    <input type="button" id="sendBtn" value="Send" class="btn btn-outline-dark btn-sm" />
+</div>
+<script>
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/chat")
+        .build();
+
+    hubConnection.on("Send",
+        function (message, receiverId) {
+            $.post(`https://localhost:44384/api/addmessagetodb`,
+                    {
+                        message: message,
+                        receiverId: receiverId
+                    })
+                .done(function(data) {
+                    if (data == true) {
+                        let elem = document.createElement("p");
+                       /* elem.appendChild(userNameElem);*/
+                        elem.appendChild(document.createTextNode(message));
+                        let firstElem = document.getElementById("chatRoom").firstChild;
+                        document.getElementById("chatRoom").insertBefore(elem, firstElem);
+                    }
+                });
+        });
+
+    document.getElementById("sendBtn").addEventListener("click", function (e) {
+        let message = document.getElementById("message").value;
+        let receiverId = document.getElementById("receiverId").value;
+            hubConnection.invoke("Send", message, receiverId);
+    });
+
+    document.onload(hubConnection.start());
+</script>
+
+
+
 

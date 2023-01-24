@@ -20,10 +20,6 @@ namespace FitMeApp.Chat
 
         }
 
-        //public async override Task OnConnectedAsync()
-        //{
-        //    await Clients.All.SendAsync("Notify", $"Приветствуем {Context.UserIdentifier}");
-        //    await base.OnConnectedAsync();
-        //}
+       
     }
 }
