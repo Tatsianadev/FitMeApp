@@ -1298,7 +1298,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool AddMessage(ChatMessageEntityBase message)
+        public int AddMessage(ChatMessageEntityBase message)
         {
             ChatMessageEntity messageEntity = new ChatMessageEntity()
             {
@@ -1309,12 +1309,8 @@ namespace FitMeApp.Repository.EntityFramework
             };
 
             _context.ChatMessages.Add(messageEntity);
-            int addedRowsCount =  _context.SaveChanges();
-            if (addedRowsCount <= 0)
-            {
-                return false;
-            }
-            return true;
+            _context.SaveChanges();
+            return messageEntity.Id;
         }
 
 

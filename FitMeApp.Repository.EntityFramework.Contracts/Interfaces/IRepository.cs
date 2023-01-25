@@ -93,7 +93,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<ChatMessageEntityBase> GetAllMessagesByUser(string userId);
         IEnumerable<ChatMessageEntityBase> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId);
         IEnumerable<string> GetAllContactsIdByUser(string userId);
-        bool AddMessage(ChatMessageEntityBase message);
+        int AddMessage(ChatMessageEntityBase message);
 
 
     }

@@ -23,7 +23,7 @@ namespace FitMeApp.APIControllers
 
         [HttpPost]
         [Route("addmessagetodb")]
-        public bool AddMessageToDb(string message, string receiverId, string senderId)
+        public int AddMessageToDb(string message, string receiverId, string senderId)
         {
             DateTime messageTime = DateTime.Now;
             ChatMessageViewModel messageViewModel = new ChatMessageViewModel()
@@ -35,8 +35,10 @@ namespace FitMeApp.APIControllers
             };
 
             var messageModel = _mapper.MapChatMessageViewModelToModel(messageViewModel);
-            bool result = _chatService.AddMessage(messageModel);
-            return result;
+            int messageId = _chatService.AddMessage(messageModel);
+           
+
+            return messageId ;
         }
 
     }
