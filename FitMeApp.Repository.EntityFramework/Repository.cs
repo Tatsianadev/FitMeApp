@@ -1251,7 +1251,7 @@ namespace FitMeApp.Repository.EntityFramework
             var messages = _context.ChatMessages
                 .Where(x => x.ReceiverId == userId || x.SenderId == userId)
                 .OrderBy(x => x.Date);
-                return messages;
+            return messages;
         }
 
         public IEnumerable<ChatMessageEntityBase> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId)
@@ -1311,6 +1311,12 @@ namespace FitMeApp.Repository.EntityFramework
             _context.ChatMessages.Add(messageEntity);
             _context.SaveChanges();
             return messageEntity.Id;
+        }
+
+        public ChatMessageEntityBase GetMessage(int messageId)
+        {
+            var message = _context.ChatMessages.Where(x => x.Id == messageId).First();
+            return message;
         }
 
 

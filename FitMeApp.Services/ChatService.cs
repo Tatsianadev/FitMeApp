@@ -52,5 +52,12 @@ namespace FitMeApp.Services
             return messageId;
         }
 
+        public ChatMessageModel GetMessage(int messageId)
+        {
+            var messaeEntityBase = _repository.GetMessage(messageId);
+            ChatMessageModel messageModel = _mapper.MapChatMessageEntityBaseToModel(messaeEntityBase);
+            return messageModel;
+        }
+
     }
 }

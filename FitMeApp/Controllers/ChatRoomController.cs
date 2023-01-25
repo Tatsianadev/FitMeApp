@@ -70,9 +70,8 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> ShowNewMessageInChat(int messageId)
         {
-            ChatMessageViewModel messageViewModel = new ChatMessageViewModel();
-          
-
+            var messageModel = _chatService.GetMessage(messageId);
+            ChatMessageViewModel messageViewModel = _mapper.MapChatMessageModelToViewModel(messageModel);
             var user = await _userManager.GetUserAsync(User);
             return ViewComponent("MessageInChatOneToOne", new {message = messageViewModel, userId = user.Id});
         }

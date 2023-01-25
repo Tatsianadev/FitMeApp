@@ -94,6 +94,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<ChatMessageEntityBase> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId);
         IEnumerable<string> GetAllContactsIdByUser(string userId);
         int AddMessage(ChatMessageEntityBase message);
+        ChatMessageEntityBase GetMessage(int messageId);
 
 
     }
