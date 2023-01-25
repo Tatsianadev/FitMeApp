@@ -72,6 +72,9 @@
 
                 }
             }
+        <tr id="newMessage">
+            
+        </tr>
         </tbody>
     </table>
 </div>
@@ -101,16 +104,25 @@
                     if (data != 0) {
 
                         var url = "@Url.Action("ShowNewMessageInChat", "ChatRoom")";
+
+                        $.ajax({
+                            type: "Get",
+                            url: url,
+                            data: { messageId: data },
+                            success: function(result) {
+                                $("#newMessage").html(result);
+                            }
+                        });
                        
 
-                        let receiverElem = document.createElement("b");
-                        receiverElem.appendChild(document.createTextNode(receiverId + ": "));
+                        //let receiverElem = document.createElement("b");
+                        //receiverElem.appendChild(document.createTextNode(receiverId + ": "));
 
-                        let elem = document.createElement("p");
-                        elem.appendChild(document.createTextNode(message));
-                        elem.appendChild(receiverElem);
-                        let firstElem = document.getElementById("chatRoom").firstChild;
-                        document.getElementById("chatRoom").insertBefore(elem, firstElem);
+                        //let elem = document.createElement("p");
+                        //elem.appendChild(document.createTextNode(message));
+                        //elem.appendChild(receiverElem);
+                        //let firstElem = document.getElementById("chatRoom").firstChild;
+                        //document.getElementById("chatRoom").insertBefore(elem, firstElem);
                     }
                 });
         });

@@ -68,15 +68,10 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> ShowNewMessageInChat(string senderId, string receiverId, string message, DateTime sendTime)
+        public async Task<IActionResult> ShowNewMessageInChat(int messageId)
         {
-            ChatMessageViewModel messageViewModel = new ChatMessageViewModel()
-            {
-                SenderId = senderId,
-                ReceiverId = receiverId,
-                Message = message,
-                Date = sendTime
-            };
+            ChatMessageViewModel messageViewModel = new ChatMessageViewModel();
+          
 
             var user = await _userManager.GetUserAsync(User);
             return ViewComponent("MessageInChatOneToOne", new {message = messageViewModel, userId = user.Id});
