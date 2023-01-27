@@ -10,7 +10,7 @@
         <div class="col-md-8">
             @if (Model.ReceiverId != null)
             {
-                @await Component.InvokeAsync("ChatOneToOne", new { senderId = Model.SenderId, receiverId = Model.ReceiverId})
+                @await Component.InvokeAsync("PrivateChat", new { senderId = Model.SenderId, receiverId = Model.ReceiverId})
             }
         </div>
     </div>

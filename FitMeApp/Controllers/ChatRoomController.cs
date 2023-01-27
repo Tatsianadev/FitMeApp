@@ -73,7 +73,7 @@ namespace FitMeApp.Controllers
             var messageModel = _chatService.GetMessage(messageId);
             ChatMessageViewModel messageViewModel = _mapper.MapChatMessageModelToViewModel(messageModel);
             var user = await _userManager.GetUserAsync(User);
-            return ViewComponent("MessageInChatOneToOne", new {message = messageViewModel, userId = user.Id});
+            return ViewComponent("MessageInPrivateChat", new {message = messageViewModel, userId = user.Id});
         }
 
 

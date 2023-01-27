@@ -9,11 +9,11 @@ using FitMeApp.Common;
 
 namespace FitMeApp.ViewComponents
 {
-    public class MessageInChatOneToOneViewComponent: ViewComponent
+    public class MessageInPrivateChatViewComponent: ViewComponent
     {
         private readonly UserManager<User> _userManager;
 
-        public MessageInChatOneToOneViewComponent(UserManager<User> userManager)
+        public MessageInPrivateChatViewComponent(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -24,7 +24,7 @@ namespace FitMeApp.ViewComponents
             ViewBag.UserId = userId;
             ViewBag.SenderName = senderName;
 
-            return View("MessageInChatOneToOne", message);
+            return View("MessageInPrivateChat", message);
         }
     }
 }

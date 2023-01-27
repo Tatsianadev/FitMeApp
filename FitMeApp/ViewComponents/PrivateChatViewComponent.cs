@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.ViewComponents
 {
-    public class ChatOneToOneViewComponent : ViewComponent
+    public class PrivateChatViewComponent : ViewComponent
     {
         private readonly IChatService _chatService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ChatOneToOneViewComponent(IChatService chatService, UserManager<User> userManager,
+        public PrivateChatViewComponent(IChatService chatService, UserManager<User> userManager,
             ILogger<ChatListViewComponent> logger)
         {
             _chatService = chatService;
@@ -53,7 +53,7 @@ namespace FitMeApp.ViewComponents
             }
 
             chatBetweenToPeople.Messages = messagesViewModels;
-            return View("ChatOneToOne", chatBetweenToPeople);
+            return View("PrivateChat", chatBetweenToPeople);
         }
     }
 }
