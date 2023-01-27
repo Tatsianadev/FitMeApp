@@ -55,7 +55,7 @@ namespace FitMeApp.Controllers
         }
 
         
-        public async Task<IActionResult> ContactToChatSelected(string receiverId)
+        public async Task<IActionResult> SelectContactToChat(string receiverId)
         {
             var sender = await _userManager.GetUserAsync(User);
             var allContactsIdBySender = _chatService.GetAllContactsIdByUser(sender.Id).ToList();

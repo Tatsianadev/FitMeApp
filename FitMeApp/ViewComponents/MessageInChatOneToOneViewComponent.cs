@@ -20,7 +20,6 @@ namespace FitMeApp.ViewComponents
 
         public IViewComponentResult Invoke(ChatMessageViewModel message, string userId)
         {
-            //string userName = _userManager.Users.Where(x => x.Id == userId).First().FirstName;
             string senderName = _userManager.Users.Where(x => x.Id == message.SenderId).First().FirstName;
             ViewBag.UserId = userId;
             ViewBag.SenderName = senderName;

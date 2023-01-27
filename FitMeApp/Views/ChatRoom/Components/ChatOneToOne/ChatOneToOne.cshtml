@@ -8,7 +8,7 @@
 <style>
     div.scroll {
         width: 100%;
-        height: 300px;
+        height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
         padding: 20px;
@@ -72,9 +72,8 @@
 
                 }
             }
-        <tr id="newMessage">
-            
-        </tr>
+            <tr id="newMessage">
+            </tr>
         </tbody>
     </table>
 </div>
@@ -89,50 +88,44 @@
 <script>
     const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/chat")
+        .configureLogging(signalR.LogLevel.Information)
         .build();
 
-    hubConnection.on("Send",
-        function (message, receiverId, senderId) {
-           
-            $.post(`https://localhost:44384/api/addmessagetodb`,
-                    {
-                        message: message,
-                        receiverId: receiverId,
-                        senderId: senderId
-                    })
-                .done(function(data) {
-                    if (data != 0) {
 
-                        var url = "@Url.Action("ShowNewMessageInChat", "ChatRoom")";
+    try {
+        hubConnection.on("Get",
+            function (messageId) {
 
-                        $.ajax({
-                            type: "Get",
-                            url: url,
-                            data: { messageId: data },
-                            success: function(result) {
-                                $("#newMessage").html(result);
-                            }
-                        });
-                       
+                var url = "@Url.Action("ShowNewMessageInChat", "ChatRoom")";
+                let lastElem = document.getElementById("newMessage").lastChild;
 
-                        //let receiverElem = document.createElement("b");
-                        //receiverElem.appendChild(document.createTextNode(receiverId + ": "));
+                 $.ajax({
+                        type: "Get",
+                        url: url,
+                        data: { messageId: messageId },
+                        success: function (result) {
+                        document.getElementById("newMessage").insertAfter($("#newMessage").html(result), lastElem);
+                        }
+                  });
 
-                        //let elem = document.createElement("p");
-                        //elem.appendChild(document.createTextNode(message));
-                        //elem.appendChild(receiverElem);
-                        //let firstElem = document.getElementById("chatRoom").firstChild;
-                        //document.getElementById("chatRoom").insertBefore(elem, firstElem);
-                    }
-                });
-        });
+            });
+    }
+    catch (ex) {
+        console.error(ex);
+    }
 
-    document.getElementById("sendBtn").addEventListener("click", function (e) {
-        let message = document.getElementById("message").value;
-        let receiverId = document.getElementById("receiverId").value;
-        let senderId = document.getElementById("senderId").value;
+
+    try {
+        document.getElementById("sendBtn").addEventListener("click", function (e) {
+            let message = document.getElementById("message").value;
+            let receiverId = document.getElementById("receiverId").value;
+            let senderId = document.getElementById("senderId").value;
             hubConnection.invoke("Send", message, receiverId, senderId);
-    });
+        });
+    } catch (ex) {
+        console.error(ex);
+    }
+
 
     document.onload(hubConnection.start());
 </script>

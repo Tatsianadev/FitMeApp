@@ -21,25 +21,7 @@ namespace FitMeApp.APIControllers
             _mapper = new ModelViewModelMapper();
         }
 
-        [HttpPost]
-        [Route("addmessagetodb")]
-        public int AddMessageToDb(string message, string receiverId, string senderId)
-        {
-            DateTime messageTime = DateTime.Now;
-            ChatMessageViewModel messageViewModel = new ChatMessageViewModel()
-            {
-                SenderId = senderId,
-                ReceiverId = receiverId,
-                Message = message,
-                Date = messageTime
-            };
-
-            var messageModel = _mapper.MapChatMessageViewModelToModel(messageViewModel);
-            int messageId = _chatService.AddMessage(messageModel);
-           
-
-            return messageId ;
-        }
+        //delete if it won't be used 
 
     }
 }
