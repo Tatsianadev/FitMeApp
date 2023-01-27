@@ -52,9 +52,9 @@
                             </div>
                         </th>
                         <td style="background-color: lightsteelblue">
-                            <div style="font-size: 13pt;">
+                            <div style="font-size: 11pt;">
                                 <div style="font-size: 100%; text-align: left"> @message.Message</div>
-                                <div style="font-size: 50%; color: gray; text-align: left">@message.Date</div>
+                                <div style="font-size: 60%; color: gray; text-align: left">@message.Date</div>
                             </div>
                         </td>
                         <td></td>
@@ -65,9 +65,9 @@
                     <tr>
                         <td></td>
                         <td style="background-color: bisque">
-                            <div style="font-size: 13pt; background-color: bisque">
+                            <div style="font-size: 11pt; background-color: bisque">
                                 <div style="font-size: 100%; text-align: right"> @message.Message</div>
-                                <div style="font-size: 50%; color: gray; text-align: right">@message.Date</div>
+                                <div style="font-size: 60%; color: gray; text-align: right">@message.Date</div>
                             </div>
                         </td>
                         <th style="background-color: bisque">
@@ -81,13 +81,14 @@
         </tbody>
     </table>
 </div>
-<div>test hub</div>
-<div id="chatRoom"></div>
-<div id="messageBlock">
+@*<div>test hub</div>
+<div id="chatRoom"></div>*@
+<div id="messageBlock" style="text-align: right; margin: 10px">
     <input type="hidden" id="receiverId" value="@Model.ReceiverId" />
     <input type="hidden" id="senderId" value="@Model.SenderId" />
-    <input type="text" id="message" />
-    <input type="button" id="sendBtn" value="Send" class="btn btn-outline-dark btn-sm" />
+    <input  id="message" type="text" class="form-control form-control-lg"  placeholder="message" >
+    <br/>
+    <input type="button" id="sendBtn" value="Send" class="btn btn-dark btn-sm" style=""/>
 </div>
 <script>
     const hubConnection = new signalR.HubConnectionBuilder()

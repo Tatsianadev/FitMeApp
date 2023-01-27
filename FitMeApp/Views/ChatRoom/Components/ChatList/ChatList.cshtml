@@ -3,38 +3,40 @@
 @model IEnumerable<FitMeApp.Common.User>
 
 
+<div style="margin: 15px">
+    <ul class="list-group">
+        @{
+            List<string> allContactsIdByUser = new List<string>();
+            allContactsIdByUser = Model.Select(x => x.Id).ToList();
+        }
+        @foreach (var contact in Model)
+        {
+            string avatarPath = "/Content/images/" + contact.Avatar;
+            <li class="list-group-item">
+                <div class="container" style="text-align: center">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px"/>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div style="width: 100%; text-align: center">
+                                    @contact.FirstName @contact.LastName
+                                </div>
 
-<ul class="list-group">
-    @{
-        List<string> allContactsIdByUser = new List<string>();
-        allContactsIdByUser = Model.Select(x => x.Id).ToList();
-    }
-    @foreach (var contact in Model)
-    {
-        string avatarPath = "/Content/images/" + contact.Avatar;
-        <li class="list-group-item">
-            <div class="container" style="text-align: center">
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px"/>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div style="width: 100%; text-align: center">
-                                @contact.FirstName @contact.LastName
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <a asp-controller="ChatRoom" asp-action="SelectContactToChat" asp-route-receiverId="@contact.Id" class="btn btn-outline-dark btn-sm">Chat</a>
+                            <div class="row">
+                                <a asp-controller="ChatRoom" asp-action="SelectContactToChat" asp-route-receiverId="@contact.Id" class="btn btn-outline-dark btn-sm">Chat</a>
+                            </div>
                         </div>
                     </div>
+                    <br/>
                 </div>
-                <br/>
-            </div>
-        </li>
-    }
-</ul>
+            </li>
+        }
+    </ul>
+</div>
+
 
 
 
