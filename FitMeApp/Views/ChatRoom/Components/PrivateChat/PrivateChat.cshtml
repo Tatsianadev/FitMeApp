@@ -32,7 +32,14 @@
     </thead>
 </table>
 <div class="scroll">
-    <table class="table">
+    <table class="table" id="messageList">
+        <thead>
+        <tr>
+            <th scope="col" style="width: 15%; height: 0"></th>
+            <th scope="col" style="width: 70%; height: 0"></th>
+            <th scope="col" style="width: 15%; height: 0"></th>
+        </tr>
+        </thead>
         <tbody>
             @foreach (var message in Model.Messages)
             {
@@ -69,11 +76,8 @@
                             </div>
                         </th>
                     </tr>
-
                 }
             }
-            <tr id="newMessage">
-            </tr>
         </tbody>
     </table>
 </div>
@@ -97,17 +101,15 @@
             function (messageId) {
 
                 var url = "@Url.Action("ShowNewMessageInChat", "ChatRoom")";
-                let lastElem = document.getElementById("newMessage").lastChild;
 
-                 $.ajax({
+                $.ajax({
                         type: "Get",
                         url: url,
                         data: { messageId: messageId },
-                        success: function (result) {
-                        document.getElementById("newMessage").insertAfter($("#newMessage").html(result), lastElem);
-                        }
+                     success: function (result) {
+                         $('#messageList tr:last').after(result);
+                     }
                   });
-
             });
     }
     catch (ex) {
@@ -116,11 +118,12 @@
 
 
     try {
-        document.getElementById("sendBtn").addEventListener("click", function (e) {
-            let message = document.getElementById("message").value;
-            let receiverId = document.getElementById("receiverId").value;
-            let senderId = document.getElementById("senderId").value;
-            hubConnection.invoke("Send", message, receiverId, senderId);
+        document.getElementById("sendBtn").addEventListener("click",
+            function (e) {
+                let message = document.getElementById("message").value;
+                let receiverId = document.getElementById("receiverId").value;
+                let senderId = document.getElementById("senderId").value;
+                hubConnection.invoke("Send", message, receiverId, senderId);
         });
     } catch (ex) {
         console.error(ex);
