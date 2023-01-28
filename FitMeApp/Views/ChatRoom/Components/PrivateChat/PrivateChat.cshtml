@@ -81,12 +81,11 @@
         </tbody>
     </table>
 </div>
-@*<div>test hub</div>
-<div id="chatRoom"></div>*@
+
 <div id="messageBlock" style="text-align: right; margin: 10px">
     <input type="hidden" id="receiverId" value="@Model.ReceiverId" />
     <input type="hidden" id="senderId" value="@Model.SenderId" />
-    <input  id="message" type="text" class="form-control form-control-lg"  placeholder="message" >
+    <input  id="message" type="text" class="form-control form-control-lg"  placeholder="type your message" >
     <br/>
     <input type="button" id="sendBtn" value="Send" class="btn btn-dark btn-sm" style=""/>
 </div>
@@ -109,6 +108,7 @@
                         data: { messageId: messageId },
                      success: function (result) {
                          $('#messageList tr:last').after(result);
+                         $('#message').val('');
                      }
                   });
             });
