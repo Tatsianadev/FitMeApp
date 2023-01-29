@@ -22,6 +22,7 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper();
         }
 
+
         public IEnumerable<ChatMessageModel> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId)
         {
             if (senderId == null || receiverId == null)
@@ -39,11 +40,13 @@ namespace FitMeApp.Services
             return messagesModels;
         }
 
+
         public IEnumerable<string> GetAllContactsIdByUser(string userId)
         {
             var allContactsId = _repository.GetAllContactsIdByUser(userId);
             return allContactsId;
         }
+
 
         public int AddMessage(ChatMessageModel message)
         {
@@ -52,10 +55,11 @@ namespace FitMeApp.Services
             return messageId;
         }
 
+
         public ChatMessageModel GetMessage(int messageId)
         {
-            var messaeEntityBase = _repository.GetMessage(messageId);
-            ChatMessageModel messageModel = _mapper.MapChatMessageEntityBaseToModel(messaeEntityBase);
+            var messageEntityBase = _repository.GetMessage(messageId);
+            ChatMessageModel messageModel = _mapper.MapChatMessageEntityBaseToModel(messageEntityBase);
             return messageModel;
         }
 

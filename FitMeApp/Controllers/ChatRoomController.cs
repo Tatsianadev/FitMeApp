@@ -41,30 +41,47 @@ namespace FitMeApp.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id).ToList();
-                UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel(){ ContactsId = allContactsIdByUser };
+                UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel() { ContactsId = allContactsIdByUser };
 
                 return View(viewModel);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "There was a problem with Chat page. Please try again later."
+                };
+                return View("CustomError", error);
             }
-
-            return View();
         }
 
-        
+
         public async Task<IActionResult> SelectContactToChat(string receiverId)
         {
-            var sender = await _userManager.GetUserAsync(User);
-            var allContactsIdBySender = _chatService.GetAllContactsIdByUser(sender.Id).ToList();
-            UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel();
-            viewModel.ContactsId = allContactsIdBySender;
-            viewModel.SenderId = sender.Id;
-            viewModel.ReceiverId = receiverId;
+            try
+            {
+                var sender = await _userManager.GetUserAsync(User);
+                var allContactsIdBySender = _chatService.GetAllContactsIdByUser(sender.Id).ToList();
+                UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel()
+                {
+                    ContactsId = allContactsIdBySender,
+                    SenderId = sender.Id,
+                    ReceiverId = receiverId
+                };
 
-            return View("UserChat", viewModel);
+                return View("UserChat", viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "Failed to display chat with current user. Please try again later."
+                };
+                return View("CustomError", error);
+            }
         }
 
 
@@ -73,11 +90,7 @@ namespace FitMeApp.Controllers
             var messageModel = _chatService.GetMessage(messageId);
             ChatMessageViewModel messageViewModel = _mapper.MapChatMessageModelToViewModel(messageModel);
             var user = await _userManager.GetUserAsync(User);
-            return ViewComponent("MessageInPrivateChat", new {message = messageViewModel, userId = user.Id});
+            return ViewComponent("MessageInPrivateChat", new { message = messageViewModel, userId = user.Id });
         }
-
-
-
-
     }
 }
