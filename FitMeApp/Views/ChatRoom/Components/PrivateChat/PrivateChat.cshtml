@@ -112,7 +112,7 @@
                     success: function (result) {
                         $('#messagesWindow tr:last').after(result);
                         $('#message').val('');
-                        messagesWindowScroll.scrollTop = messagesWindowScroll.scrollHeight; /*to keep focus in scrollPanel at the last added message*/
+                        messagesWindowScroll.scrollTop = messagesWindowScroll.scrollHeight; /*to keep focus in scrollPanel on the last added message*/
                     }
                 });
             });
@@ -123,21 +123,18 @@
 
 
     try {
-        //document.getElementById("sendBtn").addEventListener("click",
-        //    function (e) {
-        //        let message = document.getElementById("message").value;
-        //        let receiverId = document.getElementById("receiverId").value;
-        //        let senderId = document.getElementById("senderId").value;
-        //        hubConnection.invoke("Send", message, receiverId, senderId);
-        //    });
+        document.getElementById("sendBtn").addEventListener("click",
+            function (e) {
+                let message = document.getElementById("message").value;
+                let receiverId = document.getElementById("receiverId").value;
+                let senderId = document.getElementById("senderId").value;
+                hubConnection.invoke("Send", message, receiverId, senderId);
+            });
 
         document.getElementById("message").addEventListener("keypress",
             function (e) {
                 if (e.key === "Enter") {
-                    let message = document.getElementById("message").value;
-                    let receiverId = document.getElementById("receiverId").value;
-                    let senderId = document.getElementById("senderId").value;
-                    hubConnection.invoke("Send", message, receiverId, senderId);
+                    document.getElementById("sendBtn").click();
                 }
             });
     } catch (ex) {
