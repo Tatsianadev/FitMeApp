@@ -31,8 +31,8 @@
         </tr>
     </thead>
 </table>
-<div class="scroll">
-    <table class="table" id="messageList">
+<div class="scroll" id="messagesWindowScroll">
+    <table class="table" id="messagesWindow">
         <thead>
         <tr>
             <th scope="col" style="width: 15%; height: 0"></th>
@@ -90,6 +90,9 @@
     <input type="button" id="sendBtn" value="Send" class="btn btn-dark btn-sm" style=""/>
 </div>
 <script>
+    var messagesWindowScroll = document.getElementById("messagesWindowScroll");  /*to keep focus in scrollPanel at the bottom*/ 
+    messagesWindowScroll.scrollTop = messagesWindowScroll.scrollHeight;
+
     const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/chat")
         .configureLogging(signalR.LogLevel.Information)
@@ -103,14 +106,15 @@
                 var url = "@Url.Action("ShowNewMessageInChat", "ChatRoom")";
 
                 $.ajax({
-                        type: "Get",
-                        url: url,
-                        data: { messageId: messageId },
-                     success: function (result) {
-                         $('#messageList tr:last').after(result);
-                         $('#message').val('');
-                     }
-                  });
+                    type: "Get",
+                    url: url,
+                    data: { messageId: messageId },
+                    success: function (result) {
+                        $('#messagesWindow tr:last').after(result);
+                        $('#message').val('');
+                        messagesWindowScroll.scrollTop = messagesWindowScroll.scrollHeight; /*to keep focus in scrollPanel at the last added message*/
+                    }
+                });
             });
     }
     catch (ex) {
@@ -119,13 +123,23 @@
 
 
     try {
-        document.getElementById("sendBtn").addEventListener("click",
+        //document.getElementById("sendBtn").addEventListener("click",
+        //    function (e) {
+        //        let message = document.getElementById("message").value;
+        //        let receiverId = document.getElementById("receiverId").value;
+        //        let senderId = document.getElementById("senderId").value;
+        //        hubConnection.invoke("Send", message, receiverId, senderId);
+        //    });
+
+        document.getElementById("message").addEventListener("keypress",
             function (e) {
-                let message = document.getElementById("message").value;
-                let receiverId = document.getElementById("receiverId").value;
-                let senderId = document.getElementById("senderId").value;
-                hubConnection.invoke("Send", message, receiverId, senderId);
-        });
+                if (e.key === "Enter") {
+                    let message = document.getElementById("message").value;
+                    let receiverId = document.getElementById("receiverId").value;
+                    let senderId = document.getElementById("senderId").value;
+                    hubConnection.invoke("Send", message, receiverId, senderId);
+                }
+            });
     } catch (ex) {
         console.error(ex);
     }
