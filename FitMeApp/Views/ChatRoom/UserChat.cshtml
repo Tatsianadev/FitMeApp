@@ -32,19 +32,22 @@
 <script>
     document.getElementById("searchBox").addEventListener("keyup",
         function(e) {
-            if (e.keyCode > 64 && e.keyCode < 106) {
+            if ((e.keyCode > 45 && e.keyCode < 106) || e.keyCode === 8) {
                 var letters = document.getElementById("searchBox").value;
-                var url = "@Url.Action("GetUsersByLetters", "ChatRoom")";
+                if (letters.length > 0) {
+                    var url = "@Url.Action("GetUsersByLetters", "ChatRoom")";
 
-                $.ajax({
-                    type: "Get",
-                    url: url,
-                    data: { letters: letters },
-                    success: function (result) {
-                        $('#searchResult').add(result);
-                        $('#message').val('');
-                    }
-                });
+                    $.ajax({
+                        type: "Get",
+                        url: url,
+                        data: { letters: letters },
+                        success: function (result) {
+                            $('#searchResult').html(result);
+                        }
+                    });
+                } else {
+                    $('#searchResult').html('');
+                }
             }
         });
 </script>

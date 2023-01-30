@@ -103,7 +103,7 @@ namespace FitMeApp.Controllers
                 .Where(x => x.UserName != currentUser.UserName)
                 .ToList();
 
-            return View();
+            return ViewComponent("UsersSearchResult", new {users = users});
         }
 
     }

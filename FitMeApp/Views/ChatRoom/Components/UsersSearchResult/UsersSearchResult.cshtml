@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FitMeApp.Common.User>
+
+
+@if (Model.ToList().Count > 0)
+{
+    <div>
+        <table style="margin: 5px">
+            @foreach (var contact in Model)
+            {
+                string avatarPath = "/Content/images/" + contact.Avatar;
+                <tr>
+                    <td style="width: 15%">
+                        <img src="@avatarPath" style="width: 80%; height: auto; padding: 0px" />
+                    </td>
+                    <td style="width: 60%">
+                        @contact.FirstName @contact.LastName
+                    </td>
+                    <td style="width: 15%">
+                        <a asp-controller="ChatRoom" asp-action="SelectContactToChat" asp-route-receiverId="@contact.Id" class="btn btn-outline-dark btn-sm">Message</a>
+                    </td>
+                    <td style="width: 10%">
+                        <a asp-controller="ChatRoom" asp-action="AddContact" asp-route-contactId="@contact.Id" class="btn btn-outline-dark btn-sm">Add</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+
