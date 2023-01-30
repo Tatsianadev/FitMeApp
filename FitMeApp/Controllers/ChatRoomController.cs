@@ -92,5 +92,7 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             return ViewComponent("MessageInPrivateChat", new { message = messageViewModel, userId = user.Id });
         }
+
+
     }
 }

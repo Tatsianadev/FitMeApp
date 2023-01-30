@@ -1,9 +1,20 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.UserChatMainPageViewModel
 
+
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-           @await  Component.InvokeAsync("ChatList", new{ contactsId = Model.ContactsId})
+            <div class="container" style="text-align: center; padding: 5px 20px">
+                <div class="row">
+                    <div class="col-md-11">
+                        <input class="form-control" type="text" placeholder="Search...">
+                    </div>
+                    <div class="col-md-1" style="padding: 5px">
+                        <img src="/Content/images/search.svg" id="searchImg"/>
+                    </div>
+                </div>
+            </div>
+            @await Component.InvokeAsync("ChatList", new {contactsId = Model.ContactsId})
         </div>
         <div class="col-md-8">
             @if (Model.ReceiverId != null)
