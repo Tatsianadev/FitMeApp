@@ -93,6 +93,18 @@ namespace FitMeApp.Controllers
             return ViewComponent("MessageInPrivateChat", new { message = messageViewModel, userId = user.Id });
         }
 
+        
+        public async Task<IActionResult> GetUsersByLetters(string letters)
+        {
+            string lettersLow = letters.ToLower();
+            var currentUser = await _userManager.GetUserAsync(User);
+            List<User> users = _userManager.Users
+                .Where(x => x.FirstName.ToLower().StartsWith(lettersLow) || x.LastName.ToLower().StartsWith(lettersLow))
+                .Where(x => x.UserName != currentUser.UserName)
+                .ToList();
+
+            return View();
+        }
 
     }
 }

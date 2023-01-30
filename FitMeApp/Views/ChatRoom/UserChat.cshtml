@@ -7,11 +7,12 @@
             <div class="container" style="text-align: center; padding: 5px 20px">
                 <div class="row">
                     <div class="col-md-11">
-                        <input class="form-control" type="text" placeholder="Search...">
+                        <input id="searchBox" class="form-control" type="text" placeholder="Search...">
                     </div>
                     <div class="col-md-1" style="padding: 5px">
-                        <img src="/Content/images/search.svg" id="searchImg"/>
+                        <img id="searchImg" src="/Content/images/search.svg" />
                     </div>
+                    <div id="searchResult"></div>
                 </div>
             </div>
             @await Component.InvokeAsync("ChatList", new {contactsId = Model.ContactsId})
@@ -27,3 +28,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("searchBox").addEventListener("keyup",
+        function(e) {
+            if (e.keyCode > 64 && e.keyCode < 106) {
+                var letters = document.getElementById("searchBox").value;
+                var url = "@Url.Action("GetUsersByLetters", "ChatRoom")";
+
+                $.ajax({
+                    type: "Get",
+                    url: url,
+                    data: { letters: letters },
+                    success: function (result) {
+                        $('#searchResult').add(result);
+                        $('#message').val('');
+                    }
+                });
+            }
+        });
+</script>
