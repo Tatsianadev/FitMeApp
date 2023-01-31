@@ -505,3 +505,19 @@ go
 
 
 
+create table ChatContacts
+(
+Id int identity primary key not null,
+UserId nvarchar(450) not null,
+InterlocutorId nvarchar(450) not null
+)
+go
+
+ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
+
+ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([InterlocutorId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
+

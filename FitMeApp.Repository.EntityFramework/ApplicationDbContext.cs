@@ -21,6 +21,7 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<TrainerWorkHoursEntity> TrainerWorkHours { get; set; }
 
         public DbSet<ChatMessageEntity> ChatMessages { get; set; }
+        public  DbSet<ChatContactEntity> ChatContacts { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):

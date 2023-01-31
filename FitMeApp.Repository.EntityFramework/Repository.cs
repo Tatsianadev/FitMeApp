@@ -1266,34 +1266,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<string> GetAllContactsIdByUser(string userId)
         {
-            var receiversId = _context.ChatMessages
-                .Where(x => x.SenderId == userId)
-                .OrderBy(x => x.Date)
-                .Select(x => x.ReceiverId)
-                .ToList();
-
-            var sendersId = _context.ChatMessages
-                .Where(x => x.ReceiverId == userId)
-                .OrderBy(x => x.Date)
-                .Select(x => x.SenderId)
-                .ToList();
-
-            List<string> allContactsId = new List<string>();
-            foreach (var receiverId in receiversId)
-            {
-                if (!allContactsId.Contains(receiverId))
-                {
-                    allContactsId.Add(receiverId);
-                }
-            }
-
-            foreach (var senderId in sendersId)
-            {
-                if (!allContactsId.Contains(senderId))
-                {
-                    allContactsId.Add(senderId);
-                }
-            }
+            var allContactsId = _context.ChatContacts.Where(x => x.UserId == userId).Select(x => x.InterlocutorId).ToList();
             return allContactsId;
         }
 
@@ -1318,8 +1291,6 @@ namespace FitMeApp.Repository.EntityFramework
             var message = _context.ChatMessages.Where(x => x.Id == messageId).First();
             return message;
         }
-
-
 
 
     }

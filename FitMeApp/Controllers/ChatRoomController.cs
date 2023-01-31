@@ -106,5 +106,23 @@ namespace FitMeApp.Controllers
             return ViewComponent("UsersSearchResult", new {users = users});
         }
 
+
+        public async Task<IActionResult> AddChat(string contactId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            ChatMessageViewModel firstMessageViewModel = new ChatMessageViewModel()
+            {
+                SenderId = user.Id,
+                ReceiverId = contactId,
+                Message = "Hi!",
+                Date = DateTime.Now
+
+            };
+            var firstMessageModel = _mapper.MapChatMessageViewModelToModel(firstMessageViewModel);
+            _chatService.AddMessage(firstMessageModel);
+            var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id).ToList();
+            return ViewComponent("ChatList", new { contactsId = allContactsIdByUser });
+        }
+
     }
 }

@@ -424,3 +424,13 @@ values
 ,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'f6b480ef-aa5c-467f-8382-5199a395d585', 'How are you?',  '2023-01-11 13:49:00')
 ,('f6b480ef-aa5c-467f-8382-5199a395d585', 'e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'I am totally great! What about you?',  '2023-01-11 13:58:00')
 go
+
+
+
+insert ChatContacts (UserId, InterlocutorId)
+values
+('f6b480ef-aa5c-467f-8382-5199a395d585', 'e985d062-69f4-40fd-aa35-ff35dc1ca911')
+,('f6b480ef-aa5c-467f-8382-5199a395d585', 'e26bcd6e-49bd-42d6-acca-905ba29cddbc')
+,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'f6b480ef-aa5c-467f-8382-5199a395d585')
+,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'f6b480ef-aa5c-467f-8382-5199a395d585')
+go

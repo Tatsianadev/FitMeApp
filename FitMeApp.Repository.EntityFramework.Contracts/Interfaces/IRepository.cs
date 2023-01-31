@@ -77,7 +77,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
        
 
        //Schedule
-       IEnumerable<EventEntityBase> GetAllEvents();
+        IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
         IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);
@@ -95,7 +95,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<string> GetAllContactsIdByUser(string userId);
         int AddMessage(ChatMessageEntityBase message);
         ChatMessageEntityBase GetMessage(int messageId);
-
 
     }
 }
