@@ -63,5 +63,11 @@ namespace FitMeApp.Services
             return messageModel;
         }
 
+        public bool AddContact(string userId, string interlocutorId)
+        {
+            bool result = _repository.AddContact(userId, interlocutorId);
+            return result;
+        }
+
     }
 }

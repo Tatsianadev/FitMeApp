@@ -1293,5 +1293,24 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public bool AddContact(string userId, string interlocutorId)
+        {
+            ChatContactEntityBase newContact = new ChatContactEntity()
+            {
+                UserId = userId,
+                InterlocutorId = interlocutorId
+            };
+            _context.Add(newContact);
+            int addedContactCount = _context.SaveChanges();
+
+            if (addedContactCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

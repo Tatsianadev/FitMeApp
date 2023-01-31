@@ -11,5 +11,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<string> GetAllContactsIdByUser(string userId);
         int AddMessage(ChatMessageModel message);
         ChatMessageModel GetMessage(int messageId);
+        bool AddContact(string userId, string interlocutorId);
     }
 }

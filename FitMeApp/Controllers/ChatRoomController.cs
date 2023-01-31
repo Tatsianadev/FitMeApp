@@ -110,18 +110,9 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> AddChat(string contactId)
         {
             var user = await _userManager.GetUserAsync(User);
-            ChatMessageViewModel firstMessageViewModel = new ChatMessageViewModel()
-            {
-                SenderId = user.Id,
-                ReceiverId = contactId,
-                Message = "Hi!",
-                Date = DateTime.Now
+            bool result = _chatService.AddContact(user.Id, contactId);
 
-            };
-            var firstMessageModel = _mapper.MapChatMessageViewModelToModel(firstMessageViewModel);
-            _chatService.AddMessage(firstMessageModel);
-            var allContactsIdByUser = _chatService.GetAllContactsIdByUser(user.Id).ToList();
-            return ViewComponent("ChatList", new { contactsId = allContactsIdByUser });
+            return RedirectToAction("UserChat");
         }
 
     }
