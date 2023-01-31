@@ -3,6 +3,8 @@
 
 @if (Model.ToList().Count > 0)
 {
+    List<string> allContactsByUser = ViewBag.AllContactsByUser;
+   
     <div>
         <table style="margin: 5px">
             @foreach (var contact in Model)
@@ -19,7 +21,10 @@
                         <a asp-controller="ChatRoom" asp-action="SelectContactToChat" asp-route-receiverId="@contact.Id" class="btn btn-outline-dark btn-sm">Message</a>
                     </td>
                     <td style="width: 10%">
-                        <a asp-controller="ChatRoom" asp-action="AddChat" asp-route-contactId="@contact.Id" class="btn btn-outline-dark btn-sm">Add</a>
+                        @if (!allContactsByUser.Contains(contact.Id))
+                        {
+                            <a asp-controller="ChatRoom" asp-action="AddChat" asp-route-contactId="@contact.Id" class="btn btn-outline-dark btn-sm">Add</a>
+                        }
                     </td>
                 </tr>
             }

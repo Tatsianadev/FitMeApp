@@ -103,7 +103,8 @@ namespace FitMeApp.Controllers
                 .Where(x => x.UserName != currentUser.UserName)
                 .ToList();
 
-            return ViewComponent("UsersSearchResult", new {users = users});
+            var allContactsIdByUser = _chatService.GetAllContactsIdByUser(currentUser.Id).ToList();
+            return ViewComponent("UsersSearchResult", new {users = users, allContactsByUser = allContactsIdByUser});
         }
 
 
