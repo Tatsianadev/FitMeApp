@@ -7,10 +7,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IScheduleService
     {
-        IEnumerable<EventModel> GetAllEvents();
-        IEnumerable<EventModel> GetEventsByUser(string userId);
-        IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime);
-        IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
+        IEnumerable<PersonalTrainingEventModel> GetAllEvents();
+        IEnumerable<PersonalTrainingEventModel> GetEventsByUser(string userId);
+        IEnumerable<PersonalTrainingEventModel> GetEventsByUserAndDate(string userId, DateTime dateTime);
+        IEnumerable<PersonalTrainingEventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
         bool ChangeEventStatus(int eventId);

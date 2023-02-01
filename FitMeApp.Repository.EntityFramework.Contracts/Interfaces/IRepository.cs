@@ -77,8 +77,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
        
 
        //Schedule
-        IEnumerable<EventEntityBase> GetAllEvents();
-        IEnumerable<EventEntityBase> GetEventsByUser(string userId);
+        IEnumerable<PersonalTrainingEventEntityBase> GetAllEvents();
+        IEnumerable<PersonalTrainingEventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
         IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
@@ -87,7 +87,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Events
         bool ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
-        IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
+        IEnumerable<PersonalTrainingEventEntityBase> GetActualEventsByTrainer(string trainerId);
 
         //Chat
         IEnumerable<ChatMessageEntityBase> GetAllMessagesByUser(string userId);

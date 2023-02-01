@@ -167,28 +167,26 @@ namespace FitMeApp.Mapper
         }
 
 
-        public EventViewModel MappEventModelToViewModel(EventModel eventModel)
+        public PersonalTrainingEventViewModel MappEventModelToViewModel(PersonalTrainingEventModel personalTrainingEventModel)
         {
-            EventViewModel eventViewModel = new EventViewModel()
+            PersonalTrainingEventViewModel personalTrainingEventViewModel = new PersonalTrainingEventViewModel()
             {
-                Id = eventModel.Id,
-                Date = eventModel.Date,
-                StartTime = eventModel.StartTime,
-                EndTime = eventModel.EndTime,
-                TrainerId = eventModel.TrainerId,
-                TrainerFirstName = eventModel.TrainerFirstName,
-                TrainerLastName = eventModel.TrainerLastName,
-                GymId = eventModel.GymId,
-                GymName = eventModel.GymName,
-                UserId = eventModel.UserId,
-                //UserName = eventModel.UserName,
-                UserFirstName = eventModel.UserFirstName,
-                UserLastName = eventModel.UserLastName,
-                TrainingId = eventModel.TrainingId,
-                TrainingName = eventModel.TrainingName,
-                Status = eventModel.Status
+                Id = personalTrainingEventModel.Id,
+                Date = personalTrainingEventModel.Date,
+                StartTime = personalTrainingEventModel.StartTime,
+                EndTime = personalTrainingEventModel.EndTime,
+                TrainerId = personalTrainingEventModel.TrainerId,
+                TrainerFirstName = personalTrainingEventModel.TrainerFirstName,
+                TrainerLastName = personalTrainingEventModel.TrainerLastName,
+                GymId = personalTrainingEventModel.GymId,
+                GymName = personalTrainingEventModel.GymName,
+                UserId = personalTrainingEventModel.UserId,
+                //UserName = personalTrainingEventModel.UserName,
+                UserFirstName = personalTrainingEventModel.UserFirstName,
+                UserLastName = personalTrainingEventModel.UserLastName,
+                Status = personalTrainingEventModel.Status
             };
-            return eventViewModel;
+            return personalTrainingEventViewModel;
         }
 
 

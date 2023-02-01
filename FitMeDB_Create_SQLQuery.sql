@@ -447,24 +447,23 @@ GO
 
 --Schedule--
 
-CREATE TABLE [dbo].[Events](
+CREATE TABLE [dbo].[PersonalTrainingEvents](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Date] [date] NOT NULL,
 	[StartTime] [int] NOT NULL,
 	[EndTime] [int] NOT NULL,
 	[TrainerId] [nvarchar](256) NOT NULL,
-	[UserId] [nvarchar](max) NULL,
-	[TrainingId] [int] NOT NULL,
+	[UserId] [nvarchar](max) NULL,	
 	[Status] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Events]  WITH CHECK ADD FOREIGN KEY([TrainingId])
-REFERENCES [dbo].[Trainings] ([Id])
+ALTER TABLE [dbo].[PersonalTrainingEvents]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[Trainers] ([Id])
 GO
 
 

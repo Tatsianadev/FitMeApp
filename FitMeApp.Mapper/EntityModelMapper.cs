@@ -162,26 +162,25 @@ namespace FitMeApp.Mapper
         }
 
 
-        public EventModel MappEventEntityBaseToModel(EventEntityBase eventEntityBase)
+        public PersonalTrainingEventModel MappEventEntityBaseToModel(PersonalTrainingEventEntityBase personalTrainingEventEntityBase)
         {
-            EventModel eventModel = new EventModel()
+            PersonalTrainingEventModel personalTrainingEventModel = new PersonalTrainingEventModel()
             {
-                Id = eventEntityBase.Id,
-                Date = eventEntityBase.Date,
-                StartTime = eventEntityBase.StartTime,
-                EndTime = eventEntityBase.EndTime,
-                TrainerId = eventEntityBase.TrainerId,               
-                UserId = eventEntityBase.UserId,              
-                TrainingId = eventEntityBase.TrainingId,              
-                Status = eventEntityBase.Status
+                Id = personalTrainingEventEntityBase.Id,
+                Date = personalTrainingEventEntityBase.Date,
+                StartTime = personalTrainingEventEntityBase.StartTime,
+                EndTime = personalTrainingEventEntityBase.EndTime,
+                TrainerId = personalTrainingEventEntityBase.TrainerId,               
+                UserId = personalTrainingEventEntityBase.UserId,
+                Status = personalTrainingEventEntityBase.Status
             };
 
-            return eventModel;
+            return personalTrainingEventModel;
         }
 
-        public EventModel MappEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
+        public PersonalTrainingEventModel MappEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
         {
-            EventModel eventModel = new EventModel()
+            PersonalTrainingEventModel personalTrainingEventModel = new PersonalTrainingEventModel()
             {
                 Id = eventEntityBase.Id,
                 Date = eventEntityBase.Date,
@@ -193,15 +192,13 @@ namespace FitMeApp.Mapper
                 GymId = eventEntityBase.GymId,
                 GymName = eventEntityBase.GymName,
                 UserId = eventEntityBase.UserId,
-                //UserName = eventEntityBase.UserName,
+                //UserName = personalTrainingEventEntityBase.UserName,
                 UserFirstName = eventEntityBase.UserFirstName,
                 UserLastName = eventEntityBase.UserLastName,
-                TrainingId = eventEntityBase.TrainingId,
-                TrainingName = eventEntityBase.TrainingName,
                 Status = eventEntityBase.Status
             };
 
-            return eventModel;
+            return personalTrainingEventModel;
         }
 
 

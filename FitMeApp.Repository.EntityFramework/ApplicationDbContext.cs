@@ -16,7 +16,7 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<GymSubscriptionEntity> GymSubscriptions { get; set; }
         public DbSet<UserSubscriptionEntity> UserSubscriptions { get; set; }
 
-        public DbSet<EventEntity> Events { get; set; }
+        public DbSet<PersonalTrainingPersonalTrainingEventEntity> PersonalTrainingEvents { get; set; }
         public DbSet<GymWorkHoursEntity> GymWorkHours { get; set; }
         public DbSet<TrainerWorkHoursEntity> TrainerWorkHours { get; set; }
 

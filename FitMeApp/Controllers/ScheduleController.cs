@@ -88,7 +88,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        //Events - PartialView
+        //PersonalTrainingEvents - PartialView
 
         [Authorize(Roles = "admin, user")]
         public IActionResult ShowUsersEvents(CalendarPageWithEventsViewModel model)
@@ -98,7 +98,7 @@ namespace FitMeApp.Controllers
                 string userId = _userManager.GetUserId(User);
 
                 var eventModels = _scheduleService.GetEventsByUserAndDate(userId, model.Date);
-                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
+                List<PersonalTrainingEventViewModel> eventsViewModels = new List<PersonalTrainingEventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
                     eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
@@ -140,7 +140,7 @@ namespace FitMeApp.Controllers
                 }
 
                 var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, model.Date);
-                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
+                List<PersonalTrainingEventViewModel> eventsViewModels = new List<PersonalTrainingEventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
                     eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));

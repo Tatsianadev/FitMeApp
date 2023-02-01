@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
-    public class EventViewModel
+    public class PersonalTrainingEventViewModel
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
@@ -20,8 +20,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         //public string UserName { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
-        public int TrainingId { get; set; }
-        public string TrainingName { get; set; }
         public EventStatusEnum Status { get; set; }
     }
 }
