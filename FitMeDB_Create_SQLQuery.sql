@@ -520,4 +520,3 @@ GO
 ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([InterlocutorId])
 REFERENCES [dbo].[AspNetUsers] ([Id])
 GO
-

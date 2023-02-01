@@ -63,6 +63,14 @@ namespace FitMeApp.Controllers
             {
                 var sender = await _userManager.GetUserAsync(User);
                 var allContactsIdBySender = _chatService.GetAllContactsIdByUser(sender.Id).ToList();
+
+                //if the receiver was selected from the Search panel -> check, if it is in contact list  
+                if (!allContactsIdBySender.Contains(receiverId))  
+                {
+                    _chatService.AddContact(sender.Id, receiverId);
+                    allContactsIdBySender.Add(receiverId);
+                }
+
                 UserChatMainPageViewModel viewModel = new UserChatMainPageViewModel()
                 {
                     ContactsId = allContactsIdBySender,
@@ -111,8 +119,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> AddChat(string contactId)
         {
             var user = await _userManager.GetUserAsync(User);
-            bool result = _chatService.AddContact(user.Id, contactId);
-
+            _chatService.AddContact(user.Id, contactId);
             return RedirectToAction("UserChat");
         }
 
