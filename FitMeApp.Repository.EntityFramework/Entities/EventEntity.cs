@@ -6,8 +6,8 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
-    [Table("PersonalTrainingEvents")]
-    public class PersonalTrainingPersonalTrainingEventEntity:PersonalTrainingEventEntityBase
+    [Table("Events")]
+    public class EventEntity:EventEntityBase
     {
         public virtual TrainerEntity Trainer { get; set; }
 

@@ -47,7 +47,7 @@
                     @foreach (var eventItem in Model.Events)
                     {
                         List<int> eventsId = new List<int>();
-                        //string colorRow = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
+                        string colorRow = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
                         string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? "Cancel" : "Confirm";
                         while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
@@ -55,11 +55,11 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr @*class="@colorRow"*@>
+                                    <tr class="@colorRow">
                                         <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">00</td>
                                         <td id="(@i)_3">
-                                            @*<span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160*@
+                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
                                         </td>
                                         <td id="(@i)_4">@eventItem.Status</td>
@@ -81,7 +81,7 @@
                                 }
                                 else
                                 {
-                                    <tr @*class="@colorRow"*@>
+                                    <tr class="@colorRow">
                                         <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">00</td>
                                         <td id="(@i)_3">
@@ -99,11 +99,11 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr @*class="@colorRow"*@ style="border-bottom:2px solid">
+                                    <tr class="@colorRow" style="border-bottom:2px solid">
                                         <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">30</td>
                                         <td id="(@i)_3">
-                                            @*<span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160*@
+                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
                                         </td>
                                         <td id="(@i)_4">@eventItem.Status </td>
@@ -124,7 +124,7 @@
                                 }
                                 else
                                 {
-                                    <tr @*class="@colorRow"*@ style="border-bottom:2px solid">
+                                    <tr class="@colorRow" style="border-bottom:2px solid">
                                         <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">30</td>
                                         <td id="(@i)_3">

@@ -26,10 +26,10 @@ namespace FitMeApp.Services
 
 
 
-        public IEnumerable<PersonalTrainingEventModel> GetAllEvents() 
+        public IEnumerable<EventModel> GetAllEvents() 
         {
             var eventEntityBases = _repository.GetAllEvents();
-            List<PersonalTrainingEventModel> eventModels = new List<PersonalTrainingEventModel>();
+            List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventEntityBases)
             {
                 eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
@@ -37,10 +37,10 @@ namespace FitMeApp.Services
             return eventModels;
         }
 
-        public IEnumerable<PersonalTrainingEventModel> GetEventsByUser(string userId)
+        public IEnumerable<EventModel> GetEventsByUser(string userId)
         {
             var eventEntityBases = _repository.GetEventsByUser(userId);
-            List<PersonalTrainingEventModel> eventModels = new List<PersonalTrainingEventModel>();
+            List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventEntityBases)
             {
                 eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
@@ -48,10 +48,10 @@ namespace FitMeApp.Services
             return eventModels;
         }
 
-        public IEnumerable<PersonalTrainingEventModel> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        public IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
             var eventWithNamesBases = _repository.GetEventsByUserAndDate(userId,dateTime);
-            List<PersonalTrainingEventModel> eventModels = new List<PersonalTrainingEventModel>();
+            List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventWithNamesBases)
             {
                 eventModels.Add(_mapper.MappEventWithNamesBaseToModel(entity));
@@ -60,10 +60,10 @@ namespace FitMeApp.Services
         }
 
 
-        public IEnumerable<PersonalTrainingEventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime)
+        public IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime)
         {
             var eventWithNamesBases = _repository.GetEventsByTrainerAndDate(trainerId, dateTime);
-            List<PersonalTrainingEventModel> eventModels = new List<PersonalTrainingEventModel>();
+            List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventWithNamesBases)
             {
                 eventModels.Add(_mapper.MappEventWithNamesBaseToModel(entity));

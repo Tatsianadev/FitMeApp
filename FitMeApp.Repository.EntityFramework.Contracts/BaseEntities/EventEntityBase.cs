@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
-    public class PersonalTrainingEventEntityBase
+    public class EventEntityBase
     {
         [Key]
         public int Id { get; set; }
@@ -15,6 +15,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public int EndTime { get; set; }
         public string TrainerId { get; set; }
         public string UserId { get; set; }
+        public int TrainingId { get; set; }
         public EventStatusEnum Status { get; set; }
 
 

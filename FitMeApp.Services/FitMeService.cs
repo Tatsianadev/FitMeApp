@@ -432,7 +432,7 @@ namespace FitMeApp.Services
         }
 
 
-        //PersonalTrainingEvents
+        //Events
         public int GetActualEventsCountByTrainer(string trainerId)
         {
             int actualEventsCount = _repository.GetActualEventsCountByTrainer(trainerId);

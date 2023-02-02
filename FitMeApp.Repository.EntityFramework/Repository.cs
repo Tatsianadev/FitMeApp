@@ -1037,17 +1037,17 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        //PersonalTrainingEvents
-        public IEnumerable<PersonalTrainingEventEntityBase> GetAllEvents()
+        //Events
+        public IEnumerable<EventEntityBase> GetAllEvents()
         {
-            var events = _context.PersonalTrainingEvents.ToList();
+            var events = _context.Events.ToList();
             return events;
 
         }
 
-        public IEnumerable<PersonalTrainingEventEntityBase> GetEventsByUser(string userId)
+        public IEnumerable<EventEntityBase> GetEventsByUser(string userId)
         {
-            var userEvents = _context.PersonalTrainingEvents.Where(x => x.UserId == userId).ToList();
+            var userEvents = _context.Events.Where(x => x.UserId == userId).ToList();
             return userEvents;
         }
 
@@ -1057,7 +1057,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
 
-            var eventTrainerTrainingUserGymJoin = (from events in _context.PersonalTrainingEvents
+            var eventTrainerTrainingUserGymJoin = (from events in _context.Events
                                                    join user in _context.Users
                                                    on events.UserId equals user.Id
                                                    join userTr in _context.Users
@@ -1066,6 +1066,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                    on events.TrainerId equals trainer.Id
                                                    join gym in _context.Gyms
                                                    on trainer.GymId equals gym.Id
+                                                   join training in _context.Trainings
+                                                   on events.TrainingId equals training.Id
                                                    where events.UserId == userId
                                                    where events.Date.ToString() == dateOnly
                                                    select new
@@ -1081,6 +1083,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                        GymName = gym.Name,
                                                        UserId = events.UserId,
                                                        //UserName = user.UserName,
+                                                       TrainingId = events.TrainingId,
+                                                       TrainingName = training.Name,
                                                        Status = events.Status
                                                    })
                                                        .OrderBy(x => x.StartTime).ToList();
@@ -1101,6 +1105,8 @@ namespace FitMeApp.Repository.EntityFramework
                     GymName = entity.GymName,
                     UserId = entity.UserId,
                     //UserName = entity.UserName,
+                    TrainingId = entity.TrainingId,
+                    TrainingName = entity.TrainingName,
                     Status = entity.Status
                 });
             }
@@ -1116,13 +1122,15 @@ namespace FitMeApp.Repository.EntityFramework
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
 
-            var eventTrainerTrainingUserGymJoin = (from events in _context.PersonalTrainingEvents
+            var eventTrainerTrainingUserGymJoin = (from events in _context.Events
                                                    join user in _context.Users
                                                    on events.UserId equals user.Id
                                                    join trainer in _context.Trainers
                                                    on events.TrainerId equals trainer.Id
                                                    join gym in _context.Gyms
                                                    on trainer.GymId equals gym.Id
+                                                   join training in _context.Trainings
+                                                   on events.TrainingId equals training.Id
                                                    where events.TrainerId == trainerId
                                                    where events.Date.ToString() == dateOnly
                                                    select new
@@ -1135,6 +1143,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                        //UserName = user.UserName,
                                                        UserFirstName = user.FirstName,
                                                        UserLastName = user.LastName,
+                                                       TrainingId = events.TrainingId,
+                                                       TrainingName = training.Name,
                                                        Status = events.Status
                                                    }).OrderBy(x => x.StartTime).ToList();
 
@@ -1151,6 +1161,8 @@ namespace FitMeApp.Repository.EntityFramework
                     //UserName = entity.UserName,
                     UserFirstName = entity.UserFirstName,
                     UserLastName = entity.UserLastName,
+                    TrainingId = entity.TrainingId,
+                    TrainingName = entity.TrainingName,
                     Status = entity.Status
                 });
             }
@@ -1161,10 +1173,10 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        // to show PersonalTrainingEvents count for each date on the calendar for current User
+        // to show Events count for each date on the calendar for current User
         public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
         {
-            var allEventsByUser = _context.PersonalTrainingEvents.Where(x => x.UserId == userId).OrderBy(x => x.Date).ToList();
+            var allEventsByUser = _context.Events.Where(x => x.UserId == userId).OrderBy(x => x.Date).ToList();
             Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
             foreach (var eventItem in allEventsByUser)
@@ -1181,7 +1193,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
-            var allEventsByTrainer = _context.PersonalTrainingEvents.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
+            var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
             Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
             foreach (var eventItem in allEventsByTrainer)
@@ -1199,7 +1211,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public bool ChangeEventStatus(int eventId)
         {
-            var currentEvent = _context.PersonalTrainingEvents.Where(x => x.Id == eventId).First();
+            var currentEvent = _context.Events.Where(x => x.Id == eventId).First();
 
             if (currentEvent.Status == Common.EventStatusEnum.Open)
             {
@@ -1217,13 +1229,13 @@ namespace FitMeApp.Repository.EntityFramework
 
         public int GetActualEventsCountByTrainer(string trainerId)
         {
-            var actualEventsCount = _context.PersonalTrainingEvents.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
+            var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
             return actualEventsCount;
         }
 
-        public IEnumerable<PersonalTrainingEventEntityBase> GetActualEventsByTrainer(string trainerId)
+        public IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId)
         {
-            var actualEvents = _context.PersonalTrainingEvents
+            var actualEvents = _context.Events
                 .Where(x => x.TrainerId == trainerId)
                 .Where(x => x.Date.Date >= DateTime.Now.Date)
                 .ToList();
