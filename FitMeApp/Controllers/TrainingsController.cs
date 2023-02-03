@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.WEB.Contracts.ViewModels;
+using FitMeApp.Common;
 
 namespace FitMeApp.Controllers
 {
@@ -32,10 +34,30 @@ namespace FitMeApp.Controllers
 
         public IActionResult ApplyForPersonalTraining(string trainerId)
         {
+            var trainer = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
             List<int> availableTimeInMinutes = _trainingService
-                .GetAvailableToApplyTrainingTimingByTrainer(trainerId, new DateTime(2023, 02, 07))
+                .GetAvailableToApplyTrainingTimingByTrainer(trainerId, DateTime.Now)
                 .ToList();
-            return View();
+
+            List<string> stringTime = new List<string>();
+            foreach (var intTime in availableTimeInMinutes)
+            {
+                stringTime.Add(WorkHoursTypesConverter.ConvertIntTimeToString(intTime));
+            }
+
+            ApplyingForPersonalTrainingViewModel model = new ApplyingForPersonalTrainingViewModel()
+            {
+               TrainerId = trainer.Id,
+               TrainerFirstName = trainer.FirstName,
+               TrainerLastName = trainer.LastName,
+               GymName = trainer.Gym.Name,
+               GymAddress = trainer.Gym.Address,
+               AvailableTime = stringTime,
+               SelectedDate = DateTime.Now
+
+            };
+
+            return View(model);
         }
     }
 }

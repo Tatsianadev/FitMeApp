@@ -309,9 +309,10 @@ namespace FitMeApp.Repository.EntityFramework
             
             List<int> occupiedTime = new List<int>();
 
+            //Time at 30 minutes before events is not available to applying training
             foreach (var eventTime in existingEventsStartEnd)
             {
-                for (int timeInMinutes = eventTime.StartEvent; timeInMinutes < eventTime.EndEvent; timeInMinutes = (timeInMinutes + 30))
+                for (int timeInMinutes = (eventTime.StartEvent - 30); timeInMinutes < eventTime.EndEvent; timeInMinutes = (timeInMinutes + 30))
                 {
                     occupiedTime.Add(timeInMinutes);
                 }
@@ -732,6 +733,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               Status = trainer.Status,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
+                                              GymAddress = gym.Address,
                                               TrainingId = training.Id,
                                               TrainingName = training.Name
 
@@ -760,7 +762,8 @@ namespace FitMeApp.Repository.EntityFramework
                 Gym = new GymEntity()
                 {
                     Id = trainerEntity.GymId,
-                    Name = trainerEntity.GymName
+                    Name = trainerEntity.GymName,
+                    Address = trainerEntity.GymAddress
                 },
                 Trainings = trainingEntities
             };
