@@ -31,7 +31,7 @@ namespace FitMeApp.Common
 
             //oпределение дробной части
             int pointIndex = stringTime.Length - 3;
-            string remainder = stringTime.Remove(0, pointIndex+1);
+            string remainder = stringTime.Remove(0, pointIndex + 1);
 
             int intTime = int.Parse(integerPart) * 60 + int.Parse(remainder);
             return intTime;

@@ -276,6 +276,46 @@ namespace FitMeApp.Repository.EntityFramework
             return true;
         }
 
+
+        public IEnumerable<int> GetAvailableToApplyTrainingHoursByTrainer(string trainerId, DateTime date)
+        {
+            var trainerWorkHoursGymWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
+                                                    join gymWorkHours in _context.GymWorkHours
+                                                    on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
+                                                    where trainerWorkHours.TrainerId == trainerId
+                                                    where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
+                                                    select new
+                                                    {
+                                                        Id = trainerWorkHours.Id,
+                                                        TrainerId = trainerWorkHours.TrainerId,
+                                                        StartTime = trainerWorkHours.StartTime,
+                                                        EndTime = trainerWorkHours.EndTime,
+                                                        GymWorkHoursId = trainerWorkHours.GymWorkHoursId,
+                                                        DayName = gymWorkHours.DayOfWeekNumber
+                                                    }).First();
+
+            List<int> everyThirtyMinutesInWorkHours = new List<int>();
+            for (int i = trainerWorkHoursGymWorkHoursJoin.StartTime; i < trainerWorkHoursGymWorkHoursJoin.EndTime; i = (i + 30))
+            {
+                everyThirtyMinutesInWorkHours.Add(i);
+            }
+
+            List<int> occupiedTime = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.Date == date)
+                .Select(x => x.StartTime)
+                .ToList();
+
+            List<int> availableTime = everyThirtyMinutesInWorkHours
+                .Except(occupiedTime)
+                .ToList();
+
+            return availableTime;
+        }
+
+
+
+
         //Edit Trainer WorkHours methods
         public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
         {

@@ -1,4 +1,5 @@
 ﻿@addTagHelper *, FitMeApp
+@using System.Linq
 @model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
 
 
@@ -67,9 +68,6 @@
             <img src="/Content/images/gym4.jpg" class="d-block w-100" alt="picture" style="margin:15px">
         </div>
     </div>
-    @*<div class="row">
-       
-    </div>*@
 </div>
 
 <div class="container" style="border-block:solid">
@@ -115,7 +113,6 @@
                         <tr>
                             <td>Work hours</td>
                             <td>
-                                @*<a asp-controller="Trainers" asp-action="Schedule" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Show</a>*@
                                 <p>
                                     <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapse_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapse_@trainer.Id">
                                        Show
@@ -132,7 +129,12 @@
                         <tr>
                             <td></td>
                             <td>
-                                <a asp-controller="Trainers" asp-action="ApplyForTrainingWithTrainer" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
+                               @*<input type="hidden" id="trainerId" value="@trainer.Id"/>
+                                <input type="hidden" id="trainerFirstName" value="@trainer.FirstName"/>
+                                <input type="hidden" id="trainerLastName" value="@trainer.LastName"/>
+                                <input type="hidden" id="gymId" value="@trainer.Gym.Id"/>
+                                <input type="hidden" id="gymName" value="@trainer.Gym.Name"/>*@
+                                <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
                             </td>
                             <td></td>
                         </tr>

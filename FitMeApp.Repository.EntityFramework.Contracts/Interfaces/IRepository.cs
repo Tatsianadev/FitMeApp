@@ -16,7 +16,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool DeleteGym(int id);
         IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGym(int gymId);
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
-        
 
         //Trainers
         IEnumerable<TrainerEntityBase> GetAllTrainers();        
@@ -31,10 +30,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         bool DeleteTrainerWorkHoursByTrainer(string trainerId);
-
-       
-
-
+        IEnumerable<int> GetAvailableToApplyTrainingHoursByTrainer(string trainerId, DateTime date);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
@@ -48,7 +44,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
         bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
-
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
@@ -73,10 +68,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int GetActualSubscriptionsCountByTrainer(string trainerId);
         IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId);
 
-
-       
-
-       //Schedule
+        //Schedule
         IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
