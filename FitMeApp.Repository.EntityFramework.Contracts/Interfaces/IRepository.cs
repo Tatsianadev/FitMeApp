@@ -30,7 +30,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         bool DeleteTrainerWorkHoursByTrainer(string trainerId);
-        IEnumerable<int> GetAvailableToApplyTrainingHoursByTrainer(string trainerId, DateTime date);
+        IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();

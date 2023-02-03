@@ -36,6 +36,7 @@ namespace FitMeApp.Services
             services.AddScoped<IFitMeService, FitMeService>();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<ITrainingService, TrainingService>();
 
         }
     }

@@ -277,36 +277,47 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<int> GetAvailableToApplyTrainingHoursByTrainer(string trainerId, DateTime date)
+        public IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date)
         {
-            var trainerWorkHoursGymWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
-                                                    join gymWorkHours in _context.GymWorkHours
-                                                    on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
-                                                    where trainerWorkHours.TrainerId == trainerId
-                                                    where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
-                                                    select new
-                                                    {
-                                                        Id = trainerWorkHours.Id,
-                                                        TrainerId = trainerWorkHours.TrainerId,
-                                                        StartTime = trainerWorkHours.StartTime,
-                                                        EndTime = trainerWorkHours.EndTime,
-                                                        GymWorkHoursId = trainerWorkHours.GymWorkHoursId,
-                                                        DayName = gymWorkHours.DayOfWeekNumber
-                                                    }).First();
+            var trainerWorkHours = (from trainerWH in _context.TrainerWorkHours
+                                    join gymWorkHours in _context.GymWorkHours
+                                    on trainerWH.GymWorkHoursId equals gymWorkHours.Id
+                                    where trainerWH.TrainerId == trainerId
+                                    where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
+                                    select new
+                                    {
+                                        Id = trainerWH.Id,
+                                        TrainerId = trainerWH.TrainerId,
+                                        StartTime = trainerWH.StartTime,
+                                        EndTime = trainerWH.EndTime,
+                                        GymWorkHoursId = trainerWH.GymWorkHoursId,
+                                        DayName = gymWorkHours.DayOfWeekNumber
+                                    }).First();
 
-            List<int> everyThirtyMinutesInWorkHours = new List<int>();
-            for (int i = trainerWorkHoursGymWorkHoursJoin.StartTime; i < trainerWorkHoursGymWorkHoursJoin.EndTime; i = (i + 30))
+            List<int> workTimingScale = new List<int>();
+            for (int timeInMinutes = trainerWorkHours.StartTime; timeInMinutes < trainerWorkHours.EndTime; timeInMinutes = (timeInMinutes + 30))
             {
-                everyThirtyMinutesInWorkHours.Add(i);
+                workTimingScale.Add(timeInMinutes);
             }
 
-            List<int> occupiedTime = _context.Events
+            
+            var existingEventsStartEnd = _context.Events
                 .Where(x => x.TrainerId == trainerId)
                 .Where(x => x.Date == date)
-                .Select(x => x.StartTime)
+                .Select(x => new { StartEvent = x.StartTime, EndEvent = x.EndTime })
                 .ToList();
+            
+            List<int> occupiedTime = new List<int>();
 
-            List<int> availableTime = everyThirtyMinutesInWorkHours
+            foreach (var eventTime in existingEventsStartEnd)
+            {
+                for (int timeInMinutes = eventTime.StartEvent; timeInMinutes < eventTime.EndEvent; timeInMinutes = (timeInMinutes + 30))
+                {
+                    occupiedTime.Add(timeInMinutes);
+                }
+            }
+
+            List<int> availableTime = workTimingScale
                 .Except(occupiedTime)
                 .ToList();
 

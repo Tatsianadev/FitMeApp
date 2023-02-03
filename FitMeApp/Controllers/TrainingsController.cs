@@ -11,12 +11,14 @@ namespace FitMeApp.Controllers
 {
     public class TrainingsController : Controller
     {
+        private readonly ITrainingService _trainingService;
         private readonly IFitMeService _fitMeService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainingsController(IFitMeService fitMeService, ILogger<TrainersController> logger)
+        public TrainingsController(ITrainingService trainingService, IFitMeService fitMeService, ILogger<TrainersController> logger)
         {
+            _trainingService = trainingService;
             _fitMeService = fitMeService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -30,7 +32,9 @@ namespace FitMeApp.Controllers
 
         public IActionResult ApplyForPersonalTraining(string trainerId)
         {
-            
+            List<int> availableTimeInMinutes = _trainingService
+                .GetAvailableToApplyTrainingTimingByTrainer(trainerId, new DateTime(2023, 02, 07))
+                .ToList();
             return View();
         }
     }
