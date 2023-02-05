@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Common;
@@ -32,30 +33,36 @@ namespace FitMeApp.Controllers
             return View();
         }
 
+
+
         public IActionResult ApplyForPersonalTraining(string trainerId)
         {
             var trainer = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
-            List<int> availableTimeInMinutes = _trainingService
-                .GetAvailableToApplyTrainingTimingByTrainer(trainerId, DateTime.Now)
-                .ToList();
-
-            List<string> stringTime = new List<string>();
-            foreach (var intTime in availableTimeInMinutes)
-            {
-                stringTime.Add(WorkHoursTypesConverter.ConvertIntTimeToString(intTime));
-            }
-
             ApplyingForPersonalTrainingViewModel model = new ApplyingForPersonalTrainingViewModel()
             {
                TrainerId = trainer.Id,
                TrainerFirstName = trainer.FirstName,
                TrainerLastName = trainer.LastName,
                GymName = trainer.Gym.Name,
-               GymAddress = trainer.Gym.Address,
-               AvailableTime = stringTime,
-               SelectedDate = DateTime.Now
-
+               GymAddress = trainer.Gym.Address
             };
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult ApplyForPersonalTraining(ApplyingForPersonalTrainingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+            else
+            {
+                ModelState.AddModelError("Day off", "Selected day is dayOff");
+            }
 
             return View(model);
         }

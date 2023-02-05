@@ -279,23 +279,20 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date)
         {
-            var trainerWorkHours = (from trainerWH in _context.TrainerWorkHours
+            var trainerWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
                                     join gymWorkHours in _context.GymWorkHours
-                                    on trainerWH.GymWorkHoursId equals gymWorkHours.Id
-                                    where trainerWH.TrainerId == trainerId
+                                    on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
+                                    where trainerWorkHours.TrainerId == trainerId
                                     where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
                                     select new
                                     {
-                                        Id = trainerWH.Id,
-                                        TrainerId = trainerWH.TrainerId,
-                                        StartTime = trainerWH.StartTime,
-                                        EndTime = trainerWH.EndTime,
-                                        GymWorkHoursId = trainerWH.GymWorkHoursId,
-                                        DayName = gymWorkHours.DayOfWeekNumber
-                                    }).First();
+                                        StartTime = trainerWorkHours.StartTime,
+                                        EndTime = trainerWorkHours.EndTime
+                                    })
+                                    .First();
 
             List<int> workTimingScale = new List<int>();
-            for (int timeInMinutes = trainerWorkHours.StartTime; timeInMinutes < trainerWorkHours.EndTime; timeInMinutes = (timeInMinutes + 30))
+            for (int timeInMinutes = trainerWorkHoursJoin.StartTime; timeInMinutes < trainerWorkHoursJoin.EndTime; timeInMinutes = (timeInMinutes + 30))
             {
                 workTimingScale.Add(timeInMinutes);
             }

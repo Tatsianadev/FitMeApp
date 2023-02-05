@@ -8,56 +8,95 @@
 
         </div>
         <div class="col-md-6" style="text-align: center">
-            <div class="card mb-3" style="width: 18rem; margin: 20px; ">
-                <div class="card-body">
-                    <h4 class="card-title text-center">Applying for training</h4>
-                    <p class="card-text">
-                        Trainer: @Model.TrainerFirstName @Model.TrainerLastName
-                    </p>
-                    <p class="card-text">
-                        Gym: @Model.GymName
-                    </p>
-                    <p class="card-text">
-                        Gym: @Model.GymAddress
-                    </p>
-                    <br />
-                    <p class="card-text small">
-                        Select date
-                    </p>
-                    @{ string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
-                        string maxDate = DateTime.Today.AddDays(60).Date.ToString("yyyy-MM-dd");}
-                    <input type="date" name="selectedDate" min="@minDate" max="@maxDate" value="@minDate" />
-                    <br />
-                    <p class="card-text small">
-                        Select time
-                    </p>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTime">
-                        <option selected value="@Model.AvailableTime[0]">@Model.AvailableTime[0]</option>
-                        @foreach (var time in Model.AvailableTime)
-                        {
-                            <option value="@time">@time</option>
-                        }
-                    </select>
-                    <br />
-                    <p class="card-text small">
-                        Select duration of training
-                    </p>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option value="60">60 min</option>
-                        <option value="90">90 min</option>
-                    </select>
-                </div>
-                <div class="card-footer">
-                    <h3 style="font:bold"> __ $</h3>
-                    <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark" style="width:30%">Cancel</a>
-                    <input type="submit" value="Ok" class="btn btn-dark" />
-                </div>
+            <div class="card mb-3" style="width: 18rem; margin: 20px;">
+                <form asp-controller="Trainings" asp-action="ApplyForPersonalTraining" method="post">
+                    <div class="card-body">
+
+                        <div asp-validation-summary="ModelOnly" class="card-text small text-danger"></div>
+
+                        <h4 class="card-title text-center">Applying for training</h4>
+                        <h5 class="card-title text-center">
+                            Trainer: @Model.TrainerFirstName @Model.TrainerLastName
+                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId"/>
+                            <input type="hidden" asp-for="TrainerFirstName" value="@Model.TrainerFirstName"/>
+                            <input type="hidden" asp-for="TrainerLastName" value="@Model.TrainerLastName"/>
+                        </h5>
+                        <h5 class="card-title text-center">
+                            Gym: @Model.GymName
+                            <input type="hidden" asp-for="GymName" value="@Model.GymName"/>
+                        </h5>
+                        <p class="card-text">
+                            Gym: @Model.GymAddress
+                            <input type="hidden" asp-for="GymAddress" value="@Model.GymAddress"/>
+                        </p>
+                        <br/>
+                        <p class="card-text small">
+                            Select selectedDate
+                        </p>
+                        @{
+                            string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                            string maxDate = DateTime.Today.AddDays(60).Date.ToString("yyyy-MM-dd");}
+                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate"/>
+                        <br/>
+                        <p class="card-text small">
+                            Select time
+                        </p>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="SelectedStartTime"></select>
+                        <div id="errorBlock" class="card-text small text-danger"></div>
+
+                        <span asp-validation-for="SelectedStartTime"/>
+                        <br/>
+                        <p class="card-text small">
+                            Select duration of training
+                        </p>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
+                            <option value="60">60 min</option>
+                            <option value="90">90 min</option>
+                        </select>
+
+                    </div>
+                    
+                    <div class="card-footer">
+                        <h3 style="font: bold"> __ $</h3>
+                        <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark" style="width: 30%">Cancel</a>
+                        <input type="submit" value="Ok" class="btn btn-dark" />
+                    </div>
+                </form>
+
             </div>
         </div>
         <div class=" col-md-3">
 
         </div>
-
     </div>
-
 </div>
+
+<script>
+    document.getElementById("selectDate").addEventListener("change",
+        function (e) {
+            var selectedDate = document.getElementById("selectDate").value;
+            var trainerId = document.getElementById("trainerId").value;
+            $.post(`https://localhost:44384/api/getavailabletime`,
+                {
+                    trainerId: trainerId,
+                    selectedDate: selectedDate
+                })
+                .done(function (data) {
+                    if (data.length != 0) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0) {
+                                html += "<option selected value=" + data[i] + ">" + data[i] + "</option>";
+                            }
+                            html += "<option value=" + data[i] + ">" + data[i] + "</option>";
+                            
+                        }
+                        document.getElementById("startTimeSelect").innerHTML = html;
+                        document.getElementById("errorBlock").innerText = "";
+                    } else {
+                        document.getElementById("startTimeSelect").innerHTML = '';
+                        document.getElementById("errorBlock").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
+                    }
+                });
+        });
+</script>
