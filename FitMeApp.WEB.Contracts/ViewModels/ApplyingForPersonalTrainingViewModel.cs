@@ -16,7 +16,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public List<string> AvailableTime { get; set; }
         [Required]
         public DateTime SelectedDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please, choose start time")]
         public string SelectedStartTime { get; set; }
         [Required]
         public int DurationInMinutes { get; set; }

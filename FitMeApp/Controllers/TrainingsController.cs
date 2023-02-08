@@ -61,7 +61,7 @@ namespace FitMeApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Day off", "Selected day is dayOff");
+                ModelState.AddModelError("SelectedStartTime", "Please, choose start time");
             }
 
             return View(model);

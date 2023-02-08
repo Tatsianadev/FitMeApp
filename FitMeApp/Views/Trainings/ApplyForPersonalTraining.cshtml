@@ -26,27 +26,26 @@
                             <input type="hidden" asp-for="GymName" value="@Model.GymName"/>
                         </h5>
                         <p class="card-text">
-                            Gym: @Model.GymAddress
+                            @Model.GymAddress
                             <input type="hidden" asp-for="GymAddress" value="@Model.GymAddress"/>
                         </p>
-                        <br/>
-                        <p class="card-text small">
-                            Select selectedDate
+                        <hr />
+                        <p class="card-text">
+                            Select date
                         </p>
                         @{
                             string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
                             string maxDate = DateTime.Today.AddDays(60).Date.ToString("yyyy-MM-dd");}
-                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate"/>
+                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px"/>
                         <br/>
-                        <p class="card-text small">
+                        <p class="card-text">
                             Select time
                         </p>
                         <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="SelectedStartTime"></select>
                         <div id="errorBlock" class="card-text small text-danger"></div>
-
-                        <span asp-validation-for="SelectedStartTime"/>
+                        <span asp-validation-for="SelectedStartTime" class="card-text small"></span>
                         <br/>
-                        <p class="card-text small">
+                        <p class="card-text">
                             Select duration of training
                         </p>
                         <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
