@@ -67,11 +67,29 @@ namespace FitMeApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool userHasAvailableSubscription =
-                    _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate);
+                bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate);
+                int trainingId = _fitMeService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //do some Enum with trainings names
                 if (userHasAvailableSubscription)
                 {
+                    int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);
                     
+                    EventViewModel newEvent = new EventViewModel()
+                    {
+                        Date = model.SelectedDate,
+                        StartTime = starTime,
+                        EndTime = starTime + model.DurationInMinutes,
+                        TrainerId = model.TrainerId,
+                        UserId = model.UserId,
+                        TrainingId = trainingId,
+                        Status = Common.EventStatusEnum.Open
+                    };
+
+                    var eventModel = _mapper.MapEventViewModelToModel(newEvent);
+                    bool result = _trainingService.AddEvent(eventModel);
+                    if (result)
+                    {
+                        return RedirectToAction("Index", "Trainers"); // do redirect to confirm page
+                    }
                 }
                 else
                 {

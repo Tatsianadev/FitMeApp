@@ -1107,12 +1107,12 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
+
         public IEnumerable<EventEntityBase> GetEventsByUser(string userId)
         {
             var userEvents = _context.Events.Where(x => x.UserId == userId).ToList();
             return userEvents;
         }
-
 
 
         public IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
@@ -1178,8 +1178,6 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-
-
         public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date)
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
@@ -1230,8 +1228,7 @@ namespace FitMeApp.Repository.EntityFramework
             }
             return eventsEntityBases;
         }
-
-
+        
 
 
 
@@ -1253,6 +1250,8 @@ namespace FitMeApp.Repository.EntityFramework
             return dateEventCount;
         }
 
+
+
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
             var allEventsByTrainer = _context.Events.Where(x => x.TrainerId == trainerId).OrderBy(x => x.Date).ToList();
@@ -1269,6 +1268,8 @@ namespace FitMeApp.Repository.EntityFramework
 
             return dateEventCount;
         }
+
+
 
 
         public bool ChangeEventStatus(int eventId)
@@ -1289,11 +1290,15 @@ namespace FitMeApp.Repository.EntityFramework
             return result;
         }
 
+
+
         public int GetActualEventsCountByTrainer(string trainerId)
         {
             var actualEventsCount = _context.Events.Where(x => x.TrainerId == trainerId).Where(x => x.Date.Date >= DateTime.Now.Date).ToList().Count();
             return actualEventsCount;
         }
+
+
 
         public IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId)
         {
@@ -1304,6 +1309,35 @@ namespace FitMeApp.Repository.EntityFramework
             return actualEvents;
 
         }
+
+
+
+        public bool AddEvent(EventEntityBase newEvent)
+        {
+           EventEntity newEventEntity =  new EventEntity()
+           {
+               Date = newEvent.Date,
+               StartTime = newEvent.StartTime,
+               EndTime = newEvent.EndTime,
+               TrainerId = newEvent.TrainerId,
+               UserId = newEvent.UserId,
+               TrainingId = newEvent.TrainingId,
+               Status = newEvent.Status
+           };
+
+            _context.Events.Add(newEventEntity);
+            int addedRowCount = _context.SaveChanges();
+            if (addedRowCount >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
 
 
         //Chat

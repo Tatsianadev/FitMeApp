@@ -181,7 +181,7 @@ namespace FitMeApp.Mapper
                 GymId = eventModel.GymId,
                 GymName = eventModel.GymName,
                 UserId = eventModel.UserId,
-                //UserName = eventModel.UserName,
+                //UserName = eventViewModel.UserName,
                 UserFirstName = eventModel.UserFirstName,
                 UserLastName = eventModel.UserLastName,
                 TrainingId = eventModel.TrainingId,
@@ -273,13 +273,6 @@ namespace FitMeApp.Mapper
         public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
         {
             List<TrainingModel> trainingModels = new List<TrainingModel>();
-            //foreach (var trainingId in trainerViewModel.TrainingsId)
-            //{
-            //    trainingModels.Add(new TrainingModel()
-            //    {
-            //        Id = trainingId                    
-            //    });
-            //}
 
             foreach (var training in trainerViewModel.Trainings)
             {
@@ -349,41 +342,21 @@ namespace FitMeApp.Mapper
 
 
 
+        public EventModel MapEventViewModelToModel(EventViewModel eventViewModel)
+        {
+            EventModel eventModel = new EventModel()
+            {
+                Date = eventViewModel.Date,
+                StartTime = eventViewModel.StartTime,
+                EndTime = eventViewModel.EndTime,
+                TrainerId = eventViewModel.TrainerId,
+                UserId = eventViewModel.UserId,
+                TrainingId = eventViewModel.TrainingId,
+                Status = eventViewModel.Status
+            };
 
-        //private string ConvertIntTimeToString(int intTime)
-        //{
-        //    string stringTime;
-
-
-        //    if (intTime % 60 == 0)
-        //    {
-        //        stringTime = (intTime / 60).ToString() + ".00";
-        //    }
-        //    else
-        //    {
-        //        string remainder = (intTime % 60).ToString();
-        //        stringTime = Math.Truncate((decimal)intTime / 60).ToString() + remainder;
-        //    }
-
-        //    return stringTime;
-        //}
-
-        //public int ConvertStringTimeToInt(string stringTime)
-        //{
-        //    //определение целой части
-        //    string integerPart = stringTime.Substring(0, stringTime.Length - 3);
-
-        //    //oпределение дробной части
-        //    int pointIndex = stringTime.Length - 3;            
-        //    string remainder = stringTime.Remove(0, pointIndex);
-
-        //    int intTime = int.Parse(integerPart) * 60 + int.Parse(remainder);
-        //    return intTime;
-        //}
-
-
-
-
+            return eventModel;
+        }
 
     }
 }

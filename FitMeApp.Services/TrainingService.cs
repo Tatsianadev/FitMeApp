@@ -5,6 +5,7 @@ using System.Text;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
@@ -28,6 +29,7 @@ namespace FitMeApp.Services
         }
 
 
+
         public bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate)
         {
             var actualSubscriptions = _repository.GetActualSubscriptionsByUser(userId).ToList();
@@ -40,6 +42,15 @@ namespace FitMeApp.Services
             }
 
             return false;
+        }
+
+        
+
+        public bool AddEvent(EventModel newEvent)
+        {
+            var eventEntityBase = _mapper.MapEventModelToEntityBase(newEvent);
+            bool result = _repository.AddEvent(eventEntityBase);
+            return result;
         }
     }
 }

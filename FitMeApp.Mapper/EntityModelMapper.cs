@@ -313,8 +313,6 @@ namespace FitMeApp.Mapper
             };
             return trainerEntityBase;
         }
-
-
         
 
 
@@ -332,6 +330,7 @@ namespace FitMeApp.Mapper
         }
 
 
+
         public ChatMessageEntityBase MapChatMessageModelToEntityBase(ChatMessageModel messageModel)
         {
             ChatMessageEntityBase messageEntityBase = new ChatMessageEntityBase()
@@ -345,5 +344,22 @@ namespace FitMeApp.Mapper
             return messageEntityBase;
         }
 
+
+
+        public EventEntityBase MapEventModelToEntityBase(EventModel eventModel)
+        {
+            EventEntityBase eventEntityBase = new EventEntityBase()
+            {
+                Date = eventModel.Date,
+                StartTime = eventModel.StartTime,
+                EndTime = eventModel.EndTime,
+                TrainerId = eventModel.TrainerId,
+                UserId = eventModel.UserId,
+                TrainingId = eventModel.TrainingId,
+                Status = eventModel.Status
+            };
+
+            return eventEntityBase;
+        }
     }
 }
