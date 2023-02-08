@@ -35,7 +35,7 @@ namespace FitMeApp.APIControllers
             if (workDays.Contains(selectedDate.DayOfWeek))
             {
                 List<int> availableTimeInMinutes = _trainingService
-                    .GetAvailableToApplyTrainingTimingByTrainer(trainerId, selectedDate)
+                    .GetAvailableTimeForTraining(trainerId, selectedDate)
                     .ToList();
 
                 foreach (var intTime in availableTimeInMinutes)

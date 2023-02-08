@@ -21,10 +21,25 @@ namespace FitMeApp.Services
 
 
 
-        public IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date)
+        public IEnumerable<int> GetAvailableTimeForTraining(string trainerId, DateTime date)
         {
             List<int> availableTimeInMinutes = _repository.GetAvailableToApplyTrainingTimingByTrainer(trainerId, date).ToList();
             return availableTimeInMinutes;
+        }
+
+
+        public bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate)
+        {
+            var actualSubscriptions = _repository.GetActualSubscriptionsByUser(userId).ToList();
+            foreach (var subscription in actualSubscriptions)
+            {
+                if (subscription.StartDate <= trainingDate && subscription.EndDate >= trainingDate)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

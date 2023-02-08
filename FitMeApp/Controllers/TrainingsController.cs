@@ -53,7 +53,8 @@ namespace FitMeApp.Controllers
                TrainerFirstName = trainer.FirstName,
                TrainerLastName = trainer.LastName,
                GymName = trainer.Gym.Name,
-               GymAddress = trainer.Gym.Address
+               GymAddress = trainer.Gym.Address,
+               UserId = user.Id
             };
 
             return View(model);
@@ -66,7 +67,16 @@ namespace FitMeApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                bool userHasAvailableSubscription =
+                    _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate);
+                if (userHasAvailableSubscription)
+                {
+                    
+                }
+                else
+                {
+                    return RedirectToAction("NoAvailableSubscription");
+                }
             }
             else
             {
@@ -74,6 +84,12 @@ namespace FitMeApp.Controllers
             }
 
             return View(model);
+        }
+
+
+        public IActionResult NoAvailableSubscription()
+        {
+            return View();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 
 namespace FitMeApp.WEB.Contracts.ViewModels
@@ -14,6 +15,8 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string GymName { get; set; }
         public string GymAddress { get; set; }
         public List<string> AvailableTime { get; set; }
+
+        public string UserId { get; set; }
         [Required]
         public DateTime SelectedDate { get; set; }
         [Required(ErrorMessage = "Please, choose start time")]

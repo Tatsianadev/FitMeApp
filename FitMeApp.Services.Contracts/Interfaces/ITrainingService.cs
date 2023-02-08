@@ -6,6 +6,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface ITrainingService
     {
-        IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date);
+        IEnumerable<int> GetAvailableTimeForTraining (string trainerId, DateTime date);
+        bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate);
     }
 }

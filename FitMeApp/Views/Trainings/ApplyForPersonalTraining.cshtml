@@ -8,26 +8,26 @@
 
         </div>
         <div class="col-md-6" style="text-align: center">
-            <div class="card mb-3" style="width: 18rem; margin: 20px;">
+            <div class="card mb-3" style="width: 20rem; margin: 20px;">
                 <form asp-controller="Trainings" asp-action="ApplyForPersonalTraining" method="post">
                     <div class="card-body">
-
+                        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
                         <div asp-validation-summary="ModelOnly" class="card-text small text-danger"></div>
-
+                       
                         <h4 class="card-title text-center">Applying for training</h4>
                         <h5 class="card-title text-center">
                             Trainer: @Model.TrainerFirstName @Model.TrainerLastName
-                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId"/>
-                            <input type="hidden" asp-for="TrainerFirstName" value="@Model.TrainerFirstName"/>
-                            <input type="hidden" asp-for="TrainerLastName" value="@Model.TrainerLastName"/>
+                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId" />
+                            <input type="hidden" asp-for="TrainerFirstName" value="@Model.TrainerFirstName" />
+                            <input type="hidden" asp-for="TrainerLastName" value="@Model.TrainerLastName" />
                         </h5>
                         <h5 class="card-title text-center">
                             Gym: @Model.GymName
-                            <input type="hidden" asp-for="GymName" value="@Model.GymName"/>
+                            <input type="hidden" asp-for="GymName" value="@Model.GymName" />
                         </h5>
                         <p class="card-text">
                             @Model.GymAddress
-                            <input type="hidden" asp-for="GymAddress" value="@Model.GymAddress"/>
+                            <input type="hidden" asp-for="GymAddress" value="@Model.GymAddress" />
                         </p>
                         <hr />
                         <p class="card-text">
@@ -36,15 +36,15 @@
                         @{
                             string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
                             string maxDate = DateTime.Today.AddDays(60).Date.ToString("yyyy-MM-dd");}
-                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px"/>
-                        <br/>
+                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px" />
+                        <br />
                         <p class="card-text">
                             Select time
                         </p>
                         <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="SelectedStartTime"></select>
                         <div id="errorBlock" class="card-text small text-danger"></div>
                         <span asp-validation-for="SelectedStartTime" class="card-text small"></span>
-                        <br/>
+                        <br />
                         <p class="card-text">
                             Select duration of training
                         </p>

@@ -1086,6 +1086,17 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
+        public IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUser(string userId)
+        {
+            var subscriptions = _context.UserSubscriptions
+                .Where(x => x.UserId == userId)
+                .Where(x => x.EndDate > DateTime.Today)
+                .ToList();
+
+            return subscriptions;
+        }
+
+
 
 
         //Events
