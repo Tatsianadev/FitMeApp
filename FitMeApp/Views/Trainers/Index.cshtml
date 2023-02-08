@@ -129,11 +129,6 @@
                         <tr>
                             <td></td>
                             <td>
-                               @*<input type="hidden" id="trainerId" value="@trainer.Id"/>
-                                <input type="hidden" id="trainerFirstName" value="@trainer.FirstName"/>
-                                <input type="hidden" id="trainerLastName" value="@trainer.LastName"/>
-                                <input type="hidden" id="gymId" value="@trainer.Gym.Id"/>
-                                <input type="hidden" id="gymName" value="@trainer.Gym.Name"/>*@
                                 <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
                             </td>
                             <td></td>
