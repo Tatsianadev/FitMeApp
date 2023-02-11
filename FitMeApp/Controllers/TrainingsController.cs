@@ -52,6 +52,7 @@ namespace FitMeApp.Controllers
                TrainerId = trainer.Id,
                TrainerFirstName = trainer.FirstName,
                TrainerLastName = trainer.LastName,
+               GymId = trainer.Gym.Id,
                GymName = trainer.Gym.Name,
                GymAddress = trainer.Gym.Address,
                UserId = user.Id
@@ -67,7 +68,7 @@ namespace FitMeApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate);
+                bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
                 int trainingId = _fitMeService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //do some Enum with trainings names
                 if (userHasAvailableSubscription)
                 {
@@ -93,7 +94,7 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("NoAvailableSubscription");
+                    return RedirectToAction("NoAvailableSubscription", new{gymId = model.GymId});
                 }
             }
             else
@@ -105,9 +106,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult NoAvailableSubscription()
+        public IActionResult NoAvailableSubscription(int gymId)
         {
-            return View();
+            return View("NoAvailableSubscription", gymId.ToString());
         }
     }
 }

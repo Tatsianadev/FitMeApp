@@ -12,10 +12,12 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string TrainerId { get; set; }
         public string TrainerFirstName { get; set; }
         public string TrainerLastName { get; set; }
+        [Required]
+        public int GymId { get; set; }
         public string GymName { get; set; }
         public string GymAddress { get; set; }
         public List<string> AvailableTime { get; set; }
-
+        [Required]
         public string UserId { get; set; }
         [Required]
         public DateTime SelectedDate { get; set; }

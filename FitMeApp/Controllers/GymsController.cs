@@ -136,6 +136,7 @@ namespace FitMeApp.Controllers
 
             ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
             ViewBag.GymId = gymId;
+            ViewBag.Gym = _fitMeService.GetGymModel(gymId);
             return View(subscriptions);
         }
 

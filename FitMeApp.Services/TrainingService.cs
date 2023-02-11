@@ -30,12 +30,13 @@ namespace FitMeApp.Services
 
 
 
-        public bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate)
+        public bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId)
         {
-            var actualSubscriptions = _repository.GetActualSubscriptionsByUser(userId).ToList();
+            var actualSubscriptions = _repository.GetActualSubscriptionsByUserForSpecificGym(userId, gymId).ToList();
             foreach (var subscription in actualSubscriptions)
             {
-                if (subscription.StartDate <= trainingDate && subscription.EndDate >= trainingDate)
+                if (subscription.StartDate <= trainingDate && 
+                    subscription.EndDate >= trainingDate)
                 {
                     return true;
                 }

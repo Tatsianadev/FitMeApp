@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <input type="hidden" asp-for="UserId" value="@Model.UserId" />
                         <div asp-validation-summary="ModelOnly" class="card-text small text-danger"></div>
-                       
+
                         <h4 class="card-title text-center">Applying for training</h4>
                         <h5 class="card-title text-center">
                             Trainer: @Model.TrainerFirstName @Model.TrainerLastName
@@ -23,6 +23,7 @@
                         </h5>
                         <h5 class="card-title text-center">
                             Gym: @Model.GymName
+                            <input type="hidden" asp-for="GymId" value="@Model.GymId" />
                             <input type="hidden" asp-for="GymName" value="@Model.GymName" />
                         </h5>
                         <p class="card-text">

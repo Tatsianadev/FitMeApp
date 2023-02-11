@@ -280,15 +280,15 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date)
         {
             var trainerWorkHoursJoin = (from trainerWorkHours in _context.TrainerWorkHours
-                                    join gymWorkHours in _context.GymWorkHours
-                                    on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
-                                    where trainerWorkHours.TrainerId == trainerId
-                                    where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
-                                    select new
-                                    {
-                                        StartTime = trainerWorkHours.StartTime,
-                                        EndTime = trainerWorkHours.EndTime
-                                    })
+                                        join gymWorkHours in _context.GymWorkHours
+                                        on trainerWorkHours.GymWorkHoursId equals gymWorkHours.Id
+                                        where trainerWorkHours.TrainerId == trainerId
+                                        where gymWorkHours.DayOfWeekNumber == date.DayOfWeek
+                                        select new
+                                        {
+                                            StartTime = trainerWorkHours.StartTime,
+                                            EndTime = trainerWorkHours.EndTime
+                                        })
                                     .First();
 
             List<int> workTimingScale = new List<int>();
@@ -297,13 +297,13 @@ namespace FitMeApp.Repository.EntityFramework
                 workTimingScale.Add(timeInMinutes);
             }
 
-            
+
             var existingEventsStartEnd = _context.Events
                 .Where(x => x.TrainerId == trainerId)
                 .Where(x => x.Date == date)
                 .Select(x => new { StartEvent = x.StartTime, EndEvent = x.EndTime })
                 .ToList();
-            
+
             List<int> occupiedTime = new List<int>();
 
             //Time at 30 minutes before events is not available to applying training
@@ -1097,6 +1097,40 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUserForSpecificGym(string userId, int gymId)
+        {
+            var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
+                                         join gymSubscr in _context.GymSubscriptions
+                                             on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                         where userSubscr.UserId == userId
+                                         where gymSubscr.GymId == gymId
+                                         where userSubscr.EndDate > DateTime.Now
+                                         select new
+                                         {
+                                             Id = userSubscr.Id,
+                                             UserId = userSubscr.UserId,
+                                             GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                             TrainerId = userSubscr.TrainerId,
+                                             StartDate = userSubscr.StartDate,
+                                             EndDate = userSubscr.EndDate
+                                         }).ToList();
+
+            List<UserSubscriptionEntityBase> subscriptions = new List<UserSubscriptionEntityBase>();
+            foreach (var joinItem in userSubscriptionsJoin)
+            {
+                subscriptions.Add(new UserSubscriptionEntity()
+                {
+                    Id = joinItem.Id,
+                    UserId = joinItem.UserId,
+                    GymSubscriptionId = joinItem.GymSubscriptionId,
+                    TrainerId = joinItem.TrainerId,
+                    StartDate = joinItem.StartDate,
+                    EndDate = joinItem.EndDate
+                });
+            }
+
+            return subscriptions;
+        }
 
 
         //Events
@@ -1228,7 +1262,7 @@ namespace FitMeApp.Repository.EntityFramework
             }
             return eventsEntityBases;
         }
-        
+
 
 
 
@@ -1314,16 +1348,16 @@ namespace FitMeApp.Repository.EntityFramework
 
         public bool AddEvent(EventEntityBase newEvent)
         {
-           EventEntity newEventEntity =  new EventEntity()
-           {
-               Date = newEvent.Date,
-               StartTime = newEvent.StartTime,
-               EndTime = newEvent.EndTime,
-               TrainerId = newEvent.TrainerId,
-               UserId = newEvent.UserId,
-               TrainingId = newEvent.TrainingId,
-               Status = newEvent.Status
-           };
+            EventEntity newEventEntity = new EventEntity()
+            {
+                Date = newEvent.Date,
+                StartTime = newEvent.StartTime,
+                EndTime = newEvent.EndTime,
+                TrainerId = newEvent.TrainerId,
+                UserId = newEvent.UserId,
+                TrainingId = newEvent.TrainingId,
+                Status = newEvent.Status
+            };
 
             _context.Events.Add(newEventEntity);
             int addedRowCount = _context.SaveChanges();

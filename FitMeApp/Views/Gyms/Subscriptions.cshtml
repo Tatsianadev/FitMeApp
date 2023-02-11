@@ -2,9 +2,11 @@
 
 <div>
     <h2>
-        Text about Subscriptions
+        @{ var gym = ViewBag.Gym;}
+        @gym.Name
     </h2>
 </div>
+<hr/>
 <div>
     <p>
         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
