@@ -1,0 +1,55 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel
+
+
+<div class="container">
+    @{ string picturePath = "/Content/images/" + Model.Picture; }
+        <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
+            <div class="col-md-4" style="text-align:center">
+                <img src="@picturePath" alt="Trainer Avatar" style="height:330px; width:auto" />
+            </div>
+            <div class="col-md-8" style="padding:10px">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td style="font-weight: bold ">@Model.FirstName @Model.LastName</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Gym</td>
+                            <td style="text-decoration:double">@Model.Gym.Name </td>
+                            <td>@Model.Gym.Address</td>
+                        </tr>
+                        <tr>
+                            <td>Specialization</td>
+                            <td>@Model.Specialization</td>
+                            <td>
+                                @{ string trainingsNamesEnum = "";}
+                                @foreach (var training in Model.Trainings)
+                                {
+                                    trainingsNamesEnum = trainingsNamesEnum + training.Name + ", ";
+                                }
+
+                                @trainingsNamesEnum
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>@Model.Gender</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Work hours</td>
+                            <td>
+                                <div class="card card-body">
+                                    @await Component.InvokeAsync("TrainerWorkHours", new { trainerId = Model.Id })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@Model.Id" class="btn btn-dark">Apply for training</a>
+            </div>
+        </div>
+</div>

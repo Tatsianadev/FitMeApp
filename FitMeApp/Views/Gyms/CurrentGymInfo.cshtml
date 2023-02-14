@@ -56,11 +56,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="row" style="height:65px; text-align:center">
+            <div class="row" style="height:50px; text-align:center">
                 <h3>Trainers</h3>
             </div>
             <div style="height:80%; text-align:center">
-                <img src="/Content/images/SmartTrainer.jpg" alt="Alternate Text" style="height:250px; width:auto" />
+                <img src="/Content/images/SmartTrainer.jpg" alt="Alternate Text" style="height:200px; width:auto" />
             </div>
         </div>
         <div class="col-md-9">
@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="card-body" style="text-align: center">
                                     <h6 class="card-title">@trainer.FirstName @trainer.LastName</h6>
-                                    <p class="card-text" style="font:small">Some information about current trainer</p>
-                                    <a href="#" class="btn btn-dark btn-sm">Show more</a>
+                                    @*<p class="card-text" style="font:small">Some information about current trainer</p>*@
+                                    <a asp-controller="Trainers" asp-action="SelectedTrainer" asp-route-trainerId="@trainer.Id" class="btn btn-dark btn-sm">Show more</a>
                                 </div>
                             </div>
                         </div>

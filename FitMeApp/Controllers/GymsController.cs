@@ -98,15 +98,13 @@ namespace FitMeApp.Controllers
             var gymModel = _fitMeService.GetGymModel(gymId);
             GymViewModel gym = _mapper.MappGymModelToViewModel(gymModel);
             List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-            List<int> trainingsId = new List<int>();
             foreach (var trainer in gym.Trainers)
             {
                 foreach (var training in trainer.Trainings)
                 {
-                    if (!trainingsId.Contains(training.Id) && training.Name != "Personal training")
+                    if (!trainings.Select(x=>x.Id).ToList().Contains(training.Id) && training.Name != "Personal training")
                     {
                         trainings.Add(training);
-                        trainingsId.Add(training.Id);
                     }
                 }
             }

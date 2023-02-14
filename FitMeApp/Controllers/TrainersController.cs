@@ -92,5 +92,12 @@ namespace FitMeApp.Controllers
 
             return View("Index", trainerViewModels);
         }
+
+        public IActionResult SelectedTrainer(string trainerId)
+        {
+            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            TrainerViewModel trainer = _mapper.MappTrainerModelToViewModel(trainerModel);
+            return View(trainer);
+        }
     }
 }
