@@ -2,6 +2,7 @@
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
@@ -92,6 +93,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int AddMessage(ChatMessageEntityBase message);
         ChatMessageEntityBase GetMessage(int messageId);
         bool AddContact(string userId, string interlocutorId);
+
+        //Users - Roles
+        //IEnumerable<User> GetUsersByRoles(IEnumerable<IdentityRole> roles);
 
     }
 }

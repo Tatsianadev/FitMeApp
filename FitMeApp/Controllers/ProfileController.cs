@@ -17,13 +17,15 @@ namespace FitMeApp.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IFitMeService _fitMeService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ProfileController(UserManager<User> userManager, IFitMeService fitMeService, ILogger<ProfileController> logger)
+        public ProfileController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IFitMeService fitMeService, ILogger<ProfileController> logger)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _fitMeService = fitMeService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
@@ -36,8 +38,26 @@ namespace FitMeApp.Controllers
         public IActionResult UsersList()
         {
             var users = _userManager.Users.ToList();
+            ViewBag.RoleNames = _roleManager.Roles.Select(x => x.Name).ToList();
             return View(users);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UsersList(List<string> selectedRolesNames)
+        {
+            List<User> filteredUsers = new List<User>();
+            foreach (var role in selectedRolesNames)
+            {
+                filteredUsers.AddRange(await _userManager.GetUsersInRoleAsync(role));
+            }
+
+            filteredUsers.Distinct();
+            ViewBag.RoleNames = _roleManager.Roles.Select(x => x.Name).ToList();
+            return View(filteredUsers);
+        }
+
+
 
         [Authorize(Roles = "admin")]
         public IActionResult TrainersList()

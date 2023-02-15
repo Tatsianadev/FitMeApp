@@ -4,6 +4,30 @@
     ViewBag.Title = "List of Users";
 }
 
+<div class="card card-body">
+    <form asp-controller="Profile" asp-action="UsersList" method="post">
+        <div class="container">
+            <div class="row">                        
+                <div class="col-md-4">
+                    @foreach (var roleName in ViewBag.RoleNames)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" name="selectedRolesNames" type="checkbox" value="@roleName" id="@roleName">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @roleName
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="OK"  class="btn btn-dark"/>
+            </div>
+        </div>
+    </form>
+           
+</div>
+
 
 <table class="table">
     <tr>

@@ -7,6 +7,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
+using Microsoft.AspNetCore.Identity;
 
 namespace FitMeApp.Repository.EntityFramework
 {
@@ -1442,5 +1443,17 @@ namespace FitMeApp.Repository.EntityFramework
                 return false;
             }
         }
+
+        //public IEnumerable<User> GetUsersByRoles(IEnumerable<IdentityRole> roles)
+        //{
+        //    var userRoleJoin = (from role in _context.UserRoles
+        //        join user in _context.Users
+        //            on role.RoleId equals user.Id
+        //            select new
+        //            {
+
+        //            }
+
+        //}
     }
 }
