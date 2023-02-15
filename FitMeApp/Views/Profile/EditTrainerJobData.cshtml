@@ -35,11 +35,9 @@
 
                                 @if (ViewBag.ActualEventsCount > 0 || ViewBag.ActualSubscriptionsCount > 0)
                                 {
-                                    <div style="font-size:smaller; color:red">You can't change this option while you have actual events or users subdcriptions</div>
+                                    <div style="font-size:smaller; color:red">You can't change this option while you have actual events or users subscriptions</div>
                                     @foreach (var trainingId in Model.TrainingsId)
                                     {
-                                        @*<input type="checkbox" name="TrainingsId" value="@trainingId"
-                            @(trainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") hidden />*@
                                         <input type="checkbox" name="TrainingsId" value="@trainingId" checked="checked" hidden />
                                     }
                                 }

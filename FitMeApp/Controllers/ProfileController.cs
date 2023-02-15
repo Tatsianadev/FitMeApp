@@ -44,6 +44,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UsersList(List<string> selectedRolesNames)
         {
             List<User> filteredUsers = new List<User>();

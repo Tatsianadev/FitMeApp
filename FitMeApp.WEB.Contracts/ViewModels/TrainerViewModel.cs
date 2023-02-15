@@ -22,8 +22,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
 
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        //[DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
         public int Year { get; set; }
         public TrainerApproveStatusEnum Status { get; set; }

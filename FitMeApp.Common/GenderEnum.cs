@@ -7,11 +7,8 @@ namespace FitMeApp.Common
 {
     public enum GenderEnum
     {
-        [Display(Name ="Male")]
-        man,
-        [Display(Name = "Female")]
-        woman
-        
+       male,
+       female
     }
 
    

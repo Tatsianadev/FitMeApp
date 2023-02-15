@@ -37,8 +37,8 @@ namespace FitMeApp.Controllers
 
             ViewBag.Genders = new List<GenderEnum>()
             {
-                GenderEnum.man,
-                GenderEnum.woman                
+                GenderEnum.male,
+                GenderEnum.female                
             };
 
             ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
@@ -79,8 +79,8 @@ namespace FitMeApp.Controllers
 
             ViewBag.Genders = new List<GenderEnum>()
             {
-                GenderEnum.man,
-                GenderEnum.woman
+                GenderEnum.male,
+                GenderEnum.female
             };
 
             ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
