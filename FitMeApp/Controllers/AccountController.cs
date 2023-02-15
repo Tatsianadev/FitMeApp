@@ -104,6 +104,20 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var user = await _userManager.GetUserAsync(User);
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.Gender = model.Gender;
+                    user.Year = model.Year;
+
+                    if (string.IsNullOrEmpty(model.Avatar))
+                    {
+                        user.Avatar = "defaultAvatar.jpg";
+                    }
+                    else
+                    {
+                        user.Avatar = model.Avatar;
+                    }
+
                     List<TrainingViewModel> trainings = new List<TrainingViewModel>();
                     foreach (var trainingId in model.TrainingsId)
                     {
@@ -112,10 +126,6 @@ namespace FitMeApp.Controllers
                             Id = trainingId
                         });
                     }
-                    var user = await _userManager.GetUserAsync(User);
-                    user.PhoneNumber = model.PhoneNumber;
-                    user.Gender = model.Gender;
-                    user.Year = model.Year;
 
                     TrainerViewModel trainerViewModel = new TrainerViewModel()
                     {

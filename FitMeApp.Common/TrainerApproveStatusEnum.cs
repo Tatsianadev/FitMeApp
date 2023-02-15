@@ -7,7 +7,6 @@ namespace FitMeApp.Common
     public enum TrainerApproveStatusEnum
     {
         pending = 0,
-        aproved = 1
-
+        approved = 1
     }
 }

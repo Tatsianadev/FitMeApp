@@ -15,8 +15,8 @@
     <li><a class="dropdown-item" asp-controller="Profile" asp-action="UserPersonalData">Personal data</a></li>
     <li><a class="dropdown-item" asp-controller="Profile" asp-action="UsersList">Users</a></li>
     <li>
-        <a class="dropdown-item" asp-controller="Profile" asp-action="TrainersList">
-            Trainers
+        <a class="dropdown-item" asp-controller="Profile" asp-action="TrainerApplicationsList">
+            Trainer applications
             @if (ViewBag.TrainersInPendingCount > 0)
             {
                 <span class="badge bg-secondary">@ViewBag.TrainersInPendingCount</span>

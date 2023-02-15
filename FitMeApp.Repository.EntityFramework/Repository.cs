@@ -114,16 +114,48 @@ namespace FitMeApp.Repository.EntityFramework
             return trainers;
         }
 
-        public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithNames()
+        //public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus()
+        //{
+        //    var trainersUsersJoin = (from trainer in _context.Trainers
+        //                             join user in _context.Users
+        //                             on trainer.Id equals user.Id
+        //                             select new
+        //                             {
+        //                                 Id = trainer.Id,
+        //                                 FirstName = user.FirstName,
+        //                                 LastName = user.LastName,
+        //                                 Status = trainer.Status
+        //                             }).ToList();
+
+        //    List<TrainerWithGymAndTrainingsBase> trainers = new List<TrainerWithGymAndTrainingsBase>();
+        //    foreach (var trainerUserJoin in trainersUsersJoin)
+        //    {
+        //        trainers.Add(new TrainerWithGymAndTrainingsBase()
+        //        {
+        //            Id = trainerUserJoin.Id,
+        //            FirstName = trainerUserJoin.FirstName,
+        //            LastName = trainerUserJoin.LastName,
+        //            Status = trainerUserJoin.Status
+        //        });
+        //    }
+
+        //    return trainers;
+        //}
+
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
         {
             var trainersUsersJoin = (from trainer in _context.Trainers
                                      join user in _context.Users
                                      on trainer.Id equals user.Id
+                                     where trainer.Status == status
                                      select new
                                      {
                                          Id = trainer.Id,
                                          FirstName = user.FirstName,
                                          LastName = user.LastName,
+                                         //Email = user.Email,
+                                         //Year = user.Year,
+                                         //Gender =user.Gender,
                                          Status = trainer.Status
                                      }).ToList();
 
@@ -540,7 +572,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               join training in _context.Trainings
                                               on trainingTrainer.TrainingId equals training.Id
                                               where gymDb.Id == gymId
-                                              where trainer.Status == TrainerApproveStatusEnum.aproved
+                                              where trainer.Status == TrainerApproveStatusEnum.approved
                                               select new
                                               {
                                                   GymId = gymDb.Id,
@@ -907,7 +939,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                     on trainingTrainer.TrainingId equals training.Id
                                                     where selectedGenders.Contains(user.Gender)
                                                     where selectedSpecializations.Contains(trainer.Specialization)
-                                                    where trainer.Status == TrainerApproveStatusEnum.aproved
+                                                    where trainer.Status == TrainerApproveStatusEnum.approved
                                                     select new TrainerWithGymAndTrainingsJoin()
                                                     {
                                                         TrainerId = trainer.Id,

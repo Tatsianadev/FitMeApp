@@ -35,7 +35,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
-        IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithNames();
+        //IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersNamesByStatus();
+        IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         TrainingEntityBase GetTraining(int id);
         TrainingEntityBase AddTraining(TrainingEntityBase item);
         bool UpdateTraining(int id, TrainingEntityBase newTrainingData);

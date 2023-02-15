@@ -36,8 +36,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
      
 
         //Trainers
-        List<TrainerModel> GetAllTrainerModels();        
-        IEnumerable<TrainerModel> GetAllTrainersNames();
+        List<TrainerModel> GetAllTrainerModels();
+        IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);

@@ -8,10 +8,11 @@
     <form asp-controller="Profile" asp-action="UsersList" method="post">
         <div class="container">
             <div class="row">                        
-                <div class="col-md-4">
+                <div class="col-md-12">
+                    <div> Show only:</div>
                     @foreach (var roleName in ViewBag.RoleNames)
                     {
-                        <div class="form-check">
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" name="selectedRolesNames" type="checkbox" value="@roleName" id="@roleName">
                             <label class="form-check-label" for="flexCheckDefault">
                                 @roleName
@@ -21,7 +22,7 @@
                 </div>
             </div>
             <div>
-                <input type="submit" value="OK"  class="btn btn-dark"/>
+                <input type="submit" value="Show"  class="btn btn-dark"/>
             </div>
         </div>
     </form>
@@ -31,6 +32,7 @@
 
 <table class="table">
     <tr>
+        <th>#</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
@@ -38,9 +40,14 @@
         <th>Gender</th>
         <th></th>
     </tr>
+    @{ int counter = 0;}
     @foreach (var user in Model)
     {
         <tr>
+            <td>
+                @{ counter++;}
+                @counter
+            </td>
             <td>@user.FirstName</td>
             <td>@user.LastName</td>
             <td>@user.Email</td>

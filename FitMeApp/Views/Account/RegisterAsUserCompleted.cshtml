@@ -9,6 +9,7 @@
     {
         <h3>Registration as User completed successfully!</h3>
         <h5>All trainers functions will be available after the approval of the job information.</h5>
+        <a asp-action="Index" asp-controller="Home"  class="btn btn-light">Ok</a>
     }
     else
     {
@@ -17,9 +18,10 @@
         <h5>Please, add some information about yourself on your Profile.</h5>
         <br />
         <a asp-action="EditPersonalData" asp-controller="Profile" asp-route-id="@Model.Id" class="btn btn-dark">Fill out now</a>
+        <a asp-action="Index" asp-controller="Home"  class="btn btn-light">Not now</a>
     }
 
-    <a asp-action="Index" asp-controller="Home" asp-route-id="@Model.Id" class="btn btn-light">Not now</a>
+
 </div>
 <div style="text-align:center">
     <img src="~/Content/images/Hi.jpg" alt="Alternate Text" style="height:300px; width:auto" />

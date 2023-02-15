@@ -215,9 +215,9 @@ namespace FitMeApp.Services
             return trainers;
         }
 
-        public IEnumerable<TrainerModel> GetAllTrainersNames()
+        public IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
         {
-            var trainersEntity = _repository.GetAllTrainersWithNames();
+            var trainersEntity = _repository.GetAllTrainersByStatus(status);
             List<TrainerModel> trainers = new List<TrainerModel>();
             foreach (var trainerEntity in trainersEntity)
             {
@@ -413,8 +413,17 @@ namespace FitMeApp.Services
 
         public bool DeleteTrainer(string id)
         {
-            bool result = _repository.DeleteTrainer(id);
-            return result;
+            bool delTrainingTrainerResult = _repository.DeleteAllTrainingTrainerConnectionsByTrainer(id);
+            if (delTrainingTrainerResult)
+            {
+                bool result = _repository.DeleteTrainer(id);
+                return result;
+            }
+            else
+            {
+                return false;
+            }
+           
         }
 
 

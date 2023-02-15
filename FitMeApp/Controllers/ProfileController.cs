@@ -61,9 +61,9 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult TrainersList()
+        public IActionResult TrainerApplicationsList()
         {
-            var trainersModels = _fitMeService.GetAllTrainersNames();
+            var trainersModels = _fitMeService.GetAllTrainersByStatus(TrainerApproveStatusEnum.pending);
             List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
             foreach (var trainerModel in trainersModels)
             {
@@ -91,10 +91,10 @@ namespace FitMeApp.Controllers
                 var trainerPartInfo = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
                 if (trainerPartInfo != null)
                 {
-                    _fitMeService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.aproved);
+                    _fitMeService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.approved);
                     await _userManager.RemoveFromRoleAsync(user, RolesEnum.user.ToString());
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
-                    return RedirectToAction("TrainersList");
+                    return RedirectToAction("UsersList");
                 }
                 else
                 {
@@ -110,7 +110,7 @@ namespace FitMeApp.Controllers
                 _logger.LogError(ex, ex.Message);
                 CustomErrorViewModel error = new CustomErrorViewModel()
                 {
-                    Message = $"Failed to approve application for Trainer Role. Please try again"
+                    Message = "Failed to approve application for Trainer Role. Please try again"
                 };
                 return View("CustomError", error);
             }

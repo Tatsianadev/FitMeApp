@@ -28,7 +28,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            var trainerModels = _fitMeService.GetAllTrainerModels().Where(x=>x.Status == TrainerApproveStatusEnum.aproved);
+            var trainerModels = _fitMeService.GetAllTrainerModels().Where(x=>x.Status == TrainerApproveStatusEnum.approved);
             List<TrainerViewModel> trainers = new List<TrainerViewModel>();
             foreach (var trainerModel in trainerModels)
             {

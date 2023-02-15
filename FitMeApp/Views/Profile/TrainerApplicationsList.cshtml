@@ -6,7 +6,7 @@
 
 <div class="container">
     <div>
-        <h3> Trainers List</h3>
+        <h3> Trainer applications</h3>
     </div>
     <table class="table" style="width:50%">
         <tr>
@@ -19,22 +19,14 @@
         @foreach (var trainer in Model)
         {
             rowNumber++;
-            string trStyle = trainer.Status == FitMeApp.Common.TrainerApproveStatusEnum.aproved ? "" : "table-warning";
-            <tr class="@trStyle">
+
+            <tr>
                 <td>@rowNumber</td>
                 <td>@trainer.FirstName</td>
                 <td>@trainer.LastName</td>
-                @if (trainer.Status == FitMeApp.Common.TrainerApproveStatusEnum.pending)
-                {
-                    <td>
-                        <a class="btn btn-sm btn-primary" asp-action="ShowTrainerApplication" asp-route-trainerId="@trainer.Id">New application</a>
-                    </td>
-                }
-                else
-                {
-                    <td></td>
-                }
-
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="ShowTrainerApplication" asp-route-trainerId="@trainer.Id">Show application</a>
+                </td>
             </tr>
         }
     </table>
