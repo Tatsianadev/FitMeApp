@@ -13,9 +13,9 @@
     <div class="form-group">
         <label asp-for="Year" class="control-label">Year of birth</label>
         <select id="year" asp-for="Year" class="form-select">
-            @for (int i = 1920; i < DateTime.Now.Year; i++)
+            @for (int yearOfBirth = (DateTime.Now.Year - 100); yearOfBirth < DateTime.Now.Year; yearOfBirth++)
             {
-                <option value="@i">@i</option>
+                <option value="@yearOfBirth">@yearOfBirth</option>
             }
         </select>
     </div>
