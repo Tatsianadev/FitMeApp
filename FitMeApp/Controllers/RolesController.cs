@@ -136,7 +136,8 @@ namespace FitMeApp.Controllers
                 ChangeCurrentUserRolesViewModel model = new ChangeCurrentUserRolesViewModel()
                 {
                     UserId = user.Id,
-                    UserName = user.UserName,
+                    UserFirstName = user.FirstName,
+                    UserLastName = user.LastName,
                     UserRoles = userRoles,
                     AllRoles = allRoles
                 };

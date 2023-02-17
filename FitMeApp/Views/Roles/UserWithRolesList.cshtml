@@ -2,14 +2,24 @@
 
 <h2>User-Roles list</h2>
 <table class="table">
+    @{ int counter = 0;}
+    <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th></th>
+    </tr>
+
     @foreach (var user in Model)
     {
-    <tr>
-        <td>@user.FirstName</td>
-        <td>@user.LastName</td>
-        <td>
-            <a class="btn btn-sm btn-primary" asp-action="EditCurrentUserRoles" asp-route-userid="@user.Id">Show roles</a>
-        </td>
-    </tr>
+        counter++;
+        <tr>
+            <td>@counter</td>
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="EditCurrentUserRoles" asp-route-userid="@user.Id">Show roles</a>
+            </td>
+        </tr>
     }
 </table>
