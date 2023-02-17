@@ -23,14 +23,14 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainerEntityBase GetTrainer(string id);
         bool AddTrainer(TrainerEntityBase trainer);
         void UpdateTrainer(TrainerEntityBase newTrainerData);
-        bool DeleteTrainer(string id);
+        void DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);       
         bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
-        bool DeleteTrainerWorkHours(int workHoursId);
+        void DeleteTrainerWorkHours(int workHoursId);
         bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
-        bool DeleteTrainerWorkHoursByTrainer(string trainerId);
+        void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date);
 
         //Trainings
@@ -40,12 +40,12 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainingEntityBase GetTraining(int id);
         TrainingEntityBase AddTraining(TrainingEntityBase item);
         bool UpdateTraining(int id, TrainingEntityBase newTrainingData);
-        bool DeleteTraining(int id);
+        void DeleteTraining(int id);
 
         //Trainer-Training 
-        bool DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
+        void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
-        bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
+        void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);

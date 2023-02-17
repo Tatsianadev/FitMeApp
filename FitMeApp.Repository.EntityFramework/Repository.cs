@@ -114,34 +114,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainers;
         }
 
-        //public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus()
-        //{
-        //    var trainersUsersJoin = (from trainer in _context.Trainers
-        //                             join user in _context.Users
-        //                             on trainer.Id equals user.Id
-        //                             select new
-        //                             {
-        //                                 Id = trainer.Id,
-        //                                 FirstName = user.FirstName,
-        //                                 LastName = user.LastName,
-        //                                 Status = trainer.Status
-        //                             }).ToList();
-
-        //    List<TrainerWithGymAndTrainingsBase> trainers = new List<TrainerWithGymAndTrainingsBase>();
-        //    foreach (var trainerUserJoin in trainersUsersJoin)
-        //    {
-        //        trainers.Add(new TrainerWithGymAndTrainingsBase()
-        //        {
-        //            Id = trainerUserJoin.Id,
-        //            FirstName = trainerUserJoin.FirstName,
-        //            LastName = trainerUserJoin.LastName,
-        //            Status = trainerUserJoin.Status
-        //        });
-        //    }
-
-        //    return trainers;
-        //}
-
+        
         public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
         {
             var trainersUsersJoin = (from trainer in _context.Trainers
@@ -153,9 +126,6 @@ namespace FitMeApp.Repository.EntityFramework
                                          Id = trainer.Id,
                                          FirstName = user.FirstName,
                                          LastName = user.LastName,
-                                         //Email = user.Email,
-                                         //Year = user.Year,
-                                         //Gender =user.Gender,
                                          Status = trainer.Status
                                      }).ToList();
 
@@ -221,30 +191,20 @@ namespace FitMeApp.Repository.EntityFramework
             trainer.GymId = newTrainerData.GymId;
 
             _context.SaveChanges();
-            //return true;
 
         }
 
 
-        public bool DeleteTrainer(string id)
+        public void DeleteTrainer(string id)
         {
             var trainer = _context.Trainers.Where(x => x.Id == id).First();
             if (trainer != null)
             {
                 _context.Trainers.Remove(trainer);
-                var result = _context.SaveChanges();
-                if (result > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                _context.SaveChanges();
             }
-            return true;
-
         }
+
 
         public IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId)
         {
@@ -290,23 +250,14 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool DeleteTrainerWorkHoursByTrainer(string trainerId)
+        public void DeleteTrainerWorkHoursByTrainer(string trainerId)
         {
             var trainerWorkHours = _context.TrainerWorkHours.Where(x => x.TrainerId == trainerId).ToList();
             if (trainerWorkHours.Count > 0)
             {
                 _context.TrainerWorkHours.RemoveRange(trainerWorkHours);
-                int deletedTrainerWorkHoursCount = _context.SaveChanges();
-                if (deletedTrainerWorkHoursCount == trainerWorkHours.Count)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+               _context.SaveChanges();
             }
-            return true;
         }
 
 
@@ -388,18 +339,10 @@ namespace FitMeApp.Repository.EntityFramework
 
         }
 
-        public bool DeleteTrainerWorkHours(int workHoursId)
+        public void DeleteTrainerWorkHours(int workHoursId)
         {
             _context.Remove(_context.TrainerWorkHours.Where(x => x.Id == workHoursId).First());
-            int deletedRowsCount = _context.SaveChanges();
-            if (deletedRowsCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _context.SaveChanges();
         }
 
         public bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours)
@@ -410,8 +353,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
             workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
-
-            int updatedRowsCount = _context.SaveChanges();
+            _context.SaveChanges();
 
             return true;
 
@@ -484,36 +426,20 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool DeleteTraining(int id)
+        public void DeleteTraining(int id)
         {
             var groupClass = _context.Trainings.Where(x => x.Id == id).First();
             _context.Trainings.Remove(groupClass);
-            var result = _context.SaveChanges();
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _context.SaveChanges();
         }
 
         //Trainer-Trainings
 
-        public bool DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId)
+        public void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId)
         {
             var trainingTrainersConnection = _context.TrainingTrainer.Where(x => x.TrainerId == trainerId).Where(x => x.TrainingId == trainingToDeleteId).First();
             _context.TrainingTrainer.Remove(trainingTrainersConnection);
-            int deletedCount = _context.SaveChanges();
-            if (deletedCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _context.SaveChanges();
         }
 
         public bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId)
@@ -536,24 +462,14 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
+        public void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
         {
             var allTrainingsByTrainer = _context.TrainingTrainer.Where(x => x.TrainerId == trainerId).ToList();
             if (allTrainingsByTrainer.Count > 0)
             {
                 _context.TrainingTrainer.RemoveRange(allTrainingsByTrainer);
-                int deleteCount = _context.SaveChanges();
-
-                if (deleteCount == allTrainingsByTrainer.Count)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                _context.SaveChanges();
             }
-            return true;
         }
 
         //Gym - Trainer - Trainings connection
@@ -802,7 +718,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo)
+        public bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo)  // return void?
         {
             TrainerEntityBase newTrainerEntityBase = new TrainerEntityBase()
             {
@@ -814,7 +730,6 @@ namespace FitMeApp.Repository.EntityFramework
 
             UpdateTrainer(newTrainerEntityBase);
 
-            bool updateTrainingsTrainerConnectionResult = true;
             var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
             var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
 
@@ -823,20 +738,12 @@ namespace FitMeApp.Repository.EntityFramework
 
             foreach (var trainingId in trainingsIdToDelete)
             {
-                bool deleteResult = DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                if (!deleteResult)
-                {
-                    updateTrainingsTrainerConnectionResult = false;
-                }
+               DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
             }
 
             foreach (var trainingId in trainingsIdToAdd)
             {
-                bool addResult = AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-                if (!addResult)
-                {
-                    updateTrainingsTrainerConnectionResult = false;
-                }
+                 AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
             }
             return true;
         }

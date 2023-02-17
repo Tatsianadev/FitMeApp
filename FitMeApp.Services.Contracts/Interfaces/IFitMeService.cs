@@ -42,14 +42,14 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
-        bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours);
+        bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours);
         bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours);
         bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
-        bool DeleteTrainer(string id);
-        bool DeleteTrainerWorkHoursByTrainer(string trainerId);
+        void DeleteTrainer(string id);
+        void DeleteTrainerWorkHoursByTrainer(string trainerId);
         bool AddTrainer(TrainerModel trainer);
         
 
@@ -58,7 +58,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
 
         //TrainingTrainer 
-        bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
+        void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingId);
 
 

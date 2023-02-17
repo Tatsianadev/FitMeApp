@@ -61,7 +61,7 @@ namespace FitMeApp.Controllers
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
                         if (model.Role == RolesEnum.trainer)
-                        {                           
+                        {
                             return RedirectToAction("RegisterTrainerPart");
                         }
                         
@@ -88,13 +88,23 @@ namespace FitMeApp.Controllers
             }           
         }
 
-        public IActionResult RegisterTrainerPart()
+        public async  Task<IActionResult> RegisterTrainerPart()
         {
+            var user = await _userManager.GetUserAsync(User);
+            TrainerRoleAppViewModel model = new TrainerRoleAppViewModel()
+            {
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                Year = user.Year,
+                Gender = user.Gender,
+                Avatar = user.Avatar
+            };
+
             ViewBag.Gyms = _fitMeService.GetAllGymModels();
             ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
             ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
             ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -109,7 +119,7 @@ namespace FitMeApp.Controllers
                     user.Gender = model.Gender;
                     user.Year = model.Year;
 
-                    if (string.IsNullOrEmpty(model.Avatar))
+                    if(string.IsNullOrEmpty(model.Avatar))
                     {
                         user.Avatar = "defaultAvatar.jpg";
                     }
