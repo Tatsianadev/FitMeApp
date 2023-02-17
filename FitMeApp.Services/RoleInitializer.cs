@@ -19,9 +19,10 @@ namespace FitMeApp.Services
             {
                 await roleManager.CreateAsync(new IdentityRole(RolesEnum.user.ToString()));
             }
-            if (await userManager.FindByEmailAsync(email) == null)
+
+            if (await userManager.GetUsersInRoleAsync(RolesEnum.admin.ToString()) == null)
             {
-                User admin = new User(){UserName = email, Email = email};
+                User admin = new User() { UserName = email, Email = email };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
 
                 if (result.Succeeded)
