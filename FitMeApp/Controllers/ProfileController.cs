@@ -74,6 +74,7 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> ShowTrainerApplication(string trainerId)
         {
+            //todo: rework phone validation
             var user = await _userManager.FindByIdAsync(trainerId);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
@@ -83,6 +84,7 @@ namespace FitMeApp.Controllers
             return View(trainerViewModel);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ApproveTrainerApplication(string trainerId)
         {
             try
@@ -119,6 +121,32 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
+        public IActionResult RejectTrainerApplication(string trainerId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(trainerId))
+                {
+                    throw new ArgumentNullException(nameof(trainerId), "Parameter UserId is null or empty");
+                }
+
+                _fitMeService.DeleteTrainer(trainerId);
+                return RedirectToAction("TrainerApplicationsList"); //before this -> send a message about rejection application
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                CustomErrorViewModel error = new CustomErrorViewModel()
+                {
+                    Message = "Failed to reject application for Trainer Role. Please try again"
+                };
+                return View("CustomError", error);
+            }
+        }
+
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
             try
@@ -138,17 +166,7 @@ namespace FitMeApp.Controllers
                         }
                         else
                         {
-                            bool deleteFromTrainersTableResult = _fitMeService.DeleteTrainer(user.Id);
-                            bool deleteAllTrainingsTrainerConnectionResult = _fitMeService.DeleteAllTrainingTrainerConnectionsByTrainer(user.Id);
-                            bool deleteTrainerWorkHoursResult = _fitMeService.DeleteTrainerWorkHoursByTrainer(user.Id);
-                            if (deleteFromTrainersTableResult == false || deleteAllTrainingsTrainerConnectionResult == false || deleteTrainerWorkHoursResult == false)
-                            {
-                                CustomErrorViewModel error = new CustomErrorViewModel()
-                                {
-                                    Message = "There was a problem with delete User. Try again, please."
-                                };
-                                return View("CustomError", error);
-                            }
+                            _fitMeService.DeleteTrainer(user.Id);
                         }
                     }
                     await _userManager.DeleteAsync(user);

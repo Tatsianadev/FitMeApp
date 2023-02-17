@@ -261,7 +261,7 @@ namespace FitMeApp.Services
            _repository.UpdateTrainer(trainer);            
         }
 
-        public bool CheckFacilityUpdateTrainerWorkHoursByGymScedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
+        public bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             List<DayOfWeek> gymWorkDayes = _repository.GetWorkHoursByGym(gymId).Select(x => x.DayOfWeekNumber).ToList();
             List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
@@ -324,7 +324,7 @@ namespace FitMeApp.Services
         {
             string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
             int gymId = _repository.GetTrainer(trainerId).GymId;            
-            if (CheckFacilityUpdateTrainerWorkHoursByEvents(newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymScedule(gymId,newWorkHours))
+            if (CheckFacilityUpdateTrainerWorkHoursByEvents(newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymSchedule(gymId,newWorkHours))
             {
                 return true;
             }
@@ -334,22 +334,16 @@ namespace FitMeApp.Services
             }
         }
 
-        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
+        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours) //return void?
         {
             string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();            
             List<int> previousTrainerWorkHoursId = _repository.GerAllTrainerWorkHoursId(trainerId).ToList();
             List<int> newTrainerWorkHoursId = trainerWorkHours.Select(x => x.Id).ToList();
 
-            bool result = true;
-           
             List<int> idRowsToDelete = previousTrainerWorkHoursId.Except(newTrainerWorkHoursId).ToList();
             foreach (var workHoursId in idRowsToDelete)
             {
-                result = _repository.DeleteTrainerWorkHours(workHoursId);
-                if (result == false)
-                {
-                    return false;
-                }               
+                _repository.DeleteTrainerWorkHours(workHoursId);
             }
 
            
@@ -357,22 +351,14 @@ namespace FitMeApp.Services
             var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToAdd in entityRowsToAdd)
             {                
-                result = _repository.AddTrainerWorkHours(workHoursToAdd);
-                if (result == false)
-                {
-                    return false;
-                }
+                _repository.AddTrainerWorkHours(workHoursToAdd);
             }
 
             List<TrainerWorkHoursModel> rowsToUpdate = trainerWorkHours.Where(x => x.Id != 0).ToList();
             var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToUpdate in entityRowsToUpdate)
             {
-                result = _repository.UpdateTrainerWorkHours(workHoursToUpdate);
-                if (result == false)
-                {
-                    return false;
-                }
+               _repository.UpdateTrainerWorkHours(workHoursToUpdate);
             }
 
             return true;
@@ -411,26 +397,17 @@ namespace FitMeApp.Services
         }
 
 
-        public bool DeleteTrainer(string id)
+        public void DeleteTrainer(string id)
         {
-            bool delTrainingTrainerResult = _repository.DeleteAllTrainingTrainerConnectionsByTrainer(id);
-            if (delTrainingTrainerResult)
-            {
-                bool result = _repository.DeleteTrainer(id);
-                return result;
-            }
-            else
-            {
-                return false;
-            }
-           
+            _repository.DeleteAllTrainingTrainerConnectionsByTrainer(id);
+            _repository.DeleteTrainerWorkHoursByTrainer(id);
+            _repository.DeleteTrainer(id);
         }
 
 
-        public bool DeleteTrainerWorkHoursByTrainer(string trainerId)
+        public void DeleteTrainerWorkHoursByTrainer(string trainerId)
         {
-            bool result = _repository.DeleteTrainerWorkHoursByTrainer(trainerId);
-            return result;
+           _repository.DeleteTrainerWorkHoursByTrainer(trainerId);
         }
 
         public bool AddTrainer(TrainerModel trainer)
@@ -449,10 +426,9 @@ namespace FitMeApp.Services
         }
 
         //TrainingTrainer
-        public bool DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
+        public void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
         {
-            bool result = _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
-            return result;
+            _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
         }
 
         public bool AddTrainingTrainerConnection(string trainerId, int trainingId)

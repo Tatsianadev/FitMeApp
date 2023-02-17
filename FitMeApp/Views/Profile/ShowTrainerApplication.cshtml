@@ -10,35 +10,35 @@
             <div class=" container">
                 <div class="row">
                     <div class="col-md-4">
-                        @{ string imageParth = "/Content/Trainers/" + Model.Picture;}
-                        <img src="@imageParth" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
+                        @{ string imagePath = "/Content/images/" + Model.Picture;}
+                        <img src="@imagePath" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
 
                         <table style="width:100%; margin:auto">
                             <tr>
                                 <td class="col3">First Name</td>
-                                <td class="col4">@Model.FirstName</td>
+                                <td class="col7">@Model.FirstName</td>
                             </tr>
                             <tr>
                                 <td class="col3">Last Name</td>
-                                <td class="col4">@Model.LastName</td>
+                                <td class="col7">@Model.LastName</td>
                             </tr>
                             <tr>
                                 <td class="col3">Email</td>
-                                <td class="col4">@Model.Email</td>
+                                <td class="col7">@Model.Email</td>
                             </tr>
                             <tr>
                                 <td class="col3">Phone</td>
-                                <td class="col4">@Model.Phone</td>
+                                <td class="col7">@Model.Phone</td>
                             </tr>
                             <tr>
                                 <td class="col3">Gender</td>
-                                <td class="col4">@Model.Gender</td>
+                                <td class="col7">@Model.Gender</td>
                             </tr>
                             <tr>
                                 <td class="col3">Year</td>
-                                <td class="col4">@Model.Year</td>
+                                <td class="col7">@Model.Year</td>
                             </tr>
                         </table>
 
@@ -47,15 +47,15 @@
                         <table style="width:100%; margin:auto">
                             <tr>
                                 <td class="col3">Gym</td>
-                                <td class="col4">@Model.Gym.Name</td>
+                                <td class="col7">@Model.Gym.Name</td>
                             </tr>
                             <tr>
                                 <td class="col3">Specialization</td>
-                                <td class="col4">@Model.Specialization</td>
+                                <td class="col7">@Model.Specialization</td>
                             </tr>
                             <tr>
                                 <td class="col3">Trainings</td>
-                                <td class="col4">
+                                <td class="col7">
 
                                     @foreach (var training in Model.Trainings.OrderBy(x => x.Id))
                                     {
@@ -70,10 +70,11 @@
                         <div style="text-align:center; margin:10px">
                             <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@Model.Id" class="btn btn-success" style="width:30%">Approve</a>
                             <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-trainerId="@Model.Id" class="btn btn-danger" style="width:30%">Reject</a>
-                        </div>
-                        <div style="text-align:center; margin:10px">
                             <a asp-controller="Profile" asp-action="TrainerApplicationsList" class="btn btn-dark" style="width:30%">Back</a>
                         </div>
+                        @*<div style="text-align:center; margin:10px">
+                            <a asp-controller="Profile" asp-action="TrainerApplicationsList" class="btn btn-dark" style="width:30%">Back</a>
+                        </div>*@
                         
 
                     </div>
