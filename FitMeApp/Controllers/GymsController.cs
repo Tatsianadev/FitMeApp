@@ -115,6 +115,13 @@ namespace FitMeApp.Controllers
         }
 
 
+        public IActionResult Subscriptions(int gymId)
+        {
+            var gymModel = _fitMeService.GetGymModel(gymId);
+            GymViewModel gymViewModel = _mapper.MappGymModelToViewModel(gymModel);
+            return View(gymViewModel);
+        }
+
 
         public ActionResult SubscriptionsForVisitors(int gymId)
         {
@@ -152,8 +159,8 @@ namespace FitMeApp.Controllers
                 else
                 {
                     List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-                    var subscriptioModels = _fitMeService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
-                    foreach (var subscriptionModel in subscriptioModels)
+                    var subscriptionModels = _fitMeService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+                    foreach (var subscriptionModel in subscriptionModels)
                     {
                         subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
                     }
@@ -167,8 +174,7 @@ namespace FitMeApp.Controllers
                     ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
                     ViewBag.Gym = _fitMeService.GetGymModel(gymId);
                     return View(subscriptions);
-                }               
-
+                }
             }
             catch (Exception ex)
             {

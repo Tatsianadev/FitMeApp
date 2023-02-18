@@ -1,0 +1,25 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
+
+@{
+     ViewBag.Title = "Type of subscription choosing";
+}
+
+<div class="container">
+    <div class="row">
+        <h4>Text about subscriptions</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-controller="Gyms" asp-action="SubscriptionsForVisitors" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 80%">For visitors</a>
+            <div>
+                Picture visitors
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a asp-controller="Gyms" asp-action="SubscriptionsForTrainers" asp-route-gymId="@Model.Id" class="btn btn-dark" aria-disabled="True" style="width: 80%">Work as a trainer</a>
+            <div>
+                Picture trainers
+            </div>
+        </div>
+    </div>
+</div>
