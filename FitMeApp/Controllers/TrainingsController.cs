@@ -37,7 +37,7 @@ namespace FitMeApp.Controllers
         }
 
 
-
+        [HttpGet]
         public async Task<IActionResult> ApplyForPersonalTraining(string trainerId)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -89,7 +89,7 @@ namespace FitMeApp.Controllers
                     bool result = _trainingService.AddEvent(eventModel);
                     if (result)
                     {
-                        return RedirectToAction("Index", "Trainers"); // do redirect to confirm page
+                        return RedirectToAction("ApplyForTrainingSubmitted"); 
                     }
                 }
                 else
@@ -109,6 +109,11 @@ namespace FitMeApp.Controllers
         public IActionResult NoAvailableSubscription(int gymId)
         {
             return View("NoAvailableSubscription", gymId.ToString());
+        }
+
+        public IActionResult ApplyForTrainingSubmitted()
+        {
+            return View();
         }
     }
 }

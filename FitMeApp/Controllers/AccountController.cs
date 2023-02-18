@@ -32,11 +32,14 @@ namespace FitMeApp.Controllers
             _logger = logger;
         }
 
+
+
         [HttpGet]
         public IActionResult Register()
         {  
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -88,6 +91,7 @@ namespace FitMeApp.Controllers
             }           
         }
 
+
         public async  Task<IActionResult> RegisterTrainerPart()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -106,6 +110,7 @@ namespace FitMeApp.Controllers
             ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> RegisterTrainerPart(TrainerRoleAppViewModel model)
@@ -183,7 +188,6 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }
-            
         }
 
 
@@ -193,6 +197,7 @@ namespace FitMeApp.Controllers
             ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
             return View(user);
         }
+
 
         [HttpGet]
         public IActionResult Login(string returnUrl)
@@ -239,6 +244,7 @@ namespace FitMeApp.Controllers
                 return View("CustomError", error);
             }
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
