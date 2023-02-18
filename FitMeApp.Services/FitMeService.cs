@@ -165,6 +165,26 @@ namespace FitMeApp.Services
             }           
         }
 
+
+        public IEnumerable<SubscriptionModel> GetAllSubscriptionsForTrainersByGym(int gymId)
+        {
+            try
+            {
+                List<SubscriptionModel> subscriptionsModels = new List<SubscriptionModel>();
+                var subscriptionsEntity = _repository.GetAllSubscriptionsForTrainersByGym(gymId);
+                foreach (var subscription in subscriptionsEntity)
+                {
+                    subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
+                }
+                return subscriptionsModels;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw ex;
+            }
+        }
+
         public List<int> GetAllSubscriptionPeriods()
         {
             List<int> allSubscriptionPeriods = _repository.GetAllSubscriptionPeriods();

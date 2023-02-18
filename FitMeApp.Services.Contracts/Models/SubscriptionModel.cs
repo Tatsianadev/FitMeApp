@@ -11,6 +11,7 @@ namespace FitMeApp.Services.Contracts.Models
         public int ValidDays { get; set; }
         public bool GroupTraining { get; set; }
         public bool DietMonitoring { get; set; }
+        public bool WorkAsTrainer { get; set; }
         public int Price { get; set; }
     }
 }

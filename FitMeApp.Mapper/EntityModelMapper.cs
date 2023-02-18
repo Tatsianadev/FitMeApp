@@ -156,6 +156,7 @@ namespace FitMeApp.Mapper
                 ValidDays = subscriptionPrice.ValidDays,
                 GroupTraining = subscriptionPrice.GroupTraining,
                 DietMonitoring = subscriptionPrice.DietMonitoring,
+                WorkAsTrainer = subscriptionPrice.WorkAsTrainer,
                 Price = subscriptionPrice.Price
             };
             return subscriptionModel;

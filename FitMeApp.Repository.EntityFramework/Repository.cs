@@ -114,7 +114,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainers;
         }
 
-        
+
         public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
         {
             var trainersUsersJoin = (from trainer in _context.Trainers
@@ -256,7 +256,7 @@ namespace FitMeApp.Repository.EntityFramework
             if (trainerWorkHours.Count > 0)
             {
                 _context.TrainerWorkHours.RemoveRange(trainerWorkHours);
-               _context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
@@ -738,12 +738,12 @@ namespace FitMeApp.Repository.EntityFramework
 
             foreach (var trainingId in trainingsIdToDelete)
             {
-               DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
             }
 
             foreach (var trainingId in trainingsIdToAdd)
             {
-                 AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
+                AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
             }
             return true;
         }
@@ -903,6 +903,45 @@ namespace FitMeApp.Repository.EntityFramework
 
             return subscriptionsByGym;
         }
+
+
+        public IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForTrainersByGym(int gymId)
+        {
+            var subscriptionsPriceByGymJoin = (from gymSubscription in _context.GymSubscriptions
+                                               join subscription in _context.Subscriptions
+                                                   on gymSubscription.SubscriptionId equals subscription.Id
+                                               where gymSubscription.GymId == gymId
+                                               where subscription.WorkAsTrainer == true
+                                               select new
+                                               {
+                                                   SubscriptionId = subscription.Id,
+                                                   GymId = gymSubscription.GymId,
+                                                   ValidDays = subscription.ValidDays,
+                                                   GroupTraining = subscription.GroupTraining,
+                                                   DietMonitoring = subscription.DietMonitoring,
+                                                   WorkAsTRainer = subscription.WorkAsTrainer,
+                                                   Price = gymSubscription.Price
+                                               });
+
+            List<SubscriptionPriceBase> subscriptionsByGym = new List<SubscriptionPriceBase>();
+            foreach (var subscription in subscriptionsPriceByGymJoin)
+            {
+                subscriptionsByGym.Add(new SubscriptionPriceBase()
+                {
+                    Id = subscription.SubscriptionId,
+                    GymId = subscription.GymId,
+                    ValidDays = subscription.ValidDays,
+                    GroupTraining = subscription.GroupTraining,
+                    DietMonitoring = subscription.DietMonitoring,
+                    WorkAsTrainer = subscription.WorkAsTRainer,
+                    Price = subscription.Price
+                });
+            }
+
+            return subscriptionsByGym;
+        }
+
+
 
         public List<int> GetAllSubscriptionPeriods()
         {

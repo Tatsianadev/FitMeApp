@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.SubscriptionViewModel>
 
 <div>
-    <h2>
-        @{ var gym = ViewBag.Gym;}
-        @gym.Name
-    </h2>
+    <h3>
+       Subscriptions for visitors
+    </h3>
 </div>
 <hr/>
 <div>
@@ -19,7 +18,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <p style="font:bold">
+                            <p style="font-weight: bold">
                                 Valid period
                             </p>
                             @foreach (var period in ViewBag.SubscriptionValidPeriods)
@@ -33,7 +32,7 @@
                             }
                         </div>
                         <div class="col-md-4">
-                            <p style="font:bold">
+                            <p style="font-weight: bold">
                                 Other options
                             </p>
                             <div class="form-check">
@@ -71,8 +70,8 @@
                     </div>
                     <hr style="margin-bottom:5px"/>
                     <div class="card-body" style="text-align:center; padding:10px; height:310px">
-                        <h5 style="font:bold">Subscription for</h5>
-                        <h3 class="card-title" style="font:bold">@subscription.ValidDays @(subscription.ValidDays==1?"day":"days")</h3>
+                        <h5 style="font-weight: bold">Subscription for</h5>
+                        <h3 class="card-title" style="font-weight: bold">@subscription.ValidDays @(subscription.ValidDays==1?"day":"days")</h3>
                         <p class="card-text" style="text-align:left; height:100px">
                             Include:
                             <br />
@@ -83,7 +82,7 @@
                             @(subscription.DietMonitoring==true? "- Diet monitoring;" : "")
                         </p>
                         <div class="card-footer">
-                            <h3 style="font:bold">@subscription.Price $</h3>
+                            <h3 style="font-weight: bold">@subscription.Price $</h3>
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a asp-controller="Gyms" asp-action="CurrentSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>

@@ -60,6 +60,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Subscriptions
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForVisitorsByGym(int gymId);
+        IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForTrainersByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
         int GetSubscriptionPeriod(int subscriptionId);
         SubscriptionPriceBase GetSubscriptionWithPriceByGym(int subscriptionId, int gymId);
