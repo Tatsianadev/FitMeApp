@@ -15,7 +15,7 @@
     </p>
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
-            <form asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.First().GymId" method="post">
+            <form asp-controller="Gyms" asp-action="SubscriptionsForVisitors" asp-route-gymId="@Model.First().GymId" method="post">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <input type="submit" value="OK" class="btn btn-dark" />
-                        <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.First().GymId" class="btn btn-dark">Clear filters</a>
+                        <a asp-controller="Gyms" asp-action="SubscriptionsForVisitors" asp-route-gymId="@Model.First().GymId" class="btn btn-dark">Clear filters</a>
                     </div>
                 </div>
             </form>          

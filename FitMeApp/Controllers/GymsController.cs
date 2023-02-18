@@ -116,10 +116,10 @@ namespace FitMeApp.Controllers
 
 
 
-        public ActionResult Subscriptions(int gymId)
+        public ActionResult SubscriptionsForVisitors(int gymId)
         {
             List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-            var subscriptionModels = _fitMeService.GetAllSubscriptionsByGym(gymId);
+            var subscriptionModels = _fitMeService.GetAllSubscriptionsForVisitorsByGym(gymId);
 
             foreach (var subscriptionModel in subscriptionModels)
             {
@@ -133,7 +133,6 @@ namespace FitMeApp.Controllers
             }
 
             ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
-            ViewBag.GymId = gymId;
             ViewBag.Gym = _fitMeService.GetGymModel(gymId);
             return View(subscriptions);
         }
@@ -142,18 +141,18 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Subscriptions(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
+        public ActionResult SubscriptionsForVisitors(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
         {
             try
             {
                 if (selectedPeriods.Count == 0 && groupTraining == false && dietMonitoring == false)
                 {
-                    return RedirectToAction("Subscriptions", new { gymId = gymId });
+                    return RedirectToAction("SubscriptionsForVisitors", new { gymId = gymId });
                 }
                 else
                 {
                     List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-                    var subscriptioModels = _fitMeService.GetSubscriptionsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+                    var subscriptioModels = _fitMeService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
                     foreach (var subscriptionModel in subscriptioModels)
                     {
                         subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
@@ -166,6 +165,7 @@ namespace FitMeApp.Controllers
                     }
 
                     ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+                    ViewBag.Gym = _fitMeService.GetGymModel(gymId);
                     return View(subscriptions);
                 }               
 

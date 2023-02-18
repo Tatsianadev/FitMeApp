@@ -35,7 +35,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
-        //IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersNamesByStatus();
         IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         TrainingEntityBase GetTraining(int id);
         TrainingEntityBase AddTraining(TrainingEntityBase item);
@@ -56,11 +55,11 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Filters
         IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
-        IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
+        IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
         IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainengsByFilter(List<string> selectedGenders, List<string> selectedSpecializations);
 
         //Subscriptions
-        IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId);
+        IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForVisitorsByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
         int GetSubscriptionPeriod(int subscriptionId);
         SubscriptionPriceBase GetSubscriptionWithPriceByGym(int subscriptionId, int gymId);

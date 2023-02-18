@@ -9,7 +9,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public int Id { get; set; }
         public int ValidDays { get; set; }
         public bool GroupTraining { get; set; }
-        public bool DietMonitoring { get; set; }       
-        
+        public bool DietMonitoring { get; set; }
+        public bool WorkAsTrainer { get; set; }
+
     }
 }

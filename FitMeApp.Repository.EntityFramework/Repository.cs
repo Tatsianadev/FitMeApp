@@ -797,7 +797,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
+        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
         {
             var subscriptionsPriceByGymByFiltersJoin = (from gymSubscription in _context.GymSubscriptions
                                                         join subscription in _context.Subscriptions
@@ -806,6 +806,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         where periods.Contains(subscription.ValidDays)
                                                         where subscription.GroupTraining == groupTraining
                                                         where subscription.DietMonitoring == dietMonitoring
+                                                        where subscription.WorkAsTrainer == false
                                                         select new
                                                         {
                                                             SubscriptionId = subscription.Id,
@@ -870,12 +871,13 @@ namespace FitMeApp.Repository.EntityFramework
 
         // Subscribtions
 
-        public IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsByGym(int gymId)
+        public IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForVisitorsByGym(int gymId)
         {
             var subscriptionsPriceByGymJoin = (from gymSubscription in _context.GymSubscriptions
                                                join subscription in _context.Subscriptions
                                                on gymSubscription.SubscriptionId equals subscription.Id
                                                where gymSubscription.GymId == gymId
+                                               where subscription.WorkAsTrainer == false
                                                select new
                                                {
                                                    SubscriptionId = subscription.Id,

@@ -125,12 +125,12 @@ namespace FitMeApp.Services
 
         //Subscriptions
 
-        public IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
+        public IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
         {
             try
             {
                 List<SubscriptionModel> subscriptionsModels = new List<SubscriptionModel>();
-                var subscriptionsEntity = _repository.GetSubscriptionsByGymByFilter(gymId, periods, groupTraining, dietMonitoring);
+                var subscriptionsEntity = _repository.GetSubscriptionsForVisitorsByGymByFilter(gymId, periods, groupTraining, dietMonitoring);
                 foreach (var subscription in subscriptionsEntity)
                 {
                     subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
@@ -146,12 +146,12 @@ namespace FitMeApp.Services
         }
 
 
-        public IEnumerable<SubscriptionModel> GetAllSubscriptionsByGym(int gymId)
+        public IEnumerable<SubscriptionModel> GetAllSubscriptionsForVisitorsByGym(int gymId)
         {
             try
             {
                 List<SubscriptionModel> subscriptionsModels = new List<SubscriptionModel>();
-                var subscriptionsEntity = _repository.GetAllSubscriptionsByGym(gymId);
+                var subscriptionsEntity = _repository.GetAllSubscriptionsForVisitorsByGym(gymId);
                 foreach (var subscription in subscriptionsEntity)
                 {
                     subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));

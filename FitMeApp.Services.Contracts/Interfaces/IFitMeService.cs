@@ -22,8 +22,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
        
 
         //Subscriptions
-        IEnumerable<SubscriptionModel> GetSubscriptionsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
-        IEnumerable<SubscriptionModel> GetAllSubscriptionsByGym(int gymId);
+        IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
+        IEnumerable<SubscriptionModel> GetAllSubscriptionsForVisitorsByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
 
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
