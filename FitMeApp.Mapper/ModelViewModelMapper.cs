@@ -8,7 +8,7 @@ namespace FitMeApp.Mapper
 {
     public class ModelViewModelMapper
     {
-        public GymViewModel MappGymModelToViewModelBase(GymModel gymModel)
+        public GymViewModel MapGymModelToViewModelBase(GymModel gymModel)
         {
             GymViewModel gymViewModel = new GymViewModel()
             {
@@ -21,12 +21,12 @@ namespace FitMeApp.Mapper
             return gymViewModel;
         }
 
-        public TrainerViewModel MappTrainerModelToViewModelBase(TrainerModel trainerModel)
+        public TrainerViewModel MapTrainerModelToViewModelBase(TrainerModel trainerModel)
         {
             var trainingViewModels = new List<TrainingViewModel>();
             foreach (var training in trainerModel.Trainings)
             {
-                trainingViewModels.Add(MappTrainingModelToViewModelBase(training));
+                trainingViewModels.Add(MapTrainingModelToViewModelBase(training));
             }
 
 
@@ -44,7 +44,7 @@ namespace FitMeApp.Mapper
             return trainerViewModel;
         }
 
-        public TrainingViewModel MappTrainingModelToViewModelBase(TrainingModel training)
+        public TrainingViewModel MapTrainingModelToViewModelBase(TrainingModel training)
         {
             TrainingViewModel trainingViewModel = new TrainingViewModel()
             {
@@ -56,14 +56,14 @@ namespace FitMeApp.Mapper
         }
 
 
-        public GymViewModel MappGymModelToViewModel(GymModel gymModel)
+        public GymViewModel MapGymModelToViewModel(GymModel gymModel)
         {
             try
             {
                 List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
                 foreach (var trainer in gymModel.Trainers)
                 {
-                    var trainerViewModel = MappTrainerModelToViewModelBase(trainer);
+                    var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
                     trainerViewModels.Add(trainerViewModel);
                 }
 
@@ -74,7 +74,7 @@ namespace FitMeApp.Mapper
                 //    groupClassViewModels.Add(groupClassViewModel);
                 //}
 
-                GymViewModel gymViewModel = MappGymModelToViewModelBase(gymModel);
+                GymViewModel gymViewModel = MapGymModelToViewModelBase(gymModel);
                 gymViewModel.Trainers = trainerViewModels;
 
 
@@ -89,20 +89,20 @@ namespace FitMeApp.Mapper
         }
 
 
-        public TrainerViewModel MappTrainerModelToViewModel(TrainerModel trainerModel)
+        public TrainerViewModel MapTrainerModelToViewModel(TrainerModel trainerModel)
         {
             try
             {
-                GymViewModel gymViewModel = MappGymModelToViewModelBase(trainerModel.Gym);
+                GymViewModel gymViewModel = MapGymModelToViewModelBase(trainerModel.Gym);
 
                 List<TrainingViewModel> groupClassViewModels = new List<TrainingViewModel>();
                 foreach (var groupClass in trainerModel.Trainings)
                 {
-                    var groupClassViewModel = MappTrainingModelToViewModelBase(groupClass);
+                    var groupClassViewModel = MapTrainingModelToViewModelBase(groupClass);
                     groupClassViewModels.Add(groupClassViewModel);
                 }
 
-                TrainerViewModel trainerViewModel = MappTrainerModelToViewModelBase(trainerModel);
+                TrainerViewModel trainerViewModel = MapTrainerModelToViewModelBase(trainerModel);
                 trainerViewModel.Gym = gymViewModel;
                 //trainerViewModel.Trainings = groupClassViewModels;
                
@@ -118,25 +118,25 @@ namespace FitMeApp.Mapper
         
 
 
-        public TrainingViewModel MappTrainingModelToViewModel(TrainingModel trainingModel)
+        public TrainingViewModel MapTrainingModelToViewModel(TrainingModel trainingModel)
         {
             try
             {
                 List<GymViewModel> gymViewModels = new List<GymViewModel>();
                 foreach (var gymModel in trainingModel.Gyms)
                 {
-                    var gymViewModel = MappGymModelToViewModelBase(gymModel);
+                    var gymViewModel = MapGymModelToViewModelBase(gymModel);
                     gymViewModels.Add(gymViewModel);
                 }
 
                 List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
                 foreach (var trainer in trainingModel.Trainers)
                 {
-                    var trainerViewModel = MappTrainerModelToViewModelBase(trainer);
+                    var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
                     trainerViewModels.Add(trainerViewModel);
                 }
 
-                TrainingViewModel groupClassViewModel = MappTrainingModelToViewModelBase(trainingModel);
+                TrainingViewModel groupClassViewModel = MapTrainingModelToViewModelBase(trainingModel);
                 groupClassViewModel.Gyms = gymViewModels;
                 groupClassViewModel.Trainers = trainerViewModels;
 
@@ -151,7 +151,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public SubscriptionViewModel MappSubscriptionModelToViewModel(SubscriptionModel subscriptionModel)
+        public SubscriptionViewModel MapSubscriptionModelToViewModel(SubscriptionModel subscriptionModel)
         {
             SubscriptionViewModel subscription = new SubscriptionViewModel()
             {
@@ -168,7 +168,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public EventViewModel MappEventModelToViewModel(EventModel eventModel)
+        public EventViewModel MapEventModelToViewModel(EventModel eventModel)
         {
             EventViewModel eventViewModel = new EventViewModel()
             {
@@ -193,7 +193,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public GymWorkHoursViewModel MappGymWorkHoursModelToViewModel(GymWorkHoursModel gymWorkHoursModel)
+        public GymWorkHoursViewModel MapGymWorkHoursModelToViewModel(GymWorkHoursModel gymWorkHoursModel)
         {
             GymWorkHoursViewModel gymWorkHoursViewModel = new GymWorkHoursViewModel()
             {
@@ -206,7 +206,7 @@ namespace FitMeApp.Mapper
             return gymWorkHoursViewModel;
         }
 
-        public TrainerWorkHoursViewModel MappTrainerWorkHoursModelToViewModel(TrainerWorkHoursModel trainerWorkHoursModel)
+        public TrainerWorkHoursViewModel MapTrainerWorkHoursModelToViewModel(TrainerWorkHoursModel trainerWorkHoursModel)
         {
             TrainerWorkHoursViewModel trainerWorkHoursViewModel = new TrainerWorkHoursViewModel()
             {
@@ -223,14 +223,13 @@ namespace FitMeApp.Mapper
 
        
 
-        public UserSubscriptionViewModel MappUserSubscriptionModelToViewModel(UserSubscriptionModel userSubscriptionModel)
+        public UserSubscriptionViewModel MapUserSubscriptionModelToViewModel(UserSubscriptionModel userSubscriptionModel)
         {
             UserSubscriptionViewModel userSubscriptionViewModel = new UserSubscriptionViewModel()
             {
                 Id = userSubscriptionModel.Id,
                 UserId = userSubscriptionModel.UserId,
                 GymSubscriptionId = userSubscriptionModel.GymSubscriptionId,
-                TrainerId = userSubscriptionModel.TrainerId,
                 StartDate = userSubscriptionModel.StartDate,
                 EndDate = userSubscriptionModel.EndDate,
                 GroupTraining = userSubscriptionModel.GroupTraining,

@@ -19,22 +19,18 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //Trainings
         ICollection<TrainingModel> GetAllTrainingModels();
         TrainingModel GetTrainingModel(int trainingId);
-       
 
         //Subscriptions
         IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
         IEnumerable<SubscriptionModel> GetAllSubscriptionsForVisitorsByGym(int gymId);
         IEnumerable<SubscriptionModel> GetAllSubscriptionsForTrainersByGym(int gymId);
         List<int> GetAllSubscriptionPeriods();
-
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
 
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
-        int GetActualSubscriptionsCountByTrainer(string trainerId);
+        //int GetActualSubscriptionsCountByTrainer(string trainerId);
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
-
-     
 
         //Trainers
         List<TrainerModel> GetAllTrainerModels();

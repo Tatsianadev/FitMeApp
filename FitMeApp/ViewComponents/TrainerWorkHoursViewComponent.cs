@@ -26,7 +26,7 @@ namespace FitMeApp.ViewComponents
             List<TrainerWorkHoursViewModel> trainerWorkHoursViewModels = new List<TrainerWorkHoursViewModel>();
             foreach (var model in trainerWorkHoursModels)
             {
-                trainerWorkHoursViewModels.Add(_mapper.MappTrainerWorkHoursModelToViewModel(model));
+                trainerWorkHoursViewModels.Add(_mapper.MapTrainerWorkHoursModelToViewModel(model));
             }
             return View("TrainerWorkHours", trainerWorkHoursViewModels);
         }

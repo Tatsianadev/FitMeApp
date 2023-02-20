@@ -241,7 +241,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<string> GetAllClientsIdByTrainer(string trainerId)
         {
-            List<string> clientsId = _context.UserSubscriptions
+            List<string> clientsId = _context.Events
                 .Where(x => x.TrainerId == trainerId)
                 .Select(x => x.UserId)
                 .ToList();
@@ -834,7 +834,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainengsByFilter(List<string> selectedGenders, List<string> selectedSpecializations)
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(List<string> selectedGenders, List<string> selectedSpecializations)
         {
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
                                                     join user in _context.Users
@@ -1017,14 +1017,14 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public int GetActualSubscriptionsCountByTrainer(string trainerId)
-        {
-            var actualSubscriptionsCount = _context.UserSubscriptions
-                .Where(x => x.TrainerId == trainerId)
-                .Where(x => x.EndDate.Date >= DateTime.Now.Date)
-                .ToList().Count();
-            return actualSubscriptionsCount;
-        }
+        //public int GetActualSubscriptionsCountByTrainer(string trainerId)
+        //{
+        //    var actualSubscriptionsCount = _context.UserSubscriptions
+        //        .Where(x => x.TrainerId == trainerId)
+        //        .Where(x => x.EndDate.Date >= DateTime.Now.Date)
+        //        .ToList().Count();
+        //    return actualSubscriptionsCount;
+        //}
 
         public IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId)
         {
@@ -1039,7 +1039,6 @@ namespace FitMeApp.Repository.EntityFramework
                                              Id = userSubscr.Id,
                                              UserId = userSubscr.UserId,
                                              GymSubscriptionId = userSubscr.GymSubscriptionId,
-                                             TrainerId = userSubscr.TrainerId,
                                              StartDate = userSubscr.StartDate,
                                              EndDate = userSubscr.EndDate,
                                              GroupTraining = subscr.GroupTraining,
@@ -1054,7 +1053,6 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = joinItem.Id,
                     UserId = joinItem.UserId,
                     GymSubscriptionId = joinItem.GymSubscriptionId,
-                    TrainerId = joinItem.TrainerId,
                     StartDate = joinItem.StartDate,
                     EndDate = joinItem.EndDate,
                     GroupTraining = joinItem.GroupTraining,
@@ -1091,7 +1089,6 @@ namespace FitMeApp.Repository.EntityFramework
                                              Id = userSubscr.Id,
                                              UserId = userSubscr.UserId,
                                              GymSubscriptionId = userSubscr.GymSubscriptionId,
-                                             TrainerId = userSubscr.TrainerId,
                                              StartDate = userSubscr.StartDate,
                                              EndDate = userSubscr.EndDate
                                          }).ToList();
@@ -1104,7 +1101,6 @@ namespace FitMeApp.Repository.EntityFramework
                     Id = joinItem.Id,
                     UserId = joinItem.UserId,
                     GymSubscriptionId = joinItem.GymSubscriptionId,
-                    TrainerId = joinItem.TrainerId,
                     StartDate = joinItem.StartDate,
                     EndDate = joinItem.EndDate
                 });

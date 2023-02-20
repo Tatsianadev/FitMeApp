@@ -313,10 +313,10 @@ go
 
 
 
-  insert UserSubscriptions (UserId, GymSubscriptionId, TrainerId, StartDate, EndDate)
-  values('189cb89d-f5c1-4dc8-9a1b-67715f6b6fcf', '47','7d1b0307-a5f2-494e-935c-828bdf39afe2', '2022-12-01', '2022-12-31')
-  ,('871dd4aa-19dd-4749-86ec-c2d902c290e3', '48','7d1b0307-a5f2-494e-935c-828bdf39afe2', '2022-12-10', '2023-01-09')
-  ,('afb2a4c0-7ff4-400c-98c1-448908b39e46', '50','7d1b0307-a5f2-494e-935c-828bdf39afe2', '2022-12-15', '2023-01-14')
+  insert UserSubscriptions (UserId, GymSubscriptionId, StartDate, EndDate)
+  values('189cb89d-f5c1-4dc8-9a1b-67715f6b6fcf', '47', '2022-12-01', '2022-12-31')
+  ,('871dd4aa-19dd-4749-86ec-c2d902c290e3', '48', '2022-12-10', '2023-01-09')
+  ,('afb2a4c0-7ff4-400c-98c1-448908b39e46', '50', '2022-12-15', '2023-01-14')
   go
 
 

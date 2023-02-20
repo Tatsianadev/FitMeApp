@@ -32,7 +32,7 @@ namespace FitMeApp.Services
             List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventEntityBases)
             {
-                eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
+                eventModels.Add(_mapper.MapEventEntityBaseToModel(entity));
             }
             return eventModels;
         }
@@ -43,7 +43,7 @@ namespace FitMeApp.Services
             List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventEntityBases)
             {
-                eventModels.Add(_mapper.MappEventEntityBaseToModel(entity));
+                eventModels.Add(_mapper.MapEventEntityBaseToModel(entity));
             }
             return eventModels;
         }
@@ -54,7 +54,7 @@ namespace FitMeApp.Services
             List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventWithNamesBases)
             {
-                eventModels.Add(_mapper.MappEventWithNamesBaseToModel(entity));
+                eventModels.Add(_mapper.MapEventWithNamesBaseToModel(entity));
             }
             return eventModels;
         }
@@ -66,7 +66,7 @@ namespace FitMeApp.Services
             List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventWithNamesBases)
             {
-                eventModels.Add(_mapper.MappEventWithNamesBaseToModel(entity));
+                eventModels.Add(_mapper.MapEventWithNamesBaseToModel(entity));
             }
             return eventModels;
         }

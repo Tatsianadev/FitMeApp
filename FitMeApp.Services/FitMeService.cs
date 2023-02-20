@@ -33,7 +33,7 @@ namespace FitMeApp.Services
 
                 foreach (var gym in gymEntityBases)
                 {                    
-                    gymsModels.Add(_mapper.MappGymEntityBaseToModelBase(gym));
+                    gymsModels.Add(_mapper.MapGymEntityBaseToModelBase(gym));
                 }
                 return gymsModels;
             }
@@ -48,7 +48,7 @@ namespace FitMeApp.Services
         public GymModel GetGymModel(int id)
         {
             var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
-            GymModel gym = _mapper.MappGymEntityBaseToModel(gymEntityBase);
+            GymModel gym = _mapper.MapGymEntityBaseToModel(gymEntityBase);
             return gym;
         }
 
@@ -59,7 +59,7 @@ namespace FitMeApp.Services
             List<GymModel> gyms = new List<GymModel>();
             foreach (var gym in gymsByTrainings)
             {
-                gyms.Add(_mapper.MappGymEntityBaseToModelBase(gym));
+                gyms.Add(_mapper.MapGymEntityBaseToModelBase(gym));
             }
             return gyms;
         }
@@ -70,7 +70,7 @@ namespace FitMeApp.Services
             List<GymWorkHoursModel> workHoursModels = new List<GymWorkHoursModel>();
             foreach (var item in workHoursEntityBase)
             {
-                workHoursModels.Add(_mapper.MappGymWorkHoursEntityBaseToModel(item));
+                workHoursModels.Add(_mapper.MapGymWorkHoursEntityBaseToModel(item));
             }
             return workHoursModels;
         }
@@ -100,7 +100,7 @@ namespace FitMeApp.Services
 
                 foreach (var groupClass in trainings)
                 {                    
-                    trainingModels.Add(_mapper.MappTrainingEntityBaseToModelBase(groupClass));
+                    trainingModels.Add(_mapper.MapTrainingEntityBaseToModelBase(groupClass));
                 }
                 return trainingModels;
             }
@@ -114,7 +114,7 @@ namespace FitMeApp.Services
         public TrainingModel GetTrainingModel(int trainingId)
         {
             var trainingEntity = _repository.GetTraining(trainingId);
-            TrainingModel trainingModel = _mapper.MappTrainingEntityBaseToModelBase(trainingEntity);
+            TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
             return trainingModel;
         }
 
@@ -133,7 +133,7 @@ namespace FitMeApp.Services
                 var subscriptionsEntity = _repository.GetSubscriptionsForVisitorsByGymByFilter(gymId, periods, groupTraining, dietMonitoring);
                 foreach (var subscription in subscriptionsEntity)
                 {
-                    subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
+                    subscriptionsModels.Add(_mapper.MapSubscriptionPriceEntityBaseToModel(subscription));
                 }
                 return subscriptionsModels;
             }
@@ -154,7 +154,7 @@ namespace FitMeApp.Services
                 var subscriptionsEntity = _repository.GetAllSubscriptionsForVisitorsByGym(gymId);
                 foreach (var subscription in subscriptionsEntity)
                 {
-                    subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
+                    subscriptionsModels.Add(_mapper.MapSubscriptionPriceEntityBaseToModel(subscription));
                 }
                 return subscriptionsModels;
             }
@@ -174,7 +174,7 @@ namespace FitMeApp.Services
                 var subscriptionsEntity = _repository.GetAllSubscriptionsForTrainersByGym(gymId);
                 foreach (var subscription in subscriptionsEntity)
                 {
-                    subscriptionsModels.Add(_mapper.MappSubscriptionPriceEntityBaseToModel(subscription));
+                    subscriptionsModels.Add(_mapper.MapSubscriptionPriceEntityBaseToModel(subscription));
                 }
                 return subscriptionsModels;
             }
@@ -194,7 +194,7 @@ namespace FitMeApp.Services
         public SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId)
         {
             var subscriptionPriceEntityBase = _repository.GetSubscriptionWithPriceByGym(subscriptionId, gymId);
-            SubscriptionModel subscriptionModel = _mapper.MappSubscriptionPriceEntityBaseToModel(subscriptionPriceEntityBase);
+            SubscriptionModel subscriptionModel = _mapper.MapSubscriptionPriceEntityBaseToModel(subscriptionPriceEntityBase);
             return subscriptionModel;
         }
 
@@ -205,19 +205,19 @@ namespace FitMeApp.Services
             return result;
         }
 
-        public int GetActualSubscriptionsCountByTrainer(string trainerId)
-        {
-            int actualSubscriptionsCount = _repository.GetActualSubscriptionsCountByTrainer(trainerId);
-            return actualSubscriptionsCount;
-        }
+        //public int GetActualSubscriptionsCountByTrainer(string trainerId)
+        //{
+        //    int actualSubscriptionsCount = _repository.GetActualSubscriptionsCountByTrainer(trainerId);
+        //    return actualSubscriptionsCount;
+        //}
 
         public IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId)
         {
-            var userSubscrioptionsBase = _repository.GetUserSubscriptionsFullInfo(userId);
+            var userSubscriptionsBase = _repository.GetUserSubscriptionsFullInfo(userId);
             List<UserSubscriptionModel> userSubscriptionsModel = new List<UserSubscriptionModel>();
-            foreach (var baseItem in userSubscrioptionsBase)
+            foreach (var baseItem in userSubscriptionsBase)
             {
-                userSubscriptionsModel.Add(_mapper.MappUserSubscriptionWithIncludedOptionsBaseToModel(baseItem));
+                userSubscriptionsModel.Add(_mapper.MapUserSubscriptionWithIncludedOptionsBaseToModel(baseItem));
             }           
             return userSubscriptionsModel;
         }
@@ -230,7 +230,7 @@ namespace FitMeApp.Services
             List<TrainerModel> trainers = new List<TrainerModel>();
             foreach (var trainerEntity in trainersEntity)
             {
-                trainers.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
+                trainers.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
             }
             return trainers;
         }
@@ -241,7 +241,7 @@ namespace FitMeApp.Services
             List<TrainerModel> trainers = new List<TrainerModel>();
             foreach (var trainerEntity in trainersEntity)
             {
-                trainers.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
+                trainers.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
             }
             return trainers;
         }
@@ -249,7 +249,7 @@ namespace FitMeApp.Services
         public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
         {
             var trainerWithGymAndTrainings = _repository.GetTrainerWithGymAndTrainings(trainerId);
-            TrainerModel trainer = _mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerWithGymAndTrainings);
+            TrainerModel trainer = _mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerWithGymAndTrainings);
             return trainer;
         }
 
@@ -260,7 +260,7 @@ namespace FitMeApp.Services
             List<TrainerWorkHoursModel> workHoursModels = new List<TrainerWorkHoursModel>();
             foreach (var item in workHoursEntityBase)
             {
-                workHoursModels.Add(_mapper.MappTrainerWorkHoursWithDaysBaseToModel(item));
+                workHoursModels.Add(_mapper.MapTrainerWorkHoursWithDaysBaseToModel(item));
             }
             return workHoursModels;
         }
@@ -407,11 +407,11 @@ namespace FitMeApp.Services
                 selectedSpecializationsString.Add(item.ToString());
             }
 
-            var trainersBaseByFilter = _repository.GetTrainersWithGymAndTrainengsByFilter(selectedGendersString, selectedSpecializationsString);
+            var trainersBaseByFilter = _repository.GetTrainersWithGymAndTrainingsByFilter(selectedGendersString, selectedSpecializationsString);
             List<TrainerModel> trainerModels = new List<TrainerModel>();
             foreach (var trainerBase in trainersBaseByFilter)
             {
-                trainerModels.Add(_mapper.MappTrainerWithGymAndTrainingsBaseToModel(trainerBase));
+                trainerModels.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerBase));
             }
             return trainerModels;
         }

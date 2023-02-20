@@ -67,7 +67,7 @@ namespace FitMeApp.Controllers
             List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
             foreach (var trainerModel in trainersModels)
             {
-                trainerViewModels.Add(_mapper.MappTrainerModelToViewModel(trainerModel));
+                trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
             }
             return View(trainerViewModels);
         }
@@ -77,7 +77,7 @@ namespace FitMeApp.Controllers
             //todo: rework phone validation
             var user = await _userManager.FindByIdAsync(trainerId);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
-            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             trainerViewModel.Email = user.Email;
             trainerViewModel.Phone = user.PhoneNumber;
             trainerViewModel.Year = user.Year;
@@ -158,8 +158,7 @@ namespace FitMeApp.Controllers
                     if (userRoles.Contains(Common.RolesEnum.trainer.ToString()))
                     {
                         int actualEventsCount = _fitMeService.GetActualEventsCountByTrainer(user.Id);
-                        int actualSubscriptionsCount = _fitMeService.GetActualSubscriptionsCountByTrainer(user.Id);
-                        if (actualEventsCount > 0 || actualSubscriptionsCount > 0)
+                        if (actualEventsCount > 0)
                         {
                             //передать сообщение о невозможности удаления
                             return RedirectToAction("UsersList");
@@ -429,7 +428,7 @@ namespace FitMeApp.Controllers
         {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
-            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             trainerViewModel.Email = trainer.Email;
             trainerViewModel.Phone = trainer.PhoneNumber;
             trainerViewModel.Year = trainer.Year;
@@ -438,7 +437,7 @@ namespace FitMeApp.Controllers
             var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
             foreach (var item in workHoursModel)
             {
-                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
+                workHoursViewModel.Add(_mapper.MapTrainerWorkHoursModelToViewModel(item));
             }
 
             List<string> workDays = new List<string>();
@@ -463,7 +462,7 @@ namespace FitMeApp.Controllers
         {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
-            TrainerViewModel trainerViewModel = _mapper.MappTrainerModelToViewModel(trainerModel);
+            TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
             {
                 Id = trainerViewModel.Id,
@@ -476,7 +475,6 @@ namespace FitMeApp.Controllers
 
             ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
             ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainer.Id);
-            ViewBag.ActualSubscriptionsCount = _fitMeService.GetActualSubscriptionsCountByTrainer(trainer.Id);
             return View(trainerJobData);
         }
 
@@ -511,7 +509,7 @@ namespace FitMeApp.Controllers
                     };
 
                     var trainerModel = _mapper.MappTrainerViewModelToModel(newTrainerInfo);
-                    var result = _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                    _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
                     return RedirectToAction("TrainerPersonalAndJobData");
                 }
@@ -543,7 +541,7 @@ namespace FitMeApp.Controllers
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             foreach (var item in workHoursModel)
             {
-                workHoursViewModel.Add(_mapper.MappTrainerWorkHoursModelToViewModel(item));
+                workHoursViewModel.Add(_mapper.MapTrainerWorkHoursModelToViewModel(item));
             }
 
             foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
@@ -667,7 +665,7 @@ namespace FitMeApp.Controllers
                 List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
-                    userSubscViewModels.Add(_mapper.MappUserSubscriptionModelToViewModel(modelItem));
+                    userSubscViewModels.Add(_mapper.MapUserSubscriptionModelToViewModel(modelItem));
                 }
                 return View(userSubscViewModels);
             }

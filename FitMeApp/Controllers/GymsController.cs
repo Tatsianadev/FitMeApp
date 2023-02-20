@@ -37,14 +37,14 @@ namespace FitMeApp.Controllers
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)
             {
-                gyms.Add(_mapper.MappGymModelToViewModelBase(gym));
+                gyms.Add(_mapper.MapGymModelToViewModelBase(gym));
             }
 
             var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
             List<TrainingViewModel> trainings = new List<TrainingViewModel>();
             foreach (var training in trainingModels)
             {
-                trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
+                trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
             }
             ViewBag.Trainings = trainings;
 
@@ -67,14 +67,14 @@ namespace FitMeApp.Controllers
                     List<GymViewModel> selectedGyms = new List<GymViewModel>();
                     foreach (var selectedGymModel in selectedGymModels)
                     {
-                        selectedGyms.Add(_mapper.MappGymModelToViewModelBase(selectedGymModel));
+                        selectedGyms.Add(_mapper.MapGymModelToViewModelBase(selectedGymModel));
                     }
 
                     var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
                     List<TrainingViewModel> trainings = new List<TrainingViewModel>();
                     foreach (var training in trainingModels)
                     {
-                        trainings.Add(_mapper.MappTrainingModelToViewModelBase(training));
+                        trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
                     }
                     ViewBag.Trainings = trainings;
 
@@ -96,7 +96,7 @@ namespace FitMeApp.Controllers
         public IActionResult CurrentGymInfo(int gymId)
         {
             var gymModel = _fitMeService.GetGymModel(gymId);
-            GymViewModel gym = _mapper.MappGymModelToViewModel(gymModel);
+            GymViewModel gym = _mapper.MapGymModelToViewModel(gymModel);
             List<TrainingViewModel> trainings = new List<TrainingViewModel>();
             foreach (var trainer in gym.Trainers)
             {
@@ -118,7 +118,7 @@ namespace FitMeApp.Controllers
         public IActionResult Subscriptions(int gymId)
         {
             var gymModel = _fitMeService.GetGymModel(gymId);
-            GymViewModel gymViewModel = _mapper.MappGymModelToViewModel(gymModel);
+            GymViewModel gymViewModel = _mapper.MapGymModelToViewModel(gymModel);
             return View(gymViewModel);
         }
 
@@ -130,7 +130,7 @@ namespace FitMeApp.Controllers
 
             foreach (var subscriptionModel in subscriptionModels)
             {
-                subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                subscriptions.Add(_mapper.MapSubscriptionModelToViewModel(subscriptionModel));
             }
 
             foreach (var subscription in subscriptions)
@@ -165,7 +165,7 @@ namespace FitMeApp.Controllers
                     var subscriptionModels = _fitMeService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
                     foreach (var subscriptionModel in subscriptionModels)
                     {
-                        subscriptions.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                        subscriptions.Add(_mapper.MapSubscriptionModelToViewModel(subscriptionModel));
                     }
 
                     foreach (var subscription in subscriptions)
@@ -198,7 +198,7 @@ namespace FitMeApp.Controllers
                 List<SubscriptionViewModel> subscriptionViewModels = new List<SubscriptionViewModel>();
                 foreach (var subscriptionModel in subscriptionModels)
                 {
-                    subscriptionViewModels.Add(_mapper.MappSubscriptionModelToViewModel(subscriptionModel));
+                    subscriptionViewModels.Add(_mapper.MapSubscriptionModelToViewModel(subscriptionModel));
                 }
 
                 foreach (var subscription in subscriptionViewModels)
@@ -226,7 +226,7 @@ namespace FitMeApp.Controllers
         public ActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
             var subscriptionModel = _fitMeService.GetSubscriptionByGym(subscriptionId, gymId);
-            SubscriptionViewModel subscription = _mapper.MappSubscriptionModelToViewModel(subscriptionModel);
+            SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
 
             if (subscription.WorkAsTrainer)
             {

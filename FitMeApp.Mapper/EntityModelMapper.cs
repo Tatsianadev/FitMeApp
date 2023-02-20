@@ -10,7 +10,7 @@ namespace FitMeApp.Mapper
     {
 
         //ModelBase - Model with properties as EntityBase classes have. Without references to other classes (foreign key connections). 
-        public GymModel MappGymEntityBaseToModelBase(GymEntityBase gym)
+        public GymModel MapGymEntityBaseToModelBase(GymEntityBase gym)
         {
             GymModel gymModel = new GymModel()
             {
@@ -22,12 +22,12 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
-        public TrainerModel MappTrainerEntityBaseToModelBase(TrainerWithGymAndTrainingsBase trainer)
+        public TrainerModel MapTrainerEntityBaseToModelBase(TrainerWithGymAndTrainingsBase trainer)
         {
             var trainings = new List<TrainingModel>();
             foreach (var training in trainer.Trainings)
             {
-                trainings.Add(MappTrainingEntityBaseToModelBase(training));
+                trainings.Add(MapTrainingEntityBaseToModelBase(training));
             }
             TrainerModel trainerModel = new TrainerModel()
             {
@@ -46,7 +46,7 @@ namespace FitMeApp.Mapper
      
 
 
-        public TrainingModel MappTrainingEntityBaseToModelBase(TrainingEntityBase training)
+        public TrainingModel MapTrainingEntityBaseToModelBase(TrainingEntityBase training)
         {
             TrainingModel trainingModel = new TrainingModel()
             {
@@ -61,12 +61,12 @@ namespace FitMeApp.Mapper
 
 
         //Model - full info for Service layer 
-        public GymModel MappGymEntityBaseToModel(GymWithTrainersAndTrainings gym)
+        public GymModel MapGymEntityBaseToModel(GymWithTrainersAndTrainings gym)
         {
             var trainerModels = new List<TrainerModel>();
             foreach (var trainer in gym.Trainers)
             {
-                trainerModels.Add(MappTrainerEntityBaseToModelBase(trainer));
+                trainerModels.Add(MapTrainerEntityBaseToModelBase(trainer));
             }
 
             var gymModel = new GymModel()
@@ -83,12 +83,12 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainerModel MappTrainerWithGymAndTrainingsBaseToModel(TrainerWithGymAndTrainingsBase trainer)
+        public TrainerModel MapTrainerWithGymAndTrainingsBaseToModel(TrainerWithGymAndTrainingsBase trainer)
         {
             GymModel gymModel = new GymModel();
             if (trainer.Gym != null)
             {
-                gymModel = MappGymEntityBaseToModelBase(trainer.Gym);
+                gymModel = MapGymEntityBaseToModelBase(trainer.Gym);
             }           
 
             var trainings = new List<TrainingModel>();
@@ -96,7 +96,7 @@ namespace FitMeApp.Mapper
             {
                 foreach (var training in trainer.Trainings)
                 {
-                    trainings.Add(MappTrainingEntityBaseToModelBase(training));
+                    trainings.Add(MapTrainingEntityBaseToModelBase(training));
                 }
             }
             
@@ -120,7 +120,7 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainingModel MappGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
+        public TrainingModel MapGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
         {
             var trainerModels = new List<TrainerModel>();
             //foreach (var trainer in groupClass.Trainers)
@@ -131,7 +131,7 @@ namespace FitMeApp.Mapper
             var gymModels = new List<GymModel>();
             foreach (var gym in groupClass.Gyms)
             {
-                gymModels.Add(MappGymEntityBaseToModelBase(gym));
+                gymModels.Add(MapGymEntityBaseToModelBase(gym));
             }
 
             TrainingModel groupClassModel = new TrainingModel()
@@ -147,7 +147,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public SubscriptionModel MappSubscriptionPriceEntityBaseToModel(SubscriptionPriceBase subscriptionPrice)
+        public SubscriptionModel MapSubscriptionPriceEntityBaseToModel(SubscriptionPriceBase subscriptionPrice)
         {
             SubscriptionModel subscriptionModel = new SubscriptionModel()
             {
@@ -163,7 +163,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public EventModel MappEventEntityBaseToModel(EventEntityBase eventEntityBase)
+        public EventModel MapEventEntityBaseToModel(EventEntityBase eventEntityBase)
         {
             EventModel eventModel = new EventModel()
             {
@@ -180,7 +180,7 @@ namespace FitMeApp.Mapper
             return eventModel;
         }
 
-        public EventModel MappEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
+        public EventModel MapEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
         {
             EventModel eventModel = new EventModel()
             {
@@ -206,7 +206,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public GymWorkHoursModel MappGymWorkHoursEntityBaseToModel(GymWorkHoursEntityBase gymWorkHoursEntityBase)
+        public GymWorkHoursModel MapGymWorkHoursEntityBaseToModel(GymWorkHoursEntityBase gymWorkHoursEntityBase)
         {
             GymWorkHoursModel gymWorkHoursModel = new GymWorkHoursModel()
             {
@@ -220,7 +220,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public TrainerWorkHoursModel MappTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursWithDayBase trainerWorkHoursWithDaysBase)
+        public TrainerWorkHoursModel MapTrainerWorkHoursWithDaysBaseToModel(TrainerWorkHoursWithDayBase trainerWorkHoursWithDaysBase)
         {
             TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
             {
@@ -236,14 +236,13 @@ namespace FitMeApp.Mapper
        
 
 
-        public UserSubscriptionModel MappUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionWithIncludedOptionsBase subscriptionBase)
+        public UserSubscriptionModel MapUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionWithIncludedOptionsBase subscriptionBase)
         {
             UserSubscriptionModel subscriptionModel = new UserSubscriptionModel()
             {
                 Id = subscriptionBase.Id,
                 UserId = subscriptionBase.UserId,
                 GymSubscriptionId = subscriptionBase.GymSubscriptionId,
-                TrainerId = subscriptionBase.TrainerId,
                 StartDate = subscriptionBase.StartDate,
                 EndDate = subscriptionBase.EndDate,
                 GroupTraining = subscriptionBase.GroupTraining,

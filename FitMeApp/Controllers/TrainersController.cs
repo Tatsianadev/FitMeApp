@@ -32,7 +32,7 @@ namespace FitMeApp.Controllers
             List<TrainerViewModel> trainers = new List<TrainerViewModel>();
             foreach (var trainerModel in trainerModels)
             {
-                trainers.Add(_mapper.MappTrainerModelToViewModel(trainerModel));
+                trainers.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
             }
 
             ViewBag.Genders = new List<GenderEnum>()
@@ -74,7 +74,7 @@ namespace FitMeApp.Controllers
             List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
             foreach (var trainerModel in trainerModels)
             {
-                trainerViewModels.Add(_mapper.MappTrainerModelToViewModel(trainerModel));
+                trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
             }
 
             ViewBag.Genders = new List<GenderEnum>()
@@ -96,7 +96,7 @@ namespace FitMeApp.Controllers
         public IActionResult SelectedTrainer(string trainerId)
         {
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
-            TrainerViewModel trainer = _mapper.MappTrainerModelToViewModel(trainerModel);
+            TrainerViewModel trainer = _mapper.MapTrainerModelToViewModel(trainerModel);
             return View(trainer);
         }
     }

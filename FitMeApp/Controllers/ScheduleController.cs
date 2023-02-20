@@ -101,7 +101,7 @@ namespace FitMeApp.Controllers
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
-                    eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
+                    eventsViewModels.Add(_mapper.MapEventModelToViewModel(eventModel));
                 }
 
                 model.Events = eventsViewModels;
@@ -143,7 +143,7 @@ namespace FitMeApp.Controllers
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
-                    eventsViewModels.Add(_mapper.MappEventModelToViewModel(eventModel));
+                    eventsViewModels.Add(_mapper.MapEventModelToViewModel(eventModel));
                 }
 
                 model.Events = eventsViewModels;

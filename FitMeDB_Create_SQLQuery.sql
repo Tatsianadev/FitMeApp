@@ -436,8 +436,7 @@ GO
 CREATE TABLE [dbo].[UserSubscriptions](
 	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
 	[UserId] [nvarchar](128) NOT NULL,
-	[GymSubscriptionId] [int] NOT NULL,
-	[TrainerId] [nvarchar](256) NULL,
+	[GymSubscriptionId] [int] NOT NULL,	
 	[StartDate] [smalldatetime] NOT NULL,
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
