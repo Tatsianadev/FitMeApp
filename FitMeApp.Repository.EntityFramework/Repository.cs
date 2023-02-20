@@ -977,6 +977,7 @@ namespace FitMeApp.Repository.EntityFramework
                                            ValidDays = subscription.ValidDays,
                                            GroupTraining = subscription.GroupTraining,
                                            DietMonitoring = subscription.DietMonitoring,
+                                           WorkAsTrainer = subscription.WorkAsTrainer,
                                            Price = gymSubscription.Price
                                        }).First();
 
@@ -987,6 +988,7 @@ namespace FitMeApp.Repository.EntityFramework
                 ValidDays = subscriptionGymJoin.ValidDays,
                 GroupTraining = subscriptionGymJoin.GroupTraining,
                 DietMonitoring = subscriptionGymJoin.DietMonitoring,
+                WorkAsTrainer = subscriptionGymJoin.WorkAsTrainer,
                 Price = subscriptionGymJoin.Price
             };
             return subscriptionWithPrice;

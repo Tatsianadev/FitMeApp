@@ -80,7 +80,7 @@ namespace FitMeApp.Controllers
 
                     return View(selectedGyms);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace FitMeApp.Controllers
             {
                 foreach (var training in trainer.Trainings)
                 {
-                    if (!trainings.Select(x=>x.Id).ToList().Contains(training.Id) && training.Name != "Personal training")
+                    if (!trainings.Select(x => x.Id).ToList().Contains(training.Id) && training.Name != "Personal training")
                     {
                         trainings.Add(training);
                     }
@@ -170,7 +170,7 @@ namespace FitMeApp.Controllers
 
                     foreach (var subscription in subscriptions)
                     {
-                        subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                        subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
                             + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
                     }
 
@@ -209,18 +209,15 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-                 _logger.LogError(ex, ex.Message);
+                _logger.LogError(ex, ex.Message);
                 CustomErrorViewModel error = new CustomErrorViewModel()
                 {
                     Message = "Failed to display subscriptions for trainers. Please, try again"
                 };
                 return View("CustomError", error);
             }
-           
+
         }
-        
-
-
 
 
         public ActionResult CurrentSubscription(int subscriptionId, int gymId)
@@ -234,36 +231,42 @@ namespace FitMeApp.Controllers
             }
             else
             {
-                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
                                      + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
             }
-            //todo: add view current subscr for trainers and current subscr for visitor.
+
             return View(subscription);
         }
 
 
         [HttpPost]
-        [Authorize(Roles ="admin, user")]
-    
+        [Authorize]
+
         public ActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
         {
-            if (startDate.Date >= DateTime.Now.Date && startDate.Date<=DateTime.Now.AddDays(256).Date)
+            if (startDate.Date >= DateTime.Now.Date && startDate.Date <= DateTime.Now.AddDays(256).Date)
             {
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool result = _fitMeService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
-                    return View("SubscriptionCompleted");
+                    bool subscriptionIsAdded = _fitMeService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+                    if (subscriptionIsAdded)
+                    {
+                        return View("SubscriptionCompleted");
+                    }
                 }
                 catch (Exception ex)
                 {
-
-                    throw ex;
+                    _logger.LogError(ex, ex.Message);
+                    CustomErrorViewModel error = new CustomErrorViewModel()
+                    {
+                        Message = "There was a problem with to subscribe. Please, try again"
+                    };
+                    return View("CustomError", error);
                 }
-                
             }
 
-            return View();
+            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
     }
 }

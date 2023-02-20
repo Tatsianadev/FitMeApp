@@ -10,14 +10,22 @@
         <div class=" col-md-6">
             <div class="card border-dark" style="width:100%;margin:20px">
                 <div style="height:120px;">
-                    @{string imagePath = "/Content/Subscriptions/gym" + Model.Image + ".jpg";}
+                    @{string imagePath = "/Content/Subscriptions/" + Model.Image + ".jpg";}
                     <img src="@imagePath" class="card-img-top" alt="..." style="height:100%; width:auto">
                 </div>
                 <hr style="margin-bottom:5px" />
-                <div class="card-body" style="padding:10px">
-                    <h4 style="font: bold; text-align: center">Subscription for</h4>
-                    <h2 class="card-title" style="text-align: center; font:bold">@Model.ValidDays @(Model.ValidDays==1?"day":"days")</h2>
-                    <p @*class="card-text"*@ style="text-align:left">
+                <div class="card-body" style="padding: 10px">
+                    @if (Model.WorkAsTrainer == true)
+                    {
+                        <h3 style="font-weight: bold; text-align: center">Trainer subscription</h3>
+                        <h4 style="font-weight: bold; text-align: center"> for</h4>
+                    }
+                    else
+                    {
+                        <h4 style="font-weight: bold; text-align: center">Subscription for</h4>
+                    }
+                    <h2 class="card-title" style="text-align: center; font-weight: bold">@Model.ValidDays @(Model.ValidDays == 1 ? "day" : "days")</h2>
+                    <p style="text-align: left">
                         Include:
                         <br />
                         <div style="text-align: left">
@@ -29,57 +37,69 @@
                             <small>
                                 Full access to the gym and sport equipment.<br />
                                 You can workout by your own or with personal trainer.<br />
-                                <span style="color:red">Attention:</span>
+                                <span style="color: red">Attention:</span>
                                 Personal trainer services are not included in the subscription price.
                             </small>
                         </div>
                         <br />
-                        @if (Model.GroupTraining == true)
+                        @if (Model.WorkAsTrainer == true)
                         {
-                            <div style="text-align: left; font: bold medium">
+                            <div style="text-align: left; font-weight: bold">
                                 <h5>
-                                    - Group training;
+                                    - Ability work as a trainer;
                                 </h5>
 
                             </div>
                             <div style="text-align: left">
                                 <small>
+                                    You can have personal trainings or group work outs as a individual entrepreneur.
+                                </small>
+                            </div>
+                        }
+                        <br />
+                        @if (Model.GroupTraining == true)
+                        {
+                            <div style="text-align: left; font-weight: bold">
+                                <h5>
+                                    - Group training;
+                                </h5>
+                            </div>
+                            <div style="text-align: left">
+                                <small>
                                     You can attend all group classes.<br />
-                                    <span style="color:red">Attention:</span>
+                                    <span style="color: red">Attention:</span>
                                     You will need to register for the class in advance.
                                 </small>
-
                             </div>
                         }
                         <br />
                         @if (Model.DietMonitoring == true)
                         {
-                            <div style="text-align: left; font: bold medium">
+                            <div style="text-align: left; font-weight: bold">
                                 <h5>
                                     - Diet monitoring;
                                 </h5>
-
                             </div>
                             <div style="text-align: left">
                                 <small>
-                                    You can use nutrition expert service to make your diet more effective, healthy and conveniet.<br />
+                                    You can use nutrition expert service to make your diet more effective, healthy and convenient.<br />
                                     You will have a diet plan and you can consult with a nutrition expert.
                                 </small>
-
                             </div>
                         }
                     </p>
-                    <div style="font:small">
+                    <div style="font-size: small">
                         Please set the start Date
                         <br />
                         <small>(your subscription will be activated on the specified selected Date)</small>
                     </div>
                     <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
-                        @{ string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                        @{
+                            string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
                             string maxDate = DateTime.Today.AddDays(256).Date.ToString("yyyy-MM-dd");}
                         <input type="date" name="startDate" min="@minDate" max="@maxDate" value="@minDate" />
                         <div class="card-footer">
-                            <h3 style="font:bold">@Model.Price $</h3>
+                            <h3 style="font-weight: bold">@Model.Price $</h3>
                             <input type="submit" asp-route-gymId="@Model.GymId" asp-route-subscriptionId="@Model.Id" value="Take it!" class="btn btn-dark" />
                         </div>
                     </form>
