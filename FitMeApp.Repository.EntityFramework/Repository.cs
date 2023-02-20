@@ -1019,46 +1019,43 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        //public int GetActualSubscriptionsCountByTrainer(string trainerId)
-        //{
-        //    var actualSubscriptionsCount = _context.UserSubscriptions
-        //        .Where(x => x.TrainerId == trainerId)
-        //        .Where(x => x.EndDate.Date >= DateTime.Now.Date)
-        //        .ToList().Count();
-        //    return actualSubscriptionsCount;
-        //}
-
-        public IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetUserSubscriptionsFullInfo(string userId)
         {
             var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
                                          join gymSubscr in _context.GymSubscriptions
                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
                                          join subscr in _context.Subscriptions
                                          on gymSubscr.SubscriptionId equals subscr.Id
+                                         join gym in _context.Gyms
+                                         on gymSubscr.GymId equals gym.Id
                                          where userSubscr.UserId == userId
                                          select new
                                          {
                                              Id = userSubscr.Id,
                                              UserId = userSubscr.UserId,
-                                             GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                             GymName = gym.Name,
                                              StartDate = userSubscr.StartDate,
                                              EndDate = userSubscr.EndDate,
                                              GroupTraining = subscr.GroupTraining,
-                                             DietMonitoring = subscr.DietMonitoring
+                                             DietMonitoring = subscr.DietMonitoring,
+                                             WorkAsTrainer = subscr.WorkAsTrainer,
+                                             Price = gymSubscr.Price
                                          }).ToList();
 
-            List<UserSubscriptionWithIncludedOptionsBase> userSubscriptions = new List<UserSubscriptionWithIncludedOptionsBase>();
+            List<UserSubscriptionFullInfoBase> userSubscriptions = new List<UserSubscriptionFullInfoBase>();
             foreach (var joinItem in userSubscriptionsJoin)
             {
-                userSubscriptions.Add(new UserSubscriptionWithIncludedOptionsBase()
+                userSubscriptions.Add(new UserSubscriptionFullInfoBase()
                 {
                     Id = joinItem.Id,
                     UserId = joinItem.UserId,
-                    GymSubscriptionId = joinItem.GymSubscriptionId,
+                    GymName = joinItem.GymName,
                     StartDate = joinItem.StartDate,
                     EndDate = joinItem.EndDate,
                     GroupTraining = joinItem.GroupTraining,
-                    DietMonitoring = joinItem.DietMonitoring
+                    DietMonitoring = joinItem.DietMonitoring,
+                    WorkAsTrainer = joinItem.WorkAsTrainer,
+                    Price =joinItem.Price
                 });
             }
 

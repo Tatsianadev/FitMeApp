@@ -236,17 +236,19 @@ namespace FitMeApp.Mapper
        
 
 
-        public UserSubscriptionModel MapUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionWithIncludedOptionsBase subscriptionBase)
+        public UserSubscriptionModel MapUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionFullInfoBase subscriptionBase)
         {
             UserSubscriptionModel subscriptionModel = new UserSubscriptionModel()
             {
                 Id = subscriptionBase.Id,
                 UserId = subscriptionBase.UserId,
-                GymSubscriptionId = subscriptionBase.GymSubscriptionId,
+                GymName = subscriptionBase.GymName,
                 StartDate = subscriptionBase.StartDate,
                 EndDate = subscriptionBase.EndDate,
                 GroupTraining = subscriptionBase.GroupTraining,
-                DietMonitoring = subscriptionBase.DietMonitoring
+                DietMonitoring = subscriptionBase.DietMonitoring,
+                WorkAsTrainer = subscriptionBase.WorkAsTrainer,
+                Price = subscriptionBase.Price
             };
             return subscriptionModel;
         }

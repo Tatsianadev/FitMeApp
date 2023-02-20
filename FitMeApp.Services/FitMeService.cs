@@ -191,6 +191,7 @@ namespace FitMeApp.Services
             return allSubscriptionPeriods;
         }
 
+
         public SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId)
         {
             var subscriptionPriceEntityBase = _repository.GetSubscriptionWithPriceByGym(subscriptionId, gymId);
@@ -204,12 +205,7 @@ namespace FitMeApp.Services
             bool result = _repository.AddUserSubscription(userId, gymId, subscriptionId, startDate);
             return result;
         }
-
-        //public int GetActualSubscriptionsCountByTrainer(string trainerId)
-        //{
-        //    int actualSubscriptionsCount = _repository.GetActualSubscriptionsCountByTrainer(trainerId);
-        //    return actualSubscriptionsCount;
-        //}
+        
 
         public IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId)
         {
@@ -222,8 +218,9 @@ namespace FitMeApp.Services
             return userSubscriptionsModel;
         }
 
-        //Trainers
 
+
+        //Trainers
         public List<TrainerModel> GetAllTrainerModels()
         {
             var trainersEntity = _repository.GetAllTrainersWithGymAndTrainings();

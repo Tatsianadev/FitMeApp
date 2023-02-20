@@ -135,8 +135,8 @@ namespace FitMeApp.Controllers
 
             foreach (var subscription in subscriptions)
             {
-                subscription.Image = (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                    + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
+                                           + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
             }
 
             ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();

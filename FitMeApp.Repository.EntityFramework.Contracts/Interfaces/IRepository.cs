@@ -68,7 +68,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         //int GetActualSubscriptionsCountByTrainer(string trainerId);
-        IEnumerable<UserSubscriptionWithIncludedOptionsBase> GetUserSubscriptionsFullInfo(string userId);
+        IEnumerable<UserSubscriptionFullInfoBase> GetUserSubscriptionsFullInfo(string userId);
         IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUser(string userId);
         IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUserForSpecificGym(string userId, int gymId);
 

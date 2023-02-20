@@ -229,11 +229,13 @@ namespace FitMeApp.Mapper
             {
                 Id = userSubscriptionModel.Id,
                 UserId = userSubscriptionModel.UserId,
-                GymSubscriptionId = userSubscriptionModel.GymSubscriptionId,
+                GymName = userSubscriptionModel.GymName,
                 StartDate = userSubscriptionModel.StartDate,
                 EndDate = userSubscriptionModel.EndDate,
                 GroupTraining = userSubscriptionModel.GroupTraining,
-                DietMonitoring = userSubscriptionModel.DietMonitoring
+                DietMonitoring = userSubscriptionModel.DietMonitoring,
+                WorkAsTrainer = userSubscriptionModel.WorkAsTrainer,
+                Price = userSubscriptionModel.Price
             };
             return userSubscriptionViewModel;
         }

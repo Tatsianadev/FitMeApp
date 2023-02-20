@@ -1,0 +1,135 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.UserSubscriptionViewModel>
+
+<title>User subscriptions</title>
+
+<div>
+    <h3>
+        Your subscriptions
+    </h3>
+</div>
+<hr />
+<div>
+    <p>
+        <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Filters
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <form asp-controller="Profile" asp-action="UserSubscriptions" method="post">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p style="font-weight: bold">
+                                Available status
+                            </p>
+                            <div class="form-check">
+                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validNow" id="validNow">
+                                <label class="form-check-label" for="validNow">
+                                    valid now
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validInTheFuture" id="validInTheFuture">
+                                <label class="form-check-label" for="validInTheFuture">
+                                    valid in the future
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.expired" id="expired">
+                                <label class="form-check-label" for="expired">
+                                    expired
+                                </label>
+                            </div>
+                        </div>
+                        @{ var gyms = ViewBag.Gyms;}
+                        <div class="col-md-4">
+                            <p style="font-weight: bold">
+                                Gyms
+                            </p>
+                            @foreach (var gym in gyms)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="gymId" value="@gym.Id" id="@gym.Id">
+                                    <label class="form-check-label" for="@gym.Id">
+                                        @gym.Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="OK" class="btn btn-dark" />
+                        <a asp-controller="Profile" asp-action="UserSubscriptions"  class="btn btn-dark">Clear filters</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" style="text-align:center">
+        @foreach (var subscription in Model)
+        {          
+
+            <div class="card border-dark mb-3" style="width: 28%; margin: 20px">
+                @if (subscription.WorkAsTrainer)
+                {
+                    <div style="height: 75px;">
+                        <h3 style="font-weight: bold"> Trainer </h3>
+                    </div>
+                }
+                else
+                {
+                    <div style="height: 75px;">
+                        <h3 style="font-weight: bold"> Visitor </h3>
+                    </div>
+                }
+                <hr style="margin-bottom: 5px"/>
+                <div class="card-body" style="text-align: center; padding: 10px">
+                    <table class="table">
+                        <tr>
+                            <td>Gym:</td>
+                            <td>@subscription.GymName</td>
+                        </tr>
+                        <tr>
+                            <td>Start:</td>
+                            <td>@subscription.StartDate.ToLongDateString()</td>
+                        </tr>
+                        <tr>
+                            <td>End:</td>
+                            <td>@subscription.EndDate.ToLongDateString()</td>
+                        </tr>
+                        <tr>
+                            <td>Group training:</td>
+                            <td>
+                                @{string groupTrainingResult = subscription.GroupTraining ? "include" : "";}
+                                @groupTrainingResult
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Diet monitoring:</td>
+                            <td>
+                                @{string dietMonitoringResult = subscription.DietMonitoring ? "include" : "";}
+                                @dietMonitoringResult
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td>
+                                @subscription.Price $
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="card-footer">
+                        add button to update subscription  ( get the same subscription from endDate current one)
+                        @*<a asp-controller="Gyms" asp-action="CurrentSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>*@
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+</div>

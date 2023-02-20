@@ -674,5 +674,22 @@ namespace FitMeApp.Controllers
 
 
 
+        [Authorize]
+        public async Task<IActionResult> UserSubscriptions()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userSubscriptionModels = _fitMeService.GetUserSubscriptions(user.Id);
+
+            List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
+            foreach (var subscription in userSubscriptionModels)
+            {
+                userSubscriptionViewModels.Add(_mapper.MapUserSubscriptionModelToViewModel(subscription));
+            }
+
+            ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
+
+            return View(userSubscriptionViewModels);   
+        }
+
     }
 }
