@@ -1021,92 +1021,150 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<UserSubscriptionFullInfoBase> GetUserSubscriptionsFullInfo(string userId)
         {
-            var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
-                                         join gymSubscr in _context.GymSubscriptions
-                                         on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                                         join subscr in _context.Subscriptions
-                                         on gymSubscr.SubscriptionId equals subscr.Id
-                                         join gym in _context.Gyms
-                                         on gymSubscr.GymId equals gym.Id
-                                         where userSubscr.UserId == userId
-                                         select new
-                                         {
-                                             Id = userSubscr.Id,
-                                             UserId = userSubscr.UserId,
-                                             GymName = gym.Name,
-                                             StartDate = userSubscr.StartDate,
-                                             EndDate = userSubscr.EndDate,
-                                             GroupTraining = subscr.GroupTraining,
-                                             DietMonitoring = subscr.DietMonitoring,
-                                             WorkAsTrainer = subscr.WorkAsTrainer,
-                                             Price = gymSubscr.Price
-                                         }).ToList();
-
-            List<UserSubscriptionFullInfoBase> userSubscriptions = new List<UserSubscriptionFullInfoBase>();
-            foreach (var joinItem in userSubscriptionsJoin)
-            {
-                userSubscriptions.Add(new UserSubscriptionFullInfoBase()
-                {
-                    Id = joinItem.Id,
-                    UserId = joinItem.UserId,
-                    GymName = joinItem.GymName,
-                    StartDate = joinItem.StartDate,
-                    EndDate = joinItem.EndDate,
-                    GroupTraining = joinItem.GroupTraining,
-                    DietMonitoring = joinItem.DietMonitoring,
-                    WorkAsTrainer = joinItem.WorkAsTrainer,
-                    Price =joinItem.Price
-                });
-            }
-
-            return userSubscriptions;
-        }
-
-
-
-        public IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUser(string userId)
-        {
-            var subscriptions = _context.UserSubscriptions
-                .Where(x => x.UserId == userId)
-                .Where(x => x.EndDate > DateTime.Today)
-                .ToList();
-
-            return subscriptions;
-        }
-
-
-        public IEnumerable<UserSubscriptionEntityBase> GetActualSubscriptionsByUserForSpecificGym(string userId, int gymId)
-        {
-            var userSubscriptionsJoin = (from userSubscr in _context.UserSubscriptions
-                                         join gymSubscr in _context.GymSubscriptions
+            var userSubscriptionsFullInfo = (from userSubscr in _context.UserSubscriptions
+                                             join gymSubscr in _context.GymSubscriptions
                                              on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                                         where userSubscr.UserId == userId
-                                         where gymSubscr.GymId == gymId
-                                         where userSubscr.EndDate > DateTime.Now
-                                         select new
-                                         {
-                                             Id = userSubscr.Id,
-                                             UserId = userSubscr.UserId,
-                                             GymSubscriptionId = userSubscr.GymSubscriptionId,
-                                             StartDate = userSubscr.StartDate,
-                                             EndDate = userSubscr.EndDate
-                                         }).ToList();
+                                             join subscr in _context.Subscriptions
+                                             on gymSubscr.SubscriptionId equals subscr.Id
+                                             join gym in _context.Gyms
+                                             on gymSubscr.GymId equals gym.Id
+                                             where userSubscr.UserId == userId
+                                             select new UserSubscriptionFullInfoBase()
+                                             {
+                                                 Id = userSubscr.Id,
+                                                 UserId = userSubscr.UserId,
+                                                 GymName = gym.Name,
+                                                 StartDate = userSubscr.StartDate,
+                                                 EndDate = userSubscr.EndDate,
+                                                 GroupTraining = subscr.GroupTraining,
+                                                 DietMonitoring = subscr.DietMonitoring,
+                                                 WorkAsTrainer = subscr.WorkAsTrainer,
+                                                 Price = gymSubscr.Price
+                                             })
+                                             .ToList();
 
-            List<UserSubscriptionEntityBase> subscriptions = new List<UserSubscriptionEntityBase>();
-            foreach (var joinItem in userSubscriptionsJoin)
-            {
-                subscriptions.Add(new UserSubscriptionEntity()
-                {
-                    Id = joinItem.Id,
-                    UserId = joinItem.UserId,
-                    GymSubscriptionId = joinItem.GymSubscriptionId,
-                    StartDate = joinItem.StartDate,
-                    EndDate = joinItem.EndDate
-                });
-            }
-
-            return subscriptions;
+            return userSubscriptionsFullInfo;
         }
+
+
+
+        public IEnumerable<UserSubscriptionEntityBase> GetValidSubscriptionsByUserForSpecificGym(string userId, int gymId)
+        {
+            var validSubscriptions = (from userSubscr in _context.UserSubscriptions
+                                      join gymSubscr in _context.GymSubscriptions
+                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                      where userSubscr.UserId == userId
+                                      where gymSubscr.GymId == gymId
+                                      where userSubscr.StartDate <= DateTime.Today
+                                      where userSubscr.EndDate >= DateTime.Today
+                                      select new UserSubscriptionEntityBase()
+                                      {
+                                          Id = userSubscr.Id,
+                                          UserId = userSubscr.UserId,
+                                          GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                          StartDate = userSubscr.StartDate,
+                                          EndDate = userSubscr.EndDate
+                                      })
+                                        .ToList();
+
+            return validSubscriptions;
+        }
+
+
+        public IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        {
+            var validUserSubscriptions = (from userSubscr in _context.UserSubscriptions
+                                          join gymSubscr in _context.GymSubscriptions
+                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                          join subscr in _context.Subscriptions
+                                          on gymSubscr.SubscriptionId equals subscr.Id
+                                          join gym in _context.Gyms
+                                          on gymSubscr.GymId equals gym.Id
+                                          where userSubscr.UserId == userId
+                                          where gymIds.Contains(gym.Id)
+                                          where userSubscr.StartDate <= DateTime.Today
+                                          where userSubscr.EndDate >= DateTime.Today
+                                          select new UserSubscriptionFullInfoBase()
+                                          {
+                                              Id = userSubscr.Id,
+                                              UserId = userSubscr.UserId,
+                                              GymName = gym.Name,
+                                              StartDate = userSubscr.StartDate,
+                                              EndDate = userSubscr.EndDate,
+                                              GroupTraining = subscr.GroupTraining,
+                                              DietMonitoring = subscr.DietMonitoring,
+                                              WorkAsTrainer = subscr.WorkAsTrainer,
+                                              Price = gymSubscr.Price
+                                          })
+                                         .ToList();
+
+            return validUserSubscriptions;
+        }
+
+
+        public IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        {
+            var expiredSubscriptions = (from userSubscr in _context.UserSubscriptions
+                                        join gymSubscr in _context.GymSubscriptions
+                                            on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                        join subscr in _context.Subscriptions
+                                            on gymSubscr.SubscriptionId equals subscr.Id
+                                        join gym in _context.Gyms
+                                            on gymSubscr.GymId equals gym.Id
+                                        where userSubscr.UserId == userId
+                                        where gymIds.Contains(gym.Id)
+                                        where userSubscr.StartDate < DateTime.Today
+                                        where userSubscr.EndDate < DateTime.Today
+                                        select new UserSubscriptionFullInfoBase()
+                                        {
+                                            Id = userSubscr.Id,
+                                            UserId = userSubscr.UserId,
+                                            GymName = gym.Name,
+                                            StartDate = userSubscr.StartDate,
+                                            EndDate = userSubscr.EndDate,
+                                            GroupTraining = subscr.GroupTraining,
+                                            DietMonitoring = subscr.DietMonitoring,
+                                            WorkAsTrainer = subscr.WorkAsTrainer,
+                                            Price = gymSubscr.Price
+                                        })
+                                        .ToList();
+
+            return expiredSubscriptions;
+        }
+
+
+
+        public IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        {
+            var validInTheFutureSubscriptions = (from userSubscr in _context.UserSubscriptions
+                                                 join gymSubscr in _context.GymSubscriptions
+                                                     on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                                 join subscr in _context.Subscriptions
+                                                     on gymSubscr.SubscriptionId equals subscr.Id
+                                                 join gym in _context.Gyms
+                                                     on gymSubscr.GymId equals gym.Id
+                                                 where userSubscr.UserId == userId
+                                                 where gymIds.Contains(gym.Id)
+                                                 where userSubscr.StartDate > DateTime.Today
+                                                 where userSubscr.EndDate > DateTime.Today
+                                                 select new UserSubscriptionFullInfoBase()
+                                                 {
+                                                     Id = userSubscr.Id,
+                                                     UserId = userSubscr.UserId,
+                                                     GymName = gym.Name,
+                                                     StartDate = userSubscr.StartDate,
+                                                     EndDate = userSubscr.EndDate,
+                                                     GroupTraining = subscr.GroupTraining,
+                                                     DietMonitoring = subscr.DietMonitoring,
+                                                     WorkAsTrainer = subscr.WorkAsTrainer,
+                                                     Price = gymSubscr.Price
+                                                 })
+                                                .ToList();
+
+            return validInTheFutureSubscriptions;
+        }
+
+
 
 
         //Events

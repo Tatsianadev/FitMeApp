@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 
 namespace FitMeApp.Services
 {
@@ -213,9 +214,49 @@ namespace FitMeApp.Services
             List<UserSubscriptionModel> userSubscriptionsModel = new List<UserSubscriptionModel>();
             foreach (var baseItem in userSubscriptionsBase)
             {
-                userSubscriptionsModel.Add(_mapper.MapUserSubscriptionWithIncludedOptionsBaseToModel(baseItem));
+                userSubscriptionsModel.Add(_mapper.MapUserSubscriptionFullInfoBaseToModel(baseItem));
             }           
             return userSubscriptionsModel;
+        }
+
+
+        public IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId,
+            List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds)
+        {
+            List<UserSubscriptionModel> subscriptions = new List<UserSubscriptionModel>();
+            List<UserSubscriptionFullInfoBase> subscriptionsBase = new List<UserSubscriptionFullInfoBase>();
+            
+            foreach (var status in validStatuses)
+            {
+                if (status == SubscriptionValidStatusEnum.validNow)
+                {
+                    subscriptionsBase.AddRange(_repository.GetValidSubscriptionsByUserForGyms(userId, gymIds));
+                }
+
+                if (status == SubscriptionValidStatusEnum.expired)
+                {
+                   subscriptionsBase.AddRange(_repository.GetExpiredSubscriptionsByUserForGyms(userId, gymIds));
+                }
+
+                if (status == SubscriptionValidStatusEnum.validInTheFuture)
+                {
+                    subscriptionsBase.AddRange(_repository.GetValidInTheFutureSubscriptionsByUserForGyms(userId, gymIds));
+                }
+            }
+
+            if (subscriptionsBase.Count == 0)
+            {
+                return subscriptions;
+            }
+
+            subscriptionsBase.Distinct();
+
+            foreach (var subscriptionBase in subscriptionsBase)
+            {
+                subscriptions.Add(_mapper.MapUserSubscriptionFullInfoBaseToModel(subscriptionBase));
+            }
+
+            return subscriptions;
         }
 
 

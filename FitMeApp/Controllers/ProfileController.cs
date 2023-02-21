@@ -116,7 +116,7 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }
-           
+
         }
 
 
@@ -132,7 +132,7 @@ namespace FitMeApp.Controllers
 
                 _fitMeService.DeleteTrainer(trainerId);
                 return RedirectToAction("TrainerApplicationsList"); //before this -> send a message about rejection application
-                
+
             }
             catch (Exception ex)
             {
@@ -688,7 +688,42 @@ namespace FitMeApp.Controllers
 
             ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
 
-            return View(userSubscriptionViewModels);   
+            return View(userSubscriptionViewModels);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UserSubscriptions(List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds)
+        {
+            if (validStatuses.Count == 0 && gymIds.Count == 0)
+            {
+                return RedirectToAction("UserSubscriptions");
+            }
+
+            if (validStatuses.Count == 0)
+            {
+                validStatuses = Enum.GetValues(typeof(SubscriptionValidStatusEnum)).Cast<SubscriptionValidStatusEnum>().ToList();
+            }
+
+            if (gymIds.Count == 0)
+            {
+                gymIds = _fitMeService.GetAllGymModels().Select(x => x.Id).ToList();
+            }
+            
+            var user = await _userManager.GetUserAsync(User);
+            List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
+            var subscriptionModels = _fitMeService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
+
+            foreach (var sudscriptionModel in subscriptionModels)
+            {
+                userSubscriptionViewModels.Add(_mapper.MapUserSubscriptionModelToViewModel(sudscriptionModel));
+            }
+
+
+            ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
+
+            return View(userSubscriptionViewModels);
         }
 
     }

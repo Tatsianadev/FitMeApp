@@ -24,19 +24,19 @@
                                 Available status
                             </p>
                             <div class="form-check">
-                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validNow" id="validNow">
+                                <input class="form-check-input" name="validStatuses" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validNow" id="validNow">
                                 <label class="form-check-label" for="validNow">
                                     valid now
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validInTheFuture" id="validInTheFuture">
+                                <input class="form-check-input" name="validStatuses" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.validInTheFuture" id="validInTheFuture">
                                 <label class="form-check-label" for="validInTheFuture">
                                     valid in the future
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="validStatus" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.expired" id="expired">
+                                <input class="form-check-input" name="validStatuses" type="checkbox" value="@FitMeApp.Common.SubscriptionValidStatusEnum.expired" id="expired">
                                 <label class="form-check-label" for="expired">
                                     expired
                                 </label>
@@ -50,7 +50,7 @@
                             @foreach (var gym in gyms)
                             {
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="gymId" value="@gym.Id" id="@gym.Id">
+                                    <input class="form-check-input" type="checkbox" name="gymIds" value="@gym.Id" id="@gym.Id">
                                     <label class="form-check-label" for="@gym.Id">
                                         @gym.Name
                                     </label>

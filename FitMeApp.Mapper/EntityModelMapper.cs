@@ -236,7 +236,7 @@ namespace FitMeApp.Mapper
        
 
 
-        public UserSubscriptionModel MapUserSubscriptionWithIncludedOptionsBaseToModel(UserSubscriptionFullInfoBase subscriptionBase)
+        public UserSubscriptionModel MapUserSubscriptionFullInfoBaseToModel(UserSubscriptionFullInfoBase subscriptionBase)
         {
             UserSubscriptionModel subscriptionModel = new UserSubscriptionModel()
             {
