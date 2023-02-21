@@ -60,7 +60,7 @@
                     </div>
                     <div>
                         <input type="submit" value="OK" class="btn btn-dark" />
-                        <a asp-controller="Profile" asp-action="UserSubscriptions"  class="btn btn-dark">Clear filters</a>
+                        <a asp-controller="Profile" asp-action="UserSubscriptions" class="btn btn-dark">Clear filters</a>
                     </div>
                 </div>
             </form>
@@ -70,60 +70,93 @@
 <div class="container">
     <div class="row" style="text-align:center">
         @foreach (var subscription in Model)
-        {          
+        {
 
             <div class="card border-dark mb-3" style="width: 28%; margin: 20px">
                 @if (subscription.WorkAsTrainer)
                 {
-                    <div style="height: 75px;">
+                    <div style="padding: 10px">
                         <h3 style="font-weight: bold"> Trainer </h3>
+                        <h5 style="font-weight: bold"> subscription </h5>
                     </div>
                 }
                 else
                 {
-                    <div style="height: 75px;">
+                    <div style="padding: 10px">
                         <h3 style="font-weight: bold"> Visitor </h3>
+                        <h5 style="font-weight: bold"> subscription </h5>
                     </div>
                 }
-                <hr style="margin-bottom: 5px"/>
                 <div class="card-body" style="text-align: center; padding: 10px">
                     <table class="table">
                         <tr>
-                            <td>Gym:</td>
-                            <td>@subscription.GymName</td>
-                        </tr>
-                        <tr>
-                            <td>Start:</td>
-                            <td>@subscription.StartDate.ToLongDateString()</td>
-                        </tr>
-                        <tr>
-                            <td>End:</td>
-                            <td>@subscription.EndDate.ToLongDateString()</td>
-                        </tr>
-                        <tr>
-                            <td>Group training:</td>
+                            <td style="font-style: italic; text-align: left">Gym:</td>
                             <td>
-                                @{string groupTrainingResult = subscription.GroupTraining ? "include" : "";}
-                                @groupTrainingResult
+                                <p style="font-weight: bold; margin-bottom: 0">@subscription.GymName</p>
                             </td>
                         </tr>
                         <tr>
-                            <td>Diet monitoring:</td>
+                            <td style="font-style: italic; text-align: left">Start:</td>
+                            <td>@subscription.StartDate.ToString("dd MMMM yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td style="font-style: italic; text-align: left">End:</td>
+                            <td>@subscription.EndDate.ToString("dd MMMM yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td style="font-style: italic; text-align: left">Group training:</td>
                             <td>
-                                @{string dietMonitoringResult = subscription.DietMonitoring ? "include" : "";}
-                                @dietMonitoringResult
+                                @if (subscription.GroupTraining)
+                                {
+                                    <img src="/Content/images/yes.jpg" style="height: 25px" />
+                                }
+                                else
+                                {
+                                    <img src="/Content/images/no.jpg" style="height: 25px" />
+                                }
                             </td>
                         </tr>
                         <tr>
-                            <td>Price:</td>
+                            <td style="font-style: italic; text-align: left">Diet monitoring:</td>
+                            <td>
+                                @if (subscription.DietMonitoring)
+                                {
+                                    <img src="/Content/images/yes.jpg" style="height: 25px" />
+                                }
+                                else
+                                {
+                                    <img src="/Content/images/no.jpg" style="height: 25px" />
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-style: italic; text-align: left">Price:</td>
                             <td>
                                 @subscription.Price $
                             </td>
                         </tr>
                     </table>
                     <div class="card-footer">
-                        add button to update subscription  ( get the same subscription from endDate current one)
-                        @*<a asp-controller="Gyms" asp-action="CurrentSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>*@
+                        @if (subscription.StartDate <= DateTime.Today && subscription.EndDate >= DateTime.Today)
+                        {
+                            <div>
+                                <h4 style="font-weight: bold; color: green">Valid</h4>
+                            </div>
+                        }
+
+                        @if (subscription.StartDate < DateTime.Today && subscription.EndDate < DateTime.Today)
+                        {
+                            <div>
+                                <h4 style="font-weight: bold; color: red">Expired</h4>
+                            </div>
+                        }
+
+                        @if (subscription.StartDate > DateTime.Today && subscription.EndDate > DateTime.Today)
+                        {
+                            <div>
+                                <h4 style="font-weight: bold; color: lightskyblue">Starts later</h4>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

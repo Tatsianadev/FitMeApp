@@ -135,7 +135,10 @@ body {
     padding: 2px;
 }
 
-
+.col8 {
+    text-align: left;
+    font-style: italic;
+}
 
 
 .table1 {
