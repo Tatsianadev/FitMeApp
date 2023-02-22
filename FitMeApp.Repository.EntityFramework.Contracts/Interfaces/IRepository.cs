@@ -13,8 +13,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<GymEntityBase> GetAllGyms();
         GymEntityBase GetGym(int id);
         GymEntityBase AddGym(GymEntityBase item);
-        bool UpdateGym(int id, GymEntityBase newGymData);
-        bool DeleteGym(int id);
+        void UpdateGym(int id, GymEntityBase newGymData);
+       void DeleteGym(int id);
         IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGym(int gymId);
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
 
@@ -27,18 +27,18 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);       
         bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
         void DeleteTrainerWorkHours(int workHoursId);
-        bool UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
+        void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
-        IEnumerable<int> GetAvailableToApplyTrainingTimingByTrainer(string trainerId, DateTime date);
+        IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
         IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         TrainingEntityBase GetTraining(int id);
-        TrainingEntityBase AddTraining(TrainingEntityBase item);
-        bool UpdateTraining(int id, TrainingEntityBase newTrainingData);
+        TrainingEntityBase AddTraining(TrainingEntityBase training);
+        void UpdateTraining(int id, TrainingEntityBase newTrainingData);
         void DeleteTraining(int id);
 
         //Trainer-Training 
@@ -51,7 +51,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();       
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
         bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
-        TrainingWithTrainerAndGymBase GetTrainingWithTrainerAndGym(int trainingId);
 
         //Filters
         IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);

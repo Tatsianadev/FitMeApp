@@ -24,7 +24,7 @@ namespace FitMeApp.Services
 
         public IEnumerable<int> GetAvailableTimeForTraining(string trainerId, DateTime date)
         {
-            List<int> availableTimeInMinutes = _repository.GetAvailableToApplyTrainingTimingByTrainer(trainerId, date).ToList();
+            List<int> availableTimeInMinutes = _repository.GetAvailableToApplyTrainingTimeByTrainer(trainerId, date).ToList();
             return availableTimeInMinutes;
         }
 
