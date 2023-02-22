@@ -42,6 +42,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void DeleteTraining(int id);
 
         //Trainer-Training 
+        IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
         void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
         void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
@@ -50,8 +51,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
         List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();       
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
-        bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo);
-
+        
         //Filters
         IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
         IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);

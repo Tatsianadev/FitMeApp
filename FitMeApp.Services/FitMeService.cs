@@ -304,11 +304,35 @@ namespace FitMeApp.Services
         }
 
 
-        public bool UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
+        public void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
         {
             var trainerBase = _mapper.MappTrainerModelToTrainerWithGymAndTrainingsBase(newTrainerInfo);
-            bool result = _repository.UpdateTrainerWithGymAndTrainings(trainerBase);
-            return result;
+
+            TrainerEntityBase newTrainerInfoBase = new TrainerEntityBase()
+            {
+                Id = newTrainerInfo.Id,
+                GymId = newTrainerInfo.Gym.Id,
+                Specialization = newTrainerInfo.Specialization,
+                Status = newTrainerInfo.Status
+            };
+            _repository.UpdateTrainer(newTrainerInfoBase);
+
+            var previousTrainingsId = _repository.GetAllTrainingIdsByTrainer(newTrainerInfo.Id);
+            var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
+
+            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
+            var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
+
+            foreach (var trainingId in trainingsIdToDelete)
+            {
+               _repository.DeleteTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
+            }
+
+            foreach (var trainingId in trainingsIdToAdd)
+            {
+                _repository.AddTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
+            }
+
         }
 
 

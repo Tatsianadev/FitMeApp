@@ -400,6 +400,15 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         //Trainer-Trainings
+        public IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId)
+        {
+            var trainingsIds = _context.TrainingTrainer
+                .Where(x => x.TrainerId == trainerId)
+                .Select(x=>x.TrainingId)
+                .ToList();
+            return trainingsIds;
+        }
+
 
         public void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId)
         {
@@ -674,38 +683,6 @@ namespace FitMeApp.Repository.EntityFramework
 
             return trainerWithGymAndTraining;
         }
-
-
-        public bool UpdateTrainerWithGymAndTrainings(TrainerWithGymAndTrainingsBase newTrainerInfo)  // !!! move this logic to service!  
-        {
-            TrainerEntityBase newTrainerEntityBase = new TrainerEntityBase()
-            {
-                Id = newTrainerInfo.Id,
-                GymId = newTrainerInfo.Gym.Id,
-                Specialization = newTrainerInfo.Specialization,
-                Status = newTrainerInfo.Status
-            };
-
-            UpdateTrainer(newTrainerEntityBase);
-
-            var previousTrainingsId = _context.TrainingTrainer.Where(x => x.TrainerId == newTrainerEntityBase.Id).Select(x => x.TrainingId).ToList();
-            var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
-
-            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
-            var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
-
-            foreach (var trainingId in trainingsIdToDelete)
-            {
-                DeleteTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-            }
-
-            foreach (var trainingId in trainingsIdToAdd)
-            {
-                AddTrainingTrainerConnection(newTrainerEntityBase.Id, trainingId);
-            }
-            return true;
-        }
-
 
 
         //Filters
