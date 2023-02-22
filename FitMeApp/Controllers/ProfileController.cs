@@ -686,8 +686,8 @@ namespace FitMeApp.Controllers
                 userSubscriptionViewModels.Add(_mapper.MapUserSubscriptionModelToViewModel(subscription));
             }
 
+            userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
             ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
-
             return View(userSubscriptionViewModels);
         }
 
@@ -720,9 +720,8 @@ namespace FitMeApp.Controllers
                 userSubscriptionViewModels.Add(_mapper.MapUserSubscriptionModelToViewModel(sudscriptionModel));
             }
 
-
+            userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
             ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
-
             return View(userSubscriptionViewModels);
         }
 

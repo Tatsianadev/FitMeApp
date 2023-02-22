@@ -49,7 +49,7 @@ namespace FitMeApp.Repository.EntityFramework
             return gym;
         }
 
-        public bool UpdateGym(int id, GymEntityBase newGymData)
+        public void UpdateGym(int id, GymEntityBase newGymData)
         {
             if (newGymData == null)
             {
@@ -62,15 +62,7 @@ namespace FitMeApp.Repository.EntityFramework
             gym.Address = newGymData.Address;
             gym.Phone = newGymData.Phone;
 
-            var result = _context.SaveChanges();
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+           _context.SaveChanges();
         }
 
         public bool DeleteGym(int id)
@@ -1083,7 +1075,7 @@ namespace FitMeApp.Repository.EntityFramework
                                           where userSubscr.UserId == userId
                                           where gymIds.Contains(gym.Id)
                                           where userSubscr.StartDate <= DateTime.Today
-                                          where userSubscr.EndDate >= DateTime.Today
+                                          where userSubscr.EndDate > DateTime.Today
                                           select new UserSubscriptionFullInfoBase()
                                           {
                                               Id = userSubscr.Id,
@@ -1114,7 +1106,7 @@ namespace FitMeApp.Repository.EntityFramework
                                         where userSubscr.UserId == userId
                                         where gymIds.Contains(gym.Id)
                                         where userSubscr.StartDate < DateTime.Today
-                                        where userSubscr.EndDate < DateTime.Today
+                                        where userSubscr.EndDate <= DateTime.Today
                                         select new UserSubscriptionFullInfoBase()
                                         {
                                             Id = userSubscr.Id,

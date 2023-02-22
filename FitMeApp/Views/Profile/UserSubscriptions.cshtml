@@ -137,14 +137,14 @@
                         </tr>
                     </table>
                     <div class="card-footer">
-                        @if (subscription.StartDate <= DateTime.Today && subscription.EndDate >= DateTime.Today)
+                        @if (subscription.StartDate <= DateTime.Today && subscription.EndDate > DateTime.Today)
                         {
                             <div>
                                 <h4 style="font-weight: bold; color: green">Valid</h4>
                             </div>
                         }
 
-                        @if (subscription.StartDate < DateTime.Today && subscription.EndDate < DateTime.Today)
+                        @if (subscription.StartDate < DateTime.Today && subscription.EndDate <= DateTime.Today)
                         {
                             <div>
                                 <h4 style="font-weight: bold; color: red">Expired</h4>
