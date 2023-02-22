@@ -47,6 +47,11 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UsersList(List<string> selectedRolesNames)
         {
+            if (selectedRolesNames.Count == 0)
+            {
+                return RedirectToAction("UsersList");
+            }
+
             List<User> filteredUsers = new List<User>();
             foreach (var role in selectedRolesNames)
             {
@@ -633,9 +638,7 @@ namespace FitMeApp.Controllers
                     Message = "There was a problem with change work hours data. Try again, please."
                 };
                 return View("CustomError", error);
-
             }
-
         }
 
 

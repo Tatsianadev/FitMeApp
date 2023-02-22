@@ -306,8 +306,6 @@ namespace FitMeApp.Services
 
         public void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
         {
-            var trainerBase = _mapper.MappTrainerModelToTrainerWithGymAndTrainingsBase(newTrainerInfo);
-
             TrainerEntityBase newTrainerInfoBase = new TrainerEntityBase()
             {
                 Id = newTrainerInfo.Id,

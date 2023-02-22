@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitMeApp.Common.User>
+﻿@using FitMeApp.Common
+@model IEnumerable<FitMeApp.Common.User>
 
 @{
     ViewBag.Title = "List of Users";
@@ -23,10 +24,11 @@
             </div>
             <div>
                 <input type="submit" value="Show"  class="btn btn-dark"/>
+                <a asp-controller="Profile" asp-action="UsersList" class="btn btn-dark">Clean filter</a>      
             </div>
         </div>
     </form>
-           
+   
 </div>
 
 
