@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-6" style="border-left:solid; border-right:solid">
             <div style="text-align:center; margin:20px">
-              
+
 
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -33,28 +33,17 @@
                             <td class="col4">
                                 <input type="text" asp-for="Specialization" class="form-control" />
                             </td>
-                        </tr>
+                        </tr>S
                         <tr>
                             <td class="col3">Trainings</td>
                             <td class="col4">
-
-                                @if (ViewBag.ActualEventsCount > 0 )
+                                @foreach (var training in ViewBag.AllTrainings)
                                 {
-                                    <div style="font-size:smaller; color:red">You can't change this option while you have actual events </div>
-                                    @foreach (var trainingId in Model.TrainingsId)
-                                    {
-                                        <input type="checkbox" name="TrainingsId" value="@trainingId" checked="checked" hidden />
-                                    }
+                                    <input type="checkbox" name="TrainingsId" value="@training.Id"
+                                           @(Model.TrainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />
+                                    @training.Name
+                                    <br />
                                 }
-                                else
-                                {
-                                    @foreach (var training in ViewBag.AllTrainings)
-                                    {
-                                        <input type="checkbox" name="TrainingsId" value="@training.Id"
-                                               @(Model.TrainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />@training.Name <br />
-                                        }
-                                }
-
                             </td>
                         </tr>
                     </table>

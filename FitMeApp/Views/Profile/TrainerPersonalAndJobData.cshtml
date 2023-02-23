@@ -42,6 +42,7 @@
                                 <td class="col4">@Model.Year</td>
                             </tr>
                         </table>
+
                         <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit personal data</a>
                         <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
                         <hr />
@@ -68,7 +69,15 @@
                                 </td>
                             </tr>
                         </table>
-                        <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" style="width:40%">Edit job data</a>
+                        @if (ViewBag.ActualEventsCount > 0)
+                        {
+                            <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark disabled" aria-disabled="True" style="width:40%">Edit job data*</a>
+                            <h6 style="font-size: x-small; font-style: italic; margin-top: 5px">*The option is available only if there are no actual classes.</h6>
+                        }
+                        else
+                        {
+                            <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark disabled" aria-disabled="False" style="width:40%">Edit job data</a>
+                        }
 
                     </div>
                 </div>
@@ -86,7 +95,7 @@
                             @if (workDays.Contains(((DayOfWeek)i).ToString()))
                             {
                                 <td class="col4">
-                                    @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]                                  
+                                    @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]
                                 </td>
                             }
                             else
