@@ -1,4 +1,4 @@
-﻿@*@addTagHelper*, FitMeApp*@
+﻿@addTagHelper*, FitMeApp
 @model FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel
 
 <div class="container">
@@ -6,13 +6,13 @@
         <div class="col-md-2">
 
         </div>
-        <div class="col-md-8" style="border-left:solid; border-right:solid">
+        <div class="col-md-8" style="border: solid; border-color: gray">
             <br />
             <div class=" container">
                 <div class="row">
                     <div class="col-md-4">
-                        @{ string imageParth = "/Content/images/" + Model.Picture;}
-                        <img src="@imageParth" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
+                        @{ string imagePath = "/Content/images/" + Model.Picture;}
+                        <img src="@imagePath" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
 
@@ -78,36 +78,25 @@
                         {
                             <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark disabled" aria-disabled="False" style="width:40%">Edit job data</a>
                         }
-
                     </div>
                 </div>
 
             </div>
-            <div style="text-align:center; margin:20px">
+            <div style="text-align:center; align-content: center; margin:20px">
                 <hr />
                 <label><b>Work hours</b></label>
-                <table style="width: 60%; margin: auto">
-                    @{List<string> workDays = ViewBag.WorkDays; }
-                    @for (int i = 0; i < 7; i++)
-                    {
-                        <tr>
-                            <td class="col3">@((DayOfWeek)i)</td>
-                            @if (workDays.Contains(((DayOfWeek)i).ToString()))
-                            {
-                                <td class="col4">
-                                    @ViewBag.StartHours[(DayOfWeek)i] - @ViewBag.EndHours[(DayOfWeek)i]
-                                </td>
-                            }
-                            else
-                            {
-                                <td class="col4"> - </td>
-                            }
-                        </tr>
-                    }
-                </table>
-
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            @await Component.InvokeAsync("TrainerWorkHours", new {trainerId = Model.Id})
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                <br/>
                 <a asp-controller="Profile" asp-action="EditTrainerWorkHours" class="btn btn-dark" style="width:40%">Edit work hours</a>
-
             </div>
         </div>
         <div class="col-md-2">

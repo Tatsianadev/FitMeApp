@@ -438,28 +438,7 @@ namespace FitMeApp.Controllers
             trainerViewModel.Phone = trainer.PhoneNumber;
             trainerViewModel.Year = trainer.Year;
 
-            List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
-            var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainer.Id);
-            foreach (var item in workHoursModel)
-            {
-                workHoursViewModel.Add(_mapper.MapTrainerWorkHoursModelToViewModel(item));
-            }
-
-            List<string> workDays = new List<string>();
-            Dictionary<DayOfWeek, string> startTime = new Dictionary<DayOfWeek, string>();
-            Dictionary<DayOfWeek, string> endTime = new Dictionary<DayOfWeek, string>();
-            foreach (var item in workHoursViewModel)
-            {
-                workDays.Add(item.DayName.ToString());
-                startTime.Add(item.DayName, item.StartTime);
-                endTime.Add(item.DayName, item.EndTime);
-            }
-
-            ViewBag.WorkDays = workDays;
-            ViewBag.StartHours = startTime;
-            ViewBag.EndHours = endTime;
             ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainer.Id);
-
             return View(trainerViewModel);
 
         }

@@ -37,5 +37,9 @@
     <None Include="wwwroot\Content\images\Statham.jpg" />
     <None Include="wwwroot\Content\images\Wanda.jpg" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Views\Trainers\Components\" />
+  </ItemGroup>
 
 </Project>
