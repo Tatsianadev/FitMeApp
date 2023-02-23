@@ -17,10 +17,15 @@
 
                         <tr>
                             <td class="col3">Gym</td>
+
                             <td class="col4">
-                                <input type="hidden" asp-for="GymId" />
-                                <input type="hidden" asp-for="GymName" />
-                                @Model.GymName
+                                <select class="form-select" aria-label="Default select example" asp-for="GymId">
+                                    <option selected value="@Model.GymId"> @Model.GymName</option>
+                                    @foreach (var gym in ViewBag.AllGyms)
+                                    {
+                                        <option value="@gym.Id">@gym.Name</option>
+                                    }
+                                </select>
                             </td>
                         </tr>
                         <tr>

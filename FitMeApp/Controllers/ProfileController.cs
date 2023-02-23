@@ -468,6 +468,10 @@ namespace FitMeApp.Controllers
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
+
+
+
+
             EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
             {
                 Id = trainerViewModel.Id,
@@ -479,6 +483,7 @@ namespace FitMeApp.Controllers
             };
 
             ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+            ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != trainerModel.Gym.Id);
             ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainer.Id);
             return View(trainerJobData);
         }
@@ -521,9 +526,12 @@ namespace FitMeApp.Controllers
                 else
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
+
+                    ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+                    ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
+                    ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(changedModel.Id);
                     return View(changedModel);
                 }
-
             }
             catch (Exception ex)
             {
@@ -713,7 +721,7 @@ namespace FitMeApp.Controllers
             {
                 gymIds = _fitMeService.GetAllGymModels().Select(x => x.Id).ToList();
             }
-            
+
             var user = await _userManager.GetUserAsync(User);
             List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
             var subscriptionModels = _fitMeService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
