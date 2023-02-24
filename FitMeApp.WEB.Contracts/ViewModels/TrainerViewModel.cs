@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
@@ -17,8 +16,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string LastName { get; set; }
         [Required]
         public string Gender { get; set; }
-        public string Avatar { get; set; }
-        public byte[] Image { get; set; }
+        public string Picture { get; set; }
         [Required]
         public string Specialization { get; set; }
 

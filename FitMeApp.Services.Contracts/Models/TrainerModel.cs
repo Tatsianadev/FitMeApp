@@ -1,6 +1,5 @@
 ﻿using FitMeApp.Common;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 
 namespace FitMeApp.Services.Contracts.Models
@@ -11,8 +10,7 @@ namespace FitMeApp.Services.Contracts.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
-        public string Avatar { get; set; }
-        public byte[] Image { get; set; }
+        public string Picture { get; set; }
         public string Specialization { get; set; }
         public TrainerApproveStatusEnum Status { get; set; }
         //public int GymId { get; set; }
