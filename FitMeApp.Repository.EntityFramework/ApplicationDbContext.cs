@@ -23,6 +23,8 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<ChatMessageEntity> ChatMessages { get; set; }
         public  DbSet<ChatContactEntity> ChatContacts { get; set; }
 
+        public DbSet<AvatarsTestEntity> AvatarsTest { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 

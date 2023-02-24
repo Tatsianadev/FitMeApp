@@ -474,7 +474,8 @@ namespace FitMeApp.Repository.EntityFramework
                                               TrainerFirstName = user.FirstName,
                                               TrainerLastName = user.LastName,
                                               TrainerGender = user.Gender,
-                                              TrainerPicture = user.Avatar,
+                                              TrainerAvatar = user.Avatar,
+                                              TrainerImage = user.Image,
                                               TrainerSpecialization = trainer.Specialization,
                                               TrainingId = training.Id,
                                               TrainingName = training.Name,
@@ -512,7 +513,8 @@ namespace FitMeApp.Repository.EntityFramework
                         FirstName = item.TrainerFirstName,
                         LastName = item.TrainerLastName,
                         Gender = item.TrainerGender,
-                        Picture = item.TrainerPicture,
+                        Avatar = item.TrainerAvatar,
+                        Image = item.TrainerImage,
                         Specialization = item.TrainerSpecialization,
                         Trainings = trainings,
                         Status = item.TrainerStatus
@@ -551,7 +553,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                    FirstName = user.FirstName,
                                                    LastName = user.LastName,
                                                    Gender = user.Gender,
-                                                   Picture = user.Avatar,
+                                                   Avatar = user.Avatar,
+                                                   Image = user.Image,
                                                    Specialization = trainer.Specialization,
                                                    Status = trainer.Status,
                                                    GymId = gym.Id,
@@ -591,7 +594,8 @@ namespace FitMeApp.Repository.EntityFramework
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         Gender = item.Gender,
-                        Picture = item.Picture,
+                        Avatar = item.Avatar,
+                        Image = item.Image,
                         Specialization = item.Specialization,
                         Status = item.Status,
                         Gym = new GymEntityBase()
@@ -643,7 +647,8 @@ namespace FitMeApp.Repository.EntityFramework
                                               LastName = user.LastName,
                                               Specialization = trainer.Specialization,
                                               Gender = user.Gender,
-                                              Picture = user.Avatar,
+                                              Avatar = user.Avatar,
+                                              Image = user.Image,
                                               Status = trainer.Status,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
@@ -670,7 +675,8 @@ namespace FitMeApp.Repository.EntityFramework
                 LastName = trainerEntity.LastName,
                 Specialization = trainerEntity.Specialization,
                 Gender = trainerEntity.Gender,
-                Picture = trainerEntity.Picture,
+                Avatar = trainerEntity.Avatar,
+                Image = trainerEntity.Image,
                 Status = trainerEntity.Status,
                 Gym = new GymEntity()
                 {
@@ -753,7 +759,8 @@ namespace FitMeApp.Repository.EntityFramework
                                                         FirstName = user.FirstName,
                                                         LastName = user.LastName,
                                                         Gender = user.Gender,
-                                                        Picture = user.Avatar,
+                                                        Avatar = user.Avatar,
+                                                        Image = user.Image,
                                                         Specialization = trainer.Specialization,
                                                         Status = trainer.Status,
                                                         GymId = gym.Id,
@@ -1308,6 +1315,26 @@ namespace FitMeApp.Repository.EntityFramework
             _context.Add(newContact);
             int addedContactCount = _context.SaveChanges();
             return addedContactCount > 0 ? true : false;
+        }
+
+
+
+
+        //Test
+        public void AddAvatarFile(AvatarsTestEntityBase avatarFile)
+        {
+            AvatarsTestEntity avatar = new AvatarsTestEntity()
+            {
+                Avatar = avatarFile.Avatar
+            };
+            _context.AvatarsTest.Add(avatar);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<AvatarsTestEntityBase> GetAllAvatars()
+        {
+            var avatars = _context.AvatarsTest.ToList();
+            return avatars;
         }
 
     }

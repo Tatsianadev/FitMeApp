@@ -10,5 +10,6 @@ namespace FitMeApp.Common
         public int Year { get; set; }
         public string Gender { get; set; }
         public string Avatar { get; set; }
+        public byte[] Image { get; set; }
     }
 }

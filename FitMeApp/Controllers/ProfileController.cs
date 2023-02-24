@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Controllers
 {
@@ -443,6 +445,7 @@ namespace FitMeApp.Controllers
 
         }
 
+
         public async Task<IActionResult> EditTrainerJobData()
         {
             var trainer = await _userManager.GetUserAsync(User);
@@ -708,6 +711,34 @@ namespace FitMeApp.Controllers
             userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
             ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
             return View(userSubscriptionViewModels);
+        }
+
+
+        //TEST
+
+        public IActionResult AvatarDownload()
+        {
+            var avatars = _fitMeService.GetAllAvatars().ToList();
+            return View(avatars);
+        }
+
+        [HttpPost]
+        public IActionResult AvatarDownloadPost(AvatarsTestViewModel model)
+        {
+            AvatarsTestModel avatarModel = new AvatarsTestModel();
+            if (model.Avatar != null)
+            {
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int) model.Avatar.Length);
+                }
+
+                avatarModel.Avatar = imageData;
+                _fitMeService.AddAvatarFile(avatarModel);
+            }
+
+            return RedirectToAction("AvatarDownload");
         }
 
     }

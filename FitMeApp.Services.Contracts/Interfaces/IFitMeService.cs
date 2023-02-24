@@ -60,5 +60,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool AddTrainingTrainerConnection(string trainerId, int trainingId);
 
 
+        //Test
+        void AddAvatarFile(AvatarsTestModel avatarFile);
+        IEnumerable<AvatarsTestModel> GetAllAvatars();
+
+
     }
 }

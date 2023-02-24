@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FitMeApp.Services.Contracts.Models.AvatarsTestModel>  
+@{
+    ViewBag.Title = "Add avatar file";
+}
+
+<form asp-controller="Profile" asp-action="AvatarDownloadPost" method="post" enctype="multipart/form-data">
+    <p>
+        <label>Avatar</label>
+        <input name="Avatar" type="file" class="form-control" />
+    </p>
+    <p>
+        <input type="submit" value="Add" />
+    </p>
+</form>
+
+<div>
+    <h4>Downloaded avatar</h4>
+    <br/>
+    @foreach (var avatar in @Model)
+    {
+        @if (avatar.Avatar != null)
+        {
+            <img style="height: 250px; width: auto" src="data:image/jpeg;base64,@(Convert.ToBase64String(avatar.Avatar))"/>
+        }
+    }
+   
+</div>

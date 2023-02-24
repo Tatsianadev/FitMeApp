@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using FitMeApp.Repository.EntityFramework.Entities;
 
 namespace FitMeApp.Services
 {
@@ -515,6 +516,34 @@ namespace FitMeApp.Services
         {
             bool result = _repository.AddTrainingTrainerConnection(trainerId, trainingId);
             return result;
+        }
+
+
+
+        //Test
+        public void AddAvatarFile(AvatarsTestModel avatarFile)
+        {
+            AvatarsTestEntityBase avatarsTestEntity = new AvatarsTestEntityBase()
+            {
+                Avatar = avatarFile.Avatar
+            };
+            _repository.AddAvatarFile(avatarsTestEntity);
+        }
+
+        public IEnumerable<AvatarsTestModel> GetAllAvatars()
+        {
+           var avatarsEntity =  _repository.GetAllAvatars();
+           List<AvatarsTestModel> avatarsModels = new List<AvatarsTestModel>();
+           foreach (var avatar in avatarsEntity)
+           {
+               avatarsModels.Add(new AvatarsTestModel()
+               {
+                   Id = avatar.Id,
+                   Avatar = avatar.Avatar
+               });
+           }
+
+           return avatarsModels;
         }
 
     }

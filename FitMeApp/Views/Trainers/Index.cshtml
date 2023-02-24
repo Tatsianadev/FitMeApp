@@ -74,14 +74,14 @@
 
     @foreach (var trainer in Model)
     {
-        string picturePath = "/Content/images/" + trainer.Picture;
+        string picturePath = "/Content/images/" + trainer.Avatar;
         <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
             <div class="col-md-4" style="text-align:center">
                 <img src="@picturePath" alt="Alternate Text" style="height:330px; width:auto" />
             </div>
             <div class="col-md-8" style="padding:10px">
                 <table class="table">
-                     <tbody>
+                    <tbody>
                         <tr>
                             <td>Name</td>
                             <td style="font-weight: bold">@trainer.FirstName @trainer.LastName</td>
@@ -96,7 +96,7 @@
                             <td>Specialization</td>
                             <td>@trainer.Specialization</td>
                             <td>
-                                @{ string trainingsNamesEnum="";}
+                                @{ string trainingsNamesEnum = "";}
                                 @foreach (var training in trainer.Trainings)
                                 {
                                     trainingsNamesEnum = trainingsNamesEnum + training.Name + ", ";
@@ -115,8 +115,8 @@
                             <td>
                                 <p>
                                     <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapse_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapse_@trainer.Id">
-                                       Show
-                                    </a>                                   
+                                        Show
+                                    </a>
                                 </p>
                                 <div class="collapse" id="collapse_@trainer.Id">
                                     <div class="card card-body">
@@ -126,14 +126,36 @@
                             </td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tbody>                    
+                        @if (trainer.Specialization == FitMeApp.Common.TrainerSpecializationsEnum.personal.ToString() ||
+                          trainer.Specialization == FitMeApp.Common.TrainerSpecializationsEnum.universal.ToString())
+                        {
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for personal training</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a asp-controller="Trainings" asp-action="ApplyForGroupTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for group training</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+
+                        @if (trainer.Specialization == FitMeApp.Common.TrainerSpecializationsEnum.group.ToString())
+                        {
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a asp-controller="Trainings" asp-action="ApplyForGroupTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for group training</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
