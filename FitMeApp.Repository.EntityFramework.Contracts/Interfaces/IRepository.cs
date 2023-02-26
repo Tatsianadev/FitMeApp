@@ -100,5 +100,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Users - Roles
         //IEnumerable<User> GetUsersByRoles(IEnumerable<IdentityRole> roles);
 
+        
+
     }
 }

@@ -37,6 +37,8 @@ namespace FitMeApp.Services
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<ITrainingService, TrainingService>();
+            services.AddScoped<IFileStorage, FileStorage>();
+            services.AddScoped<IFileService, FileService>();
 
         }
     }

@@ -1310,5 +1310,8 @@ namespace FitMeApp.Repository.EntityFramework
             return addedContactCount > 0 ? true : false;
         }
 
+
+        
+
     }
 }

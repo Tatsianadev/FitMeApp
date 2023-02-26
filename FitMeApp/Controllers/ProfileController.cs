@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FitMeApp.Controllers
 {
@@ -21,15 +22,28 @@ namespace FitMeApp.Controllers
         private readonly IFitMeService _fitMeService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
+        private readonly IWebHostEnvironment _appEnvironment;
+        private readonly IFileService _fileService;
 
-        public ProfileController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IFitMeService fitMeService, ILogger<ProfileController> logger)
+        public ProfileController(
+            UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager,
+            IFitMeService fitMeService, 
+            ILogger<ProfileController> logger, 
+            IWebHostEnvironment appEnvironment,
+            IFileService fileService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _fitMeService = fitMeService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
+            _appEnvironment = appEnvironment;
+            _fileService = fileService;
         }
+
+        //Test
+       
 
 
         //admin options
@@ -219,7 +233,7 @@ namespace FitMeApp.Controllers
                     PhoneNumber = user.PhoneNumber,
                     Year = user.Year,
                     Gender = user.Gender,
-                    Avatar = user.Avatar
+                    //Avatar = user.Avatar
                 };
                 return View(model);
 
@@ -254,7 +268,23 @@ namespace FitMeApp.Controllers
                         user.PhoneNumber = model.PhoneNumber;
                         user.Year = model.Year;
                         user.Gender = model.Gender;
-                        user.Avatar = model.Avatar;
+
+                        string avatarPath = string.Empty;
+                        if (model.AvatarFile != null)
+                        {
+                            string rootPath = _appEnvironment.WebRootPath;
+                            avatarPath = _fileService.SaveAvatarFileAsync(user.Id, model.AvatarFile, rootPath);
+                            if (!string.IsNullOrEmpty(avatarPath))
+                            {
+                                user.Avatar = avatarPath;
+                            }
+                        }
+                        else
+                        {
+                            avatarPath = "/Content/images/defaultAvatar.jpg";
+                            user.Avatar = avatarPath;
+                        }
+                        //user.Avatar = model.Avatar;
 
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
