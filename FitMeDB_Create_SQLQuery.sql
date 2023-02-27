@@ -144,7 +144,7 @@ CREATE TABLE [dbo].[AspNetUsers](
 	[AccessFailedCount] [int] NOT NULL,
 	[FirstName] [nvarchar](256) NULL,
 	[LastName] [nvarchar](256) NULL,
-	[Avatar] [nvarchar](256) NULL,
+	[AvatarPath] [nvarchar](256) NULL,
  CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

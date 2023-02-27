@@ -10,7 +10,7 @@ namespace FitMeApp.Services.Contracts.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
-        public string Picture { get; set; }
+        public string AvatarPath { get; set; }
         public string Specialization { get; set; }
         public TrainerApproveStatusEnum Status { get; set; }
         //public int GymId { get; set; }

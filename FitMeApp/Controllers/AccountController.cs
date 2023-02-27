@@ -9,6 +9,8 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Mapper;
 using System.Collections.Generic;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace FitMeApp.Controllers
 {
@@ -20,9 +22,10 @@ namespace FitMeApp.Controllers
         private readonly IFitMeService _fitMeService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
        
         public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService, ILogger<AccountController> logger)
+            IFitMeService fitMeService, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -30,6 +33,7 @@ namespace FitMeApp.Controllers
             _fitMeService = fitMeService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
+            _configuration = configuration;
         }
 
 
@@ -54,9 +58,9 @@ namespace FitMeApp.Controllers
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Avatar = "defaultAvatar.jpg"
-                        
-                    };
+                        AvatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"]
+
+                };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
@@ -91,7 +95,7 @@ namespace FitMeApp.Controllers
             }           
         }
 
-
+        //todo change applicationForm for trainer registration
         public async  Task<IActionResult> RegisterTrainerPart()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -101,7 +105,7 @@ namespace FitMeApp.Controllers
                 PhoneNumber = user.PhoneNumber,
                 Year = user.Year,
                 Gender = user.Gender,
-                Avatar = user.Avatar
+                Avatar = user.AvatarPath
             };
 
             ViewBag.Gyms = _fitMeService.GetAllGymModels();
@@ -126,11 +130,11 @@ namespace FitMeApp.Controllers
 
                     if(string.IsNullOrEmpty(model.Avatar))
                     {
-                        user.Avatar = "defaultAvatar.jpg";
+                        user.AvatarPath = "defaultAvatar.jpg";
                     }
                     else
                     {
-                        user.Avatar = model.Avatar;
+                        user.AvatarPath = model.Avatar;
                     }
 
                     List<TrainingViewModel> trainings = new List<TrainingViewModel>();

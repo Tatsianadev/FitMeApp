@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace FitMeApp.Controllers
 {
@@ -24,6 +25,7 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
+        private readonly IConfiguration _configuration; 
 
         public ProfileController(
             UserManager<User> userManager, 
@@ -31,7 +33,8 @@ namespace FitMeApp.Controllers
             IFitMeService fitMeService, 
             ILogger<ProfileController> logger, 
             IWebHostEnvironment appEnvironment,
-            IFileService fileService)
+            IFileService fileService,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -40,6 +43,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
             _fileService = fileService;
+            _configuration = configuration;
         }
 
         //Test
@@ -233,7 +237,7 @@ namespace FitMeApp.Controllers
                     PhoneNumber = user.PhoneNumber,
                     Year = user.Year,
                     Gender = user.Gender,
-                    //Avatar = user.Avatar
+                    AvatarPath = user.AvatarPath
                 };
                 return View(model);
 
@@ -276,15 +280,14 @@ namespace FitMeApp.Controllers
                             avatarPath = _fileService.SaveAvatarFileAsync(user.Id, model.AvatarFile, rootPath);
                             if (!string.IsNullOrEmpty(avatarPath))
                             {
-                                user.Avatar = avatarPath;
+                                user.AvatarPath = avatarPath;
                             }
                         }
                         else
                         {
-                            avatarPath = "/Content/images/defaultAvatar.jpg";
-                            user.Avatar = avatarPath;
+                            avatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"];
+                            user.AvatarPath = avatarPath;
                         }
-                        //user.Avatar = model.Avatar;
 
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
@@ -395,7 +398,7 @@ namespace FitMeApp.Controllers
                         ModelState.AddModelError(string.Empty, "User is not found");
                     }
                 }
-                return View(model);
+                return RedirectToAction("ChangePassword", new{id = model.Id});
             }
             catch (Exception ex)
             {
@@ -441,7 +444,7 @@ namespace FitMeApp.Controllers
                         }
                     }
                 }
-                return View(model);
+                return RedirectToAction("ChangePassword", new { id = model.Id }); ;
             }
             catch (Exception ex)
             {

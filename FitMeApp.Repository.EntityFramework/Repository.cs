@@ -474,7 +474,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               TrainerFirstName = user.FirstName,
                                               TrainerLastName = user.LastName,
                                               TrainerGender = user.Gender,
-                                              TrainerPicture = user.Avatar,
+                                              TrainerAvatarPath = user.AvatarPath,
                                               TrainerSpecialization = trainer.Specialization,
                                               TrainingId = training.Id,
                                               TrainingName = training.Name,
@@ -512,7 +512,7 @@ namespace FitMeApp.Repository.EntityFramework
                         FirstName = item.TrainerFirstName,
                         LastName = item.TrainerLastName,
                         Gender = item.TrainerGender,
-                        Picture = item.TrainerPicture,
+                        AvatarPath = item.TrainerAvatarPath,
                         Specialization = item.TrainerSpecialization,
                         Trainings = trainings,
                         Status = item.TrainerStatus
@@ -551,7 +551,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                    FirstName = user.FirstName,
                                                    LastName = user.LastName,
                                                    Gender = user.Gender,
-                                                   Picture = user.Avatar,
+                                                   AvatarPath = user.AvatarPath,
                                                    Specialization = trainer.Specialization,
                                                    Status = trainer.Status,
                                                    GymId = gym.Id,
@@ -591,7 +591,7 @@ namespace FitMeApp.Repository.EntityFramework
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         Gender = item.Gender,
-                        Picture = item.Picture,
+                        AvatarPath = item.AvatarPath,
                         Specialization = item.Specialization,
                         Status = item.Status,
                         Gym = new GymEntityBase()
@@ -643,7 +643,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               LastName = user.LastName,
                                               Specialization = trainer.Specialization,
                                               Gender = user.Gender,
-                                              Picture = user.Avatar,
+                                              AvatarPath = user.AvatarPath,
                                               Status = trainer.Status,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
@@ -670,7 +670,7 @@ namespace FitMeApp.Repository.EntityFramework
                 LastName = trainerEntity.LastName,
                 Specialization = trainerEntity.Specialization,
                 Gender = trainerEntity.Gender,
-                Picture = trainerEntity.Picture,
+                AvatarPath = trainerEntity.AvatarPath,
                 Status = trainerEntity.Status,
                 Gym = new GymEntity()
                 {
@@ -701,9 +701,7 @@ namespace FitMeApp.Repository.EntityFramework
                                        Name = gymDb.Name,
                                        Address = gymDb.Address,
                                        Phone = gymDb.Phone
-                                   })
-                                        .ToList()
-                                        .Distinct();
+                                   }).ToList().Distinct();
 
             return gymsByTrainings;
         }
@@ -753,7 +751,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         FirstName = user.FirstName,
                                                         LastName = user.LastName,
                                                         Gender = user.Gender,
-                                                        Picture = user.Avatar,
+                                                        AvatarPath = user.AvatarPath,
                                                         Specialization = trainer.Specialization,
                                                         Status = trainer.Status,
                                                         GymId = gym.Id,

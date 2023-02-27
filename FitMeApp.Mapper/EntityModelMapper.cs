@@ -35,7 +35,7 @@ namespace FitMeApp.Mapper
                 FirstName = trainer.FirstName,
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
-                Picture = trainer.Picture,
+                AvatarPath = trainer.AvatarPath,
                 Specialization = trainer.Specialization, 
                 Status = trainer.Status,
                 Trainings = trainings
@@ -107,7 +107,7 @@ namespace FitMeApp.Mapper
                 FirstName = trainer.FirstName,
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
-                Picture = trainer.Picture,
+                AvatarPath = trainer.AvatarPath,
                 Specialization = trainer.Specialization,
                 Status = trainer.Status,
                 Gym = gymModel,

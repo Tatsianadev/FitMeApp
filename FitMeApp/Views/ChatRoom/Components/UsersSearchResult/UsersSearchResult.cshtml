@@ -9,7 +9,7 @@
         <table style="margin: 5px">
             @foreach (var contact in Model)
             {
-                string avatarPath = "/Content/images/" + contact.Avatar;
+                string avatarPath = "/Content/images/" + contact.AvatarPath;
                 <tr>
                     <td style="width: 15%">
                         <img src="@avatarPath" style="width: 80%; height: auto; padding: 0px" />

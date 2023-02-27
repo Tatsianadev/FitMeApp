@@ -28,8 +28,8 @@ namespace FitMeApp.Services
             Contract.Requires<ArgumentNullException>(!(uploadedFile is null), "received uploadedFile is null");
             Contract.Requires<ArgumentNullException>(!(string.IsNullOrEmpty(rootPath)), "received uploadedFile is null or empty");
 
-            string directoryPath = rootPath + "/Content/Upload/" + userId + "/Avatar";
-            string absolutePath = "/Content/Upload/" + userId + "/Avatar/" + uploadedFile.GetHashCode() + ".jpg";
+            string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
+            string absolutePath = "/Content/Upload/" + userId + "/AvatarPath/" + uploadedFile.GetHashCode() + ".jpg";
             string fullFilePath = rootPath + absolutePath;
 
             if (!Directory.Exists(directoryPath))

@@ -16,7 +16,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string LastName { get; set; }
         [Required]
         public string Gender { get; set; }
-        public string Picture { get; set; }
+        public string AvatarPath { get; set; }
         [Required]
         public string Specialization { get; set; }
 

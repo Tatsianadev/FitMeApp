@@ -18,7 +18,7 @@ namespace FitMeApp.Models
         public string PhoneNumber { get; set; }
         public int Year { get; set; }
         public string Gender { get; set; }
-        //public string Avatar { get; set; }
+        public string AvatarPath { get; set; }
         public IFormFile AvatarFile { get; set; }
     }
 }

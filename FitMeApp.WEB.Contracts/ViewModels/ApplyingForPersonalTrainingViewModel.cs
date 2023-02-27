@@ -26,6 +26,5 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         [Required]
         public int DurationInMinutes { get; set; }
         public int Price { get; set; }
-        public string ReturnUrl { get; set; }
     }
 }

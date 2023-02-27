@@ -39,11 +39,11 @@ namespace FitMeApp.ViewComponents
                     SenderId = senderId,
                     SenderFirstName = sender.FirstName,
                     SenderLastName = sender.LastName,
-                    SenderAvatar = sender.Avatar,
+                    SenderAvatarPath = sender.AvatarPath,
                     ReceiverId = receiverId,
                     ReceiverFirstName = receiver.FirstName,
                     ReceiverLastName = receiver.LastName,
-                    ReceiverAvatar = receiver.Avatar
+                    ReceiverAvatarPath = receiver.AvatarPath
                 };
 
             List<ChatMessageViewModel> messagesViewModels = new List<ChatMessageViewModel>();
