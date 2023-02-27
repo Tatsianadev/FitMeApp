@@ -18,12 +18,12 @@
     <ul class="list-group">
         @foreach (var contact in Model)
         {
-            string avatarPath = "/Content/images/" + contact.AvatarPath;
+            //string avatarPath = "/Content/images/" + contact.AvatarPath;
             <li class="list-group-item">
                 <div class="container" style="text-align: center">
                     <div class="row">
                         <div class="col-md-3">
-                            <img src="@avatarPath" style="width: 100%; height: auto; padding: 0px" />
+                            <img src="@contact.AvatarPath" style="width: 100%; height: auto; padding: 0px" />
                         </div>
                         <div class="col-md-9">
                             <div class="row">
