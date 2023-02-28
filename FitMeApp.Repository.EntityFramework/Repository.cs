@@ -19,11 +19,54 @@ namespace FitMeApp.Repository.EntityFramework
             _context = context;
         }
 
+
+
         public IEnumerable<GymEntityBase> GetAllGyms()
         {
             var gyms = _context.Gyms.ToList();
             return gyms;
         }
+
+
+        public IEnumerable<GymWithGalleryBase> GetAllGymsWithGallery()
+        {
+            var gymsWithGallery = (from gym in _context.Gyms
+                                   join image in _context.GymImages
+                                       on gym.Id equals image.GymId
+                                   select new
+                                   {
+                                       Id = gym.Id,
+                                       Name = gym.Name,
+                                       Address = gym.Address,
+                                       Phone = gym.Phone,
+                                       GymImagePath = image.ImagePath
+                                   }).ToList();
+
+            List<GymWithGalleryBase> gyms = new List<GymWithGalleryBase>();
+
+            foreach (var gymEntity in gymsWithGallery)
+            {
+                if (!gyms.Select(x => x.Id).Contains(gymEntity.Id))
+                {
+                    List<string> gymImagePaths = gymsWithGallery
+                        .Where(x => x.Id == gymEntity.Id)
+                        .Select(x => x.GymImagePath)
+                        .ToList();
+
+                    gyms.Add(new GymWithGalleryBase()
+                    {
+                        Id = gymEntity.Id,
+                        Name = gymEntity.Name,
+                        Address = gymEntity.Address,
+                        Phone = gymEntity.Phone,
+                        GymImagePaths = gymImagePaths
+                    });
+                }
+            }
+
+            return gyms;
+        }
+
 
         public GymEntityBase GetGym(int id)
         {
@@ -404,7 +447,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var trainingsIds = _context.TrainingTrainer
                 .Where(x => x.TrainerId == trainerId)
-                .Select(x=>x.TrainingId)
+                .Select(x => x.TrainingId)
                 .ToList();
             return trainingsIds;
         }
@@ -452,7 +495,6 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId)
         {
-
             var gymTrainerTrainingJoin = (from gymDb in _context.Gyms
                                           join trainer in _context.Trainers
                                           on gymDb.Id equals trainer.GymId
@@ -462,6 +504,8 @@ namespace FitMeApp.Repository.EntityFramework
                                           on trainer.Id equals trainingTrainer.TrainerId
                                           join training in _context.Trainings
                                           on trainingTrainer.TrainingId equals training.Id
+                                          join image in _context.GymImages
+                                              on gymDb.Id equals image.GymId
                                           where gymDb.Id == gymId
                                           where trainer.Status == TrainerApproveStatusEnum.approved
                                           select new
@@ -470,6 +514,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               GymName = gymDb.Name,
                                               GymAddress = gymDb.Address,
                                               GymPhone = gymDb.Phone,
+                                              GymImagePath = image.ImagePath,
                                               TrainerId = trainer.Id,
                                               TrainerFirstName = user.FirstName,
                                               TrainerLastName = user.LastName,
@@ -482,9 +527,6 @@ namespace FitMeApp.Repository.EntityFramework
                                               TrainerStatus = trainer.Status
                                           }).ToList();
 
-            var trainers = new List<TrainerWithGymAndTrainingsBase>();
-            List<string> addedTrainersId = new List<string>();
-
             GymWithTrainersAndTrainings gym = new GymWithTrainersAndTrainings();
             var gymInfo = gymTrainerTrainingJoin.First();
             gym.Id = gymInfo.GymId;
@@ -492,6 +534,19 @@ namespace FitMeApp.Repository.EntityFramework
             gym.Phone = gymInfo.GymPhone;
             gym.Address = gymInfo.GymAddress;
 
+            List<string> gymImagePaths = new List<string>();
+            foreach (var item in gymTrainerTrainingJoin)
+            {
+                if (!gymImagePaths.Contains(item.GymImagePath))
+                {
+                    gymImagePaths.Add(item.GymImagePath);
+                }
+            }
+            gym.GymImagePaths = gymImagePaths;
+
+
+            var trainers = new List<TrainerWithGymAndTrainingsBase>();
+            List<string> addedTrainersId = new List<string>();
             foreach (var item in gymTrainerTrainingJoin)
             {
                 var training = new TrainingEntityBase()
@@ -1309,7 +1364,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        
+
 
     }
 }

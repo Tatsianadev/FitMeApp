@@ -11,6 +11,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
     {
         //Gym
         IEnumerable<GymEntityBase> GetAllGyms();
+        IEnumerable<GymWithGalleryBase> GetAllGymsWithGallery();
         GymEntityBase GetGym(int id);
         GymEntityBase AddGym(GymEntityBase item);
         void UpdateGym(int id, GymEntityBase newGymData);

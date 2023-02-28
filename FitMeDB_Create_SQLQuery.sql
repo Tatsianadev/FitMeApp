@@ -345,6 +345,17 @@ Phone nvarchar(256) null
 )
 go
 
+create table GymImages
+(
+Id int identity primary key not null,
+GymId int not null,
+ImagePath nvarchar(max) not null
+)
+
+ALTER TABLE [dbo].[GymImages]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO
+
 
 
 CREATE TABLE [dbo].[Trainers](

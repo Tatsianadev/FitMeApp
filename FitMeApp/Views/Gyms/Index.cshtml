@@ -58,17 +58,18 @@
     <div class="row">
         @foreach (var gym in Model)
         {
+            List<string> imagePaths = gym.GymImagePaths.ToList();
+
             <div class="col-md-3" style="border:groove; padding:15px">
                 <div id="carouselExampleControlsNoTouching_@gym.Id" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
                     <div class="carousel-inner" >
                         <div class="carousel-item active" style="height:200px">
-                            <img src="/Content/@gym.Name/1.jpg" class="d-block w-100" style="height:100%; width:auto" alt="picture 1">
+                            <img src="@imagePaths[0]" class="d-block w-100" style="height:100%; width:auto" alt="picture 1">
                         </div>
-                        @for (int i = 2; i < 5; i++)
+                        @for (int i = 1; i < imagePaths.Count(); i++)
                         {
-                            string path = "/Content/"+gym.Name+"/"+i+".jpg";
                             <div class="carousel-item" style="height:200px">
-                                <img src=@path class="d-block" style="height:100%; width:auto" alt="picture @i">
+                                <img src="@imagePaths[i]" class="d-block" style="height:100%; width:auto" alt=" gym picture">
                             </div>
                         }
                     </div>

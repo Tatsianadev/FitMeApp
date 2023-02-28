@@ -46,6 +46,28 @@ namespace FitMeApp.Services
 
         }
 
+
+        public IEnumerable<GymModel> GetAllGymsWithGalleryModels()
+        {
+            try
+            {
+                var gymEntityBases = _repository.GetAllGymsWithGallery();
+                var gymsModels = new List<GymModel>();
+
+                foreach (var gym in gymEntityBases)
+                {
+                    gymsModels.Add(_mapper.MapGymWithGalleryBaseToModelBase(gym));
+                }
+                return gymsModels;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw ex;
+            }
+
+        }
+
         public GymModel GetGymModel(int id)
         {
             var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
@@ -428,14 +450,14 @@ namespace FitMeApp.Services
 
            
             List<TrainerWorkHoursModel> rowsToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
-            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
+            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MapTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToAdd in entityRowsToAdd)
             {                
                 _repository.AddTrainerWorkHours(workHoursToAdd);
             }
 
             List<TrainerWorkHoursModel> rowsToUpdate = trainerWorkHours.Where(x => x.Id != 0).ToList();
-            var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MappTrainerWorkHoursModelToEntityBase(model)).ToList();
+            var entityRowsToUpdate = rowsToUpdate.Select(model => _mapper.MapTrainerWorkHoursModelToEntityBase(model)).ToList();
             foreach (var workHoursToUpdate in entityRowsToUpdate)
             {
                _repository.UpdateTrainerWorkHours(workHoursToUpdate);
@@ -492,7 +514,7 @@ namespace FitMeApp.Services
 
         public bool AddTrainer(TrainerModel trainer)
         {
-            var trainerEntityBase = _mapper.MappTrainerModelToEntityBase(trainer);
+            var trainerEntityBase = _mapper.MapTrainerModelToEntityBase(trainer);
             bool result = _repository.AddTrainer(trainerEntityBase);
             return result;            
         }

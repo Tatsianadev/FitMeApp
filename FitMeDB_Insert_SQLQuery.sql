@@ -353,7 +353,7 @@ go
 
 insert AspNetUsers(Id, Year,Gender,UserName,NormalizedUserName, Email, NormalizedEmail, 
 EmailConfirmed, PasswordHash,SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed,
-TwoFactorEnabled, LockoutEnd, LockoutEnabled,AccessFailedCount, FirstName,LastName,Avatar)
+TwoFactorEnabled, LockoutEnd, LockoutEnabled,AccessFailedCount, FirstName,LastName,AvatarPath)
 values ('08b2b361-1115-44db-97fa-ce9cd34366d7', 1983, 'male', 'terry@gmail.com', 'TERRY@GMAIL.COM', 
 'terry@gmail.com', 'TERRY@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEA+yeMUHnLSvqEPa/2tW4OCpKz/NRnrpKncstTkv6eqM6E7Za0RG/xJ26dq8zxcbng==',
 'HVVHMKWCU4EVWODRXS2ZDSFBL3UDGQDL', 'c629f12c-6cd7-43f5-b814-edcfdb5ae297', '(111)222666', 0, 0, NULL, 1, 0,
@@ -441,4 +441,29 @@ values
 ,('f6b480ef-aa5c-467f-8382-5199a395d585', 'e26bcd6e-49bd-42d6-acca-905ba29cddbc')
 ,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'f6b480ef-aa5c-467f-8382-5199a395d585')
 ,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'f6b480ef-aa5c-467f-8382-5199a395d585')
+go
+
+
+
+insert GymImages (GymId, ImagePath)
+values (1, '/Content/BigRock/1.jpg')
+,(1, '/Content/BigRock/2.jpg')
+,(1, '/Content/BigRock/3.jpg')
+,(1, '/Content/BigRock/4.jpg')
+,(1, '/Content/BigRock/5.jpg')
+,(2, '/Content/Caliostro/1.jpg')
+,(2, '/Content/Caliostro/2.jpg')
+,(2, '/Content/Caliostro/3.jpg')
+,(2, '/Content/Caliostro/4.jpg')
+,(2, '/Content/Caliostro/5.jpg')
+,(3, '/Content/FitProfit/1.jpg')
+,(3, '/Content/FitProfit/2.jpg')
+,(3, '/Content/FitProfit/3.jpg')
+,(3, '/Content/FitProfit/4.jpg')
+,(3, '/Content/FitProfit/5.jpg')
+,(3, '/Content/FitProfit/6.jpg')
+,(4, '/Content/GoldSection/1.jpg')
+,(4, '/Content/GoldSection/2.jpg')
+,(4, '/Content/GoldSection/3.jpg')
+,(4, '/Content/GoldSection/4.jpg')
 go

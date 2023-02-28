@@ -12,5 +12,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+
     }
 }

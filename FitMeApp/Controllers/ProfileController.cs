@@ -526,7 +526,7 @@ namespace FitMeApp.Controllers
                         }
                     };
 
-                    var trainerModel = _mapper.MappTrainerViewModelToModel(newTrainerInfo);
+                    var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
                     _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
                     return RedirectToAction("TrainerPersonalAndJobData");
@@ -610,7 +610,7 @@ namespace FitMeApp.Controllers
                         model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
-                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MappTrainerWorkHoursViewModelToModel(model)).ToList();
+                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList();
 
                 bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)

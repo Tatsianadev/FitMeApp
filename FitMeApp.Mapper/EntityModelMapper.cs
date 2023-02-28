@@ -22,6 +22,19 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
+        public GymModel MapGymWithGalleryBaseToModelBase(GymWithGalleryBase gym)
+        {
+            GymModel gymModel = new GymModel()
+            {
+                Id = gym.Id,
+                Name = gym.Name,
+                Address = gym.Address,
+                Phone = gym.Phone,
+                GymImagePaths = gym.GymImagePaths
+            };
+            return gymModel;
+        }
+
         public TrainerModel MapTrainerEntityBaseToModelBase(TrainerWithGymAndTrainingsBase trainer)
         {
             var trainings = new List<TrainingModel>();
@@ -75,6 +88,7 @@ namespace FitMeApp.Mapper
                 Name = gym.Name,
                 Address = gym.Address,
                 Phone = gym.Phone,
+                GymImagePaths = gym.GymImagePaths,
                 Trainers = trainerModels
             };
             return gymModel;
@@ -275,7 +289,7 @@ namespace FitMeApp.Mapper
 
 
         //Model -> Entity
-        public TrainerWithGymAndTrainingsBase MappTrainerModelToTrainerWithGymAndTrainingsBase(TrainerModel trainerModel)
+        public TrainerWithGymAndTrainingsBase MapTrainerModelToTrainerWithGymAndTrainingsBase(TrainerModel trainerModel)
         {
             List<TrainingEntityBase> trainingEntityBases = new List<TrainingEntityBase>();
             foreach (var training in trainerModel.Trainings)
@@ -304,7 +318,7 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainerEntityBase MappTrainerModelToEntityBase(TrainerModel trainerModel)
+        public TrainerEntityBase MapTrainerModelToEntityBase(TrainerModel trainerModel)
         {
             TrainerEntityBase trainerEntityBase = new TrainerEntityBase()
             {
@@ -318,7 +332,7 @@ namespace FitMeApp.Mapper
         
 
 
-        public TrainerWorkHoursEntityBase MappTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
+        public TrainerWorkHoursEntityBase MapTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
         {
             TrainerWorkHoursEntityBase trainerWorkHourEntity = new TrainerWorkHoursEntityBase()
             {

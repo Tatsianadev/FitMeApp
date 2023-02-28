@@ -8,6 +8,7 @@ namespace FitMeApp.Repository.EntityFramework
     public class ApplicationDbContext: IdentityDbContext<User>
     {
         public DbSet<GymEntity> Gyms { get; set; }
+        public DbSet<GymImagesEntity> GymImages { get; set; }
         public DbSet<TrainerEntity> Trainers { get; set; }       
         public DbSet<TrainingEntity> Trainings { get; set; }
         public DbSet<TrainingTrainerEntity> TrainingTrainer { get; set; }

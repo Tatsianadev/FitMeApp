@@ -158,7 +158,7 @@ namespace FitMeApp.Controllers
                         }
                     };
 
-                    var trainerModel = _mapper.MappTrainerViewModelToModelBase(trainerViewModel);
+                    var trainerModel = _mapper.MapTrainerViewModelToModelBase(trainerViewModel);
                     var result = _fitMeService.AddTrainer(trainerModel);
                     if (result)
                     {

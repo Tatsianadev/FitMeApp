@@ -16,7 +16,7 @@ namespace FitMeApp.Mapper
                 Name = gymModel.Name,
                 Address = gymModel.Address,
                 Phone = gymModel.Phone,
-
+                GymImagePaths = gymModel.GymImagePaths
             };
             return gymViewModel;
         }
@@ -259,7 +259,7 @@ namespace FitMeApp.Mapper
 
         //Reverse: ViewModel -> Model
 
-        public GymModel MappGymViewModelToModel(GymViewModel gymViewModel)
+        public GymModel MapGymViewModelToModel(GymViewModel gymViewModel)
         {
             GymModel gymModel = new GymModel()
             {
@@ -272,7 +272,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public TrainerModel MappTrainerViewModelToModel(TrainerViewModel trainerViewModel)
+        public TrainerModel MapTrainerViewModelToModel(TrainerViewModel trainerViewModel)
         {
             List<TrainingModel> trainingModels = new List<TrainingModel>();
 
@@ -284,7 +284,7 @@ namespace FitMeApp.Mapper
                 });
             }
 
-            TrainerModel trainerModel = MappTrainerViewModelToModelBase(trainerViewModel);
+            TrainerModel trainerModel = MapTrainerViewModelToModelBase(trainerViewModel);
             trainerModel.Trainings = trainingModels;          
 
             return trainerModel;
@@ -292,7 +292,7 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainerModel MappTrainerViewModelToModelBase(TrainerViewModel trainerViewModel)
+        public TrainerModel MapTrainerViewModelToModelBase(TrainerViewModel trainerViewModel)
         {
             TrainerModel trainerModel = new TrainerModel()
             {
@@ -303,7 +303,7 @@ namespace FitMeApp.Mapper
                 AvatarPath = trainerViewModel.AvatarPath,
                 Specialization = trainerViewModel.Specialization,
                 Status = trainerViewModel.Status,                
-                Gym = MappGymViewModelToModel(trainerViewModel.Gym)
+                Gym = MapGymViewModelToModel(trainerViewModel.Gym)
             };
 
             return trainerModel;
@@ -313,7 +313,7 @@ namespace FitMeApp.Mapper
 
 
 
-        public TrainerWorkHoursModel MappTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
+        public TrainerWorkHoursModel MapTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
         {
             TrainerWorkHoursModel trainerWorkHoursModel = new TrainerWorkHoursModel()
             {
