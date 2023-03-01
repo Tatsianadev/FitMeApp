@@ -5,19 +5,19 @@
         <div class="col-md-3">
 
         </div>
-        <div class="col-md-6" style="border-left:solid; border-right:solid">
+        <div class="col-md-6" style="border: solid; border-color: lightgray">
             <div style="text-align:center; margin:20px">
-
-
+                <div>
+                    <h4>Edit job data</h4>
+                </div>
+                <hr/>
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Status" />
                     <table style="width:80%; margin:auto">
-
                         <tr>
                             <td class="col3">Gym</td>
-
                             <td class="col4">
                                 <select class="form-select" aria-label="Default select example" asp-for="GymId">
                                     <option selected value="@Model.GymId"> @Model.GymName</option>
@@ -56,7 +56,5 @@
         <div class="col-md-3">
 
         </div>
-
     </div>
-
 </div>

@@ -41,7 +41,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
 
         }
@@ -63,7 +63,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
 
         }
@@ -141,10 +141,7 @@ namespace FitMeApp.Services
             return trainingModel;
         }
 
-
-
-      
-
+        
 
         //Subscriptions
 
@@ -163,7 +160,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
 
         }
@@ -184,7 +181,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }           
         }
 
@@ -204,7 +201,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
         }
 
@@ -384,7 +381,6 @@ namespace FitMeApp.Services
             }
 
             return true;
-
         }
 
 

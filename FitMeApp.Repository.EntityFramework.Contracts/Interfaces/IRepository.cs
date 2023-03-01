@@ -15,17 +15,17 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         GymEntityBase GetGym(int id);
         GymEntityBase AddGym(GymEntityBase item);
         void UpdateGym(int id, GymEntityBase newGymData);
-       void DeleteGym(int id);
+        void DeleteGym(int id);
         IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGym(int gymId);
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
 
         //Trainers
-        IEnumerable<TrainerEntityBase> GetAllTrainers();        
+        IEnumerable<TrainerEntityBase> GetAllTrainers();
         TrainerEntityBase GetTrainer(string id);
         bool AddTrainer(TrainerEntityBase trainer);
         void UpdateTrainer(TrainerEntityBase newTrainerData);
         void DeleteTrainer(string id);
-        IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);       
+        IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
         bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
         void DeleteTrainerWorkHours(int workHoursId);
         void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
@@ -50,9 +50,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
-        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();       
+        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
-        
+
         //Filters
         IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
         IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
@@ -101,7 +101,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Users - Roles
         //IEnumerable<User> GetUsersByRoles(IEnumerable<IdentityRole> roles);
 
-        
+
 
     }
 }

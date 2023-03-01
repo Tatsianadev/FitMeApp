@@ -248,7 +248,6 @@ namespace FitMeApp.Repository.EntityFramework
                                             .ToList();
 
             return trainerWorkHoursWithDays;
-
         }
 
 
@@ -491,6 +490,7 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
+
         //Gym - Trainer - Trainings connection
 
         public GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId)
@@ -616,7 +616,6 @@ namespace FitMeApp.Repository.EntityFramework
                                                    TrainingName = training.Name
                                                }).OrderBy(x => x.TrainerId).ToList();
 
-
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = ConvertJoinResultToTrainerWithGymAndTrainingsBase(allTrainersGymTrainingsJoin);
 
             return trainersWithGymAndTrainings;
@@ -674,7 +673,6 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             return trainersWithGymAndTrainings;
-
         }
 
 
@@ -1180,7 +1178,6 @@ namespace FitMeApp.Repository.EntityFramework
                                     .OrderBy(x => x.StartTime)
                                     .ToList();
 
-
             return eventsWithNames;
         }
 
@@ -1362,9 +1359,6 @@ namespace FitMeApp.Repository.EntityFramework
             int addedContactCount = _context.SaveChanges();
             return addedContactCount > 0 ? true : false;
         }
-
-
-
 
     }
 }

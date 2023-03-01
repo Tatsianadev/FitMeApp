@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
-    public class GymImagesEntityBase
+    public class GymImageEntityBase
     {
         public int Id { get; set; }
         public int GymId { get; set; }

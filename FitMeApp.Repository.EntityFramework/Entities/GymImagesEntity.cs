@@ -7,7 +7,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
     [Table("GymImages")]
-    public class GymImagesEntity: GymImagesEntityBase
+    public class GymImagesEntity: GymImageEntityBase
     {
         public virtual GymEntity Gym { get; set; }
     }

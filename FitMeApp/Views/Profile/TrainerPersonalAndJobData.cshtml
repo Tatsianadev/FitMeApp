@@ -11,8 +11,6 @@
             <div class=" container">
                 <div class="row">
                     <div class="col-md-4">
-                        @*@{ string imagePath = "/Content/images/" + Model.AvatarPath;}
-                        <img src="@imagePath" alt="trainerImage" style="height:220px; width:auto; margin:10px" />*@
                         <img src="@Model.AvatarPath" alt="trainerImage" style="height:220px; width:auto; margin:10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
@@ -77,7 +75,7 @@
                         }
                         else
                         {
-                            <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark disabled" aria-disabled="False" style="width:40%">Edit job data</a>
+                            <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-trainerId="@Model.Id" class="btn btn-dark" aria-disabled="False" style="width:40%">Edit job data</a>
                         }
                     </div>
                 </div>
