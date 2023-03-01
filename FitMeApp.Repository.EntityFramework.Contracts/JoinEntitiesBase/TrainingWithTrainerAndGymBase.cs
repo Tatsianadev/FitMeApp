@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
+namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
 {
     public class TrainingWithTrainerAndGymBase
     {

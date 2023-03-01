@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
+namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
 {
     public class TrainerWorkHoursWithDayBase
     {

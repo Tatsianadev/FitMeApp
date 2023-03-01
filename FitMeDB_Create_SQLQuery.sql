@@ -506,6 +506,8 @@ foreign key (GymWorkHoursId) references GymWorkHours(Id)
 go
 
 
+--Chat--
+
 create table ChatMessages
 (
 Id int identity primary key not null,
@@ -531,5 +533,22 @@ REFERENCES [dbo].[AspNetUsers] ([Id])
 GO
 
 ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([InterlocutorId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
+
+
+--TrainerApp--
+
+create table TrainerApplications
+(
+Id int primary key identity not null,
+UserId nvarchar(450) not null,
+TrainerSubscription bit null,
+ContractNumber nvarchar(250) null,
+ApplicationDate smalldatetime not null
+)
+go
+
+ALTER TABLE [dbo].[TrainerApplications]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [dbo].[AspNetUsers] ([Id])
 GO

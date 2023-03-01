@@ -1,4 +1,5 @@
 ﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -283,6 +284,21 @@ namespace FitMeApp.Mapper
          }
 
 
+         public TrainerApplicationModel MapTrainerApplicationWithNamesBaseToModel(
+             TrainerApplicationWithNamesBase trainerAppBase)
+         {
+             TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
+             {
+                 Id = trainerAppBase.Id,
+                 UserId = trainerAppBase.UserId,
+                 UserFirstName = trainerAppBase.UserFirstName,
+                 UserLastName = trainerAppBase.UserLastName,
+                 TrainerSubscription = trainerAppBase.TrainerSubscription,
+                 ContractNumber = trainerAppBase.ContractNumber,
+                 ApplicationDate = trainerAppBase.ApplicationDate
+             };
+             return trainerAppModel;
+         }
 
 
 

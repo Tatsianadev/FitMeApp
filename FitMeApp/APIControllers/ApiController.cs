@@ -15,12 +15,14 @@ namespace FitMeApp.APIControllers
     {
         private readonly ITrainingService _trainingService;
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
 
-        public ApiController(ITrainingService trainingService, IFitMeService fitMeService)
+        public ApiController(ITrainingService trainingService, IFitMeService fitMeService, ITrainerService trainerService)
         {
             _trainingService = trainingService;
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
         }
 
@@ -31,7 +33,7 @@ namespace FitMeApp.APIControllers
         {
             List<string> stringTime = new List<string>();
 
-            var workDays = _fitMeService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
+            var workDays = _trainerService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
             if (workDays.Contains(selectedDate.DayOfWeek))
             {
                 List<int> availableTimeInMinutes = _trainingService

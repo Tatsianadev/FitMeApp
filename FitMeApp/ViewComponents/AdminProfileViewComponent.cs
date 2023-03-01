@@ -12,18 +12,18 @@ namespace FitMeApp.ViewComponents
     public class AdminProfileViewComponent : ViewComponent
     {
         private readonly UserManager<User> _userManager;
-        private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
 
-        public AdminProfileViewComponent(UserManager<User> userManager, IFitMeService fitMeService)
+        public AdminProfileViewComponent(UserManager<User> userManager, ITrainerService trainerService)
         {
             _userManager = userManager;
-            _fitMeService = fitMeService;
+            _trainerService = trainerService;
         }
 
 
         public IViewComponentResult Invoke()
         {
-            var trainersInPending = _fitMeService.GetAllTrainerModels()
+            var trainersInPending = _trainerService.GetAllTrainerModels()
                                                   .Where(x => x.Status == Common.TrainerApproveStatusEnum.pending)
                                                   .ToList();
             ViewBag.TrainersInPendingCount = trainersInPending.Count;

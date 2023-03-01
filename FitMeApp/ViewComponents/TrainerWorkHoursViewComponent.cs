@@ -12,17 +12,17 @@ namespace FitMeApp.ViewComponents
 
     public class TrainerWorkHoursViewComponent: ViewComponent
     {
-        private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
-        public TrainerWorkHoursViewComponent(IFitMeService fitMeService)
+        public TrainerWorkHoursViewComponent(ITrainerService trainerService)
         {
-            _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
         }
 
         public IViewComponentResult Invoke(string trainerId)
         {
-            var trainerWorkHoursModels = _fitMeService.GetWorkHoursByTrainer(trainerId);
+            var trainerWorkHoursModels = _trainerService.GetWorkHoursByTrainer(trainerId);
             List<TrainerWorkHoursViewModel> trainerWorkHoursViewModels = new List<TrainerWorkHoursViewModel>();
             foreach (var model in trainerWorkHoursModels)
             {

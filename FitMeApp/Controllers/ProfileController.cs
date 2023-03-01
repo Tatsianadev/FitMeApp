@@ -21,6 +21,7 @@ namespace FitMeApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
@@ -31,6 +32,7 @@ namespace FitMeApp.Controllers
             UserManager<User> userManager, 
             RoleManager<IdentityRole> roleManager,
             IFitMeService fitMeService, 
+            ITrainerService trainerService,
             ILogger<ProfileController> logger, 
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
@@ -39,6 +41,7 @@ namespace FitMeApp.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
@@ -46,8 +49,7 @@ namespace FitMeApp.Controllers
             _configuration = configuration;
         }
 
-        //Test
-       
+        
 
 
         //admin options
@@ -86,7 +88,7 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult TrainerApplicationsList()
         {
-            var trainersModels = _fitMeService.GetAllTrainersByStatus(TrainerApproveStatusEnum.pending);
+            var trainersModels = _trainerService.GetAllTrainersByStatus(TrainerApproveStatusEnum.pending);
             List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
             foreach (var trainerModel in trainersModels)
             {
@@ -99,7 +101,7 @@ namespace FitMeApp.Controllers
         {
             //todo: rework phone validation
             var user = await _userManager.FindByIdAsync(trainerId);
-            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             trainerViewModel.Email = user.Email;
             trainerViewModel.Phone = user.PhoneNumber;
@@ -113,10 +115,10 @@ namespace FitMeApp.Controllers
             try
             {
                 var user = await _userManager.FindByIdAsync(trainerId);
-                var trainerPartInfo = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+                var trainerPartInfo = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
                 if (trainerPartInfo != null)
                 {
-                    _fitMeService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.approved);
+                    _trainerService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.approved);
                     await _userManager.RemoveFromRoleAsync(user, RolesEnum.user.ToString());
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
                     return RedirectToAction("UsersList");
@@ -153,7 +155,7 @@ namespace FitMeApp.Controllers
                     throw new ArgumentNullException(nameof(trainerId), "Parameter UserId is null or empty");
                 }
 
-                _fitMeService.DeleteTrainer(trainerId);
+                _trainerService.DeleteTrainer(trainerId);
                 return RedirectToAction("TrainerApplicationsList"); //before this -> send a message about rejection application
 
             }
@@ -188,7 +190,7 @@ namespace FitMeApp.Controllers
                         }
                         else
                         {
-                            _fitMeService.DeleteTrainer(user.Id);
+                            _trainerService.DeleteTrainer(user.Id);
                         }
                     }
                     await _userManager.DeleteAsync(user);
@@ -465,7 +467,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> TrainerPersonalAndJobData()
         {
             var trainer = await _userManager.GetUserAsync(User);
-            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
+            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             trainerViewModel.Email = trainer.Email;
             trainerViewModel.Phone = trainer.PhoneNumber;
@@ -479,7 +481,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> EditTrainerJobData()
         {
             var trainer = await _userManager.GetUserAsync(User);
-            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainer.Id);
+            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
             {
@@ -527,7 +529,7 @@ namespace FitMeApp.Controllers
                     };
 
                     var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
-                    _fitMeService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                    _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
                     return RedirectToAction("TrainerPersonalAndJobData");
                 }
@@ -556,7 +558,7 @@ namespace FitMeApp.Controllers
         public IActionResult EditTrainerWorkHours()
         {
             string trainerId = _userManager.GetUserId(User);
-            var workHoursModel = _fitMeService.GetWorkHoursByTrainer(trainerId);
+            var workHoursModel = _trainerService.GetWorkHoursByTrainer(trainerId);
 
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
             foreach (var item in workHoursModel)
@@ -612,10 +614,10 @@ namespace FitMeApp.Controllers
                 }
                 var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList();
 
-                bool result = _fitMeService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
+                bool result = _trainerService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)
                 {
-                    bool updateSuccess = _fitMeService.UpdateTrainerWorkHours(newWorkHoursModels);
+                    bool updateSuccess = _trainerService.UpdateTrainerWorkHours(newWorkHoursModels);
                     if (updateSuccess)
                     {
                         return RedirectToAction("TrainerPersonalAndJobData");
@@ -662,7 +664,7 @@ namespace FitMeApp.Controllers
         public IActionResult ClientsList()
         {
             string trainerId = _userManager.GetUserId(User);
-            List<string> clientsId = _fitMeService.GetAllClientsIdByTrainer(trainerId).ToList();
+            List<string> clientsId = _trainerService.GetAllClientsIdByTrainer(trainerId).ToList();
             List<User> allClientsByTrainer = new List<User>();
             foreach (var clientId in clientsId)
             {

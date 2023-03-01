@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
+namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
 {
     public class GymWithTrainersAndTrainings
     {

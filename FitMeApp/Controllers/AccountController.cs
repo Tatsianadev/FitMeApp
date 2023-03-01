@@ -20,17 +20,19 @@ namespace FitMeApp.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
        
         public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService, ILogger<AccountController> logger, IConfiguration configuration)
+            IFitMeService fitMeService, ITrainerService trainerService, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
             _configuration = configuration;
@@ -159,7 +161,7 @@ namespace FitMeApp.Controllers
                     };
 
                     var trainerModel = _mapper.MapTrainerViewModelToModelBase(trainerViewModel);
-                    var result = _fitMeService.AddTrainer(trainerModel);
+                    var result = _trainerService.AddTrainer(trainerModel);
                     if (result)
                     {
                         foreach (var trainingId in model.TrainingsId)

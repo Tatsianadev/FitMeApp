@@ -8,6 +8,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using Microsoft.AspNetCore.Identity;
+using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 
 namespace FitMeApp.Repository.EntityFramework
 {
@@ -321,6 +322,41 @@ namespace FitMeApp.Repository.EntityFramework
             return availableTime;
         }
 
+
+        //Trainer applications
+        public IEnumerable<TrainerApplicationWithNamesBase> GetAllTrainerApplications()
+        {
+            var trainerApplications = (from trainerApp in _context.TrainerApplications
+                                       join user in _context.Users
+                                           on trainerApp.UserId equals user.Id
+                                       select new TrainerApplicationWithNamesBase()
+                                       {
+                                           Id = trainerApp.Id,
+                                           UserId = trainerApp.UserId,
+                                           UserFirstName = user.FirstName,
+                                           UserLastName = user.LastName,
+                                           TrainerSubscription = trainerApp.TrainerSubscription,
+                                           ContractNumber = trainerApp.ContractNumber,
+                                           ApplicationDate = trainerApp.ApplicationDate
+                                       }).ToList();
+
+            return trainerApplications;
+        }
+
+        public int AddTrainerApplication(TrainerApplicationEntityBase trainerApplication)
+        {
+            TrainerApplicationEntity trainerAppEntity = new TrainerApplicationEntity()
+            {
+                UserId = trainerApplication.UserId,
+                TrainerSubscription = trainerApplication.TrainerSubscription,
+                ContractNumber = trainerApplication.ContractNumber,
+                ApplicationDate = trainerApplication.ApplicationDate
+            };
+            _context.TrainerApplications.Add(trainerAppEntity);
+            _context.SaveChanges();
+
+            return trainerApplication.Id;
+        }
 
 
         //Edit Trainer WorkHours methods

@@ -35,28 +35,14 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 
         //Trainers
-        List<TrainerModel> GetAllTrainerModels();
-        IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
-        void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
-        void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus);
-        TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
-        IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
-        bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours);
-        bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours);
-        bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
-        bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
-        IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
-        IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
-        void DeleteTrainer(string id);
-        void DeleteTrainerWorkHoursByTrainer(string trainerId);
-        bool AddTrainer(TrainerModel trainer);
+       
         
 
         //Events
         int GetActualEventsCountByTrainer(string trainerId);
 
 
-        //TrainingTrainer 
+        //TrainingTrainer ???
         void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingId);
 

@@ -19,14 +19,16 @@ namespace FitMeApp.Controllers
     {
         private readonly IScheduleService _scheduleService;
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, UserManager<User> userManager, ILogger<ScheduleController> logger)
+        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, ITrainerService trainerService, UserManager<User> userManager, ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _userManager = userManager;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
@@ -39,7 +41,7 @@ namespace FitMeApp.Controllers
         {
             if (User.IsInRole("trainer"))
             {
-                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
+                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
                 if (trainerWorkHours.Count() == 0)
                 {
                     return View("NoTrainerWorkHours");
@@ -130,7 +132,7 @@ namespace FitMeApp.Controllers
             {
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 string trainerId = _userManager.GetUserId(User);
-                var trainerWorkHours = _fitMeService.GetWorkHoursByTrainer(trainerId);
+                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainerId);
                 var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
                 if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView

@@ -15,12 +15,14 @@ namespace FitMeApp.Controllers
     public class TrainersController : Controller
     {
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainersController(IFitMeService fitMeService, ILogger<TrainersController> logger)
+        public TrainersController(IFitMeService fitMeService, ITrainerService trainerService, ILogger<TrainersController> logger)
         {
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
         }
@@ -28,7 +30,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            var trainerModels = _fitMeService.GetAllTrainerModels().Where(x=>x.Status == TrainerApproveStatusEnum.approved);
+            var trainerModels = _trainerService.GetAllTrainerModels().Where(x=>x.Status == TrainerApproveStatusEnum.approved);
             List<TrainerViewModel> trainers = new List<TrainerViewModel>();
             foreach (var trainerModel in trainerModels)
             {
@@ -70,7 +72,7 @@ namespace FitMeApp.Controllers
                 selectedSpecializations = Enum.GetValues(typeof(TrainerSpecializationsEnum)).Cast<TrainerSpecializationsEnum>().ToList();
             }
             
-            var trainerModels = _fitMeService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
+            var trainerModels = _trainerService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
             List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
             foreach (var trainerModel in trainerModels)
             {
@@ -95,7 +97,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult SelectedTrainer(string trainerId)
         {
-            var trainerModel = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             TrainerViewModel trainer = _mapper.MapTrainerModelToViewModel(trainerModel);
             return View(trainer);
         }

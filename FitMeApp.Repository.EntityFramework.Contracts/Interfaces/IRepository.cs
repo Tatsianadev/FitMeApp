@@ -3,7 +3,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-
+using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 {
@@ -33,6 +33,11 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
+
+        //TrainerApplication
+        IEnumerable<TrainerApplicationWithNamesBase> GetAllTrainerApplications();
+        int AddTrainerApplication(TrainerApplicationEntityBase trainerApplication);
+
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
@@ -98,9 +103,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         ChatMessageEntityBase GetMessage(int messageId);
         bool AddContact(string userId, string interlocutorId);
 
-        //Users - Roles
-        //IEnumerable<User> GetUsersByRoles(IEnumerable<IdentityRole> roles);
-
+        
 
 
     }

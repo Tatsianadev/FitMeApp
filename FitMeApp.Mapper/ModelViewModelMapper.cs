@@ -255,6 +255,22 @@ namespace FitMeApp.Mapper
         }
 
 
+        public TrainerApplicationViewModel MapTrainerApplicationModelToViewModel(
+            TrainerApplicationModel trainerAppModel)
+        {
+            TrainerApplicationViewModel trainerAppViewModel = new TrainerApplicationViewModel()
+            {
+                Id = trainerAppModel.Id,
+                UserId = trainerAppModel.UserId,
+                UserFirstName = trainerAppModel.UserFirstName,
+                UserLastName = trainerAppModel.UserLastName,
+                TrainerSubscription = trainerAppModel.TrainerSubscription,
+                ContractNumber = trainerAppModel.ContractNumber,
+                ApplicationDate = trainerAppModel.ApplicationDate
+            };
+            return trainerAppViewModel;
+        }
+
 
 
         //Reverse: ViewModel -> Model

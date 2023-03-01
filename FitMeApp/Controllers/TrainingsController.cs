@@ -17,14 +17,16 @@ namespace FitMeApp.Controllers
     {
         private readonly ITrainingService _trainingService;
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainerService _trainerService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainingsController(ITrainingService trainingService, IFitMeService fitMeService,UserManager<User> userManager, ILogger<TrainersController> logger)
+        public TrainingsController(ITrainingService trainingService, IFitMeService fitMeService, ITrainerService trainerService, UserManager<User> userManager, ILogger<TrainersController> logger)
         {
             _trainingService = trainingService;
             _fitMeService = fitMeService;
+            _trainerService = trainerService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -46,7 +48,7 @@ namespace FitMeApp.Controllers
                 return RedirectToAction("Index", "Trainers");
             }
 
-            var trainer = _fitMeService.GetTrainerWithGymAndTrainings(trainerId);
+            var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             ApplyingForPersonalTrainingViewModel model = new ApplyingForPersonalTrainingViewModel()
             {
                TrainerId = trainer.Id,
