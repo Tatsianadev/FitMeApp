@@ -257,6 +257,7 @@ namespace FitMeApp.Repository.EntityFramework
             List<string> clientsId = _context.Events
                 .Where(x => x.TrainerId == trainerId)
                 .Select(x => x.UserId)
+                .Distinct()
                 .ToList();
 
             return clientsId;
