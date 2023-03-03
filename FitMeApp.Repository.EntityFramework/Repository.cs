@@ -263,6 +263,18 @@ namespace FitMeApp.Repository.EntityFramework
             return clientsId;
         }
 
+        public IEnumerable<string> GetActualClientsIdByTrainer(string trainerId)
+        {
+            List<string> clientsId = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x=>x.Date >= DateTime.Today)
+                .Select(x => x.UserId)
+                .Distinct()
+                .ToList();
+
+            return clientsId;
+        }
+
 
         public void DeleteTrainerWorkHoursByTrainer(string trainerId)
         {

@@ -701,12 +701,35 @@ namespace FitMeApp.Controllers
             List<User> allClientsByTrainer = new List<User>();
             foreach (var clientId in clientsId)
             {
-                var client = _userManager.Users.Where(x => x.Id == clientId).First();
+                var client = _userManager.Users.First(x => x.Id == clientId);
                 allClientsByTrainer.Add(client);
             }
 
             return View(allClientsByTrainer);
         }
+
+
+        [HttpPost]
+        [Authorize(Roles = "trainer")]
+        public IActionResult ClientsList(bool showOnlyActualClients)
+        {
+            if (showOnlyActualClients)
+            {
+                string trainerId = _userManager.GetUserId(User);
+                List<string> clientsId = _trainerService.GetActualClientsIdByTrainer(trainerId).ToList();
+                List<User> actualClientsByTrainer = new List<User>();
+                foreach (var clientId in clientsId)
+                {
+                    var client = _userManager.Users.First(x => x.Id == clientId);
+                    actualClientsByTrainer.Add(client);
+                }
+
+                return View(actualClientsByTrainer);
+            }
+
+            return RedirectToAction("ClientsList");
+        }
+
 
 
         [Authorize(Roles = "trainer")]

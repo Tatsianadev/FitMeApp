@@ -19,6 +19,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+        IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);
         void DeleteTrainer(string id);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);

@@ -31,6 +31,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
+        IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
 

@@ -214,6 +214,12 @@ namespace FitMeApp.Services
             return clientsId;
         }
 
+        public IEnumerable<string> GetActualClientsIdByTrainer(string trainerId)
+        {
+            List<string> clientsId = _repository.GetActualClientsIdByTrainer(trainerId).ToList();
+            return clientsId;
+        }
+
 
         public IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations)
         {
