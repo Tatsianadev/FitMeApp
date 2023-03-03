@@ -71,7 +71,7 @@ namespace FitMeApp.Controllers
             if (ModelState.IsValid)
             {
                 bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
-                int trainingId = _fitMeService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //do some Enum with trainings names
+                int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //do some Enum with trainings names
                 if (userHasAvailableSubscription)
                 {
                     int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -22,18 +23,20 @@ namespace FitMeApp.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IFitMeService _fitMeService;
         private readonly ITrainerService _trainerService;
+        private readonly ITrainingService _trainingService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
-        private readonly IConfiguration _configuration; 
+        private readonly IConfiguration _configuration;
 
         public ProfileController(
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService, 
+            IFitMeService fitMeService,
             ITrainerService trainerService,
-            ILogger<ProfileController> logger, 
+            ITrainingService trainingService,
+            ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
             IConfiguration configuration)
@@ -42,6 +45,7 @@ namespace FitMeApp.Controllers
             _roleManager = roleManager;
             _fitMeService = fitMeService;
             _trainerService = trainerService;
+            _trainingService = trainingService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
@@ -49,7 +53,7 @@ namespace FitMeApp.Controllers
             _configuration = configuration;
         }
 
-        
+
 
 
         //admin options
@@ -400,7 +404,7 @@ namespace FitMeApp.Controllers
                         ModelState.AddModelError(string.Empty, "User is not found");
                     }
                 }
-                return RedirectToAction("ChangePassword", new{id = model.Id});
+                return RedirectToAction("ChangePassword", new { id = model.Id });
             }
             catch (Exception ex)
             {
@@ -493,7 +497,7 @@ namespace FitMeApp.Controllers
                 TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList()
             };
 
-            ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+            ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
             ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != trainerModel.Gym.Id);
             return View(trainerJobData);
         }
@@ -528,8 +532,15 @@ namespace FitMeApp.Controllers
                         }
                     };
 
+                    int previousGymId = _fitMeService.GetGymIdByTrainer(changedModel.Id);
                     var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
                     _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
+
+                    if (previousGymId != changedModel.GymId)
+                    {
+                        _trainerService.DeleteTrainerWorkHoursByTrainer(changedModel.Id);
+                        return RedirectToAction("EditTrainerWorkHours");
+                    }
 
                     return RedirectToAction("TrainerPersonalAndJobData");
                 }
@@ -537,7 +548,7 @@ namespace FitMeApp.Controllers
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
 
-                    ViewBag.AllTrainings = _fitMeService.GetAllTrainingModels();
+                    ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
                     ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
                     return View(changedModel);
                 }
@@ -559,16 +570,11 @@ namespace FitMeApp.Controllers
         {
             string trainerId = _userManager.GetUserId(User);
             var workHoursModel = _trainerService.GetWorkHoursByTrainer(trainerId);
-
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
-            foreach (var item in workHoursModel)
-            {
-                workHoursViewModel.Add(_mapper.MapTrainerWorkHoursModelToViewModel(item));
-            }
 
-            foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+            if (workHoursModel.Count() == 0)
             {
-                if (!workHoursViewModel.Select(x => x.DayName).Contains((DayOfWeek)item))
+                foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
                 {
                     workHoursViewModel.Add(new TrainerWorkHoursViewModel()
                     {
@@ -578,6 +584,27 @@ namespace FitMeApp.Controllers
                     });
                 }
             }
+            else
+            {
+                foreach (var item in workHoursModel)
+                {
+                    workHoursViewModel.Add(_mapper.MapTrainerWorkHoursModelToViewModel(item));
+                }
+
+                foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    if (!workHoursViewModel.Select(x => x.DayName).Contains((DayOfWeek)item))
+                    {
+                        workHoursViewModel.Add(new TrainerWorkHoursViewModel()
+                        {
+                            DayName = (DayOfWeek)item,
+                            StartTime = "0.00",
+                            EndTime = "0.00"
+                        });
+                    }
+                }
+            }
+
             List<TrainerWorkHoursViewModel> orderedWorkHours = workHoursViewModel.OrderBy(x => ((int)x.DayName)).ToList();
 
             return View(orderedWorkHours);
@@ -612,7 +639,13 @@ namespace FitMeApp.Controllers
                         model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
-                var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList();
+                //var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList(); //error
+                var newWorkHoursModels = new List<TrainerWorkHoursModel>();
+
+                foreach (var viewModel in newWorkHours)
+                {
+                    newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
+                }
 
                 bool result = _trainerService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
                 if (result)

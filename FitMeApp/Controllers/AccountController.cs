@@ -18,21 +18,21 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IFitMeService _fitMeService;
         private readonly ITrainerService _trainerService;
+        private readonly ITrainingService _trainingService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
        
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService, ITrainerService trainerService, ILogger<AccountController> logger, IConfiguration configuration)
+        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, IFitMeService fitMeService, 
+            ITrainerService trainerService, ITrainingService trainingService, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _fitMeService = fitMeService;
             _trainerService = trainerService;
+            _trainingService = trainingService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
             _configuration = configuration;
@@ -113,7 +113,7 @@ namespace FitMeApp.Controllers
             ViewBag.Gyms = _fitMeService.GetAllGymModels();
             ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
             ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
-            ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
+            ViewBag.Trainings = _trainingService.GetAllTrainingModels();
             return View(model);
         }
 
@@ -180,7 +180,7 @@ namespace FitMeApp.Controllers
                 ViewBag.Gyms = _fitMeService.GetAllGymModels();
                 ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
                 ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
-                ViewBag.Trainings = _fitMeService.GetAllTrainingModels();
+                ViewBag.Trainings = _trainingService.GetAllTrainingModels();
 
                 return View(model);
             }

@@ -9,7 +9,7 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public class TrainingService: ITrainingService
+    public class TrainingService : ITrainingService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
@@ -22,6 +22,27 @@ namespace FitMeApp.Services
 
 
 
+        public ICollection<TrainingModel> GetAllTrainingModels()
+        {
+            var trainings = _repository.GetAllTrainings();
+            var trainingModels = new List<TrainingModel>();
+
+            foreach (var groupClass in trainings)
+            {
+                trainingModels.Add(_mapper.MapTrainingEntityBaseToModelBase(groupClass));
+            }
+            return trainingModels;
+        }
+
+
+        public TrainingModel GetTrainingModel(int trainingId)
+        {
+            var trainingEntity = _repository.GetTraining(trainingId);
+            TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
+            return trainingModel;
+        }
+
+        
         public IEnumerable<int> GetAvailableTimeForTraining(string trainerId, DateTime date)
         {
             List<int> availableTimeInMinutes = _repository.GetAvailableToApplyTrainingTimeByTrainer(trainerId, date).ToList();
@@ -29,13 +50,12 @@ namespace FitMeApp.Services
         }
 
 
-
         public bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId)
         {
             var actualSubscriptions = _repository.GetValidSubscriptionsByUserForSpecificGym(userId, gymId).ToList();
             foreach (var subscription in actualSubscriptions)
             {
-                if (subscription.StartDate <= trainingDate && 
+                if (subscription.StartDate <= trainingDate &&
                     subscription.EndDate >= trainingDate)
                 {
                     return true;
@@ -44,7 +64,6 @@ namespace FitMeApp.Services
 
             return false;
         }
-
         
 
         public bool AddEvent(EventModel newEvent)

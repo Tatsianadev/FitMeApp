@@ -15,15 +15,13 @@ namespace FitMeApp.Controllers
     public class ChatRoomController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IFitMeService _fitMeService;
         private readonly IChatService _chatService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ChatRoomController(UserManager<User> userManager, IFitMeService fitMeService, IChatService chatService, ILogger<ChatRoomController> logger)
+        public ChatRoomController(UserManager<User> userManager, IChatService chatService, ILogger<ChatRoomController> logger)
         {
             _userManager = userManager;
-            _fitMeService = fitMeService;
             _chatService = chatService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();

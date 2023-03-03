@@ -14,14 +14,12 @@ namespace FitMeApp.Controllers
 {
     public class TrainersController : Controller
     {
-        private readonly IFitMeService _fitMeService;
         private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainersController(IFitMeService fitMeService, ITrainerService trainerService, ILogger<TrainersController> logger)
+        public TrainersController(ITrainerService trainerService, ILogger<TrainersController> logger)
         {
-            _fitMeService = fitMeService;
             _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
             _logger = logger;

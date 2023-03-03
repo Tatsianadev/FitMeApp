@@ -18,8 +18,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int GetGymIdByTrainer(string trainerId);    
 
         //Trainings
-        ICollection<TrainingModel> GetAllTrainingModels();
-        TrainingModel GetTrainingModel(int trainingId);
+       
 
         //Subscriptions
         IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
@@ -30,11 +29,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
-        //int GetActualSubscriptionsCountByTrainer(string trainerId);
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 
-        //Trainers
+        
        
         
 

@@ -16,13 +16,15 @@ namespace FitMeApp.Controllers
     public class GymsController : Controller
     {
         private readonly IFitMeService _fitMeService;
+        private readonly ITrainingService _trainingService;
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private ILogger _logger;
 
-        public GymsController(IFitMeService fitMeService, UserManager<User> userManager, ILogger<GymsController> logger)
+        public GymsController(IFitMeService fitMeService, ITrainingService trainingService, UserManager<User> userManager, ILogger<GymsController> logger)
         {
             _fitMeService = fitMeService;
+            _trainingService = trainingService;
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
@@ -40,7 +42,7 @@ namespace FitMeApp.Controllers
                 gyms.Add(_mapper.MapGymModelToViewModelBase(gym));
             }
 
-            var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
+            var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
             List<TrainingViewModel> trainings = new List<TrainingViewModel>();
             foreach (var training in trainingModels)
             {
@@ -70,7 +72,7 @@ namespace FitMeApp.Controllers
                         selectedGyms.Add(_mapper.MapGymModelToViewModelBase(selectedGymModel));
                     }
 
-                    var trainingModels = _fitMeService.GetAllTrainingModels(); //info for filter by trainings
+                    var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
                     List<TrainingViewModel> trainings = new List<TrainingViewModel>();
                     foreach (var training in trainingModels)
                     {

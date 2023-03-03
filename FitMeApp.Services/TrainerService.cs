@@ -102,7 +102,8 @@ namespace FitMeApp.Services
             _repository.UpdateTrainer(trainer);
         }
 
-        public bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
+
+        private bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             List<DayOfWeek> gymWorkDayes = _repository.GetWorkHoursByGym(gymId).Select(x => x.DayOfWeekNumber).ToList();
             List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
@@ -126,9 +127,10 @@ namespace FitMeApp.Services
         }
 
 
-        public bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours)
+        private bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours)
         {
-            string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
+            //string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
+            string trainerId = newWorkHours.First().TrainerId;
             var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
             if (actualEvents.Count() == 0)
             {

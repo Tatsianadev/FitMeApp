@@ -18,16 +18,14 @@ namespace FitMeApp.Controllers
     public class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
-        private readonly IFitMeService _fitMeService;
         private readonly ITrainerService _trainerService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, IFitMeService fitMeService, ITrainerService trainerService, UserManager<User> userManager, ILogger<ScheduleController> logger)
+        public ScheduleController(IScheduleService scheduleService, ITrainerService trainerService, UserManager<User> userManager, ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
-            _fitMeService = fitMeService;
             _trainerService = trainerService;
             _userManager = userManager;
             _logger = logger;

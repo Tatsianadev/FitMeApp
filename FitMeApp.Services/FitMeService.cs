@@ -115,32 +115,7 @@ namespace FitMeApp.Services
 
         //Training
 
-        public ICollection<TrainingModel> GetAllTrainingModels()
-        {
-            try
-            {
-                var trainings = _repository.GetAllTrainings();
-                var trainingModels = new List<TrainingModel>();
-
-                foreach (var groupClass in trainings)
-                {                    
-                    trainingModels.Add(_mapper.MapTrainingEntityBaseToModelBase(groupClass));
-                }
-                return trainingModels;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
-            }
-        }
-
-        public TrainingModel GetTrainingModel(int trainingId)
-        {
-            var trainingEntity = _repository.GetTraining(trainingId);
-            TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
-            return trainingModel;
-        }
+        
 
         
 
