@@ -12,12 +12,12 @@ using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 
 namespace FitMeApp.Services
 {
-    public class FitMeService: IFitMeService
+    public class GymService: IGymService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
         private readonly ILogger _logger;
-        public FitMeService(IRepository repository, ILogger<FitMeService> logger)
+        public GymService(IRepository repository, ILogger<GymService> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -111,12 +111,6 @@ namespace FitMeApp.Services
             return gymId;
         }
 
-
-
-        //Training
-
-        
-
         
 
         //Subscriptions
@@ -195,6 +189,8 @@ namespace FitMeApp.Services
             return subscriptionModel;
         }
 
+
+
         //UserSubscriptions
         public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {
@@ -252,31 +248,6 @@ namespace FitMeApp.Services
             }
 
             return subscriptions;
-        }
-
-
-
-        //Trainers
-        
-
-
-        //Events
-        public int GetActualEventsCountByTrainer(string trainerId)
-        {
-            int actualEventsCount = _repository.GetActualEventsCountByTrainer(trainerId);
-            return actualEventsCount;
-        }
-
-        //TrainingTrainer
-        public void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
-        {
-            _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
-        }
-
-        public bool AddTrainingTrainerConnection(string trainerId, int trainingId)
-        {
-            bool result = _repository.AddTrainingTrainerConnection(trainerId, trainingId);
-            return result;
         }
 
     }

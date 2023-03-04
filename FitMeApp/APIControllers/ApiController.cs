@@ -14,11 +14,11 @@ namespace FitMeApp.APIControllers
     public class ApiController : Controller
     {
         private readonly ITrainingService _trainingService;
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _fitMeService;
         private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
 
-        public ApiController(ITrainingService trainingService, IFitMeService fitMeService, ITrainerService trainerService)
+        public ApiController(ITrainingService trainingService, IGymService fitMeService, ITrainerService trainerService)
         {
             _trainingService = trainingService;
             _fitMeService = fitMeService;

@@ -12,9 +12,9 @@ namespace FitMeApp.ViewComponents
     public class TrainerProfileViewComponent: ViewComponent
     {
         private readonly UserManager<User> _userManager;
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _fitMeService;
 
-        public TrainerProfileViewComponent(UserManager<User> userManager, IFitMeService fitMeService)
+        public TrainerProfileViewComponent(UserManager<User> userManager, IGymService fitMeService)
         {
             _userManager = userManager;
             _fitMeService = fitMeService;

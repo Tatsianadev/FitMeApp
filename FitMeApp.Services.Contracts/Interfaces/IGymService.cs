@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FitMeApp.Services.Contracts.Interfaces
 {
-    public interface IFitMeService
+    public interface IGymService
     {
         //Gyms
         IEnumerable<GymModel> GetAllGymModels();
@@ -17,9 +17,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
         int GetGymIdByTrainer(string trainerId);    
 
-        //Trainings
-       
-
+        
         //Subscriptions
         IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
         IEnumerable<SubscriptionModel> GetAllSubscriptionsForVisitorsByGym(int gymId);
@@ -27,23 +25,12 @@ namespace FitMeApp.Services.Contracts.Interfaces
         List<int> GetAllSubscriptionPeriods();
         SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
 
+
         //UserSubscriptions
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 
         
-       
-        
-
-        //Events
-        int GetActualEventsCountByTrainer(string trainerId);
-
-
-        //TrainingTrainer ???
-        void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
-        bool AddTrainingTrainerConnection(string trainerId, int trainingId);
-
-
     }
 }

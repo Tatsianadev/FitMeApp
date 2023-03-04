@@ -11,15 +11,7 @@ namespace FitMeApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IFitMeService _fitMeService;
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(IFitMeService fitMeService, ILogger<HomeController> logger)
-        {
-            _fitMeService = fitMeService;
-            _logger = logger;
-        }
-
+        
         public IActionResult Index()
         {
             return View();

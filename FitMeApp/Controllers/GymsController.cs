@@ -15,15 +15,15 @@ namespace FitMeApp.Controllers
 {
     public class GymsController : Controller
     {
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _gymService;
         private readonly ITrainingService _trainingService;
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private ILogger _logger;
 
-        public GymsController(IFitMeService fitMeService, ITrainingService trainingService, UserManager<User> userManager, ILogger<GymsController> logger)
+        public GymsController(IGymService gymService, ITrainingService trainingService, UserManager<User> userManager, ILogger<GymsController> logger)
         {
-            _fitMeService = fitMeService;
+            _gymService = gymService;
             _trainingService = trainingService;
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
@@ -35,7 +35,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            var gymModels = _fitMeService.GetAllGymsWithGalleryModels();
+            var gymModels = _gymService.GetAllGymsWithGalleryModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)
             {
@@ -65,7 +65,7 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    var selectedGymModels = _fitMeService.GetGymsByTrainings(SelectedTrainingsId);
+                    var selectedGymModels = _gymService.GetGymsByTrainings(SelectedTrainingsId);
                     List<GymViewModel> selectedGyms = new List<GymViewModel>();
                     foreach (var selectedGymModel in selectedGymModels)
                     {
@@ -97,7 +97,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult CurrentGymInfo(int gymId)
         {
-            var gymModel = _fitMeService.GetGymModel(gymId);
+            var gymModel = _gymService.GetGymModel(gymId);
             GymViewModel gym = _mapper.MapGymModelToViewModel(gymModel);
             List<TrainingViewModel> trainings = new List<TrainingViewModel>();
             foreach (var trainer in gym.Trainers)
@@ -112,14 +112,14 @@ namespace FitMeApp.Controllers
             }
 
             ViewBag.Trainings = trainings;
-            ViewBag.WorkHours = _fitMeService.GetWorkHoursByGym(gymId);
+            ViewBag.WorkHours = _gymService.GetWorkHoursByGym(gymId);
             return View(gym);
         }
 
 
         public IActionResult Subscriptions(int gymId)
         {
-            var gymModel = _fitMeService.GetGymModel(gymId);
+            var gymModel = _gymService.GetGymModel(gymId);
             GymViewModel gymViewModel = _mapper.MapGymModelToViewModel(gymModel);
             return View(gymViewModel);
         }
@@ -128,7 +128,7 @@ namespace FitMeApp.Controllers
         public ActionResult SubscriptionsForVisitors(int gymId)
         {
             List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-            var subscriptionModels = _fitMeService.GetAllSubscriptionsForVisitorsByGym(gymId);
+            var subscriptionModels = _gymService.GetAllSubscriptionsForVisitorsByGym(gymId);
 
             foreach (var subscriptionModel in subscriptionModels)
             {
@@ -141,7 +141,7 @@ namespace FitMeApp.Controllers
                                            + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
             }
 
-            ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+            ViewBag.SubscriptionValidPeriods = _gymService.GetAllSubscriptionPeriods();
             return View(subscriptions);
         }
 
@@ -161,10 +161,10 @@ namespace FitMeApp.Controllers
                 {
                     if (selectedPeriods.Count == 0)
                     {
-                        selectedPeriods = _fitMeService.GetAllSubscriptionPeriods();
+                        selectedPeriods = _gymService.GetAllSubscriptionPeriods();
                     }
                     List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
-                    var subscriptionModels = _fitMeService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
+                    var subscriptionModels = _gymService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
                     foreach (var subscriptionModel in subscriptionModels)
                     {
                         subscriptions.Add(_mapper.MapSubscriptionModelToViewModel(subscriptionModel));
@@ -176,7 +176,7 @@ namespace FitMeApp.Controllers
                             + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
                     }
 
-                    ViewBag.SubscriptionValidPeriods = _fitMeService.GetAllSubscriptionPeriods();
+                    ViewBag.SubscriptionValidPeriods = _gymService.GetAllSubscriptionPeriods();
                     return View(subscriptions);
                 }
             }
@@ -196,7 +196,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var subscriptionModels = _fitMeService.GetAllSubscriptionsForTrainersByGym(gymId);
+                var subscriptionModels = _gymService.GetAllSubscriptionsForTrainersByGym(gymId);
                 List<SubscriptionViewModel> subscriptionViewModels = new List<SubscriptionViewModel>();
                 foreach (var subscriptionModel in subscriptionModels)
                 {
@@ -224,7 +224,7 @@ namespace FitMeApp.Controllers
 
         public ActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
-            var subscriptionModel = _fitMeService.GetSubscriptionByGym(subscriptionId, gymId);
+            var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
 
             if (subscription.WorkAsTrainer)
@@ -251,7 +251,7 @@ namespace FitMeApp.Controllers
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool subscriptionIsAdded = _fitMeService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
                     if (subscriptionIsAdded)
                     {
                         return View("SubscriptionCompleted");

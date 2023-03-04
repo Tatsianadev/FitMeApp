@@ -18,19 +18,19 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
        
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, IFitMeService fitMeService, 
+        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, IGymService gymService, 
             ITrainerService trainerService, ITrainingService trainingService, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _fitMeService = fitMeService;
+            _gymService = gymService;
             _trainerService = trainerService;
             _trainingService = trainingService;
             _mapper = new ModelViewModelMapper();
@@ -110,7 +110,7 @@ namespace FitMeApp.Controllers
                 Avatar = user.AvatarPath
             };
 
-            ViewBag.Gyms = _fitMeService.GetAllGymModels();
+            ViewBag.Gyms = _gymService.GetAllGymModels();
             ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
             ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
             ViewBag.Trainings = _trainingService.GetAllTrainingModels();
@@ -166,7 +166,7 @@ namespace FitMeApp.Controllers
                     {
                         foreach (var trainingId in model.TrainingsId)
                         {
-                            _fitMeService.AddTrainingTrainerConnection(user.Id, trainingId);                           
+                            _trainerService.AddTrainingTrainerConnection(user.Id, trainingId);                           
                         }
                        
                         return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
@@ -177,7 +177,7 @@ namespace FitMeApp.Controllers
                     }
                 }
 
-                ViewBag.Gyms = _fitMeService.GetAllGymModels();
+                ViewBag.Gyms = _gymService.GetAllGymModels();
                 ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
                 ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
                 ViewBag.Trainings = _trainingService.GetAllTrainingModels();

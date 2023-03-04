@@ -16,16 +16,16 @@ namespace FitMeApp.Controllers
     public class TrainingsController : Controller
     {
         private readonly ITrainingService _trainingService;
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainingsController(ITrainingService trainingService, IFitMeService fitMeService, ITrainerService trainerService, UserManager<User> userManager, ILogger<TrainersController> logger)
+        public TrainingsController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, UserManager<User> userManager, ILogger<TrainersController> logger)
         {
             _trainingService = trainingService;
-            _fitMeService = fitMeService;
+            _gymService = gymService;
             _trainerService = trainerService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();

@@ -21,9 +21,10 @@ namespace FitMeApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IFitMeService _fitMeService;
+        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
+        private readonly IScheduleService _scheduleService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
@@ -33,9 +34,10 @@ namespace FitMeApp.Controllers
         public ProfileController(
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IFitMeService fitMeService,
+            IGymService gymService,
             ITrainerService trainerService,
             ITrainingService trainingService,
+            IScheduleService scheduleService,
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
@@ -43,9 +45,10 @@ namespace FitMeApp.Controllers
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _fitMeService = fitMeService;
+            _gymService = gymService;
             _trainerService = trainerService;
             _trainingService = trainingService;
+            _scheduleService = scheduleService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
@@ -186,7 +189,7 @@ namespace FitMeApp.Controllers
                     var userRoles = await _userManager.GetRolesAsync(user);
                     if (userRoles.Contains(Common.RolesEnum.trainer.ToString()))
                     {
-                        int actualEventsCount = _fitMeService.GetActualEventsCountByTrainer(user.Id);
+                        int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(user.Id);
                         if (actualEventsCount > 0)
                         {
                             //передать сообщение о невозможности удаления
@@ -477,7 +480,7 @@ namespace FitMeApp.Controllers
             trainerViewModel.Phone = trainer.PhoneNumber;
             trainerViewModel.Year = trainer.Year;
 
-            ViewBag.ActualEventsCount = _fitMeService.GetActualEventsCountByTrainer(trainer.Id);
+            ViewBag.ActualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainer.Id);
             return View(trainerViewModel);
 
         }
@@ -498,7 +501,7 @@ namespace FitMeApp.Controllers
             };
 
             ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
-            ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != trainerModel.Gym.Id);
+            ViewBag.AllGyms = _gymService.GetAllGymModels().Where(x => x.Id != trainerModel.Gym.Id);
             return View(trainerJobData);
         }
 
@@ -532,7 +535,7 @@ namespace FitMeApp.Controllers
                         }
                     };
 
-                    int previousGymId = _fitMeService.GetGymIdByTrainer(changedModel.Id);
+                    int previousGymId = _gymService.GetGymIdByTrainer(changedModel.Id);
                     var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
                     _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
 
@@ -549,7 +552,7 @@ namespace FitMeApp.Controllers
                     ModelState.AddModelError("", "the form is filled out incorrectly");
 
                     ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
-                    ViewBag.AllGyms = _fitMeService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
+                    ViewBag.AllGyms = _gymService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
                     return View(changedModel);
                 }
             }
@@ -635,8 +638,8 @@ namespace FitMeApp.Controllers
                     model.TrainerId = trainerId;
                     if (model.GymWorkHoursId == 0)
                     {
-                        int gymId = _fitMeService.GetGymIdByTrainer(trainerId);
-                        model.GymWorkHoursId = _fitMeService.GetGymWorkHoursId(gymId, model.DayName);
+                        int gymId = _gymService.GetGymIdByTrainer(trainerId);
+                        model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
                 //var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList(); //error
@@ -737,7 +740,7 @@ namespace FitMeApp.Controllers
         {
             if (clientId != null)
             {
-                var clientSubscriptionsModels = _fitMeService.GetUserSubscriptions(clientId);
+                var clientSubscriptionsModels = _gymService.GetUserSubscriptions(clientId);
                 List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
@@ -754,7 +757,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> UserSubscriptions()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userSubscriptionModels = _fitMeService.GetUserSubscriptions(user.Id);
+            var userSubscriptionModels = _gymService.GetUserSubscriptions(user.Id);
 
             List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
             foreach (var subscription in userSubscriptionModels)
@@ -763,7 +766,7 @@ namespace FitMeApp.Controllers
             }
 
             userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
-            ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
+            ViewBag.Gyms = _gymService.GetAllGymModels().ToList();
             return View(userSubscriptionViewModels);
         }
 
@@ -784,12 +787,12 @@ namespace FitMeApp.Controllers
 
             if (gymIds.Count == 0)
             {
-                gymIds = _fitMeService.GetAllGymModels().Select(x => x.Id).ToList();
+                gymIds = _gymService.GetAllGymModels().Select(x => x.Id).ToList();
             }
 
             var user = await _userManager.GetUserAsync(User);
             List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
-            var subscriptionModels = _fitMeService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
+            var subscriptionModels = _gymService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
 
             foreach (var sudscriptionModel in subscriptionModels)
             {
@@ -797,7 +800,7 @@ namespace FitMeApp.Controllers
             }
 
             userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
-            ViewBag.Gyms = _fitMeService.GetAllGymModels().ToList();
+            ViewBag.Gyms = _gymService.GetAllGymModels().ToList();
             return View(userSubscriptionViewModels);
         }
 

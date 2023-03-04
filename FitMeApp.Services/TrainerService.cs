@@ -264,5 +264,18 @@ namespace FitMeApp.Services
             bool result = _repository.AddTrainer(trainerEntityBase);
             return result;
         }
+
+
+        //TrainingTrainer
+        public void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
+        {
+            _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
+        }
+
+        public bool AddTrainingTrainerConnection(string trainerId, int trainingId)
+        {
+            bool result = _repository.AddTrainingTrainerConnection(trainerId, trainingId);
+            return result;
+        }
     }
 }

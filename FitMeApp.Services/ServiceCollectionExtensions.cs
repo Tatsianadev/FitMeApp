@@ -33,7 +33,7 @@ namespace FitMeApp.Services
         public static void RegisterDependencies(this IServiceCollection services)
         {
             services.AddScoped<IRepository, Repository.EntityFramework.Repository>();
-            services.AddScoped<IFitMeService, FitMeService>();
+            services.AddScoped<IGymService, GymService>();
             services.AddScoped<ITrainerService, TrainerService>();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IChatService, ChatService>();
