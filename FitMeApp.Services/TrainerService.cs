@@ -277,5 +277,15 @@ namespace FitMeApp.Services
             bool result = _repository.AddTrainingTrainerConnection(trainerId, trainingId);
             return result;
         }
+
+        //TrainerApplication
+
+        public int AddTrainerApplication(TrainerApplicationModel trainerApplication)
+        {
+            TrainerApplicationEntityBase trainerAppEntityBase =
+                _mapper.MapTrainerApplicationModelToEntityBase(trainerApplication);
+            int appId = _repository.AddTrainerApplication(trainerAppEntityBase);
+            return appId;
+        }
     }
 }

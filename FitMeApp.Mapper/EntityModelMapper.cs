@@ -393,5 +393,18 @@ namespace FitMeApp.Mapper
 
             return eventEntityBase;
         }
+
+
+        public TrainerApplicationEntityBase MapTrainerApplicationModelToEntityBase(TrainerApplicationModel trainerAppModel)
+        {
+            TrainerApplicationEntityBase trainerApplicationEntityBase = new TrainerApplicationEntityBase()
+            {
+                UserId = trainerAppModel.UserId,
+                TrainerSubscription = trainerAppModel.TrainerSubscription,
+                ContractNumber = trainerAppModel.ContractNumber,
+                ApplicationDate = trainerAppModel.ApplicationDate
+            };
+            return trainerApplicationEntityBase;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public bool TrainerSubscription { get; set; }
+        public bool Contract { get; set; }
         public string ContractNumber { get; set; }
         public DateTime ApplicationDate { get; set; }
     }

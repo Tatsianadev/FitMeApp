@@ -10,6 +10,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Mapper;
 using System.Collections.Generic;
 using System.Configuration;
+using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace FitMeApp.Controllers
@@ -101,88 +102,114 @@ namespace FitMeApp.Controllers
         public async  Task<IActionResult> RegisterTrainerPart()
         {
             var user = await _userManager.GetUserAsync(User);
-            TrainerRoleAppViewModel model = new TrainerRoleAppViewModel()
-            {
-                Id = user.Id,
-                PhoneNumber = user.PhoneNumber,
-                Year = user.Year,
-                Gender = user.Gender,
-                Avatar = user.AvatarPath
-            };
-
-            ViewBag.Gyms = _gymService.GetAllGymModels();
-            ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
-            ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
-            ViewBag.Trainings = _trainingService.GetAllTrainingModels();
-            return View(model);
+            TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel();
+            return View(applicationForm);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTrainerPart(TrainerRoleAppViewModel model)
+        public async Task<IActionResult> RegisterTrainerPart(TrainerApplicationViewModel model)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (model.TrainerSubscription == false && model.Contract == false)
                 {
-                    var user = await _userManager.GetUserAsync(User);
-                    user.PhoneNumber = model.PhoneNumber;
-                    user.Gender = model.Gender;
-                    user.Year = model.Year;
-
-                    if(string.IsNullOrEmpty(model.Avatar))
-                    {
-                        user.AvatarPath = "defaultAvatar.jpg";
-                    }
-                    else
-                    {
-                        user.AvatarPath = model.Avatar;
-                    }
-
-                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                    foreach (var trainingId in model.TrainingsId)
-                    {
-                        trainings.Add(new TrainingViewModel()
-                        {
-                            Id = trainingId
-                        });
-                    }
-
-                    TrainerViewModel trainerViewModel = new TrainerViewModel()
-                    {
-                        Id = user.Id,                        
-                        Specialization = model.Specialization,                       
-                        Trainings = trainings,
-                        Status = TrainerApproveStatusEnum.pending,
-                        Gym = new GymViewModel()
-                        {
-                            Id = model.GymId
-                        }
-                    };
-
-                    var trainerModel = _mapper.MapTrainerViewModelToModelBase(trainerViewModel);
-                    var result = _trainerService.AddTrainer(trainerModel);
-                    if (result)
-                    {
-                        foreach (var trainingId in model.TrainingsId)
-                        {
-                            _trainerService.AddTrainingTrainerConnection(user.Id, trainingId);                           
-                        }
-                       
-                        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Failed to add trainers data. Please check all fields and try one again");
-                    }
+                    ModelState.AddModelError("", "No option selected.");
+                    return View(model);
                 }
 
-                ViewBag.Gyms = _gymService.GetAllGymModels();
-                ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
-                ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
-                ViewBag.Trainings = _trainingService.GetAllTrainingModels();
+                if (model.Contract == true && model.ContractNumber is null)
+                {
+                    ModelState.AddModelError("", "Write the contract number over");
+                    return View(model);
+                }
 
-                return View(model);
+                var user =await _userManager.GetUserAsync(User);
+                TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
+                {
+                    UserId = user.Id,
+                    TrainerSubscription = model.TrainerSubscription,
+                    ContractNumber = model.ContractNumber,
+                    ApplicationDate = DateTime.Now
+                };
+
+                int appId = _trainerService.AddTrainerApplication(trainerApplication);
+
+                if (appId != 0)
+                {
+                    return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true });
+                }
+                else
+                {
+                    CustomErrorViewModel error = new CustomErrorViewModel()
+                    {
+                        Message = "There was a problem with registration trainers data." +
+                                  "Please try fill form again on Profile page."
+                    };
+                    return View("CustomError", error);
+                }
+
+
+                //if (ModelState.IsValid)
+                //{
+                //    var user = await _userManager.GetUserAsync(User);
+                //    user.PhoneNumber = model.PhoneNumber;
+                //    user.Gender = model.Gender;
+                //    user.Year = model.Year;
+
+                //    if(string.IsNullOrEmpty(model.Avatar))
+                //    {
+                //        user.AvatarPath = "defaultAvatar.jpg";
+                //    }
+                //    else
+                //    {
+                //        user.AvatarPath = model.Avatar;
+                //    }
+
+                //    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                //    foreach (var trainingId in model.TrainingsId)
+                //    {
+                //        trainings.Add(new TrainingViewModel()
+                //        {
+                //            Id = trainingId
+                //        });
+                //    }
+
+                //    TrainerViewModel trainerViewModel = new TrainerViewModel()
+                //    {
+                //        Id = user.Id,                        
+                //        Specialization = model.Specialization,                       
+                //        Trainings = trainings,
+                //        Status = TrainerApproveStatusEnum.pending,
+                //        Gym = new GymViewModel()
+                //        {
+                //            Id = model.GymId
+                //        }
+                //    };
+
+                //    var trainerModel = _mapper.MapTrainerViewModelToModelBase(trainerViewModel);
+                //    var result = _trainerService.AddTrainer(trainerModel);
+                //    if (result)
+                //    {
+                //        foreach (var trainingId in model.TrainingsId)
+                //        {
+                //            _trainerService.AddTrainingTrainerConnection(user.Id, trainingId);                           
+                //        }
+                       
+                //        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
+                //    }
+                //    else
+                //    {
+                //        ModelState.AddModelError("", "Failed to add trainers data. Please check all fields and try one again");
+                //    }
+                //}
+
+                //ViewBag.Gyms = _gymService.GetAllGymModels();
+                //ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
+                //ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
+                //ViewBag.Trainings = _trainingService.GetAllTrainingModels();
+
+                
             }
             catch (Exception ex)
             {

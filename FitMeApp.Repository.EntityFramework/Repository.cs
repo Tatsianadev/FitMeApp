@@ -356,6 +356,7 @@ namespace FitMeApp.Repository.EntityFramework
             return trainerApplications;
         }
 
+
         public int AddTrainerApplication(TrainerApplicationEntityBase trainerApplication)
         {
             TrainerApplicationEntity trainerAppEntity = new TrainerApplicationEntity()
@@ -368,7 +369,7 @@ namespace FitMeApp.Repository.EntityFramework
             _context.TrainerApplications.Add(trainerAppEntity);
             _context.SaveChanges();
 
-            return trainerApplication.Id;
+            return trainerAppEntity.Id;
         }
 
 

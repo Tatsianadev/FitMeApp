@@ -1780,3 +1780,29 @@ Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+User validation failed: DuplicateUserName;DuplicateEmail.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Invalid password for user.
+User ecafe9fd-b05e-4112-90da-4e7f9baeec72 failed to provide the correct password.
+Invalid password for user.
+User ecafe9fd-b05e-4112-90da-4e7f9baeec72 failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp

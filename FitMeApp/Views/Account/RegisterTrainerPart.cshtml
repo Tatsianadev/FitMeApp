@@ -1,63 +1,34 @@
-﻿@model FitMeApp.Models.TrainerRoleAppViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.TrainerApplicationViewModel
 
-<h2>Trainer part registration</h2>
-<form method="post" asp-controller="Account" asp-action="RegisterTrainerPart">
-    <div asp-validation-summary=" All" class="text-danger"></div>
-    
-    <div>
-        <label asp-for="PhoneNumber" class="control-label">Phone number</label>
-        <input type="text" asp-for="PhoneNumber" value="@Model.PhoneNumber" placeholder="(111)111111" />
+    <div style="text-align: center">
+        <h2>Trainer part registration</h2>
     </div>
-    <div class="form-group">
-        <label asp-for="Year" class="control-label">Year of birth</label>
-        <select id="year" asp-for="Year" class="form-select">
-            @for (int yearOfBirth = (DateTime.Now.Year - 100); yearOfBirth < DateTime.Now.Year; yearOfBirth++)
-            {
-                <option value="@yearOfBirth">@yearOfBirth</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label asp-for="Gender">Gender</label>
-        <select class="form-select" asp-for="Gender">
-            @foreach (var gender in ViewBag.Gender)
-            {
-                <option value="@gender">@gender</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label asp-for="GymId">Gym</label><br />
-        <select class="form-select" asp-for="GymId">
-            @foreach (var gym in ViewBag.Gyms)
-            {
-                <option value="@gym.Id">@gym.Name</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label asp-for="Specialization">Specialization</label><br />
-        <select class="form-select" asp-for="Specialization">
-            @foreach (var specialization in ViewBag.Specializations)
-            {
-                <option value="@specialization">@specialization</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label asp-for="TrainingsId">Trainings types</label><br />
-        @foreach (var training in ViewBag.Trainings)
-        {
-            <div class="form-check">
-                <input class="form-check-input" name="TrainingsId" type="checkbox" value="@training.Id" id="@training.Id" multiple>
-                <label class="form-check-label" for="@training.Id">
-                    @training.Name
-                </label>
-            </div>
-        }
-    </div>
+    <h4>Please, indicate the case for working as a trainer</h4>
+    <hr />
+    <form method="post" asp-controller="Account" asp-action="RegisterTrainerPart">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="TrainerSubscription" value="true" id="subscription">
+            <label class="form-check-label" for="subscription">
+                Trainer subscription
+            </label>
+        </div>
+        <br/>
+        <div class="form-check" style="display: inline-block">
+            <input class="form-check-input" type="checkbox" asp-for="Contract" value="true" id="contract">
+            <label class="form-check-label" for="contract">
+                Contract
+            </label>
+        </div>
+        <div class="mb-3" style="display: inline-block">
+            <input type="text" class="form-control" asp-for="ContractNumber" id="formGroupExampleInput" placeholder="Contract number">
+        </div>
 
-    <div>
-        <input type="submit" value="Apply for a Trainer Role" />
-    </div>
-</form>
+        <div>
+            <input type="submit" value="Apply for a Trainer Role" class="btn btn-dark" />
+        </div>
+    </form>
+
+
+
+
