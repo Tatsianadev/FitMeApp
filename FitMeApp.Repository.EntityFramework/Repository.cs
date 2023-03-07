@@ -372,6 +372,12 @@ namespace FitMeApp.Repository.EntityFramework
             return trainerAppEntity.Id;
         }
 
+        public int GetTrainerApplicationsCount()
+        {
+            int trainerAppCount = _context.TrainerApplications.Count();
+            return trainerAppCount;
+        }
+
 
         //Edit Trainer WorkHours methods
         public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)

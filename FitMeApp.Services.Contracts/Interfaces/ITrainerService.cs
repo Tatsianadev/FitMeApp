@@ -29,5 +29,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //TrainerApplication
         int AddTrainerApplication(TrainerApplicationModel trainerApplication);
+        int GetTrainerApplicationsCount();
+        IEnumerable<TrainerApplicationModel> GetAllTrainerApplications();
     }
 }

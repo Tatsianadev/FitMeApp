@@ -287,5 +287,24 @@ namespace FitMeApp.Services
             int appId = _repository.AddTrainerApplication(trainerAppEntityBase);
             return appId;
         }
+
+        public int GetTrainerApplicationsCount()
+        {
+            int trainerApplicationsCount = _repository.GetTrainerApplicationsCount();
+            return trainerApplicationsCount;
+        }
+
+        public IEnumerable<TrainerApplicationModel> GetAllTrainerApplications()
+        {
+            List<TrainerApplicationModel> trainerAppModels = new List<TrainerApplicationModel>();
+
+            var allTrainerApps = _repository.GetAllTrainerApplications();
+            foreach (var trainerApp in allTrainerApps)
+            {
+                trainerAppModels.Add(_mapper.MapTrainerApplicationWithNamesBaseToModel(trainerApp));
+            }
+
+            return trainerAppModels;
+        }
     }
 }

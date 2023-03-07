@@ -95,26 +95,15 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult TrainerApplicationsList()
         {
-            var trainersModels = _trainerService.GetAllTrainersByStatus(TrainerApproveStatusEnum.pending);
-            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-            foreach (var trainerModel in trainersModels)
+            var trainerAppViewModels = new List<TrainerApplicationViewModel>();
+            var allTrainerAppModels = _trainerService.GetAllTrainerApplications();
+            foreach (var trainerAppModel in allTrainerAppModels)
             {
-                trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
+                trainerAppViewModels.Add(_mapper.MapTrainerApplicationModelToViewModel(trainerAppModel));
             }
-            return View(trainerViewModels);
+            return View(trainerAppViewModels);
         }
 
-        public async Task<IActionResult> ShowTrainerApplication(string trainerId)
-        {
-            //todo: rework phone validation
-            var user = await _userManager.FindByIdAsync(trainerId);
-            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
-            TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
-            trainerViewModel.Email = user.Email;
-            trainerViewModel.Phone = user.PhoneNumber;
-            trainerViewModel.Year = user.Year;
-            return View(trainerViewModel);
-        }
 
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> ApproveTrainerApplication(string trainerId)

@@ -23,10 +23,13 @@ namespace FitMeApp.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var trainersInPending = _trainerService.GetAllTrainerModels()
-                                                  .Where(x => x.Status == Common.TrainerApproveStatusEnum.pending)
-                                                  .ToList();
-            ViewBag.TrainersInPendingCount = trainersInPending.Count;
+            int trainerApplicationsCount = _trainerService.GetTrainerApplicationsCount();
+            ViewBag.TrainerAppCount = trainerApplicationsCount;
+
+            //var trainersInPending = _trainerService.GetAllTrainerModels()
+            //                                      .Where(x => x.Status == Common.TrainerApproveStatusEnum.pending)
+            //                                      .ToList();
+            //ViewBag.TrainersInPendingCount = trainersInPending.Count;
                                                   
             return View("AdminProfile");
         }

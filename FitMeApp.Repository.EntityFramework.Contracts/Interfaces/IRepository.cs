@@ -38,6 +38,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //TrainerApplication
         IEnumerable<TrainerApplicationWithNamesBase> GetAllTrainerApplications();
         int AddTrainerApplication(TrainerApplicationEntityBase trainerApplication);
+        int GetTrainerApplicationsCount();
 
 
         //Trainings

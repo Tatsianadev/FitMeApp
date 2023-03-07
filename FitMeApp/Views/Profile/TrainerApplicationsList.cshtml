@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel>
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerApplicationViewModel>
 
 @{
     ViewBag.Title = "List of Trainers";
@@ -8,24 +8,59 @@
     <div>
         <h3> Trainer applications</h3>
     </div>
-    <table class="table" style="width:50%">
+    <table class="table">
         <tr>
             <th>#</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Trainer subscription</th>
+            <th>Contract</th>
+            <th>Contract number</th>
+            <th>App date</th>
             <th></th>
         </tr>
         @{ int rowNumber = 0;}
-        @foreach (var trainer in Model)
+        @foreach (var application in Model)
         {
             rowNumber++;
 
             <tr>
                 <td>@rowNumber</td>
-                <td>@trainer.FirstName</td>
-                <td>@trainer.LastName</td>
+                <td>@application.UserFirstName</td>
+                <td>@application.UserLastName</td>
+
                 <td>
-                    <a class="btn btn-sm btn-primary" asp-action="ShowTrainerApplication" asp-route-trainerId="@trainer.Id">Show application</a>
+                    @if (application.TrainerSubscription)
+                    {
+                        <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                    }
+                    else
+                    {
+                        <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                    }
+                </td>
+                @if (application.ContractNumber != null)
+                {
+                    <td>
+                        <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                    </td>
+                    <td>
+                        @application.ContractNumber
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                    </td>
+                    <td></td>
+                }
+                <td>@application.ApplicationDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <div style="text-align:center">
+                        <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success">Approve</a>
+                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-danger">Reject</a>
+                    </div>
                 </td>
             </tr>
         }

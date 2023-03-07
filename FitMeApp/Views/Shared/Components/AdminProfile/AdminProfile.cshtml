@@ -17,9 +17,9 @@
     <li>
         <a class="dropdown-item" asp-controller="Profile" asp-action="TrainerApplicationsList">
             Trainer applications
-            @if (ViewBag.TrainersInPendingCount > 0)
+            @if (ViewBag.TrainerAppCount > 0)
             {
-                <span class="badge bg-secondary">@ViewBag.TrainersInPendingCount</span>
+                <span class="badge bg-secondary">@ViewBag.TrainerAppCount</span>
             }
         </a>
     </li>
