@@ -10,6 +10,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Mapper;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -112,6 +113,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
+
                 if (model.TrainerSubscription == false && model.Contract == false)
                 {
                     ModelState.AddModelError("", "No option selected.");
@@ -125,6 +127,20 @@ namespace FitMeApp.Controllers
                 }
 
                 var user =await _userManager.GetUserAsync(User);
+                if (model.TrainerSubscription == true)
+                {
+                    var actualTrainerSubscription = _gymService
+                        .GetUserSubscriptions(user.Id)
+                        .Where(x => x.WorkAsTrainer == true)
+                        .Where(x => x.EndDate > DateTime.Today);
+
+                    if (actualTrainerSubscription.Count() == 0)
+                    {
+                        ModelState.AddModelError("", "You  don't have any subscriptions for work as Trainer. Please, get one before apply for a Trainer position.");
+                        return View(model);
+                    }
+                }
+
                 TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
                 {
                     UserId = user.Id,
