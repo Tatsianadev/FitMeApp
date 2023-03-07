@@ -38,7 +38,6 @@ namespace FitMeApp.Mapper
                 Gender = trainerModel.Gender,
                 AvatarPath = trainerModel.AvatarPath,
                 Specialization = trainerModel.Specialization,
-                Status = trainerModel.Status,
                 Trainings = trainingViewModels
             };
             return trainerViewModel;
@@ -318,7 +317,6 @@ namespace FitMeApp.Mapper
                 Gender = trainerViewModel.Gender,
                 AvatarPath = trainerViewModel.AvatarPath,
                 Specialization = trainerViewModel.Specialization,
-                Status = trainerViewModel.Status,                
                 Gym = MapGymViewModelToModel(trainerViewModel.Gym)
             };
 

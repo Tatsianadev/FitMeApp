@@ -187,7 +187,8 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId
+                GymId = trainer.GymId,
+                WorkLicenseId = trainer.WorkLicenseId
             });
 
             int addedRowCount = _context.SaveChanges();
@@ -344,7 +345,7 @@ namespace FitMeApp.Repository.EntityFramework
                 GymId = license.GymId,
                 StartDate = license.StartDate,
                 EndDate = license.EndDate,
-                ConfirmationDate = license.ConfirmationDate
+                СonfirmationDate = license.СonfirmationDate
             };
 
             _context.TrainerWorkLicenses.Add(licenseEntity);
@@ -375,6 +376,13 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public TrainerApplicationEntityBase GetTrainerApplicationByUser(string userId)
+        {
+            var trainerApplication = _context.TrainerApplications.First(x => x.UserId == userId);
+            return trainerApplication;
+        }
+
+
         public int AddTrainerApplication(TrainerApplicationEntityBase trainerApplication)
         {
             TrainerApplicationEntity trainerAppEntity = new TrainerApplicationEntity()
@@ -394,6 +402,13 @@ namespace FitMeApp.Repository.EntityFramework
         {
             int trainerAppCount = _context.TrainerApplications.Count();
             return trainerAppCount;
+        }
+
+        public void DeleteTrainerApplication(int appId)
+        {
+            var application = _context.TrainerApplications.First(x => x.Id == appId);
+            _context.Remove(application);
+            _context.SaveChanges();
         }
 
 
@@ -1020,6 +1035,7 @@ namespace FitMeApp.Repository.EntityFramework
                                              {
                                                  Id = userSubscr.Id,
                                                  UserId = userSubscr.UserId,
+                                                 GymId = gym.Id,
                                                  GymName = gym.Name,
                                                  StartDate = userSubscr.StartDate,
                                                  EndDate = userSubscr.EndDate,

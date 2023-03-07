@@ -11,7 +11,7 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public class TrainerService: ITrainerService
+    public class TrainerService : ITrainerService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
@@ -94,11 +94,11 @@ namespace FitMeApp.Services
         }
 
 
-        public void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus)
-        {
-            var trainer = _repository.GetTrainer(trainerId);
-            _repository.UpdateTrainer(trainer);
-        }
+        //public void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus)
+        //{
+        //    var trainer = _repository.GetTrainer(trainerId);
+        //    _repository.UpdateTrainer(trainer);
+        //}
 
 
         private bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
@@ -308,9 +308,56 @@ namespace FitMeApp.Services
 
         public bool ApproveTrainerApplication(string userId)
         {
+            var trainerLicense = new TrainerWorkLicenseEntityBase()
+            {
+                TrainerId = userId,
+                СonfirmationDate = DateTime.Today
+            };
+            var application = _repository.GetTrainerApplicationByUser(userId);
 
+            if (application.TrainerSubscription)
+            {
+                var subscription = _repository.GetUserSubscriptionsFullInfo(userId).Where(x => x.WorkAsTrainer == true)
+                    .First(x => x.EndDate > DateTime.Today);
 
+                trainerLicense.SubscriptionId = subscription.Id;
+                trainerLicense.GymId = subscription.GymId;
+                trainerLicense.StartDate = subscription.StartDate;
+                trainerLicense.EndDate = subscription.EndDate;
+            }
+            else
+            {
+                //Some logic of work with trainers Contracts area
+                Random rnd = new Random(); 
+                trainerLicense.ContractNumber = application.ContractNumber;
+                trainerLicense.GymId = rnd.Next(1,4);
+                trainerLicense.StartDate = DateTime.Today;
+                trainerLicense.EndDate = DateTime.Today.AddDays(256);
+            }
 
+            int licenseId = _repository.AddTrainerWorkLicense(trainerLicense);
+            if (licenseId == 0)
+            {
+                return false;
+            }
+
+            var trainerInfo = new TrainerEntityBase()
+            {
+                Id = application.UserId,
+                Specialization = TrainerSpecializationsEnum.personal.ToString(),
+                GymId = trainerLicense.GymId,
+                WorkLicenseId = licenseId
+            };
+
+            bool addTrainerSucceed =_repository.AddTrainer(trainerInfo);
+            if (addTrainerSucceed)
+            {
+                _repository.DeleteTrainerApplication(application.Id);
+            }
+            else
+            {
+                return false;
+            }
 
             return true;
         }
