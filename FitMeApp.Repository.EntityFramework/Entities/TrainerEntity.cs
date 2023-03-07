@@ -15,6 +15,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
 
         
         public GymEntity Gym { get; set; }
+        public TrainerWorkLicenseEntity WorkLicense { get; set; }
         public ICollection<TrainingEntity> Trainings { get; set; }
     }
 }

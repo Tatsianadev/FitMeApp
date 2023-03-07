@@ -18,6 +18,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
         public string Specialization { get; set; }        
         public GymEntityBase Gym { get; set; }      
         public IEnumerable<TrainingEntityBase> Trainings { get; set; }
-        public TrainerApproveStatusEnum Status { get; set; }
+        //public TrainerApproveStatusEnum Status { get; set; }
     }
 }

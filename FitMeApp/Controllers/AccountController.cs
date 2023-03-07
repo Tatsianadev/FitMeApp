@@ -164,68 +164,6 @@ namespace FitMeApp.Controllers
                     };
                     return View("CustomError", error);
                 }
-
-
-                //if (ModelState.IsValid)
-                //{
-                //    var user = await _userManager.GetUserAsync(User);
-                //    user.PhoneNumber = model.PhoneNumber;
-                //    user.Gender = model.Gender;
-                //    user.Year = model.Year;
-
-                //    if(string.IsNullOrEmpty(model.Avatar))
-                //    {
-                //        user.AvatarPath = "defaultAvatar.jpg";
-                //    }
-                //    else
-                //    {
-                //        user.AvatarPath = model.Avatar;
-                //    }
-
-                //    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                //    foreach (var trainingId in model.TrainingsId)
-                //    {
-                //        trainings.Add(new TrainingViewModel()
-                //        {
-                //            Id = trainingId
-                //        });
-                //    }
-
-                //    TrainerViewModel trainerViewModel = new TrainerViewModel()
-                //    {
-                //        Id = user.Id,                        
-                //        Specialization = model.Specialization,                       
-                //        Trainings = trainings,
-                //        Status = TrainerApproveStatusEnum.pending,
-                //        Gym = new GymViewModel()
-                //        {
-                //            Id = model.GymId
-                //        }
-                //    };
-
-                //    var trainerModel = _mapper.MapTrainerViewModelToModelBase(trainerViewModel);
-                //    var result = _trainerService.AddTrainer(trainerModel);
-                //    if (result)
-                //    {
-                //        foreach (var trainingId in model.TrainingsId)
-                //        {
-                //            _trainerService.AddTrainingTrainerConnection(user.Id, trainingId);                           
-                //        }
-                       
-                //        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true } );
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError("", "Failed to add trainers data. Please check all fields and try one again");
-                //    }
-                //}
-
-                //ViewBag.Gyms = _gymService.GetAllGymModels();
-                //ViewBag.Specializations = Enum.GetValues(typeof(TrainerSpecializationsEnum));
-                //ViewBag.Gender = Enum.GetValues(typeof(GenderEnum));
-                //ViewBag.Trainings = _trainingService.GetAllTrainingModels();
-
-                
             }
             catch (Exception ex)
             {

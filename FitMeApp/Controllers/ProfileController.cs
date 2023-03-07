@@ -110,23 +110,13 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var user = await _userManager.FindByIdAsync(trainerId);
-                var trainerPartInfo = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
-                if (trainerPartInfo != null)
+                if (string.IsNullOrEmpty(trainerId))
                 {
-                    _trainerService.UpdateTrainerStatus(trainerId, TrainerApproveStatusEnum.approved);
-                    await _userManager.RemoveFromRoleAsync(user, RolesEnum.user.ToString());
-                    await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
-                    return RedirectToAction("UsersList");
+                    throw new ArgumentException("trainerId parameter is null or empty", nameof(trainerId));
                 }
-                else
-                {
-                    CustomErrorViewModel error = new CustomErrorViewModel()
-                    {
-                        Message = "User is not found. Please try again"
-                    };
-                    return View("CustomError", error);
-                }
+
+
+
             }
             catch (Exception ex)
             {
@@ -485,7 +475,6 @@ namespace FitMeApp.Controllers
                 GymId = trainerViewModel.Gym.Id,
                 GymName = trainerViewModel.Gym.Name,
                 Specialization = trainerViewModel.Specialization,
-                Status = trainerViewModel.Status,
                 TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList()
             };
 
@@ -516,7 +505,6 @@ namespace FitMeApp.Controllers
                     {
                         Id = changedModel.Id,
                         Specialization = changedModel.Specialization,
-                        Status = changedModel.Status,
                         Trainings = trainings,
                         Gym = new GymViewModel()
                         {

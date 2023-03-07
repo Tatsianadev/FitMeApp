@@ -50,8 +50,7 @@ namespace FitMeApp.Mapper
                 LastName = trainer.LastName,
                 Gender = trainer.Gender,
                 AvatarPath = trainer.AvatarPath,
-                Specialization = trainer.Specialization, 
-                Status = trainer.Status,
+                Specialization = trainer.Specialization,
                 Trainings = trainings
 
             };
@@ -124,7 +123,6 @@ namespace FitMeApp.Mapper
                 Gender = trainer.Gender,
                 AvatarPath = trainer.AvatarPath,
                 Specialization = trainer.Specialization,
-                Status = trainer.Status,
                 Gym = gymModel,
                 Trainings = trainings
             };
@@ -320,7 +318,6 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerModel.Id,                
                 Specialization = trainerModel.Specialization,
-                Status = trainerModel.Status,
                 Gym = new GymEntityBase()
                 {
                     Id = trainerModel.Gym.Id                   
@@ -340,8 +337,7 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerModel.Id,                
                 Specialization = trainerModel.Specialization,
-                GymId = trainerModel.Gym.Id,
-                Status = trainerModel.Status
+                GymId = trainerModel.Gym.Id
             };
             return trainerEntityBase;
         }

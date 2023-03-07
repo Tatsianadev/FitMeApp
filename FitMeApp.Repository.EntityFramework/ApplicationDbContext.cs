@@ -26,6 +26,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         public DbSet<TrainerApplicationEntity> TrainerApplications { get; set; }
+        public DbSet<TrainerWorkLicenseEntity> TrainerWorkLicenses { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 

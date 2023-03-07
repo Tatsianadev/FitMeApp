@@ -25,12 +25,6 @@ namespace FitMeApp.ViewComponents
         {
             int trainerApplicationsCount = _trainerService.GetTrainerApplicationsCount();
             ViewBag.TrainerAppCount = trainerApplicationsCount;
-
-            //var trainersInPending = _trainerService.GetAllTrainerModels()
-            //                                      .Where(x => x.Status == Common.TrainerApproveStatusEnum.pending)
-            //                                      .ToList();
-            //ViewBag.TrainersInPendingCount = trainersInPending.Count;
-                                                  
             return View("AdminProfile");
         }
     }

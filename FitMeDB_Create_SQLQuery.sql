@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 /****** Object:  Database [FitMeDB]    Script Date: 11/4/2022 5:56:12 PM ******/
@@ -357,21 +357,39 @@ REFERENCES [dbo].[Gyms] ([Id])
 GO
 
 
+create table TrainerWorkLicenses
+(
+Id int identity primary key not null,
+TrainerId nvarchar(450) not null,
+SubscriptionId int null,
+ContractNumber nvarchar(250) null,
+GymId int not null,
+StartDate smalldatetime not null,
+EndDate smalldatetime not null,
+СonfirmationDate smalldatetime not null,
+)
+go
+
+
 
 CREATE TABLE [dbo].[Trainers](
 	[Id] [nvarchar](256) NOT NULL,
 	[Specialization] [nvarchar](250) NOT NULL,
 	[GymId] [int] NULL,
-	[Status] [int] NULL,
+	[WorkLicenseId] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([GymId])
 REFERENCES [dbo].[Gyms] ([Id])
+GO
+
+ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([WorkLicenseId])
+REFERENCES [dbo].[TrainerWorkLicenses] ([Id])
 GO
 
 

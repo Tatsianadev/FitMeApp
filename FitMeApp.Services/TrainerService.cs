@@ -34,16 +34,16 @@ namespace FitMeApp.Services
             return trainers;
         }
 
-        public IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
-        {
-            var trainersEntity = _repository.GetAllTrainersByStatus(status);
-            List<TrainerModel> trainers = new List<TrainerModel>();
-            foreach (var trainerEntity in trainersEntity)
-            {
-                trainers.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
-            }
-            return trainers;
-        }
+        //public IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
+        //{
+        //    var trainersEntity = _repository.GetAllTrainersByStatus(status);
+        //    List<TrainerModel> trainers = new List<TrainerModel>();
+        //    foreach (var trainerEntity in trainersEntity)
+        //    {
+        //        trainers.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
+        //    }
+        //    return trainers;
+        //}
 
         public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
         {
@@ -71,8 +71,7 @@ namespace FitMeApp.Services
             {
                 Id = newTrainerInfo.Id,
                 GymId = newTrainerInfo.Gym.Id,
-                Specialization = newTrainerInfo.Specialization,
-                Status = newTrainerInfo.Status
+                Specialization = newTrainerInfo.Specialization
             };
             _repository.UpdateTrainer(newTrainerInfoBase);
 
@@ -98,7 +97,6 @@ namespace FitMeApp.Services
         public void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus)
         {
             var trainer = _repository.GetTrainer(trainerId);
-            trainer.Status = newStatus;
             _repository.UpdateTrainer(trainer);
         }
 
@@ -305,6 +303,16 @@ namespace FitMeApp.Services
             }
 
             return trainerAppModels;
+        }
+
+
+        public bool ApproveTrainerApplication(string userId)
+        {
+
+
+
+
+            return true;
         }
     }
 }

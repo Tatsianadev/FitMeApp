@@ -34,6 +34,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
+        int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license);
+
 
         //TrainerApplication
         IEnumerable<TrainerApplicationWithNamesBase> GetAllTrainerApplications();
@@ -43,7 +45,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Trainings
         IEnumerable<TrainingEntityBase> GetAllTrainings();
-        IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
+        //IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         TrainingEntityBase GetTraining(int id);
         TrainingEntityBase AddTraining(TrainingEntityBase training);
         void UpdateTraining(int id, TrainingEntityBase newTrainingData);

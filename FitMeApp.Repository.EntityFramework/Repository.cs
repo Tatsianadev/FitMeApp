@@ -149,22 +149,22 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
-        {
-            var trainers = (from trainer in _context.Trainers
-                            join user in _context.Users
-                            on trainer.Id equals user.Id
-                            where trainer.Status == status
-                            select new TrainerWithGymAndTrainingsBase()
-                            {
-                                Id = trainer.Id,
-                                FirstName = user.FirstName,
-                                LastName = user.LastName,
-                                Status = trainer.Status
-                            }).ToList();
+        //public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
+        //{
+        //    var trainers = (from trainer in _context.Trainers
+        //                    join user in _context.Users
+        //                    on trainer.Id equals user.Id
+        //                    where trainer.Status == status
+        //                    select new TrainerWithGymAndTrainingsBase()
+        //                    {
+        //                        Id = trainer.Id,
+        //                        FirstName = user.FirstName,
+        //                        LastName = user.LastName,
+        //                        Status = trainer.Status
+        //                    }).ToList();
 
-            return trainers;
-        }
+        //    return trainers;
+        //}
 
 
         public TrainerEntityBase GetTrainer(string id)
@@ -187,8 +187,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId,
-                Status = trainer.Status
+                GymId = trainer.GymId
             });
 
             int addedRowCount = _context.SaveChanges();
@@ -209,7 +208,6 @@ namespace FitMeApp.Repository.EntityFramework
                 .First();
 
             trainer.Specialization = newTrainerData.Specialization;
-            trainer.Status = newTrainerData.Status;
             trainer.GymId = newTrainerData.GymId;
 
             _context.SaveChanges();
@@ -334,6 +332,26 @@ namespace FitMeApp.Repository.EntityFramework
 
             return availableTime;
         }
+
+
+        public int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license)
+        {
+            TrainerWorkLicenseEntity licenseEntity = new TrainerWorkLicenseEntity()
+            {
+                TrainerId = license.TrainerId,
+                SubscriptionId = license.SubscriptionId,
+                ContractNumber = license.ContractNumber,
+                GymId = license.GymId,
+                StartDate = license.StartDate,
+                EndDate = license.EndDate,
+                ConfirmationDate = license.ConfirmationDate
+            };
+
+            _context.TrainerWorkLicenses.Add(licenseEntity);
+            _context.SaveChanges();
+            return licenseEntity.Id;
+        }
+
 
 
         //Trainer applications
@@ -563,7 +581,6 @@ namespace FitMeApp.Repository.EntityFramework
                                           join image in _context.GymImages
                                               on gymDb.Id equals image.GymId
                                           where gymDb.Id == gymId
-                                          where trainer.Status == TrainerApproveStatusEnum.approved
                                           select new
                                           {
                                               GymId = gymDb.Id,
@@ -579,8 +596,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               TrainerSpecialization = trainer.Specialization,
                                               TrainingId = training.Id,
                                               TrainingName = training.Name,
-                                              TrainingDescription = training.Description,
-                                              TrainerStatus = trainer.Status
+                                              TrainingDescription = training.Description
                                           }).ToList();
 
             GymWithTrainersAndTrainings gym = new GymWithTrainersAndTrainings();
@@ -625,8 +641,7 @@ namespace FitMeApp.Repository.EntityFramework
                         Gender = item.TrainerGender,
                         AvatarPath = item.TrainerAvatarPath,
                         Specialization = item.TrainerSpecialization,
-                        Trainings = trainings,
-                        Status = item.TrainerStatus
+                        Trainings = trainings
                     });
                     addedTrainersId.Add(item.TrainerId);
                 }
@@ -664,7 +679,6 @@ namespace FitMeApp.Repository.EntityFramework
                                                    Gender = user.Gender,
                                                    AvatarPath = user.AvatarPath,
                                                    Specialization = trainer.Specialization,
-                                                   Status = trainer.Status,
                                                    GymId = gym.Id,
                                                    GymName = gym.Name,
                                                    GymAddress = gym.Address,
@@ -703,7 +717,6 @@ namespace FitMeApp.Repository.EntityFramework
                         Gender = item.Gender,
                         AvatarPath = item.AvatarPath,
                         Specialization = item.Specialization,
-                        Status = item.Status,
                         Gym = new GymEntityBase()
                         {
                             Id = item.GymId,
@@ -753,7 +766,6 @@ namespace FitMeApp.Repository.EntityFramework
                                               Specialization = trainer.Specialization,
                                               Gender = user.Gender,
                                               AvatarPath = user.AvatarPath,
-                                              Status = trainer.Status,
                                               GymId = trainer.GymId,
                                               GymName = gym.Name,
                                               GymAddress = gym.Address,
@@ -780,7 +792,6 @@ namespace FitMeApp.Repository.EntityFramework
                 Specialization = trainerEntity.Specialization,
                 Gender = trainerEntity.Gender,
                 AvatarPath = trainerEntity.AvatarPath,
-                Status = trainerEntity.Status,
                 Gym = new GymEntity()
                 {
                     Id = trainerEntity.GymId,
@@ -853,7 +864,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                     on trainingTrainer.TrainingId equals training.Id
                                                     where selectedGenders.Contains(user.Gender)
                                                     where selectedSpecializations.Contains(trainer.Specialization)
-                                                    where trainer.Status == TrainerApproveStatusEnum.approved
+                                                    //where trainer.Status == TrainerApproveStatusEnum.approved
                                                     select new TrainerWithGymAndTrainingsJoin()
                                                     {
                                                         TrainerId = trainer.Id,
@@ -862,7 +873,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                         Gender = user.Gender,
                                                         AvatarPath = user.AvatarPath,
                                                         Specialization = trainer.Specialization,
-                                                        Status = trainer.Status,
+                                                        //Status = trainer.Status,
                                                         GymId = gym.Id,
                                                         GymName = gym.Name,
                                                         GymAddress = gym.Address,

@@ -9,7 +9,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface ITrainerService
     {
         List<TrainerModel> GetAllTrainerModels();
-        IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
+        //IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status);
         void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
@@ -31,5 +31,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int AddTrainerApplication(TrainerApplicationModel trainerApplication);
         int GetTrainerApplicationsCount();
         IEnumerable<TrainerApplicationModel> GetAllTrainerApplications();
+        bool ApproveTrainerApplication(string userId);
     }
 }
