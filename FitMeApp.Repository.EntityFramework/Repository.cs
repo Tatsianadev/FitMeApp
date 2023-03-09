@@ -184,7 +184,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                //GymId = trainer.GymId,
+                GymId = trainer.GymId,
                 WorkLicenseId = trainer.WorkLicenseId
             });
 

@@ -352,6 +352,10 @@ namespace FitMeApp.Services
             bool addTrainerSucceed =_repository.AddTrainer(trainerInfo);
             if (addTrainerSucceed)
             {
+                //Default type - personalTraining. If not -> Some logic of work with trainers Contracts area to get training types
+                int defaultTrainingId = _repository.GetAllTrainings().First(x => x.Name == "Personal training").Id;
+                _repository.AddTrainingTrainerConnection(trainerLicense.TrainerId, defaultTrainingId);
+
                 _repository.DeleteTrainerApplication(application.Id);
             }
             else
