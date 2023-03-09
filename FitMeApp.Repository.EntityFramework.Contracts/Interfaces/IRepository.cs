@@ -35,6 +35,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
         int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license);
+        TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId);
 
 
         //TrainerApplication

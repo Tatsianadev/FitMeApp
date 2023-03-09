@@ -337,7 +337,7 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerModel.Id,                
                 Specialization = trainerModel.Specialization,
-                GymId = trainerModel.Gym.Id
+                //GymId = trainerModel.Gym.Id
             };
             return trainerEntityBase;
         }

@@ -106,7 +106,7 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult ApproveTrainerApplication(string trainerId)
+        public async Task<IActionResult> ApproveTrainerApplication(string trainerId)
         {
             try
             {
@@ -115,7 +115,12 @@ namespace FitMeApp.Controllers
                     throw new ArgumentException("trainerId parameter is null or empty", nameof(trainerId));
                 }
 
-                _trainerService.ApproveTrainerApplication(trainerId);
+                bool approveSucceed = _trainerService.ApproveTrainerApplication(trainerId);
+                if (approveSucceed)
+                {
+                    var user = _userManager.Users.First(x => x.Id == trainerId);
+                    await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
+                }
                 return RedirectToAction("TrainerApplicationsList");
             }
             catch (Exception ex)

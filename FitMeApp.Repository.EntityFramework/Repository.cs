@@ -184,7 +184,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId,
+                //GymId = trainer.GymId,
                 WorkLicenseId = trainer.WorkLicenseId
             });
 
@@ -347,6 +347,15 @@ namespace FitMeApp.Repository.EntityFramework
             _context.TrainerWorkLicenses.Add(licenseEntity);
             _context.SaveChanges();
             return licenseEntity.Id;
+        }
+
+
+        public TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId)
+        {
+            var license = _context.TrainerWorkLicenses
+                .First(x => x.Id == licenseId);
+
+            return license;
         }
 
 
@@ -783,7 +792,7 @@ namespace FitMeApp.Repository.EntityFramework
                                               Specialization = trainer.Specialization,
                                               Gender = user.Gender,
                                               AvatarPath = user.AvatarPath,
-                                              GymId = trainer.GymId,
+                                              GymId = gym.Id,
                                               GymName = gym.Name,
                                               GymAddress = gym.Address,
                                               TrainingId = training.Id,
@@ -1223,7 +1232,7 @@ namespace FitMeApp.Repository.EntityFramework
                                        TrainerId = events.TrainerId,
                                        TrainerFirstName = userTr.FirstName,
                                        TrainerLastName = userTr.LastName,
-                                       GymId = trainer.GymId,
+                                       GymId = gym.Id,
                                        GymName = gym.Name,
                                        UserId = events.UserId,
                                        TrainingId = events.TrainingId,

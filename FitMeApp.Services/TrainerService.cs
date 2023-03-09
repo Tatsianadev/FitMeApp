@@ -70,7 +70,7 @@ namespace FitMeApp.Services
             TrainerEntityBase newTrainerInfoBase = new TrainerEntityBase()
             {
                 Id = newTrainerInfo.Id,
-                GymId = newTrainerInfo.Gym.Id,
+                //GymId = newTrainerInfo.Gym.Id,
                 Specialization = newTrainerInfo.Specialization
             };
             _repository.UpdateTrainer(newTrainerInfoBase);
@@ -163,7 +163,8 @@ namespace FitMeApp.Services
         public bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours)
         {
             string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
-            int gymId = _repository.GetTrainer(trainerId).GymId;
+            int licenseId = _repository.GetTrainer(trainerId).WorkLicenseId;
+            int gymId = _repository.GetTrainerWorkLicense(licenseId).GymId;
             if (CheckFacilityUpdateTrainerWorkHoursByEvents(newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymSchedule(gymId, newWorkHours))
             {
                 return true;
@@ -345,7 +346,7 @@ namespace FitMeApp.Services
             {
                 Id = application.UserId,
                 Specialization = TrainerSpecializationsEnum.personal.ToString(),
-                GymId = trainerLicense.GymId,
+                //GymId = trainerLicense.GymId,
                 WorkLicenseId = licenseId
             };
 
