@@ -366,7 +366,7 @@ ContractNumber nvarchar(250) null,
 GymId int not null,
 StartDate smalldatetime not null,
 EndDate smalldatetime not null,
-СonfirmationDate smalldatetime not null,
+ConfirmationDate smalldatetime not null,
 )
 go
 
@@ -387,11 +387,6 @@ GO
 ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([GymId])
 REFERENCES [dbo].[Gyms] ([Id])
 GO
-
-ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([WorkLicenseId])
-REFERENCES [dbo].[TrainerWorkLicenses] ([Id])
-GO
-
 
 
 

@@ -1,4 +1,4 @@
-use FitMeDB
+Ôªøuse FitMeDB
 go
 
 
@@ -11,24 +11,44 @@ values
 go
 
 
+insert TrainerWorkLicenses (TrainerId,SubscriptionId,ContractNumber,GymId,StartDate,EndDate, ConfirmationDate)
+  values  ('08b2b361-1115-44db-97fa-ce9cd34366d7',0, '123456_3', 4, '2023-03-07', '2024-03-07', '2023-03-07')
+  ,('0a329324-af6f-4afa-ad33-384a9f3af275',0, '123456_4', 2, '2023-02-11', '2024-03-07', '2023-02-13')
+  ,('5f91c6cf-7708-4b35-a070-99ed79752302',0, '123456_5', 1, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('69e23278-6b00-4f40-a555-02ef12ffd09b',0, '123456_6', 2, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('763a257a-7b4b-45d5-a5ac-caa75c51bae9',0, '123456_7', 3, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('7c3689b7-2aea-4ed1-990f-9622954d575a',0, '123456_8', 2, '2023-02-11', '2024-03-07', '2023-02-13')
+  ,('7d1b0307-a5f2-494e-935c-828bdf39afe2',0, '123456_9', 4, '2023-02-11', '2024-03-07', '2023-02-13')
+  ,('83192926-4d5b-4a27-93f1-a2958c69f069',0, '123456_10', 3, '2023-02-11', '2024-03-07', '2023-02-13')
+  ,('85ffe910-0a85-40ba-82fa-192d445ab5c5',0, '123456_11', 3, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1',0, '123456_12', 1, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('acc51bef-12d2-4933-ba98-646927663579',0, '123456_13', 1, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('d51f7f69-c30f-4842-8a61-b4a9890f00ed',0, '123456_14', 2, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('e26bcd6e-49bd-42d6-acca-905ba29cddbc',0, '123456_15', 2, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('e985d062-69f4-40fd-aa35-ff35dc1ca911',0, '123456_16', 4, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('f6b480ef-aa5c-467f-8382-5199a395d585',0, '123456_17', 4, '2022-11-18', '2023-11-18', '2022-11-20')
+  ,('f90f2e2c-821e-4651-91d7-105d56ddbee7',0, '123456_18', 1, '2022-11-18', '2023-11-18', '2022-11-20')
+  go
 
-insert into Trainers (Id, Specialization, GymId, Status)
+
+--(Fill WorkLicenseId from TrainerWorkLicenses table (Id))
+insert into Trainers (Id, Specialization, GymId, WorkLicenseId)
 values
-('acc51bef-12d2-4933-ba98-646927663579', 'universal',1,1),
-('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2,1),
-('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3,1),
-('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4,1),
-('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4,1),
-('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1,1),
-('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2,1),
-('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3,1),
-('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1,1),
-('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4,1),
-('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2,1),
-('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3,1),
-('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1,1),
-('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2,1),
-('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3,1)
+('acc51bef-12d2-4933-ba98-646927663579', 'universal',1,0),
+('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2,0),
+('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3,0),
+('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4,0),
+('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4,0),
+('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1,0),
+('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2,0),
+('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3,0),
+('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1,0),
+('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4,0),
+('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2,0),
+('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3,0),
+('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1,0),
+('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2,0),
+('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3,0)
 go
 
 
@@ -70,7 +90,7 @@ insert into Trainings (Name, Description)
 values
 ('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body'),
 ('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups'),
-('HIIT', 'High-Intensity Interval Training - alternates short periods of intense exercise movements, followed by less intense ìrecoveryî periods'),
+('HIIT', 'High-Intensity Interval Training - alternates short periods of intense exercise movements, followed by less intense ‚Äúrecovery‚Äù periods'),
 ('Water Aerobics', 'Engaging muscle endurance and strength in a low-impact setting'),
 ('Cycling', 'Cardio workout that relies on a fitness center cycling machine'),
 ('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves'),

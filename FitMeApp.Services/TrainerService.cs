@@ -311,7 +311,7 @@ namespace FitMeApp.Services
             var trainerLicense = new TrainerWorkLicenseEntityBase()
             {
                 TrainerId = userId,
-                СonfirmationDate = DateTime.Today
+                ConfirmationDate = DateTime.Today
             };
             var application = _repository.GetTrainerApplicationByUser(userId);
 

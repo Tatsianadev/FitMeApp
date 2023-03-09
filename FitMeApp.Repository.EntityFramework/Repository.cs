@@ -21,7 +21,6 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-
         public IEnumerable<GymEntityBase> GetAllGyms()
         {
             var gyms = _context.Gyms.ToList();
@@ -169,9 +168,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerEntityBase GetTrainer(string id)
         {
-            var trainer = _context.Trainers
-                .Where(x => x.Id == id)
-                .First();
+            var trainer = _context.Trainers.First(x => x.Id == id);
             return trainer;
         }
 
@@ -187,7 +184,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                GymId = trainer.GymId,
+                //GymId = trainer.GymId,
                 WorkLicenseId = trainer.WorkLicenseId
             });
 
@@ -205,11 +202,11 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             var trainer = _context.Trainers
-                .Where(x => x.Id == newTrainerData.Id)
-                .First();
+                .First(x => x.Id == newTrainerData.Id);
 
             trainer.Specialization = newTrainerData.Specialization;
-            trainer.GymId = newTrainerData.GymId;
+            //trainer.GymId = newTrainerData.GymId;
+            trainer.WorkLicenseId = newTrainerData.WorkLicenseId;
 
             _context.SaveChanges();
         }
@@ -218,8 +215,7 @@ namespace FitMeApp.Repository.EntityFramework
         public void DeleteTrainer(string id)
         {
             var trainer = _context.Trainers
-                .Where(x => x.Id == id)
-                .First();
+                .First(x => x.Id == id);
 
             if (trainer != null)
             {
@@ -266,7 +262,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             List<string> clientsId = _context.Events
                 .Where(x => x.TrainerId == trainerId)
-                .Where(x=>x.Date >= DateTime.Today)
+                .Where(x => x.Date >= DateTime.Today)
                 .Select(x => x.UserId)
                 .Distinct()
                 .ToList();
@@ -345,7 +341,7 @@ namespace FitMeApp.Repository.EntityFramework
                 GymId = license.GymId,
                 StartDate = license.StartDate,
                 EndDate = license.EndDate,
-                СonfirmationDate = license.СonfirmationDate
+                ConfirmationDate = license.ConfirmationDate
             };
 
             _context.TrainerWorkLicenses.Add(licenseEntity);
@@ -585,8 +581,10 @@ namespace FitMeApp.Repository.EntityFramework
         public GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId)
         {
             var gymTrainerTrainingJoin = (from gymDb in _context.Gyms
+                                          join license in _context.TrainerWorkLicenses
+                                          on gymDb.Id equals license.GymId
                                           join trainer in _context.Trainers
-                                          on gymDb.Id equals trainer.GymId
+                                          on license.TrainerId equals trainer.Id
                                           join user in _context.Users
                                           on trainer.Id equals user.Id
                                           join trainingTrainer in _context.TrainingTrainer
@@ -680,8 +678,10 @@ namespace FitMeApp.Repository.EntityFramework
             var allTrainersGymTrainingsJoin = (from trainer in _context.Trainers
                                                join user in _context.Users
                                                on trainer.Id equals user.Id
+                                               join license in _context.TrainerWorkLicenses 
+                                               on trainer.Id equals license.TrainerId
                                                join gym in _context.Gyms
-                                               on trainer.GymId equals gym.Id
+                                               on license.GymId equals gym.Id
                                                join trainingTrainer in _context.TrainingTrainer
                                                on trainer.Id equals trainingTrainer.TrainerId
                                                join training in _context.Trainings
@@ -766,8 +766,10 @@ namespace FitMeApp.Repository.EntityFramework
             var trainerGymTrainingJoin = (from trainer in _context.Trainers
                                           join user in _context.Users
                                           on trainer.Id equals user.Id
+                                          join license in _context.TrainerWorkLicenses 
+                                          on trainer.Id equals license.TrainerId
                                           join gym in _context.Gyms
-                                          on trainer.GymId equals gym.Id
+                                          on license.GymId equals gym.Id
                                           join trainingTrainer in _context.TrainingTrainer
                                           on trainer.Id equals trainingTrainer.TrainerId
                                           join training in _context.Trainings
@@ -825,10 +827,12 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId)
         {
             var gymsByTrainings = (from trainingTrainer in _context.TrainingTrainer
-                                   join trainer in _context.Trainers
-                                   on trainingTrainer.TrainerId equals trainer.Id
+                                   join license in _context.TrainerWorkLicenses
+                                       on trainingTrainer.TrainerId equals license.TrainerId
+                                   //join trainer in _context.Trainers
+                                   //on trainingTrainer.TrainerId equals trainer.Id
                                    join gymDb in _context.Gyms
-                                   on trainer.GymId equals gymDb.Id
+                                   on license.GymId equals gymDb.Id
                                    where trainingsId.Contains(trainingTrainer.TrainingId)
                                    select new GymEntityBase()
                                    {
@@ -871,8 +875,10 @@ namespace FitMeApp.Repository.EntityFramework
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
                                                     join user in _context.Users
                                                     on trainer.Id equals user.Id
+                                                    join license in _context.TrainerWorkLicenses 
+                                                    on trainer.Id equals license.TrainerId
                                                     join gym in _context.Gyms
-                                                    on trainer.GymId equals gym.Id
+                                                    on license.GymId equals gym.Id
                                                     join trainingTrainer in _context.TrainingTrainer
                                                     on trainer.Id equals trainingTrainer.TrainerId
                                                     join training in _context.Trainings
@@ -1200,8 +1206,10 @@ namespace FitMeApp.Repository.EntityFramework
                                    on events.TrainerId equals userTr.Id
                                    join trainer in _context.Trainers
                                    on events.TrainerId equals trainer.Id
+                                   join license in _context.TrainerWorkLicenses
+                                       on trainer.Id equals license.TrainerId
                                    join gym in _context.Gyms
-                                   on trainer.GymId equals gym.Id
+                                   on license.GymId equals gym.Id
                                    join training in _context.Trainings
                                    on events.TrainingId equals training.Id
                                    where events.UserId == userId
@@ -1239,8 +1247,10 @@ namespace FitMeApp.Repository.EntityFramework
                                    on events.UserId equals user.Id
                                    join trainer in _context.Trainers
                                    on events.TrainerId equals trainer.Id
+                                   join license in _context.TrainerWorkLicenses 
+                                   on events.TrainerId equals license.TrainerId
                                    join gym in _context.Gyms
-                                   on trainer.GymId equals gym.Id
+                                   on license.GymId equals gym.Id
                                    join training in _context.Trainings
                                    on events.TrainingId equals training.Id
                                    where events.TrainerId == trainerId
