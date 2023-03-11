@@ -497,46 +497,56 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                    foreach (var trainingId in changedModel.TrainingsId)
+                    var availableTrainerSubscriptionsBySelectedGym = _gymService.GetSubscriptionsByFilterByUser(changedModel.Id,
+                          new List<SubscriptionValidStatusEnum>() { SubscriptionValidStatusEnum.validNow },
+                          new List<int>() { changedModel.GymId });
+                    if (availableTrainerSubscriptionsBySelectedGym is null || availableTrainerSubscriptionsBySelectedGym.Count() == 0)
                     {
-                        trainings.Add(new TrainingViewModel()
-                        {
-                            Id = trainingId
-                        });
+                        ModelState.AddModelError("", "You don't have available trainer subscription for selected Gym.");
                     }
-
-                    TrainerViewModel newTrainerInfo = new TrainerViewModel()
+                    else
                     {
-                        Id = changedModel.Id,
-                        Specialization = changedModel.Specialization,
-                        Trainings = trainings,
-                        Gym = new GymViewModel()
+                        List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                        foreach (var trainingId in changedModel.TrainingsId)
                         {
-                            Id = changedModel.GymId
+                            trainings.Add(new TrainingViewModel()
+                            {
+                                Id = trainingId
+                            });
                         }
-                    };
 
-                    int previousGymId = _gymService.GetGymIdByTrainer(changedModel.Id);
-                    var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
-                    _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                        TrainerViewModel newTrainerInfo = new TrainerViewModel()
+                        {
+                            Id = changedModel.Id,
+                            Specialization = changedModel.Specialization,
+                            Trainings = trainings,
+                            Gym = new GymViewModel()
+                            {
+                                Id = changedModel.GymId
+                            }
+                        };
 
-                    if (previousGymId != changedModel.GymId)
-                    {
-                        _trainerService.DeleteTrainerWorkHoursByTrainer(changedModel.Id);
-                        return RedirectToAction("EditTrainerWorkHours");
+                        int previousGymId = _gymService.GetGymIdByTrainer(changedModel.Id);
+                        var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
+                        _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
+
+                        if (previousGymId != changedModel.GymId)
+                        {
+                            _trainerService.DeleteTrainerWorkHoursByTrainer(changedModel.Id);
+                            return RedirectToAction("EditTrainerWorkHours");
+                        }
+
+                        return RedirectToAction("TrainerPersonalAndJobData");
                     }
-
-                    return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 else
                 {
                     ModelState.AddModelError("", "the form is filled out incorrectly");
-
-                    ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
-                    ViewBag.AllGyms = _gymService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
-                    return View(changedModel);
                 }
+
+                ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
+                ViewBag.AllGyms = _gymService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
+                return View(changedModel);
             }
             catch (Exception ex)
             {

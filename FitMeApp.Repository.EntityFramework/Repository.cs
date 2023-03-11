@@ -70,7 +70,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GymEntityBase GetGym(int id)
         {
-            GymEntity gym = _context.Gyms.Where(x => x.Id == id).First();
+            GymEntity gym = _context.Gyms.First(x => x.Id == id);
             return gym;
         }
 
@@ -79,7 +79,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             if (gym == null)
             {
-                throw new NotImplementedException();
+                throw new ArgumentNullException(nameof(gym));
             }
 
             _context.Gyms.Add(new GymEntity()
@@ -97,7 +97,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             if (newGymData == null)
             {
-                throw new NotImplementedException();
+                throw new ArgumentNullException(nameof(newGymData));
             }
 
             GymEntity gym = _context.Gyms.First(x => x.Id == id);
@@ -148,24 +148,6 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        //public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
-        //{
-        //    var trainers = (from trainer in _context.Trainers
-        //                    join user in _context.Users
-        //                    on trainer.Id equals user.Id
-        //                    where trainer.Status == status
-        //                    select new TrainerWithGymAndTrainingsBase()
-        //                    {
-        //                        Id = trainer.Id,
-        //                        FirstName = user.FirstName,
-        //                        LastName = user.LastName,
-        //                        Status = trainer.Status
-        //                    }).ToList();
-
-        //    return trainers;
-        //}
-
-
         public TrainerEntityBase GetTrainer(string id)
         {
             var trainer = _context.Trainers.First(x => x.Id == id);
@@ -184,7 +166,6 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 Id = trainer.Id,
                 Specialization = trainer.Specialization,
-                //GymId = trainer.GymId,
                 WorkLicenseId = trainer.WorkLicenseId
             });
 
@@ -195,7 +176,6 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void UpdateTrainer(TrainerEntityBase newTrainerData)
         {
-
             if (newTrainerData == null)
             {
                 throw new ArgumentNullException(nameof(newTrainerData));
@@ -205,7 +185,6 @@ namespace FitMeApp.Repository.EntityFramework
                 .First(x => x.Id == newTrainerData.Id);
 
             trainer.Specialization = newTrainerData.Specialization;
-            //trainer.GymId = newTrainerData.GymId;
             trainer.WorkLicenseId = newTrainerData.WorkLicenseId;
 
             _context.SaveChanges();
@@ -257,6 +236,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             return clientsId;
         }
+
 
         public IEnumerable<string> GetActualClientsIdByTrainer(string trainerId)
         {
@@ -442,16 +422,15 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void DeleteTrainerWorkHours(int workHoursId)
         {
-            _context.Remove(_context.TrainerWorkHours.Where(x => x.Id == workHoursId).First());
+            _context.Remove(_context.TrainerWorkHours.First(x => x.Id == workHoursId));
             _context.SaveChanges();
         }
 
 
         public void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours)
         {
-            TrainerWorkHoursEntity workHoursEntity = _context.TrainerWorkHours
-                .Where(x => x.Id == newTrainerWorkHours.Id)
-                .First();
+            TrainerWorkHoursEntity workHoursEntity =
+                _context.TrainerWorkHours.First(x => x.Id == newTrainerWorkHours.Id);
 
             workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
             workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
@@ -481,10 +460,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainingEntityBase GetTraining(int id)
         {
-            var training = _context.Trainings
-                .Where(x => x.Id == id)
-                .First();
-
+            var training = _context.Trainings.First(x => x.Id == id);
             return training;
         }
 
@@ -513,9 +489,7 @@ namespace FitMeApp.Repository.EntityFramework
                 throw new ArgumentNullException(nameof(newGroupClassData));
             }
 
-            var groupClass = _context.Trainings
-                .Where(x => x.Id == id)
-                .First();
+            var groupClass = _context.Trainings.First(x => x.Id == id);
 
             groupClass.Name = newGroupClassData.Name;
             groupClass.Description = newGroupClassData.Description;
@@ -916,7 +890,6 @@ namespace FitMeApp.Repository.EntityFramework
                                                     on trainingTrainer.TrainingId equals training.Id
                                                     where selectedGenders.Contains(user.Gender)
                                                     where selectedSpecializations.Contains(trainer.Specialization)
-                                                    //where trainer.Status == TrainerApproveStatusEnum.approved
                                                     select new TrainerWithGymAndTrainingsJoin()
                                                     {
                                                         TrainerId = trainer.Id,
@@ -925,7 +898,6 @@ namespace FitMeApp.Repository.EntityFramework
                                                         Gender = user.Gender,
                                                         AvatarPath = user.AvatarPath,
                                                         Specialization = trainer.Specialization,
-                                                        //Status = trainer.Status,
                                                         GymId = gym.Id,
                                                         GymName = gym.Name,
                                                         GymAddress = gym.Address,
