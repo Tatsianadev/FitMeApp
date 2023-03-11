@@ -83,7 +83,7 @@ namespace FitMeApp.Services
             List<GymModel> gyms = new List<GymModel>();
             foreach (var gym in gymsByTrainings)
             {
-                gyms.Add(_mapper.MapGymEntityBaseToModelBase(gym));
+                gyms.Add(_mapper.MapGymWithGalleryBaseToModelBase(gym));
             }
             return gyms;
         }

@@ -55,17 +55,17 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(List<int> SelectedTrainingsId)
+        public ActionResult Index(List<int> selectedTrainingsId)
         {
             try
             {
-                if (SelectedTrainingsId.Count == 0)
+                if (selectedTrainingsId.Count == 0)
                 {
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    var selectedGymModels = _gymService.GetGymsByTrainings(SelectedTrainingsId);
+                    var selectedGymModels = _gymService.GetGymsByTrainings(selectedTrainingsId);
                     List<GymViewModel> selectedGyms = new List<GymViewModel>();
                     foreach (var selectedGymModel in selectedGymModels)
                     {

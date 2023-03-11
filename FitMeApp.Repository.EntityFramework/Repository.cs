@@ -833,25 +833,47 @@ namespace FitMeApp.Repository.EntityFramework
 
         //Filters
 
-        public IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId)
+        public IEnumerable<GymWithGalleryBase> GetGymsByTrainings(List<int> trainingsId)
         {
             var gymsByTrainings = (from trainingTrainer in _context.TrainingTrainer
                                    join license in _context.TrainerWorkLicenses
                                        on trainingTrainer.TrainerId equals license.TrainerId
-                                   //join trainer in _context.Trainers
-                                   //on trainingTrainer.TrainerId equals trainer.Id
                                    join gymDb in _context.Gyms
                                    on license.GymId equals gymDb.Id
+                                   join image in _context.GymImages
+                                       on gymDb.Id equals image.GymId
                                    where trainingsId.Contains(trainingTrainer.TrainingId)
-                                   select new GymEntityBase()
+                                   select new 
                                    {
                                        Id = gymDb.Id,
                                        Name = gymDb.Name,
                                        Address = gymDb.Address,
-                                       Phone = gymDb.Phone
+                                       Phone = gymDb.Phone,
+                                       GymImagePaths = image.ImagePath
                                    }).ToList().Distinct();
 
-            return gymsByTrainings;
+            List<GymWithGalleryBase> gyms = new List<GymWithGalleryBase>();
+            foreach (var gym in gymsByTrainings)
+            {
+                if (!gyms.Select(x=>x.Id).Contains(gym.Id))
+                {
+                    var images = gymsByTrainings
+                        .Where(x => x.Id == gym.Id)
+                        .Select(x => x.GymImagePaths)
+                        .ToList();
+
+                    gyms.Add(new GymWithGalleryBase()
+                    {
+                        Id = gym.Id,
+                        Name = gym.Name,
+                        Address = gym.Address,
+                        Phone = gym.Phone,
+                        GymImagePaths = images
+                    });
+                }   
+            }
+
+            return gyms;
         }
 
 

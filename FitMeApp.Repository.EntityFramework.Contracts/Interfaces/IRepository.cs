@@ -66,7 +66,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
 
         //Filters
-        IEnumerable<GymEntityBase> GetGymsByTrainings(List<int> trainingsId);
+        IEnumerable<GymWithGalleryBase> GetGymsByTrainings(List<int> trainingsId);
         IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
         IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(List<string> selectedGenders, List<string> selectedSpecializations);
 
