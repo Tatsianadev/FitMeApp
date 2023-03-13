@@ -5,9 +5,7 @@ using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
-using Microsoft.Extensions.Logging;
-using FitMeApp.Common.FileLogging;
-using Microsoft.AspNetCore.SignalR;
+
 
 namespace FitMeApp.Services
 {
@@ -44,7 +42,7 @@ namespace FitMeApp.Services
 
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
         {
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));
         }
     }
 }

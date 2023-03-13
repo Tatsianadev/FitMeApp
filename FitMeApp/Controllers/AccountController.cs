@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Services.Contracts.Interfaces;
-using FitMeApp.Mapper;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Configuration;
@@ -61,7 +58,6 @@ namespace FitMeApp.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         AvatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"]
-
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -70,6 +66,7 @@ namespace FitMeApp.Controllers
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
 
+                        //todo make the real code by codeProvider
                         var code = "123";
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
@@ -84,27 +81,17 @@ namespace FitMeApp.Controllers
                                 "Account",
                                 new { userId = user.Id, code = code },
                                 protocol: HttpContext.Request.Scheme);
-                            //return RedirectToAction("RegisterTrainerPart");
                         }
 
-                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                      
                         string toEmail = "tatiannikbond@gmail.com"; //should be user.Email, but for study cases - constant
                         string fromEmail = "tatsianadev@gmail.com";
                         string plainTextContent = "To finish Registration please follow the link <a href=\"" + callbackUrl + "\">Confirm email</a>";
                         string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">Confirm email</a></strong>";
                         string subject = "FitMeApp. Confirm email";
-                        //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-                        var apiKey = _configuration.GetSection("SendGrid")["SENDGRID_API_KEY"];
 
-                        await _emailService.SendEmailAsync(toEmail, fromEmail, apiKey, subject, plainTextContent, htmlContent);
+                        await _emailService.SendEmailAsync(toEmail, fromEmail, subject, plainTextContent, htmlContent);
 
                         return Content("To finish your registration check your Email, please.");
-
-
-                       
-
-                        //return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = false });
                     }
                     else
                     {
@@ -128,9 +115,10 @@ namespace FitMeApp.Controllers
         }
 
  
-        public async Task<IActionResult> RegisterTrainerPart(string userId, string code)
+        public IActionResult RegisterTrainerPart(string userId, string code)
         {
-            //var user = await _userManager.GetUserAsync(User);
+            //todo check the rights parameters passed
+
             TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
             {
                 UserId = userId,
@@ -145,7 +133,6 @@ namespace FitMeApp.Controllers
         {
             try
             {
-
                 if (model.TrainerSubscription == false && model.Contract == false)
                 {
                     ModelState.AddModelError("", "No option selected.");
@@ -158,12 +145,10 @@ namespace FitMeApp.Controllers
                     return View(model);
                 }
 
-                //var user = await _userManager.GetUserAsync(User);
-                var user = await _userManager.FindByIdAsync(model.UserId);
                 if (model.TrainerSubscription == true)
                 {
                     var actualTrainerSubscription = _gymService
-                        .GetUserSubscriptions(user.Id)
+                        .GetUserSubscriptions(model.UserId)
                         .Where(x => x.WorkAsTrainer == true)
                         .Where(x => x.EndDate > DateTime.Today);
 
@@ -176,7 +161,7 @@ namespace FitMeApp.Controllers
 
                 TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
                 {
-                    UserId = user.Id,
+                    UserId = model.UserId,
                     TrainerSubscription = model.TrainerSubscription,
                     ContractNumber = model.ContractNumber,
                     ApplicationDate = DateTime.Now
@@ -213,7 +198,7 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool applyedForTrainerRole)
         {
-            //var user = await _userManager.GetUserAsync(User);
+            //todo check the rights parameters passed
 
             ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
             return View("RegisterAsUserCompleted", userId);

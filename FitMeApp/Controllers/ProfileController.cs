@@ -148,7 +148,7 @@ namespace FitMeApp.Controllers
                 }
 
                 _trainerService.DeleteTrainer(trainerId);
-                return RedirectToAction("TrainerApplicationsList"); //before this -> send a message about rejection application
+                return RedirectToAction("TrainerApplicationsList"); //todo before this -> send a message about rejection application
 
             }
             catch (Exception ex)

@@ -8,12 +8,14 @@ using Microsoft.Extensions.Logging;
 using FitMeApp.Common.FileLogging;
 using System.IO;
 using FitMeApp.Chat;
-using FitMeApp.Common;
-using FitMeApp.Repository.EntityFramework;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace FitMeApp
 {
+    //static class DefaultStorageSettings
+    //{
+    //    public static string Fullpath { get; set; }
+    //}
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -33,7 +35,10 @@ namespace FitMeApp
             services.AddControllersWithViews();
             services.AddSignalR();
 
-            var apiKey = Configuration.GetConnectionString("SendGrid");
+            //todo set all constants this way 
+           // DefaultStorageSettings.Fullpath = Configuration.GetConnectionString("Default");
+
+            var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
 
         }

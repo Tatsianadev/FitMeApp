@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using SendGrid;
@@ -19,11 +16,11 @@ namespace FitMeApp.Services
             _apiKey = apiKey;   
         }
 
-        public async Task SendEmailAsync(string toEmail, string fromEmail, string apiKey, string subject, string plainTextContent, string htmlContent)
+        public async Task SendEmailAsync(string toEmail, string fromEmail, string subject, string plainTextContent, string htmlContent)
         {
             var to = new EmailAddress(toEmail, "receiver");
             var from = new EmailAddress(fromEmail, "sender");
-            var client = new SendGridClient(apiKey);
+            var client = new SendGridClient(_apiKey);
             var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var responce = await client.SendEmailAsync(message);
         }
