@@ -14,5 +14,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public bool Contract { get; set; }
         public string ContractNumber { get; set; }
         public DateTime ApplicationDate { get; set; }
+        public string EmailConfirmCode { get; set; }
     }
 }

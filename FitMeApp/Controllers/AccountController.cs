@@ -22,20 +22,18 @@ namespace FitMeApp.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
-        private readonly ITrainingService _trainingService;
-        private readonly ModelViewModelMapper _mapper;
+        private readonly IEmailService _emailService;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
-       
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager, IGymService gymService, 
-            ITrainerService trainerService, ITrainingService trainingService, ILogger<AccountController> logger, IConfiguration configuration)
+
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IGymService gymService,
+            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gymService = gymService;
             _trainerService = trainerService;
-            _trainingService = trainingService;
-            _mapper = new ModelViewModelMapper();
+            _emailService = emailService;
             _logger = logger;
             _configuration = configuration;
         }
@@ -44,39 +42,69 @@ namespace FitMeApp.Controllers
 
         [HttpGet]
         public IActionResult Register()
-        {  
+        {
             return View();
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
-        {            
+        {
             try
             {
                 if (ModelState.IsValid)
                 {
                     User user = new User()
                     {
-                        UserName = model.Email,      
+                        UserName = model.Email,
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         AvatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"]
 
-                };
+                    };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
+
+                        var code = "123";
+                        var callbackUrl = Url.Action(
+                            "RegisterAsUserCompleted",
+                            "Account",
+                            new { userId = user.Id, code = code, applyedForTrainerRole = false },
+                            protocol: HttpContext.Request.Scheme);
+
                         if (model.Role == RolesEnum.trainer)
                         {
-                            return RedirectToAction("RegisterTrainerPart");
+                            callbackUrl = Url.Action(
+                                "RegisterTrainerPart",
+                                "Account",
+                                new { userId = user.Id, code = code },
+                                protocol: HttpContext.Request.Scheme);
+                            //return RedirectToAction("RegisterTrainerPart");
                         }
-                        
-                        return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = false });
+
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                      
+                        string toEmail = "tatiannikbond@gmail.com"; //should be user.Email, but for study cases - constant
+                        string fromEmail = "tatsianadev@gmail.com";
+                        string plainTextContent = "To finish Registration please follow the link <a href=\"" + callbackUrl + "\">Confirm email</a>";
+                        string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">Confirm email</a></strong>";
+                        string subject = "FitMeApp. Confirm email";
+                        //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                        var apiKey = _configuration.GetSection("SendGrid")["SENDGRID_API_KEY"];
+
+                        await _emailService.SendEmailAsync(toEmail, fromEmail, apiKey, subject, plainTextContent, htmlContent);
+
+                        return Content("To finish your registration check your Email, please.");
+
+
+                       
+
+                        //return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = false });
                     }
                     else
                     {
@@ -96,14 +124,18 @@ namespace FitMeApp.Controllers
                     Message = "There was a problem with registration. Try again, please."
                 };
                 return View("CustomError", error);
-            }           
+            }
         }
 
-        //todo change applicationForm for trainer registration
-        public async  Task<IActionResult> RegisterTrainerPart()
+ 
+        public async Task<IActionResult> RegisterTrainerPart(string userId, string code)
         {
-            var user = await _userManager.GetUserAsync(User);
-            TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel();
+            //var user = await _userManager.GetUserAsync(User);
+            TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
+            {
+                UserId = userId,
+                EmailConfirmCode = code
+            };
             return View(applicationForm);
         }
 
@@ -126,7 +158,8 @@ namespace FitMeApp.Controllers
                     return View(model);
                 }
 
-                var user =await _userManager.GetUserAsync(User);
+                //var user = await _userManager.GetUserAsync(User);
+                var user = await _userManager.FindByIdAsync(model.UserId);
                 if (model.TrainerSubscription == true)
                 {
                     var actualTrainerSubscription = _gymService
@@ -153,7 +186,7 @@ namespace FitMeApp.Controllers
 
                 if (appId != 0)
                 {
-                    return RedirectToAction("RegisterAsUserCompleted", new { applyedForTrainerRole = true });
+                    return RedirectToAction("RegisterAsUserCompleted", new {userId = model.UserId, code = model.EmailConfirmCode, applyedForTrainerRole = true });
                 }
                 else
                 {
@@ -178,11 +211,12 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> RegisterAsUserCompleted(bool applyedForTrainerRole)
+        public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool applyedForTrainerRole)
         {
-            var user = await _userManager.GetUserAsync(User);
+            //var user = await _userManager.GetUserAsync(User);
+
             ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
-            return View(user);
+            return View("RegisterAsUserCompleted", userId);
         }
 
 
@@ -200,7 +234,7 @@ namespace FitMeApp.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {                  
+                {
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {

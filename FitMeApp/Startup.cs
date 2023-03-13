@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using FitMeApp.Common.FileLogging;
 using System.IO;
 using FitMeApp.Chat;
+using FitMeApp.Common;
+using FitMeApp.Repository.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 
 namespace FitMeApp
 {
@@ -29,6 +32,10 @@ namespace FitMeApp
             services.RegisterDependencies();
             services.AddControllersWithViews();
             services.AddSignalR();
+
+            var apiKey = Configuration.GetConnectionString("SendGrid");
+            services.RegisterMailService(apiKey);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

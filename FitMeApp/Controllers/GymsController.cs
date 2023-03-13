@@ -35,6 +35,9 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
+
+
+
             var gymModels = _gymService.GetAllGymsWithGalleryModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)

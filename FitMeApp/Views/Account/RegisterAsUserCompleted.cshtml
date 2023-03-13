@@ -1,4 +1,5 @@
-﻿@model FitMeApp.Common.User
+﻿@*@model FitMeApp.Common.User*@
+@model string
 
 @{
     ViewBag.Title = "Registration completed";
@@ -9,9 +10,9 @@
     {
         <h3>Thank you for joining us!</h3>
         <h4>Please pay attention that <span style="color: red"> all trainers functions will be available after the approval by admin.</span></h4>
-        <br/>
+        <br />
         <h5>To make your account more interesting to potential clients, add some information about yourself on your Profile.</h5>
-        
+
     }
     else
     {
@@ -20,7 +21,7 @@
         <h5>Please, add some information about yourself on your Profile.</h5>
     }
     <br />
-    <a asp-action="EditPersonalData" asp-controller="Profile" asp-route-id="@Model.Id" class="btn btn-dark">Fill out now</a>
+    <a asp-action="EditPersonalData" asp-controller="Profile" asp-route-id="@Model" class="btn btn-dark">Fill out now</a>
     <a asp-action="Index" asp-controller="Home" class="btn btn-light">Not now</a>
 
 </div>

@@ -2427,3 +2427,57 @@ Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Now listening on: http://127.0.0.1:1776
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+The view 'ac076f80-ce0d-47d2-b313-df2228db3c19' was not found. Searched locations: /Views/Account/ac076f80-ce0d-47d2-b313-df2228db3c19.cshtml, /Views/Shared/ac076f80-ce0d-47d2-b313-df2228db3c19.cshtml
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp

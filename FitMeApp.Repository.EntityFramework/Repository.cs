@@ -2,12 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
-using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
-using Microsoft.AspNetCore.Identity;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 
 namespace FitMeApp.Repository.EntityFramework

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FitMeApp.WEB.Contracts.ViewModels.Attributes
 {
@@ -17,7 +13,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels.Attributes
             
         }
 
-        public override bool IsValid(object? value)
+        public override bool IsValid(object value)
         {
             int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(_startTime);
             int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt((string)value);

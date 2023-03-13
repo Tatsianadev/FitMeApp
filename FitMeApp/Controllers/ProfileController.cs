@@ -30,6 +30,7 @@ namespace FitMeApp.Controllers
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public ProfileController(
             UserManager<User> userManager,
@@ -41,7 +42,8 @@ namespace FitMeApp.Controllers
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -54,9 +56,8 @@ namespace FitMeApp.Controllers
             _appEnvironment = appEnvironment;
             _fileService = fileService;
             _configuration = configuration;
+            _emailService = emailService;
         }
-
-
 
 
         //admin options
@@ -187,6 +188,7 @@ namespace FitMeApp.Controllers
                     await _userManager.DeleteAsync(user);
                 }
                 return RedirectToAction("UsersList");
+
             }
             catch (Exception ex)
             {
