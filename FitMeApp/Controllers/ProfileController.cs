@@ -229,6 +229,7 @@ namespace FitMeApp.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
                     PhoneNumber = user.PhoneNumber,
                     Year = user.Year,
                     Gender = user.Gender,
@@ -260,6 +261,8 @@ namespace FitMeApp.Controllers
                     User user = await _userManager.FindByIdAsync(model.Id);
                     if (user != null)
                     {
+                        bool modelEmailConfirmed = (model.Email == user.Email && user.EmailConfirmed);
+
                         user.UserName = model.Email;
                         user.FirstName = model.FirstName;
                         user.LastName = model.LastName;
@@ -281,6 +284,11 @@ namespace FitMeApp.Controllers
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
                         {
+                            if (!modelEmailConfirmed)
+                            {
+                                return RedirectToAction("SendMailToConfirmEmail", new {userId = user.Id});
+                            }
+
                             if (User.IsInRole("admin"))
                             {
                                 return RedirectToAction("UsersList");
@@ -314,6 +322,62 @@ namespace FitMeApp.Controllers
                 };
                 return View("CustomError", error);
             }
+        }
+
+
+        public async Task<IActionResult> SendMailToConfirmEmail(string userId)
+        {
+            User user = await _userManager.FindByIdAsync(userId);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action(
+                "ConfirmEmail",
+                "Profile",
+                new { userId = user.Id, code = code },
+                protocol: HttpContext.Request.Scheme);
+
+            string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study cases - constant
+            string fromEmail = DefaultSettingsStorage.SenderEmail;
+            string plainTextContent = "To finish update your Profile please follow the link <a href=\"" + callbackUrl + "\">Finish</a>";
+            string htmlContent = "<strong>To finish update your Profile please follow the link  <a href=\"" + callbackUrl + "\">Finish</a></strong>";
+            string subject = "Confirm email";
+
+            await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+
+            return Content("To finish update your Profile check your Email, please.");
+        }
+
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            try
+            {
+                if (userId == null || code == null)
+                {
+                    throw new ArgumentNullException(nameof(userId), "userId or code is null");
+                }
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    throw new ArgumentNullException(nameof(user), "user does not found");
+                }
+
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            CustomErrorViewModel error = new CustomErrorViewModel()
+            {
+                Message = "Failed to verify email address. Please, try again in you Profile"
+            };
+            return View("CustomError", error);
         }
 
 

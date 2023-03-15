@@ -211,17 +211,18 @@ namespace FitMeApp.Controllers
                     return View("RegisterAsUserCompleted", userId);
                 }
             }
-            catch (Exception ex)
+            catch (ArgumentNullException ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
 
             CustomErrorViewModel error = new CustomErrorViewModel()
             {
-                Message = "Failed to verify email address." //todo add button Send link once again to try one more time
+                Message = "Failed to verify email address. Please, try again in you Profile" //todo add button Send link once again to try one more time
             };
             return View("CustomError", error);
         }
+
 
 
         [HttpGet]
