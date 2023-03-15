@@ -35,11 +35,11 @@ namespace FitMeApp
             services.AddControllersWithViews();
             services.AddSignalR();
 
-            //todo set all constants this way 
-           // DefaultStorageSettings.Fullpath = Configuration.GetConnectionString("Default");
-
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
+
+            //todo set all constants this way 
+            Common.DefaultSettingsStorage.DefaultAvatarPath = Configuration.GetSection("Constants")["DefaultAvatarPath"];
 
         }
 

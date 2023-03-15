@@ -172,7 +172,7 @@ namespace FitMeApp.Controllers
                 if (user != null)
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
-                    if (userRoles.Contains(Common.RolesEnum.trainer.ToString()))
+                    if (userRoles.Contains(RolesEnum.trainer.ToString()))
                     {
                         int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(user.Id);
                         if (actualEventsCount > 0)
@@ -268,20 +268,14 @@ namespace FitMeApp.Controllers
                         user.Year = model.Year;
                         user.Gender = model.Gender;
 
-                        string avatarPath = string.Empty;
                         if (model.AvatarFile != null)
                         {
                             string rootPath = _appEnvironment.WebRootPath;
-                            avatarPath = _fileService.SaveAvatarFileAsync(user.Id, model.AvatarFile, rootPath);
+                            string avatarPath = _fileService.SaveAvatarFileAsync(user.Id, model.AvatarFile, rootPath);
                             if (!string.IsNullOrEmpty(avatarPath))
                             {
                                 user.AvatarPath = avatarPath;
                             }
-                        }
-                        else
-                        {
-                            avatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"];
-                            user.AvatarPath = avatarPath;
                         }
 
                         var result = await _userManager.UpdateAsync(user);

@@ -57,7 +57,7 @@ namespace FitMeApp.Controllers
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        AvatarPath = _configuration.GetSection("Constants")["AvatarPathDefault"]
+                        AvatarPath = DefaultSettingsStorage.DefaultAvatarPath
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -114,7 +114,7 @@ namespace FitMeApp.Controllers
             }
         }
 
- 
+
         public IActionResult RegisterTrainerPart(string userId, string code)
         {
             //todo check the rights parameters passed
@@ -171,7 +171,7 @@ namespace FitMeApp.Controllers
 
                 if (appId != 0)
                 {
-                    return RedirectToAction("RegisterAsUserCompleted", new {userId = model.UserId, code = model.EmailConfirmCode, applyedForTrainerRole = true });
+                    return RedirectToAction("RegisterAsUserCompleted", new { userId = model.UserId, code = model.EmailConfirmCode, applyedForTrainerRole = true });
                 }
                 else
                 {

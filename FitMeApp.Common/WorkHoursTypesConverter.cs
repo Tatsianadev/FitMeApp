@@ -26,10 +26,10 @@ namespace FitMeApp.Common
 
         public static int ConvertStringTimeToInt(string stringTime)
         {
-            //определение целой части
+            //finding the integer part of number
             string integerPart = stringTime.Substring(0, stringTime.Length - 3);
 
-            //oпределение дробной части
+            //finding the fraction part of number
             int pointIndex = stringTime.Length - 3;
             string remainder = stringTime.Remove(0, pointIndex + 1);
 
