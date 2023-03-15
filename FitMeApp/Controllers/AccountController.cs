@@ -67,7 +67,8 @@ namespace FitMeApp.Controllers
                         await _signInManager.SignInAsync(user, false);
 
                         //todo make the real code by codeProvider
-                        var code = "123";
+                        //var code = "123";
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
                             "Account",
@@ -199,9 +200,36 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool applyedForTrainerRole)
         {
             //todo check the rights parameters passed
+            try
+            {
+                if (userId == null || code == null)
+                {
+                    throw new ArgumentNullException(nameof(userId), "userId or code is null");
+                }
 
-            ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
-            return View("RegisterAsUserCompleted", userId);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    throw new ArgumentNullException(nameof(user), "user does not found");
+                }
+
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                if (result.Succeeded)
+                {
+                    ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
+                    return View("RegisterAsUserCompleted", userId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            CustomErrorViewModel error = new CustomErrorViewModel()
+            {
+                Message = "Failed to verify email address." //todo add button Send link once again to try one more time
+            };
+            return View("CustomError", error);
         }
 
 

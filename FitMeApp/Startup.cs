@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using FitMeApp.Common.FileLogging;
 using System.IO;
 using FitMeApp.Chat;
+using FitMeApp.Common;
+
 
 
 namespace FitMeApp
@@ -34,7 +36,6 @@ namespace FitMeApp
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
 
-            //todo set all constants this way 
             Common.DefaultSettingsStorage.AvatarPath = Configuration.GetSection("Constants")["AvatarPath"];
             Common.DefaultSettingsStorage.ApplicationName = Configuration.GetSection("Constants")["ApplicationName"];
             Common.DefaultSettingsStorage.AdminEmail = Configuration.GetSection("FirstAppStart")["AdminEmail"];
@@ -59,10 +60,8 @@ namespace FitMeApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseAuthentication(); //added
+            app.UseAuthentication();
             app.UseAuthorization();
 
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
@@ -74,7 +73,7 @@ namespace FitMeApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<ChatHub>("/chat");  //added to chat
+                endpoints.MapHub<ChatHub>("/chat"); 
 
             });
         }

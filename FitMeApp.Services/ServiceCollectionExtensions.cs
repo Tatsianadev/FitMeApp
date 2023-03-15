@@ -25,7 +25,8 @@ namespace FitMeApp.Services
                 options.User.RequireUniqueEmail = true;
                 
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();            
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();            
         }
 
         public static void RegisterDependencies(this IServiceCollection services)
@@ -44,6 +45,7 @@ namespace FitMeApp.Services
         {
             services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));
         }
+
     }
 }
 
