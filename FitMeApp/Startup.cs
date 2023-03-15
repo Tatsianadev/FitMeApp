@@ -12,10 +12,6 @@ using FitMeApp.Chat;
 
 namespace FitMeApp
 {
-    //static class DefaultStorageSettings
-    //{
-    //    public static string Fullpath { get; set; }
-    //}
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -39,7 +35,12 @@ namespace FitMeApp
             services.RegisterMailService(apiKey);
 
             //todo set all constants this way 
-            Common.DefaultSettingsStorage.DefaultAvatarPath = Configuration.GetSection("Constants")["DefaultAvatarPath"];
+            Common.DefaultSettingsStorage.AvatarPath = Configuration.GetSection("Constants")["AvatarPath"];
+            Common.DefaultSettingsStorage.ApplicationName = Configuration.GetSection("Constants")["ApplicationName"];
+            Common.DefaultSettingsStorage.AdminEmail = Configuration.GetSection("FirstAppStart")["AdminEmail"];
+            Common.DefaultSettingsStorage.AdminPassword = Configuration.GetSection("FirstAppStart")["AdminPassword"];
+            Common.DefaultSettingsStorage.SenderEmail = Configuration.GetSection("DefaultEmail")["Sender"];
+            Common.DefaultSettingsStorage.ReceiverEmail = Configuration.GetSection("DefaultEmail")["Receiver"];
 
         }
 

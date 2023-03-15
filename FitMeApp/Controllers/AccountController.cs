@@ -57,7 +57,7 @@ namespace FitMeApp.Controllers
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        AvatarPath = DefaultSettingsStorage.DefaultAvatarPath
+                        AvatarPath = DefaultSettingsStorage.AvatarPath
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -83,13 +83,13 @@ namespace FitMeApp.Controllers
                                 protocol: HttpContext.Request.Scheme);
                         }
 
-                        string toEmail = "tatiannikbond@gmail.com"; //should be user.Email, but for study cases - constant
-                        string fromEmail = "tatsianadev@gmail.com";
+                        string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study cases - constant
+                        string fromEmail = DefaultSettingsStorage.SenderEmail;
                         string plainTextContent = "To finish Registration please follow the link <a href=\"" + callbackUrl + "\">Confirm email</a>";
                         string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">Confirm email</a></strong>";
-                        string subject = "FitMeApp. Confirm email";
+                        string subject = "Confirm email";
 
-                        await _emailService.SendEmailAsync(toEmail, fromEmail, subject, plainTextContent, htmlContent);
+                        await _emailService.SendEmailAsync(toEmail, model.FirstName, fromEmail, subject, plainTextContent, htmlContent);
 
                         return Content("To finish your registration check your Email, please.");
                     }
@@ -129,7 +129,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RegisterTrainerPart(TrainerApplicationViewModel model)
+        public IActionResult RegisterTrainerPart(TrainerApplicationViewModel model)
         {
             try
             {

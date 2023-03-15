@@ -8,8 +8,8 @@ namespace FitMeApp.Services
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string email = InitializedRoleData.GetAdminEmail();
-            string password = InitializedRoleData.GetAdminPassword();
+            string email = DefaultSettingsStorage.AdminEmail;
+            string password = DefaultSettingsStorage.AdminPassword;
 
             if (await roleManager.FindByNameAsync(RolesEnum.admin.ToString()) == null)
             {

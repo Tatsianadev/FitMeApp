@@ -27,9 +27,8 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
-        public async Task<IActionResult> ChatRoom()
+        public IActionResult ChatRoom()
         {
-
             return View();
         }
 

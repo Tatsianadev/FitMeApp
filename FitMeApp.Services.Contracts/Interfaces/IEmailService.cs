@@ -7,7 +7,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string toEmail, string fromEmail, string subject, string plainTextContent,
+        Task SendEmailAsync(string toEmail, string toUserName, string fromEmail, string subject, string plainTextContent,
             string htmlContent);
     }
 }
