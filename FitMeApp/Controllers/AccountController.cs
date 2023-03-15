@@ -66,23 +66,13 @@ namespace FitMeApp.Controllers
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
 
-                        //todo make the real code by codeProvider
-                        //var code = "123";
+                        bool applyedForTrainerRole = model.Role == RolesEnum.trainer;
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
                             "Account",
-                            new { userId = user.Id, code = code, applyedForTrainerRole = false },
+                            new { userId = user.Id, code = code, applyedForTrainerRole = applyedForTrainerRole },
                             protocol: HttpContext.Request.Scheme);
-
-                        if (model.Role == RolesEnum.trainer)
-                        {
-                            callbackUrl = Url.Action(
-                                "RegisterTrainerPart",
-                                "Account",
-                                new { userId = user.Id, code = code },
-                                protocol: HttpContext.Request.Scheme);
-                        }
 
                         string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study cases - constant
                         string fromEmail = DefaultSettingsStorage.SenderEmail;
@@ -116,14 +106,11 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult RegisterTrainerPart(string userId, string code)
+        public IActionResult RegisterTrainerPart(string userId)
         {
-            //todo check the rights parameters passed
-
             TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
             {
-                UserId = userId,
-                EmailConfirmCode = code
+                UserId = userId
             };
             return View(applicationForm);
         }
@@ -172,7 +159,8 @@ namespace FitMeApp.Controllers
 
                 if (appId != 0)
                 {
-                    return RedirectToAction("RegisterAsUserCompleted", new { userId = model.UserId, code = model.EmailConfirmCode, applyedForTrainerRole = true });
+                    ViewBag.ApplyedForTrainerRole = true;
+                    return View("RegisterAsUserCompleted", model.UserId);
                 }
                 else
                 {
@@ -199,7 +187,6 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool applyedForTrainerRole)
         {
-            //todo check the rights parameters passed
             try
             {
                 if (userId == null || code == null)
@@ -216,7 +203,11 @@ namespace FitMeApp.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, code);
                 if (result.Succeeded)
                 {
-                    ViewBag.ApplyedForTrainerRole = applyedForTrainerRole;
+                    if (applyedForTrainerRole)
+                    {
+                        return RedirectToAction("RegisterTrainerPart", new {userId = userId});
+                    }
+                    ViewBag.ApplyedForTrainerRole = false;
                     return View("RegisterAsUserCompleted", userId);
                 }
             }

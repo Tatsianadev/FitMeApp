@@ -36,7 +36,7 @@ namespace FitMeApp
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
 
-            Common.DefaultSettingsStorage.AvatarPath = Configuration.GetSection("Constants")["AvatarPath"];
+            Common.DefaultSettingsStorage.AvatarPath = Configuration.GetSection("Constants")["DefaultAvatarPath"];
             Common.DefaultSettingsStorage.ApplicationName = Configuration.GetSection("Constants")["ApplicationName"];
             Common.DefaultSettingsStorage.AdminEmail = Configuration.GetSection("FirstAppStart")["AdminEmail"];
             Common.DefaultSettingsStorage.AdminPassword = Configuration.GetSection("FirstAppStart")["AdminPassword"];
