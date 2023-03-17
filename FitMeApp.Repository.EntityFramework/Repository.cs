@@ -358,6 +358,27 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public TrainerApplicationWithNamesBase GetTrainerApplicationWithNamesByUser(string userId)
+        {
+            var trainerApplication = (from trainerApp in _context.TrainerApplications
+                                       join user in _context.Users
+                                           on trainerApp.UserId equals user.Id
+                                       where trainerApp.UserId == userId
+                                       select new TrainerApplicationWithNamesBase()
+                                       {
+                                           Id = trainerApp.Id,
+                                           UserId = trainerApp.UserId,
+                                           UserFirstName = user.FirstName,
+                                           UserLastName = user.LastName,
+                                           TrainerSubscription = trainerApp.TrainerSubscription,
+                                           ContractNumber = trainerApp.ContractNumber,
+                                           ApplicationDate = trainerApp.ApplicationDate
+                                       }).FirstOrDefault();
+
+            return trainerApplication;
+        }
+
+
         public TrainerApplicationEntityBase GetTrainerApplicationByUser(string userId)
         {
             var trainerApplication = _context.TrainerApplications.First(x => x.UserId == userId);

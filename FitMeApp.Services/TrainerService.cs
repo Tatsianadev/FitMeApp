@@ -366,5 +366,17 @@ namespace FitMeApp.Services
 
             return true;
         }
+
+
+        public TrainerApplicationModel GetTrainerApplicationByUser(string userId)
+        {
+            var applicationEntity = _repository.GetTrainerApplicationWithNamesByUser(userId);
+            if (applicationEntity is null)
+            {
+                return null;
+            }
+            TrainerApplicationModel trainerAppModel = _mapper.MapTrainerApplicationWithNamesBaseToModel(applicationEntity);
+            return trainerAppModel;
+        }
     }
 }

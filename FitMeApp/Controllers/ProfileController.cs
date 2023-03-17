@@ -210,6 +210,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> UserPersonalData()
         {
             var user = await _userManager.GetUserAsync(User);
+            ViewBag.ApplyedForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id) != null;
             return View(user);
         }
 

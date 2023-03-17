@@ -10,10 +10,10 @@
             <div class="container" style="border:solid; padding:15px">
                 <div class="row">
                     <div class="col-md-4">
-                       
-                        @{ string imagePath = "/Content/images/" + (string.IsNullOrEmpty(Model.AvatarPath)? "defaultAvatar.jpg" : Model.AvatarPath);}
+
+                        @{ string imagePath = "/Content/images/" + (string.IsNullOrEmpty(Model.AvatarPath) ? "defaultAvatar.jpg" : Model.AvatarPath);}
                         @*<img src="@imagePath" alt="trainerImage" style="height: 220px; width: auto; margin: 10px"/>*@
-                        <img src="@Model.AvatarPath" alt="trainerImage" style="height: 220px; width: auto; margin: 10px"/>
+                        <img src="@Model.AvatarPath" alt="trainerImage" style="height: 220px; width: auto; margin: 10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">
                         <table style="width:100%; margin:auto">
@@ -45,7 +45,11 @@
                         <a asp-controller="Profile" asp-action="EditPersonalData" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Edit</a>
                         <a asp-controller="Profile" asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-dark" style="width:40%">Change Password</a>
                         <hr />
-                        @if (!User.IsInRole("trainer"))
+                        @if (ViewBag.ApplyedForTrainerRole)
+                        {
+                            <a  class="btn btn-outline-primary" style="width:100%">Application is pending</a>
+                        }
+                        else
                         {
                             <a asp-controller="Account" asp-action="RegisterTrainerPart" class="btn btn-dark" style="width:100%">Apply for a Trainer Role</a>
                         }
