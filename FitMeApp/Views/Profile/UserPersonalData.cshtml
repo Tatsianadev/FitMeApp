@@ -9,10 +9,7 @@
             <br />
             <div class="container" style="border:solid; padding:15px">
                 <div class="row">
-                    <div class="col-md-4">
-
-                        @{ string imagePath = "/Content/images/" + (string.IsNullOrEmpty(Model.AvatarPath) ? "defaultAvatar.jpg" : Model.AvatarPath);}
-                        @*<img src="@imagePath" alt="trainerImage" style="height: 220px; width: auto; margin: 10px"/>*@
+                    <div class="col-md-4">                      
                         <img src="@Model.AvatarPath" alt="trainerImage" style="height: 220px; width: auto; margin: 10px" />
                     </div>
                     <div class="col-md-8" style="align-content:center">

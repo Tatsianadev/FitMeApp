@@ -67,7 +67,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GymEntityBase GetGym(int id)
         {
-            GymEntity gym = _context.Gyms.First(x => x.Id == id);
+            GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
             return gym;
         }
 
@@ -97,11 +97,14 @@ namespace FitMeApp.Repository.EntityFramework
                 throw new ArgumentNullException(nameof(newGymData));
             }
 
-            GymEntity gym = _context.Gyms.First(x => x.Id == id);
+            GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
 
-            gym.Name = newGymData.Name;
-            gym.Address = newGymData.Address;
-            gym.Phone = newGymData.Phone;
+            if (gym != null)
+            {
+                gym.Name = newGymData.Name;
+                gym.Address = newGymData.Address;
+                gym.Phone = newGymData.Phone;
+            }         
 
             _context.SaveChanges();
         }
@@ -109,9 +112,12 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void DeleteGym(int id)
         {
-            GymEntity gym = _context.Gyms.First(x => x.Id == id);
-            _context.Gyms.Remove(gym);
-            _context.SaveChanges();
+            GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
+            if (gym != null)
+            {
+                _context.Gyms.Remove(gym);
+                _context.SaveChanges();
+            }           
         }
 
 
@@ -131,7 +137,7 @@ namespace FitMeApp.Repository.EntityFramework
                 .Where(x => x.GymId == gymId)
                 .Where(x => x.DayOfWeekNumber == dayOfWeek)
                 .Select(x => x.Id)
-                .First();
+                .FirstOrDefault();
             return gymWorkHoursId;
         }
 

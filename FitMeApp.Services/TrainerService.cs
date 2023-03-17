@@ -91,34 +91,37 @@ namespace FitMeApp.Services
                 _repository.AddTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
             }
 
-        }
-
-
-        //public void UpdateTrainerStatus(string trainerId, TrainerApproveStatusEnum newStatus)
-        //{
-        //    var trainer = _repository.GetTrainer(trainerId);
-        //    _repository.UpdateTrainer(trainer);
-        //}
+        }        
 
 
         private bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
-            List<DayOfWeek> gymWorkDayes = _repository.GetWorkHoursByGym(gymId).Select(x => x.DayOfWeekNumber).ToList();
+            var gymWorkHours = _repository.GetWorkHoursByGym(gymId);
+
+            List<DayOfWeek> gymWorkDayes = gymWorkHours.Select(x => x.DayOfWeekNumber).ToList();
             List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
             if (newTrainerWorkDayes.Except(gymWorkDayes).Count() > 0) // проверка, тренер работает только в дни, когда работает зал
             {
                 return false;
             }
-
-            var gymWorkHours = _repository.GetWorkHoursByGym(gymId);
+            
             foreach (var newTrainerWorkHours in newWorkHours) //проверка, чтобы рабочие часы тренера не выходили за пределы рабочих часов зала
             {
-                var gymWorkStartTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().StartTime;
-                var gymWorkEndTime = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).First().EndTime;
-                if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime < newTrainerWorkHours.EndTime)
+                var gymWorkHoursById = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).FirstOrDefault();
+                if (gymWorkHoursById != null)
+                {
+                    var gymWorkStartTime = gymWorkHoursById. StartTime;
+                    var gymWorkEndTime = gymWorkHoursById.EndTime;
+                    if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime < newTrainerWorkHours.EndTime)
+                    {
+                        return false;
+                    }
+                }
+                else
                 {
                     return false;
                 }
+                
             }
 
             return true;
