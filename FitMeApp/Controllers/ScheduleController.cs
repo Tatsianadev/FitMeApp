@@ -191,21 +191,8 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "trainer")]
         public IActionResult ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
         {
-            bool result = _scheduleService.ChangeEventStatus(eventId);
-            if (result)
-            {
-                return ShowTrainersEvents(model);
-            }
-            else
-            {
-                _logger.LogError("failed to change event status");
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "Failed to change event status. Please try again."
-                };
-                return View("CustomError", error);
-            }
-
+            _scheduleService.ChangeEventStatus(eventId);
+            return ShowTrainersEvents(model);
         }
     }
 

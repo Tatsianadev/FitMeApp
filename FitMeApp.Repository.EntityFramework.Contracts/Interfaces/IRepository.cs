@@ -26,7 +26,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void UpdateTrainer(TrainerEntityBase newTrainerData);
         void DeleteTrainer(string id);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
-        bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
+        void AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
         void DeleteTrainerWorkHours(int workHoursId);
         void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
@@ -35,7 +35,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         IEnumerable<int> GetAvailableToApplyTrainingTimeByTrainer(string trainerId, DateTime date);
         int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license);
-        void DeleteTAllrainerWorkLicensesByTrainer(string trainerId);
+        void DeleteTAllTrainerWorkLicensesByTrainer(string trainerId);
         TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId);
 
 
@@ -74,7 +74,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Subscriptions
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForVisitorsByGym(int gymId);
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForTrainersByGym(int gymId);
-        List<int> GetAllSubscriptionPeriods();
+        IEnumerable<int> GetAllSubscriptionPeriods();
         int GetSubscriptionPeriod(int subscriptionId);
         SubscriptionPriceBase GetSubscriptionWithPriceByGym(int subscriptionId, int gymId);
 
@@ -97,7 +97,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
 
         //Events
-        bool ChangeEventStatus(int eventId);
+        void ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
         IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
         bool AddEvent(EventEntityBase newEvent);
@@ -108,7 +108,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<string> GetAllContactsIdByUser(string userId);
         int AddMessage(ChatMessageEntityBase message);
         ChatMessageEntityBase GetMessage(int messageId);
-        bool AddContact(string userId, string interlocutorId);
+        void AddContact(string userId, string interlocutorId);
 
         
 

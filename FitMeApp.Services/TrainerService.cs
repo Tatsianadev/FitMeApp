@@ -252,7 +252,7 @@ namespace FitMeApp.Services
             _repository.DeleteAllTrainingTrainerConnectionsByTrainer(id);
             _repository.DeleteTrainerWorkHoursByTrainer(id);
             _repository.DeleteTrainer(id);
-            _repository.DeleteTAllrainerWorkLicensesByTrainer(id);
+            _repository.DeleteTAllTrainerWorkLicensesByTrainer(id);
         }
 
 

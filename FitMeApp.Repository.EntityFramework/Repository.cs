@@ -74,12 +74,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GymEntityBase AddGym(GymEntityBase gym)
         {
-            if (gym == null)
-            {
-                throw new ArgumentNullException(nameof(gym));
-            }
-
-            _context.Gyms.Add(new GymEntity()
+           _context.Gyms.Add(new GymEntity()
             {
                 Name = gym.Name,
                 Address = gym.Address,
@@ -92,12 +87,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void UpdateGym(int id, GymEntityBase newGymData)
         {
-            if (newGymData == null)
-            {
-                throw new ArgumentNullException(nameof(newGymData));
-            }
-
-            GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
+           GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
 
             if (gym != null)
             {
@@ -138,6 +128,7 @@ namespace FitMeApp.Repository.EntityFramework
                 .Where(x => x.DayOfWeekNumber == dayOfWeek)
                 .Select(x => x.Id)
                 .FirstOrDefault();
+
             return gymWorkHoursId;
         }
 
@@ -153,18 +144,13 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerEntityBase GetTrainer(string id)
         {
-            var trainer = _context.Trainers.First(x => x.Id == id);
+            var trainer = _context.Trainers.FirstOrDefault(x => x.Id == id);
             return trainer;
         }
 
 
         public bool AddTrainer(TrainerEntityBase trainer)
         {
-            if (trainer == null)
-            {
-                throw new ArgumentNullException(nameof(trainer));
-            }
-
             _context.Trainers.Add(new TrainerEntity()
             {
                 Id = trainer.Id,
@@ -173,17 +159,12 @@ namespace FitMeApp.Repository.EntityFramework
             });
 
             int addedRowCount = _context.SaveChanges();
-            return addedRowCount > 0 ? true : false;
+            return addedRowCount > 0;
         }
 
 
         public void UpdateTrainer(TrainerEntityBase newTrainerData)
         {
-            if (newTrainerData == null)
-            {
-                throw new ArgumentNullException(nameof(newTrainerData));
-            }
-
             var trainer = _context.Trainers
                 .First(x => x.Id == newTrainerData.Id);
 
@@ -280,7 +261,12 @@ namespace FitMeApp.Repository.EntityFramework
                                             StartTime = trainerWorkHours.StartTime,
                                             EndTime = trainerWorkHours.EndTime
                                         })
-                                    .First();
+                                    .FirstOrDefault();
+
+            if (trainerWorkHoursJoin is null)
+            {
+                return new List<int>();
+            }
 
             List<int> workTimeScale = new List<int>();
             for (int timeInMinutes = trainerWorkHoursJoin.StartTime; timeInMinutes < trainerWorkHoursJoin.EndTime; timeInMinutes = (timeInMinutes + 30))
@@ -333,7 +319,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public void DeleteTAllrainerWorkLicensesByTrainer(string trainerId)
+        public void DeleteTAllTrainerWorkLicensesByTrainer(string trainerId)
         {
             var trainerWorkLicenses = _context.TrainerWorkLicenses
                 .Where(x => x.TrainerId == trainerId)
@@ -351,7 +337,7 @@ namespace FitMeApp.Repository.EntityFramework
         public TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId)
         {
             var license = _context.TrainerWorkLicenses
-                .First(x => x.Id == licenseId);
+                .FirstOrDefault(x => x.Id == licenseId);
 
             return license;
         }
@@ -402,7 +388,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainerApplicationEntityBase GetTrainerApplicationByUser(string userId)
         {
-            var trainerApplication = _context.TrainerApplications.First(x => x.UserId == userId);
+            var trainerApplication = _context.TrainerApplications.FirstOrDefault(x => x.UserId == userId);
             return trainerApplication;
         }
 
@@ -430,14 +416,17 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void DeleteTrainerApplication(int appId)
         {
-            var application = _context.TrainerApplications.First(x => x.Id == appId);
-            _context.Remove(application);
-            _context.SaveChanges();
+            var application = _context.TrainerApplications.FirstOrDefault(x => x.Id == appId);
+            if (application != null)
+            {
+                _context.Remove(application);
+                _context.SaveChanges();
+            }
         }
 
 
         //Edit Trainer WorkHours methods
-        public bool AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
+        public void AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase)
         {
             if (_context.TrainerWorkHours.Find(workHoursBase.Id) == null)
             {
@@ -449,31 +438,32 @@ namespace FitMeApp.Repository.EntityFramework
                     GymWorkHoursId = workHoursBase.GymWorkHoursId
                 });
 
-                int addedRowsCount = _context.SaveChanges();
-                return addedRowsCount > 0 ? true : false;
-            }
-            else
-            {
-                return false;
+                _context.SaveChanges();
             }
         }
 
 
         public void DeleteTrainerWorkHours(int workHoursId)
         {
-            _context.Remove(_context.TrainerWorkHours.First(x => x.Id == workHoursId));
-            _context.SaveChanges();
+            var trainerWorkHoursForCurrentDay = _context.TrainerWorkHours.FirstOrDefault(x => x.Id == workHoursId);
+            if (trainerWorkHoursForCurrentDay != null)
+            {
+                _context.Remove(trainerWorkHoursForCurrentDay);
+                _context.SaveChanges();
+            }
         }
 
 
         public void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours)
         {
             TrainerWorkHoursEntity workHoursEntity =
-                _context.TrainerWorkHours.First(x => x.Id == newTrainerWorkHours.Id);
-
-            workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
-            workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
-            _context.SaveChanges();
+                _context.TrainerWorkHours.FirstOrDefault(x => x.Id == newTrainerWorkHours.Id);
+            if (workHoursEntity != null)
+            {
+                workHoursEntity.StartTime = newTrainerWorkHours.StartTime;
+                workHoursEntity.EndTime = newTrainerWorkHours.EndTime;
+                _context.SaveChanges();
+            }
         }
 
 
@@ -499,7 +489,11 @@ namespace FitMeApp.Repository.EntityFramework
 
         public TrainingEntityBase GetTraining(int id)
         {
-            var training = _context.Trainings.First(x => x.Id == id);
+            var training = _context.Trainings.FirstOrDefault(x => x.Id == id);
+            if (training is null)
+            {
+                throw new ArgumentException($"training by id {id} not found");
+            }
             return training;
         }
 
@@ -528,23 +522,27 @@ namespace FitMeApp.Repository.EntityFramework
                 throw new ArgumentNullException(nameof(newGroupClassData));
             }
 
-            var groupClass = _context.Trainings.First(x => x.Id == id);
-
-            groupClass.Name = newGroupClassData.Name;
-            groupClass.Description = newGroupClassData.Description;
-
-            _context.SaveChanges();
+            var groupClass = _context.Trainings.FirstOrDefault(x => x.Id == id);
+            if (groupClass != null)
+            {
+                groupClass.Name = newGroupClassData.Name;
+                groupClass.Description = newGroupClassData.Description;
+                _context.SaveChanges();
+            }
         }
 
 
         public void DeleteTraining(int id)
         {
             var groupClass = _context.Trainings
-                .Where(x => x.Id == id)
-                .First();
+                .FirstOrDefault(x => x.Id == id);
 
-            _context.Trainings.Remove(groupClass);
-            _context.SaveChanges();
+            if (groupClass != null)
+            {
+                _context.Trainings.Remove(groupClass);
+                _context.SaveChanges();
+            }
+            
         }
 
 
@@ -563,11 +561,13 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var trainingTrainersConnection = _context.TrainingTrainer
                 .Where(x => x.TrainerId == trainerId)
-                .Where(x => x.TrainingId == trainingToDeleteId)
-                .First();
+                .FirstOrDefault(x => x.TrainingId == trainingToDeleteId);
 
-            _context.TrainingTrainer.Remove(trainingTrainersConnection);
-            _context.SaveChanges();
+            if (trainingTrainersConnection != null)
+            {
+                _context.TrainingTrainer.Remove(trainingTrainersConnection);
+                _context.SaveChanges();
+            }
         }
 
 
@@ -580,7 +580,7 @@ namespace FitMeApp.Repository.EntityFramework
             });
 
             int addedCount = _context.SaveChanges();
-            return addedCount > 0 ? true : false;
+            return addedCount > 0;
         }
 
 
@@ -682,10 +682,10 @@ namespace FitMeApp.Repository.EntityFramework
                 }
                 else
                 {
-                    var currentTrainer = trainers.Where(x => x.Id == item.TrainerId).First();
+                    var currentTrainer = trainers.First(x => x.Id == item.TrainerId);
                     var currentTrainerTrainings = currentTrainer.Trainings.ToList();
                     currentTrainerTrainings.Add(training);
-                    trainers.Where(x => x.Id == item.TrainerId).First().Trainings = currentTrainerTrainings;
+                    trainers.First(x => x.Id == item.TrainerId).Trainings = currentTrainerTrainings;
                 }
             }
 
@@ -729,7 +729,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        private List<TrainerWithGymAndTrainingsBase> ConvertJoinResultToTrainerWithGymAndTrainingsBase(List<TrainerWithGymAndTrainingsJoin> trainersGymsTrainingsJoins)
+        private List<TrainerWithGymAndTrainingsBase> ConvertJoinResultToTrainerWithGymAndTrainingsBase(IEnumerable<TrainerWithGymAndTrainingsJoin> trainersGymsTrainingsJoins)
         {
             List<TrainerWithGymAndTrainingsBase> trainersWithGymAndTrainings = new List<TrainerWithGymAndTrainingsBase>();
             List<string> trainersId = new List<string>();
@@ -812,6 +812,11 @@ namespace FitMeApp.Repository.EntityFramework
                                               TrainingName = training.Name
                                           }).ToList();
 
+            if (trainerGymTrainingJoin.Count == 0)
+            {
+                return null;
+            }
+
             List<TrainingEntity> trainingEntities = new List<TrainingEntity>();
             foreach (var item in trainerGymTrainingJoin)
             {
@@ -823,6 +828,7 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             var trainerEntity = trainerGymTrainingJoin.First();
+
             TrainerWithGymAndTrainingsBase trainerWithGymAndTraining = new TrainerWithGymAndTrainingsBase()
             {
                 Id = trainerEntity.Id,
@@ -996,7 +1002,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public List<int> GetAllSubscriptionPeriods()
+        public IEnumerable<int> GetAllSubscriptionPeriods()
         {
             List<int> allSubscriptionPeriods = new List<int>();
             var subscriptions = _context.Subscriptions;
@@ -1014,8 +1020,7 @@ namespace FitMeApp.Repository.EntityFramework
         public int GetSubscriptionPeriod(int subscriptionId)
         {
             int subscriptionPeriod = _context.Subscriptions
-                .Where(x => x.Id == subscriptionId)
-                .First()
+                .First(x => x.Id == subscriptionId)
                 .ValidDays;
 
             return subscriptionPeriod;
@@ -1048,8 +1053,7 @@ namespace FitMeApp.Repository.EntityFramework
         public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {
             int gymSubscriptionId = _context.GymSubscriptions
-                .Where(x => x.GymId == gymId && x.SubscriptionId == subscriptionId)
-                .First()
+                .First(x => x.GymId == gymId && x.SubscriptionId == subscriptionId)
                 .Id;
 
             int subscriptionPeriod = GetSubscriptionPeriod(subscriptionId);
@@ -1065,7 +1069,7 @@ namespace FitMeApp.Repository.EntityFramework
             _context.UserSubscriptions.Add(userSubscription);
 
             int addedEntry = _context.SaveChanges();
-            return addedEntry > 0 ? true : false;
+            return addedEntry > 0;
         }
 
 
@@ -1333,7 +1337,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 if (!dateEventCount.ContainsKey(eventItem.Date))
                 {
-                    int eventCount = allEventsByUser.Where(x => x.Date == eventItem.Date).Count();
+                    int eventCount = allEventsByUser.Count(x => x.Date == eventItem.Date);
                     dateEventCount.Add(eventItem.Date, eventCount);
                 }
             }
@@ -1356,7 +1360,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 if (!dateEventCount.ContainsKey(eventItem.Date))
                 {
-                    int eventCount = allEventsByTrainer.Where(x => x.Date == eventItem.Date).Count();
+                    int eventCount = allEventsByTrainer.Count(x => x.Date == eventItem.Date);
                     dateEventCount.Add(eventItem.Date, eventCount);
                 }
             }
@@ -1365,20 +1369,21 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public bool ChangeEventStatus(int eventId)
+        public void ChangeEventStatus(int eventId)
         {
-            var currentEvent = _context.Events.Where(x => x.Id == eventId).First();
-
-            if (currentEvent.Status == Common.EventStatusEnum.Open)
+            var currentEvent = _context.Events.FirstOrDefault(x => x.Id == eventId);
+            if (currentEvent != null)
             {
-                currentEvent.Status = Common.EventStatusEnum.Confirmed;
+                if (currentEvent.Status == Common.EventStatusEnum.Open)
+                {
+                    currentEvent.Status = Common.EventStatusEnum.Confirmed;
+                }
+                else
+                {
+                    currentEvent.Status = Common.EventStatusEnum.Open;
+                }
+                _context.SaveChanges();
             }
-            else
-            {
-                currentEvent.Status = Common.EventStatusEnum.Open;
-            }
-            var changedEntry = _context.SaveChanges();
-            return changedEntry > 0 ? true : false;
         }
 
 
@@ -1386,9 +1391,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var actualEventsCount = _context.Events
                 .Where(x => x.TrainerId == trainerId)
-                .Where(x => x.Date.Date >= DateTime.Now.Date)
-                .ToList()
-                .Count();
+                .Count(x => x.Date.Date >= DateTime.Now.Date);
 
             return actualEventsCount;
         }
@@ -1421,7 +1424,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.Events.Add(newEventEntity);
             int addedRowCount = _context.SaveChanges();
-            return addedRowCount > 0 ? true : false;
+            return addedRowCount > 0;
         }
 
 
@@ -1477,13 +1480,13 @@ namespace FitMeApp.Repository.EntityFramework
         public ChatMessageEntityBase GetMessage(int messageId)
         {
             var message = _context.ChatMessages
-                .Where(x => x.Id == messageId)
-                .First();
+                .FirstOrDefault(x => x.Id == messageId);
+                
             return message;
         }
 
 
-        public bool AddContact(string userId, string interlocutorId)
+        public void AddContact(string userId, string interlocutorId)
         {
             ChatContactEntityBase newContact = new ChatContactEntity()
             {
@@ -1491,8 +1494,7 @@ namespace FitMeApp.Repository.EntityFramework
                 InterlocutorId = interlocutorId
             };
             _context.Add(newContact);
-            int addedContactCount = _context.SaveChanges();
-            return addedContactCount > 0 ? true : false;
+            _context.SaveChanges();
         }
 
     }

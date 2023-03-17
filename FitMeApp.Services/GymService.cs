@@ -106,7 +106,7 @@ namespace FitMeApp.Services
         }
 
         public int GetGymIdByTrainer(string trainerId)
-        {
+        {            
             int licenseId = _repository.GetTrainer(trainerId).WorkLicenseId;
             int gymId = _repository.GetTrainerWorkLicense(licenseId).GymId;
             return gymId;
@@ -176,9 +176,9 @@ namespace FitMeApp.Services
             }
         }
 
-        public List<int> GetAllSubscriptionPeriods()
+        public IEnumerable<int> GetAllSubscriptionPeriods()
         {
-            List<int> allSubscriptionPeriods = _repository.GetAllSubscriptionPeriods();
+            List<int> allSubscriptionPeriods = _repository.GetAllSubscriptionPeriods().ToList();
             return allSubscriptionPeriods;
         }
 

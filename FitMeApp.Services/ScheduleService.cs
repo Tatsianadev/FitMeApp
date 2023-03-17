@@ -83,10 +83,9 @@ namespace FitMeApp.Services
             return dateEventsCount;
         }
 
-        public bool ChangeEventStatus(int eventId)
+        public void ChangeEventStatus(int eventId)
         {
-            bool result = _repository.ChangeEventStatus(eventId);
-            return result;
+            _repository.ChangeEventStatus(eventId);
         }
 
         public int GetActualEventsCountByTrainer(string trainerId)

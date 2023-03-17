@@ -35,9 +35,6 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-
-
-
             var gymModels = _gymService.GetAllGymsWithGalleryModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)
@@ -58,7 +55,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(List<int> selectedTrainingsId)
+        public IActionResult Index(List<int> selectedTrainingsId)
         {
             try
             {
@@ -128,7 +125,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public ActionResult SubscriptionsForVisitors(int gymId)
+        public IActionResult SubscriptionsForVisitors(int gymId)
         {
             List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
             var subscriptionModels = _gymService.GetAllSubscriptionsForVisitorsByGym(gymId);
@@ -152,7 +149,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public ActionResult SubscriptionsForVisitors(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
+        public IActionResult SubscriptionsForVisitors(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
         {
             try
             {
@@ -164,7 +161,7 @@ namespace FitMeApp.Controllers
                 {
                     if (selectedPeriods.Count == 0)
                     {
-                        selectedPeriods = _gymService.GetAllSubscriptionPeriods();
+                        selectedPeriods = _gymService.GetAllSubscriptionPeriods().ToList();
                     }
                     List<SubscriptionViewModel> subscriptions = new List<SubscriptionViewModel>();
                     var subscriptionModels = _gymService.GetSubscriptionsForVisitorsByGymByFilter(gymId, selectedPeriods, groupTraining, dietMonitoring);
@@ -195,7 +192,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public ActionResult SubscriptionsForTrainers(int gymId)
+        public IActionResult SubscriptionsForTrainers(int gymId)
         {
             try
             {
@@ -225,7 +222,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public ActionResult CurrentSubscription(int subscriptionId, int gymId)
+        public IActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
@@ -247,7 +244,7 @@ namespace FitMeApp.Controllers
         [HttpPost]
         [Authorize]
 
-        public ActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
+        public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
         {
             if (startDate.Date >= DateTime.Now.Date && startDate.Date <= DateTime.Now.AddDays(256).Date)
             {
