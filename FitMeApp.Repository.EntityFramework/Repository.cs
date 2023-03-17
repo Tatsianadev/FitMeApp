@@ -327,6 +327,21 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public void DeleteTAllrainerWorkLicensesByTrainer(string trainerId)
+        {
+            var trainerWorkLicenses = _context.TrainerWorkLicenses
+                .Where(x => x.TrainerId == trainerId)
+                .ToList();
+
+            foreach (var license in trainerWorkLicenses)
+            {
+                _context.Remove(license);
+            }
+
+            _context.SaveChanges();
+        }
+
+
         public TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId)
         {
             var license = _context.TrainerWorkLicenses
