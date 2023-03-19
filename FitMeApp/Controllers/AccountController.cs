@@ -9,7 +9,8 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Services.Contracts.Interfaces;
 using System.Linq;
 using FitMeApp.Services.Contracts.Models;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace FitMeApp.Controllers
 {
@@ -21,10 +22,9 @@ namespace FitMeApp.Controllers
         private readonly ITrainerService _trainerService;
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IGymService gymService,
-            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger, IConfiguration configuration)
+            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,12 +32,12 @@ namespace FitMeApp.Controllers
             _trainerService = trainerService;
             _emailService = emailService;
             _logger = logger;
-            _configuration = configuration;
         }
 
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -45,6 +45,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             try
@@ -66,12 +67,12 @@ namespace FitMeApp.Controllers
                         await _userManager.AddToRoleAsync(user, RolesEnum.user.ToString());
                         await _signInManager.SignInAsync(user, false);
 
-                        bool applyedForTrainerRole = model.Role == RolesEnum.trainer;
+                        bool appliedForTrainerRole = model.Role == RolesEnum.trainer;
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
                             "Account",
-                            new { userId = user.Id, code = code, applyedForTrainerRole = applyedForTrainerRole },
+                            new { userId = user.Id, code = code, appliedForTrainerRole = appliedForTrainerRole },
                             protocol: HttpContext.Request.Scheme);
 
                         string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study cases - constant
@@ -105,7 +106,7 @@ namespace FitMeApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = "user, admin")]
         public IActionResult RegisterTrainerPart(string userId)
         {
             TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
@@ -117,6 +118,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "user, admin")]
         public IActionResult RegisterTrainerPart(TrainerApplicationViewModel model)
         {
             try
@@ -127,7 +129,7 @@ namespace FitMeApp.Controllers
                     return View(model);
                 }
 
-                if (model.Contract == true && model.ContractNumber is null)
+                if (model.Contract == true && string.IsNullOrEmpty(model.ContractNumber))
                 {
                     ModelState.AddModelError("", "Write the contract number over");
                     return View(model);
@@ -140,7 +142,7 @@ namespace FitMeApp.Controllers
                         .Where(x => x.WorkAsTrainer == true)
                         .Where(x => x.EndDate > DateTime.Today);
 
-                    if (actualTrainerSubscription.Count() == 0)
+                    if (actualTrainerSubscription.Any())
                     {
                         ModelState.AddModelError("", "You  don't have any subscriptions for work as Trainer. Please, get one before apply for a Trainer position.");
                         return View(model);
@@ -159,7 +161,7 @@ namespace FitMeApp.Controllers
 
                 if (appId != 0)
                 {
-                    ViewBag.ApplyedForTrainerRole = true;
+                    ViewBag.AppliedForTrainerRole = true;
                     return View("RegisterAsUserCompleted", model.UserId);
                 }
                 else
@@ -184,12 +186,12 @@ namespace FitMeApp.Controllers
             }
         }
 
-
-        public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool applyedForTrainerRole)
+        [Authorize]
+        public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool appliedForTrainerRole)
         {
             try
             {
-                if (userId == null || code == null)
+                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
                 {
                     throw new ArgumentNullException(nameof(userId), "userId or code is null");
                 }
@@ -203,11 +205,11 @@ namespace FitMeApp.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, code);
                 if (result.Succeeded)
                 {
-                    if (applyedForTrainerRole)
+                    if (appliedForTrainerRole)
                     {
                         return RedirectToAction("RegisterTrainerPart", new {userId = userId});
                     }
-                    ViewBag.ApplyedForTrainerRole = false;
+                    ViewBag.AppliedForTrainerRole = false;
                     return View("RegisterAsUserCompleted", userId);
                 }
             }
@@ -218,7 +220,7 @@ namespace FitMeApp.Controllers
 
             CustomErrorViewModel error = new CustomErrorViewModel()
             {
-                Message = "Failed to verify email address. Please, try again in you Profile" //todo add button Send link once again to try one more time
+                Message = "Failed to verify email address. Please, try again in you Profile"
             };
             return View("CustomError", error);
         }
@@ -226,6 +228,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
             return View(new LoginViewModel() { ReturnUrl = returnUrl });
