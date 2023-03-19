@@ -55,6 +55,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void UpdateTraining(int id, TrainingEntityBase newTrainingData);
         void DeleteTraining(int id);
 
+
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
         void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
@@ -63,13 +64,13 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);
-        List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
+        IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings();
         TrainerWithGymAndTrainingsBase GetTrainerWithGymAndTrainings(string trainerId);
 
         //Filters
-        IEnumerable<GymWithGalleryBase> GetGymsByTrainings(List<int> trainingsId);
-        IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
-        IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(List<string> selectedGenders, List<string> selectedSpecializations);
+        IEnumerable<GymWithGalleryBase> GetGymsByTrainings(IEnumerable<int> trainingsId);
+        IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, IEnumerable<int> periods, bool groupTraining, bool dietMonitoring);
+        IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(IEnumerable<string> selectedGenders, IEnumerable<string> selectedSpecializations);
 
         //Subscriptions
         IEnumerable<SubscriptionPriceBase> GetAllSubscriptionsForVisitorsByGym(int gymId);
@@ -82,10 +83,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         IEnumerable<UserSubscriptionFullInfoBase> GetUserSubscriptionsFullInfo(string userId);
         IEnumerable<UserSubscriptionEntityBase> GetValidSubscriptionsByUserForSpecificGym(string userId, int gymId);
-        IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, List<int> gymIds);
-        IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, List<int> gymIds);
-        IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId,
-            List<int> gymIds);
+        IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds);
+        IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds);
+        IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds);
 
 
         //Schedule

@@ -25,11 +25,6 @@ namespace FitMeApp.Services
 
         public IEnumerable<ChatMessageModel> GetAllMessagesBetweenTwoUsers(string senderId, string receiverId)
         {
-            if (senderId == null || receiverId == null)
-            {
-                throw new ArgumentNullException(nameof(senderId));
-            }
-
             var messagesEntityBase = _repository.GetAllMessagesBetweenTwoUsers(senderId, receiverId);
             List<ChatMessageModel> messagesModels = new List<ChatMessageModel>();
             foreach (var entity in messagesEntityBase)
@@ -51,7 +46,7 @@ namespace FitMeApp.Services
         public int AddMessage(ChatMessageModel message)
         {
             var messageEntityBase = _mapper.MapChatMessageModelToEntityBase(message);
-           int messageId = _repository.AddMessage(messageEntityBase);
+            int messageId = _repository.AddMessage(messageEntityBase);
             return messageId;
         }
 

@@ -30,9 +30,9 @@ namespace FitMeApp.ViewComponents
 
         public IViewComponentResult Invoke(string senderId, string receiverId)
         {
-            var sender = _userManager.Users.Where(x => x.Id == senderId).First();
-            var receiver = _userManager.Users.Where(x => x.Id == receiverId).First(); ;
-            var messageModels = _chatService.GetAllMessagesBetweenTwoUsers(sender.Id, receiverId);
+            var sender = _userManager.Users.FirstOrDefault(x => x.Id == senderId);
+            var receiver = _userManager.Users.FirstOrDefault(x => x.Id == receiverId);
+            var messageModels = _chatService.GetAllMessagesBetweenTwoUsers(senderId, receiverId);
             SenderRecieverMessagesCollectionViewModel chatBetweenToPeople =
                 new SenderRecieverMessagesCollectionViewModel()
                 {

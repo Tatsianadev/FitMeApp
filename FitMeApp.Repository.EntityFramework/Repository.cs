@@ -695,7 +695,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public List<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings()
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetAllTrainersWithGymAndTrainings()
         {
             var allTrainersGymTrainingsJoin = (from trainer in _context.Trainers
                                                join user in _context.Users
@@ -852,7 +852,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         //Filters
 
-        public IEnumerable<GymWithGalleryBase> GetGymsByTrainings(List<int> trainingsId)
+        public IEnumerable<GymWithGalleryBase> GetGymsByTrainings(IEnumerable<int> trainingsId)
         {
             var gymsByTrainings = (from trainingTrainer in _context.TrainingTrainer
                                    join license in _context.TrainerWorkLicenses
@@ -896,7 +896,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring)
+        public IEnumerable<SubscriptionPriceBase> GetSubscriptionsForVisitorsByGymByFilter(int gymId, IEnumerable<int> periods, bool groupTraining, bool dietMonitoring)
         {
             var subscriptions = (from gymSubscription in _context.GymSubscriptions
                                  join subscription in _context.Subscriptions
@@ -920,7 +920,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(List<string> selectedGenders, List<string> selectedSpecializations)
+        public IEnumerable<TrainerWithGymAndTrainingsBase> GetTrainersWithGymAndTrainingsByFilter(IEnumerable<string> selectedGenders, IEnumerable<string> selectedSpecializations)
         {
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
                                                     join user in _context.Users
@@ -1126,7 +1126,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)
         {
             var validUserSubscriptions = (from userSubscr in _context.UserSubscriptions
                                           join gymSubscr in _context.GymSubscriptions
@@ -1157,7 +1157,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)
         {
             var expiredSubscriptions = (from userSubscr in _context.UserSubscriptions
                                         join gymSubscr in _context.GymSubscriptions
@@ -1189,7 +1189,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId, List<int> gymIds)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)
         {
             var validInTheFutureSubscriptions = (from userSubscr in _context.UserSubscriptions
                                                  join gymSubscr in _context.GymSubscriptions
