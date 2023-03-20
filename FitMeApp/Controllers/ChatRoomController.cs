@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Mapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
@@ -27,11 +28,15 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
+
+        [Authorize]
         public IActionResult ChatRoom()
         {
             return View();
         }
 
+
+        [Authorize]
         public async Task<IActionResult> UserChat()
         {
             try
@@ -54,6 +59,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize]
         public async Task<IActionResult> SelectContactToChat(string receiverId)
         {
             try
@@ -83,13 +89,14 @@ namespace FitMeApp.Controllers
                 _logger.LogError(ex, ex.Message);
                 CustomErrorViewModel error = new CustomErrorViewModel()
                 {
-                    Message = "Failed to display chat with current user. Please try again later."
+                    Message = "Failed to display chat. Please try again later."
                 };
                 return View("CustomError", error);
             }
         }
 
 
+        [Authorize]
         public async Task<IActionResult> ShowNewMessageInChat(int messageId)
         {
             var messageModel = _chatService.GetMessage(messageId);

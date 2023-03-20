@@ -59,7 +59,7 @@
                 <td>
                     <div style="text-align:center">
                         <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success">Approve</a>
-                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-danger">Reject</a>
+                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-applicationId="@application.Id" asp-route-userId ="@application.UserId" class="btn btn-danger">Reject</a>
                     </div>
                 </td>
             </tr>

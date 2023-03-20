@@ -19,7 +19,7 @@ namespace FitMeApp.Controllers
         private readonly ITrainingService _trainingService;
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public GymsController(IGymService gymService, ITrainingService trainingService, UserManager<User> userManager, ILogger<GymsController> logger)
         {
@@ -31,8 +31,7 @@ namespace FitMeApp.Controllers
 
         }
 
-
-
+        
         public IActionResult Index()
         {
             var gymModels = _gymService.GetAllGymsWithGalleryModels();

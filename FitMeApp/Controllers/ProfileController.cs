@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -113,7 +115,7 @@ namespace FitMeApp.Controllers
             {
                 if (string.IsNullOrEmpty(trainerId))
                 {
-                    throw new ArgumentException("trainerId parameter is null or empty", nameof(trainerId));
+                    throw new ArgumentException("applicationId parameter is null or empty", nameof(trainerId));
                 }
 
                 bool approveSucceed = _trainerService.ApproveTrainerApplication(trainerId);
@@ -138,16 +140,35 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult RejectTrainerApplication(string trainerId)
+        public async Task<IActionResult> RejectTrainerApplication(string userId, int applicationId)
         {
             try
             {
-                if (string.IsNullOrEmpty(trainerId))
+                if (applicationId <= 0)
                 {
-                    throw new ArgumentNullException(nameof(trainerId), "Parameter UserId is null or empty");
+                    throw new ArgumentException("Parameter applicationId equals zero or less.");
                 }
 
-                _trainerService.DeleteTrainer(trainerId);
+                //_trainerService.DeleteTrainerApplication(applicationId);
+                var user = await _userManager.FindByIdAsync(userId);
+
+                string pathToTextMessage = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\TextFiles\RejectApplicationMessage.txt";
+                string text = string.Empty;
+                using (FileStream fstream = new FileStream(pathToTextMessage, FileMode.Open))
+                {
+                    byte[] buffer = new byte[fstream.Length];
+                    await fstream.ReadAsync(buffer, 0, buffer.Length);
+                    text = Encoding.Default.GetString(buffer);
+                }
+
+                string toEmail = DefaultSettingsStorage.ReceiverEmail;
+                string fromEmail = DefaultSettingsStorage.SenderEmail;
+                string subject = "Reject application";
+                string plainTextContent = text;
+                string htmlContent = "<strong>" + text + "</strong>";
+
+                await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+
                 return RedirectToAction("TrainerApplicationsList"); //todo before this -> send a message about rejection application
 
             }

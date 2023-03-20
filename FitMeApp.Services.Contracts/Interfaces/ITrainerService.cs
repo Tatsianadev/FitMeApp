@@ -33,5 +33,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<TrainerApplicationModel> GetAllTrainerApplications();
         bool ApproveTrainerApplication(string userId);
         TrainerApplicationModel GetTrainerApplicationByUser(string userId);
+        void DeleteTrainerApplication(int applicationId);
     }
 }

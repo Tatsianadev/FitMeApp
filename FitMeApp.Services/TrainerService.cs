@@ -382,5 +382,11 @@ namespace FitMeApp.Services
             TrainerApplicationModel trainerAppModel = _mapper.MapTrainerApplicationWithNamesBaseToModel(applicationEntity);
             return trainerAppModel;
         }
+
+
+        public void DeleteTrainerApplication(int applicationId)
+        {
+            _repository.DeleteTrainerApplication(applicationId);
+        }
     }
 }
