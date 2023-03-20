@@ -42,9 +42,9 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<string> GetTextContentFromFile(string fileName)
+        public async Task<string> GetTextContentFromFile(string localPath)
         {
-           FileInfo fileInfo = new FileInfo(fileName);
+            FileInfo fileInfo = new FileInfo(localPath);
             string pathToTextMessage = fileInfo.FullName;
             string text = string.Empty;
 

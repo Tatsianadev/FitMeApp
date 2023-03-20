@@ -5,7 +5,7 @@ using FitMeApp.Repository.EntityFramework;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
-
+using Microsoft.Extensions.Configuration;
 
 namespace FitMeApp.Services
 {
@@ -44,6 +44,18 @@ namespace FitMeApp.Services
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
         {
             services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));
+        }
+
+        public static void InitializeDefaultSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            Common.DefaultSettingsStorage.AvatarPath = configuration.GetSection("Constants")["DefaultAvatarPath"];
+            Common.DefaultSettingsStorage.ApplicationName = configuration.GetSection("Constants")["ApplicationName"];
+            Common.DefaultSettingsStorage.AdminEmail = configuration.GetSection("FirstAppStart")["AdminEmail"];
+            Common.DefaultSettingsStorage.AdminPassword = configuration.GetSection("FirstAppStart")["AdminPassword"];
+            Common.DefaultSettingsStorage.SenderEmail = configuration.GetSection("DefaultEmail")["Sender"];
+            Common.DefaultSettingsStorage.ReceiverEmail = configuration.GetSection("DefaultEmail")["Receiver"];
+            Common.DefaultSettingsStorage.ApproveAppMessagePath = configuration.GetSection("Constants")["ApproveAppMessagePath"];
+            Common.DefaultSettingsStorage.RejectAppMessagePath = configuration.GetSection("Constants")["RejectAppMessagePath"];
         }
 
     }

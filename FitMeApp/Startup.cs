@@ -26,6 +26,8 @@ namespace FitMeApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InitializeDefaultSettings(Configuration);
+
             var connectionString = Configuration.GetConnectionString("Default");
             services.RegisterDbContext(connectionString);
             services.RegisterIdentity();
@@ -35,14 +37,6 @@ namespace FitMeApp
 
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
-
-            Common.DefaultSettingsStorage.AvatarPath = Configuration.GetSection("Constants")["DefaultAvatarPath"];
-            Common.DefaultSettingsStorage.ApplicationName = Configuration.GetSection("Constants")["ApplicationName"];
-            Common.DefaultSettingsStorage.AdminEmail = Configuration.GetSection("FirstAppStart")["AdminEmail"];
-            Common.DefaultSettingsStorage.AdminPassword = Configuration.GetSection("FirstAppStart")["AdminPassword"];
-            Common.DefaultSettingsStorage.SenderEmail = Configuration.GetSection("DefaultEmail")["Sender"];
-            Common.DefaultSettingsStorage.ReceiverEmail = Configuration.GetSection("DefaultEmail")["Receiver"];
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

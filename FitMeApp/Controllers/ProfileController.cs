@@ -124,8 +124,17 @@ namespace FitMeApp.Controllers
                     var user = await _userManager.FindByIdAsync(trainerId);
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
 
-                    string fileName = @"wwwroot\TextFiles\ApproveApplicationMessage.txt";
-                    string text = await _fileService.GetTextContentFromFile(fileName);
+                    string localPath = DefaultSettingsStorage.ApproveAppMessagePath;
+                    string text = string.Empty;
+                    try
+                    {
+                       text = await _fileService.GetTextContentFromFile(localPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                        return RedirectToAction("TrainerApplicationsList");
+                    }
 
                     string toEmail = DefaultSettingsStorage.ReceiverEmail;
                     string fromEmail = DefaultSettingsStorage.SenderEmail;
@@ -162,8 +171,17 @@ namespace FitMeApp.Controllers
                 _trainerService.DeleteTrainerApplication(applicationId);
                 var user = await _userManager.FindByIdAsync(userId);
 
-                string fileName = @"wwwroot\TextFiles\RejectApplicationMessage.txt";
-                string text = await _fileService.GetTextContentFromFile(fileName);
+                string localPath = DefaultSettingsStorage.RejectAppMessagePath;
+                string text = string.Empty;
+                try
+                {
+                    text = await _fileService.GetTextContentFromFile(localPath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    return RedirectToAction("TrainerApplicationsList");
+                }
 
                 string toEmail = DefaultSettingsStorage.ReceiverEmail;
                 string fromEmail = DefaultSettingsStorage.SenderEmail;
