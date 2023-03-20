@@ -40,5 +40,22 @@ namespace FitMeApp.Services
 
             return absolutePath;
         }
+
+
+        public async Task<string> GetTextContentFromFile(string fileName)
+        {
+           FileInfo fileInfo = new FileInfo(fileName);
+            string pathToTextMessage = fileInfo.FullName;
+            string text = string.Empty;
+
+            using (FileStream fstream = new FileStream(pathToTextMessage, FileMode.Open))
+            {
+                byte[] buffer = new byte[fstream.Length];
+                await fstream.ReadAsync(buffer, 0, buffer.Length);
+                text = Encoding.Default.GetString(buffer);
+            }
+
+            return text;
+        }
     }
 }

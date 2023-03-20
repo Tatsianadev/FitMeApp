@@ -9,5 +9,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
     {
         Task SendEmailAsync(string toEmail, string toUserName, string fromEmail, string subject, string plainTextContent,
             string htmlContent);
+
     }
 }

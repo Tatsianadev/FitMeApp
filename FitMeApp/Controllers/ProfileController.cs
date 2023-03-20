@@ -125,16 +125,7 @@ namespace FitMeApp.Controllers
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
 
                     string fileName = @"wwwroot\TextFiles\ApproveApplicationMessage.txt";
-                    FileInfo fileInfo = new FileInfo(fileName);
-                    string pathToApproveMessage = fileInfo.FullName;
-                    string text = string.Empty;
-
-                    await using (FileStream fstream = new FileStream(pathToApproveMessage, FileMode.Open))
-                    {
-                        byte[] buffer = new byte[fstream.Length];
-                        await fstream.ReadAsync(buffer, 0, buffer.Length);
-                        text = Encoding.Default.GetString(buffer);
-                    }
+                    string text = await _fileService.GetTextContentFromFile(fileName);
 
                     string toEmail = DefaultSettingsStorage.ReceiverEmail;
                     string fromEmail = DefaultSettingsStorage.SenderEmail;
@@ -172,16 +163,7 @@ namespace FitMeApp.Controllers
                 var user = await _userManager.FindByIdAsync(userId);
 
                 string fileName = @"wwwroot\TextFiles\RejectApplicationMessage.txt";
-                FileInfo fileInfo = new FileInfo(fileName);
-                string pathToTextMessage = fileInfo.FullName;
-                string text = string.Empty;
-
-                using (FileStream fstream = new FileStream(pathToTextMessage, FileMode.Open))
-                {
-                    byte[] buffer = new byte[fstream.Length];
-                    await fstream.ReadAsync(buffer, 0, buffer.Length);
-                    text = Encoding.Default.GetString(buffer);
-                }
+                string text = await _fileService.GetTextContentFromFile(fileName);
 
                 string toEmail = DefaultSettingsStorage.ReceiverEmail;
                 string fromEmail = DefaultSettingsStorage.SenderEmail;
