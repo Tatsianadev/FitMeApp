@@ -121,8 +121,27 @@ namespace FitMeApp.Controllers
                 bool approveSucceed = _trainerService.ApproveTrainerApplication(trainerId);
                 if (approveSucceed)
                 {
-                    var user = _userManager.Users.First(x => x.Id == trainerId);
+                    var user = await _userManager.FindByIdAsync(trainerId);
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
+
+                    string fileName = @"wwwroot\TextFiles\ApproveApplicationMessage.txt";
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    string pathToApproveMessage = fileInfo.FullName;
+                    string text = string.Empty;
+
+                    await using (FileStream fstream = new FileStream(pathToApproveMessage, FileMode.Open))
+                    {
+                        byte[] buffer = new byte[fstream.Length];
+                        await fstream.ReadAsync(buffer, 0, buffer.Length);
+                        text = Encoding.Default.GetString(buffer);
+                    }
+
+                    string toEmail = DefaultSettingsStorage.ReceiverEmail;
+                    string fromEmail = DefaultSettingsStorage.SenderEmail;
+                    string subject = "Approval application";
+                    string htmlContent = "<strong>" + text + "</strong>";
+
+                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, text, htmlContent); 
                 }
                 return RedirectToAction("TrainerApplicationsList");
             }
@@ -149,11 +168,14 @@ namespace FitMeApp.Controllers
                     throw new ArgumentException("Parameter applicationId equals zero or less.");
                 }
 
-                //_trainerService.DeleteTrainerApplication(applicationId);
+                _trainerService.DeleteTrainerApplication(applicationId);
                 var user = await _userManager.FindByIdAsync(userId);
 
-                string pathToTextMessage = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\TextFiles\RejectApplicationMessage.txt";
+                string fileName = @"wwwroot\TextFiles\RejectApplicationMessage.txt";
+                FileInfo fileInfo = new FileInfo(fileName);
+                string pathToTextMessage = fileInfo.FullName;
                 string text = string.Empty;
+
                 using (FileStream fstream = new FileStream(pathToTextMessage, FileMode.Open))
                 {
                     byte[] buffer = new byte[fstream.Length];
@@ -164,12 +186,11 @@ namespace FitMeApp.Controllers
                 string toEmail = DefaultSettingsStorage.ReceiverEmail;
                 string fromEmail = DefaultSettingsStorage.SenderEmail;
                 string subject = "Reject application";
-                string plainTextContent = text;
                 string htmlContent = "<strong>" + text + "</strong>";
 
-                await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+                await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, text, htmlContent);
 
-                return RedirectToAction("TrainerApplicationsList"); //todo before this -> send a message about rejection application
+                return RedirectToAction("TrainerApplicationsList");
 
             }
             catch (Exception ex)
