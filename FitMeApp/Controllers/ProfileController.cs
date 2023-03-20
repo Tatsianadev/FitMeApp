@@ -715,8 +715,8 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //удаляем все нерабочие дни из графика
-                foreach (var model in newWorkHours)                                        //проверяем, что время начала работы не позднее времени окончания
+                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //Cut off all "day off" from model
+                foreach (var model in newWorkHours)                                        
                 {
                     int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
                     int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
@@ -728,7 +728,7 @@ namespace FitMeApp.Controllers
                 }
 
                 string trainerId = _userManager.GetUserId(User);
-                foreach (var model in newWorkHours)                         //заполняем недостающие данные модели для НОВЫХ рабочих дней
+                foreach (var model in newWorkHours)                         //full required fields in work hours model for NEW days
                 {
                     model.TrainerId = trainerId;
                     if (model.GymWorkHoursId == 0)
@@ -737,7 +737,7 @@ namespace FitMeApp.Controllers
                         model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
-                //var newWorkHoursModels = newWorkHours.Select(model => _mapper.MapTrainerWorkHoursViewModelToModel(model)).ToList(); //error
+               
                 var newWorkHoursModels = new List<TrainerWorkHoursModel>();
 
                 foreach (var viewModel in newWorkHours)
@@ -749,14 +749,11 @@ namespace FitMeApp.Controllers
                 if (result)
                 {
                     bool updateSuccess = _trainerService.UpdateTrainerWorkHours(newWorkHoursModels);
-                    if (updateSuccess)
+                    if (!updateSuccess)
                     {
-                        return RedirectToAction("TrainerPersonalAndJobData");
+                        _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
                     }
-                    else
-                    {
-                        return View(newWorkHours);
-                    }
+                    return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 else
                 {

@@ -33,17 +33,7 @@ namespace FitMeApp.Services
             }
             return trainers;
         }
-
-        //public IEnumerable<TrainerModel> GetAllTrainersByStatus(TrainerApproveStatusEnum status)
-        //{
-        //    var trainersEntity = _repository.GetAllTrainersByStatus(status);
-        //    List<TrainerModel> trainers = new List<TrainerModel>();
-        //    foreach (var trainerEntity in trainersEntity)
-        //    {
-        //        trainers.Add(_mapper.MapTrainerWithGymAndTrainingsBaseToModel(trainerEntity));
-        //    }
-        //    return trainers;
-        //}
+        
 
         public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
         {
@@ -70,7 +60,6 @@ namespace FitMeApp.Services
             TrainerEntityBase newTrainerInfoBase = new TrainerEntityBase()
             {
                 Id = newTrainerInfo.Id,
-                //GymId = newTrainerInfo.Gym.Id,
                 Specialization = newTrainerInfo.Specialization
             };
             _repository.UpdateTrainer(newTrainerInfoBase);
@@ -90,7 +79,6 @@ namespace FitMeApp.Services
             {
                 _repository.AddTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
             }
-
         }        
 
 
@@ -100,12 +88,12 @@ namespace FitMeApp.Services
 
             List<DayOfWeek> gymWorkDayes = gymWorkHours.Select(x => x.DayOfWeekNumber).ToList();
             List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
-            if (newTrainerWorkDayes.Except(gymWorkDayes).Count() > 0) // проверка, тренер работает только в дни, когда работает зал
+            if (newTrainerWorkDayes.Except(gymWorkDayes).Count() > 0) //check: Trainer works only the DAYS, when the Gym open 
             {
                 return false;
             }
             
-            foreach (var newTrainerWorkHours in newWorkHours) //проверка, чтобы рабочие часы тренера не выходили за пределы рабочих часов зала
+            foreach (var newTrainerWorkHours in newWorkHours) // check: Trainer works only the HOURS, when the Gym open
             {
                 var gymWorkHoursById = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).FirstOrDefault();
                 if (gymWorkHoursById != null)
@@ -121,7 +109,6 @@ namespace FitMeApp.Services
                 {
                     return false;
                 }
-                
             }
 
             return true;
@@ -130,7 +117,6 @@ namespace FitMeApp.Services
 
         private bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours)
         {
-            //string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
             string trainerId = newWorkHours.First().TrainerId;
             var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
             if (actualEvents.Count() == 0)
@@ -140,7 +126,7 @@ namespace FitMeApp.Services
 
             var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
             var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
-            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Count() > 0)
+            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Any())
             {
                 return false;
             }
@@ -178,24 +164,23 @@ namespace FitMeApp.Services
             }
         }
 
-        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours) //return void?
+        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
         {
             string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();
             List<int> previousTrainerWorkHoursId = _repository.GerAllTrainerWorkHoursId(trainerId).ToList();
             List<int> newTrainerWorkHoursId = trainerWorkHours.Select(x => x.Id).ToList();
 
-            List<int> idRowsToDelete = previousTrainerWorkHoursId.Except(newTrainerWorkHoursId).ToList();
-            foreach (var workHoursId in idRowsToDelete)
+            List<int> workHoursIdsToDelete = previousTrainerWorkHoursId.Except(newTrainerWorkHoursId).ToList();
+            foreach (var workHoursId in workHoursIdsToDelete)
             {
                 _repository.DeleteTrainerWorkHours(workHoursId);
             }
 
-
-            List<TrainerWorkHoursModel> rowsToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
-            var entityRowsToAdd = rowsToAdd.Select(model => _mapper.MapTrainerWorkHoursModelToEntityBase(model)).ToList();
-            foreach (var workHoursToAdd in entityRowsToAdd)
+            List<TrainerWorkHoursModel> workHoursToAdd = trainerWorkHours.Where(x => x.Id == 0).ToList();
+            var workHoursEntityToAdd = workHoursToAdd.Select(model => _mapper.MapTrainerWorkHoursModelToEntityBase(model)).ToList();
+            foreach (var workHoursEntity in workHoursEntityToAdd)
             {
-                _repository.AddTrainerWorkHours(workHoursToAdd);
+                _repository.AddTrainerWorkHours(workHoursEntity);
             }
 
             List<TrainerWorkHoursModel> rowsToUpdate = trainerWorkHours.Where(x => x.Id != 0).ToList();
@@ -206,7 +191,6 @@ namespace FitMeApp.Services
             }
 
             return true;
-
         }
 
 
@@ -215,6 +199,7 @@ namespace FitMeApp.Services
             List<string> clientsId = _repository.GetAllClientsIdByTrainer(trainerId).ToList();
             return clientsId;
         }
+
 
         public IEnumerable<string> GetActualClientsIdByTrainer(string trainerId)
         {
@@ -350,7 +335,6 @@ namespace FitMeApp.Services
             {
                 Id = application.UserId,
                 Specialization = TrainerSpecializationsEnum.personal.ToString(),
-                //GymId = trainerLicense.GymId,
                 WorkLicenseId = licenseId
             };
 
