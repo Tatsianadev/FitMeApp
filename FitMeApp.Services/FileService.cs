@@ -61,15 +61,16 @@ namespace FitMeApp.Services
         }
 
 
-        public void WriteToExcel(DataTable table, string path) 
+        public void WriteToExcel(DataTable table, string fullPath) 
         {
-            FileInfo filePath = new FileInfo(path);
+            FileInfo filePath = new FileInfo(fullPath);
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (var excelPack = new ExcelPackage(filePath))
             {
                 var sheet = excelPack.Workbook.Worksheets.Add("Users");
-                sheet.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
+                sheet.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light11);
+                sheet.Cells.AutoFitColumns();
                 excelPack.Save();
             }
         }

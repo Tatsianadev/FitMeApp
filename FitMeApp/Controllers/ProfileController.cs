@@ -13,6 +13,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -74,15 +75,20 @@ namespace FitMeApp.Controllers
             return View(users);
         }
 
-        public IActionResult WriteUsersListAsExcelFile()
+        public IActionResult WriteUsersListAsExcelFile() //todo rename WriteUsersListToExcel
         {
             try
             {
-                var users = _userManager.Users.ToList();
-                DataTable table =
-                    (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(users), (typeof(DataTable)));
-                string path = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\Users.xlsx";
-                _fileService.WriteToExcel(table, path);
+                var users = _userManager.Users
+                    .Select(x=> new{x.FirstName, x.LastName, x.Email, x.EmailConfirmed, x.PhoneNumber, x.Year, x.Gender})
+                    .ToList();
+
+                DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(users), (typeof(DataTable)));
+                var fileName = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+                fileName = Regex.Replace(fileName, "[^a-zA-Z0-9]", "");
+                string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\" + fileName + ".xlsx";
+
+                _fileService.WriteToExcel(table, fullPath);
             }
             catch (Exception ex)
             {
