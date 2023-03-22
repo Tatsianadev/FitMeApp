@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
 
 namespace FitMeApp.Services
 {
@@ -56,6 +58,20 @@ namespace FitMeApp.Services
             }
 
             return text;
+        }
+
+
+        public void WriteToExcel(DataTable table, string path) 
+        {
+            FileInfo filePath = new FileInfo(path);
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var excelPack = new ExcelPackage(filePath))
+            {
+                var sheet = excelPack.Workbook.Worksheets.Add("Users");
+                sheet.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
+                excelPack.Save();
+            }
         }
     }
 }

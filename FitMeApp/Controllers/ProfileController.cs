@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
 {
@@ -70,6 +72,25 @@ namespace FitMeApp.Controllers
             var users = _userManager.Users.ToList();
             ViewBag.RoleNames = _roleManager.Roles.Select(x => x.Name).ToList();
             return View(users);
+        }
+
+        public IActionResult WriteUsersListAsExcelFile()
+        {
+            try
+            {
+                var users = _userManager.Users.ToList();
+                DataTable table =
+                    (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(users), (typeof(DataTable)));
+                string path = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\Users.xlsx";
+                _fileService.WriteToExcel(table, path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);                
+            }
+           
+           
+            return RedirectToAction("UsersList");
         }
 
 

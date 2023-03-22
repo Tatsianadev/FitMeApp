@@ -124,9 +124,9 @@ namespace FitMeApp.Services
                 return true;
             }
 
-            var allNeededDayesOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
-            var newWorkDayesOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
-            if (allNeededDayesOfWeek.Except(newWorkDayesOfWeek).Any())
+            var allNeededDaysOfWeek = actualEvents.Select(x => x.Date.DayOfWeek).Distinct();
+            var newWorkDaysOfWeek = newWorkHours.Select(x => x.DayName).Distinct();
+            if (allNeededDaysOfWeek.Except(newWorkDaysOfWeek).Any())
             {
                 return false;
             }
