@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FitMeApp.Models.ExcelModels;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -75,15 +76,30 @@ namespace FitMeApp.Controllers
             return View(users);
         }
 
-        public IActionResult WriteUsersListAsExcelFile() //todo rename WriteUsersListToExcel
+        public IActionResult WriteUsersListToExcel() 
         {
             try
             {
-                var users = _userManager.Users
-                    .Select(x => new{x.FirstName, x.LastName, x.Email, x.EmailConfirmed, x.PhoneNumber, x.Year, x.Gender})
-                    .ToList();
+                var users = _userManager.Users;
+                var usersExcel = new List<UserExcelModel>();
+                var positionNumber = 0;
 
-                DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(users), (typeof(DataTable)));
+                foreach (var user in users)
+                {
+                    positionNumber++;
+                    usersExcel.Add(new UserExcelModel()
+                    {
+                        PositionNumber = positionNumber,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Phone = user.PhoneNumber,
+                        YearOfBirth = user.Year
+                    });
+
+                }
+
+                DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
                 string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\Users.xlsx";
                 string tableName = "Users";
                 _fileService.WriteToExcel(table, fullPath, tableName);

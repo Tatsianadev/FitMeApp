@@ -73,15 +73,14 @@ namespace FitMeApp.Services
             using (var excelPack = new ExcelPackage(file))
             {
                 var sheet = excelPack.Workbook.Worksheets.Add(tableName);
-                sheet.Cells["B2"].LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light11);
+                sheet.Cells["A2"].LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light11);
                 sheet.Cells.AutoFitColumns();
                 
                 //Formats the header
-                sheet.Cells["B1"].Value = $"List of {tableName} of " + DateTime.Now.ToString("dd-MM-yyyy");
-                sheet.Cells["B1:H1"].Merge = true;
+                sheet.Cells["A1"].Value = $"List of {tableName} of " + DateTime.Now.ToString("dd-MM-yyyy");
+                sheet.Cells["A1:F1"].Merge = true;
                 sheet.Rows[1].Style.Font.Size = 20 ;
                 sheet.Rows[2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-               
 
                 excelPack.Save();
             }
