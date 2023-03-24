@@ -80,22 +80,19 @@ namespace FitMeApp.Controllers
             try
             {
                 var users = _userManager.Users
-                    .Select(x=> new{x.FirstName, x.LastName, x.Email, x.EmailConfirmed, x.PhoneNumber, x.Year, x.Gender})
+                    .Select(x => new{x.FirstName, x.LastName, x.Email, x.EmailConfirmed, x.PhoneNumber, x.Year, x.Gender})
                     .ToList();
 
                 DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(users), (typeof(DataTable)));
-                var fileName = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-                fileName = Regex.Replace(fileName, "[^a-zA-Z0-9]", "");
-                string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\" + fileName + ".xlsx";
-
-                _fileService.WriteToExcel(table, fullPath);
+                string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\Users.xlsx";
+                string tableName = "Users";
+                _fileService.WriteToExcel(table, fullPath, tableName);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);                
             }
-           
-           
+
             return RedirectToAction("UsersList");
         }
 

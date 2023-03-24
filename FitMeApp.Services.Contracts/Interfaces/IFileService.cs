@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
+using FitMeApp.Common;
 using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.Services.Contracts.Interfaces
@@ -11,6 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
      {
          string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath);
          Task<string> GetTextContentFromFile(string localPath);
-         void WriteToExcel(DataTable table, string fullPath);
+         void WriteToExcel(DataTable table, string fullPath, string tableName);
+         string GetUniqueFileName();
      }
 }

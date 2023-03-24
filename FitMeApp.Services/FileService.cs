@@ -4,11 +4,14 @@ using System.Data;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace FitMeApp.Services
 {
@@ -61,18 +64,45 @@ namespace FitMeApp.Services
         }
 
 
-        public void WriteToExcel(DataTable table, string fullPath) 
+        public void WriteToExcel(DataTable table, string fullPath, string tableName) 
         {
-            FileInfo filePath = new FileInfo(fullPath);
+            FileInfo file = new FileInfo(fullPath);
+            DeleteFileIfExist(file);
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            using (var excelPack = new ExcelPackage(filePath))
+            using (var excelPack = new ExcelPackage(file))
             {
-                var sheet = excelPack.Workbook.Worksheets.Add("Users");
-                sheet.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light11);
+                var sheet = excelPack.Workbook.Worksheets.Add(tableName);
+                sheet.Cells["B2"].LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light11);
                 sheet.Cells.AutoFitColumns();
+                
+                //Formats the header
+                sheet.Cells["B1"].Value = $"List of {tableName} of " + DateTime.Now.ToString("dd-MM-yyyy");
+                sheet.Cells["B1:H1"].Merge = true;
+                sheet.Rows[1].Style.Font.Size = 20 ;
+                sheet.Rows[2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+               
+
                 excelPack.Save();
             }
         }
+
+
+        private void DeleteFileIfExist(FileInfo file)
+        {
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
+         
+
+        public string GetUniqueFileName()
+        {
+            var fileName = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            fileName = Regex.Replace(fileName, "[^a-zA-Z0-9]", "");
+            return fileName;
+        }
+
     }
 }
