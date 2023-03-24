@@ -89,7 +89,7 @@ namespace FitMeApp.Controllers
                     positionNumber++;
                     usersExcel.Add(new UserExcelModel()
                     {
-                        PositionNumber = positionNumber,
+                        Id = positionNumber,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,

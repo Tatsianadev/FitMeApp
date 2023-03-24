@@ -39,6 +39,7 @@ namespace FitMeApp.Services
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddScoped<IFileStorage, FileStorage>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IExcelReport, ExcelReportEpPlus>();
         }
 
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
