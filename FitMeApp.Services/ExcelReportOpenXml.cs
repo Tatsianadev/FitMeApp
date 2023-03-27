@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using DocumentFormat.OpenXml;
@@ -60,7 +61,7 @@ namespace FitMeApp.Services
                         string[] excelColumnNames = new string[numberOfColumns];
 
                         //Create Header
-                        Row sheetRoweHeader = CreateHeder(rowIndexCount, table, numberOfColumns, excelColumnNames);
+                        Row sheetRoweHeader = CreateHeader(rowIndexCount, table, numberOfColumns, excelColumnNames);
                     }
 
                 }
@@ -109,10 +110,34 @@ namespace FitMeApp.Services
         }
 
 
-        //private Row CreateHeder(int rowIndexCount, DataTable table, int numberOfColumns, string[] excelColumnNames)
-        //{
+        private Row CreateHeader(int rowIndexCount, DataTable table, int numberOfColumns, string[] excelColumnNames)
+        {
+            Row sheetRowHeader = new Row(){RowIndex = Convert.ToUInt32(rowIndexCount)};
+            for (int i = 0; i < numberOfColumns; i++)
+            {
+                excelColumnNames[i] = GetExcelColumnName(i);
 
-        //}
+                Cell cellHeader = new Cell(){CellReference = excelColumnNames[i] + rowIndexCount, CellValue = new CellValue(table.Columns[i].ColumnName), DataType = CellValues.String};
+                cellHeader.StyleIndex = 2;
+                sheetRowHeader.Append(cellHeader);
+            }
+
+            return sheetRowHeader;
+        }
+
+
+        private string GetExcelColumnName(int columnIndex)
+        {
+            if (columnIndex < 26)
+            {
+                return ((char) ('A' + columnIndex)).ToString();
+            }
+
+            char firstChar = (char) ('A' + (columnIndex / 26) - 1);
+            char secondChar = (char)('A' + (columnIndex % 26));
+
+            return string.Format(CultureInfo.CurrentCulture, "{0}{1}", firstChar, secondChar);
+        }
 
 
         private Stylesheet GenerateStylesSheet()
