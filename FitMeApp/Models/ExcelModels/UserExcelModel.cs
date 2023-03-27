@@ -12,6 +12,6 @@ namespace FitMeApp.Models.ExcelModels
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int YearOfBirth { get; set; }
+        public int Year { get; set; }
     }
 }

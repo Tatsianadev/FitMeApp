@@ -94,7 +94,7 @@ namespace FitMeApp.Controllers
                         LastName = user.LastName,
                         Email = user.Email,
                         Phone = user.PhoneNumber,
-                        YearOfBirth = user.Year
+                        Year = user.Year
                     });
 
                 }

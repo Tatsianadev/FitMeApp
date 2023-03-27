@@ -94,11 +94,15 @@ namespace FitMeApp.Services
         {
             Columns columns = new Columns();
             //width of 1st Column
-            columns.Append(new Column() { Min = 1, Max = 1, Width = 25, CustomWidth = true });
-            //width of 2st Column
-            columns.Append(new Column() { Min = 2, Max = 2, Width = 50, CustomWidth = true });
-            //set column width from 3rd to 400 columns
-            columns.Append(new Column() { Min = 2, Max = 400, Width = 10, CustomWidth = true });
+            columns.Append(new Column() { Min = 1, Max = 1, Width = 10, CustomWidth = true });
+            //set column width from 2th to 3 columns
+            columns.Append(new Column() { Min = 2, Max = 3, Width = 20, CustomWidth = true });
+            //width of 4th Column
+            columns.Append(new Column() { Min = 4, Max = 4, Width = 30, CustomWidth = true });
+            //width of 5th Column
+            columns.Append(new Column() { Min = 5, Max =5, Width = 15, CustomWidth = true });
+            //set column width from 6th to 400 columns
+            columns.Append(new Column() { Min = 6, Max = 400, Width = 10, CustomWidth = true });
 
             return columns;
         }
@@ -106,7 +110,7 @@ namespace FitMeApp.Services
 
         private void CreateDefaultWithMessage(int rowIndexCount, SheetData sheetData)
         {
-            Row sheetRow = new Row() { RowIndex = Convert.ToUInt32(rowIndexCount) };
+            Row sheetRow = new Row() { RowIndex = Convert.ToUInt32(rowIndexCount)};
             Cell cellHeader = new Cell() { CellReference = "A1", CellValue = new CellValue("No records to display"), DataType = CellValues.String };
             cellHeader.StyleIndex = 1;
 
@@ -229,7 +233,7 @@ namespace FitMeApp.Services
                 //default - Index 0
                 new Font(new FontSize() { Val = 10 }, new FontName() { Val = "Arial Unicode" }),
                 //header - Index 1
-                new Font(new FontSize() { Val = 10 }, new Bold())
+                new Font(new FontSize() { Val = 14 }, new Bold())
                 );
             return fonts;
         }
@@ -273,7 +277,7 @@ namespace FitMeApp.Services
                 //default2 - Cell StyleIndex 1
                 new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top }) { FontId = 0, FillId = 1, BorderId = 1, ApplyBorder = true },
                 //header - Cell StyleIndex 2
-                new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top }) { FontId = 1, FillId = 0, BorderId = 1, ApplyBorder = true },
+                new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top, Horizontal = HorizontalAlignmentValues.Center}) { FontId = 1, FillId = 2, BorderId = 1, ApplyBorder = true },
                 //DateTime DataType - Cell StyleIndex 3
                 new CellFormat(new Alignment() { Vertical = VerticalAlignmentValues.Top }) { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true, NumberFormatId = 15, ApplyNumberFormat = true },
                 //int, long, short DataType - Cell StyleIndex 4
