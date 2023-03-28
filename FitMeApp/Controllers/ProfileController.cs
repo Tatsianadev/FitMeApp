@@ -76,6 +76,9 @@ namespace FitMeApp.Controllers
             return View(users);
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult WriteUsersListToExcel(List<string> selectedIds) 
         {
             try
@@ -96,13 +99,11 @@ namespace FitMeApp.Controllers
                         Phone = user.PhoneNumber,
                         Year = user.Year
                     });
-
                 }
 
                 DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\ExcelFiles\Users.xlsx";
-                string tableName = "Users";
-                _fileService.WriteToExcel(table, fullPath, tableName);
+                string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Users.xlsx";
+                _fileService.WriteToExcel(table, fullPath);
             }
             catch (Exception ex)
             {

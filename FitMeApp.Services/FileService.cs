@@ -14,12 +14,12 @@ namespace FitMeApp.Services
     public class FileService: IFileService
     {
         private readonly IFileStorage _fileStorage;
-        private readonly IExcelReport _excelReport;
+        private readonly IReportService _reportService;
 
-        public FileService(IFileStorage fileStorage, IExcelReport excelReport)
+        public FileService(IFileStorage fileStorage, IReportService reportServiceService)
         {
             _fileStorage = fileStorage;
-            _excelReport = excelReport;
+            _reportService = reportServiceService;
         }
 
 
@@ -60,11 +60,11 @@ namespace FitMeApp.Services
         }
 
 
-        public void WriteToExcel(DataTable table, string fullPath, string tableName) 
+        public void WriteToExcel(DataTable table, string fullPath) 
         {
             FileInfo file = new FileInfo(fullPath);
             DeleteFileIfExist(file);
-            _excelReport.WriteToExcel(table, file, tableName); //EPPlus or OpenXml realization
+            _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
         }
 
 
