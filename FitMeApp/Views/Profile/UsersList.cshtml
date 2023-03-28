@@ -1,36 +1,53 @@
 ﻿@using FitMeApp.Common
+@using System.Linq
 @model IEnumerable<FitMeApp.Common.User>
 
 @{
     ViewBag.Title = "List of Users";
 }
 
-<div class="card card-body">
-    <form asp-controller="Profile" asp-action="UsersList" method="post">
-        <div class="container">
-            <div class="row">                        
-                <div class="col-md-12">
-                    <div> Show only:</div>
-                    @foreach (var roleName in ViewBag.RoleNames)
-                    {
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" name="selectedRolesNames" type="checkbox" value="@roleName" id="@roleName">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                @roleName
-                            </label>
+<div class=" container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card card-body">
+                <form asp-controller="Profile" asp-action="UsersList" method="post">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div> Show only:</div>
+                                @foreach (var roleName in ViewBag.RoleNames)
+                                {
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" name="selectedRolesNames" type="checkbox" value="@roleName" id="@roleName">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            @roleName
+                                        </label>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    }
-                </div>
-            </div>
-            <div>
-                <input type="submit" value="Show"  class="btn btn-dark"/>
-                <a asp-controller="Profile" asp-action="UsersList" class="btn btn-dark">Clean filter</a>      
+                        <div>
+                            <input type="submit" value="Show" class="btn btn-dark" />
+                            <a asp-controller="Profile" asp-action="UsersList" class="btn btn-dark">Clean filter</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
-   
+        <div class="col-md-4" >
+            <form asp-controller="Profile" asp-action="WriteUsersListToExcel" method="post">
+                <div style="padding: 20px 10px">
+                    @foreach (var user in Model)
+                    {
+                        <input name="selectedIds" type="hidden"  value="@user.Id">
+                    }
+                    <input type="submit" value="Download Excel" class="btn btn-primary"/>                   
+                </div>
+            </form>
+            
+        </div>
+    </div>
 </div>
-
 
 <table class="table">
     <tr>
@@ -67,5 +84,5 @@
         </tr>
     }
 </table>
-<a class="btn btn-sm btn-primary" asp-action="WriteUsersListToExcel">Download Excel</a>
+
 

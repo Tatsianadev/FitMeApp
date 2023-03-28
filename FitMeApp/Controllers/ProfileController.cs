@@ -76,11 +76,11 @@ namespace FitMeApp.Controllers
             return View(users);
         }
 
-        public IActionResult WriteUsersListToExcel() 
+        public IActionResult WriteUsersListToExcel(List<string> selectedIds) 
         {
             try
             {
-                var users = _userManager.Users;
+                var users = _userManager.Users.ToList().Where(x=> selectedIds.Contains(x.Id));
                 var usersExcel = new List<UserExcelModel>();
                 var positionNumber = 0;
 
