@@ -269,5 +269,7 @@ namespace FitMeApp.Controllers
 
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
+
+
     }
 }

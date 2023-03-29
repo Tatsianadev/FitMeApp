@@ -5,6 +5,8 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using FitMeApp.Services.Contracts.Models.Chart;
+using System.Threading.Tasks;
 
 namespace FitMeApp.Services
 {
@@ -24,6 +26,12 @@ namespace FitMeApp.Services
             string tableName = file.Name;
             tableName.Replace(file.Extension, string.Empty, true, CultureInfo.CurrentCulture);
             _excelReport.WriteToExcel(table, file, tableName); //EPPlus or OpenXml realization
+        }
+
+        public async Task<List<TimeVisitorsModel>> ReadFromExcel(FileInfo file)
+        {
+            List<TimeVisitorsModel> output = await _excelReport.ReadFromExcel(file);
+            return output;
         }
     }
 }

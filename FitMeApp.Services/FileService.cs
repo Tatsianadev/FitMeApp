@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models.Chart;
 using Microsoft.AspNetCore.Http;
 
 
@@ -65,6 +67,13 @@ namespace FitMeApp.Services
             FileInfo file = new FileInfo(fullPath);
             DeleteFileIfExist(file);
             _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
+        }
+
+        public async Task<List<TimeVisitorsModel>> ReadFromExcel(string fullPath)
+        {
+            FileInfo file = new FileInfo(fullPath);
+            List<TimeVisitorsModel> output = await _reportService.ReadFromExcel(file);
+            return output;
         }
 
 

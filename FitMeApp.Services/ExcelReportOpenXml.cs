@@ -4,11 +4,13 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models.Chart;
 using Microsoft.Data.SqlClient.DataClassification;
 using BottomBorder = DocumentFormat.OpenXml.Spreadsheet.BottomBorder;
 using Fill = DocumentFormat.OpenXml.Spreadsheet.Fill;
@@ -71,6 +73,13 @@ namespace FitMeApp.Services
             sheets.Append(sheet);
             workbookPart.Workbook.Save();
             spreadsheetDocument.Close();
+        }
+
+
+        public async Task<List<TimeVisitorsModel>> ReadFromExcel(FileInfo file) //todo implement method
+        {
+            List<TimeVisitorsModel> output = new List<TimeVisitorsModel>();
+            return output;
         }
 
 
@@ -247,7 +256,7 @@ namespace FitMeApp.Services
                 //Index 1
                 new Fill(new PatternFill() { PatternType = PatternValues.Gray125 }),
                 //Index 2
-                new Fill(new PatternFill(new ForegroundColor { Rgb = new HexBinaryValue() { Value = "66666666" } }) { PatternType = PatternValues.Solid })
+                new Fill(new PatternFill(new ForegroundColor { Rgb = new HexBinaryValue() { Value = "93d19f" } }) { PatternType = PatternValues.Solid })
                 );
             return fills;
         }

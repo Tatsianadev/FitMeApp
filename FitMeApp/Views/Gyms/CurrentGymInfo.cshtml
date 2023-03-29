@@ -9,18 +9,21 @@
             <h6>@Model.Phone</h6>
             <table class="table table-borderless table-sm table-schedule">
                 <tbody>
-                    @foreach (var day in ViewBag.WorkHours)
-                    {
-                        <tr>
-                            <td class="col1">@day.DayName</td>
-                            <td class="col2">
-                                @await Component.InvokeAsync("IntHoursAsString", new { startTime = day.StartTime, endTime = day.EndTime })                               
-                            </td>
-                        </tr>
-                    }
+                @foreach (var day in ViewBag.WorkHours)
+                {
+                    <tr>
+                        <td class="col1">@day.DayName</td>
+                        <td class="col2">
+                            @await Component.InvokeAsync("IntHoursAsString", new { startTime = day.StartTime, endTime = day.EndTime })                               
+                        </td>
+                    </tr>
+                }
             </table>
             <div style="width:100%">
-                <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width:50%">Subscriptions</a>
+                <a asp-controller="Chart" asp-action="VisitingChart" class="btn btn-dark" style="width: 50%; margin: 5px">Visiting chart</a>
+            </div>
+            <div style="width:100%">
+                <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Subscriptions</a>
             </div>
 
         </div>
