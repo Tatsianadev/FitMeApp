@@ -20,7 +20,7 @@
                 }
             </table>
             <div style="width:100%">
-                <a asp-controller="Chart" asp-action="VisitingChart" class="btn btn-dark" style="width: 50%; margin: 5px">Visiting chart</a>
+                <a asp-controller="Chart" asp-action="VisitingChart" asp-route-gymId ="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Visiting chart</a>
             </div>
             <div style="width:100%">
                 <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Subscriptions</a>
