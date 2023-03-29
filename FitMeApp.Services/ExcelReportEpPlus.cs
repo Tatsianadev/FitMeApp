@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Services
 {
-    public class ExcelReportEpPlus: IExcelReport
+    public class ExcelReportEpPlus : IExcelReport
     {
         public void WriteToExcel(DataTable table, FileInfo file, string tableName)
         {
@@ -36,10 +36,10 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<TimeVisitorsModel>> ReadFromExcel(FileInfo file)
+        public async Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file)
         {
-            List<TimeVisitorsModel> output = new List<TimeVisitorsModel>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            List<VisitingChartModel> visitingChart = new List<VisitingChartModel>();
 
             if (file.Exists && file.Extension == ".xlsx")
             {
@@ -50,34 +50,47 @@ namespace FitMeApp.Services
                     if (excelPack.Workbook.Worksheets.Count > 0)
                     {
                         var workSheet = excelPack.Workbook.Worksheets[0];
-                        int row = 4; //row with data to start reading
-                        int col = 1;
-
-                        while (string.IsNullOrWhiteSpace(workSheet.Cells[row,col].Value?.ToString()) == false)
+                        for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                         {
-                            TimeVisitorsModel timeVisitors = new TimeVisitorsModel();
-                            int hour;
-                            bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
-                            if (getTimeSuccess)
+                            List<TimeVisitorsModel> timeVisitorsLine = new List<TimeVisitorsModel>();
+                            VisitingChartModel currentDayVisiting = new VisitingChartModel();
+                            int row = 4; //row with data to start reading
+
+                            var dayName = workSheet.Cells[2, col].Value.ToString();
+                            if (Enum.IsDefined(typeof(DayOfWeek), dayName))
                             {
-                                timeVisitors.Hour = hour;
+                                currentDayVisiting.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
                             }
 
-                            int numberOfVisitors;
-                            bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col+1].Value.ToString(), out numberOfVisitors);
-                            if (getNumberOfVisitorsSuccess)
+                            while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
                             {
-                                timeVisitors.NumberOfVisitors = numberOfVisitors;
+                                TimeVisitorsModel timeVisitors = new TimeVisitorsModel();
+                                int hour;
+                                bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
+                                if (getTimeSuccess)
+                                {
+                                    timeVisitors.Hour = hour;
+                                }
+
+                                int numberOfVisitors;
+                                bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col + 1].Value.ToString(), out numberOfVisitors);
+                                if (getNumberOfVisitorsSuccess)
+                                {
+                                    timeVisitors.NumberOfVisitors = numberOfVisitors;
+                                }
+
+                                timeVisitorsLine.Add(timeVisitors);
+                                row++;
                             }
 
-                            output.Add(timeVisitors);
-                            row++;
+                            currentDayVisiting.TimeVisitorsLine = timeVisitorsLine;
+                            visitingChart.Add(currentDayVisiting);
                         }
                     }
                 }
             }
 
-            return output;
+            return visitingChart;
 
         }
     }

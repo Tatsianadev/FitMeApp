@@ -28,9 +28,9 @@ namespace FitMeApp.Services
             _excelReport.WriteToExcel(table, file, tableName); //EPPlus or OpenXml realization
         }
 
-        public async Task<List<TimeVisitorsModel>> ReadFromExcel(FileInfo file)
+        public async Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file)
         {
-            List<TimeVisitorsModel> output = await _excelReport.ReadFromExcel(file);
+            List<VisitingChartModel> output = await _excelReport.ReadFromExcel(file);
             return output;
         }
     }

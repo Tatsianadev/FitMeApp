@@ -76,9 +76,9 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<TimeVisitorsModel>> ReadFromExcel(FileInfo file) //todo implement method
+        public async Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file) //todo implement method
         {
-            List<TimeVisitorsModel> output = new List<TimeVisitorsModel>();
+            List<VisitingChartModel> output = new List<VisitingChartModel>();
             return output;
         }
 
