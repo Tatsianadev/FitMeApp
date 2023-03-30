@@ -10,6 +10,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int GymId { get; set; }
         public string GymName { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
+        public bool IsSelected { get; set; }
         public List<TimeVisitorsViewModel> TimeVisitorsLine { get; set; }
     }
 }

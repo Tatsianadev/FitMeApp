@@ -1,3 +1,40 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.VisitingChartViewModel>
 
 <h3>Chart Page</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-check" id="dayOfWeek">
+                @foreach (var day in Model)
+                {
+                    <input class="form-check-input" type="radio" name="@day.DayOfWeek" id="@day.DayOfWeek">
+                    <label class="form-check-label" for="@day.DayOfWeek">
+                        @day.DayOfWeek
+                    </label>
+                }
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            @foreach (var day in Model)
+            {
+                @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { modelBySelectedDay = day });
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    document.getElementById("dayOfWeek").addEventListener("click",
+        function getSelectedDay () {
+            var selectedDay = document.getElementById("dayOfWeek").name;
+            return selectedDay;
+        });
+
+
+
+
+
+</script>
