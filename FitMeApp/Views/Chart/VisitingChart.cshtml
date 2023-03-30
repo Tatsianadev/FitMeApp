@@ -16,10 +16,12 @@
 
         </div>
         <div class="col-md-9">
-            @foreach (var day in Model)
+            @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { modelBySelectedDay = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) });
+            @*@foreach (var day in Model)
             {
-                @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { modelBySelectedDay = day });
-            }
+                @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new {modelBySelectedDay = day})
+                ;
+            }*@
         </div>
     </div>
 </div>

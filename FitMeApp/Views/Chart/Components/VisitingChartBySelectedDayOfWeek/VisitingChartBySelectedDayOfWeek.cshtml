@@ -1,3 +1,37 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.VisitingChartViewModel
+﻿
+<html>
+<head>
+    <script>
 
-<h4> Chart fot @Model.DayOfWeek</h4>
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: { text: "Visiting" },
+                    axisY: {
+                        title: "people",
+                        titleFontSize: 24,
+                        includeZero: true
+                    },
+                    data: [{
+                        type: "column",
+                        shoeInLegend: true,
+                        legendText: "legend text",
+                        dataPoints: @Html.Raw(ViewBag.Data)
+                    }]
+            });
+
+            chart.render();
+        }
+
+    </script>
+</head>
+
+
+<body>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
+

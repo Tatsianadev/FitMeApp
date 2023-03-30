@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.WEB.Contracts.ViewModels.Chart;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FitMeApp.ViewComponents
 {
@@ -12,7 +13,10 @@ namespace FitMeApp.ViewComponents
     {
         public IViewComponentResult Invoke(VisitingChartViewModel modelBySelectedDay)
         {
-            return View("VisitingChartBySelectedDayOfWeek", modelBySelectedDay);
+            var points = modelBySelectedDay.TimeVisitorsLine;
+
+            ViewBag.Data = JsonConvert.SerializeObject(points);
+            return View("VisitingChartBySelectedDayOfWeek");
         }
     }
 }
