@@ -5,9 +5,14 @@ using System.Text;
 
 namespace FitMeApp.WEB.Contracts.ViewModels.Chart
 {
-    public class TimeVisitorsViewModel
+    [DataContract]
+    public class TimeVisitorsAsChartDataPointViewModel
     {
-        public int Hour { get; set; }
+        [DataMember(Name = "label")]
+        public string Hour { get; set; }
+
+        [DataMember(Name = "y")]
         public int NumberOfVisitors { get; set; }
+
     }
 }

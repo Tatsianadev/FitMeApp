@@ -7,17 +7,23 @@
 
             var chart = new CanvasJS.Chart("chartContainer", {
                     animationEnabled: true,
-                    theme: "light2",
+                theme: "light1", // "light1","light2", "dark1", "dark2"
                     title: { text: "Visiting" },
                     axisY: {
-                        title: "people",
+                        title: "number of people",
                         titleFontSize: 24,
                         includeZero: true
+                },
+                    legend: {
+                        verticalAlign: "bottom",
+                        horizontalAlign: "center"
                     },
                     data: [{
                         type: "column",
-                        shoeInLegend: true,
-                        legendText: "legend text",
+                        color: "#A855FE",
+                        legendText: "visitors in hour",
+                        showInLegend: true,
+                        toolTipContent: "{label} <br> <b>~{y} people</b>",
                         dataPoints: @Html.Raw(ViewBag.Data)
                     }]
             });
@@ -30,7 +36,7 @@
 
 
 <body>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <div id="chartContainer" style="height: 350px; width: 100%;"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>

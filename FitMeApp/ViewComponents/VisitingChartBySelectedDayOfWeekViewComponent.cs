@@ -13,9 +13,18 @@ namespace FitMeApp.ViewComponents
     {
         public IViewComponentResult Invoke(VisitingChartViewModel modelBySelectedDay)
         {
-            var points = modelBySelectedDay.TimeVisitorsLine;
+            var data = modelBySelectedDay.TimeVisitorsLine;
+            var dataPoints = new List<TimeVisitorsAsChartDataPointViewModel>();
+            foreach (var point in data)
+            {
+               dataPoints.Add(new TimeVisitorsAsChartDataPointViewModel()
+               {    
+                  NumberOfVisitors = point.NumberOfVisitors,
+                  Hour = point.Hour.ToString() + ".00"
+               });
+            }
 
-            ViewBag.Data = JsonConvert.SerializeObject(points);
+            ViewBag.Data = JsonConvert.SerializeObject(dataPoints);
             return View("VisitingChartBySelectedDayOfWeek");
         }
     }
