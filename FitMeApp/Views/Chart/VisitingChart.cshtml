@@ -1,42 +1,72 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.VisitingChartViewModel>
 
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
 <h3>Chart Page</h3>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="form-check" id="dayOfWeek">
+            <div id="dayOfWeek">
                 @foreach (var day in Model)
                 {
-                    <input class="form-check-input" type="radio" name="@day.DayOfWeek" id="@day.DayOfWeek">
-                    <label class="form-check-label" for="@day.DayOfWeek">
-                        @day.DayOfWeek
-                    </label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="currentDay" value="@day.DayOfWeek" id="d_@day.DayOfWeek">
+                        <input  type="hidden" name="line" value="@day.TimeVisitorsLine" id="l_@day.DayOfWeek">
+                        <label class="form-check-label" for="d_@day.DayOfWeek">
+                            @day.DayOfWeek
+                        </label>
+                    </div>
                 }
             </div>
-
         </div>
         <div class="col-md-9">
-            @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { modelBySelectedDay = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) })
-            @*@foreach (var day in Model)
-            {
-                @await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new {modelBySelectedDay = day})
-                ;
-            }*@
+
+            @*@await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { modelBySelectedDay = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) })*@
+            <div id="chartContainer" style="height: 350px; width: 100%;"></div>
         </div>
     </div>
 </div>
 
 
 <script>
-    
+   
     document.getElementById("dayOfWeek").addEventListener("click",
-        function getSelectedDay () {
-            var selectedDay = document.getElementById("dayOfWeek").name;
-            return selectedDay;
-        });
+        function () {
+            let selectedDay = document.querySelector('input[name="currentDay"]:checked').value;
+            let list = document.getElementById("l_" + selectedDay).value;
+            //let elementToShow = document.getElementById(selectedDay);
+            //elementToShow.removeAttribute("hidden");
+            //document.getElementById(selectedDay).innerHTML = "test";
 
 
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light1", // "light1","light2", "dark1", "dark2"
+                title: { text: "Visiting on" + selectedDay },
+                axisY: {
+                    title: "number of people",
+                    titleFontSize: 24,
+                    includeZero: true
+                },
+                legend: {
+                    verticalAlign: "bottom",
+                    horizontalAlign: "center"
+                },
+                data: [{
+                    type: "column",
+                    color: "#A855FE",
+                    legendText: "visitors in hour",
+                    showInLegend: true,
+                    toolTipContent: "{label} <br> <b>~{y} people</b>",
+                    dataPoints: list
+                }]
+            });
 
-
-
+            chart.render();
+        },
+        false
+    );
 </script>
+
+

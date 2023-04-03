@@ -7,6 +7,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.WEB.Contracts.ViewModels.Chart;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
 {
@@ -34,13 +35,13 @@ namespace FitMeApp.Controllers
                 var visitingChartModels = await _fileService.ReadFromExcel(fullPath);
                 foreach (var model in visitingChartModels)
                 {
-                    var timeVisitorsViewModel = new List<TimeVisitorsViewModel>();
+                    var timeVisitorsViewModel = new List<TimeVisitorsAsChartDataPointViewModel>();
                     foreach (var point in model.TimeVisitorsLine)
                     {
-                        timeVisitorsViewModel.Add(new TimeVisitorsViewModel()
+                        timeVisitorsViewModel.Add(new TimeVisitorsAsChartDataPointViewModel()
                         {
-                            Hour = point.Hour,
-                            NumberOfVisitors = point.NumberOfVisitors
+                            NumberOfVisitors = point.NumberOfVisitors,
+                            Hour = point.Hour.ToString() + ".00"
                         });
                     }
 
@@ -55,6 +56,8 @@ namespace FitMeApp.Controllers
                     visitingData.Add(visitingViewModel);
                 }
 
+               // ViewBag.SelectedDay = DayOfWeek.Monday.ToString();
+              
                 return View(visitingData);
 
             }

@@ -565,3 +565,19 @@ go
 ALTER TABLE [dbo].[TrainerApplications]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [dbo].[AspNetUsers] ([Id])
 GO
+
+
+--Chart--
+
+create table NumberOfVisitorsPerHour
+(
+Id int identity primary key not null,
+GymId int not null,
+DayOfWeekNumber int not null,
+Hour int not null,
+NumberOfVisitors int
+)
+
+ALTER TABLE [dbo].[NumberOfVisitorsPerHour]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO

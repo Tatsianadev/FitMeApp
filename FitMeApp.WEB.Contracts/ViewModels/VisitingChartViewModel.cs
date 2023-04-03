@@ -11,6 +11,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string GymName { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
         public bool IsSelected { get; set; }
-        public List<TimeVisitorsViewModel> TimeVisitorsLine { get; set; }
+        public List<TimeVisitorsAsChartDataPointViewModel> TimeVisitorsLine { get; set; }
     }
 }

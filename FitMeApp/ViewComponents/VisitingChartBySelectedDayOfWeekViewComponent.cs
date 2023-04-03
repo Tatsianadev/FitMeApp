@@ -14,17 +14,19 @@ namespace FitMeApp.ViewComponents
         public IViewComponentResult Invoke(VisitingChartViewModel modelBySelectedDay)
         {
             var data = modelBySelectedDay.TimeVisitorsLine;
-            var dataPoints = new List<TimeVisitorsAsChartDataPointViewModel>();
-            foreach (var point in data)
-            {
-               dataPoints.Add(new TimeVisitorsAsChartDataPointViewModel()
-               {    
-                  NumberOfVisitors = point.NumberOfVisitors,
-                  Hour = point.Hour.ToString() + ".00"
-               });
-            }
+            //var dataPoints = new List<TimeVisitorsAsChartDataPointViewModel>();
 
-            ViewBag.Data = JsonConvert.SerializeObject(dataPoints);
+            //foreach (var element in data)
+            //{
+            //   dataPoints.Add(new TimeVisitorsAsChartDataPointViewModel()
+            //   {    
+            //      NumberOfVisitors = element.NumberOfVisitors,
+            //      Hour = element.Hour.ToString() + ".00"
+            //   });
+            //}
+
+            ViewBag.Data = JsonConvert.SerializeObject(data);
+            ViewBag.DayOfWeek = JsonConvert.SerializeObject(modelBySelectedDay.DayOfWeek.ToString());
             return View("VisitingChartBySelectedDayOfWeek");
         }
     }

@@ -1497,5 +1497,24 @@ namespace FitMeApp.Repository.EntityFramework
             _context.SaveChanges();
         }
 
+
+        //chart / diagrams
+        public void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData)
+        {
+           List<NumberOfVisitorsPerHourEntityBase> entitys = new List<NumberOfVisitorsPerHourEntityBase>();
+           foreach (var dataPerHour in chartData)
+           {
+               entitys.Add(new NumberOfVisitorsPerHourEntity()
+               {
+                   GymId = dataPerHour.GymId,
+                   DayOfWeekNumber = dataPerHour.DayOfWeekNumber,
+                   Hour = dataPerHour.Hour,
+                   NumberOfVisitors = dataPerHour.NumberOfVisitors
+               });
+           }
+
+           _context.AddRange(entitys);
+           _context.SaveChanges();
+        }
     }
 }
