@@ -8,6 +8,6 @@ namespace FitMeApp.Services.Contracts.Models.Chart
     {
         public int GymId { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
-        public List<TimeVisitorsModel> TimeVisitorsLine { get; set; }
+        public List<VisitorsPerHourModel> TimeVisitorsLine { get; set; }
     }
 }

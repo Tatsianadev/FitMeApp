@@ -52,7 +52,7 @@ namespace FitMeApp.Services
                         var workSheet = excelPack.Workbook.Worksheets[0];
                         for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                         {
-                            List<TimeVisitorsModel> timeVisitorsLine = new List<TimeVisitorsModel>();
+                            List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
                             VisitingChartModel currentDayVisiting = new VisitingChartModel();
                             int row = 4; //row with data to start reading
 
@@ -64,7 +64,7 @@ namespace FitMeApp.Services
 
                             while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
                             {
-                                TimeVisitorsModel timeVisitors = new TimeVisitorsModel();
+                                VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
                                 int hour;
                                 bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
                                 if (getTimeSuccess)

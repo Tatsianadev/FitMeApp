@@ -13,11 +13,13 @@ namespace FitMeApp.Repository.EntityFramework.Entities
             //Trainers = new HashSet<TrainerEntity>();
             Trainings = new HashSet<TrainingEntity>();
             Subscriptions = new HashSet<SubscriptionEntity>();
+            NumberOfVisitorsPerHour = new HashSet<NumberOfVisitorsPerHourEntity>();
         }
 
 
         //public ICollection<TrainerEntity> Trainers { get; set; }
         public ICollection<TrainingEntity> Trainings { get; set; }
         public ICollection<SubscriptionEntity> Subscriptions { get; set; }
+        public ICollection<NumberOfVisitorsPerHourEntity> NumberOfVisitorsPerHour { get; set; }
     }
 }

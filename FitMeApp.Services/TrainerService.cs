@@ -372,5 +372,13 @@ namespace FitMeApp.Services
         {
             _repository.DeleteTrainerApplication(applicationId);
         }
+
+
+        //Work License
+        public int GetWorkLicenseByTrainer(string trainerId)
+        {
+            //todo implement method
+            return 0;
+        }
     }
 }

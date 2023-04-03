@@ -69,12 +69,19 @@ namespace FitMeApp.Services
             _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
         }
 
-        public async Task<List<VisitingChartModel>> ReadFromExcel(string fullPath)
+        //todo add method "SaveInputExcelFile(int gymId, IFormFile? file,  string fullPath)"
+        //todo ReadFromExcel -> private (return output)
+        //todo AddToDb private method
+
+        public async Task<List<VisitingChartModel>> ReadFromExcel(string fullPath) //todo thinking about method Name 
         {
             FileInfo file = new FileInfo(fullPath);
             List<VisitingChartModel> output = await _reportService.ReadFromExcel(file);
+            _fileStorage.AddVisitingChartDataForGym(output);
             return output;
         }
+
+
 
 
         private void DeleteFileIfExist(FileInfo file)

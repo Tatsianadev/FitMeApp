@@ -3,6 +3,8 @@ using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
+using FitMeApp.Services.Contracts.Models.Chart;
 
 
 namespace FitMeApp.Mapper
@@ -56,7 +58,7 @@ namespace FitMeApp.Mapper
             };
             return trainerModel;
         }
-     
+
 
 
         public TrainingModel MapTrainingEntityBaseToModelBase(TrainingEntityBase training)
@@ -103,7 +105,7 @@ namespace FitMeApp.Mapper
             if (trainer.Gym != null)
             {
                 gymModel = MapGymEntityBaseToModelBase(trainer.Gym);
-            }           
+            }
 
             var trainings = new List<TrainingModel>();
             if (trainer.Trainings != null)
@@ -113,7 +115,7 @@ namespace FitMeApp.Mapper
                     trainings.Add(MapTrainingEntityBaseToModelBase(training));
                 }
             }
-            
+
 
             var trainerModel = new TrainerModel()
             {
@@ -184,9 +186,9 @@ namespace FitMeApp.Mapper
                 Date = eventEntityBase.Date,
                 StartTime = eventEntityBase.StartTime,
                 EndTime = eventEntityBase.EndTime,
-                TrainerId = eventEntityBase.TrainerId,               
-                UserId = eventEntityBase.UserId,              
-                TrainingId = eventEntityBase.TrainingId,              
+                TrainerId = eventEntityBase.TrainerId,
+                UserId = eventEntityBase.UserId,
+                TrainingId = eventEntityBase.TrainingId,
                 Status = eventEntityBase.Status
             };
 
@@ -246,7 +248,7 @@ namespace FitMeApp.Mapper
             };
             return trainerWorkHoursModel;
         }
-       
+
 
 
         public UserSubscriptionModel MapUserSubscriptionFullInfoBaseToModel(UserSubscriptionFullInfoBase subscriptionBase)
@@ -266,37 +268,37 @@ namespace FitMeApp.Mapper
             return subscriptionModel;
         }
 
-         //Chat
-         public ChatMessageModel MapChatMessageEntityBaseToModel(ChatMessageEntityBase messageEntityBase)
-         {
-             ChatMessageModel messageModel = new ChatMessageModel()
-             {
-                 Id = messageEntityBase.Id,
-                 ReceiverId = messageEntityBase.ReceiverId,
-                 SenderId = messageEntityBase.SenderId,
-                 Message = messageEntityBase.Message,
-                 Date = messageEntityBase.Date
-             };
+        //Chat
+        public ChatMessageModel MapChatMessageEntityBaseToModel(ChatMessageEntityBase messageEntityBase)
+        {
+            ChatMessageModel messageModel = new ChatMessageModel()
+            {
+                Id = messageEntityBase.Id,
+                ReceiverId = messageEntityBase.ReceiverId,
+                SenderId = messageEntityBase.SenderId,
+                Message = messageEntityBase.Message,
+                Date = messageEntityBase.Date
+            };
 
-             return messageModel;
-         }
+            return messageModel;
+        }
 
 
-         public TrainerApplicationModel MapTrainerApplicationWithNamesBaseToModel(
-             TrainerApplicationWithNamesBase trainerAppBase)
-         {
-             TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
-             {
-                 Id = trainerAppBase.Id,
-                 UserId = trainerAppBase.UserId,
-                 UserFirstName = trainerAppBase.UserFirstName,
-                 UserLastName = trainerAppBase.UserLastName,
-                 TrainerSubscription = trainerAppBase.TrainerSubscription,
-                 ContractNumber = trainerAppBase.ContractNumber,
-                 ApplicationDate = trainerAppBase.ApplicationDate
-             };
-             return trainerAppModel;
-         }
+        public TrainerApplicationModel MapTrainerApplicationWithNamesBaseToModel(
+            TrainerApplicationWithNamesBase trainerAppBase)
+        {
+            TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
+            {
+                Id = trainerAppBase.Id,
+                UserId = trainerAppBase.UserId,
+                UserFirstName = trainerAppBase.UserFirstName,
+                UserLastName = trainerAppBase.UserLastName,
+                TrainerSubscription = trainerAppBase.TrainerSubscription,
+                ContractNumber = trainerAppBase.ContractNumber,
+                ApplicationDate = trainerAppBase.ApplicationDate
+            };
+            return trainerAppModel;
+        }
 
 
 
@@ -310,17 +312,17 @@ namespace FitMeApp.Mapper
             {
                 trainingEntityBases.Add(new TrainingEntityBase()
                 {
-                    Id = training.Id                   
+                    Id = training.Id
                 });
             }
-            
+
             TrainerWithGymAndTrainingsBase trainerBase = new TrainerWithGymAndTrainingsBase()
             {
-                Id = trainerModel.Id,                
+                Id = trainerModel.Id,
                 Specialization = trainerModel.Specialization,
                 Gym = new GymEntityBase()
                 {
-                    Id = trainerModel.Gym.Id                   
+                    Id = trainerModel.Gym.Id
                 },
                 Trainings = trainingEntityBases
             };
@@ -335,13 +337,13 @@ namespace FitMeApp.Mapper
         {
             TrainerEntityBase trainerEntityBase = new TrainerEntityBase()
             {
-                Id = trainerModel.Id,                
+                Id = trainerModel.Id,
                 Specialization = trainerModel.Specialization,
                 //GymId = trainerModel.Gym.Id
             };
             return trainerEntityBase;
         }
-        
+
 
 
         public TrainerWorkHoursEntityBase MapTrainerWorkHoursModelToEntityBase(TrainerWorkHoursModel trainerWorkHoursModel)
@@ -401,6 +403,28 @@ namespace FitMeApp.Mapper
                 ApplicationDate = trainerAppModel.ApplicationDate
             };
             return trainerApplicationEntityBase;
+        }
+
+
+
+        public IEnumerable<NumberOfVisitorsPerHourEntityBase> MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(
+            VisitingChartModel model)
+        {
+            List<NumberOfVisitorsPerHourEntityBase> entities = new List<NumberOfVisitorsPerHourEntityBase>();
+
+            foreach (var dataPerHour in model.TimeVisitorsLine)
+            {
+                entities.Add(new NumberOfVisitorsPerHourEntityBase()
+                {
+                    GymId = model.GymId,
+                    DayOfWeekNumber = (int)model.DayOfWeek,
+                    Hour = dataPerHour.Hour,
+                    NumberOfVisitors = dataPerHour.NumberOfVisitors
+                });
+            }
+
+            return entities;
+
         }
     }
 }

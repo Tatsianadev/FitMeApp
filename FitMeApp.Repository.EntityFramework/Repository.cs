@@ -188,6 +188,23 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public int GetGymIdByTrainer(string trainerId)
+        {
+            int gymId = 0;
+            var license = _context.TrainerWorkLicenses
+                .Where(x => x.TrainerId == trainerId)
+                .OrderBy(x => x.EndDate)
+                .FirstOrDefault();
+
+            if (license != null)
+            {
+                gymId = license.GymId;
+            }
+
+            return gymId;
+        }
+
+
         public IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId)
         {
             var trainerWorkHoursWithDays = (from trainerWorkHours in _context.TrainerWorkHours
@@ -1501,19 +1518,21 @@ namespace FitMeApp.Repository.EntityFramework
         //chart / diagrams
         public void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData)
         {
-           List<NumberOfVisitorsPerHourEntityBase> entitys = new List<NumberOfVisitorsPerHourEntityBase>();
+            
+            List<NumberOfVisitorsPerHourEntityBase> entities = new List<NumberOfVisitorsPerHourEntityBase>();
            foreach (var dataPerHour in chartData)
            {
-               entitys.Add(new NumberOfVisitorsPerHourEntity()
+               entities.Add(new NumberOfVisitorsPerHourEntity()
                {
-                   GymId = dataPerHour.GymId,
+                   //GymId = dataPerHour.GymId,
+                   GymId = 1,
                    DayOfWeekNumber = dataPerHour.DayOfWeekNumber,
                    Hour = dataPerHour.Hour,
                    NumberOfVisitors = dataPerHour.NumberOfVisitors
                });
            }
 
-           _context.AddRange(entitys);
+           _context.AddRange(entities);
            _context.SaveChanges();
         }
     }

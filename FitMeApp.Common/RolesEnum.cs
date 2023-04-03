@@ -9,6 +9,7 @@ namespace FitMeApp.Common
         admin,
         trainer,
         user,
+        gymAdmin,
         blocked
     }
 

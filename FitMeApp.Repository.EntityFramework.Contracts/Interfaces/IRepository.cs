@@ -26,6 +26,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         bool AddTrainer(TrainerEntityBase trainer);
         void UpdateTrainer(TrainerEntityBase newTrainerData);
         void DeleteTrainer(string id);
+        int GetGymIdByTrainer(string trainerId);
         IEnumerable<TrainerWorkHoursWithDayBase> GetWorkHoursByTrainer(string trainerId);
         void AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
         void DeleteTrainerWorkHours(int workHoursId);
@@ -38,6 +39,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license);
         void DeleteTAllTrainerWorkLicensesByTrainer(string trainerId);
         TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId);
+        
+
 
 
         //TrainerApplication
