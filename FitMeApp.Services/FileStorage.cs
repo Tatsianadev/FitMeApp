@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
@@ -42,7 +43,8 @@ namespace FitMeApp.Services
             {
                 entities.AddRange(_mapper.MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(dayData));
             }
-
+           
+            _repository.DeleteNumberOfVisitorsPerHourChartData(entities.Select(x=>x.GymId).First());
             _repository.AddNumberOfVisitorsPerHourChartData(entities);
         }
     }

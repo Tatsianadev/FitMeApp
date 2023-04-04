@@ -32,49 +32,48 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> VisitingChart(int gymId)
-        {
-            try
-            {
-                var gym = _gymService.GetGymModel(gymId);
-                List<VisitingChartViewModel> visitingData = new List<VisitingChartViewModel>();
-                string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitorsChart.xlsx";
-                var visitingChartModels = await _fileService.ReadFromExcel(fullPath);
-                foreach (var model in visitingChartModels)
-                {
-                    var timeVisitorsViewModel = new List<TimeVisitorsAsChartDataPointViewModel>();
-                    foreach (var point in model.TimeVisitorsLine)
-                    {
-                        timeVisitorsViewModel.Add(new TimeVisitorsAsChartDataPointViewModel()
-                        {
-                            NumberOfVisitors = point.NumberOfVisitors,
-                            Hour = point.Hour.ToString() + ".00"
-                        });
-                    }
+        //public async Task<IActionResult> VisitingChart(int gymId)
+        //{
+        //    try
+        //    {
+        //        var gym = _gymService.GetGymModel(gymId);
+        //        List<VisitingChartViewModel> visitingData = new List<VisitingChartViewModel>();
+        //        string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitorsChart.xlsx";
+        //        var visitingChartModels = await _fileService.ReadFromExcel(fullPath);
+        //        foreach (var model in visitingChartModels)
+        //        {
+        //            var timeVisitorsViewModel = new List<TimeVisitorsAsChartDataPointViewModel>();
+        //            foreach (var point in model.TimeVisitorsLine)
+        //            {
+        //                timeVisitorsViewModel.Add(new TimeVisitorsAsChartDataPointViewModel()
+        //                {
+        //                    NumberOfVisitors = point.NumberOfVisitors,
+        //                    Hour = point.Hour.ToString() + ".00"
+        //                });
+        //            }
 
-                    var visitingViewModel = new VisitingChartViewModel()
-                    {
-                        GymId = gymId,
-                        GymName = gym.Name,
-                        DayOfWeek = model.DayOfWeek,
-                        TimeVisitorsLine = timeVisitorsViewModel
-                    }; 
+        //            var visitingViewModel = new VisitingChartViewModel()
+        //            {
+        //                GymId = gymId,
+        //                GymName = gym.Name,
+        //                DayOfWeek = model.DayOfWeek,
+        //                TimeVisitorsLine = timeVisitorsViewModel
+        //            }; 
 
-                    visitingData.Add(visitingViewModel);
-                }
+        //            visitingData.Add(visitingViewModel);
+        //        }
 
-               // ViewBag.SelectedDay = DayOfWeek.Monday.ToString();
-              
-                return View(visitingData);
 
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-            }
+        //        return View(visitingData);
 
-            return RedirectToAction("CurrentGymInfo", "Gyms", new {gymId = gymId});
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //    }
+
+        //    return RedirectToAction("CurrentGymInfo", "Gyms", new {gymId = gymId});
+        //}
 
 
     }

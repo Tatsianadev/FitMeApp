@@ -41,6 +41,10 @@
                                 <li><a class="dropdown-item" asp-controller="" asp-action="">Group Classes</a></li>
                             </ul>
                         </li>
+                        @if (User.IsInRole("gymAdmin"))
+                        {
+                            @await Component.InvokeAsync("GymSettings");
+                        }
                        
                     </ul>
                     @if (User.Identity.IsAuthenticated)
@@ -66,10 +70,7 @@
                         @await Component.InvokeAsync("TrainerProfile");
                     }
                     
-                    @if (User.IsInRole("gymAdmin"))
-                    {
-                        @await Component.InvokeAsync("GymSettings");
-                    }
+                   
                   
                     <input class="btn btn-sm btn-outline-secondary" style="margin-left:10px" type="submit" name="Logout" value="LogOut" />
                 </form>

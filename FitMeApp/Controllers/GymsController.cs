@@ -287,26 +287,27 @@ namespace FitMeApp.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
-            string gymName = _gymService.GetGymModel(gymId).Name;
+            var gym = _gymService.GetGymModel(gymId);
+            var gymViewModel = _mapper.MapGymModelToViewModel(gym);
 
-            return View("LoadVisitingChartData", gymName);
+            return View("LoadVisitingChartData", gymViewModel);
         }
 
-        public IActionResult DownloadVisitingChartBlank(string gymName)
+        public IActionResult DownloadVisitingChartBlank(string gymName, int gymId)
         {
             string sourceFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitingChartBlank.xlsx";
-            string destFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName +
-                                    @"\VisitingChart.xlsx";
+            string destFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName + @"\VisitingChart.xlsx";
             _fileService.CopyFileToDirectory(sourceFileName, destFileName); 
 
-            return View("LoadVisitingChartData", gymName);
+            return View("LoadVisitingChartData", new GymViewModel(){Id = gymId, Name = gymName});
         }
 
 
-        public async Task<IActionResult> LoadVisitingChartFile(string gymName)
+        public IActionResult LoadVisitingChartFile(string gymName, int gymId)
         {
-
-            return View();
+            string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName + @"\VisitingChart.xlsx";
+            _fileService.SaveFromExcelToDb(fileName, gymId);
+            return View(); 
         }
 
 

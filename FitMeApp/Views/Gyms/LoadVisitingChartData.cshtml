@@ -1,7 +1,8 @@
-﻿@model string
+﻿@model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
 
 
 <h3>Visiting statistic</h3>
+<hr/>
 
 <div class="container">
     <div>
@@ -11,18 +12,23 @@
         <h6>
             1. Download the blank by pressing the button
         </h6>
-        <a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" asp-route-gymName ="@Model" class="btn btn-dark"> Download blank</a>
+        <a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" asp-route-gymName="@Model.Name" asp-route-gymId="@Model.Id" class="btn btn-dark"> Download blank</a>
         <br />
         <br />
         <h6>
-            2. Follow the path and fill the blank
+            2. Follow the path and fill the blank @*todo write how user can find downloaded file*@
         </h6>
         <h6>
-            3. Save changes in Excel. Please, don't change a file directory.
+            3. Save changes in Excel. Please, don't change a file directory and file name.
         </h6>
         <h6>
             4. Load filled blank by pressing the button bellow:
         </h6>
-        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" asp-route-gymName ="@Model" class="btn btn-dark"> Load visiting data</a>
+        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" asp-route-gymName="@Model.Name" asp-route-gymId="@Model.Id" class="btn btn-dark"> Load visiting data</a>
+        <br />
+        <br />
+        <h6>
+            5. Once you make all the steps, you could see the char on your Gym page.
+        </h6>
     </div>
 </div>

@@ -74,7 +74,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public GymEntityBase AddGym(GymEntityBase gym)
         {
-           _context.Gyms.Add(new GymEntity()
+            _context.Gyms.Add(new GymEntity()
             {
                 Name = gym.Name,
                 Address = gym.Address,
@@ -87,14 +87,14 @@ namespace FitMeApp.Repository.EntityFramework
 
         public void UpdateGym(int id, GymEntityBase newGymData)
         {
-           GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
+            GymEntity gym = _context.Gyms.FirstOrDefault(x => x.Id == id);
 
             if (gym != null)
             {
                 gym.Name = newGymData.Name;
                 gym.Address = newGymData.Address;
                 gym.Phone = newGymData.Phone;
-            }         
+            }
 
             _context.SaveChanges();
         }
@@ -107,7 +107,7 @@ namespace FitMeApp.Repository.EntityFramework
             {
                 _context.Gyms.Remove(gym);
                 _context.SaveChanges();
-            }           
+            }
         }
 
 
@@ -385,19 +385,19 @@ namespace FitMeApp.Repository.EntityFramework
         public TrainerApplicationWithNamesBase GetTrainerApplicationWithNamesByUser(string userId)
         {
             var trainerApplication = (from trainerApp in _context.TrainerApplications
-                                       join user in _context.Users
-                                           on trainerApp.UserId equals user.Id
-                                       where trainerApp.UserId == userId
-                                       select new TrainerApplicationWithNamesBase()
-                                       {
-                                           Id = trainerApp.Id,
-                                           UserId = trainerApp.UserId,
-                                           UserFirstName = user.FirstName,
-                                           UserLastName = user.LastName,
-                                           TrainerSubscription = trainerApp.TrainerSubscription,
-                                           ContractNumber = trainerApp.ContractNumber,
-                                           ApplicationDate = trainerApp.ApplicationDate
-                                       }).FirstOrDefault();
+                                      join user in _context.Users
+                                          on trainerApp.UserId equals user.Id
+                                      where trainerApp.UserId == userId
+                                      select new TrainerApplicationWithNamesBase()
+                                      {
+                                          Id = trainerApp.Id,
+                                          UserId = trainerApp.UserId,
+                                          UserFirstName = user.FirstName,
+                                          UserLastName = user.LastName,
+                                          TrainerSubscription = trainerApp.TrainerSubscription,
+                                          ContractNumber = trainerApp.ContractNumber,
+                                          ApplicationDate = trainerApp.ApplicationDate
+                                      }).FirstOrDefault();
 
             return trainerApplication;
         }
@@ -559,7 +559,7 @@ namespace FitMeApp.Repository.EntityFramework
                 _context.Trainings.Remove(groupClass);
                 _context.SaveChanges();
             }
-            
+
         }
 
 
@@ -717,7 +717,7 @@ namespace FitMeApp.Repository.EntityFramework
             var allTrainersGymTrainingsJoin = (from trainer in _context.Trainers
                                                join user in _context.Users
                                                on trainer.Id equals user.Id
-                                               join license in _context.TrainerWorkLicenses 
+                                               join license in _context.TrainerWorkLicenses
                                                on trainer.Id equals license.TrainerId
                                                join gym in _context.Gyms
                                                on license.GymId equals gym.Id
@@ -805,7 +805,7 @@ namespace FitMeApp.Repository.EntityFramework
             var trainerGymTrainingJoin = (from trainer in _context.Trainers
                                           join user in _context.Users
                                           on trainer.Id equals user.Id
-                                          join license in _context.TrainerWorkLicenses 
+                                          join license in _context.TrainerWorkLicenses
                                           on trainer.Id equals license.TrainerId
                                           join gym in _context.Gyms
                                           on license.GymId equals gym.Id
@@ -879,7 +879,7 @@ namespace FitMeApp.Repository.EntityFramework
                                    join image in _context.GymImages
                                        on gymDb.Id equals image.GymId
                                    where trainingsId.Contains(trainingTrainer.TrainingId)
-                                   select new 
+                                   select new
                                    {
                                        Id = gymDb.Id,
                                        Name = gymDb.Name,
@@ -891,7 +891,7 @@ namespace FitMeApp.Repository.EntityFramework
             List<GymWithGalleryBase> gyms = new List<GymWithGalleryBase>();
             foreach (var gym in gymsByTrainings)
             {
-                if (!gyms.Select(x=>x.Id).Contains(gym.Id))
+                if (!gyms.Select(x => x.Id).Contains(gym.Id))
                 {
                     var images = gymsByTrainings
                         .Where(x => x.Id == gym.Id)
@@ -906,7 +906,7 @@ namespace FitMeApp.Repository.EntityFramework
                         Phone = gym.Phone,
                         GymImagePaths = images
                     });
-                }   
+                }
             }
 
             return gyms;
@@ -942,7 +942,7 @@ namespace FitMeApp.Repository.EntityFramework
             var trainersGymTrainingsByFilterJoin = (from trainer in _context.Trainers
                                                     join user in _context.Users
                                                     on trainer.Id equals user.Id
-                                                    join license in _context.TrainerWorkLicenses 
+                                                    join license in _context.TrainerWorkLicenses
                                                     on trainer.Id equals license.TrainerId
                                                     join gym in _context.Gyms
                                                     on license.GymId equals gym.Id
@@ -1310,7 +1310,7 @@ namespace FitMeApp.Repository.EntityFramework
                                    on events.UserId equals user.Id
                                    join trainer in _context.Trainers
                                    on events.TrainerId equals trainer.Id
-                                   join license in _context.TrainerWorkLicenses 
+                                   join license in _context.TrainerWorkLicenses
                                    on events.TrainerId equals license.TrainerId
                                    join gym in _context.Gyms
                                    on license.GymId equals gym.Id
@@ -1498,7 +1498,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var message = _context.ChatMessages
                 .FirstOrDefault(x => x.Id == messageId);
-                
+
             return message;
         }
 
@@ -1516,24 +1516,30 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         //chart / diagrams
+
+        public void DeleteNumberOfVisitorsPerHourChartData(int gymId)
+        {
+            var dataToDelete = _context.NumberOfVisitorsPerHour.Where(x => x.GymId == gymId).ToList();
+            _context.RemoveRange(dataToDelete);
+            _context.SaveChanges();
+        }
+
         public void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData)
         {
-            
             List<NumberOfVisitorsPerHourEntityBase> entities = new List<NumberOfVisitorsPerHourEntityBase>();
-           foreach (var dataPerHour in chartData)
-           {
-               entities.Add(new NumberOfVisitorsPerHourEntity()
-               {
-                   //GymId = dataPerHour.GymId,
-                   GymId = 1,
-                   DayOfWeekNumber = dataPerHour.DayOfWeekNumber,
-                   Hour = dataPerHour.Hour,
-                   NumberOfVisitors = dataPerHour.NumberOfVisitors
-               });
-           }
+            foreach (var dataPerHour in chartData)
+            {
+                entities.Add(new NumberOfVisitorsPerHourEntity()
+                {
+                    GymId = dataPerHour.GymId,
+                    DayOfWeekNumber = dataPerHour.DayOfWeekNumber,
+                    Hour = dataPerHour.Hour,
+                    NumberOfVisitors = dataPerHour.NumberOfVisitors
+                });
+            }
 
-           _context.AddRange(entities);
-           _context.SaveChanges();
+            _context.AddRange(entities);
+            _context.SaveChanges();
         }
     }
 }

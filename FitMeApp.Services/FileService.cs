@@ -25,6 +25,14 @@ namespace FitMeApp.Services
         }
 
 
+        public string SetUniqueFileName()
+        {
+            var fileName = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            fileName = Regex.Replace(fileName, "[^a-zA-Z0-9]", "");
+            return fileName;
+        }
+
+
         public string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath)
         {
             string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
@@ -80,35 +88,33 @@ namespace FitMeApp.Services
             _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
         }
 
-        //todo add method "SaveInputExcelFile(int gymId, IFormFile? file,  string fullPath)"
-        //todo ReadFromExcel -> private (return output)
-        //todo AddToDb private method
-
-        public async Task<List<VisitingChartModel>> ReadFromExcel(string fullPath) //todo thinking about method Name 
+        
+        public async void SaveFromExcelToDb(string fullPath, int gymId)   //VisitingChartModel only
         {
-            FileInfo file = new FileInfo(fullPath);
-            List<VisitingChartModel> output = await _reportService.ReadFromExcel(file);
+            List<VisitingChartModel> output = await ReadFromExcel(fullPath);
+            foreach (var model in output)
+            {
+                model.GymId = gymId;
+            }
+
             _fileStorage.AddVisitingChartDataForGym(output);
-            return output;
         }
 
 
+        private async Task<List<VisitingChartModel>> ReadFromExcel(string fullPath)  //VisitingChartModel only
+        {
+            FileInfo file = new FileInfo(fullPath);
+            List<VisitingChartModel> output = await _reportService.ReadFromExcel(file);
+            return output;
+        }
 
-
+        
         private void DeleteFileIfExist(string fullPath)
         {
             if (File.Exists(fullPath))
             {
                 File.Delete(fullPath);
             }
-        }
-
-
-        public string SetUniqueFileName()
-        {
-            var fileName = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            fileName = Regex.Replace(fileName, "[^a-zA-Z0-9]", "");
-            return fileName;
         }
 
     }

@@ -115,6 +115,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void AddContact(string userId, string interlocutorId);
 
         //Chart/diagrams
+
+        void DeleteNumberOfVisitorsPerHourChartData(int gymId);
         void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData);
 
 
