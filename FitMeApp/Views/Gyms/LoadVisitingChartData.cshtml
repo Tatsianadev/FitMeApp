@@ -1,24 +1,28 @@
-﻿<h3>Visiting statistic</h3>
+﻿@model string
+
+
+<h3>Visiting statistic</h3>
 
 <div class="container">
     <div>
-        <h4>
+        <h5>
             To load visiting data do some steps below:
-        </h4>
-        <h4>
+        </h5>
+        <h6>
             1. Download the blank by pressing the button
-        </h4>
-        <a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" class="btn btn-dark"> Download blank</a>
+        </h6>
+        <a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" asp-route-gymName ="@Model" class="btn btn-dark"> Download blank</a>
         <br />
-        <h4>
+        <br />
+        <h6>
             2. Follow the path and fill the blank
-        </h4>
-        <h4>
+        </h6>
+        <h6>
             3. Save changes in Excel. Please, don't change a file directory.
-        </h4>
-        <h4>
+        </h6>
+        <h6>
             4. Load filled blank by pressing the button bellow:
-        </h4>
-        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" class="btn btn-dark"> Load visiting data</a>
+        </h6>
+        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" asp-route-gymName ="@Model" class="btn btn-dark"> Load visiting data</a>
     </div>
 </div>

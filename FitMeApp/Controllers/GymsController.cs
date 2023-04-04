@@ -283,25 +283,33 @@ namespace FitMeApp.Controllers
         //Gym settings
 
         [Authorize(Roles = "gymAdmin")]
-        public IActionResult LoadVisitingChartData()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> DownloadVisitingChartBlank()
+        public async Task<IActionResult> LoadVisitingChartData()
         {
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             string gymName = _gymService.GetGymModel(gymId).Name;
 
+            return View("LoadVisitingChartData", gymName);
+        }
+
+        public IActionResult DownloadVisitingChartBlank(string gymName)
+        {
             string sourceFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitingChartBlank.xlsx";
             string destFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName +
-                                    @"\VisitorsChart.xlsx";
-            _fileService.CopyFileToDirectory(sourceFileName, destFileName);
+                                    @"\VisitingChart.xlsx";
+            _fileService.CopyFileToDirectory(sourceFileName, destFileName); 
 
+            return View("LoadVisitingChartData", gymName);
+        }
+
+
+        public async Task<IActionResult> LoadVisitingChartFile(string gymName)
+        {
 
             return View();
         }
+
+
 
     }
 }
