@@ -11,6 +11,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         List<TrainerModel> GetAllTrainerModels();
         void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
+        int GetGymIdByTrainer(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
         bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
@@ -35,7 +36,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //TrainerLicense
 
-        int GetWorkLicenseByTrainer(string trainerId);
+        
 
     }
 }

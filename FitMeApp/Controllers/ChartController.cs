@@ -8,6 +8,9 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.WEB.Contracts.ViewModels.Chart;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using FitMeApp.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
@@ -15,12 +18,16 @@ namespace FitMeApp.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IGymService _gymService;
+        //private readonly ITrainerService _trainerService;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
 
-        public ChartController(IFileService fileService, IGymService gymService, ILogger<ChartController> logger)
+        public ChartController(IFileService fileService, IGymService gymService, UserManager<User> userManager, ILogger<ChartController> logger)
         {
             _fileService = fileService;
             _gymService = gymService;
+            //_trainerService = trainerService;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -31,7 +38,7 @@ namespace FitMeApp.Controllers
             {
                 var gym = _gymService.GetGymModel(gymId);
                 List<VisitingChartViewModel> visitingData = new List<VisitingChartViewModel>();
-                string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\BigRock\VisitorsChart.xlsx";
+                string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitorsChart.xlsx";
                 var visitingChartModels = await _fileService.ReadFromExcel(fullPath);
                 foreach (var model in visitingChartModels)
                 {
@@ -70,10 +77,5 @@ namespace FitMeApp.Controllers
         }
 
 
-
-        public IActionResult InputVisitingChartData()
-        {
-            var user = 
-        }
     }
 }

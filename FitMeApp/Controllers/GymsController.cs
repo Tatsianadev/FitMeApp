@@ -16,15 +16,24 @@ namespace FitMeApp.Controllers
     public class GymsController : Controller
     {
         private readonly IGymService _gymService;
+        private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
+        private readonly IFileService _fileService;
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
 
-        public GymsController(IGymService gymService, ITrainingService trainingService, UserManager<User> userManager, ILogger<GymsController> logger)
+        public GymsController(IGymService gymService, 
+            ITrainerService trainerService, 
+            ITrainingService trainingService, 
+            IFileService fileService,
+            UserManager<User> userManager, 
+            ILogger<GymsController> logger)
         {
             _gymService = gymService;
+            _trainerService = trainerService;
             _trainingService = trainingService;
+            _fileService = fileService;
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
@@ -270,6 +279,29 @@ namespace FitMeApp.Controllers
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
 
+
+        //Gym settings
+
+        [Authorize(Roles = "gymAdmin")]
+        public IActionResult LoadVisitingChartData()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> DownloadVisitingChartBlank()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            int gymId = _trainerService.GetGymIdByTrainer(user.Id);
+            string gymName = _gymService.GetGymModel(gymId).Name;
+
+            string sourceFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitingChartBlank.xlsx";
+            string destFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName +
+                                    @"\VisitorsChart.xlsx";
+            _fileService.CopyFileToDirectory(sourceFileName, destFileName);
+
+
+            return View();
+        }
 
     }
 }

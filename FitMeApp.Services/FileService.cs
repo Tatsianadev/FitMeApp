@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.Services
 {
-    public class FileService: IFileService
+    public class FileService : IFileService
     {
         private readonly IFileStorage _fileStorage;
         private readonly IReportService _reportService;
@@ -25,7 +25,7 @@ namespace FitMeApp.Services
         }
 
 
-        public string SaveAvatarFileAsync(string userId,  IFormFile uploadedFile, string rootPath)
+        public string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath)
         {
             string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
             string absolutePath = "/Content/Upload/" + userId + "/AvatarPath/" + uploadedFile.GetHashCode() + ".jpg";
@@ -38,7 +38,7 @@ namespace FitMeApp.Services
 
             if (!File.Exists(fullFilePath))
             {
-               _fileStorage.SaveImageFileAsync(uploadedFile,fullFilePath);
+                _fileStorage.SaveImageFileAsync(uploadedFile, fullFilePath);
             }
 
             return absolutePath;
@@ -62,10 +62,21 @@ namespace FitMeApp.Services
         }
 
 
-        public void WriteToExcel(DataTable table, string fullPath) 
+        public void CopyFileToDirectory(string sourceFileName, string destFileName)
+        {
+            if (File.Exists(sourceFileName))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
+                File.Copy(sourceFileName, destFileName, true);
+            }
+
+        }
+
+
+        public void WriteToExcel(DataTable table, string fullPath)
         {
             FileInfo file = new FileInfo(fullPath);
-            DeleteFileIfExist(file);
+            DeleteFileIfExist(fullPath);
             _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
         }
 
@@ -84,14 +95,14 @@ namespace FitMeApp.Services
 
 
 
-        private void DeleteFileIfExist(FileInfo file)
+        private void DeleteFileIfExist(string fullPath)
         {
-            if (file.Exists)
+            if (File.Exists(fullPath))
             {
-                file.Delete();
+                File.Delete(fullPath);
             }
         }
-         
+
 
         public string SetUniqueFileName()
         {

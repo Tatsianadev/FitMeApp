@@ -43,6 +43,12 @@ namespace FitMeApp.Services
         }
 
 
+        public int GetGymIdByTrainer(string trainerId)
+        {
+            int gymId = _repository.GetGymIdByTrainer(trainerId);
+            return gymId;
+        }
+
         public IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId)
         {
             var workHoursEntityBase = _repository.GetWorkHoursByTrainer(trainerId);
@@ -375,10 +381,6 @@ namespace FitMeApp.Services
 
 
         //Work License
-        public int GetWorkLicenseByTrainer(string trainerId)
-        {
-            //todo implement method
-            return 0;
-        }
+       
     }
 }
