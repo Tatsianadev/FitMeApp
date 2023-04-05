@@ -33,27 +33,27 @@ namespace FitMeApp.Services
         }
 
 
-        public string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath)
-        {
-            string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
-            string absolutePath = "/Content/Upload/" + userId + "/AvatarPath/" + uploadedFile.GetHashCode() + ".jpg";
-            string fullFilePath = rootPath + absolutePath;
+        //public string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath)
+        //{
+        //    string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
+        //    string absolutePath = "/Content/Upload/" + userId + "/AvatarPath/" + uploadedFile.GetHashCode() + ".jpg";
+        //    string fullFilePath = rootPath + absolutePath;
 
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
+        //    if (!Directory.Exists(directoryPath))
+        //    {
+        //        Directory.CreateDirectory(directoryPath);
+        //    }
 
-            if (!File.Exists(fullFilePath))
-            {
-                _fileStorage.SaveImageFileAsync(uploadedFile, fullFilePath);
-            }
+        //    if (!File.Exists(fullFilePath))
+        //    {
+        //        _fileStorage.SaveImageFileAsync(uploadedFile, fullFilePath);
+        //    }
 
-            return absolutePath;
-        }
+        //    return absolutePath;
+        //}
 
 
-        public string SaveExcelFile(IFormFile uploadedFile, string fullPath)
+        public void SaveFile(IFormFile uploadedFile, string fullPath)
         {
             string directoryPath = Path.GetDirectoryName(fullPath);
             if (!Directory.Exists(directoryPath))
@@ -65,8 +65,6 @@ namespace FitMeApp.Services
             {
                 _fileStorage.SaveImageFileAsync(uploadedFile,fullPath);
             }
-
-            return fullPath;
         }
 
 

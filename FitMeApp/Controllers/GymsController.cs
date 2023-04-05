@@ -316,7 +316,7 @@ namespace FitMeApp.Controllers
         public IActionResult LoadVisitingChartFile(VisitingChartExcelFileViewModel model)
         {
             string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + model.GymName + @"\VisitingChart.xlsx";
-            _fileService.SaveExcelFile(model.VisitingChartFile, fileName);
+            _fileService.SaveFile(model.VisitingChartFile, fileName);
             _fileService.SaveFromExcelToDb(fileName, model.GymId);
             return View(); 
         }

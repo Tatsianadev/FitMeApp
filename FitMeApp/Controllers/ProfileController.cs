@@ -357,12 +357,11 @@ namespace FitMeApp.Controllers
 
                         if (model.AvatarFile != null)
                         {
-                            string rootPath = _appEnvironment.WebRootPath;
-                            string avatarPath = _fileService.SaveAvatarFileAsync(user.Id, model.AvatarFile, rootPath);
-                            if (!string.IsNullOrEmpty(avatarPath))
-                            {
-                                user.AvatarPath = avatarPath;
-                            }
+                            string absolutePath = "/Content/Upload/" + model.Id + "/AvatarPath/" + model.AvatarFile.GetHashCode() + ".jpg";
+                            string fullPath = _appEnvironment.WebRootPath + absolutePath;
+                            _fileService.SaveFile(model.AvatarFile, fullPath);
+                            user.AvatarPath = absolutePath;
+                            
                         }
 
                         var result = await _userManager.UpdateAsync(user);
