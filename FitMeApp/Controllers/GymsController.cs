@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.Models.ExcelModels;
 
 namespace FitMeApp.Controllers
 {
@@ -288,9 +289,17 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             var gym = _gymService.GetGymModel(gymId);
-            var gymViewModel = _mapper.MapGymModelToViewModel(gym);
+            //var gymViewModel = _mapper.MapGymModelToViewModel(gym);
+            string blankFullPath = @"/ExcelFiles/Blanks/VisitingChart.xlsx";
 
-            return View("LoadVisitingChartData", gymViewModel);
+            VisitingChartExcelFileViewModel model = new VisitingChartExcelFileViewModel()
+            {
+                GymId = gymId,
+                GymName = gym.Name,
+                BlankFullPath = blankFullPath
+            };
+
+            return View("LoadVisitingChartData", model);
         }
 
         public IActionResult DownloadVisitingChartBlank(string gymName, int gymId)

@@ -1,4 +1,4 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
+﻿@model FitMeApp.Models.ExcelModels.VisitingChartExcelFileViewModel
 
 
 <h3>Visiting statistic</h3>
@@ -12,7 +12,9 @@
         <h6>
             1. Download the blank by pressing the button
         </h6>
-        <a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" asp-route-gymName="@Model.Name" asp-route-gymId="@Model.Id" class="btn btn-dark"> Download blank</a>
+        @*<a asp-controller="Gyms" asp-action="DownloadVisitingChartBlank" asp-route-gymName="@Model.GymName" asp-route-gymId="@Model.GymId" class="btn btn-dark"> Download blank</a>*@
+        @*<a href="@Model.BlankFullPath" download="VisitingBlank" class="btn btn-dark">Download blank</a>*@
+        <a href="@Model.BlankFullPath" download="VisitingBlank" class="btn btn-dark">Download blank</a>
         <br />
         <br />
         <h6>
@@ -24,7 +26,7 @@
         <h6>
             4. Load filled blank by pressing the button bellow:
         </h6>
-        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" asp-route-gymName="@Model.Name" asp-route-gymId="@Model.Id" class="btn btn-dark"> Load visiting data</a>
+        <a asp-controller="Gyms" asp-action="LoadVisitingChartFile" asp-route-gymName="@Model.GymName" asp-route-gymId="@Model.GymId" class="btn btn-dark"> Load visiting data</a>
         <br />
         <br />
         <h6>
