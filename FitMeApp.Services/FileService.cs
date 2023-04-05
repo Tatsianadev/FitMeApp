@@ -53,6 +53,23 @@ namespace FitMeApp.Services
         }
 
 
+        public string SaveExcelFile(IFormFile uploadedFile, string fullPath)
+        {
+            string directoryPath = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            if (!File.Exists(fullPath))
+            {
+                _fileStorage.SaveImageFileAsync(uploadedFile,fullPath);
+            }
+
+            return fullPath;
+        }
+
+
         public async Task<string> GetTextContentFromFile(string localPath)
         {
             FileInfo fileInfo = new FileInfo(localPath);

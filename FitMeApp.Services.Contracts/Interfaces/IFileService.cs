@@ -14,6 +14,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     {
         string SetUniqueFileName();
         string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath);
+        string SaveExcelFile(IFormFile uploadedFile, string fullPath);
         Task<string> GetTextContentFromFile(string localPath);
         void CopyFileToDirectory(string sourceFileName, string destFileName);
         void WriteToExcel(DataTable table, string fullPath);
