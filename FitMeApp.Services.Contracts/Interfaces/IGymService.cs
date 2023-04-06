@@ -1,5 +1,6 @@
 ﻿using FitMeApp.Common;
 using FitMeApp.Services.Contracts.Models;
+using FitMeApp.Services.Contracts.Models.Chart;
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +32,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 
-        
+        //Charts
+        public IEnumerable<VisitingChartModel> GetVisitingChartDataByGym(int gymId);
     }
 }

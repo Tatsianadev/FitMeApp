@@ -3,6 +3,8 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FitMeApp.Services.Contracts.Models.Chart;
+using FitMeApp.WEB.Contracts.ViewModels.Chart;
 
 namespace FitMeApp.Mapper
 {
@@ -34,7 +36,7 @@ namespace FitMeApp.Mapper
             {
                 Id = trainerModel.Id,
                 FirstName = trainerModel.FirstName,
-                LastName = trainerModel.LastName,                
+                LastName = trainerModel.LastName,
                 Gender = trainerModel.Gender,
                 AvatarPath = trainerModel.AvatarPath,
                 Specialization = trainerModel.Specialization,
@@ -104,7 +106,7 @@ namespace FitMeApp.Mapper
                 TrainerViewModel trainerViewModel = MapTrainerModelToViewModelBase(trainerModel);
                 trainerViewModel.Gym = gymViewModel;
                 //trainerViewModel.Trainings = groupClassViewModels;
-               
+
 
                 return trainerViewModel;
             }
@@ -114,7 +116,7 @@ namespace FitMeApp.Mapper
                 throw ex;
             }
         }
-        
+
 
 
         public TrainingViewModel MapTrainingModelToViewModel(TrainingModel trainingModel)
@@ -216,11 +218,11 @@ namespace FitMeApp.Mapper
                 GymWorkHoursId = trainerWorkHoursModel.GymWorkHoursId,
                 DayName = trainerWorkHoursModel.DayName
             };
-            
+
             return trainerWorkHoursViewModel;
         }
 
-       
+
 
         public UserSubscriptionViewModel MapUserSubscriptionModelToViewModel(UserSubscriptionModel userSubscriptionModel)
         {
@@ -271,6 +273,28 @@ namespace FitMeApp.Mapper
         }
 
 
+        public VisitingChartViewModel MapVisitingChartModelToViewModel(VisitingChartModel model)
+        {
+            List<TimeVisitorsAsChartDataPointViewModel> visitingPerHourLine = new List<TimeVisitorsAsChartDataPointViewModel>();
+            foreach (var point in model.TimeVisitorsLine)
+            {
+                visitingPerHourLine.Add(new TimeVisitorsAsChartDataPointViewModel()
+                {
+                    NumberOfVisitors = point.NumberOfVisitors,
+                    Hour = point.Hour.ToString() + ".00"
+                });
+            }
+
+            VisitingChartViewModel viewModel = new VisitingChartViewModel()
+            {
+                GymId = model.GymId,
+                TimeVisitorsLine = visitingPerHourLine
+            };
+
+            return viewModel;
+        }
+
+
 
         //Reverse: ViewModel -> Model
 
@@ -300,7 +324,7 @@ namespace FitMeApp.Mapper
             }
 
             TrainerModel trainerModel = MapTrainerViewModelToModelBase(trainerViewModel);
-            trainerModel.Trainings = trainingModels;          
+            trainerModel.Trainings = trainingModels;
 
             return trainerModel;
         }
@@ -375,4 +399,7 @@ namespace FitMeApp.Mapper
         }
 
     }
+
+
+
 }

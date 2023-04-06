@@ -1523,6 +1523,7 @@ namespace FitMeApp.Repository.EntityFramework
             _context.RemoveRange(dataToDelete);
             _context.SaveChanges();
         }
+        
 
         public void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData)
         {
@@ -1540,6 +1541,18 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.AddRange(entities);
             _context.SaveChanges();
+        }
+
+
+        public IEnumerable<NumberOfVisitorsPerHourEntityBase> GetAllNumberOfVisitorsPerHourByGym(int gymId)
+        {
+            var numbersOfVisitorsPerHours = _context.NumberOfVisitorsPerHour
+                .Where(x => x.GymId == gymId)
+                .OrderBy(x=>x.DayOfWeekNumber)
+                .ThenBy(x=>x.Hour)
+                .ToList();
+
+            return numbersOfVisitorsPerHours;
         }
     }
 }

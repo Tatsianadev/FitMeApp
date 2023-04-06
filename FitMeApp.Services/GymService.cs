@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
+using FitMeApp.Services.Contracts.Models.Chart;
 
 namespace FitMeApp.Services
 {
@@ -249,6 +250,22 @@ namespace FitMeApp.Services
             }
 
             return subscriptions;
+        }
+
+
+
+        //Charts
+        public IEnumerable<VisitingChartModel> GetVisitingChartDataByGym(int gymId)
+        {
+            var visitingChartEntities = _repository.GetAllNumberOfVisitorsPerHourByGym(gymId);
+            var visitingChartModels = new List<VisitingChartModel>();
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                var dataForDay = visitingChartEntities.Where(x => x.DayOfWeekNumber == (int)day).ToList();
+                visitingChartModels.Add(_mapper.MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(dataForDay));
+            }
+
+            return visitingChartModels;
         }
 
     }

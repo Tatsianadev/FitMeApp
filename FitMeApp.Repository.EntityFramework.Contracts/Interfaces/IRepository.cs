@@ -2,6 +2,7 @@
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using Microsoft.AspNetCore.Identity;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
@@ -118,6 +119,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         void DeleteNumberOfVisitorsPerHourChartData(int gymId);
         void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData);
+        IEnumerable<NumberOfVisitorsPerHourEntityBase> GetAllNumberOfVisitorsPerHourByGym(int gymId);
+
 
 
 

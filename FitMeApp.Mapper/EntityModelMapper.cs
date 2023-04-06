@@ -1,8 +1,10 @@
-﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+﻿using System;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using FitMeApp.Services.Contracts.Models.Chart;
 
@@ -298,6 +300,29 @@ namespace FitMeApp.Mapper
                 ApplicationDate = trainerAppBase.ApplicationDate
             };
             return trainerAppModel;
+        }
+
+
+        public VisitingChartModel MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(
+           IEnumerable<NumberOfVisitorsPerHourEntityBase> entities)
+        {
+             List<VisitorsPerHourModel> visitingPerHourOnCertainDay = new List<VisitorsPerHourModel>();
+             foreach (var entity in entities)
+             {
+                 visitingPerHourOnCertainDay.Add(new VisitorsPerHourModel()
+                 {
+                     Hour = entity.Hour,
+                     NumberOfVisitors = entity.NumberOfVisitors
+                 });
+             }
+
+             VisitingChartModel model = new VisitingChartModel()
+             {
+                 DayOfWeek = (DayOfWeek)entities.First().DayOfWeekNumber,
+                 TimeVisitorsLine = visitingPerHourOnCertainDay
+             };
+
+             return model;
         }
 
 
