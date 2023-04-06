@@ -80,11 +80,11 @@ namespace FitMeApp.Services
         }
 
 
-        public void WriteToExcel(DataTable table, string fullPath)
+        public async Task WriteToExcelAsync(DataTable table, string fullPath)
         {
             FileInfo file = new FileInfo(fullPath);
             DeleteFileIfExist(fullPath);
-            _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
+            await _reportService.WriteToExcelAsync(table, file); //EPPlus or OpenXml realization
         }
 
 
@@ -107,7 +107,7 @@ namespace FitMeApp.Services
         private async Task<List<VisitingChartModel>> ReadFromExcelAsync(string fullPath)  //VisitingChartModel only
         {
             FileInfo file = new FileInfo(fullPath);
-            List<VisitingChartModel> output = await _reportService.ReadFromExcel(file);
+            List<VisitingChartModel> output = await _reportService.ReadFromExcelAsync(file);
             return output;
         }
 

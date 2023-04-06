@@ -16,7 +16,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         Task SaveFileAsync(IFormFile uploadedFile, string fullPath);
         Task<string> GetTextContentFromFileAsync(string localPath);
         void CopyFileToDirectory(string sourceFullPath, string destFullPath);
-        void WriteToExcel(DataTable table, string fullPath);
+        Task WriteToExcelAsync(DataTable table, string fullPath);
         Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
 
     }

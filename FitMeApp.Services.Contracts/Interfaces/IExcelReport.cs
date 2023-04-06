@@ -10,7 +10,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IExcelReport
     {
-        void WriteToExcel(DataTable table, FileInfo file, string tableName);
-        Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file);
+        Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName);
+        Task<List<VisitingChartModel>> ReadFromExcelAsync(FileInfo file);
     }
 }

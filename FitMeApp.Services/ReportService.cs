@@ -21,16 +21,16 @@ namespace FitMeApp.Services
 
 
 
-        public void WriteToExcel(DataTable table, FileInfo file)
+        public async Task WriteToExcelAsync(DataTable table, FileInfo file)
         {
             string tableName = file.Name;
             tableName.Replace(file.Extension, string.Empty, true, CultureInfo.CurrentCulture);
-            _excelReport.WriteToExcel(table, file, tableName); //EPPlus or OpenXml realization
+            await _excelReport.WriteToExcelAsync(table, file, tableName); //EPPlus or OpenXml realization
         }
 
-        public async Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file)
+        public async Task<List<VisitingChartModel>> ReadFromExcelAsync(FileInfo file)
         {
-            List<VisitingChartModel> output = await _excelReport.ReadFromExcel(file);
+            List<VisitingChartModel> output = await _excelReport.ReadFromExcelAsync(file);
             return output;
         }
     }

@@ -79,7 +79,7 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public IActionResult WriteUsersListToExcel(List<string> selectedIds) 
+        public async Task<IActionResult> WriteUsersListToExcel(List<string> selectedIds) 
         {
             try
             {
@@ -103,7 +103,7 @@ namespace FitMeApp.Controllers
 
                 DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
                 string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Users.xlsx";
-                _fileService.WriteToExcel(table, fullPath);
+                await _fileService.WriteToExcelAsync(table, fullPath);
             }
             catch (Exception ex)
             {

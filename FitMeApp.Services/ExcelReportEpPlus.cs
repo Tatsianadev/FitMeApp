@@ -14,7 +14,7 @@ namespace FitMeApp.Services
 {
     public class ExcelReportEpPlus : IExcelReport
     {
-        public void WriteToExcel(DataTable table, FileInfo file, string tableName)
+        public async Task WriteToExcelAsync (DataTable table, FileInfo file, string tableName)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -31,12 +31,12 @@ namespace FitMeApp.Services
                 sheet.Rows[1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Rows[2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                excelPack.Save();
+                await excelPack.SaveAsync();
             }
         }
 
 
-        public async Task<List<VisitingChartModel>> ReadFromExcel(FileInfo file)
+        public async Task<List<VisitingChartModel>> ReadFromExcelAsync(FileInfo file)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             List<VisitingChartModel> visitingChart = new List<VisitingChartModel>();

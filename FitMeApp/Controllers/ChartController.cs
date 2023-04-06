@@ -39,7 +39,7 @@ namespace FitMeApp.Controllers
         //        var gym = _gymService.GetGymModel(gymId);
         //        List<VisitingChartViewModel> visitingData = new List<VisitingChartViewModel>();
         //        string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitorsChart.xlsx";
-        //        var visitingChartModels = await _fileService.ReadFromExcel(fullPath);
+        //        var visitingChartModels = await _fileService.ReadFromExcelAsync(fullPath);
         //        foreach (var model in visitingChartModels)
         //        {
         //            var timeVisitorsViewModel = new List<TimeVisitorsAsChartDataPointViewModel>();
