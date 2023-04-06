@@ -60,7 +60,7 @@
                         @await Component.InvokeAsync("AdminProfile");
                     }
 
-                    @if (User.IsInRole("user"))
+                    @if (User.IsInRole("user") && !User.IsInRole("trainer"))
                     {
                         @await Component.InvokeAsync("UserProfile");
                     }

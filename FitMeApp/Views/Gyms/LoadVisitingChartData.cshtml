@@ -2,38 +2,74 @@
 
 
 <h3>Visiting statistic</h3>
-<hr/>
+<hr />
 
 <div class="container">
-    <div>
-        <h5>
-            To load visiting data do some steps below:
-        </h5>
-        <h6>
-            1. Download the blank by pressing the button
-        </h6>
-        <a href="@Model.BlankFullPath" download="VisitingBlank" class="btn btn-dark">Download blank</a>
-        <br />
-        <br />
-        <h6>
-            2. Fill out the columns "Visitors" in the downloaded blank and save the changes. 
-        </h6>
-        <h6>
-            3. Load filled blank by pressing the button bellow:
-        </h6>
-        <form asp-controller="Gyms" asp-action="LoadVisitingChartFile" method="post" enctype="multipart/form-data">
-            <input type="hidden" asp-for="GymId"/>
-            <input type="hidden" asp-for="GymName"/>
-            <div class="form-group" style="text-align: left">
-                <label asp-for="VisitingChartFile" class="control-label">Load visiting data</label>
-                <input type="file" asp-for="VisitingChartFile" class="form-control" accept=".xlsx" style="width: 80%"/>
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <h5>
+                    To load visiting data do some steps below:
+                </h5>
+                <br/>
+                <h6>
+                    1. Download the blank by pressing the button
+                </h6>
+                <a href="@Model.BlankFullPath" download="VisitingBlank" class="btn btn-dark">Download blank</a>
+                <br/>
+                <br/>
+                <h6>
+                    2. Fill out the columns "Visitors" in the downloaded blank and save the changes.
+                </h6>
+                <h6>
+                    3. Load filled blank bellow (.xlsx):
+                </h6>
+                <form asp-controller="Gyms" asp-action="LoadVisitingChartFile" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="GymId"/>
+                    <input type="hidden" asp-for="GymName"/>
+                    <div class="form-group" style="text-align: left">
+                        @*<label asp-for="VisitingChartFile" class="control-label">Load visiting data</label>*@
+                        <input type="file" asp-for="VisitingChartFile" class="form-control" accept=".xlsx" style="width: 100%"/>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-outline-secondary"/>
+                </form>
+                <br/>
+                <h6>
+                    4. Once you make all the steps, you could see the char on your Gym page or just by clicking button below.
+                </h6>
+                @if (ViewBag.FileUploaded)
+                {
+                    <a asp-controller="Chart" asp-action="VisitingChart" asp-route-gymId="@Model.GymId" class="btn btn-dark"> Show updated chart</a>
+                }
+                else
+                {
+                    <a class="btn btn-dark" style="color: white" data-bs-toggle="modal" data-bs-target="#exampleModal">Show updated chart</a>
+                }
             </div>
-            <input type="submit" value="Save" class="btn btn-outline-secondary"/>
-        </form>
-        <br />
-        <br />
-        <h6>
-            4. Once you make all the steps, you could see the char on your Gym page.
-        </h6>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
+   
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Not so fast</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You need to upload a Visiting data file first.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
     </div>
 </div>

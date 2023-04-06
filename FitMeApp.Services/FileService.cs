@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -33,27 +34,7 @@ namespace FitMeApp.Services
         }
 
 
-        //public string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath)
-        //{
-        //    string directoryPath = rootPath + "/Content/Upload/" + userId + "/AvatarPath";
-        //    string absolutePath = "/Content/Upload/" + userId + "/AvatarPath/" + uploadedFile.GetHashCode() + ".jpg";
-        //    string fullFilePath = rootPath + absolutePath;
-
-        //    if (!Directory.Exists(directoryPath))
-        //    {
-        //        Directory.CreateDirectory(directoryPath);
-        //    }
-
-        //    if (!File.Exists(fullFilePath))
-        //    {
-        //        _fileStorage.SaveImageFileAsync(uploadedFile, fullFilePath);
-        //    }
-
-        //    return absolutePath;
-        //}
-
-
-        public void SaveFile(IFormFile uploadedFile, string fullPath)
+        public async Task SaveFileAsync(IFormFile uploadedFile, string fullPath)
         {
             string directoryPath = Path.GetDirectoryName(fullPath);
             if (!Directory.Exists(directoryPath))
@@ -61,14 +42,13 @@ namespace FitMeApp.Services
                 Directory.CreateDirectory(directoryPath);
             }
 
-            if (!File.Exists(fullPath))
-            {
-                _fileStorage.SaveImageFileAsync(uploadedFile,fullPath);
-            }
+            DeleteFileIfExist(fullPath);
+            await _fileStorage.SaveFileAsync(uploadedFile, fullPath);
         }
 
 
-        public async Task<string> GetTextContentFromFile(string localPath)
+
+        public async Task<string> GetTextContentFromFileAsync(string localPath)
         {
             FileInfo fileInfo = new FileInfo(localPath);
             string pathToTextMessage = fileInfo.FullName;
@@ -85,12 +65,16 @@ namespace FitMeApp.Services
         }
 
 
-        public void CopyFileToDirectory(string sourceFileName, string destFileName)
+        public void CopyFileToDirectory(string sourceFullPath, string destFullPath)
         {
-            if (File.Exists(sourceFileName))
+            if (File.Exists(sourceFullPath))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
-                File.Copy(sourceFileName, destFileName, true);
+                if (!Directory.Exists(Path.GetDirectoryName(destFullPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(destFullPath));
+                }
+
+                File.Copy(sourceFullPath, destFullPath, true);
             }
 
         }
@@ -103,27 +87,31 @@ namespace FitMeApp.Services
             _reportService.WriteToExcel(table, file); //EPPlus or OpenXml realization
         }
 
-        
-        public async void SaveFromExcelToDb(string fullPath, int gymId)   //VisitingChartModel only
+
+        public async Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId)   //VisitingChartModel only
         {
-            List<VisitingChartModel> output = await ReadFromExcel(fullPath);
+            List<VisitingChartModel> output = await ReadFromExcelAsync(fullPath);
+            output = output.OrderBy(x => x.DayOfWeek).ToList();
             foreach (var model in output)
             {
                 model.GymId = gymId;
+                model.TimeVisitorsLine = model.TimeVisitorsLine.OrderBy(x => x.Hour).ToList();
             }
-
-            _fileStorage.AddVisitingChartDataForGym(output);
+            
+            _fileStorage.AddVisitingChartDataToDb(output);
         }
 
 
-        private async Task<List<VisitingChartModel>> ReadFromExcel(string fullPath)  //VisitingChartModel only
+
+
+        private async Task<List<VisitingChartModel>> ReadFromExcelAsync(string fullPath)  //VisitingChartModel only
         {
             FileInfo file = new FileInfo(fullPath);
             List<VisitingChartModel> output = await _reportService.ReadFromExcel(file);
             return output;
         }
 
-        
+
         private void DeleteFileIfExist(string fullPath)
         {
             if (File.Exists(fullPath))

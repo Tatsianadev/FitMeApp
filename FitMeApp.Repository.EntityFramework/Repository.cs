@@ -11,7 +11,7 @@ namespace FitMeApp.Repository.EntityFramework
 {
     public class Repository : IRepository
     {
-        ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public Repository(ApplicationDbContext context)
         {
             _context = context;

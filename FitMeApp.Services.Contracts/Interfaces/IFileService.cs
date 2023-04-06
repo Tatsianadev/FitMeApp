@@ -13,13 +13,11 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface IFileService
     {
         string SetUniqueFileName();
-        //string SaveAvatarFileAsync(string userId, IFormFile uploadedFile, string rootPath);
-        void SaveFile(IFormFile uploadedFile, string fullPath);
-        Task<string> GetTextContentFromFile(string localPath);
-        void CopyFileToDirectory(string sourceFileName, string destFileName);
+        Task SaveFileAsync(IFormFile uploadedFile, string fullPath);
+        Task<string> GetTextContentFromFileAsync(string localPath);
+        void CopyFileToDirectory(string sourceFullPath, string destFullPath);
         void WriteToExcel(DataTable table, string fullPath);
-        void SaveFromExcelToDb(string fullPath, int gymId);
-        //Task<List<VisitingChartModel>> ReadFromExcel(string fullPath);
-        
+        Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
+
     }
 }

@@ -169,7 +169,7 @@ namespace FitMeApp.Controllers
                     string text = string.Empty;
                     try
                     {
-                       text = await _fileService.GetTextContentFromFile(localPath);
+                       text = await _fileService.GetTextContentFromFileAsync(localPath);
                     }
                     catch (Exception ex)
                     {
@@ -216,7 +216,7 @@ namespace FitMeApp.Controllers
                 string text = string.Empty;
                 try
                 {
-                    text = await _fileService.GetTextContentFromFile(localPath);
+                    text = await _fileService.GetTextContentFromFileAsync(localPath);
                 }
                 catch (Exception ex)
                 {
@@ -359,7 +359,7 @@ namespace FitMeApp.Controllers
                         {
                             string absolutePath = "/Content/Upload/" + model.Id + "/AvatarPath/" + model.AvatarFile.GetHashCode() + ".jpg";
                             string fullPath = _appEnvironment.WebRootPath + absolutePath;
-                            _fileService.SaveFile(model.AvatarFile, fullPath);
+                            await _fileService.SaveFileAsync(model.AvatarFile, fullPath);
                             user.AvatarPath = absolutePath;
                             
                         }

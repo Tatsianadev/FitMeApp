@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.EMMA;
 using FitMeApp.Models.ExcelModels;
 
 namespace FitMeApp.Controllers
@@ -289,7 +291,6 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             var gym = _gymService.GetGymModel(gymId);
-            //var gymViewModel = _mapper.MapGymModelToViewModel(gym);
             string blankFullPath = @"/ExcelFiles/Blanks/VisitingChart.xlsx";
 
             VisitingChartExcelFileViewModel model = new VisitingChartExcelFileViewModel()
@@ -299,26 +300,39 @@ namespace FitMeApp.Controllers
                 BlankFullPath = blankFullPath
             };
 
+            ViewBag.FileUploaded = false;
             return View("LoadVisitingChartData", model);
         }
 
-        //public IActionResult DownloadVisitingChartBlank(string gymName, int gymId)
-        //{
-        //    string sourceFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitingChartBlank.xlsx";
-        //    string destFileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + gymName + @"\VisitingChart.xlsx";
-        //    _fileService.CopyFileToDirectory(sourceFileName, destFileName); 
-
-        //    return View("LoadVisitingChartData", new GymViewModel(){Id = gymId, Name = gymName});
-        //}
+        
 
         [HttpPost]
         [Authorize(Roles = "gymAdmin")]
-        public IActionResult LoadVisitingChartFile(VisitingChartExcelFileViewModel model)
+        public async Task<IActionResult> LoadVisitingChartFile(VisitingChartExcelFileViewModel model)
         {
-            string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + model.GymName + @"\VisitingChart.xlsx";
-            _fileService.SaveFile(model.VisitingChartFile, fileName);
-            _fileService.SaveFromExcelToDb(fileName, model.GymId);
-            return View(); 
+            try
+            {
+                if (model.VisitingChartFile == null || Path.GetExtension(model.VisitingChartFile.FileName) != ".xlsx")
+                {
+                    ModelState.AddModelError("File incorrect", "Please, add the file .xlsx extension");
+                    ViewBag.FileUploaded = false;
+                }
+                else
+                {
+                    string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + model.GymName + @"\VisitingChart.xlsx";
+                    await _fileService.SaveFileAsync(model.VisitingChartFile, fileName);
+                    await _fileService.AddVisitingChartDataFromExcelToDbAsync(fileName, model.GymId);
+                    ViewBag.FileUploaded = true;
+                }
+
+                return View("LoadVisitingChartData", model);
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, ex.Message);
+                return View("LoadVisitingChartData", model);
+            }
+           
         }
 
 

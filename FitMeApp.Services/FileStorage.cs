@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
@@ -24,11 +25,11 @@ namespace FitMeApp.Services
         }
 
 
-        public async void SaveImageFileAsync(IFormFile uploadedFile, string path)
+        public async Task SaveFileAsync(IFormFile uploadedFile, string fullPath)
         {
-            if (!string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(fullPath))
             {
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
@@ -36,7 +37,7 @@ namespace FitMeApp.Services
         }
 
 
-        public void AddVisitingChartDataForGym(IEnumerable<VisitingChartModel> data)
+        public void AddVisitingChartDataToDb(IEnumerable<VisitingChartModel> data)
         {
             var entities = new List<NumberOfVisitorsPerHourEntityBase>();
             foreach (var dayData in data)
