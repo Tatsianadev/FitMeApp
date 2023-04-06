@@ -318,6 +318,7 @@ namespace FitMeApp.Mapper
 
              VisitingChartModel model = new VisitingChartModel()
              {
+                 GymId = entities.First().GymId,
                  DayOfWeek = (DayOfWeek)entities.First().DayOfWeekNumber,
                  TimeVisitorsLine = visitingPerHourOnCertainDay
              };

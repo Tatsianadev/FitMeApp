@@ -288,6 +288,7 @@ namespace FitMeApp.Mapper
             VisitingChartViewModel viewModel = new VisitingChartViewModel()
             {
                 GymId = model.GymId,
+                DayOfWeek = model.DayOfWeek,
                 TimeVisitorsLine = visitingPerHourLine
             };
 

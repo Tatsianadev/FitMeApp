@@ -263,6 +263,7 @@ namespace FitMeApp.Services
             {
                 var dataForDay = visitingChartEntities.Where(x => x.DayOfWeekNumber == (int)day).ToList();
                 visitingChartModels.Add(_mapper.MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(dataForDay));
+
             }
 
             return visitingChartModels;
