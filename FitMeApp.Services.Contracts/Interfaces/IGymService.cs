@@ -33,6 +33,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 
         //Charts
-        public IEnumerable<VisitingChartModel> GetVisitingChartDataByGym(int gymId);
+        VisitingChartModel GetVisitingChartDataForCertainDayByGym(int gymId, DayOfWeek day);
     }
 }

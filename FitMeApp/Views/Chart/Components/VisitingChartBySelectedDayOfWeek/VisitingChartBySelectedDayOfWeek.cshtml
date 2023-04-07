@@ -1,14 +1,15 @@
 ﻿
-<html>
+@*<html>
 <head>
-    <script>
+    <script type="text/javascript">
 
-        window.onload = function () {
+        /*window.onload*/
+        jQuery.Event = function () {
 
             var chart = new CanvasJS.Chart("chartContainer", {
                     animationEnabled: true,
                 theme: "light1", // "light1","light2", "dark1", "dark2"
-                    title: { text: "Visiting on" + @Html.Raw(ViewBag.DayOfWeek) },
+                    title: { text: "Visiting on " + @Html.Raw(ViewBag.DayOfWeek) },
                     axisY: {
                         title: "number of people",
                         titleFontSize: 24,
@@ -31,13 +32,17 @@
             chart.render();
         }
 
+
+
     </script>
 </head>
 
 
 <body>
     <div id="chartContainer" style="height: 350px; width: 100%;"></div>
+    <div id="testText" style="height: 350px; width: 100%;">There is supposed to be a Canvas</div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
-</html>
+</html>*@
+
 

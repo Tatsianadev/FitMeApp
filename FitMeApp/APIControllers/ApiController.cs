@@ -7,6 +7,8 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Mapper;
 using FitMeApp.Common;
+using FitMeApp.WEB.Contracts.ViewModels.Chart;
+using Newtonsoft.Json;
 
 namespace FitMeApp.APIControllers
 {
@@ -14,14 +16,14 @@ namespace FitMeApp.APIControllers
     public class ApiController : Controller
     {
         private readonly ITrainingService _trainingService;
-        private readonly IGymService _fitMeService;
+        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;
 
-        public ApiController(ITrainingService trainingService, IGymService fitMeService, ITrainerService trainerService)
+        public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService)
         {
             _trainingService = trainingService;
-            _fitMeService = fitMeService;
+            _gymService = gymService;
             _trainerService = trainerService;
             _mapper = new ModelViewModelMapper();
         }
@@ -51,6 +53,26 @@ namespace FitMeApp.APIControllers
             }
 
             return stringTime;
+        }
+
+
+        [HttpPost]
+        [Route("getvisitingchartline")]
+        public string GetVisitingChartLine(int gymId, DayOfWeek selectedDay)
+        {
+            var timeVisitorsLineJson = "";
+            try
+            {
+                var visitingChartModel = _gymService.GetVisitingChartDataForCertainDayByGym(gymId, selectedDay);
+                var viewModel = _mapper.MapVisitingChartModelToViewModel(visitingChartModel);
+                timeVisitorsLineJson = JsonConvert.SerializeObject(viewModel.TimeVisitorsLine);
+            }
+            catch (Exception ex)
+            {
+               
+            }
+
+            return timeVisitorsLineJson;
         }
 
     }

@@ -119,7 +119,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         void DeleteNumberOfVisitorsPerHourChartData(int gymId);
         void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData);
-        IEnumerable<NumberOfVisitorsPerHourEntityBase> GetAllNumberOfVisitorsPerHourByGym(int gymId);
+        IEnumerable<NumberOfVisitorsPerHourEntityBase> GetNumOfVisitorsPerHourOnCertainDayByGym(int gymId, DayOfWeek day);
 
 
 

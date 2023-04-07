@@ -1544,12 +1544,12 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<NumberOfVisitorsPerHourEntityBase> GetAllNumberOfVisitorsPerHourByGym(int gymId)
+        public IEnumerable<NumberOfVisitorsPerHourEntityBase> GetNumOfVisitorsPerHourOnCertainDayByGym(int gymId, DayOfWeek day)
         {
             var numbersOfVisitorsPerHours = _context.NumberOfVisitorsPerHour
                 .Where(x => x.GymId == gymId)
-                .OrderBy(x=>x.DayOfWeekNumber)
-                .ThenBy(x=>x.Hour)
+                .Where(x=>x.DayOfWeekNumber == (int)day)
+                .OrderBy(x => x.Hour)
                 .ToList();
 
             return numbersOfVisitorsPerHours;

@@ -255,18 +255,12 @@ namespace FitMeApp.Services
 
 
         //Charts
-        public IEnumerable<VisitingChartModel> GetVisitingChartDataByGym(int gymId)
+        public VisitingChartModel GetVisitingChartDataForCertainDayByGym(int gymId, DayOfWeek day)
         {
-            var visitingChartEntities = _repository.GetAllNumberOfVisitorsPerHourByGym(gymId);
-            var visitingChartModels = new List<VisitingChartModel>();
-            foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-            {
-                var dataForDay = visitingChartEntities.Where(x => x.DayOfWeekNumber == (int)day).ToList();
-                visitingChartModels.Add(_mapper.MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(dataForDay));
+            var visitingChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
+            var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(visitingChartEntities);
 
-            }
-
-            return visitingChartModels;
+            return visitingCharModel;
         }
 
     }

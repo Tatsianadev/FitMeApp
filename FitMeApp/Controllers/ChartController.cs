@@ -40,40 +40,18 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var visitingChartModels = _gymService.GetVisitingChartDataByGym(gymId);
-                var viewModel = new List<VisitingChartViewModel>();
-                foreach (var model in visitingChartModels)
-                {
-                    viewModel.Add(_mapper.MapVisitingChartModelToViewModel(model));
-                }
-
-                //var gym = _gymService.GetGymModel(gymId);
-                //List<VisitingChartViewModel> visitingData = new List<VisitingChartViewModel>();
-                //string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Import\VisitorsChart.xlsx";
-                //var visitingChartModels = await _fileService.ReadFromExcelAsync(fullPath);
+                //todo create model without Db (new)
+                //var visitingChartModels = _gymService.GetVisitingChartDataForCertainDayByGym(gymId);
+                //var viewModel = new List<VisitingChartViewModel>();
                 //foreach (var model in visitingChartModels)
                 //{
-                //    var timeVisitorsViewModel = new List<TimeVisitorsAsChartDataPointViewModel>();
-                //    foreach (var point in model.TimeVisitorsLine)
-                //    {
-                //        timeVisitorsViewModel.Add(new TimeVisitorsAsChartDataPointViewModel()
-                //        {
-                //            NumberOfVisitors = point.NumberOfVisitors,
-                //            Hour = point.Hour.ToString() + ".00"
-                //        });
-                //    }
-
-                //    var visitingViewModel = new VisitingChartViewModel()
-                //    {
-                //        GymId = gymId,
-                //        GymName = gym.Name,
-                //        DayOfWeek = model.DayOfWeek,
-                //        TimeVisitorsLine = timeVisitorsViewModel
-                //    };
-
-                //    visitingData.Add(visitingViewModel);
+                //    viewModel.Add(_mapper.MapVisitingChartModelToViewModel(model));
                 //}
 
+                var viewModel = new VisitingChartViewModel()
+                {
+                    GymId = gymId
+                };
 
                 return View(viewModel);
 
@@ -85,6 +63,24 @@ namespace FitMeApp.Controllers
 
             return RedirectToAction("CurrentGymInfo", "Gyms", new { gymId = gymId });
         }
+
+
+        //public IActionResult VisitingChartForSelectedDayOfWeek(int gymId, DayOfWeek selectedDay)
+        //{
+        //    try
+        //    {
+        //        var visitingChartModel = _gymService.GetVisitingChartDataForCertainDayByGym(gymId, selectedDay);
+        //        var viewModel = _mapper.MapVisitingChartModelToViewModel(visitingChartModel);
+
+        //        return ViewComponent("VisitingChartBySelectedDayOfWeek", new { model = viewModel });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //    }
+
+        //    return RedirectToAction("VisitingChart", new {gymId = gymId});
+        //}
 
 
     }
