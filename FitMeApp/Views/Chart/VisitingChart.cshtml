@@ -1,33 +1,33 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.VisitingChartViewModel
-    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-    <h3>Chart Page</h3>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div id="dayOfWeek">
-                    @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="currentDay" value="@day" id="d_@day">
-                            <label class="form-check-label" for="@day">
-                                @day
-                            </label>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="col-md-9">
-
-                @*@await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { model = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) })*@
-                <div id="chartContainer" style="height: 350px; width: 100%;"></div>
+<h3>Chart Page</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div id="dayOfWeek">
+                @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="currentDay" value="@day" id="d_@day">
+                        <label class="form-check-label" for="@day">
+                            @day
+                        </label>
+                    </div>
+                }
             </div>
         </div>
+        <div class="col-md-9">
+
+            @*@await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { model = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) })*@
+            <div id="chartContainer" style="height: 350px; width: 100%;"></div>
+        </div>
     </div>
+</div>
 
 
-    <script>
+<script>
 
     document.getElementById("dayOfWeek").addEventListener("click",
         function () {
@@ -40,13 +40,15 @@
                         gymId: gymId,
                         selectedDay: selectedDay
                     })
-                .done(function(data) {
-                    var dataPoints = [];
+                .done(function (data) {
 
-                    for (var i = 0; i < data.length; i++) {
+                        var dataJs = JSON.parse(data);
+                        var dataPoints = [];
+
+                    for (var i = 0; i < dataJs.length; i++) {
                         dataPoints.push({
-                            x: data[i].Hour,
-                            y: data[i].NumberOfVisitors
+                            x: dataJs[i].Hour,
+                            y: dataJs[i].NumberOfVisitors
                         });
                     }
 
@@ -83,7 +85,7 @@
         },
         false
     );
-    </script>
+</script>
 
 
 

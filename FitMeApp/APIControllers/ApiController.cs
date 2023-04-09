@@ -60,19 +60,20 @@ namespace FitMeApp.APIControllers
         [Route("getvisitingchartline")]
         public string GetVisitingChartLine(int gymId, DayOfWeek selectedDay)
         {
-            var timeVisitorsLineJson = "";
+            var timeVisitorsLineJsonString = "";
             try
             {
                 var visitingChartModel = _gymService.GetVisitingChartDataForCertainDayByGym(gymId, selectedDay);
-                var viewModel = _mapper.MapVisitingChartModelToViewModel(visitingChartModel);
-                timeVisitorsLineJson = JsonConvert.SerializeObject(viewModel.TimeVisitorsLine);
+                //var viewModel = _mapper.MapVisitingChartModelToViewModel(visitingChartModel);
+                timeVisitorsLineJsonString = JsonConvert.SerializeObject(visitingChartModel.TimeVisitorsLine);
+               
             }
             catch (Exception ex)
             {
                
             }
 
-            return timeVisitorsLineJson;
+            return timeVisitorsLineJsonString;
         }
 
     }

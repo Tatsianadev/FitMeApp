@@ -275,13 +275,23 @@ namespace FitMeApp.Mapper
 
         public VisitingChartViewModel MapVisitingChartModelToViewModel(VisitingChartModel model)
         {
-            List<TimeVisitorsAsChartDataPointViewModel> visitingPerHourLine = new List<TimeVisitorsAsChartDataPointViewModel>();
+            //List<TimeVisitorsAsChartDataPointViewModel> visitingPerHourLine = new List<TimeVisitorsAsChartDataPointViewModel>();
+            //foreach (var point in model.TimeVisitorsLine)
+            //{
+            //    visitingPerHourLine.Add(new TimeVisitorsAsChartDataPointViewModel()
+            //    {
+            //        NumberOfVisitors = point.NumberOfVisitors,
+            //        Hour = point.Hour.ToString() + ".00"
+            //    });
+            //}
+
+            List<TimeVisitorsViewModel> visitingPerHourLine = new List<TimeVisitorsViewModel>();
             foreach (var point in model.TimeVisitorsLine)
             {
-                visitingPerHourLine.Add(new TimeVisitorsAsChartDataPointViewModel()
+                visitingPerHourLine.Add(new TimeVisitorsViewModel()
                 {
                     NumberOfVisitors = point.NumberOfVisitors,
-                    Hour = point.Hour.ToString() + ".00"
+                    Hour = point.Hour
                 });
             }
 
