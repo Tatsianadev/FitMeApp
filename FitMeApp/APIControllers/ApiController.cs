@@ -64,7 +64,10 @@ namespace FitMeApp.APIControllers
             try
             {
                 var visitingChartModel = _gymService.GetAttendanceChartDataForCertainDayByGym(gymId, selectedDay);
-                timeVisitorsLineJsonString = JsonConvert.SerializeObject(visitingChartModel.NumberOfVisitorsPerHour);
+                if (visitingChartModel != null)
+                {
+                    timeVisitorsLineJsonString = JsonConvert.SerializeObject(visitingChartModel.NumberOfVisitorsPerHour);
+                }
             }
             catch (Exception ex)
             {

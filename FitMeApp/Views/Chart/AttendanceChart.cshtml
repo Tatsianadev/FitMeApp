@@ -38,51 +38,59 @@
                         selectedDay: selectedDay
                     })
                 .done(function (data) {
-
+                    if (data === "") {
+                        var html = "<img src='/Content/images/noChart.jpg' style='width: 50%; height: auto'/>";
+                        document.getElementById("chartContainer").innerHTML= html;
+                        /*document.getElementById("chartContainer").innerText = "There is no data for the selected parameters";*/
+                    }
+                    else {
                         var dataJs = JSON.parse(data);
                         var dataPoints = [];
 
-                    for (var i = 0; i < dataJs.length; i++) {
-                        dataPoints.push({
-                            x: dataJs[i].Hour,
-                            y: dataJs[i].NumberOfVisitors
-                        });
-                    }
+                        for (var i = 0; i < dataJs.length; i++) {
+                            dataPoints.push({
+                                x: dataJs[i].Hour,
+                                y: dataJs[i].NumberOfVisitors
+                            });
+                        }
 
                         var chart = new CanvasJS.Chart("chartContainer",
-                        {
-                            animationEnabled: true,
-                            theme: "light1", // "light1","light2", "dark1", "dark2"
-                            title: {
-                                fontSize: 30,
-                                text: "Attendance on " + selectedDay
-                            },
-                            axisY: {
-                                title: "number of people",
-                                titleFontSize: 20,
-                                includeZero: true
-                            },
-                            axisX:{
-                                valueFormatString: "##.00",
-                                interval: 3
-                            },
-                            legend: {
-                                verticalAlign: "bottom",
-                                horizontalAlign: "center"
-                            },
-                            data: [
-                                {
-                                    type: "column",
-                                    color: "#C0AEF0",
-                                    legendText: "visitors in hour",
-                                    showInLegend: true,
-                                    toolTipContent: "{x}.00<br> <b>~{y} people</b>",
-                                    dataPoints: dataPoints
-                                }
-                            ]
-                        });
+                            {
+                                animationEnabled: true,
+                                theme: "light1", // "light1","light2", "dark1", "dark2"
+                                title: {
+                                    fontSize: 30,
+                                    text: "Attendance on " + selectedDay
+                                },
+                                axisY: {
+                                    title: "number of people",
+                                    titleFontSize: 20,
+                                    includeZero: true
+                                },
+                                axisX:{
+                                    valueFormatString: "##.00",
+                                    interval: 3
+                                },
+                                legend: {
+                                    verticalAlign: "bottom",
+                                    horizontalAlign: "center"
+                                },
+                                data: [
+                                    {
+                                        type: "column",
+                                        color: "#C0AEF0",
+                                        legendText: "visitors in hour",
+                                        showInLegend: true,
+                                        toolTipContent: "{x}.00<br> <b>~{y} people</b>",
+                                        dataPoints: dataPoints
+                                    }
+                                ]
+                            });
 
-                    chart.render();
+                        chart.render();
+                    }
+
+                       
                 }
             );
         },

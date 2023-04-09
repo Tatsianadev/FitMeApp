@@ -258,9 +258,13 @@ namespace FitMeApp.Services
         public AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day)
         {
             var visitingChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
-            var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(visitingChartEntities);
-
-            return visitingCharModel;
+            if (visitingChartEntities.Count() != 0)
+            {
+                var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(visitingChartEntities);
+                return visitingCharModel;
+            }
+            
+            return null;
         }
 
     }
