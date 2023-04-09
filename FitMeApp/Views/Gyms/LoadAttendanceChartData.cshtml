@@ -1,7 +1,7 @@
-﻿@model FitMeApp.Models.ExcelModels.VisitingChartExcelFileViewModel
+﻿@model FitMeApp.Models.ExcelModels.AttendanceChartExcelFileViewModel
 
 
-<h3>Visiting statistic</h3>
+<h3>Attendance statistic</h3>
 <hr />
 
 <div class="container">
@@ -9,28 +9,27 @@
         <div class="col-md-6">
             <div>
                 <h5>
-                    To load visiting data do some steps below:
+                    To load attendance data do some steps below:
                 </h5>
                 <br/>
                 <h6>
                     1. Download the blank by pressing the button
                 </h6>
-                <a href="@Model.BlankFullPath" download="VisitingBlank" class="btn btn-dark">Download blank</a>
+                <a href="@Model.BlankFullPath" download="AttendanceBlank" class="btn btn-dark">Download blank</a>
                 <br/>
                 <br/>
                 <h6>
                     2. Fill out the columns "Visitors" in the downloaded blank and save the changes.
                 </h6>
                 <h6>
-                    3. Load filled blank bellow (.xlsx):
+                    3. Load filled blank (.xlsx) bellow:
                 </h6>
-                <form asp-controller="Gyms" asp-action="LoadVisitingChartFile" method="post" enctype="multipart/form-data">
+                <form asp-controller="Gyms" asp-action="LoadAttendanceChartFile" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly"></div>
                     <input type="hidden" asp-for="GymId"/>
                     <input type="hidden" asp-for="GymName"/>
                     <div class="form-group" style="text-align: left">
-                        @*<label asp-for="VisitingChartFile" class="control-label">Load visiting data</label>*@
-                        <input type="file" asp-for="VisitingChartFile" class="form-control" accept=".xlsx" style="width: 100%"/>
+                        <input type="file" asp-for="AttendanceChartFile" class="form-control" accept=".xlsx" style="width: 100%"/>
                     </div>
                     <input type="submit" value="Save" class="btn btn-outline-secondary"/>
                 </form>
@@ -40,7 +39,7 @@
                 </h6>
                 @if (ViewBag.FileUploaded)
                 {
-                    <a asp-controller="Chart" asp-action="VisitingChart" asp-route-gymId="@Model.GymId" class="btn btn-dark"> Show updated chart</a>
+                    <a asp-controller="Chart" asp-action="AttendanceChart" asp-route-gymId="@Model.GymId" class="btn btn-dark"> Show updated chart</a>
                 }
                 else
                 {
@@ -65,7 +64,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                You need to upload a Visiting data file first.
+                You need to upload a Attendance data file first.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>

@@ -27,6 +27,7 @@ namespace FitMeApp.Mapper
             return gymModel;
         }
 
+
         public GymModel MapGymWithGalleryBaseToModelBase(GymWithGalleryBase gym)
         {
             GymModel gymModel = new GymModel()
@@ -39,6 +40,7 @@ namespace FitMeApp.Mapper
             };
             return gymModel;
         }
+
 
         public TrainerModel MapTrainerEntityBaseToModelBase(TrainerWithGymAndTrainingsBase trainer)
         {
@@ -60,8 +62,7 @@ namespace FitMeApp.Mapper
             };
             return trainerModel;
         }
-
-
+        
 
         public TrainingModel MapTrainingEntityBaseToModelBase(TrainingEntityBase training)
         {
@@ -99,8 +100,6 @@ namespace FitMeApp.Mapper
         }
 
 
-
-
         public TrainerModel MapTrainerWithGymAndTrainingsBaseToModel(TrainerWithGymAndTrainingsBase trainer)
         {
             GymModel gymModel = new GymModel();
@@ -134,9 +133,7 @@ namespace FitMeApp.Mapper
             return trainerModel;
         }
 
-
-
-
+        
         public TrainingModel MapGroupClassEntityBaseToModel(TrainingWithTrainerAndGymBase groupClass)
         {
             var trainerModels = new List<TrainerModel>();
@@ -270,6 +267,7 @@ namespace FitMeApp.Mapper
             return subscriptionModel;
         }
 
+
         //Chat
         public ChatMessageModel MapChatMessageEntityBaseToModel(ChatMessageEntityBase messageEntityBase)
         {
@@ -356,16 +354,13 @@ namespace FitMeApp.Mapper
             return trainerBase;
         }
 
-
-
-
+        
         public TrainerEntityBase MapTrainerModelToEntityBase(TrainerModel trainerModel)
         {
             TrainerEntityBase trainerEntityBase = new TrainerEntityBase()
             {
                 Id = trainerModel.Id,
-                Specialization = trainerModel.Specialization,
-                //GymId = trainerModel.Gym.Id
+                Specialization = trainerModel.Specialization
             };
             return trainerEntityBase;
         }
@@ -384,8 +379,7 @@ namespace FitMeApp.Mapper
             };
             return trainerWorkHourEntity;
         }
-
-
+        
 
         public ChatMessageEntityBase MapChatMessageModelToEntityBase(ChatMessageModel messageModel)
         {
@@ -399,7 +393,6 @@ namespace FitMeApp.Mapper
 
             return messageEntityBase;
         }
-
 
 
         public EventEntityBase MapEventModelToEntityBase(EventModel eventModel)
@@ -428,10 +421,11 @@ namespace FitMeApp.Mapper
                 ContractNumber = trainerAppModel.ContractNumber,
                 ApplicationDate = trainerAppModel.ApplicationDate
             };
+
             return trainerApplicationEntityBase;
+
         }
-
-
+        
 
         public IEnumerable<NumberOfVisitorsPerHourEntityBase> MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(
             AttendanceChartModel model)
@@ -450,7 +444,6 @@ namespace FitMeApp.Mapper
             }
 
             return entities;
-
         }
     }
 }

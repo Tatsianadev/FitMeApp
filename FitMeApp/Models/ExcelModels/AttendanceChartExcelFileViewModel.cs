@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.Models.ExcelModels
 {
-    public class VisitingChartExcelFileViewModel
+    public class AttendanceChartExcelFileViewModel
     {
         public int GymId { get; set; }
         public string GymName { get; set; }
         public string BlankFullPath { get; set; }
-        public IFormFile VisitingChartFile { get; set; }
+        public IFormFile AttendanceChartFile { get; set; }
         
     }
 }

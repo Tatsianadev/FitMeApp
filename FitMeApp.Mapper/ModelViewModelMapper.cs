@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FitMeApp.Services.Contracts.Models.Chart;
-//using FitMeApp.WEB.Contracts.ViewModels.Chart;
+
 
 namespace FitMeApp.Mapper
 {
@@ -68,16 +68,8 @@ namespace FitMeApp.Mapper
                     trainerViewModels.Add(trainerViewModel);
                 }
 
-                //List<GroupClassViewModel> groupClassViewModels = new List<GroupClassViewModel>();
-                //foreach (var groupClass in gymModel.GroupClasses)
-                //{
-                //    var groupClassViewModel = ConvertGroupClassModelToViewModelBase(groupClass);
-                //    groupClassViewModels.Add(groupClassViewModel);
-                //}
-
                 GymViewModel gymViewModel = MapGymModelToViewModelBase(gymModel);
                 gymViewModel.Trainers = trainerViewModels;
-
 
                 return gymViewModel;
             }
@@ -92,63 +84,44 @@ namespace FitMeApp.Mapper
 
         public TrainerViewModel MapTrainerModelToViewModel(TrainerModel trainerModel)
         {
-            try
+            GymViewModel gymViewModel = MapGymModelToViewModelBase(trainerModel.Gym);
+
+            List<TrainingViewModel> groupClassViewModels = new List<TrainingViewModel>();
+            foreach (var groupClass in trainerModel.Trainings)
             {
-                GymViewModel gymViewModel = MapGymModelToViewModelBase(trainerModel.Gym);
-
-                List<TrainingViewModel> groupClassViewModels = new List<TrainingViewModel>();
-                foreach (var groupClass in trainerModel.Trainings)
-                {
-                    var groupClassViewModel = MapTrainingModelToViewModelBase(groupClass);
-                    groupClassViewModels.Add(groupClassViewModel);
-                }
-
-                TrainerViewModel trainerViewModel = MapTrainerModelToViewModelBase(trainerModel);
-                trainerViewModel.Gym = gymViewModel;
-                //trainerViewModel.Trainings = groupClassViewModels;
-
-
-                return trainerViewModel;
+                var groupClassViewModel = MapTrainingModelToViewModelBase(groupClass);
+                groupClassViewModels.Add(groupClassViewModel);
             }
-            catch (Exception ex)
-            {
 
-                throw ex;
-            }
+            TrainerViewModel trainerViewModel = MapTrainerModelToViewModelBase(trainerModel);
+            trainerViewModel.Gym = gymViewModel;
+
+            return trainerViewModel;
         }
 
 
 
         public TrainingViewModel MapTrainingModelToViewModel(TrainingModel trainingModel)
         {
-            try
+            List<GymViewModel> gymViewModels = new List<GymViewModel>();
+            foreach (var gymModel in trainingModel.Gyms)
             {
-                List<GymViewModel> gymViewModels = new List<GymViewModel>();
-                foreach (var gymModel in trainingModel.Gyms)
-                {
-                    var gymViewModel = MapGymModelToViewModelBase(gymModel);
-                    gymViewModels.Add(gymViewModel);
-                }
-
-                List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-                foreach (var trainer in trainingModel.Trainers)
-                {
-                    var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
-                    trainerViewModels.Add(trainerViewModel);
-                }
-
-                TrainingViewModel groupClassViewModel = MapTrainingModelToViewModelBase(trainingModel);
-                groupClassViewModel.Gyms = gymViewModels;
-                groupClassViewModel.Trainers = trainerViewModels;
-
-                return groupClassViewModel;
-
+                var gymViewModel = MapGymModelToViewModelBase(gymModel);
+                gymViewModels.Add(gymViewModel);
             }
-            catch (Exception ex)
+
+            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
+            foreach (var trainer in trainingModel.Trainers)
             {
-
-                throw ex;
+                var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
+                trainerViewModels.Add(trainerViewModel);
             }
+
+            TrainingViewModel groupClassViewModel = MapTrainingModelToViewModelBase(trainingModel);
+            groupClassViewModel.Gyms = gymViewModels;
+            groupClassViewModel.Trainers = trainerViewModels;
+
+            return groupClassViewModel;
         }
 
 
@@ -206,6 +179,7 @@ namespace FitMeApp.Mapper
             };
             return gymWorkHoursViewModel;
         }
+
 
         public TrainerWorkHoursViewModel MapTrainerWorkHoursModelToViewModel(TrainerWorkHoursModel trainerWorkHoursModel)
         {
@@ -273,39 +247,6 @@ namespace FitMeApp.Mapper
         }
 
 
-        //public VisitingChartViewModel MapVisitingChartModelToViewModel(AttendanceChartModel model)
-        //{
-        //    //List<TimeVisitorsAsChartDataPointViewModel> visitingPerHourLine = new List<TimeVisitorsAsChartDataPointViewModel>();
-        //    //foreach (var point in model.NumberOfVisitorsPerHour)
-        //    //{
-        //    //    visitingPerHourLine.Add(new TimeVisitorsAsChartDataPointViewModel()
-        //    //    {
-        //    //        NumberOfVisitors = point.NumberOfVisitors,
-        //    //        Hour = point.Hour.ToString() + ".00"
-        //    //    });
-        //    //}
-
-        //    List<TimeVisitorsViewModel> visitingPerHourLine = new List<TimeVisitorsViewModel>();
-        //    foreach (var point in model.NumberOfVisitorsPerHour)
-        //    {
-        //        visitingPerHourLine.Add(new TimeVisitorsViewModel()
-        //        {
-        //            NumberOfVisitors = point.NumberOfVisitors,
-        //            Hour = point.Hour
-        //        });
-        //    }
-
-        //    VisitingChartViewModel viewModel = new VisitingChartViewModel()
-        //    {
-        //        GymId = model.GymId,
-        //        DayOfWeek = model.DayOfWeek,
-        //        TimeVisitorsLine = visitingPerHourLine
-        //    };
-
-        //    return viewModel;
-        //}
-
-
 
         //Reverse: ViewModel -> Model
 
@@ -339,8 +280,7 @@ namespace FitMeApp.Mapper
 
             return trainerModel;
         }
-
-
+        
 
         public TrainerModel MapTrainerViewModelToModelBase(TrainerViewModel trainerViewModel)
         {
@@ -357,10 +297,7 @@ namespace FitMeApp.Mapper
 
             return trainerModel;
         }
-
-
-
-
+        
 
         public TrainerWorkHoursModel MapTrainerWorkHoursViewModelToModel(TrainerWorkHoursViewModel trainerWorkHoursViewModel)
         {
@@ -377,7 +314,6 @@ namespace FitMeApp.Mapper
         }
 
 
-
         public ChatMessageModel MapChatMessageViewModelToModel(ChatMessageViewModel messageViewModel)
         {
             ChatMessageModel messageModel = new ChatMessageModel()
@@ -391,8 +327,7 @@ namespace FitMeApp.Mapper
             return messageModel;
         }
 
-
-
+        
         public EventModel MapEventViewModelToModel(EventViewModel eventViewModel)
         {
             EventModel eventModel = new EventModel()

@@ -7,6 +7,9 @@
 #SendGrid key
 *.local.json
 
+#Logger
+logger.txt
+
 # User-specific files
 *.suo
 *.user

@@ -17,11 +17,10 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult VisitingChart(int gymId)
+        public IActionResult AttendanceChart(int gymId)
         {
             try
             {
-                //var viewModel = new VisitingChartViewModel() {GymId = gymId};
                 var gymViewModel = new GymViewModel(){Id = gymId};
                 return View(gymViewModel);
             }

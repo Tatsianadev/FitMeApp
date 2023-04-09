@@ -7,7 +7,6 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Mapper;
 using FitMeApp.Common;
-//using FitMeApp.WEB.Contracts.ViewModels.Chart;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -20,7 +19,6 @@ namespace FitMeApp.APIControllers
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly ILogger _logger;
-        private readonly ModelViewModelMapper _mapper;
 
         public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, ILogger<ApiController> logger)
         {
@@ -28,7 +26,6 @@ namespace FitMeApp.APIControllers
             _gymService = gymService;
             _trainerService = trainerService;
             _logger = logger;
-            _mapper = new ModelViewModelMapper();
         }
 
 
