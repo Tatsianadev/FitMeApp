@@ -5,9 +5,9 @@ using System.Text;
 
 namespace FitMeApp.WEB.Contracts.ViewModels.Chart
 {
-    public class TimeVisitorsViewModel
-    {
-        public int Hour { get; set; }
-        public int NumberOfVisitors { get; set; }
-    }
+    //public class TimeVisitorsViewModel
+    //{
+    //    public int Hour { get; set; }
+    //    public int NumberOfVisitors { get; set; }
+    //}
 }

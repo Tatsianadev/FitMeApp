@@ -11,6 +11,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface IFileStorage
     {
         Task SaveFileAsync(IFormFile uploadedFile,string fullPath);
-        void AddVisitingChartDataToDb(IEnumerable<VisitingChartModel> data);
+        void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data);
     }
 }

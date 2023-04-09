@@ -36,10 +36,10 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<VisitingChartModel>> ReadFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            List<VisitingChartModel> visitingChart = new List<VisitingChartModel>();
+            List<AttendanceChartModel> visitingChart = new List<AttendanceChartModel>();
 
             if (file.Exists && file.Extension == ".xlsx")
             {
@@ -53,13 +53,13 @@ namespace FitMeApp.Services
                         for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                         {
                             List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
-                            VisitingChartModel currentDayVisiting = new VisitingChartModel();
+                            AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
                             int row = 4; //row with data to start reading
 
                             var dayName = workSheet.Cells[2, col].Value.ToString();
                             if (Enum.IsDefined(typeof(DayOfWeek), dayName))
                             {
-                                currentDayVisiting.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
+                                currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
                             }
 
                             while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
@@ -83,8 +83,8 @@ namespace FitMeApp.Services
                                 row++;
                             }
 
-                            currentDayVisiting.TimeVisitorsLine = timeVisitorsLine;
-                            visitingChart.Add(currentDayVisiting);
+                            currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
+                            visitingChart.Add(currentDayAttendance);
                         }
                     }
                 }

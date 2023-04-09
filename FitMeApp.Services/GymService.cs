@@ -255,10 +255,10 @@ namespace FitMeApp.Services
 
 
         //Charts
-        public VisitingChartModel GetVisitingChartDataForCertainDayByGym(int gymId, DayOfWeek day)
+        public AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day)
         {
             var visitingChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
-            var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(visitingChartEntities);
+            var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(visitingChartEntities);
 
             return visitingCharModel;
         }

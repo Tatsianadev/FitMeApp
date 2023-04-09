@@ -88,14 +88,14 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId)   //VisitingChartModel only
+        public async Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId)   //AttendanceChartModel only
         {
-            List<VisitingChartModel> output = await ReadFromExcelAsync(fullPath);
+            List<AttendanceChartModel> output = await ReadFromExcelAsync(fullPath);
             output = output.OrderBy(x => x.DayOfWeek).ToList();
             foreach (var model in output)
             {
                 model.GymId = gymId;
-                model.TimeVisitorsLine = model.TimeVisitorsLine.OrderBy(x => x.Hour).ToList();
+                model.NumberOfVisitorsPerHour = model.NumberOfVisitorsPerHour.OrderBy(x => x.Hour).ToList();
             }
             
             _fileStorage.AddVisitingChartDataToDb(output);
@@ -104,10 +104,10 @@ namespace FitMeApp.Services
 
 
 
-        private async Task<List<VisitingChartModel>> ReadFromExcelAsync(string fullPath)  //VisitingChartModel only
+        private async Task<List<AttendanceChartModel>> ReadFromExcelAsync(string fullPath)  //AttendanceChartModel only
         {
             FileInfo file = new FileInfo(fullPath);
-            List<VisitingChartModel> output = await _reportService.ReadFromExcelAsync(file);
+            List<AttendanceChartModel> output = await _reportService.ReadFromExcelAsync(file);
             return output;
         }
 

@@ -8,6 +8,7 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Mapper;
 using FitMeApp.Common;
 using FitMeApp.WEB.Contracts.ViewModels.Chart;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace FitMeApp.APIControllers
@@ -18,13 +19,15 @@ namespace FitMeApp.APIControllers
         private readonly ITrainingService _trainingService;
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
+        private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService)
+        public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, ILogger<ApiController> logger)
         {
             _trainingService = trainingService;
             _gymService = gymService;
             _trainerService = trainerService;
+            _logger = logger;
             _mapper = new ModelViewModelMapper();
         }
 
@@ -63,14 +66,12 @@ namespace FitMeApp.APIControllers
             var timeVisitorsLineJsonString = "";
             try
             {
-                var visitingChartModel = _gymService.GetVisitingChartDataForCertainDayByGym(gymId, selectedDay);
-                //var viewModel = _mapper.MapVisitingChartModelToViewModel(visitingChartModel);
-                timeVisitorsLineJsonString = JsonConvert.SerializeObject(visitingChartModel.TimeVisitorsLine);
-               
+                var visitingChartModel = _gymService.GetAttendanceChartDataForCertainDayByGym(gymId, selectedDay);
+                timeVisitorsLineJsonString = JsonConvert.SerializeObject(visitingChartModel.NumberOfVisitorsPerHour);
             }
             catch (Exception ex)
             {
-               
+               _logger.LogError(ex, ex.Message);
             }
 
             return timeVisitorsLineJsonString;

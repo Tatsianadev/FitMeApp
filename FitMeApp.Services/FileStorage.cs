@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FitMeApp.Mapper;
-using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models.Chart;
@@ -37,7 +37,7 @@ namespace FitMeApp.Services
         }
 
 
-        public void AddVisitingChartDataToDb(IEnumerable<VisitingChartModel> data)
+        public void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data)
         {
             var entities = new List<NumberOfVisitorsPerHourEntityBase>();
             foreach (var dayData in data)

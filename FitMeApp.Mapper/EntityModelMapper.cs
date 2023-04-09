@@ -303,7 +303,7 @@ namespace FitMeApp.Mapper
         }
 
 
-        public VisitingChartModel MapNumberOfVisitorsPerHourEntityBaseToVisitingModel(
+        public AttendanceChartModel MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(
            IEnumerable<NumberOfVisitorsPerHourEntityBase> entities)
         {
              List<VisitorsPerHourModel> visitingPerHourOnCertainDay = new List<VisitorsPerHourModel>();
@@ -316,11 +316,11 @@ namespace FitMeApp.Mapper
                  });
              }
 
-             VisitingChartModel model = new VisitingChartModel()
+             AttendanceChartModel model = new AttendanceChartModel()
              {
                  GymId = entities.First().GymId,
                  DayOfWeek = (DayOfWeek)entities.First().DayOfWeekNumber,
-                 TimeVisitorsLine = visitingPerHourOnCertainDay
+                 NumberOfVisitorsPerHour = visitingPerHourOnCertainDay
              };
 
              return model;
@@ -434,11 +434,11 @@ namespace FitMeApp.Mapper
 
 
         public IEnumerable<NumberOfVisitorsPerHourEntityBase> MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(
-            VisitingChartModel model)
+            AttendanceChartModel model)
         {
             List<NumberOfVisitorsPerHourEntityBase> entities = new List<NumberOfVisitorsPerHourEntityBase>();
 
-            foreach (var dataPerHour in model.TimeVisitorsLine)
+            foreach (var dataPerHour in model.NumberOfVisitorsPerHour)
             {
                 entities.Add(new NumberOfVisitorsPerHourEntityBase()
                 {

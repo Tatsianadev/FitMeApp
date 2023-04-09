@@ -1,12 +1,12 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.VisitingChartViewModel
+﻿@model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
 <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-<h3>Chart Page</h3>
+<h3>Attendance statistics</h3>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div id="dayOfWeek">
+            <div id="dayOfWeek" style="padding: 20px">
                 @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
                 {
                     <div class="form-check">
@@ -19,8 +19,6 @@
             </div>
         </div>
         <div class="col-md-9">
-
-            @*@await Component.InvokeAsync("VisitingChartBySelectedDayOfWeek", new { model = Model.First(x=>x.DayOfWeek == DayOfWeek.Monday) })*@
             <div id="chartContainer" style="height: 350px; width: 100%;"></div>
         </div>
     </div>
@@ -32,8 +30,7 @@
     document.getElementById("dayOfWeek").addEventListener("click",
         function () {
             let selectedDay = document.querySelector('input[name="currentDay"]:checked').value;
-            var gymId = @Html.Raw(Json.Serialize(Model.GymId));
-            var gymIdJson = JSON.parse(gymId);
+            var gymId = @Html.Raw(Json.Serialize(Model.Id));
 
             $.post(`https://localhost:44384/api/getvisitingchartline`,
                     {
@@ -52,16 +49,22 @@
                         });
                     }
 
-
-                    var chart = new CanvasJS.Chart("chartContainer",
+                        var chart = new CanvasJS.Chart("chartContainer",
                         {
                             animationEnabled: true,
                             theme: "light1", // "light1","light2", "dark1", "dark2"
-                            title: { text: "Visiting on " + selectedDay },
+                            title: {
+                                fontSize: 30,
+                                text: "Visiting on " + selectedDay
+                            },
                             axisY: {
                                 title: "number of people",
-                                titleFontSize: 24,
+                                titleFontSize: 20,
                                 includeZero: true
+                            },
+                            axisX:{
+                                valueFormatString: "##.00",
+                                interval: 3
                             },
                             legend: {
                                 verticalAlign: "bottom",
@@ -70,10 +73,10 @@
                             data: [
                                 {
                                     type: "column",
-                                    color: "#A855FE",
+                                    color: "#C0AEF0",
                                     legendText: "visitors in hour",
                                     showInLegend: true,
-                                    toolTipContent: "{label}<br> <b>~{y} people</b>",
+                                    toolTipContent: "{x}.00<br> <b>~{y} people</b>",
                                     dataPoints: dataPoints
                                 }
                             ]
