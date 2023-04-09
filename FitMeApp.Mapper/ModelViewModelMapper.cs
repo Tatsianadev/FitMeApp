@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FitMeApp.Services.Contracts.Models.Chart;
-using FitMeApp.WEB.Contracts.ViewModels.Chart;
+//using FitMeApp.WEB.Contracts.ViewModels.Chart;
 
 namespace FitMeApp.Mapper
 {

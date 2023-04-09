@@ -7,7 +7,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Mapper;
 using FitMeApp.Common;
-using FitMeApp.WEB.Contracts.ViewModels.Chart;
+//using FitMeApp.WEB.Contracts.ViewModels.Chart;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
