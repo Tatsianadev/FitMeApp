@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
@@ -87,8 +88,106 @@ namespace FitMeApp.Services
 
         public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) //todo implement method
         {
+
+            var table  = new DataTable();
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
+            {
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                IEnumerable<Sheet> sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheet>()
+                    .Elements<Sheet>();
+                string relationshipId = sheets.First().Id.Value;
+                WorksheetPart worksheetPart =
+                    (WorksheetPart) spreadsheetDocument.WorkbookPart.GetPartById(relationshipId);
+                Worksheet workSheet = worksheetPart.Worksheet;
+                SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+
+                IEnumerable<Row> rows = sheetData.Descendants<Row>();
+
+                foreach (Cell cell in rows.ElementAt(2))
+                {
+                    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
+                }
+
+                foreach (Row row in rows.ElementAt(4))
+                {
+                    DataRow tempRow = table.NewRow();
+                    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                    {
+                        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
+                    }
+
+                    table.Rows.Add(tempRow);
+                }
+
+
+
+                //for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
+                //{
+                //    List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
+                //    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
+                //    int row = 4; //row with data to start reading
+
+                //    var dayName = workSheet.Cells[2, col].Value.ToString();
+                //    if (Enum.IsDefined(typeof(DayOfWeek), dayName))
+                //    {
+                //        currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
+                //    }
+
+                //    while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
+                //    {
+                //        VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
+                //        int hour;
+                //        bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
+                //        if (getTimeSuccess)
+                //        {
+                //            timeVisitors.Hour = hour;
+                //        }
+
+                //        int numberOfVisitors;
+                //        bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col + 1].Value.ToString(), out numberOfVisitors);
+                //        if (getNumberOfVisitorsSuccess)
+                //        {
+                //            timeVisitors.NumberOfVisitors = numberOfVisitors;
+                //        }
+
+                //        timeVisitorsLine.Add(timeVisitors);
+                //        row++;
+                //    }
+
+                //    currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
+                //    attendanceChart.Add(currentDayAttendance);
+                //}
+
+
+
+               
+                
+
+            }
+            table.Rows.RemoveAt(0);
+            
+
+
+
+
+
+
             List<AttendanceChartModel> output = new List<AttendanceChartModel>();
             return output;
+        }
+
+        private string GetCellValue(SpreadsheetDocument spreadsheet, Cell cell)
+        {
+            SharedStringTablePart stringTablePart = spreadsheet.WorkbookPart.SharedStringTablePart;
+            string value = cell.CellValue.InnerXml;
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+            }
+            else
+            {
+                return value;
+            }
         }
 
 

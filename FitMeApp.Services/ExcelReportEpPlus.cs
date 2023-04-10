@@ -39,7 +39,7 @@ namespace FitMeApp.Services
         public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            List<AttendanceChartModel> visitingChart = new List<AttendanceChartModel>();
+            List<AttendanceChartModel> attendanceChart = new List<AttendanceChartModel>();
 
             if (file.Exists && file.Extension == ".xlsx")
             {
@@ -84,13 +84,13 @@ namespace FitMeApp.Services
                             }
 
                             currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
-                            visitingChart.Add(currentDayAttendance);
+                            attendanceChart.Add(currentDayAttendance);
                         }
                     }
                 }
             }
 
-            return visitingChart;
+            return attendanceChart;
 
         }
     }
