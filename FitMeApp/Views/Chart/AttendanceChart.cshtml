@@ -39,9 +39,11 @@
                     })
                 .done(function (data) {
                     if (data === "") {
-                        var html = "<img src='/Content/images/noChart.jpg' style='width: 50%; height: auto'/>";
-                        document.getElementById("chartContainer").innerHTML= html;
-                        /*document.getElementById("chartContainer").innerText = "There is no data for the selected parameters";*/
+                        var html = "<div style='padding: 20px; text-align: center'>" +
+                            "<p>There is no data for the selected parameters</p>" +
+                            "<img src='/Content/images/chart.jpg' style='width: 50%; height: auto'/>" +
+                            "</div>";
+                        document.getElementById("chartContainer").innerHTML = html;
                     }
                     else {
                         var dataJs = JSON.parse(data);
