@@ -89,35 +89,129 @@ namespace FitMeApp.Services
         public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) //todo implement method
         {
 
-            var table  = new DataTable();
+            //var table  = new DataTable();
+            List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                IEnumerable<Sheet> sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheet>()
-                    .Elements<Sheet>();
-                string relationshipId = sheets.First().Id.Value;
-                WorksheetPart worksheetPart =
-                    (WorksheetPart) spreadsheetDocument.WorkbookPart.GetPartById(relationshipId);
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+
                 Worksheet workSheet = worksheetPart.Worksheet;
-                SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+                SheetData sheetData = workSheet.Elements<SheetData>().First();
+                // string text;
 
-                IEnumerable<Row> rows = sheetData.Descendants<Row>();
+                // IEnumerable<Row> rows = sheetData.Elements<Row>();
 
-                foreach (Cell cell in rows.ElementAt(2))
+                for (int col = 0; col < (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                 {
-                    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
-                }
+                    // string colLetter = ((char)('A' + col)).ToString();
+                    string colName = GetExcelColumnName(col);
+                    string addressDayNameCell = colName + (2).ToString();
+                    Cell dayNameCell = workSheet.Descendants<Cell>()
+                        .Where(x => x.CellReference == addressDayNameCell)
+                        .FirstOrDefault();
 
-                foreach (Row row in rows.ElementAt(4))
-                {
-                    DataRow tempRow = table.NewRow();
-                    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                    string dayName = GetCellValue(spreadsheetDocument, dayNameCell);
+                    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
+                    currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
+
+                    int rowNumber = 4;
+                    string addressHourCell = colName + (rowNumber).ToString();
+                    Cell hourCell = workSheet.Descendants<Cell>()
+                        .Where(h => h.CellReference == addressHourCell)
+                        .FirstOrDefault();
+
+                    while (!string.IsNullOrWhiteSpace(GetCellValue(spreadsheetDocument, hourCell)))
                     {
-                        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
+                        VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
+
+                        int hour;
+                        bool getTimeSuccess = int.TryParse(GetCellValue(spreadsheetDocument, hourCell), out hour);
+                        if (getTimeSuccess)
+                        {
+                            timeVisitors.Hour = hour;
+                        }
+
+                        string addressVisitorsCell = GetExcelColumnName(col + 1) + (rowNumber).ToString();
+                        Cell numOfVisitorsCell = workSheet.Descendants<Cell>()
+                            .Where(x => x.CellReference == addressVisitorsCell)
+                            .FirstOrDefault();
+
+                        int numberOfVisitors;
+                        bool getNumberOfVisitorsSuccess = int.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitors);
+                        if (getNumberOfVisitorsSuccess)
+                        {
+                            timeVisitors.NumberOfVisitors = numberOfVisitors;
+                        }
+
+                        currentDayAttendance.NumberOfVisitorsPerHour.Add(timeVisitors);
+
+                        rowNumber++;
+                        addressHourCell = colName + (rowNumber).ToString();
+                        hourCell = workSheet.Descendants<Cell>()
+                            .Where(x => x.CellReference == addressHourCell)
+                            .FirstOrDefault();
                     }
 
-                    table.Rows.Add(tempRow);
+                    attendanceChartModels.Add(currentDayAttendance);
+
                 }
+
+                return attendanceChartModels;
+
+
+
+
+                //foreach (Cell cell in rows.ElementAt(2))
+                //{
+                //    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
+                //}
+
+                //foreach (Row row in rows.ElementAt(4))
+                //{
+                //    DataRow tempRow = table.NewRow();
+                //    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                //    {
+                //        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
+                //    }
+
+                //    table.Rows.Add(tempRow);
+                //}
+
+
+
+                //WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+
+                //IEnumerable<Sheet> sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheet>()
+                //    .Elements<Sheet>();
+                //string relationshipId = sheets.First().Id.Value;
+                //WorksheetPart worksheetPart =
+                //    (WorksheetPart)spreadsheetDocument.WorkbookPart.GetPartById(relationshipId);
+
+                //Worksheet workSheet = worksheetPart.Worksheet;
+                //SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+
+                //IEnumerable<Row> rows = sheetData.Descendants<Row>();
+
+                //foreach (Cell cell in rows.ElementAt(2))
+                //{
+                //    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
+                //}
+
+                //foreach (Row row in rows.ElementAt(4))
+                //{
+                //    DataRow tempRow = table.NewRow();
+                //    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                //    {
+                //        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
+                //    }
+
+                //    table.Rows.Add(tempRow);
+                //}
+
+
+
+
 
 
 
@@ -160,34 +254,54 @@ namespace FitMeApp.Services
 
 
 
-               
-                
+
+
 
             }
-            table.Rows.RemoveAt(0);
-            
-
-
-
-
-
-
-            List<AttendanceChartModel> output = new List<AttendanceChartModel>();
-            return output;
         }
 
         private string GetCellValue(SpreadsheetDocument spreadsheet, Cell cell)
         {
             SharedStringTablePart stringTablePart = spreadsheet.WorkbookPart.SharedStringTablePart;
             string value = cell.CellValue.InnerXml;
-            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            if (cell.DataType != null)
             {
-                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+                switch (cell.DataType.Value)
+                {
+
+                    case CellValues.SharedString:
+                        var stringTable = stringTablePart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                        if (stringTable != null)
+                        {
+                            value = stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+                        }
+                        break;
+
+                    case CellValues.Number:
+                        value = cell.CellValue.InnerText;
+                        value = cell.CellValue.Text;
+                        break;
+
+                }
+
+                return value;
             }
             else
             {
                 return value;
             }
+
+
+
+
+            //if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            //{
+            //    return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+            //}
+            //else
+            //{
+            //    return value;
+            //}
         }
 
 
@@ -217,7 +331,7 @@ namespace FitMeApp.Services
             //width of 4th Column
             columns.Append(new Column() { Min = 4, Max = 4, Width = 30, CustomWidth = true });
             //width of 5th Column
-            columns.Append(new Column() { Min = 5, Max =5, Width = 15, CustomWidth = true });
+            columns.Append(new Column() { Min = 5, Max = 5, Width = 15, CustomWidth = true });
             //set column width from 6th to 400 columns
             columns.Append(new Column() { Min = 6, Max = 400, Width = 10, CustomWidth = true });
 
@@ -227,7 +341,7 @@ namespace FitMeApp.Services
 
         private void CreateDefaultWithMessage(int rowIndexCount, SheetData sheetData)
         {
-            Row sheetRow = new Row() { RowIndex = Convert.ToUInt32(rowIndexCount)};
+            Row sheetRow = new Row() { RowIndex = Convert.ToUInt32(rowIndexCount) };
             Cell cellHeader = new Cell() { CellReference = "A1", CellValue = new CellValue("No records to display"), DataType = CellValues.String };
             cellHeader.StyleIndex = 1;
 
@@ -394,7 +508,7 @@ namespace FitMeApp.Services
                 //default2 - Cell StyleIndex 1
                 new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top }) { FontId = 0, FillId = 1, BorderId = 1, ApplyBorder = true },
                 //header - Cell StyleIndex 2
-                new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top, Horizontal = HorizontalAlignmentValues.Center}) { FontId = 1, FillId = 2, BorderId = 1, ApplyBorder = true },
+                new CellFormat(new Alignment() { WrapText = true, Vertical = VerticalAlignmentValues.Top, Horizontal = HorizontalAlignmentValues.Center }) { FontId = 1, FillId = 2, BorderId = 1, ApplyBorder = true },
                 //DateTime DataType - Cell StyleIndex 3
                 new CellFormat(new Alignment() { Vertical = VerticalAlignmentValues.Top }) { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true, NumberFormatId = 15, ApplyNumberFormat = true },
                 //int, long, short DataType - Cell StyleIndex 4

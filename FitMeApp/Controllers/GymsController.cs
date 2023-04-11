@@ -308,7 +308,7 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "gymAdmin")]
-        public async Task<IActionResult> LoadAttendanceChartFile(AttendanceChartExcelFileViewModel model)
+        public async Task<IActionResult> LoadAttendanceChartFile(AttendanceChartExcelFileViewModel model) //todo change places if condition and else 
         {
             try
             {
