@@ -86,10 +86,8 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) //todo implement method
+        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) //todo  1.00 hour doesn't get
         {
-
-            //var table  = new DataTable();
             List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
             {
@@ -98,210 +96,78 @@ namespace FitMeApp.Services
 
                 Worksheet workSheet = worksheetPart.Worksheet;
                 SheetData sheetData = workSheet.Elements<SheetData>().First();
-                // string text;
-
-                // IEnumerable<Row> rows = sheetData.Elements<Row>();
 
                 for (int col = 0; col < (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                 {
-                    // string colLetter = ((char)('A' + col)).ToString();
+                    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
+                    List<VisitorsPerHourModel> visitorsPerHour = new List<VisitorsPerHourModel>();
+
                     string colName = GetExcelColumnName(col);
                     string addressDayNameCell = colName + (2).ToString();
                     Cell dayNameCell = workSheet.Descendants<Cell>()
                         .Where(x => x.CellReference == addressDayNameCell)
                         .FirstOrDefault();
-
                     string dayName = GetCellValue(spreadsheetDocument, dayNameCell);
-                    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
                     currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
 
                     int rowNumber = 4;
-                    string addressHourCell = colName + (rowNumber).ToString();
-                    Cell hourCell = workSheet.Descendants<Cell>()
-                        .Where(h => h.CellReference == addressHourCell)
-                        .FirstOrDefault();
-
-                    while (!string.IsNullOrWhiteSpace(GetCellValue(spreadsheetDocument, hourCell)))
+                   
+                    while (rowNumber <= sheetData.Descendants<Row>().Count())
                     {
                         VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
 
-                        int hour;
-                        bool getTimeSuccess = int.TryParse(GetCellValue(spreadsheetDocument, hourCell), out hour);
+                        string addressHourCell = colName + (rowNumber).ToString();
+                        Cell hourCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressHourCell).FirstOrDefault();
+                        decimal hourDecimal;
+                        bool getTimeSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, hourCell), out hourDecimal);
                         if (getTimeSuccess)
                         {
+                            int hour = (int)hourDecimal;
                             timeVisitors.Hour = hour;
                         }
 
                         string addressVisitorsCell = GetExcelColumnName(col + 1) + (rowNumber).ToString();
-                        Cell numOfVisitorsCell = workSheet.Descendants<Cell>()
-                            .Where(x => x.CellReference == addressVisitorsCell)
-                            .FirstOrDefault();
-
-                        int numberOfVisitors;
-                        bool getNumberOfVisitorsSuccess = int.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitors);
+                        Cell numOfVisitorsCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressVisitorsCell).FirstOrDefault();
+                        decimal numberOfVisitorsDecimal;
+                        bool getNumberOfVisitorsSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitorsDecimal);
                         if (getNumberOfVisitorsSuccess)
                         {
+                            int numberOfVisitors = (int) numberOfVisitorsDecimal;
                             timeVisitors.NumberOfVisitors = numberOfVisitors;
                         }
 
-                        currentDayAttendance.NumberOfVisitorsPerHour.Add(timeVisitors);
-
+                        visitorsPerHour.Add(timeVisitors);
                         rowNumber++;
-                        addressHourCell = colName + (rowNumber).ToString();
-                        hourCell = workSheet.Descendants<Cell>()
-                            .Where(x => x.CellReference == addressHourCell)
-                            .FirstOrDefault();
                     }
 
+                    currentDayAttendance.NumberOfVisitorsPerHour = visitorsPerHour;
                     attendanceChartModels.Add(currentDayAttendance);
-
                 }
 
                 return attendanceChartModels;
-
-
-
-
-                //foreach (Cell cell in rows.ElementAt(2))
-                //{
-                //    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
-                //}
-
-                //foreach (Row row in rows.ElementAt(4))
-                //{
-                //    DataRow tempRow = table.NewRow();
-                //    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
-                //    {
-                //        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
-                //    }
-
-                //    table.Rows.Add(tempRow);
-                //}
-
-
-
-                //WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-
-                //IEnumerable<Sheet> sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheet>()
-                //    .Elements<Sheet>();
-                //string relationshipId = sheets.First().Id.Value;
-                //WorksheetPart worksheetPart =
-                //    (WorksheetPart)spreadsheetDocument.WorkbookPart.GetPartById(relationshipId);
-
-                //Worksheet workSheet = worksheetPart.Worksheet;
-                //SheetData sheetData = workSheet.GetFirstChild<SheetData>();
-
-                //IEnumerable<Row> rows = sheetData.Descendants<Row>();
-
-                //foreach (Cell cell in rows.ElementAt(2))
-                //{
-                //    table.Columns.Add(GetCellValue(spreadsheetDocument, cell));
-                //}
-
-                //foreach (Row row in rows.ElementAt(4))
-                //{
-                //    DataRow tempRow = table.NewRow();
-                //    for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
-                //    {
-                //        tempRow[i] = GetCellValue(spreadsheetDocument, row.Descendants<Cell>().ElementAt(i));
-                //    }
-
-                //    table.Rows.Add(tempRow);
-                //}
-
-
-
-
-
-
-
-                //for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
-                //{
-                //    List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
-                //    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
-                //    int row = 4; //row with data to start reading
-
-                //    var dayName = workSheet.Cells[2, col].Value.ToString();
-                //    if (Enum.IsDefined(typeof(DayOfWeek), dayName))
-                //    {
-                //        currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
-                //    }
-
-                //    while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
-                //    {
-                //        VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
-                //        int hour;
-                //        bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
-                //        if (getTimeSuccess)
-                //        {
-                //            timeVisitors.Hour = hour;
-                //        }
-
-                //        int numberOfVisitors;
-                //        bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col + 1].Value.ToString(), out numberOfVisitors);
-                //        if (getNumberOfVisitorsSuccess)
-                //        {
-                //            timeVisitors.NumberOfVisitors = numberOfVisitors;
-                //        }
-
-                //        timeVisitorsLine.Add(timeVisitors);
-                //        row++;
-                //    }
-
-                //    currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
-                //    attendanceChart.Add(currentDayAttendance);
-                //}
-
-
-
-
-
-
             }
         }
 
         private string GetCellValue(SpreadsheetDocument spreadsheet, Cell cell)
         {
             SharedStringTablePart stringTablePart = spreadsheet.WorkbookPart.SharedStringTablePart;
-            string value = cell.CellValue.InnerXml;
-            if (cell.DataType != null)
+          
+            if (cell.CellValue == null)
             {
-                switch (cell.DataType.Value)
-                {
+                return null;
+            }
+            
+            string value = cell.InnerText;
 
-                    case CellValues.SharedString:
-                        var stringTable = stringTablePart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
-                        if (stringTable != null)
-                        {
-                            value = stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
-                        }
-                        break;
-
-                    case CellValues.Number:
-                        value = cell.CellValue.InnerText;
-                        value = cell.CellValue.Text;
-                        break;
-
-                }
-
-                return value;
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
             }
             else
             {
                 return value;
             }
 
-
-
-
-            //if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
-            //{
-            //    return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
-            //}
-            //else
-            //{
-            //    return value;
-            //}
         }
 
 
