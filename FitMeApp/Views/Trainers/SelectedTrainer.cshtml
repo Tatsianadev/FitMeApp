@@ -2,8 +2,7 @@
 
 
 <div class="container">
-    @*@{ string picturePath = "/Content/images/" + Model.AvatarPath; }*@
-        <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
+    <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
             <div class="col-md-4" style="text-align:center">
                 <img src="@Model.AvatarPath" alt="Trainer AvatarPath" style="height:330px; width:auto" />
             </div>
@@ -49,7 +48,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@Model.Id" class="btn btn-dark">Apply for training</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@Model.Id" class="btn btn-dark">Apply for training</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-dark">Apply for training</a>
+                }
             </div>
         </div>
 </div>

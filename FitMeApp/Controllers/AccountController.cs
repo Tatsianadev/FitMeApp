@@ -75,7 +75,7 @@ namespace FitMeApp.Controllers
                             new { userId = user.Id, code = code, appliedForTrainerRole = appliedForTrainerRole },
                             protocol: HttpContext.Request.Scheme);
 
-                        string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study cases - constant
+                        string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
                         string fromEmail = DefaultSettingsStorage.SenderEmail;
                         string plainTextContent = "To finish Registration please follow the link <a href=\"" + callbackUrl + "\">Confirm email</a>";
                         string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">Confirm email</a></strong>";

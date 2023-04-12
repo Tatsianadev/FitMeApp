@@ -253,7 +253,6 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize]
-
         public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
         {
             if (startDate.Date >= DateTime.Now.Date && startDate.Date <= DateTime.Now.AddDays(256).Date)

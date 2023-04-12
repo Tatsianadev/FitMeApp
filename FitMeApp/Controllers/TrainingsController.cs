@@ -2,13 +2,11 @@
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace FitMeApp.Controllers
@@ -66,12 +64,13 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult ApplyForPersonalTraining(ApplyingForPersonalTrainingViewModel model)
         {
             if (ModelState.IsValid)
             {
                 bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
-                int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //do some Enum with trainings names
+                int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
                 if (userHasAvailableSubscription)
                 {
                     int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);

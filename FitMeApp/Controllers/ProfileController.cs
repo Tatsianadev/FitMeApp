@@ -257,7 +257,7 @@ namespace FitMeApp.Controllers
                         int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(user.Id);
                         if (actualEventsCount > 0)
                         {
-                            //передать сообщение о невозможности удаления
+                            //todo trainer has events. alert that failed delete trying
                             return RedirectToAction("UsersList");
                         }
                         else
@@ -295,6 +295,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize]
         public async Task<IActionResult> EditPersonalData(string id)
         {
             try
@@ -333,6 +334,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditPersonalData(EditUserViewModel model)
         {
             try
@@ -405,6 +407,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize]
         public async Task<IActionResult> SendMailToConfirmEmail(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
@@ -427,6 +430,7 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             try
@@ -464,7 +468,7 @@ namespace FitMeApp.Controllers
 
 
         //Change password
-
+        [Authorize]
         public async Task<IActionResult> ChangePassword(string id)
         {
             try
@@ -606,9 +610,10 @@ namespace FitMeApp.Controllers
 
             ViewBag.ActualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainer.Id);
             return View(trainerViewModel);
-
         }
 
+
+        [Authorize(Roles = "trainer")]
         public async Task<IActionResult> EditTrainerJobData()
         {
             var trainer = await _userManager.GetUserAsync(User);

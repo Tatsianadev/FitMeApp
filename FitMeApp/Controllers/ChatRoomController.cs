@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
+    [Authorize]
     public sealed class ChatRoomController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -29,14 +30,12 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize]
         public IActionResult ChatRoom()
         {
             return View();
         }
 
 
-        [Authorize]
         public async Task<IActionResult> UserChat()
         {
             try
@@ -59,7 +58,6 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize]
         public async Task<IActionResult> SelectContactToChat(string receiverId)
         {
             try
@@ -96,7 +94,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        [Authorize]
+        
         public async Task<IActionResult> ShowNewMessageInChat(int messageId)
         {
             var messageModel = _chatService.GetMessage(messageId);
