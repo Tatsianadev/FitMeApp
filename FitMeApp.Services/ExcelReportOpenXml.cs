@@ -86,7 +86,7 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) //todo  1.00 hour doesn't get
+        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) 
         {
             List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
@@ -156,9 +156,9 @@ namespace FitMeApp.Services
             {
                 return null;
             }
-            
-            string value = cell.InnerText;
 
+            string value = cell.CellValue.InnerText; 
+           
             if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
             {
                 return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
