@@ -308,21 +308,21 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "gymAdmin")]
-        public async Task<IActionResult> LoadAttendanceChartFile(AttendanceChartExcelFileViewModel model) //todo change places if condition and else 
+        public async Task<IActionResult> LoadAttendanceChartFile(AttendanceChartExcelFileViewModel model)
         {
             try
             {
-                if (model.AttendanceChartFile == null || Path.GetExtension(model.AttendanceChartFile.FileName) != ".xlsx")
-                {
-                    ModelState.AddModelError("File incorrect", "Please, add the file .xlsx extension");
-                    ViewBag.FileUploaded = false;
-                }
-                else
+                if (model.AttendanceChartFile != null && Path.GetExtension(model.AttendanceChartFile.FileName) == ".xlsx")
                 {
                     string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + model.GymName + @"\AttendanceChart.xlsx";
                     await _fileService.SaveFileAsync(model.AttendanceChartFile, fileName);
                     await _fileService.AddVisitingChartDataFromExcelToDbAsync(fileName, model.GymId);
                     ViewBag.FileUploaded = true;
+                }
+                else
+                {
+                    ModelState.AddModelError("File incorrect", "Please, add the file .xlsx extension");
+                    ViewBag.FileUploaded = false;
                 }
 
                 return View("LoadAttendanceChartData", model);

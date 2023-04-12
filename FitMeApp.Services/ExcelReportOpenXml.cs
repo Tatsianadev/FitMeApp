@@ -86,7 +86,7 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file) 
+        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
         {
             List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
@@ -104,14 +104,12 @@ namespace FitMeApp.Services
 
                     string colName = GetExcelColumnName(col);
                     string addressDayNameCell = colName + (2).ToString();
-                    Cell dayNameCell = workSheet.Descendants<Cell>()
-                        .Where(x => x.CellReference == addressDayNameCell)
-                        .FirstOrDefault();
+                    Cell dayNameCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressDayNameCell).FirstOrDefault();
                     string dayName = GetCellValue(spreadsheetDocument, dayNameCell);
                     currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
 
                     int rowNumber = 4;
-                   
+
                     while (rowNumber <= sheetData.Descendants<Row>().Count())
                     {
                         VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
@@ -132,7 +130,7 @@ namespace FitMeApp.Services
                         bool getNumberOfVisitorsSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitorsDecimal);
                         if (getNumberOfVisitorsSuccess)
                         {
-                            int numberOfVisitors = (int) numberOfVisitorsDecimal;
+                            int numberOfVisitors = (int)numberOfVisitorsDecimal;
                             timeVisitors.NumberOfVisitors = numberOfVisitors;
                         }
 
@@ -148,26 +146,24 @@ namespace FitMeApp.Services
             }
         }
 
+
         private string GetCellValue(SpreadsheetDocument spreadsheet, Cell cell)
         {
             SharedStringTablePart stringTablePart = spreadsheet.WorkbookPart.SharedStringTablePart;
-          
+
             if (cell.CellValue == null)
             {
                 return null;
             }
 
-            string value = cell.CellValue.InnerText; 
-           
+            string value = cell.CellValue.InnerText;
+
             if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
             {
                 return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
             }
-            else
-            {
-                return value;
-            }
 
+            return value;
         }
 
 
