@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace FitMeApp.Controllers
 {
     [Authorize(Roles = "admin, user, trainer")]
-    public class ScheduleController : Controller
+    public sealed class ScheduleController : Controller
     {
         private readonly IScheduleService _scheduleService;
         private readonly ITrainerService _trainerService;
@@ -32,8 +32,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
-
-
+        
 
         public IActionResult Index()
         {
@@ -156,7 +155,6 @@ namespace FitMeApp.Controllers
                 ViewBag.EndWork = endWork;
 
                 return View("Index", model);
-
             }
             catch (Exception ex)
             {

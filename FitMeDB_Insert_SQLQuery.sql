@@ -3,11 +3,10 @@ go
 
 
 insert into Gyms (Name, Address, Phone)
-values 
-('BigRock', '25 MainStreet, 378-94, Gdansk', '(048)586-48-58' ),
-('GoldSection', '124 RedAvenue, 391-31, Gdansk', '(048)789-53-26' ),
-('Caliostro', '8 BakerStreet, 380-92, Gdansk', '(048)185-03-74' ),
-('FitProfit', '97 BlueStreet, 379-45, Gdansk', '(048)358-09-08' )
+values ('BigRock', '25 MainStreet, 378-94, Gdansk', '(048)586-48-58' )
+,('GoldSection', '124 RedAvenue, 391-31, Gdansk', '(048)789-53-26' )
+,('Caliostro', '8 BakerStreet, 380-92, Gdansk', '(048)185-03-74' )
+,('FitProfit', '97 BlueStreet, 379-45, Gdansk', '(048)358-09-08' )
 go
 
 
@@ -16,8 +15,7 @@ insert TrainerWorkLicenses (TrainerId,SubscriptionId,ContractNumber,GymId,StartD
   ,('0a329324-af6f-4afa-ad33-384a9f3af275',0, '123456_4', 2, '2023-02-11', '2024-03-07', '2023-02-13')
   ,('5f91c6cf-7708-4b35-a070-99ed79752302',0, '123456_5', 1, '2022-11-18', '2023-11-18', '2022-11-20')
   ,('69e23278-6b00-4f40-a555-02ef12ffd09b',0, '123456_6', 2, '2022-11-18', '2023-11-18', '2022-11-20')
-  ,('763a257a-7b4b-45d5-a5ac-caa75c51bae9',0, '123456_7', 3, '2022-11-18', '2023-11-18', '2022-11-20')
-  ,('7c3689b7-2aea-4ed1-990f-9622954d575a',0, '123456_8', 2, '2023-02-11', '2024-03-07', '2023-02-13')
+  ,('763a257a-7b4b-45d5-a5ac-caa75c51bae9',0, '123456_7', 3, '2022-11-18', '2023-11-18', '2022-11-20')  
   ,('7d1b0307-a5f2-494e-935c-828bdf39afe2',0, '123456_9', 4, '2023-02-11', '2024-03-07', '2023-02-13')
   ,('83192926-4d5b-4a27-93f1-a2958c69f069',0, '123456_10', 3, '2023-02-11', '2024-03-07', '2023-02-13')
   ,('85ffe910-0a85-40ba-82fa-192d445ab5c5',0, '123456_11', 3, '2022-11-18', '2023-11-18', '2022-11-20')
@@ -32,70 +30,67 @@ insert TrainerWorkLicenses (TrainerId,SubscriptionId,ContractNumber,GymId,StartD
 
 
 --(Fill WorkLicenseId from TrainerWorkLicenses table (Id))
-insert into Trainers (Id, Specialization, GymId, WorkLicenseId)
-values
-('acc51bef-12d2-4933-ba98-646927663579', 'universal',1,0),
-('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',2,0),
-('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',3,0),
-('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',4,0),
-('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',4,0),
-('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',1,0),
-('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2,0),
-('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',3,0),
-('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',1,0),
-('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',4,0),
-('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',2,0),
-('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',3,0),
-('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',1,0),
-('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',2,0),
-('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',3,0)
+insert into Trainers (Id, Specialization, WorkLicenseId)
+values('acc51bef-12d2-4933-ba98-646927663579', 'universal',10)
+,('d51f7f69-c30f-4842-8a61-b4a9890f00ed', 'personal',11)
+,('763a257a-7b4b-45d5-a5ac-caa75c51bae9', 'universal',5)
+,('08b2b361-1115-44db-97fa-ce9cd34366d7', 'group',1)
+,('e985d062-69f4-40fd-aa35-ff35dc1ca911', 'universal',13)
+,('f90f2e2c-821e-4651-91d7-105d56ddbee7', 'universal',14)
+,('0a329324-af6f-4afa-ad33-384a9f3af275', 'group',2)
+,('83192926-4d5b-4a27-93f1-a2958c69f069', 'universal',7)
+,('5f91c6cf-7708-4b35-a070-99ed79752302', 'group',3)
+,('7d1b0307-a5f2-494e-935c-828bdf39afe2', 'group',6)
+,('e26bcd6e-49bd-42d6-acca-905ba29cddbc', 'personal',12)
+,('f6b480ef-aa5c-467f-8382-5199a395d585', 'personal',0)
+,('8d4176f7-f8f4-49fb-ada1-6134f58e8ff1', 'personal',9)
+,('69e23278-6b00-4f40-a555-02ef12ffd09b', 'personal',4)
+,('85ffe910-0a85-40ba-82fa-192d445ab5c5', 'personal',8)
 go
 
 
 insert into TrainingTrainer (TrainingId, TrainerId)
-values
-(1,'acc51bef-12d2-4933-ba98-646927663579'),
-(3,'f90f2e2c-821e-4651-91d7-105d56ddbee7'),
-(4,'acc51bef-12d2-4933-ba98-646927663579'),
-(7,'f90f2e2c-821e-4651-91d7-105d56ddbee7'),
-(1,'0a329324-af6f-4afa-ad33-384a9f3af275'),
-(2,'0a329324-af6f-4afa-ad33-384a9f3af275'),
-(6,'0a329324-af6f-4afa-ad33-384a9f3af275'),
-(5,'0a329324-af6f-4afa-ad33-384a9f3af275'),
-(2,'763a257a-7b4b-45d5-a5ac-caa75c51bae9'),
-(4,'83192926-4d5b-4a27-93f1-a2958c69f069'),
-(5,'763a257a-7b4b-45d5-a5ac-caa75c51bae9'),
-(6,'83192926-4d5b-4a27-93f1-a2958c69f069'),
-(5,'08b2b361-1115-44db-97fa-ce9cd34366d7'),
-(1,'08b2b361-1115-44db-97fa-ce9cd34366d7'),
-(7,'e985d062-69f4-40fd-aa35-ff35dc1ca911'),
-(7,'5f91c6cf-7708-4b35-a070-99ed79752302'),
-(7,'7d1b0307-a5f2-494e-935c-828bdf39afe2'),
-(8,'acc51bef-12d2-4933-ba98-646927663579'),
-(8,'d51f7f69-c30f-4842-8a61-b4a9890f00ed'),
-(8,'763a257a-7b4b-45d5-a5ac-caa75c51bae9'),
-(8,'e985d062-69f4-40fd-aa35-ff35dc1ca911'),
-(8,'f90f2e2c-821e-4651-91d7-105d56ddbee7'),
-(8,'83192926-4d5b-4a27-93f1-a2958c69f069'),
-(8,'e26bcd6e-49bd-42d6-acca-905ba29cddbc'),
-(8,'f6b480ef-aa5c-467f-8382-5199a395d585'),
-(8,'8d4176f7-f8f4-49fb-ada1-6134f58e8ff1'),
-(8,'69e23278-6b00-4f40-a555-02ef12ffd09b'),
-(8,'85ffe910-0a85-40ba-82fa-192d445ab5c5')
+values (1,'acc51bef-12d2-4933-ba98-646927663579')
+,(3,'f90f2e2c-821e-4651-91d7-105d56ddbee7')
+,(4,'acc51bef-12d2-4933-ba98-646927663579')
+,(7,'f90f2e2c-821e-4651-91d7-105d56ddbee7')
+,(1,'0a329324-af6f-4afa-ad33-384a9f3af275')
+,(2,'0a329324-af6f-4afa-ad33-384a9f3af275')
+,(6,'0a329324-af6f-4afa-ad33-384a9f3af275')
+,(5,'0a329324-af6f-4afa-ad33-384a9f3af275')
+,(2,'763a257a-7b4b-45d5-a5ac-caa75c51bae9')
+,(4,'83192926-4d5b-4a27-93f1-a2958c69f069')
+,(5,'763a257a-7b4b-45d5-a5ac-caa75c51bae9')
+,(6,'83192926-4d5b-4a27-93f1-a2958c69f069')
+,(5,'08b2b361-1115-44db-97fa-ce9cd34366d7')
+,(1,'08b2b361-1115-44db-97fa-ce9cd34366d7')
+,(7,'e985d062-69f4-40fd-aa35-ff35dc1ca911')
+,(7,'5f91c6cf-7708-4b35-a070-99ed79752302')
+,(7,'7d1b0307-a5f2-494e-935c-828bdf39afe2')
+,(8,'acc51bef-12d2-4933-ba98-646927663579')
+,(8,'d51f7f69-c30f-4842-8a61-b4a9890f00ed')
+,(8,'763a257a-7b4b-45d5-a5ac-caa75c51bae9')
+,(8,'e985d062-69f4-40fd-aa35-ff35dc1ca911')
+,(8,'f90f2e2c-821e-4651-91d7-105d56ddbee7')
+,(8,'83192926-4d5b-4a27-93f1-a2958c69f069')
+,(8,'e26bcd6e-49bd-42d6-acca-905ba29cddbc')
+,(8,'f6b480ef-aa5c-467f-8382-5199a395d585')
+,(8,'8d4176f7-f8f4-49fb-ada1-6134f58e8ff1')
+,(8,'69e23278-6b00-4f40-a555-02ef12ffd09b')
+,(8,'85ffe910-0a85-40ba-82fa-192d445ab5c5')
 go
 
 
 
 insert into Trainings (Name, Description)
-values
-('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body'),
-('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups'),
-('HIIT', 'High-Intensity Interval Training - alternates short periods of intense exercise movements, followed by less intense “recovery” periods'),
-('Water Aerobics', 'Engaging muscle endurance and strength in a low-impact setting'),
-('Cycling', 'Cardio workout that relies on a fitness center cycling machine'),
-('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves'),
-('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core'),
-('Personal training','Training under the guidance of a trainer')
+values ('Yoga', 'Concentrated movements to promote flexibility, tone and strengthen muscles, and align the body')
+,('Pilates', 'Heavy elements of core focus, with repetitive and small movements of isolated or full body muscle groups')
+,('HIIT', 'High-Intensity Interval Training - alternates short periods of intense exercise movements, followed by less intense “recovery” periods')
+,('Water Aerobics', 'Engaging muscle endurance and strength in a low-impact setting')
+,('Cycling', 'Cardio workout that relies on a fitness center cycling machine')
+,('Zumba', 'Series of energetic dance routines by mixing low intensity and high intensity moves')
+,('Kickboxing', 'Great cardiovascular workout, helps build endurance, coordination, tones muscles and core')
+,('Personal training','Training under the guidance of a trainer')
 go
 
 
@@ -211,8 +206,8 @@ INSERT INTO [dbo].[Events]
 		   ('2022-12-01','150','210','7d1b0307-a5f2-494e-935c-828bdf39afe2','7122f67c-d670-47d4-8afb-0fd14b76cec4','7','0'),
 		   ('2022-12-01','300','360','7d1b0307-a5f2-494e-935c-828bdf39afe2','7122f67c-d670-47d4-8afb-0fd14b76cec4','7','0'),
 		   ('2023-02-07','900','960','f6b480ef-aa5c-467f-8382-5199a395d585','7122f67c-d670-47d4-8afb-0fd14b76cec4','8','1'),
-		    ('2023-02-07','990','1050','f6b480ef-aa5c-467f-8382-5199a395d585','7122f67c-d670-47d4-8afb-0fd14b76cec4','8','0'),
-			 ('2023-02-09','1110','1170','f6b480ef-aa5c-467f-8382-5199a395d585','7122f67c-d670-47d4-8afb-0fd14b76cec4','8','1')
+		   ('2023-02-07','990','1050','f6b480ef-aa5c-467f-8382-5199a395d585','7122f67c-d670-47d4-8afb-0fd14b76cec4','8','0'),
+		   ('2023-02-09','1110','1170','f6b480ef-aa5c-467f-8382-5199a395d585','7122f67c-d670-47d4-8afb-0fd14b76cec4','8','1')
 GO
 
 
@@ -346,6 +341,7 @@ values ('410c528f-e262-404c-80bf-ab4fb5014cc5', 'user', 'USER', 'ae7eb6ef-9961-4
 , ('aa25d694-f274-49b9-8ddc-ab40b1b9044d', 'blocked', 'BLOCKED', 'a2b7170e-25d8-42f6-bd79-8dd22a547757')
 ,('b5cb8169-ea31-4f9a-becd-df56b1d53756', 'trainer', 'TRAINER', '76bd3fda-2511-47fc-8eca-104e667f1002')
 ,('c1073fb7-a6de-4530-a285-68bfc4652624', 'admin', 'ADMIN', '23e5da34-2b66-49ed-a8a7-e2af8d9a11f1')
+,('1668c381-4cba-4dbf-a45a-716c557afdd0', 'gymAdmin', 'GYMADMIN', '5c7b7bfd-b1e0-427c-b9ab-8381262de17d')
 go
 
 

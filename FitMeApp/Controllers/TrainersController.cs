@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
 {
-    public class TrainersController : Controller
+    public sealed class TrainersController : Controller
     {
         private readonly ITrainerService _trainerService;
         private readonly ModelViewModelMapper _mapper;

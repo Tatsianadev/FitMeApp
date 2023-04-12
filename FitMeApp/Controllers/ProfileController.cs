@@ -10,10 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
 using FitMeApp.Services.Contracts.Models;
@@ -23,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
 {
-    public class ProfileController : Controller
+    public sealed class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;

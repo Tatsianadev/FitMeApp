@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
-    public class ChatRoomController : Controller
+    public sealed class ChatRoomController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly IChatService _chatService;

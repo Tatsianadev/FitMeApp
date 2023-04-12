@@ -1,15 +1,11 @@
 ﻿using FitMeApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
-//using ASP;
-using FitMeApp.Services.Contracts.Interfaces;
-using FitMeApp.WEB.Contracts.ViewModels;
+
 
 namespace FitMeApp.Controllers
 {
-    public class HomeController : Controller
+    public sealed class HomeController : Controller
     {
         
         public IActionResult Index()

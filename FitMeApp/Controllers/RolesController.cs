@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
 {
-    public class RolesController : Controller
+    public sealed class RolesController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;

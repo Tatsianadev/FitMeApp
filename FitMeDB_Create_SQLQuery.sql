@@ -148,7 +148,7 @@ CREATE TABLE [dbo].[AspNetUsers](
  CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
@@ -334,48 +334,60 @@ GO
 
 Use FitMeDB
 go
+
+
+CREATE TABLE [dbo].[Gyms](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](128) NOT NULL,
+	[Address] [nvarchar](max) NOT NULL,
+	[Phone] [nvarchar](256) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
  
 
-create table Gyms
+CREATE TABLE [dbo].[GymImages](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[GymId] [int] NOT NULL,
+	[ImagePath] [nvarchar](max) NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-Name nvarchar(128) not null,
-Address nvarchar(max) not null,
-Phone nvarchar(256) null
-)
-go
-
-create table GymImages
-(
-Id int identity primary key not null,
-GymId int not null,
-ImagePath nvarchar(max) not null
-)
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
 ALTER TABLE [dbo].[GymImages]  WITH CHECK ADD FOREIGN KEY([GymId])
 REFERENCES [dbo].[Gyms] ([Id])
 GO
 
 
-create table TrainerWorkLicenses
+
+CREATE TABLE [dbo].[TrainerWorkLicenses](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[TrainerId] [nvarchar](450) NOT NULL,
+	[SubscriptionId] [int] NULL,
+	[ContractNumber] [nvarchar](250) NULL,
+	[GymId] [int] NOT NULL,
+	[StartDate] [smalldatetime] NOT NULL,
+	[EndDate] [smalldatetime] NOT NULL,
+	[ConfirmationDate] [smalldatetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-TrainerId nvarchar(450) not null,
-SubscriptionId int null,
-ContractNumber nvarchar(250) null,
-GymId int not null,
-StartDate smalldatetime not null,
-EndDate smalldatetime not null,
-ConfirmationDate smalldatetime not null,
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 
 
 CREATE TABLE [dbo].[Trainers](
 	[Id] [nvarchar](256) NOT NULL,
 	[Specialization] [nvarchar](250) NOT NULL,
-	[GymId] [int] NULL,
 	[WorkLicenseId] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -384,31 +396,30 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Trainers]  WITH CHECK ADD FOREIGN KEY([GymId])
-REFERENCES [dbo].[Gyms] ([Id])
-GO
 
 
-
-create table Trainings
+CREATE TABLE [dbo].[Trainings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-Name nvarchar(256) not null,
-Description nvarchar (max) null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
 
 
 
 CREATE TABLE [dbo].[TrainingTrainer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[TrainingId] [int] NOT NULL,	
+	[TrainingId] [int] NOT NULL,
 	[TrainerId] [nvarchar](256) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -440,10 +451,14 @@ GO
 
 
 CREATE TABLE [dbo].[GymSubscriptions](
-	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[GymId] [int] NOT NULL,
 	[SubscriptionId] [int] NOT NULL,
-	[Price] [int] NULL
+	[Price] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -458,11 +473,15 @@ GO
 
 
 CREATE TABLE [dbo].[UserSubscriptions](
-	[Id] [int] IDENTITY(1,1) Primary key NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[UserId] [nvarchar](128) NOT NULL,
-	[GymSubscriptionId] [int] NOT NULL,	
+	[GymSubscriptionId] [int] NOT NULL,
 	[StartDate] [smalldatetime] NOT NULL,
-	[EndDate] [smalldatetime] NOT NULL
+	[EndDate] [smalldatetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -492,75 +511,104 @@ ALTER TABLE [dbo].[Events]  WITH CHECK ADD FOREIGN KEY([TrainerId])
 REFERENCES [dbo].[Trainers] ([Id])
 GO
 
+ALTER TABLE [dbo].[Events]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[Trainers] ([Id])
+GO
 
 
-create table GymWorkHours
+
+CREATE TABLE [dbo].[GymWorkHours](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[DayOfWeekNumber] [int] NOT NULL,
+	[GymId] [int] NOT NULL,
+	[StartTime] [int] NOT NULL,
+	[EndTime] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int primary key identity not null,
-DayOfWeekNumber int not null,
-GymId int not null,
-StartTime int not null,
-EndTime int not null,
-foreign key (GymId) references Gyms(Id)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[GymWorkHours]  WITH CHECK ADD FOREIGN KEY([GymId])
+REFERENCES [dbo].[Gyms] ([Id])
+GO
 
 
-create table TrainerWorkHours
+
+CREATE TABLE [dbo].[TrainerWorkHours](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[TrainerId] [nvarchar](450) NOT NULL,
+	[StartTime] [int] NOT NULL,
+	[EndTime] [int] NOT NULL,
+	[GymWorkHoursId] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int primary key identity not null,
-TrainerId nvarchar(450) not null,
-StartTime int not null,
-EndTime int not null,
-GymWorkHoursId int not null,
-foreign key (TrainerId) references AspNetUsers(Id),
-foreign key (GymWorkHoursId) references GymWorkHours(Id)
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TrainerWorkHours]  WITH CHECK ADD FOREIGN KEY([GymWorkHoursId])
+REFERENCES [dbo].[GymWorkHours] ([Id])
+GO
+
+ALTER TABLE [dbo].[TrainerWorkHours]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
 
 
 --Chat--
 
-create table ChatMessages
+CREATE TABLE [dbo].[ChatMessages](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[SenderId] [nvarchar](256) NOT NULL,
+	[ReceiverId] [nvarchar](256) NOT NULL,
+	[Message] [nvarchar](max) NOT NULL,
+	[Date] [smalldatetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-SenderId nvarchar(256) not null,
-ReceiverId nvarchar(256) not null,
-Message nvarchar(max) not null,
-Date smalldatetime not null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
 
 
-create table ChatContacts
+CREATE TABLE [dbo].[ChatContacts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [nvarchar](450) NOT NULL,
+	[InterlocutorId] [nvarchar](450) NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-UserId nvarchar(450) not null,
-InterlocutorId nvarchar(450) not null
-)
-go
-
-ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[AspNetUsers] ([Id])
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([InterlocutorId])
 REFERENCES [dbo].[AspNetUsers] ([Id])
 GO
 
+ALTER TABLE [dbo].[ChatContacts]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+GO
+
 
 --TrainerApp--
 
-create table TrainerApplications
+CREATE TABLE [dbo].[TrainerApplications](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [nvarchar](450) NOT NULL,
+	[TrainerSubscription] [bit] NULL,
+	[ContractNumber] [nvarchar](250) NULL,
+	[ApplicationDate] [smalldatetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int primary key identity not null,
-UserId nvarchar(450) not null,
-TrainerSubscription bit null,
-ContractNumber nvarchar(250) null,
-ApplicationDate smalldatetime not null
-)
-go
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 ALTER TABLE [dbo].[TrainerApplications]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [dbo].[AspNetUsers] ([Id])
@@ -569,14 +617,18 @@ GO
 
 --Chart--
 
-create table NumberOfVisitorsPerHour
+CREATE TABLE [dbo].[NumberOfVisitorsPerHour](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[GymId] [int] NOT NULL,
+	[DayOfWeekNumber] [int] NOT NULL,
+	[Hour] [int] NOT NULL,
+	[NumberOfVisitors] [int] NULL,
+PRIMARY KEY CLUSTERED 
 (
-Id int identity primary key not null,
-GymId int not null,
-DayOfWeekNumber int not null,
-Hour int not null,
-NumberOfVisitors int
-)
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 ALTER TABLE [dbo].[NumberOfVisitorsPerHour]  WITH CHECK ADD FOREIGN KEY([GymId])
 REFERENCES [dbo].[Gyms] ([Id])

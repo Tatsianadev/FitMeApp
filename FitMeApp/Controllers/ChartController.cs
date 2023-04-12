@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FitMeApp.Controllers
 {
-    public class ChartController : Controller
+    public sealed class ChartController : Controller
     {
         private readonly ILogger _logger;
 

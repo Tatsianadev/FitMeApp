@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
-    public class AccountController : Controller
+    public sealed class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;

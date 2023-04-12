@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FitMeApp.Controllers
 {
-    public class TrainingsController : Controller
+    public sealed class TrainingsController : Controller
     {
         private readonly ITrainingService _trainingService;
         private readonly IGymService _gymService;

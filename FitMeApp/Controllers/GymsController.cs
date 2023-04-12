@@ -16,7 +16,7 @@ using FitMeApp.Models.ExcelModels;
 
 namespace FitMeApp.Controllers
 {
-    public class GymsController : Controller
+    public sealed class GymsController : Controller
     {
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
@@ -40,7 +40,6 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
-
         }
 
         
@@ -291,7 +290,7 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             var gym = _gymService.GetGymModel(gymId);
-            string blankFullPath = @"/ExcelFiles/Blanks/AttendanceChart.xlsx";
+            string blankFullPath = @"/ExcelFiles/Blanks/AttendanceChart.xlsx"; //todo save as constant
 
             AttendanceChartExcelFileViewModel model = new AttendanceChartExcelFileViewModel()
             {
