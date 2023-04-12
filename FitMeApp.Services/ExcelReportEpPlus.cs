@@ -4,15 +4,13 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.IO;
-using System.Text;
 using FitMeApp.Services.Contracts.Models.Chart;
 using System.Threading.Tasks;
 
 namespace FitMeApp.Services
 {
-    public class ExcelReportEpPlus : IExcelReport
+    public sealed class ExcelReportEpPlus : IExcelReport
     {
         public async Task WriteToExcelAsync (DataTable table, FileInfo file, string tableName)
         {

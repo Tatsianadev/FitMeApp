@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMeApp.Repository.EntityFramework
 {
-    public class ApplicationDbContext: IdentityDbContext<User>
+    public sealed class ApplicationDbContext: IdentityDbContext<User>
     {
         public DbSet<GymEntity> Gyms { get; set; }
         public DbSet<GymImagesEntity> GymImages { get; set; }

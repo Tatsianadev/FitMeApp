@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FitMeApp.Services
 {
-    public class ChatService: IChatService
+    public sealed class ChatService: IChatService
     {
         private readonly IRepository _repository;
         private readonly ILogger _logger;

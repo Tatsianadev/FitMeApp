@@ -9,7 +9,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 
 namespace FitMeApp.Repository.EntityFramework
 {
-    public class Repository : IRepository
+    public sealed class Repository : IRepository
     {
         private readonly ApplicationDbContext _context;
         public Repository(ApplicationDbContext context)

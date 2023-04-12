@@ -4,15 +4,12 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models.Chart;
-using Microsoft.Data.SqlClient.DataClassification;
 using BottomBorder = DocumentFormat.OpenXml.Spreadsheet.BottomBorder;
 using Fill = DocumentFormat.OpenXml.Spreadsheet.Fill;
 using Fonts = DocumentFormat.OpenXml.Spreadsheet.Fonts;
@@ -24,7 +21,7 @@ using TopBorder = DocumentFormat.OpenXml.Spreadsheet.TopBorder;
 
 namespace FitMeApp.Services
 {
-    public class ExcelReportOpenXml : IExcelReport
+    public sealed class ExcelReportOpenXml : IExcelReport
     {
         public async Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName)
         {
@@ -247,7 +244,6 @@ namespace FitMeApp.Services
         }
 
 
-
         private Cell GetCellWithDataType(string cellRef, object value, Type type)
         {
             if (type == typeof(DateTime))
@@ -289,7 +285,6 @@ namespace FitMeApp.Services
                 cell.StyleIndex = 1;
                 return cell;
             }
-
         }
 
 
@@ -390,8 +385,5 @@ namespace FitMeApp.Services
                 CustomWidth = true
             };
         }
-
-
-
     }
 }

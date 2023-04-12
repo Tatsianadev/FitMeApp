@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
@@ -9,7 +8,7 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public class TrainingService : ITrainingService
+    public sealed class TrainingService : ITrainingService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;

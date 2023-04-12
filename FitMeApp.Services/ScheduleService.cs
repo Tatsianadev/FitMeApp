@@ -5,12 +5,11 @@ using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
+
 
 namespace FitMeApp.Services
 {
-    public class ScheduleService: IScheduleService
+    public sealed class ScheduleService: IScheduleService
     {
         private readonly IRepository _repository;
         private readonly ILogger _logger;
@@ -21,7 +20,6 @@ namespace FitMeApp.Services
             _repository = repository;
             _logger = logger;
             _mapper = new EntityModelMapper();
-
         }
 
 
@@ -37,6 +35,7 @@ namespace FitMeApp.Services
             return eventModels;
         }
 
+
         public IEnumerable<EventModel> GetEventsByUser(string userId)
         {
             var eventEntityBases = _repository.GetEventsByUser(userId);
@@ -47,6 +46,7 @@ namespace FitMeApp.Services
             }
             return eventModels;
         }
+
 
         public IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
@@ -71,11 +71,13 @@ namespace FitMeApp.Services
             return eventModels;
         }
 
+
         public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
         {
            var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);
            return dateEventsCount;
         }
+
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
@@ -83,10 +85,12 @@ namespace FitMeApp.Services
             return dateEventsCount;
         }
 
+
         public void ChangeEventStatus(int eventId)
         {
             _repository.ChangeEventStatus(eventId);
         }
+
 
         public int GetActualEventsCountByTrainer(string trainerId)
         {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Services
 {
-    public class RoleInitializer
+    public sealed class RoleInitializer
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {

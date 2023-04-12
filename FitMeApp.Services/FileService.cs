@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.Services
 {
-    public class FileService : IFileService
+    public sealed class FileService : IFileService
     {
         private readonly IFileStorage _fileStorage;
         private readonly IReportService _reportService;
@@ -76,7 +76,6 @@ namespace FitMeApp.Services
 
                 File.Copy(sourceFullPath, destFullPath, true);
             }
-
         }
 
 
@@ -100,8 +99,6 @@ namespace FitMeApp.Services
             
             _fileStorage.AddVisitingChartDataToDb(output);
         }
-
-
 
 
         private async Task<List<AttendanceChartModel>> ReadFromExcelAsync(string fullPath)  //AttendanceChartModel only

@@ -7,13 +7,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models.Chart;
 
 namespace FitMeApp.Services
 {
-    public class GymService: IGymService
+    public sealed class GymService: IGymService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
@@ -25,7 +24,6 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper();
         }
 
-        //Gym
         
         public IEnumerable<GymModel> GetAllGymModels()
         {
@@ -45,7 +43,6 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-
         }
 
 
@@ -67,7 +64,6 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-
         }
 
         public GymModel GetGymModel(int id)
@@ -89,6 +85,7 @@ namespace FitMeApp.Services
             return gyms;
         }
 
+
         public IEnumerable<GymWorkHoursModel> GetWorkHoursByGym(int gymId)
         {
             var workHoursEntityBase = _repository.GetWorkHoursByGym(gymId);
@@ -100,11 +97,13 @@ namespace FitMeApp.Services
             return workHoursModels;
         }
 
+
         public int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek)
         {
             int gymWorkHoursId = _repository.GetGymWorkHoursId(gymId, dayOfWeek);
             return gymWorkHoursId;
         }
+
 
         public int GetGymIdByTrainer(string trainerId)
         {            
@@ -134,7 +133,6 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-
         }
 
 
@@ -251,17 +249,17 @@ namespace FitMeApp.Services
 
             return subscriptions;
         }
-
-
+        
 
         //Charts
+
         public AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day)
         {
-            var visitingChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
-            if (visitingChartEntities.Count() != 0)
+            var attendanceChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
+            if (attendanceChartEntities.Count() != 0)
             {
-                var visitingCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(visitingChartEntities);
-                return visitingCharModel;
+                var attendanceCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(attendanceChartEntities);
+                return attendanceCharModel;
             }
             
             return null;

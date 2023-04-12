@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace FitMeApp.Services
 {
-    public class FileStorage: IFileStorage
+    public sealed class FileStorage: IFileStorage
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;

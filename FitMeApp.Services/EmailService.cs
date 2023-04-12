@@ -7,7 +7,7 @@ using SendGrid.Helpers.Mail;
 
 namespace FitMeApp.Services
 {
-    public class EmailService: IEmailService
+    public sealed class EmailService: IEmailService
     {
         private string _apiKey;
 
@@ -22,7 +22,7 @@ namespace FitMeApp.Services
             var from = new EmailAddress(fromEmail, Common.DefaultSettingsStorage.ApplicationName);
             var client = new SendGridClient(_apiKey);
             var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var responce = await client.SendEmailAsync(message);
+            var response = await client.SendEmailAsync(message);
         }
     }
 }

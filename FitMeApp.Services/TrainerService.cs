@@ -11,7 +11,7 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public class TrainerService : ITrainerService
+    public sealed class TrainerService : ITrainerService
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
@@ -33,7 +33,7 @@ namespace FitMeApp.Services
             }
             return trainers;
         }
-        
+
 
         public TrainerModel GetTrainerWithGymAndTrainings(string trainerId)
         {
@@ -48,6 +48,7 @@ namespace FitMeApp.Services
             int gymId = _repository.GetGymIdByTrainer(trainerId);
             return gymId;
         }
+
 
         public IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId)
         {
@@ -85,7 +86,7 @@ namespace FitMeApp.Services
             {
                 _repository.AddTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
             }
-        }        
+        }
 
 
         private bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
@@ -98,13 +99,13 @@ namespace FitMeApp.Services
             {
                 return false;
             }
-            
+
             foreach (var newTrainerWorkHours in newWorkHours) // check: Trainer works only the HOURS, when the Gym open
             {
                 var gymWorkHoursById = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).FirstOrDefault();
                 if (gymWorkHoursById != null)
                 {
-                    var gymWorkStartTime = gymWorkHoursById. StartTime;
+                    var gymWorkStartTime = gymWorkHoursById.StartTime;
                     var gymWorkEndTime = gymWorkHoursById.EndTime;
                     if (gymWorkStartTime > newTrainerWorkHours.StartTime || gymWorkEndTime < newTrainerWorkHours.EndTime)
                     {
@@ -152,8 +153,8 @@ namespace FitMeApp.Services
             }
 
             return true;
-
         }
+
 
         public bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours)
         {
@@ -164,11 +165,10 @@ namespace FitMeApp.Services
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
+
 
         public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
         {
@@ -252,6 +252,7 @@ namespace FitMeApp.Services
             _repository.DeleteTrainerWorkHoursByTrainer(trainerId);
         }
 
+
         public bool AddTrainer(TrainerModel trainer)
         {
             var trainerEntityBase = _mapper.MapTrainerModelToEntityBase(trainer);
@@ -265,6 +266,7 @@ namespace FitMeApp.Services
         {
             _repository.DeleteAllTrainingTrainerConnectionsByTrainer(trainerId);
         }
+
 
         public bool AddTrainingTrainerConnection(string trainerId, int trainingId)
         {
@@ -282,11 +284,13 @@ namespace FitMeApp.Services
             return appId;
         }
 
+
         public int GetTrainerApplicationsCount()
         {
             int trainerApplicationsCount = _repository.GetTrainerApplicationsCount();
             return trainerApplicationsCount;
         }
+
 
         public IEnumerable<TrainerApplicationModel> GetAllTrainerApplications()
         {
@@ -324,9 +328,9 @@ namespace FitMeApp.Services
             else
             {
                 //Some logic of work with trainers Contracts area
-                Random rnd = new Random(); 
+                Random rnd = new Random();
                 trainerLicense.ContractNumber = application.ContractNumber;
-                trainerLicense.GymId = rnd.Next(1,4);
+                trainerLicense.GymId = rnd.Next(1, 4);
                 trainerLicense.StartDate = DateTime.Today;
                 trainerLicense.EndDate = DateTime.Today.AddDays(256);
             }
@@ -344,7 +348,7 @@ namespace FitMeApp.Services
                 WorkLicenseId = licenseId
             };
 
-            bool addTrainerSucceed =_repository.AddTrainer(trainerInfo);
+            bool addTrainerSucceed = _repository.AddTrainer(trainerInfo);
             if (addTrainerSucceed)
             {
                 //Default type - personalTraining. If not -> Some logic of work with trainers Contracts area to get training types
@@ -379,8 +383,7 @@ namespace FitMeApp.Services
             _repository.DeleteTrainerApplication(applicationId);
         }
 
-
         //Work License
-       
+
     }
 }

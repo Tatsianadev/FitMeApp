@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Services
 {
-    public class ReportService: IReportService
+    public sealed class ReportService: IReportService
     {
         private readonly IExcelReport _excelReport;
 
@@ -27,6 +27,7 @@ namespace FitMeApp.Services
             tableName.Replace(file.Extension, string.Empty, true, CultureInfo.CurrentCulture);
             await _excelReport.WriteToExcelAsync(table, file, tableName); //EPPlus or OpenXml realization
         }
+
 
         public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
         {
