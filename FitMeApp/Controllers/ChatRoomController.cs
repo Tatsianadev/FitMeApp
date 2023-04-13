@@ -49,11 +49,9 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with Chat page. Please try again later."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with Chat page. Please try again later.";
+            
+                return View("CustomError", message);
             }
         }
 
@@ -85,11 +83,9 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "Failed to display chat. Please try again later."
-                };
-                return View("CustomError", error);
+                string message = "Failed to display chat. Please try again later.";
+                
+                return View("CustomError", message);
             }
         }
 

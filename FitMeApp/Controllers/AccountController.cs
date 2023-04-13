@@ -98,11 +98,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with registration. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with registration. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -177,12 +174,10 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with registration trainers data." +
-                    "Please try fill form again on Profile page."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with registration trainers data." +
+                                 "Please try fill form again on Profile page.";
+
+                return View("CustomError", message);
             }
         }
 
@@ -207,7 +202,7 @@ namespace FitMeApp.Controllers
                 {
                     if (appliedForTrainerRole)
                     {
-                        return RedirectToAction("RegisterTrainerPart", new {userId = userId});
+                        return RedirectToAction("RegisterTrainerPart", new { userId = userId });
                     }
                     ViewBag.AppliedForTrainerRole = false;
                     return View("RegisterAsUserCompleted", userId);
@@ -218,11 +213,8 @@ namespace FitMeApp.Controllers
                 _logger.LogError(ex, ex.Message);
             }
 
-            CustomErrorViewModel error = new CustomErrorViewModel()
-            {
-                Message = "Failed to verify email address. Please, try again in you Profile"
-            };
-            return View("CustomError", error);
+            string message = "Failed to verify email address. Please, try again in you Profile";
+            return View("CustomError", message);
         }
 
 
@@ -266,11 +258,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with login. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with login. Try again, please.";
+                return View("CustomError", message);
             }
         }
 

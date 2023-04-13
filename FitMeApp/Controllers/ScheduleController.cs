@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace FitMeApp.Controllers
 {
@@ -39,7 +39,7 @@ namespace FitMeApp.Controllers
             if (User.IsInRole("trainer"))
             {
                 var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
-                if (trainerWorkHours.Count() == 0)
+                if (trainerWorkHours.Any())
                 {
                     return View("NoTrainerWorkHours");
                 }
@@ -113,8 +113,9 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                _logger.LogError(ex, ex.Message);
+                string message = "There was a problem with display events. Please, try again later.";
+                return View("CustomError", message);
             }
 
         }
@@ -158,8 +159,9 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                _logger.LogError(ex, ex.Message);
+                string message = "There was a problem with display events. Please, try again later.";
+                return View("CustomError", message);
             }
 
         }

@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DocumentFormat.OpenXml.EMMA;
 using FitMeApp.Models.ExcelModels;
 
 namespace FitMeApp.Controllers
@@ -97,11 +96,9 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with using filters. Try again or not use filters, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with using filters. Try again or not use filters, please.";
+
+                return View("CustomError", message);
             }
         }
 
@@ -193,11 +190,9 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with using filters. Try again or not use filters, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with using filters. Try again or not use filters, please.";
+
+                return View("CustomError", message);
             }
         }
 
@@ -222,17 +217,15 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "Failed to display subscriptions for trainers. Please, try again"
-                };
-                return View("CustomError", error);
+                string message = "Failed to display subscriptions for trainers. Please, try again";
+                
+                return View("CustomError", message);
             }
 
         }
 
 
-        public IActionResult CurrentSubscription(int subscriptionId, int gymId)
+        public IActionResult CurrentSubscription(int subscriptionId, int gymId) //todo reset Image by constants
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
@@ -269,11 +262,9 @@ namespace FitMeApp.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, ex.Message);
-                    CustomErrorViewModel error = new CustomErrorViewModel()
-                    {
-                        Message = "There was a problem with to subscribe. Please, try again"
-                    };
-                    return View("CustomError", error);
+                    string message = "There was a problem with to subscribe. Please, try again";
+               
+                    return View("CustomError", message);
                 }
             }
 
@@ -328,7 +319,9 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                _logger.LogError(ex, ex.Message);
-                return View("LoadAttendanceChartData", model);
+               string message = "There was a problem with loading the file. Please, try again later";
+
+               return View("CustomError", message);
             }
            
         }

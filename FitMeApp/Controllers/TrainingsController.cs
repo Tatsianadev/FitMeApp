@@ -1,4 +1,5 @@
-﻿using FitMeApp.Mapper;
+﻿using System;
+using FitMeApp.Mapper;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -67,43 +68,53 @@ namespace FitMeApp.Controllers
         [Authorize]
         public IActionResult ApplyForPersonalTraining(ApplyingForPersonalTrainingViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
-                int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
-                if (userHasAvailableSubscription)
+                if (ModelState.IsValid)
                 {
-                    int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);
-                    
-                    EventViewModel newEvent = new EventViewModel()
+                    bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
+                    int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
+                    if (userHasAvailableSubscription)
                     {
-                        Date = model.SelectedDate,
-                        StartTime = starTime,
-                        EndTime = starTime + model.DurationInMinutes,
-                        TrainerId = model.TrainerId,
-                        UserId = model.UserId,
-                        TrainingId = trainingId,
-                        Status = Common.EventStatusEnum.Open
-                    };
+                        int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);
 
-                    var eventModel = _mapper.MapEventViewModelToModel(newEvent);
-                    bool result = _trainingService.AddEvent(eventModel);
-                    if (result)
+                        EventViewModel newEvent = new EventViewModel()
+                        {
+                            Date = model.SelectedDate,
+                            StartTime = starTime,
+                            EndTime = starTime + model.DurationInMinutes,
+                            TrainerId = model.TrainerId,
+                            UserId = model.UserId,
+                            TrainingId = trainingId,
+                            Status = Common.EventStatusEnum.Open
+                        };
+
+                        var eventModel = _mapper.MapEventViewModelToModel(newEvent);
+                        bool result = _trainingService.AddEvent(eventModel);
+                        if (result)
+                        {
+                            return RedirectToAction("ApplyForTrainingSubmitted");
+                        }
+                    }
+                    else
                     {
-                        return RedirectToAction("ApplyForTrainingSubmitted"); 
+                        return RedirectToAction("NoAvailableSubscription", new { gymId = model.GymId });
                     }
                 }
                 else
                 {
-                    return RedirectToAction("NoAvailableSubscription", new{gymId = model.GymId});
+                    ModelState.AddModelError("SelectedStartTime", "Please, choose start time");
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("SelectedStartTime", "Please, choose start time");
-            }
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, ex.Message);
+               string message = "Failed to apply for personal training. Please, try again later.";
+               return View("CustomError", message);
+            }
+            
         }
 
 

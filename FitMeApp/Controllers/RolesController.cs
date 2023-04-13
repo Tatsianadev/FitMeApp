@@ -50,7 +50,7 @@ namespace FitMeApp.Controllers
                         if (role.Name == name)
                         {
                             ViewBag.RoleExistMessage = $"Role {name} already exist";
-                            return View(roles);
+                            return View(name);
                         }
                     }
 
@@ -72,11 +72,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with creat new Role. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with create new Role. Try again, please.";
+                return View("CustomError", message);
             } 
         }
 
@@ -107,11 +104,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with delete Role. Try again, please."
-                };
-                return View("CustomError", error);
+               string message = "There was a problem with delete Role. Try again, please.";
+                return View("CustomError", message);
             }           
         }
 
@@ -148,11 +142,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with edit Role. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with edit Role. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -169,7 +160,6 @@ namespace FitMeApp.Controllers
                 }
 
                 var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
                 var removedRoles = userRoles.Except(roles);
                 var addedRoles = roles.Except(userRoles).ToList();
 
@@ -181,11 +171,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with edit Role. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with edit Role. Try again, please.";
+                return View("CustomError", message);
             }
         }
     }

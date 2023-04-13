@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
@@ -32,7 +33,6 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
-        private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
 
         public ProfileController(
@@ -45,7 +45,6 @@ namespace FitMeApp.Controllers
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
-            IConfiguration configuration,
             IEmailService emailService)
         {
             _userManager = userManager;
@@ -58,7 +57,6 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
             _fileService = fileService;
-            _configuration = configuration;
             _emailService = emailService;
         }
 
@@ -76,35 +74,38 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> WriteUsersListToExcel(List<string> selectedIds) 
+        public async Task<IActionResult> WriteUsersListToExcel(List<string> selectedIds)
         {
             try
             {
-                var users = _userManager.Users.ToList().Where(x=> selectedIds.Contains(x.Id));
-                var usersExcel = new List<UserExcelModel>();
-                var positionNumber = 0;
-
-                foreach (var user in users)
+                if (selectedIds.Count != 0)
                 {
-                    positionNumber++;
-                    usersExcel.Add(new UserExcelModel()
-                    {
-                        Id = positionNumber,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        Phone = user.PhoneNumber,
-                        Year = user.Year
-                    });
-                }
+                    var users = _userManager.Users.ToList().Where(x => selectedIds.Contains(x.Id));
+                    var usersExcel = new List<UserExcelModel>();
+                    var positionNumber = 0;
 
-                DataTable table =  (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Users.xlsx";
-                await _fileService.WriteToExcelAsync(table, fullPath);
+                    foreach (var user in users)
+                    {
+                        positionNumber++;
+                        usersExcel.Add(new UserExcelModel()
+                        {
+                            Id = positionNumber,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = user.Email,
+                            Phone = user.PhoneNumber,
+                            Year = user.Year
+                        });
+                    }
+
+                    DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
+                    string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Users.xlsx"; //todo save as constant
+                    await _fileService.WriteToExcelAsync(table, fullPath);
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);                
+                _logger.LogError(ex, ex.Message);
             }
 
             return RedirectToAction("UsersList");
@@ -166,12 +167,11 @@ namespace FitMeApp.Controllers
                     string text = string.Empty;
                     try
                     {
-                       text = await _fileService.GetTextContentFromFileAsync(localPath);
+                        text = await _fileService.GetTextContentFromFileAsync(localPath);
                     }
-                    catch (Exception ex)
+                    catch (FileNotFoundException ex)
                     {
                         _logger.LogError(ex, ex.Message);
-                        return RedirectToAction("TrainerApplicationsList");
                     }
 
                     string toEmail = DefaultSettingsStorage.ReceiverEmail;
@@ -179,18 +179,15 @@ namespace FitMeApp.Controllers
                     string subject = "Approval application";
                     string htmlContent = "<strong>" + text + "</strong>";
 
-                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, text, htmlContent); 
+                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, text, htmlContent);
                 }
                 return RedirectToAction("TrainerApplicationsList");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "Failed to approve application for Trainer Role. Please try again"
-                };
-                return View("CustomError", error);
+                string message = "Failed to approve application for Trainer Role. Please try again";
+                return View("CustomError", message);
             }
 
         }
@@ -215,10 +212,9 @@ namespace FitMeApp.Controllers
                 {
                     text = await _fileService.GetTextContentFromFileAsync(localPath);
                 }
-                catch (Exception ex)
+                catch (FileNotFoundException ex)
                 {
                     _logger.LogError(ex, ex.Message);
-                    return RedirectToAction("TrainerApplicationsList");
                 }
 
                 string toEmail = DefaultSettingsStorage.ReceiverEmail;
@@ -234,11 +230,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "Failed to reject application for Trainer Role. Please try again"
-                };
-                return View("CustomError", error);
+                string message = "Failed to reject application for Trainer Role. Please try again";
+                return View("CustomError", message);
             }
         }
 
@@ -273,11 +266,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with delete User. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with delete User. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -301,10 +291,6 @@ namespace FitMeApp.Controllers
             try
             {
                 User user = await _userManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
                 EditUserViewModel model = new EditUserViewModel()
                 {
                     Id = user.Id,
@@ -323,11 +309,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with edit User. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with edit User. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -360,7 +343,7 @@ namespace FitMeApp.Controllers
                             string fullPath = _appEnvironment.WebRootPath + absolutePath;
                             await _fileService.SaveFileAsync(model.AvatarFile, fullPath);
                             user.AvatarPath = absolutePath;
-                            
+
                         }
 
                         var result = await _userManager.UpdateAsync(user);
@@ -368,7 +351,7 @@ namespace FitMeApp.Controllers
                         {
                             if (!modelEmailConfirmed)
                             {
-                                return RedirectToAction("SendMailToConfirmEmail", new {userId = user.Id});
+                                return RedirectToAction("SendMailToConfirmEmail", new { userId = user.Id });
                             }
 
                             if (User.IsInRole("admin"))
@@ -398,11 +381,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with edit User. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with edit User. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -457,11 +437,8 @@ namespace FitMeApp.Controllers
                 _logger.LogError(ex, ex.Message);
             }
 
-            CustomErrorViewModel error = new CustomErrorViewModel()
-            {
-                Message = "Failed to verify email address. Please, try again in you Profile"
-            };
-            return View("CustomError", error);
+            string message = "Failed to verify email address. Please, try again in you Profile";
+            return View("CustomError", message);
         }
 
 
@@ -471,13 +448,9 @@ namespace FitMeApp.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(string id)
         {
-            try
+            User user = await _userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                User user = await _userManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
                 ChangePasswordViewModel model = new ChangePasswordViewModel()
                 {
                     Id = user.Id,
@@ -486,15 +459,8 @@ namespace FitMeApp.Controllers
                 };
                 return View(model);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with change Password. Try again, please."
-                };
-                return View("CustomError", error);
-            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -540,11 +506,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with change Password. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with change Password. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -586,11 +549,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with change users Password. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with change users Password. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -696,11 +656,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with change users job data. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with change users job data. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
@@ -758,7 +715,7 @@ namespace FitMeApp.Controllers
             try
             {
                 newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //Cut off all "day off" from model
-                foreach (var model in newWorkHours)                                        
+                foreach (var model in newWorkHours)
                 {
                     int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
                     int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
@@ -779,7 +736,7 @@ namespace FitMeApp.Controllers
                         model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
                     }
                 }
-               
+
                 var newWorkHoursModels = new List<TrainerWorkHoursModel>();
 
                 foreach (var viewModel in newWorkHours)
@@ -820,11 +777,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with change work hours data. Try again, please."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with change work hours data. Try again, please.";
+                return View("CustomError", message);
             }
         }
 
