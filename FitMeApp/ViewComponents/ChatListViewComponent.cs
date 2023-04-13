@@ -49,11 +49,8 @@ namespace FitMeApp.ViewComponents
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                CustomErrorViewModel error = new CustomErrorViewModel()
-                {
-                    Message = "There was a problem with ChatPage. Please, try again."
-                };
-                return View("CustomError", error);
+                string message = "There was a problem with ChatPage. Please, try again.";
+                return View("CustomError", message);
             }
             
                 

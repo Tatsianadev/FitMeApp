@@ -163,12 +163,9 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    CustomErrorViewModel error = new CustomErrorViewModel()
-                    {
-                        Message = "There was a problem with registration trainers data." +
-                                  "Please try fill form again on Profile page."
-                    };
-                    return View("CustomError", error);
+                   string message = "There was a problem with registration trainers data." +
+                                  "Please try fill form again on Profile page.";
+                    return View("CustomError", message);
                 }
             }
             catch (Exception ex)
