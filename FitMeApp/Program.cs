@@ -18,7 +18,6 @@ namespace FitMeApp
 
         public static async Task Main(string[] args)
         {
-
             try
             {
                 var host = CreateHostBuilder(args).Build();

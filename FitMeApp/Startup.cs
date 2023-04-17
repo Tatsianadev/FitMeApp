@@ -1,3 +1,4 @@
+using System.Globalization;
 using FitMeApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,8 @@ using FitMeApp.Common.FileLogging;
 using System.IO;
 using FitMeApp.Chat;
 using FitMeApp.Common;
-
+using FitMeApp.Resources;
+using Microsoft.AspNetCore.Localization;
 
 
 namespace FitMeApp
@@ -32,7 +34,15 @@ namespace FitMeApp
             services.RegisterDbContext(connectionString);
             services.RegisterIdentity();
             services.RegisterDependencies();
-            services.AddControllersWithViews();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                })
+                .AddViewLocalization();
+            services.SetSupportedCulture();
             services.AddSignalR();
 
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
@@ -53,11 +63,12 @@ namespace FitMeApp
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
             
 

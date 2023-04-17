@@ -6,6 +6,9 @@ using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace FitMeApp.Services
 {
@@ -59,6 +62,22 @@ namespace FitMeApp.Services
             Common.DefaultSettingsStorage.ReceiverEmail = configuration.GetSection("DefaultEmail")["Receiver"];
             Common.DefaultSettingsStorage.ApproveAppMessagePath = configuration.GetSection("Constants")["ApproveAppMessagePath"];
             Common.DefaultSettingsStorage.RejectAppMessagePath = configuration.GetSection("Constants")["RejectAppMessagePath"];
+        }
+
+        public static void SetSupportedCulture(this IServiceCollection services)
+        {
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru"),
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
     }

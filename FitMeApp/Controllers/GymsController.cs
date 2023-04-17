@@ -10,8 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
+using System.Resources;
+using FitMeApp.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace FitMeApp.Controllers
 {
@@ -24,13 +28,15 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer; 
 
         public GymsController(IGymService gymService, 
             ITrainerService trainerService, 
             ITrainingService trainingService, 
             IFileService fileService,
             UserManager<User> userManager, 
-            ILogger<GymsController> logger)
+            ILogger<GymsController> logger,
+            IStringLocalizer<SharedResource> localizer)
         {
             _gymService = gymService;
             _trainerService = trainerService;
@@ -39,6 +45,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         
@@ -230,9 +237,15 @@ namespace FitMeApp.Controllers
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
 
+            //ResourceManager rm = new ResourceManager("ImagesPaths", Assembly.GetExecutingAssembly());
+            
             if (subscription.WorkAsTrainer)
             {
-                subscription.Image = nameof(subscription.WorkAsTrainer);
+                //subscription.Image = nameof(subscription.WorkAsTrainer);
+                //subscription.Image = rm.GetString("WorkAsTrainer");
+                subscription.Image = _localizer["testN"];
+
+
             }
             else
             {
