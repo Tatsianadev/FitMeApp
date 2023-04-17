@@ -190,6 +190,30 @@ namespace FitMeApp.Services
         }
 
 
+        //private string GetImageSubscriptionPath(SubscriptionModel subscription)
+        //{
+        //    string imagePath = string.Empty;
+        //    if (subscription.WorkAsTrainer)
+        //    {
+        //        imagePath = _localizer["WorkAsTrainer"];
+        //    }
+        //    else if (subscription.DietMonitoring && subscription.GroupTraining == false)
+        //    {
+        //        imagePath = _localizer["GymAccessDietMonitoring"];
+        //    }
+        //    else if (subscription.DietMonitoring == false && subscription.GroupTraining)
+        //    {
+        //        subscription.Image = _localizer["GymAccessGroupTraining"];
+        //    }
+        //    else
+        //    {
+        //        subscription.Image = _localizer["GymAccessGroupTrainingDietMonitoring"];
+        //    }
+
+        //    return imagePath;
+        //}
+
+
 
         //UserSubscriptions
         public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)

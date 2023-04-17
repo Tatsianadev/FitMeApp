@@ -151,8 +151,7 @@ namespace FitMeApp.Controllers
 
             foreach (var subscription in subscriptions)
             {
-                subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                                           + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                subscription.Image = GetImageSubscriptionPath(subscription);
             }
 
             ViewBag.SubscriptionValidPeriods = _gymService.GetAllSubscriptionPeriods();
@@ -186,8 +185,7 @@ namespace FitMeApp.Controllers
 
                     foreach (var subscription in subscriptions)
                     {
-                        subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                            + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
+                        subscription.Image = GetImageSubscriptionPath(subscription);
                     }
 
                     ViewBag.SubscriptionValidPeriods = _gymService.GetAllSubscriptionPeriods();
@@ -217,7 +215,7 @@ namespace FitMeApp.Controllers
 
                 foreach (var subscription in subscriptionViewModels)
                 {
-                    subscription.Image = nameof(subscription.WorkAsTrainer);
+                    subscription.Image = GetImageSubscriptionPath(subscription);
                 }
                 return View(subscriptionViewModels);
             }
@@ -236,25 +234,10 @@ namespace FitMeApp.Controllers
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
-
-            //ResourceManager rm = new ResourceManager("ImagesPaths", Assembly.GetExecutingAssembly());
-            
-            if (subscription.WorkAsTrainer)
-            {
-                //subscription.Image = nameof(subscription.WorkAsTrainer);
-                //subscription.Image = rm.GetString("WorkAsTrainer");
-                subscription.Image = _localizer["testN"];
-
-
-            }
-            else
-            {
-                subscription.Image = "gym" + (subscription.GroupTraining ? nameof(subscription.GroupTraining) : "")
-                                     + (subscription.DietMonitoring ? nameof(subscription.DietMonitoring) : "");
-            }
-
+            subscription.Image = GetImageSubscriptionPath(subscription);
             return View(subscription);
         }
+
 
 
         [HttpPost]
@@ -338,8 +321,31 @@ namespace FitMeApp.Controllers
             }
            
         }
+        
 
 
+        private string GetImageSubscriptionPath(SubscriptionViewModel subscription)
+        {
+            string imagePath;
 
+            if (subscription.WorkAsTrainer)
+            {
+                imagePath = _localizer["WorkAsTrainer"];
+            }
+            else if (subscription.DietMonitoring && subscription.GroupTraining == false)
+            {
+                imagePath = _localizer["GymAccessDietMonitoring"];
+            }
+            else if (subscription.DietMonitoring == false && subscription.GroupTraining)
+            {
+                imagePath = _localizer["GymAccessGroupTraining"];
+            }
+            else
+            {
+                imagePath = _localizer["GymAccessGroupTrainingDietMonitoring"];
+            }
+
+            return imagePath;
+        }
     }
 }

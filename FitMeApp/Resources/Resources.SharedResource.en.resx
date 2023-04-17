@@ -117,7 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="testN" xml:space="preserve">
-    <value>testV</value>
+  <data name="GymAccess" xml:space="preserve">
+    <value>/Content/Subscriptions/gym.jpg</value>
+    <comment>SubscriptionImage</comment>
+  </data>
+  <data name="GymAccessDietMonitoring" xml:space="preserve">
+    <value>/Content/Subscriptions/gymDietMonitoring.jpg</value>
+    <comment>SubscriptionImage</comment>
+  </data>
+  <data name="GymAccessGroupTraining" xml:space="preserve">
+    <value>/Content/Subscriptions/gymGroupTraining.jpg</value>
+    <comment>SubscriptionImage</comment>
+  </data>
+  <data name="GymAccessGroupTrainingDietMonitoring" xml:space="preserve">
+    <value>/Content/Subscriptions/gymGroupTrainingDietMonitoring.jpg</value>
+    <comment>SubscriptionImage</comment>
+  </data>
+  <data name="WorkAsTrainer" xml:space="preserve">
+    <value>/Content/Subscriptions/WorkAsTrainer.jpg</value>
+    <comment>SubscriptionImage</comment>
   </data>
 </root>

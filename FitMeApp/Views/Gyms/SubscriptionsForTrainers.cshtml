@@ -11,11 +11,9 @@
     <div class="row" style="text-align:center">
         @foreach (var subscription in Model)
         {
-            string imagePath = "/Content/Subscriptions/" + subscription.Image + ".jpg";
-
             <div class="card border-dark mb-3" style="width:30%; margin:20px">
                 <div style="height:100px;">
-                    <img src="@imagePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+                    <img src="@subscription.Image" class="card-img-top" alt="..." style="height:100%; width:auto">
                 </div>
                 <hr style="margin-bottom:5px" />
                 <div class="card-body" style="text-align: center; padding: 10px; height: fit-content">
