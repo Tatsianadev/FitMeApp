@@ -14,9 +14,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
+using FitMeApp.Resources;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
@@ -34,6 +36,7 @@ namespace FitMeApp.Controllers
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
         private readonly IEmailService _emailService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public ProfileController(
             UserManager<User> userManager,
@@ -45,7 +48,8 @@ namespace FitMeApp.Controllers
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
-            IEmailService emailService)
+            IEmailService emailService,
+            IStringLocalizer<SharedResource> localizer)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -58,6 +62,7 @@ namespace FitMeApp.Controllers
             _appEnvironment = appEnvironment;
             _fileService = fileService;
             _emailService = emailService;
+            _localizer = localizer;
         }
 
 
@@ -162,8 +167,7 @@ namespace FitMeApp.Controllers
                 {
                     var user = await _userManager.FindByIdAsync(trainerId);
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
-
-                    string localPath = DefaultSettingsStorage.ApproveAppMessagePath;
+                    string localPath = _localizer["ApproveAppMessagePath"];
                     string text = string.Empty;
                     try
                     {
@@ -205,8 +209,7 @@ namespace FitMeApp.Controllers
 
                 _trainerService.DeleteTrainerApplication(applicationId);
                 var user = await _userManager.FindByIdAsync(userId);
-
-                string localPath = DefaultSettingsStorage.RejectAppMessagePath;
+                string localPath = _localizer["RejectAppMessagePath"];
                 string text = string.Empty;
                 try
                 {
