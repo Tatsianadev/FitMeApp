@@ -6,7 +6,7 @@ namespace FitMeApp.Common
 {
     public static class DefaultSettingsStorage
     {
-        public static string AvatarPath { get; set; }
+        //public static string AvatarPath { get; set; }
         public static  string ApplicationName { get; set; }
         public static string AdminEmail { get; set; }
         public static string AdminPassword { get; set; }

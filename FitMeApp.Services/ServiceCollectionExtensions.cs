@@ -54,7 +54,7 @@ namespace FitMeApp.Services
 
         public static void InitializeDefaultSettings(this IServiceCollection services, IConfiguration configuration)
         {
-            Common.DefaultSettingsStorage.AvatarPath = configuration.GetSection("Constants")["DefaultAvatarPath"];
+            //Common.DefaultSettingsStorage.AvatarPath = configuration.GetSection("Constants")["DefaultAvatarPath"];
             Common.DefaultSettingsStorage.ApplicationName = configuration.GetSection("Constants")["ApplicationName"];
             Common.DefaultSettingsStorage.AdminEmail = configuration.GetSection("FirstAppStart")["AdminEmail"];
             Common.DefaultSettingsStorage.AdminPassword = configuration.GetSection("FirstAppStart")["AdminPassword"];

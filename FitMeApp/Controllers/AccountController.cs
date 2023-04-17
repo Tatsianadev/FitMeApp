@@ -8,8 +8,10 @@ using Microsoft.Extensions.Logging;
 using FitMeApp.WEB.Contracts.ViewModels;
 using FitMeApp.Services.Contracts.Interfaces;
 using System.Linq;
+using FitMeApp.Resources;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
 
 
 namespace FitMeApp.Controllers
@@ -22,9 +24,10 @@ namespace FitMeApp.Controllers
         private readonly ITrainerService _trainerService;
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IGymService gymService,
-            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger)
+            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger, IStringLocalizer<SharedResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,6 +35,7 @@ namespace FitMeApp.Controllers
             _trainerService = trainerService;
             _emailService = emailService;
             _logger = logger;
+            _localizer = localizer;
         }
 
 
@@ -58,7 +62,7 @@ namespace FitMeApp.Controllers
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        AvatarPath = DefaultSettingsStorage.AvatarPath
+                        AvatarPath = _localizer["DefaultAvatarPath"]
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);

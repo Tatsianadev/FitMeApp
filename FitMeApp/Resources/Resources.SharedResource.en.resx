@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultAvatarPath" xml:space="preserve">
+    <value>/Content/images/defaultAvatar.jpg</value>
+  </data>
   <data name="GymAccess" xml:space="preserve">
     <value>/Content/Subscriptions/gym.jpg</value>
     <comment>SubscriptionImage</comment>
