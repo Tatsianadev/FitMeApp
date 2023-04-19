@@ -25,60 +25,53 @@ namespace FitMeApp.Services
     {
         public async Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName)
         {
-            //byte[] byteResult = null;
-            using (MemoryStream stream = new MemoryStream())
+            using (SpreadsheetDocument spreadsheetDocument =
+                    SpreadsheetDocument.Create(file.FullName, SpreadsheetDocumentType.Workbook))
             {
-                using (SpreadsheetDocument spreadsheetDocument =
-                    SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook))
+                WorkbookPart workbookPart = AddWorkbookPart(spreadsheetDocument);
+                Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
+                uint currentSheetId = 1;
+
+                AddNewPartStyle(workbookPart);
+                int rowIndexCount = 1;
+
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet();
+                Columns columns = SetDefaultColumnWidth();
+                worksheetPart.Worksheet.Append(columns);
+
+                SheetData sheetData = new SheetData();
+                worksheetPart.Worksheet.AppendChild(sheetData);
+
+                Sheet sheet = new Sheet()
                 {
-                    WorkbookPart workbookPart = AddWorkbookPart(spreadsheetDocument);
-                    Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
-                    uint currentSheetId = 1;
+                    Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                    SheetId = currentSheetId,
+                    Name = string.IsNullOrWhiteSpace(tableName) ? "Sheet" + currentSheetId : tableName
+                };
 
-                    AddNewPartStyle(workbookPart);
-                    int rowIndexCount = 1;
+                if (table.Rows.Count == 0)
+                {
+                    CreateDefaultWithMessage(rowIndexCount, sheetData);
+                }
+                else
+                {
+                    int numberOfColumns = table.Columns.Count;
+                    string[] excelColumnNames = new string[numberOfColumns];
 
-                    WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                    worksheetPart.Worksheet = new Worksheet();
-                    Columns columns = SetDefaultColumnWidth();
-                    worksheetPart.Worksheet.Append(columns);
+                    //Create Header
+                    Row sheetRowHeader = CreateHeader(rowIndexCount, table, numberOfColumns, excelColumnNames);
+                    sheetData.Append(sheetRowHeader);
+                    rowIndexCount++;
 
-                    SheetData sheetData = new SheetData();
-                    worksheetPart.Worksheet.AppendChild(sheetData);
-
-                    Sheet sheet = new Sheet()
-                    {
-                        Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
-                        SheetId = currentSheetId,
-                        Name = string.IsNullOrWhiteSpace(tableName) ? "Sheet" + currentSheetId : tableName
-                    };
-
-                    if (table.Rows.Count == 0)
-                    {
-                        CreateDefaultWithMessage(rowIndexCount, sheetData);
-                    }
-                    else
-                    {
-                        int numberOfColumns = table.Columns.Count;
-                        string[] excelColumnNames = new string[numberOfColumns];
-
-                        //Create Header
-                        Row sheetRowHeader = CreateHeader(rowIndexCount, table, numberOfColumns, excelColumnNames);
-                        sheetData.Append(sheetRowHeader);
-                        rowIndexCount++;
-
-                        //Create Body
-                        rowIndexCount = CreateBody(rowIndexCount, table, sheetData, excelColumnNames);
-                    }
-
-                    sheets.Append(sheet);
-                    workbookPart.Workbook.Save();
-                    spreadsheetDocument.Close();
-
+                    //Create Body
+                    rowIndexCount = CreateBody(rowIndexCount, table, sheetData, excelColumnNames);
                 }
 
-                stream.Flush();
-                stream.Position = 0;
+                sheets.Append(sheet);
+                workbookPart.Workbook.Save();
+                spreadsheetDocument.Close();
+
             }
         }
 

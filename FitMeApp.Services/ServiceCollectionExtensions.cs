@@ -59,8 +59,6 @@ namespace FitMeApp.Services
             Common.DefaultSettingsStorage.AdminPassword = configuration.GetSection("FirstAppStart")["AdminPassword"];
             Common.DefaultSettingsStorage.SenderEmail = configuration.GetSection("DefaultEmail")["Sender"];
             Common.DefaultSettingsStorage.ReceiverEmail = configuration.GetSection("DefaultEmail")["Receiver"];
-            Common.DefaultSettingsStorage.ApproveAppMessagePath = configuration.GetSection("Constants")["ApproveAppMessagePath"];
-            Common.DefaultSettingsStorage.RejectAppMessagePath = configuration.GetSection("Constants")["RejectAppMessagePath"];
         }
 
         public static void SetSupportedCulture(this IServiceCollection services)

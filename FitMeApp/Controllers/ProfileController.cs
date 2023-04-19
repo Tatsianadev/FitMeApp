@@ -104,7 +104,8 @@ namespace FitMeApp.Controllers
                     }
 
                     DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                    string fullPath = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Users.xlsx"; //todo save as constant
+                    string relativePath = _localizer["UsersFileDestinationPath"];
+                    string fullPath = Environment.CurrentDirectory + relativePath;
                     await _fileService.WriteToExcelAsync(table, fullPath);
                 }
             }

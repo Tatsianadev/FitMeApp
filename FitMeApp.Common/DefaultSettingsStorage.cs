@@ -12,8 +12,5 @@ namespace FitMeApp.Common
         public static string SenderEmail { get; set; }
         public static string ReceiverEmail { get; set; }
 
-        public static string ApproveAppMessagePath { get; set; }
-        public static string RejectAppMessagePath { get; set; }
-
     }
 }

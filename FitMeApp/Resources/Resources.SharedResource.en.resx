@@ -119,10 +119,15 @@
   </resheader>
   <data name="ApproveAppMessagePath" xml:space="preserve">
     <value>wwwroot\\TextFiles\\ApproveApplicationMessage.txt</value>
-    <comment>Path to "Approve application for Trainer" file (.txt)</comment>
+    <comment>Relative path to "Approve application for Trainer" file (.txt)</comment>
+  </data>
+  <data name="AttendanceChartBlankPath" xml:space="preserve">
+    <value>/ExcelFiles/Blanks/AttendanceChart.xlsx</value>
+    <comment>Local path to attendance chart blank</comment>
   </data>
   <data name="DefaultAvatarPath" xml:space="preserve">
     <value>/Content/images/defaultAvatar.jpg</value>
+    <comment>Default avatar </comment>
   </data>
   <data name="GymAccess" xml:space="preserve">
     <value>/Content/Subscriptions/gym.jpg</value>
@@ -142,7 +147,11 @@
   </data>
   <data name="RejectAppMessagePath" xml:space="preserve">
     <value>wwwroot\\TextFiles\\RejectApplicationMessage.txt</value>
-    <comment>Path to "Reject application for Trainer" file (.txt)</comment>
+    <comment>Relative path to "Reject application for Trainer" file (.txt)</comment>
+  </data>
+  <data name="UsersFileDestinationPath" xml:space="preserve">
+    <value>\wwwroot\ExcelFiles\Users.xlsx</value>
+    <comment>Relative destination path for Users.xlsx file. </comment>
   </data>
   <data name="WorkAsTrainer" xml:space="preserve">
     <value>/Content/Subscriptions/WorkAsTrainer.jpg</value>

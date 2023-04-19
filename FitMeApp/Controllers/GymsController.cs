@@ -230,7 +230,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult CurrentSubscription(int subscriptionId, int gymId) //todo reset Image by constants
+        public IActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
@@ -276,13 +276,13 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             var gym = _gymService.GetGymModel(gymId);
-            string blankFullPath = @"/ExcelFiles/Blanks/AttendanceChart.xlsx"; //todo save as constant
+            string blankLocalPath = _localizer["AttendanceChartBlankPath"];
 
             AttendanceChartExcelFileViewModel model = new AttendanceChartExcelFileViewModel()
             {
                 GymId = gymId,
                 GymName = gym.Name,
-                BlankFullPath = blankFullPath
+                BlankFullPath = blankLocalPath
             };
 
             ViewBag.FileUploaded = false;
