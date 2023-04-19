@@ -12,6 +12,7 @@ using FitMeApp.Chat;
 using FitMeApp.Common;
 using FitMeApp.Resources;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.OpenApi.Models;
 
 
 namespace FitMeApp
@@ -44,6 +45,10 @@ namespace FitMeApp
                 .AddViewLocalization();
             services.SetSupportedCulture();
             services.AddSignalR();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "FitMeApp v1", Version = "v1"});
+            });
 
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
@@ -55,6 +60,13 @@ namespace FitMeApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitMeApp v1");
+                    c.RoutePrefix = "Swagger";
+                });
+
             }
             else
             {
@@ -68,7 +80,7 @@ namespace FitMeApp
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
             
 

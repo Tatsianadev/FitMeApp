@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
-using FitMeApp.WEB.Contracts.ViewModels;
-using FitMeApp.Mapper;
 using FitMeApp.Common;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

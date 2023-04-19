@@ -25,6 +25,7 @@ namespace FitMeApp.Services
     {
         public async Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName)
         {
+
             using (SpreadsheetDocument spreadsheetDocument =
                     SpreadsheetDocument.Create(file.FullName, SpreadsheetDocumentType.Workbook))
             {
