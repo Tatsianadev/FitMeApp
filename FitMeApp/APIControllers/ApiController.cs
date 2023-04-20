@@ -54,7 +54,7 @@ namespace FitMeApp.APIControllers
 
 
         [HttpPost]
-        [Route("getvisitingchartline")]
+        [Route("getattendancechartline")]
         public string GetVisitingChartLine(int gymId, DayOfWeek selectedDay)
         {
             var timeVisitorsLineJsonString = "";
