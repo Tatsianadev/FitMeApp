@@ -28,10 +28,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="" asp-action="">Contacts</a>
                         </li>
-                       
-                        @*<li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="ChatRoom" asp-action="ChatRoom">Chat</a>
-                        </li>*@
+                        @*To access Swagger from application*@
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Swagger" asp-action="Index">Web API</a>
+                        </li>
+
                         @if (User.IsInRole("gymAdmin"))
                         {
                             @await Component.InvokeAsync("GymSettings");

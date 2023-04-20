@@ -64,7 +64,7 @@ namespace FitMeApp
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitMeApp v1");
-                    c.RoutePrefix = "swagger";
+                    c.RoutePrefix = "Swagger";
                 });
 
             }
