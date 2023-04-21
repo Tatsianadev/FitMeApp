@@ -359,6 +359,14 @@ namespace FitMeApp.Repository.EntityFramework
             return license;
         }
 
+        public IEnumerable<TrainerWorkLicenseEntityBase> GetTrainerWorkLicenseByTrainer(string trainerId)
+        {
+            var licenses = _context.TrainerWorkLicenses
+                .Where(x => x.TrainerId == trainerId).ToList();
+            return licenses;
+        }
+
+
 
 
         //Trainer applications

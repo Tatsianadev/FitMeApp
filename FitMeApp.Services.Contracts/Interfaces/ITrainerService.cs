@@ -25,6 +25,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //Training-Trainer Connection
         void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingId);
+        TrainerSpecializationsEnum GetTrainerSpecializationByTrainings(IEnumerable<int> trainingsId);
 
         //TrainerApplication
         int AddTrainerApplication(TrainerApplicationModel trainerApplication);
@@ -36,6 +37,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //TrainerLicense
 
+        
         
 
     }

@@ -107,8 +107,9 @@ namespace FitMeApp.Services
 
         public int GetGymIdByTrainer(string trainerId)
         {            
-            int licenseId = _repository.GetTrainer(trainerId).WorkLicenseId;
-            int gymId = _repository.GetTrainerWorkLicense(licenseId).GymId;
+            //int licenseId = _repository.GetTrainer(trainerId).WorkLicenseId;
+            //int gymId = _repository.GetTrainerWorkLicense(licenseId).GymId;
+            int gymId = _repository.GetGymIdByTrainer(trainerId);
             return gymId;
         }
 

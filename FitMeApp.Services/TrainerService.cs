@@ -274,6 +274,31 @@ namespace FitMeApp.Services
             return result;
         }
 
+
+        public TrainerSpecializationsEnum GetTrainerSpecializationByTrainings(IEnumerable<int> trainingsId)
+        {
+            var trainingNames = new List<string>();
+            foreach (var trainingId in trainingsId)
+            {
+                string trainingName = _repository.GetTraining(trainingId).Name;
+                trainingNames.Add(trainingName);
+            }
+
+            if (trainingNames.Contains("Personal training"))
+            {
+                if (trainingNames.Count > 1)
+                {
+                    return TrainerSpecializationsEnum.universal;
+                }
+
+                return TrainerSpecializationsEnum.personal;
+            }
+
+            return TrainerSpecializationsEnum.group;
+        }
+
+
+
         //TrainerApplication
 
         public int AddTrainerApplication(TrainerApplicationModel trainerApplication)

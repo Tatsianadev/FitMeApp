@@ -606,10 +606,12 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
+
                     var availableTrainerSubscriptionsBySelectedGym = _gymService.GetSubscriptionsByFilterByUser(changedModel.Id,
                           new List<SubscriptionValidStatusEnum>() { SubscriptionValidStatusEnum.validNow },
                           new List<int>() { changedModel.GymId });
-                    if (availableTrainerSubscriptionsBySelectedGym is null || availableTrainerSubscriptionsBySelectedGym.Count() == 0)
+                    if (availableTrainerSubscriptionsBySelectedGym.Count() == 0)
                     {
                         ModelState.AddModelError("", "You don't have available trainer subscription for selected Gym.");
                     }
@@ -624,10 +626,19 @@ namespace FitMeApp.Controllers
                             });
                         }
 
+                        string specialization = string.Empty;
+                        if (trainings.Count > 0)
+                        {
+                            specialization = _trainerService
+                                .GetTrainerSpecializationByTrainings(trainings.Select(x => x.Id).ToList()).ToString();
+                        }
+                       
+
                         TrainerViewModel newTrainerInfo = new TrainerViewModel()
                         {
                             Id = changedModel.Id,
-                            Specialization = changedModel.Specialization,
+                            //Specialization = changedModel.Specialization,
+                            Specialization = specialization,
                             Trainings = trainings,
                             Gym = new GymViewModel()
                             {
