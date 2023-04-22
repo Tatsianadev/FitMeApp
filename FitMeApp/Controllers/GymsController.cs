@@ -237,31 +237,32 @@ namespace FitMeApp.Controllers
             //check if there are valid license already
             var user = await _userManager.GetUserAsync(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(user.Id);
-            if (licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
+            if (licenseModel != null)
             {
-                //return View with "You already have license. Replace it?"
-            }
-            else
-            {
-                var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
-                if (applicationForTrainerRole != null)
+                if (licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
                 {
-                    //return View with "Wait for answer for your application"
+                    //return View with "You already have license. Replace it?"
                 }
-
+                else
+                {
+                    var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
+                    if (applicationForTrainerRole != null)
+                    {
+                        //return View with "Wait for answer for your application"
+                    }
+                }
             }
 
-            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId, isTrainerSubscription = true });
+            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId});
         }
 
 
 
-        public IActionResult CurrentSubscription(int subscriptionId, int gymId, bool isTrainerSubscription = false)
+        public IActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
             SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
             subscription.Image = GetImageSubscriptionPath(subscription);
-            ViewBag.IsTrainerSubscription = isTrainerSubscription;
 
             return View(subscription);
         }
@@ -269,19 +270,22 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate, bool isTrainerSubscription)
+        public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate, bool isTrainerSubscription = false)
         {
             if (startDate.Date >= DateTime.Now.Date && startDate.Date <= DateTime.Now.AddDays(256).Date)
             {
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate); //todo response subscription instead bool
+                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate); 
                     if (subscriptionIsAdded)
                     {
+                        //var subscriptionFullInfo =
+                        //    _gymService.GetUserSubscriptions(userId).FirstOrDefault(x => x.Id == subscriptionId);
                         if (isTrainerSubscription)
                         {
-                            
+                            //figure out with date and application
+                            AddTrainerApplication(userId);
 
                         }
                         return View("SubscriptionCompleted");
@@ -299,7 +303,9 @@ namespace FitMeApp.Controllers
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
 
-        private void AddTrainerApplication(string userId, int gymId, int subscriptionId)
+
+
+        private void AddTrainerApplication(string userId)
         {
             TrainerApplicationModel application = new TrainerApplicationModel()
             {
@@ -307,6 +313,8 @@ namespace FitMeApp.Controllers
                 TrainerSubscription = true,
                 ApplicationDate = DateTime.Today
             };
+
+            _trainerService.AddTrainerApplication(application);
         }
 
 
