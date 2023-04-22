@@ -1246,6 +1246,20 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
+        public void UpdateUserSubscriptionDates(int subscriptionId, DateTime startDate, DateTime endDate)
+        {
+            var subscription = _context.UserSubscriptions.FirstOrDefault(x => x.Id == subscriptionId);
+            if (subscription != null)
+            {
+                subscription.StartDate = startDate;
+                subscription.EndDate = endDate;
+                _context.SaveChanges();
+            }
+        }
+
+        
+
+
 
         //Events
         public IEnumerable<EventEntityBase> GetAllEvents()

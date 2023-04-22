@@ -6,6 +6,7 @@ using FitMeApp.Common;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
+using FitMeApp.Repository.EntityFramework.Entities;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
 
@@ -347,8 +348,10 @@ namespace FitMeApp.Services
 
                 trainerLicense.SubscriptionId = subscription.Id;
                 trainerLicense.GymId = subscription.GymId;
-                trainerLicense.StartDate = subscription.StartDate;
-                trainerLicense.EndDate = subscription.EndDate;
+                trainerLicense.StartDate = DateTime.Today;
+                trainerLicense.EndDate = subscription.EndDate.AddDays((DateTime.Today - subscription.StartDate).TotalDays);
+
+                _repository.UpdateUserSubscriptionDates(subscription.Id, trainerLicense.StartDate, trainerLicense.EndDate);
             }
             else
             {

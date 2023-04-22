@@ -237,23 +237,20 @@ namespace FitMeApp.Controllers
             //check if there are valid license already
             var user = await _userManager.GetUserAsync(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(user.Id);
-            if (licenseModel != null)
+            if (licenseModel != null && licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
             {
-                if (licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
+                //return View with "You already have license. Replace it?"
+            }
+            else
+            {
+                var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
+                if (applicationForTrainerRole != null)
                 {
-                    //return View with "You already have license. Replace it?"
-                }
-                else
-                {
-                    var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
-                    if (applicationForTrainerRole != null)
-                    {
-                        //return View with "Wait for answer for your application"
-                    }
+                    //return View with "Wait for answer for your application"
                 }
             }
 
-            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId});
+            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
 
 
@@ -277,16 +274,12 @@ namespace FitMeApp.Controllers
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate); 
+                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
                     if (subscriptionIsAdded)
                     {
-                        //var subscriptionFullInfo =
-                        //    _gymService.GetUserSubscriptions(userId).FirstOrDefault(x => x.Id == subscriptionId);
                         if (isTrainerSubscription)
                         {
-                            //figure out with date and application
                             AddTrainerApplication(userId);
-
                         }
                         return View("SubscriptionCompleted");
                     }
@@ -303,19 +296,6 @@ namespace FitMeApp.Controllers
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
 
-
-
-        private void AddTrainerApplication(string userId)
-        {
-            TrainerApplicationModel application = new TrainerApplicationModel()
-            {
-                UserId = userId,
-                TrainerSubscription = true,
-                ApplicationDate = DateTime.Today
-            };
-
-            _trainerService.AddTrainerApplication(application);
-        }
 
 
 
@@ -398,6 +378,19 @@ namespace FitMeApp.Controllers
             }
 
             return imagePath;
+        }
+
+
+        private void AddTrainerApplication(string userId)
+        {
+            TrainerApplicationModel application = new TrainerApplicationModel()
+            {
+                UserId = userId,
+                TrainerSubscription = true,
+                ApplicationDate = DateTime.Today
+            };
+
+            _trainerService.AddTrainerApplication(application);
         }
     }
 }
