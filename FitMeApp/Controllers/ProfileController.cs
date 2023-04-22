@@ -600,7 +600,7 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel)
+        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel) //todo update method with all conditions (look at schema in the worksheet)
         {
             try
             {

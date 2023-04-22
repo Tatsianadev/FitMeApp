@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
 using System.Resources;
 using FitMeApp.Resources;
+using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Localization;
 
 namespace FitMeApp.Controllers
@@ -28,13 +29,13 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<SharedResource> _localizer; 
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public GymsController(IGymService gymService, 
-            ITrainerService trainerService, 
-            ITrainingService trainingService, 
+        public GymsController(IGymService gymService,
+            ITrainerService trainerService,
+            ITrainingService trainingService,
             IFileService fileService,
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             ILogger<GymsController> logger,
             IStringLocalizer<SharedResource> localizer)
         {
@@ -48,7 +49,7 @@ namespace FitMeApp.Controllers
             _localizer = localizer;
         }
 
-        
+
         public IActionResult Index()
         {
             var gymModels = _gymService.GetAllGymsWithGalleryModels();
@@ -223,35 +224,66 @@ namespace FitMeApp.Controllers
             {
                 _logger.LogError(ex, ex.Message);
                 string message = "Failed to display subscriptions for trainers. Please, try again";
-                
+
                 return View("CustomError", message);
             }
 
         }
 
 
-        public IActionResult CurrentSubscription(int subscriptionId, int gymId)
+        //todo add method to subscribe by trainer Subscription
+        public async Task<IActionResult> CurrentTrainerSubscription(int subscriptionId, int gymId)
         {
-            var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
-            SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
-            subscription.Image = GetImageSubscriptionPath(subscription);
-            return View(subscription);
+            //check if there are valid license already
+            var user = await _userManager.GetUserAsync(User);
+            var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(user.Id);
+            if (licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
+            {
+                //return View with "You already have license. Replace it?"
+            }
+            else
+            {
+                var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
+                if (applicationForTrainerRole != null)
+                {
+                    //return View with "Wait for answer for your application"
+                }
+
+            }
+
+            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId, isTrainerSubscription = true });
         }
 
 
 
+        public IActionResult CurrentSubscription(int subscriptionId, int gymId, bool isTrainerSubscription = false)
+        {
+            var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);
+            SubscriptionViewModel subscription = _mapper.MapSubscriptionModelToViewModel(subscriptionModel);
+            subscription.Image = GetImageSubscriptionPath(subscription);
+            ViewBag.IsTrainerSubscription = isTrainerSubscription;
+
+            return View(subscription);
+        }
+
+
         [HttpPost]
         [Authorize]
-        public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate)
+        public IActionResult CurrentSubscription(int gymId, int subscriptionId, DateTime startDate, bool isTrainerSubscription)
         {
             if (startDate.Date >= DateTime.Now.Date && startDate.Date <= DateTime.Now.AddDays(256).Date)
             {
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate); //todo response subscription instead bool
                     if (subscriptionIsAdded)
                     {
+                        if (isTrainerSubscription)
+                        {
+                            
+
+                        }
                         return View("SubscriptionCompleted");
                     }
                 }
@@ -259,13 +291,25 @@ namespace FitMeApp.Controllers
                 {
                     _logger.LogError(ex, ex.Message);
                     string message = "There was a problem with to subscribe. Please, try again";
-               
+
                     return View("CustomError", message);
                 }
             }
 
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
+
+        private void AddTrainerApplication(string userId, int gymId, int subscriptionId)
+        {
+            TrainerApplicationModel application = new TrainerApplicationModel()
+            {
+                UserId = userId,
+                TrainerSubscription = true,
+                ApplicationDate = DateTime.Today
+            };
+        }
+
+
 
 
         //Gym settings
@@ -289,7 +333,7 @@ namespace FitMeApp.Controllers
             return View("LoadAttendanceChartData", model);
         }
 
-        
+
 
         [HttpPost]
         [Authorize(Roles = "gymAdmin")]
@@ -314,14 +358,14 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-               _logger.LogError(ex, ex.Message);
-               string message = "There was a problem with loading the file. Please, try again later";
+                _logger.LogError(ex, ex.Message);
+                string message = "There was a problem with loading the file. Please, try again later";
 
-               return View("CustomError", message);
+                return View("CustomError", message);
             }
-           
+
         }
-        
+
 
 
         private string GetImageSubscriptionPath(SubscriptionViewModel subscription)

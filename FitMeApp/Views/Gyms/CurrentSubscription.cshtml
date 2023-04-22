@@ -99,7 +99,7 @@
                         <input type="date" name="startDate" min="@minDate" max="@maxDate" value="@minDate" />
                         <div class="card-footer">
                             <h3 style="font-weight: bold">@Model.Price $</h3>
-                            <input type="submit" asp-route-gymId="@Model.GymId" asp-route-subscriptionId="@Model.Id" value="Take it!" class="btn btn-dark" />
+                            <input type="submit" asp-route-gymId="@Model.GymId" asp-route-subscriptionId="@Model.Id" asp-route-isTrainerSubscription="@ViewBag.IsTrainerSubscription" value="Take it!" class="btn btn-dark" />
                         </div>
                     </form>
                 </div>

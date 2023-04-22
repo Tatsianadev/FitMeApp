@@ -410,5 +410,12 @@ namespace FitMeApp.Services
 
         //Work License
 
+        public TrainerWorkLicenseModel GetTrainerWorkLicenseByTrainer(string userId)
+        {
+            var licenseEntity = _repository.GetTrainerWorkLicenseByTrainer(userId);
+            var licenseModel = _mapper.MapTrainerWorkLicenseEntityBaseToModel(licenseEntity);
+            return licenseModel;
+        }
+
     }
 }

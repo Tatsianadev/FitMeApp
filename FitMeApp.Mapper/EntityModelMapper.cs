@@ -5,6 +5,7 @@ using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using FitMeApp.Services.Contracts.Models.Chart;
 
@@ -322,6 +323,26 @@ namespace FitMeApp.Mapper
              };
 
              return model;
+        }
+
+
+
+        public TrainerWorkLicenseModel MapTrainerWorkLicenseEntityBaseToModel(
+            TrainerWorkLicenseEntityBase licenseEntity)
+        {
+            TrainerWorkLicenseModel licenseModel = new TrainerWorkLicenseModel()
+            {
+                Id = licenseEntity.Id,
+                TrainerId = licenseEntity.TrainerId,
+                SubscriptionId = licenseEntity.SubscriptionId,
+                ContractNumber = licenseEntity.ContractNumber,
+                GymId = licenseEntity.GymId,
+                StartDate = licenseEntity.StartDate,
+                EndDate = licenseEntity.EndDate,
+                ConfirmationDate = licenseEntity.ConfirmationDate
+            };
+
+            return licenseModel;
         }
 
 

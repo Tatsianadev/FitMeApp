@@ -37,8 +37,9 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //TrainerLicense
 
-        
-        
+        TrainerWorkLicenseModel GetTrainerWorkLicenseByTrainer(string userId);
+
+
 
     }
 }
