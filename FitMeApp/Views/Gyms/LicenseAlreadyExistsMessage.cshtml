@@ -8,11 +8,13 @@
 
     <h3>You've already have valid license for work as Trainer.</h3>
     <br />
-    <h5>If you buy a new Trainer subscription it replaces the previous license.</h5>
+    <h5>If you buy a new Trainer subscription it'll replace the previous license.</h5>
+    <h5>Please, note that you can only have <span style="color: red"> one valid Trainer subscription at the moment</span>.</h5>
+    <h5>So once you purchase a new one, the previous one will be deleted.</h5>
+    <br/>
     <h5>Do you want to replace existed license with a new trainer subscription?</h5>
-   
     <br />
-    <a asp-action="ReplaceTrainerWorkLicense" asp-controller="Gyms" class="btn btn-dark">Yes, replace</a>
+    <a asp-action="ReplaceTrainerWorkLicense" asp-controller="Gyms" asp-route-subscriptionId="@ViewBag.SubscriptionId" asp-route-newGymId="@Model" class="btn btn-dark">Yes, replace</a>
     <a asp-action="Subscriptions" asp-controller="Gyms" asp-route-gymId="@Model" class="btn btn-light">No</a>
 
 </div>

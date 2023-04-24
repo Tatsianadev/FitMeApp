@@ -1074,6 +1074,17 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public void DeleteUserSubscription(int userSubscriptionId)
+        {
+            var userSubscription = _context.UserSubscriptions.FirstOrDefault(x => x.Id == userSubscriptionId);
+            if (userSubscription != null)
+            {
+                _context.Remove(userSubscription);
+                _context.SaveChanges();
+            }
+        }
+
+
         //UserSubscriptions
         public int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {

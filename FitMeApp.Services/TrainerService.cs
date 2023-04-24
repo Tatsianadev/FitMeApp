@@ -430,7 +430,16 @@ namespace FitMeApp.Services
         {
             var trainerWorkLicenseEntityBase = _mapper.MapTrainerWorkLicenseModelToEntityBase(newLicense);
             _repository.DeleteTAllTrainerWorkLicensesByTrainer(userId);
-            _repository.AddTrainerWorkLicense(trainerWorkLicenseEntityBase);
+            var newLicenseId = _repository.AddTrainerWorkLicense(trainerWorkLicenseEntityBase);
+            UpdateTrainerLicenseId(userId, newLicenseId);
+        }
+
+
+        private void UpdateTrainerLicenseId(string userId, int licenseId)
+        {
+            var trainer = _repository.GetTrainer(userId);
+            trainer.WorkLicenseId = licenseId;
+            _repository.UpdateTrainer(trainer);
         }
 
     }

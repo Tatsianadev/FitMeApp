@@ -274,7 +274,15 @@ namespace FitMeApp.Services
 
             return subscriptions;
         }
-        
+
+
+
+        public void DeleteUserSubscription(int userSubscriptionId)
+        {
+            _repository.DeleteUserSubscription(userSubscriptionId);
+        }
+
+
 
         //Charts
 

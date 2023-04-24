@@ -242,6 +242,8 @@ namespace FitMeApp.Controllers
             if (licenseModel != null && licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
             {
                 //return View with "You already have license. Replace it?"
+                ViewBag.SubscriptionId = subscriptionId;
+                return View("LicenseAlreadyExistsMessage", gymId);
 
             }
             else
@@ -269,7 +271,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult ReplaceTrainerWorkLicense(int subscriptionId, int newGymId)
+        public IActionResult ReplaceTrainerWorkLicense(int subscriptionId, int newGymId) //todo change name for more suitable
         {
             var userId = _userManager.GetUserId(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
@@ -319,6 +321,9 @@ namespace FitMeApp.Controllers
                             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
                             if (licenseModel != null)
                             {
+                                //delete previous trainer subscription 
+                                _gymService.DeleteUserSubscription(licenseModel.SubscriptionId);
+
                                 var endDate = _gymService.GetUserSubscriptions(userId)
                                     .FirstOrDefault(x => x.Id == userSubscriptionId).EndDate;
 

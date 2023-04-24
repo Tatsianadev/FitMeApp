@@ -83,6 +83,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<int> GetAllSubscriptionPeriods();
         int GetSubscriptionPeriod(int subscriptionId);
         SubscriptionPriceBase GetSubscriptionWithPriceByGym(int subscriptionId, int gymId);
+        void DeleteUserSubscription(int userSubscriptionId);
 
         //UserSubscriptions
         int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);

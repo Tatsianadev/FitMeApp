@@ -31,6 +31,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
+        void DeleteUserSubscription(int userSubscriptionId);
 
         //Charts
         AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day);
