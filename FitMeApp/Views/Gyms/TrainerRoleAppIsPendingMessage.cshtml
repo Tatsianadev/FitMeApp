@@ -1,0 +1,24 @@
+﻿@model int
+
+@{
+    ViewBag.Title = "Trainer role application is pending";
+}
+
+<div style="margin:20px; text-align:center">
+
+    <h3>You've already have application for the Trainer role.</h3>
+    <br />
+    <h5>Please, Wait for confirmation from the administrator. You'll be notified by email of the decision.</h5>
+    <h5>All trainers functions will be available after the approval.</h5>
+    <br />
+    <h5>Please, note that you can only have <span style="color: red"> one valid Trainer subscription at the moment</span>.</h5>
+    <br />
+    <a asp-action="UserSubscriptions" asp-controller="Profile" class="btn btn-dark">My Subscriptions</a>
+    <a asp-action="Subscriptions" asp-controller="Gyms" asp-route-gymId="@Model" class="btn btn-light">Back</a>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-light">Home</a>
+
+</div>
+<div style="text-align:center">
+    <img src="~/Content/images/appConsideration.jpg" alt="Alternate Text" style="height:300px; width:auto" />
+</div>
+

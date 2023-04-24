@@ -234,23 +234,29 @@ namespace FitMeApp.Controllers
         //todo add method to subscribe by trainer Subscription
         public async Task<IActionResult> CurrentTrainerSubscription(int subscriptionId, int gymId)
         {
-            //check if there are valid license already
             var user = await _userManager.GetUserAsync(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(user.Id);
             if (licenseModel != null && licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
             {
                 //return View with "You already have license. Replace it?"
+               
             }
             else
             {
                 var applicationForTrainerRole = _trainerService.GetTrainerApplicationByUser(user.Id);
                 if (applicationForTrainerRole != null)
                 {
-                    //return View with "Wait for answer for your application"
+                    return View("TrainerRoleAppIsPendingMessage", gymId);
                 }
             }
 
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
+        }
+
+
+        public IActionResult TrainerRoleAppIsPendingMessage(int gymId)
+        {
+            return View(gymId);
         }
 
 
