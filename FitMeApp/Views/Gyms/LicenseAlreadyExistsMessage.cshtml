@@ -1,0 +1,21 @@
+﻿@model int
+
+@{
+    ViewBag.Title = "License already exists";
+}
+
+<div style="margin:20px; text-align:center">
+
+    <h3>You've already have valid license for work as Trainer.</h3>
+    <br />
+    <h5>If you buy a new Trainer subscription it replaces the previous license.</h5>
+    <h5>Do you want to replace existed license with a new trainer subscription?</h5>
+   
+    <br />
+    <a asp-action="ReplaceTrainerWorkLicense" asp-controller="Gyms" class="btn btn-dark">Yes, replace</a>
+    <a asp-action="Subscriptions" asp-controller="Gyms" asp-route-gymId="@Model" class="btn btn-light">No</a>
+
+</div>
+<div style="text-align:center">
+    <img src="~/Content/images/appConsideration.jpg" alt="Alternate Text" style="height:300px; width:auto" />
+</div>

@@ -28,7 +28,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
 
         //UserSubscriptions
-        bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
+        int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
         IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
         IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
 

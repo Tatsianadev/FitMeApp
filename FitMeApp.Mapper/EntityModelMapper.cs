@@ -466,5 +466,23 @@ namespace FitMeApp.Mapper
 
             return entities;
         }
+
+        public TrainerWorkLicenseEntityBase MapTrainerWorkLicenseModelToEntityBase(
+            TrainerWorkLicenseModel licenseModel)
+        {
+            TrainerWorkLicenseEntityBase licenseEntityBase = new TrainerWorkLicenseEntityBase()
+            {
+                Id = licenseModel.Id,
+                TrainerId = licenseModel.TrainerId,
+                SubscriptionId = licenseModel.SubscriptionId,
+                ContractNumber = licenseModel.ContractNumber,
+                GymId = licenseModel.GymId,
+                StartDate = licenseModel.StartDate,
+                EndDate = licenseModel.EndDate,
+                ConfirmationDate = licenseModel.ConfirmationDate
+            };
+
+            return licenseEntityBase;
+        }
     }
 }

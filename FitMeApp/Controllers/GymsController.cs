@@ -25,6 +25,7 @@ namespace FitMeApp.Controllers
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
+        private readonly IScheduleService _scheduleService;
         private readonly IFileService _fileService;
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
@@ -34,6 +35,7 @@ namespace FitMeApp.Controllers
         public GymsController(IGymService gymService,
             ITrainerService trainerService,
             ITrainingService trainingService,
+            IScheduleService scheduleService,
             IFileService fileService,
             UserManager<User> userManager,
             ILogger<GymsController> logger,
@@ -42,6 +44,7 @@ namespace FitMeApp.Controllers
             _gymService = gymService;
             _trainerService = trainerService;
             _trainingService = trainingService;
+            _scheduleService = scheduleService;
             _fileService = fileService;
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
@@ -239,7 +242,7 @@ namespace FitMeApp.Controllers
             if (licenseModel != null && licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
             {
                 //return View with "You already have license. Replace it?"
-               
+
             }
             else
             {
@@ -257,6 +260,34 @@ namespace FitMeApp.Controllers
         public IActionResult TrainerRoleAppIsPendingMessage(int gymId)
         {
             return View(gymId);
+        }
+
+
+        public IActionResult LicenseAlreadyExistsMessage(int newGymId)
+        {
+            return View(newGymId);
+        }
+
+
+        public IActionResult ReplaceTrainerWorkLicense(int subscriptionId, int newGymId)
+        {
+            var userId = _userManager.GetUserId(User);
+            var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
+
+            if (licenseModel.GymId != newGymId)
+            {
+                var actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(userId);
+                if (actualEventsCount != 0)
+                {
+                    //todo message than there are actual events. Cancel all events and than change gym.
+                }
+                else
+                {
+                    _trainerService.DeleteTrainerWorkHoursByTrainer(userId);
+                }
+            }
+
+            return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = newGymId });
         }
 
 
@@ -280,12 +311,33 @@ namespace FitMeApp.Controllers
                 try
                 {
                     string userId = _userManager.GetUserId(User);
-                    bool subscriptionIsAdded = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
-                    if (subscriptionIsAdded)
+                    int userSubscriptionId = _gymService.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+                    if (userSubscriptionId > 0)
                     {
                         if (isTrainerSubscription)
                         {
-                            AddTrainerApplication(userId);
+                            var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
+                            if (licenseModel != null)
+                            {
+                                var endDate = _gymService.GetUserSubscriptions(userId)
+                                    .FirstOrDefault(x => x.Id == userSubscriptionId).EndDate;
+
+                                var newLicense = new TrainerWorkLicenseModel()
+                                {
+                                    TrainerId = userId,
+                                    SubscriptionId = userSubscriptionId,
+                                    GymId = gymId,
+                                    StartDate = startDate,
+                                    EndDate = endDate,
+                                    ConfirmationDate = DateTime.Today
+                                };
+
+                                _trainerService.ReplaceTrainerWorkLicense(userId, newLicense);
+                            }
+                            else
+                            {
+                                AddTrainerApplication(userId);
+                            }
                         }
                         return View("SubscriptionCompleted");
                     }

@@ -424,5 +424,14 @@ namespace FitMeApp.Services
             return null;
         }
 
+
+
+        public void ReplaceTrainerWorkLicense(string userId, TrainerWorkLicenseModel newLicense)
+        {
+            var trainerWorkLicenseEntityBase = _mapper.MapTrainerWorkLicenseModelToEntityBase(newLicense);
+            _repository.DeleteTAllTrainerWorkLicensesByTrainer(userId);
+            _repository.AddTrainerWorkLicense(trainerWorkLicenseEntityBase);
+        }
+
     }
 }

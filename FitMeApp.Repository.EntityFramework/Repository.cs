@@ -1075,7 +1075,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
         //UserSubscriptions
-        public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
+        public int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {
             int gymSubscriptionId = _context.GymSubscriptions
                 .First(x => x.GymId == gymId && x.SubscriptionId == subscriptionId)
@@ -1092,9 +1092,9 @@ namespace FitMeApp.Repository.EntityFramework
 
             };
             _context.UserSubscriptions.Add(userSubscription);
+            _context.SaveChanges();
 
-            int addedEntry = _context.SaveChanges();
-            return addedEntry > 0;
+            return userSubscription.Id;
         }
 
 

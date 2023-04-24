@@ -217,10 +217,10 @@ namespace FitMeApp.Services
 
 
         //UserSubscriptions
-        public bool AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
+        public int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate)
         {
-            bool result = _repository.AddUserSubscription(userId, gymId, subscriptionId, startDate);
-            return result;
+            int userSubscriptionId = _repository.AddUserSubscription(userId, gymId, subscriptionId, startDate);
+            return userSubscriptionId;
         }
         
 
