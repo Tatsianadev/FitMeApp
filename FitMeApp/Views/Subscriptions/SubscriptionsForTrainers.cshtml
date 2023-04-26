@@ -35,7 +35,7 @@
                         <h3 style="font-weight: bold">@subscription.Price $</h3>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a asp-controller="Gyms" asp-action="CurrentTrainerSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>
+                            <a asp-controller="Subscriptions" asp-action="CurrentTrainerSubscription" asp-route-gymId="@Model.First().GymId" asp-route-subscriptionId="@subscription.Id" class="btn btn-dark">Take it!</a>
                         }
                         else
                         {

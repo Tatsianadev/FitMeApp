@@ -14,8 +14,8 @@
     <br/>
     <h5>Do you want to replace existed license with a new trainer subscription?</h5>
     <br />
-    <a asp-action="CheckPossibilityToReplaceCurrentLicense" asp-controller="Gyms" asp-route-subscriptionId="@ViewBag.SubscriptionId" asp-route-newGymId="@Model" class="btn btn-dark">Yes, replace</a>
-    <a asp-action="Subscriptions" asp-controller="Gyms" asp-route-gymId="@Model" class="btn btn-light">No</a>
+    <a asp-action="CheckPossibilityToReplaceCurrentLicense" asp-controller="Subscriptions" asp-route-subscriptionId="@ViewBag.SubscriptionId" asp-route-newGymId="@Model" class="btn btn-dark">Yes, replace</a>
+    <a asp-action="Subscriptions" asp-controller="Subscriptions" asp-route-gymId="@Model" class="btn btn-light">No</a>
 
 </div>
 <div style="text-align:center">

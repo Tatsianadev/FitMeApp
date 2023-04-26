@@ -25,7 +25,7 @@
             <div style="height: 250px; width: auto">
                <img src="/Content/images/sport3.jpg" style="height: 100%"/>
             </div>
-            <a asp-controller="Gyms" asp-action="SubscriptionsForVisitors" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 80%"> For visitors</a>
+            <a asp-action="SubscriptionsForVisitors"  asp-controller="Subscriptions"  asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 80%"> For visitors</a>
         </div>
         <div class="col-md-5" style="text-align: center; padding: 25px; margin: 25px; border: solid lightgray 2px; border-radius: 5px">
             <div class="row" style="text-align: center">
@@ -41,7 +41,7 @@
             <div style="height: 250px; width: auto">
                 <img src="/Content/images/sport4.jpg" style="height: 100%"/>
             </div>
-            <a asp-controller="Gyms" asp-action="SubscriptionsForTrainers" asp-route-gymId="@Model.Id" class="btn btn-dark" aria-disabled="True" style="width: 80%">Work as a trainer</a>
+            <a asp-action="SubscriptionsForTrainers" asp-controller="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" aria-disabled="True" style="width: 80%">Work as a trainer</a>
 
         </div>
     </div>

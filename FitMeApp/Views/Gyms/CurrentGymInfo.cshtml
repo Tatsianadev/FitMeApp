@@ -2,7 +2,7 @@
 @model FitMeApp.WEB.Contracts.ViewModels.GymViewModel
 
 <div class="container">
-    <div class="row" @*style="height:400px"*@>
+    <div class="row">
         <div class="col-md-5" style="padding:15px">
             <h3>@Model.Name</h3>
             <h5>@Model.Address</h5>
@@ -23,7 +23,7 @@
                 <a asp-controller="Chart" asp-action="AttendanceChart" asp-route-gymId ="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Attendance chart</a>
             </div>
             <div style="width:100%">
-                <a asp-controller="Gyms" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Subscriptions</a>
+                <a asp-controller="Subscriptions" asp-action="Subscriptions" asp-route-gymId="@Model.Id" class="btn btn-dark" style="width: 50%; margin: 5px">Subscriptions</a>
             </div>
 
         </div>

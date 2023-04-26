@@ -94,7 +94,7 @@
                             Otherwise - immediately after purchase!
                             <br />
                         </div>
-                        <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
+                        <form asp-action="CurrentSubscription" asp-controller="Subscriptions" method="post">
                             <input type="hidden" name="startDate" value="@DateTime.Today"/>
                             <input type="hidden" name="isTrainerSubscription" value="true"/>
                            <div class="card-footer">
@@ -110,7 +110,7 @@
                             <br />
                             <small>(your subscription will be activated on the specified selected Date)</small>
                         </div>
-                        <form asp-action="CurrentSubscription" asp-controller="Gyms" method="post">
+                        <form asp-action="CurrentSubscription" asp-controller="Subscriptions" method="post">
                             @{
                                 string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
                                 string maxDate = DateTime.Today.AddDays(256).Date.ToString("yyyy-MM-dd");}
