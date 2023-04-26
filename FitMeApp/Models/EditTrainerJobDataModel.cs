@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Models
 {
@@ -17,6 +18,6 @@ namespace FitMeApp.Models
         public string GymName { get; set; }
         [Required]
         public List<int> TrainingsId { get; set; }
-        //public TrainerApproveStatusEnum Status { get; set; }
+        public TrainerWorkLicenseModel WorkLicense { get; set; }
     }
 }

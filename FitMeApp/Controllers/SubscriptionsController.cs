@@ -72,9 +72,7 @@ namespace FitMeApp.Controllers
             return View(subscriptions);
         }
 
-
-
-
+        
         [HttpPost]
         public IActionResult SubscriptionsForVisitors(int gymId, List<int> selectedPeriods, bool groupTraining, bool dietMonitoring)
         {
@@ -143,8 +141,7 @@ namespace FitMeApp.Controllers
 
         }
 
-
-
+        
         public async Task<IActionResult> CurrentTrainerSubscription(int subscriptionId, int gymId)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -208,8 +205,7 @@ namespace FitMeApp.Controllers
             return View();
         }
 
-
-
+        
         public IActionResult CurrentSubscription(int subscriptionId, int gymId)
         {
             var subscriptionModel = _gymService.GetSubscriptionByGym(subscriptionId, gymId);

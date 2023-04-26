@@ -582,6 +582,7 @@ namespace FitMeApp.Controllers
         {
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainer.Id);
+            var workLicense = _trainerService.GetTrainerWorkLicenseByTrainer(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
             {
@@ -589,7 +590,8 @@ namespace FitMeApp.Controllers
                 GymId = trainerViewModel.Gym.Id,
                 GymName = trainerViewModel.Gym.Name,
                 Specialization = trainerViewModel.Specialization,
-                TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList()
+                TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList(),
+                WorkLicense = workLicense
             };
 
             ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
@@ -675,6 +677,22 @@ namespace FitMeApp.Controllers
                 return View("CustomError", message);
             }
         }
+
+
+        public async Task<IActionResult> RefuseTrainerRole(string userId)
+        {
+            var actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(userId);
+            if (actualEventsCount > 0)
+            {
+                return View("FailedTryToRefuseTrainerRole");
+            }
+
+            _trainerService.DeleteTrainer(userId);
+            var user = await _userManager.GetUserAsync(User);
+            await _userManager.RemoveFromRoleAsync(user, RolesEnum.trainer.ToString());
+            return RedirectToAction("UserPersonalData");
+        }
+
 
 
         [Authorize(Roles = "trainer")]

@@ -39,7 +39,7 @@ namespace FitMeApp.Controllers
             if (User.IsInRole("trainer"))
             {
                 var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(_userManager.GetUserId(User));
-                if (trainerWorkHours.Any())
+                if (!trainerWorkHours.Any())
                 {
                     return View("NoTrainerWorkHours");
                 }

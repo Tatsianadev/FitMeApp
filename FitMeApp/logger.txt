@@ -3724,3 +3724,23 @@ Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Invalid password for user.
+User 3784b68e-4ed9-4b3a-a182-60d2f01614d6 failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp

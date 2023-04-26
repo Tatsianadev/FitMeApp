@@ -10,27 +10,63 @@
                 <div>
                     <h4>Edit job data</h4>
                 </div>
-                <hr/>
+                <hr />
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
-                    <table style="width:80%; margin:auto">
+                    <table style="width: 80%; margin: auto">
+                        <tr>
+                            <td class="col3">Work license</td>
+                            @if (string.IsNullOrEmpty(@Model.WorkLicense.ContractNumber))
+                            {
+                                <td class="col4">
+                                    Subscription
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="col4">
+                                    Contract @Model.WorkLicense.ContractNumber
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td class="col3">Start date</td>
+                            <td class="col4">
+                                <input type="hidden" asp-for="WorkLicense.StartDate" class="form-control" />
+                                @Model.WorkLicense.StartDate.ToString("MM/dd/yyyy")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col3">Expire date</td>
+                            <td class="col4">
+                                <input type="hidden" asp-for="WorkLicense.EndDate" class="form-control" />
+                                @Model.WorkLicense.EndDate.ToString("MM/dd/yyyy")
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:30%">Delete</button>
+                    <a asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" class="btn btn-dark btn-sm" style="width:30%">Change</a>
+                    <hr />
+                    <table style="width: 80%; margin: auto">
                         <tr>
                             <td class="col3">Gym</td>
                             <td class="col4">
-                                <select class="form-select" aria-label="Default select example" asp-for="GymId">
-                                    <option selected value="@Model.GymId"> @Model.GymName</option>
-                                    @foreach (var gym in ViewBag.AllGyms)
-                                    {
-                                        <option value="@gym.Id">@gym.Name</option>
-                                    }
-                                </select>
+                                @Model.GymName
+                                @*<select class="form-select" aria-label="Default select example" asp-for="GymId">
+                                        <option selected value="@Model.GymId"> @Model.GymName</option>
+                                        @foreach (var gym in ViewBag.AllGyms)
+                                        {
+                                            <option value="@gym.Id">@gym.Name</option>
+                                        }
+                                    </select>*@
                             </td>
                         </tr>
                         <tr>
                             <td class="col3">Specialization</td>
                             <td class="col4">
-                                <input type="text" asp-for="Specialization" class="form-control" />
+                                @Model.Specialization
+                                @*<input type="text" asp-for="Specialization" class="form-control"/>*@
                             </td>
                         </tr>
                         <tr>
@@ -47,13 +83,31 @@
                         </tr>
                     </table>
                     <br />
-                    <input type="submit" value="Save" class="btn btn-outline-secondary" style="width:30%" />
-                    <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-dark" style="width:30%">Back</a>
+                    <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-outline-dark btn-sm" style="width:30%">Back</a>
+                    <input type="submit" value="Save" class="btn  btn-dark btn-sm" style="width:30%" />
                 </form>
             </div>
         </div>
         <div class="col-md-3">
 
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                You will lose Trainer status if delete trainer work license.<br/>
+                Do you want to delete current license?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a asp-action="RefuseTrainerRole" asp-controller="Profile" asp-route-userId="@Model.Id" class="btn btn-primary" style="width:30%">Yes, delete</a>
+            </div>
         </div>
     </div>
 </div>
