@@ -234,15 +234,14 @@ namespace FitMeApp.Controllers
         }
 
 
-        //todo add method to subscribe by trainer Subscription
+        
         public async Task<IActionResult> CurrentTrainerSubscription(int subscriptionId, int gymId)
         {
             var user = await _userManager.GetUserAsync(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(user.Id);
             if (licenseModel != null && licenseModel.StartDate <= DateTime.Today && licenseModel.EndDate > DateTime.Today)
             {
-                //return View with "You already have license. Replace it?"
-                ViewBag.SubscriptionId = subscriptionId;
+               ViewBag.SubscriptionId = subscriptionId;
                 return View("LicenseAlreadyExistsMessage", gymId);
 
             }
@@ -271,7 +270,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult ReplaceTrainerWorkLicense(int subscriptionId, int newGymId) //todo change name for more suitable
+        public IActionResult CheckPossibilityToReplaceCurrentLicense(int subscriptionId, int newGymId) 
         {
             var userId = _userManager.GetUserId(User);
             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
@@ -281,15 +280,22 @@ namespace FitMeApp.Controllers
                 var actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(userId);
                 if (actualEventsCount != 0)
                 {
-                    //todo message than there are actual events. Cancel all events and than change gym.
+                    return View("FailedTryBuyTrainerSubscription");
                 }
                 else
                 {
+                    //delete trainers work hours in the previous gym. 
                     _trainerService.DeleteTrainerWorkHoursByTrainer(userId);
                 }
             }
 
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = newGymId });
+        }
+
+
+        public IActionResult FailedTryBuyTrainerSubscription()
+        {
+            return View();
         }
 
 
@@ -358,7 +364,6 @@ namespace FitMeApp.Controllers
 
             return RedirectToAction("CurrentSubscription", new { subscriptionId = subscriptionId, gymId = gymId });
         }
-
 
 
 
