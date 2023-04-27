@@ -694,6 +694,21 @@ namespace FitMeApp.Controllers
         }
 
 
+        public IActionResult UpdateTrainerWorkLicense()
+        {
+            ViewBag.Gyms = _gymService.GetAllGymModels();
+            return View(new TrainerWorkLicenseViewModel());
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "trainer")]
+        public IActionResult UpdateTrainerWorkLicense(TrainerWorkLicenseViewModel newLicenseModel)
+        {
+            
+            return View();
+        }
+
 
         [Authorize(Roles = "trainer")]
         public IActionResult EditTrainerWorkHours()

@@ -1,0 +1,83 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.TrainerWorkLicenseViewModel
+@{
+    ViewBag.Title = "Update trainer work license";
+}
+
+<div class="container" style="margin: 20px">
+    <div class="row" style="text-align: center; padding: 15px">
+        <h4>
+            Choose the new license type bellow
+        </h4>
+        <hr/>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <p style="text-align: center">
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_subscription" aria-expanded="false" aria-controls="collapse_subscription">
+                    Trainer subscription
+                </button>
+            </p>
+            <div class="collapse" id="collapse_subscription">
+                <div class="card card-body">
+                    Please, choose the gym you are going to work under new license
+                    <br/>
+                    <br/>
+                    <form asp-action="SubscriptionsForTrainers" asp-controller="Subscriptions" method="get">
+                        <select class="form-select" name="gymId" aria-label="Default select example">
+                            @foreach (var gym in @ViewBag.Gyms)
+                            {
+                                <option value="@gym.Id">@gym.Name</option>
+                            }
+                        </select>
+                        <br/>
+                        <input type="submit" value="OK"  class="btn btn-dark btn-sm"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <p style="text-align: center">
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_contract" aria-expanded="false" aria-controls="collapse_contracte">
+                    Contract
+                </button>
+            </p>
+            <div class="collapse" id="collapse_contract">
+                <div class="card card-body">
+                    Please, enter new contract number and terms of its validity 
+                    <br/>
+                    <br/>
+                    <form asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" method="post">
+                        <label asp-for="ContractNumber">Contract number</label>
+                        <br />
+                        <input type="text" asp-for="ContractNumber" />
+                        <br/>
+                        @{
+                            string minDate = DateTime.Today.AddDays(-256).Date.ToString("yyyy-MM-dd");
+                            string maxDate = DateTime.Today.AddDays(256).Date.ToString("yyyy-MM-dd");
+
+                        }
+                        <label asp-for="StartDate">Start date</label>
+                        <br />
+                        <input type="date" min="@minDate" max="@maxDate" asp-for="StartDate" />
+                        <br/>
+                        <label asp-for="EndDate">Expire date</label>
+                        <br />
+                        <input type="date" min="@minDate" max="@maxDate" asp-for="EndDate" />
+                        <br/>
+                        <br/>
+                        <select class="form-select" asp-for="GymId" aria-label="Default select example">
+                            @foreach (var gym in @ViewBag.Gyms)
+                            {
+                                <option value="@gym.Id">@gym.Name</option>
+                            }
+                        </select>
+                        <br/>
+                        <h6>Your previous work license will be updated as soon as the new information is approved by the administrator</h6>
+                        <input type="submit" value="OK" class="btn btn-dark btn-sm" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
