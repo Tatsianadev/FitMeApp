@@ -110,7 +110,12 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "user, admin")]
         public IActionResult RegisterTrainerPart(string userId)
         {
-            TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
+            //TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
+            //{
+            //    UserId = userId
+            //};
+
+            TrainerRoleAppFormViewModel applicationForm = new TrainerRoleAppFormViewModel()
             {
                 UserId = userId
             };
@@ -120,45 +125,43 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(TrainerApplicationViewModel model)
+        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model)
         {
             try
             {
-                if (model.TrainerSubscription == false && model.Contract == false)
-                {
-                    ModelState.AddModelError("", "No option selected.");
-                    return View(model);
-                }
-
-                if (model.Contract == true && string.IsNullOrEmpty(model.ContractNumber))
+                if (string.IsNullOrEmpty(model.ContractNumber))
                 {
                     ModelState.AddModelError("", "Write the contract number over");
                     return View(model);
                 }
 
-                if (model.TrainerSubscription == true)
-                {
-                    var actualTrainerSubscription = _gymService
-                        .GetUserSubscriptions(model.UserId)
-                        .Where(x => x.WorkAsTrainer == true)
-                        .Where(x => x.EndDate > DateTime.Today);
+                //var actualTrainerSubscription = new UserSubscriptionModel();
+                //if (model.HasTrainerSubscription == true)
+                //{
+                //    actualTrainerSubscription = _gymService
+                //        .GetUserSubscriptions(model.UserId)
+                //        .Where(x => x.WorkAsTrainer == true)
+                //        .FirstOrDefault(x => x.EndDate > DateTime.Today);
 
-                    if (actualTrainerSubscription.Any())
-                    {
-                        ModelState.AddModelError("", "You  don't have any subscriptions for work as Trainer. Please, get one before apply for a Trainer position.");
-                        return View(model);
-                    }
-                }
+                //    if (actualTrainerSubscription == null)
+                //    {
+                //        ModelState.AddModelError("", "You  don't have any subscriptions for work as Trainer. Please, get one before apply for a Trainer position.");
+                //        return View(model);
+                //    }
+                //}
 
                 TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
                 {
                     UserId = model.UserId,
-                    TrainerSubscription = model.TrainerSubscription,
+                    //SubscriptionId = 0,
                     ContractNumber = model.ContractNumber,
-                    ApplicationDate = DateTime.Now
+                    GymId = model.GymId,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    ApplyingDate = DateTime.Now
                 };
 
-                int appId = _trainerService.AddTrainerApplication(trainerApplication);
+                int appId = _trainerService.AddTrainerApplication(trainerApplication); //todo fix methods with new models
 
                 if (appId != 0)
                 {
@@ -167,8 +170,8 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                   string message = "There was a problem with registration trainers data." +
-                                  "Please try fill form again on Profile page.";
+                    string message = "There was a problem with registration trainers data." +
+                                   "Please try fill form again on Profile page.";
                     return View("CustomError", message);
                 }
             }

@@ -156,7 +156,6 @@ namespace FitMeApp.Mapper
                 GymId = eventModel.GymId,
                 GymName = eventModel.GymName,
                 UserId = eventModel.UserId,
-                //UserName = eventViewModel.UserName,
                 UserFirstName = eventModel.UserFirstName,
                 UserLastName = eventModel.UserLastName,
                 TrainingId = eventModel.TrainingId,
@@ -239,9 +238,12 @@ namespace FitMeApp.Mapper
                 UserId = trainerAppModel.UserId,
                 UserFirstName = trainerAppModel.UserFirstName,
                 UserLastName = trainerAppModel.UserLastName,
-                TrainerSubscription = trainerAppModel.TrainerSubscription,
+                SubscriptionId = trainerAppModel.SubscriptionId,
                 ContractNumber = trainerAppModel.ContractNumber,
-                ApplicationDate = trainerAppModel.ApplicationDate
+                GymId = trainerAppModel.GymId,
+                StartDate = trainerAppModel.StartDate,
+                EndDate = trainerAppModel.EndDate,
+                ApplyingDate = trainerAppModel.ApplyingDate
             };
             return trainerAppViewModel;
         }

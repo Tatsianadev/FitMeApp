@@ -598,20 +598,19 @@ GO
 --TrainerApp--
 
 CREATE TABLE [dbo].[TrainerApplications](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id] [int] IDENTITY(1,1) primary key NOT NULL,
 	[UserId] [nvarchar](450) NOT NULL,
-	[TrainerSubscription] [bit] NULL,
+	[SubscriptionId] [int] NULL,
 	[ContractNumber] [nvarchar](250) NULL,
-	[ApplicationDate] [smalldatetime] NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[TrainerApplications]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[AspNetUsers] ([Id])
+	[GymId] [int] NOT NULL,
+	[StartDate] [smalldatetime] NOT NULL,
+	[EndDate] [smalldatetime] NOT NULL,
+	[ApplyingDate] [smalldatetime] NOT NULL,
+ 	constraint FK_UsersTrainerApp foreign key (UserId)
+	references AspNetUsers(Id),
+	constraint FK_GymsTrainerApp foreign key (GymId)
+	references Gyms(Id)
+)
 GO
 
 

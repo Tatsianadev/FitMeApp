@@ -39,7 +39,7 @@
                 <td>@application.UserLastName</td>
 
                 <td>
-                    @if (application.TrainerSubscription)
+                    @if (application.SubscriptionId != 0)
                     {
                         <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
                     }
@@ -64,7 +64,7 @@
                     </td>
                     <td></td>
                 }
-                <td>@application.ApplicationDate.ToString("MM/dd/yyyy")</td>
+                <td>@application.ApplyingDate.ToString("MM/dd/yyyy")</td>
                 <td>
                     <div style="text-align:center">
                         <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success">Approve</a>

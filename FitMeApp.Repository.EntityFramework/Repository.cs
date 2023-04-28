@@ -381,9 +381,12 @@ namespace FitMeApp.Repository.EntityFramework
                                            UserId = trainerApp.UserId,
                                            UserFirstName = user.FirstName,
                                            UserLastName = user.LastName,
-                                           TrainerSubscription = trainerApp.TrainerSubscription,
+                                           SubscriptionId = trainerApp.SubscriptionId,
                                            ContractNumber = trainerApp.ContractNumber,
-                                           ApplicationDate = trainerApp.ApplicationDate
+                                           GymId = trainerApp.GymId,
+                                           StartDate = trainerApp.StartDate,
+                                           EndDate = trainerApp.EndDate,
+                                           ApplyingDate = trainerApp.ApplyingDate
                                        }).ToList();
 
             return trainerApplications;
@@ -402,9 +405,12 @@ namespace FitMeApp.Repository.EntityFramework
                                           UserId = trainerApp.UserId,
                                           UserFirstName = user.FirstName,
                                           UserLastName = user.LastName,
-                                          TrainerSubscription = trainerApp.TrainerSubscription,
+                                          SubscriptionId = trainerApp.SubscriptionId,
                                           ContractNumber = trainerApp.ContractNumber,
-                                          ApplicationDate = trainerApp.ApplicationDate
+                                          GymId = trainerApp.GymId,
+                                          StartDate = trainerApp.StartDate,
+                                          EndDate = trainerApp.EndDate,
+                                          ApplyingDate = trainerApp.ApplyingDate
                                       }).FirstOrDefault();
 
             return trainerApplication;
@@ -423,9 +429,12 @@ namespace FitMeApp.Repository.EntityFramework
             TrainerApplicationEntity trainerAppEntity = new TrainerApplicationEntity()
             {
                 UserId = trainerApplication.UserId,
-                TrainerSubscription = trainerApplication.TrainerSubscription,
+                SubscriptionId = trainerApplication.SubscriptionId,
                 ContractNumber = trainerApplication.ContractNumber,
-                ApplicationDate = trainerApplication.ApplicationDate
+                GymId = trainerApplication.GymId,
+                StartDate = trainerApplication.StartDate,
+                EndDate = trainerApplication.EndDate,
+                ApplyingDate = trainerApplication.ApplyingDate
             };
             _context.TrainerApplications.Add(trainerAppEntity);
             _context.SaveChanges();

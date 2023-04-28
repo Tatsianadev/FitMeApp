@@ -209,7 +209,6 @@ namespace FitMeApp.Mapper
                 GymId = eventEntityBase.GymId,
                 GymName = eventEntityBase.GymName,
                 UserId = eventEntityBase.UserId,
-                //UserName = eventEntityBase.UserName,
                 UserFirstName = eventEntityBase.UserFirstName,
                 UserLastName = eventEntityBase.UserLastName,
                 TrainingId = eventEntityBase.TrainingId,
@@ -294,9 +293,12 @@ namespace FitMeApp.Mapper
                 UserId = trainerAppBase.UserId,
                 UserFirstName = trainerAppBase.UserFirstName,
                 UserLastName = trainerAppBase.UserLastName,
-                TrainerSubscription = trainerAppBase.TrainerSubscription,
+                SubscriptionId = trainerAppBase.SubscriptionId,
                 ContractNumber = trainerAppBase.ContractNumber,
-                ApplicationDate = trainerAppBase.ApplicationDate
+                GymId = trainerAppBase.GymId,
+                StartDate = trainerAppBase.StartDate,
+                EndDate = trainerAppBase.EndDate,
+                ApplyingDate = trainerAppBase.ApplyingDate
             };
             return trainerAppModel;
         }
@@ -438,9 +440,12 @@ namespace FitMeApp.Mapper
             TrainerApplicationEntityBase trainerApplicationEntityBase = new TrainerApplicationEntityBase()
             {
                 UserId = trainerAppModel.UserId,
-                TrainerSubscription = trainerAppModel.TrainerSubscription,
+                SubscriptionId = trainerAppModel.SubscriptionId,
                 ContractNumber = trainerAppModel.ContractNumber,
-                ApplicationDate = trainerAppModel.ApplicationDate
+                GymId = trainerAppModel.GymId,
+                StartDate = trainerAppModel.StartDate,
+                EndDate = trainerAppModel.EndDate,
+                ApplyingDate = trainerAppModel.ApplyingDate
             };
 
             return trainerApplicationEntityBase;

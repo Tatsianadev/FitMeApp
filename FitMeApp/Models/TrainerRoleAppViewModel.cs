@@ -7,20 +7,14 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Models
 {
-    public class TrainerRoleAppViewModel
+    public class TrainerRoleAppFormViewModel
     {
-        public string Id { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
-        public int Year { get; set; }
-        public string Gender { get; set; }
-        public string Avatar { get; set; }
-        public string Specialization { get; set; }
-        [Required]
+        public string UserId { get; set; }
+        //public bool HasTrainerSubscription { get; set; }
+        //public bool HasContract { get; set; }
+        public string ContractNumber { get; set; }
         public int GymId { get; set; }
-        public string GymName { get; set; }
-        [Required]
-        public List<int> TrainingsId { get; set; }
-        //ublic TrainerApproveStatusEnum Status { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

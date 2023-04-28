@@ -341,7 +341,7 @@ namespace FitMeApp.Services
             };
             var application = _repository.GetTrainerApplicationByUser(userId);
 
-            if (application.TrainerSubscription)
+            if (application.SubscriptionId != 0)
             {
                 var subscription = _repository.GetUserSubscriptionsFullInfo(userId).Where(x => x.WorkAsTrainer == true)
                     .First(x => x.EndDate > DateTime.Today);

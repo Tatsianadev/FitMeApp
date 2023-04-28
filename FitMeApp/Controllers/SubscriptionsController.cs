@@ -231,13 +231,13 @@ namespace FitMeApp.Controllers
                         if (isTrainerSubscription)
                         {
                             var licenseModel = _trainerService.GetTrainerWorkLicenseByTrainer(userId);
+                            var endDate = _gymService.GetUserSubscriptions(userId)
+                                .FirstOrDefault(x => x.Id == userSubscriptionId).EndDate;
+
                             if (licenseModel != null)
                             {
                                 //delete previous trainer subscription 
                                 _gymService.DeleteUserSubscription(licenseModel.SubscriptionId);
-
-                                var endDate = _gymService.GetUserSubscriptions(userId)
-                                    .FirstOrDefault(x => x.Id == userSubscriptionId).EndDate;
 
                                 var newLicense = new TrainerWorkLicenseModel()
                                 {
@@ -253,7 +253,16 @@ namespace FitMeApp.Controllers
                             }
                             else
                             {
-                                AddTrainerApplication(userId);
+                                var trainerApplication = new TrainerApplicationModel()
+                                {
+                                    UserId = userId,
+                                    SubscriptionId = userSubscriptionId,
+                                    GymId = gymId,
+                                    StartDate  = startDate,
+                                    EndDate = endDate,
+                                    ApplyingDate = DateTime.Today
+                                };
+                                _trainerService.AddTrainerApplication(trainerApplication);
                             }
                         }
                         return View("SubscriptionCompleted");
@@ -300,16 +309,5 @@ namespace FitMeApp.Controllers
         }
 
 
-        private void AddTrainerApplication(string userId)
-        {
-            TrainerApplicationModel application = new TrainerApplicationModel()
-            {
-                UserId = userId,
-                TrainerSubscription = true,
-                ApplicationDate = DateTime.Today
-            };
-
-            _trainerService.AddTrainerApplication(application);
-        }
     }
 }

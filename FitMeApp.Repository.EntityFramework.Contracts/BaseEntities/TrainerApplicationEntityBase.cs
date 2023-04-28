@@ -8,8 +8,11 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public bool TrainerSubscription { get; set; }
+        public int SubscriptionId { get; set; }
         public string ContractNumber { get; set; }
-        public DateTime ApplicationDate { get; set; }
+        public int GymId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime ApplyingDate { get; set; }
     }
 }

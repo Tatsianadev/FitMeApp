@@ -11,5 +11,6 @@ namespace FitMeApp.Repository.EntityFramework.Entities
     public class TrainerApplicationEntity: TrainerApplicationEntityBase
     {
         public virtual User User { get; set; }
+        public virtual GymEntity Gym { get; set; }
     }
 }
