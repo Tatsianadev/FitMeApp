@@ -59,11 +59,11 @@
                         }
                         <label asp-for="StartDate">Start date</label>
                         <br />
-                        <input type="date" min="@minDate" max="@maxDate" asp-for="StartDate" />
+                        <input type="date" min="@minDate" max="@maxDate" value="@minDate" asp-for="StartDate" />
                         <br/>
                         <label asp-for="EndDate">Expire date</label>
                         <br />
-                        <input type="date" min="@minDate" max="@maxDate" asp-for="EndDate" />
+                        <input type="date" min="@minDate" max="@maxDate" value="@minDate" asp-for="EndDate" />
                         <br/>
                         <br/>
                         <select class="form-select" asp-for="GymId" aria-label="Default select example">

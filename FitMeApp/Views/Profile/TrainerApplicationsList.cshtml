@@ -1,8 +1,17 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.TrainerApplicationViewModel>
 
 @{
-    ViewBag.Title = "List of Trainers";
+    ViewBag.Title = "List of Trainer applications";
 }
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">New applications</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="UpdateTrainerWorkLicense" asp-controller="Profile"> Apply to update</a>
+    </li>
+</ul>
 
 <div class="container">
     <div>
@@ -59,7 +68,7 @@
                 <td>
                     <div style="text-align:center">
                         <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success">Approve</a>
-                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-applicationId="@application.Id" asp-route-userId ="@application.UserId" class="btn btn-danger">Reject</a>
+                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-applicationId="@application.Id" asp-route-userId="@application.UserId" class="btn btn-danger">Reject</a>
                     </div>
                 </td>
             </tr>
