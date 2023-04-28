@@ -72,6 +72,11 @@ namespace FitMeApp.Controllers
                         await _signInManager.SignInAsync(user, false);
 
                         bool appliedForTrainerRole = model.Role == RolesEnum.trainer;
+
+                        //for debug - to omit sent emailConfirm part
+                        var addedUser = await _userManager.GetUserAsync(User);
+                        return RedirectToAction("RegisterTrainerPart", new { userId = addedUser.Id });
+
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
@@ -108,7 +113,7 @@ namespace FitMeApp.Controllers
         }
 
         [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(string userId)
+        public async Task<IActionResult> RegisterTrainerPart(string userId)
         {
             //TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
             //{
@@ -119,6 +124,8 @@ namespace FitMeApp.Controllers
             {
                 UserId = userId
             };
+
+            ViewBag.Gyms = _gymService.GetAllGymModels();
             return View(applicationForm);
         }
 
@@ -153,7 +160,6 @@ namespace FitMeApp.Controllers
                 TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
                 {
                     UserId = model.UserId,
-                    //SubscriptionId = 0,
                     ContractNumber = model.ContractNumber,
                     GymId = model.GymId,
                     StartDate = model.StartDate,
@@ -161,7 +167,7 @@ namespace FitMeApp.Controllers
                     ApplyingDate = DateTime.Now
                 };
 
-                int appId = _trainerService.AddTrainerApplication(trainerApplication); //todo fix methods with new models
+                int appId = _trainerService.AddTrainerApplication(trainerApplication); 
 
                 if (appId != 0)
                 {

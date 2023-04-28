@@ -34,10 +34,19 @@
                         <div class="mb-3" style="display: inline-block">
                             @{
                                 string minDate = DateTime.Today.AddDays(-256).Date.ToString("yyyy-MM-dd");
-                                string maxDate = DateTime.Today.AddDays(256*5).Date.ToString("yyyy-MM-dd");
+                                string maxDate = DateTime.Today.AddDays(256 * 5).Date.ToString("yyyy-MM-dd");
                                 string today = DateTime.Today.ToString("yyyy-MM-dd");
                             }
                             <input type="text" class="form-control" asp-for="ContractNumber" id="formGroupExampleInput" placeholder="Contract number">
+                            <br/>
+                            <label asp-for="GymId">Indicate the gym</label>
+                            <select class="form-select" asp-for="GymId" aria-label="Default select example">
+                                @foreach (var gym in @ViewBag.Gyms)
+                                {
+                                    <option value="@gym.Id">@gym.Name</option>
+                                }
+                            </select>
+                            <br />
                             <label asp-for="StartDate"> Start date</label>
                             <input type="date" class="form-control" asp-for="StartDate" min="@minDate" max="@today" value="@minDate">
                             <label asp-for="EndDate"> Expire date</label>

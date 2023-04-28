@@ -48,7 +48,7 @@
                         }
                         else
                         {
-                            <a asp-controller="Account" asp-action="RegisterTrainerPart" class="btn btn-dark" style="width:100%">Apply for a Trainer Role</a>
+                            <a asp-controller="Account" asp-action="RegisterTrainerPart" asp-route-userId="@Model.Id" class="btn btn-dark" style="width:100%">Apply for a Trainer Role</a>
                         }
                     </div>
                     <div class="col-md-2">
