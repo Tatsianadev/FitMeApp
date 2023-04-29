@@ -24,7 +24,6 @@
             <th>Gym</th>
             <th>Subscription</th>
             <th>Contract</th>
-            <th>Contract</th>
             <th>Start</th>
             <th>Expire</th>
             <th>Applying</th>
@@ -52,18 +51,18 @@
                 </td>
                 @if (application.ContractNumber != null)
                 {
-                    <td>
+                    @*<td>
                         <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                    </td>
+                    </td>*@
                     <td>
                         @application.ContractNumber
                     </td>
                 }
                 else
                 {
-                    <td>
+                    @*<td>
                         <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                    </td>
+                    </td>*@
                     <td></td>
                 }
                 <td>@application.StartDate.ToString("MM/dd/yyyy")</td>
@@ -71,8 +70,8 @@
                 <td>@application.ApplyingDate.ToString("MM/dd/yyyy")</td>
                 <td>
                     <div style="text-align:center">
-                        <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success">Approve</a>
-                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-applicationId="@application.Id" asp-route-userId="@application.UserId" class="btn btn-danger">Reject</a>
+                        <a asp-controller="Profile" asp-action="ApproveTrainerApplication" asp-route-trainerId="@application.UserId" class="btn btn-success btn-sm">Approve</a>
+                        <a asp-controller="Profile" asp-action="RejectTrainerApplication" asp-route-applicationId="@application.Id" asp-route-userId="@application.UserId" class="btn btn-danger btn-sm">Reject</a>
                     </div>
                 </td>
             </tr>

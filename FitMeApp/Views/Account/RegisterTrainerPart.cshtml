@@ -1,33 +1,35 @@
-﻿@*@model FitMeApp.WEB.Contracts.ViewModels.TrainerApplicationViewModel*@
-@model FitMeApp.Models.TrainerRoleAppFormViewModel
+﻿@model FitMeApp.Models.TrainerRoleAppFormViewModel
 
 <div style="text-align: center">
     <h2>Trainer part registration</h2>
 </div>
-<br/>
-<br/>
-
+<br />
 <div class="container">
     <div class="row" style="text-align: center">
         <h4>Please, indicate the case for working as a trainer</h4>
         <hr />
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card" style="height: 100%">
+                <h5 class="card-header" style="text-align: center">Trainer subscription</h5>
                 <div class="card-body">
-                    <h5 class="card-title" style="text-align: center">Trainer subscription</h5>
-                    <p class="card-text"> In this case, you have to buy a Trainer subscription for the Gym you are going to work at, 
-                        and your application for a Trainer role will be automatically created.</p>
-                    <p class="card-text"> Please pay attention, that you are allowed have only <span style="color: red">  one Trainer subscription at a time.</span></p>
-                    <a asp-action="Index" asp-controller ="Home" class="btn btn-dark btn-sm">Ok</a>
+                    <p class="card-text">
+                        In this case, you have to buy a Trainer subscription for the Gym you are going to work at,
+                        and your application for a Trainer role will be automatically created.
+                    </p>
+                    <p class="card-text"> Please pay attention, that you are allowed have only <span style="color: red"> one Trainer subscription at a time.</span></p>
+                    <div style="position: absolute; bottom: 20px; left: 40%">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-dark" style="width: 165px">Ok</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
             <div class="card">
+                <h5 class="card-header" style="text-align: center">Contract</h5>
                 <div class="card-body" style="height: 100%">
-                    <h5 class="card-title" style="text-align: center">Contract</h5>
                     <p class="card-text"> In this case, please, fill the form bellow:</p>
                     <form method="post" asp-controller="Account" asp-action="RegisterTrainerPart">
                         <div asp-validation-summary="All" class="text-danger"></div>
@@ -38,7 +40,7 @@
                                 string today = DateTime.Today.ToString("yyyy-MM-dd");
                             }
                             <input type="text" class="form-control" asp-for="ContractNumber" id="formGroupExampleInput" placeholder="Contract number">
-                            <br/>
+                            <br />
                             <label asp-for="GymId">Indicate the gym</label>
                             <select class="form-select" asp-for="GymId" aria-label="Default select example">
                                 @foreach (var gym in @ViewBag.Gyms)
@@ -52,12 +54,12 @@
                             <label asp-for="EndDate"> Expire date</label>
                             <input type="date" class="form-control" asp-for="EndDate" min="@today" max="@maxDate" value="@minDate">
                         </div>
-                        <div>
+                        <div style="text-align: center">
                             <input type="hidden" asp-for="UserId" />
                             <input type="submit" value="Apply for a Trainer Role" class="btn btn-dark" />
                         </div>
                     </form>
-                   
+
 
                 </div>
             </div>

@@ -114,84 +114,8 @@ namespace FitMeApp.Controllers
             }
         }
 
-        [Authorize(Roles = "user, admin")]
-        public async Task<IActionResult> RegisterTrainerPart(string userId)
-        {
-            //TrainerApplicationViewModel applicationForm = new TrainerApplicationViewModel()
-            //{
-            //    UserId = userId
-            //};
+        
 
-            TrainerRoleAppFormViewModel applicationForm = new TrainerRoleAppFormViewModel()
-            {
-                UserId = userId
-            };
-
-            ViewBag.Gyms = _gymService.GetAllGymModels();
-            return View(applicationForm);
-        }
-
-
-        [HttpPost]
-        [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(model.ContractNumber))
-                {
-                    ModelState.AddModelError("", "Write the contract number over");
-                    return View(model);
-                }
-
-                //var actualTrainerSubscription = new UserSubscriptionModel();
-                //if (model.HasTrainerSubscription == true)
-                //{
-                //    actualTrainerSubscription = _gymService
-                //        .GetUserSubscriptions(model.UserId)
-                //        .Where(x => x.WorkAsTrainer == true)
-                //        .FirstOrDefault(x => x.EndDate > DateTime.Today);
-
-                //    if (actualTrainerSubscription == null)
-                //    {
-                //        ModelState.AddModelError("", "You  don't have any subscriptions for work as Trainer. Please, get one before apply for a Trainer position.");
-                //        return View(model);
-                //    }
-                //}
-
-                TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
-                {
-                    UserId = model.UserId,
-                    ContractNumber = model.ContractNumber,
-                    GymId = model.GymId,
-                    StartDate = model.StartDate,
-                    EndDate = model.EndDate,
-                    ApplyingDate = DateTime.Now
-                };
-
-                int appId = _trainerService.AddTrainerApplication(trainerApplication); 
-
-                if (appId != 0)
-                {
-                    ViewBag.AppliedForTrainerRole = true;
-                    return View("RegisterAsUserCompleted", model.UserId);
-                }
-                else
-                {
-                    string message = "There was a problem with registration trainers data." +
-                                   "Please try fill form again on Profile page.";
-                    return View("CustomError", message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                string message = "There was a problem with registration trainers data." +
-                                 "Please try fill form again on Profile page.";
-
-                return View("CustomError", message);
-            }
-        }
 
         [Authorize]
         public async Task<IActionResult> RegisterAsUserCompleted(string userId, string code, bool appliedForTrainerRole)
@@ -227,6 +151,76 @@ namespace FitMeApp.Controllers
 
             string message = "Failed to verify email address. Please, try again in you Profile";
             return View("CustomError", message);
+        }
+
+
+
+        [Authorize(Roles = "user, admin")]
+        public async Task<IActionResult> RegisterTrainerPart(string userId)
+        {
+            TrainerRoleAppFormViewModel applicationForm = new TrainerRoleAppFormViewModel()
+            {
+                UserId = userId
+            };
+
+            ViewBag.Gyms = _gymService.GetAllGymModels();
+            return View(applicationForm);
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "user, admin")]
+        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(model.ContractNumber))
+                {
+                    ModelState.AddModelError("", "Write the contract number over");
+                    return View(model);
+                }
+
+                TrainerApplicationModel trainerApplication = new TrainerApplicationModel()
+                {
+                    UserId = model.UserId,
+                    ContractNumber = model.ContractNumber,
+                    GymId = model.GymId,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    ApplyingDate = DateTime.Now
+                };
+
+                int appId = _trainerService.AddTrainerApplication(trainerApplication);
+
+                if (appId != 0)
+                {
+                    ViewBag.AppliedForTrainerRole = true;
+                    return View("RegisterAsUserCompleted", model.UserId);
+                }
+                else
+                {
+                    string message = "There was a problem with registration trainers data." +
+                                   "Please try fill form again on Profile page.";
+                    return View("CustomError", message);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "There was a problem with registration trainers data." +
+                                 "Please try fill form again on Profile page.";
+
+                return View("CustomError", message);
+            }
+        }
+
+
+        [Authorize(Roles = "user, admin")]
+        public IActionResult ApplyForTrainerRoleLater()
+        {
+            var userId = _userManager.GetUserId(User);
+            ViewBag.AppliedForTrainerRole = false;
+            return View("RegisterAsUserCompleted", userId);
         }
 
 
