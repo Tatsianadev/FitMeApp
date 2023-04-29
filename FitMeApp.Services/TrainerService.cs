@@ -341,26 +341,20 @@ namespace FitMeApp.Services
             };
             var application = _repository.GetTrainerApplicationByUser(userId);
 
+            trainerLicense.GymId = application.GymId;
+            trainerLicense.SubscriptionId = application.SubscriptionId;
+            trainerLicense.ContractNumber = application.ContractNumber;
+
             if (application.SubscriptionId != 0)
             {
-                var subscription = _repository.GetUserSubscriptionsFullInfo(userId).Where(x => x.WorkAsTrainer == true)
-                    .First(x => x.EndDate > DateTime.Today);
-
-                trainerLicense.SubscriptionId = subscription.Id;
-                trainerLicense.GymId = subscription.GymId;
                 trainerLicense.StartDate = DateTime.Today;
-                trainerLicense.EndDate = subscription.EndDate.AddDays((DateTime.Today - subscription.StartDate).TotalDays);
-
-                _repository.UpdateUserSubscriptionDates(subscription.Id, trainerLicense.StartDate, trainerLicense.EndDate);
+                trainerLicense.EndDate = application.EndDate.AddDays((DateTime.Today - application.StartDate).TotalDays);
+                _repository.UpdateUserSubscriptionDates(application.SubscriptionId, trainerLicense.StartDate, trainerLicense.EndDate);
             }
             else
             {
-                //Some logic of work with trainers Contracts area
-                Random rnd = new Random();
-                trainerLicense.ContractNumber = application.ContractNumber;
-                trainerLicense.GymId = rnd.Next(1, 4);
-                trainerLicense.StartDate = DateTime.Today;
-                trainerLicense.EndDate = DateTime.Today.AddDays(256);
+                trainerLicense.StartDate = application.StartDate;
+                trainerLicense.EndDate = application.EndDate;
             }
 
             int licenseId = _repository.AddTrainerWorkLicense(trainerLicense);
@@ -382,7 +376,6 @@ namespace FitMeApp.Services
                 //Default type - personalTraining. If not -> Some logic of work with trainers Contracts area to get training types
                 int defaultTrainingId = _repository.GetAllTrainings().First(x => x.Name == "Personal training").Id;
                 _repository.AddTrainingTrainerConnection(trainerLicense.TrainerId, defaultTrainingId);
-
                 _repository.DeleteTrainerApplication(application.Id);
             }
             else
@@ -431,11 +424,11 @@ namespace FitMeApp.Services
             var trainerWorkLicenseEntityBase = _mapper.MapTrainerWorkLicenseModelToEntityBase(newLicense);
             _repository.DeleteTAllTrainerWorkLicensesByTrainer(userId);
             var newLicenseId = _repository.AddTrainerWorkLicense(trainerWorkLicenseEntityBase);
-            UpdateTrainerLicenseId(userId, newLicenseId);
+            UpdateLicenseIdForTrainer(userId, newLicenseId);
         }
 
 
-        private void UpdateTrainerLicenseId(string userId, int licenseId)
+        private void UpdateLicenseIdForTrainer(string userId, int licenseId)
         {
             var trainer = _repository.GetTrainer(userId);
             trainer.WorkLicenseId = licenseId;
