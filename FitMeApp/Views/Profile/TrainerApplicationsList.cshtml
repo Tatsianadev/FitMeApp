@@ -17,15 +17,17 @@
     <div>
         <h3> Trainer applications</h3>
     </div>
-    <table class="table">
+    <table class="table table-hover">
         <tr>
             <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Trainer subscription</th>
+            <th>User Name</th>>
+            <th>Gym</th>
+            <th>Subscription</th>
             <th>Contract</th>
-            <th>Contract number</th>
-            <th>App date</th>
+            <th>Contract</th>
+            <th>Start</th>
+            <th>Expire</th>
+            <th>Applying</th>
             <th></th>
         </tr>
         @{ int rowNumber = 0;}
@@ -35,8 +37,8 @@
 
             <tr>
                 <td>@rowNumber</td>
-                <td>@application.UserFirstName</td>
-                <td>@application.UserLastName</td>
+                <td>@application.UserFirstName @application.UserLastName</td>
+                <td>@application.GymName</td>
 
                 <td>
                     @if (application.SubscriptionId != 0)
@@ -64,6 +66,8 @@
                     </td>
                     <td></td>
                 }
+                <td>@application.StartDate.ToString("MM/dd/yyyy")</td>
+                <td>@application.EndDate.ToString("MM/dd/yyyy")</td>
                 <td>@application.ApplyingDate.ToString("MM/dd/yyyy")</td>
                 <td>
                     <div style="text-align:center">

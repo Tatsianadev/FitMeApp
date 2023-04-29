@@ -141,13 +141,15 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult TrainerApplicationsList()
+        public IActionResult TrainerApplicationsList() //todo improve:  ViewModel - to display, FormModel - to fill
         {
             var trainerAppViewModels = new List<TrainerApplicationViewModel>();
             var allTrainerAppModels = _trainerService.GetAllTrainerApplications();
             foreach (var trainerAppModel in allTrainerAppModels)
             {
-                trainerAppViewModels.Add(_mapper.MapTrainerApplicationModelToViewModel(trainerAppModel));
+                var trainerAppViewModel = _mapper.MapTrainerApplicationModelToViewModel(trainerAppModel);
+                trainerAppViewModel.GymName = _gymService.GetGymModel(trainerAppModel.GymId).Name;
+                trainerAppViewModels.Add(trainerAppViewModel);
             }
             return View(trainerAppViewModels);
         }
