@@ -42,6 +42,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void DeleteTrainerWorkLicense(int licenseId);
         TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId);
         TrainerWorkLicenseEntityBase GetTrainerWorkLicenseByTrainer(string trainerId);
+        IEnumerable<TrainerWorkLicenseEntityBase> GetAllTrainerWorkLicense();
 
 
 

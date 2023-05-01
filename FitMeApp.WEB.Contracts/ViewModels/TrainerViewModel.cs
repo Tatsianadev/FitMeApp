@@ -24,7 +24,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string Email { get; set; }
         public string Phone { get; set; }
         public int Year { get; set; }
-        public int WorkLicenseId { get; set; }
+        //public int WorkLicenseId { get; set; }
         public GymViewModel Gym { get; set; }       
         public ICollection<TrainingViewModel> Trainings { get; set; }
        

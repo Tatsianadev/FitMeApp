@@ -38,6 +38,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //TrainerLicense
 
         TrainerWorkLicenseModel GetTrainerWorkLicenseByTrainer(string userId);
+        IEnumerable<TrainerWorkLicenseModel> GetAllTrainerWorkLicenses();
         void ReplaceTrainerWorkLicense(string userId, TrainerWorkLicenseModel newLicense);
 
 

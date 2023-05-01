@@ -5,7 +5,7 @@ using System.Text;
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
     public class CalendarPageWithEventsViewModel
-    {       
+    {       //todo write notes in English
         public DateTime Date { get; set; } //отображает страницу в календаре (Calendar partial view) и конкретный указатель даты в Events partial view 
         public bool DayOnCalendarSelected { get; set; } //флаг для отображения/скртытия Events partial view 
         public bool SelectedDayIsWorkOff { get; set; } //флаг для переадресации на WorkOff partial view       

@@ -141,16 +141,41 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult TrainerApplicationsList() //todo improve:  ViewModel - to display, FormModel - to fill
+        public IActionResult TrainerApplicationsList(bool showOnlyToUpdateLicenseList = false) 
         {
             var trainerAppViewModels = new List<TrainerApplicationViewModel>();
-            var allTrainerAppModels = _trainerService.GetAllTrainerApplications();
-            foreach (var trainerAppModel in allTrainerAppModels)
+            var allTrainerAppModels = _trainerService.GetAllTrainerApplications().ToList();
+            var trainerAppModelsToDisplay = new List<TrainerApplicationModel>();
+            //number of new application and application to update exists license for showing badge notification
+            int appCount = allTrainerAppModels.Count;
+            int newAppCount = 0;
+            int appToUpdateLicensesCount = 0;
+
+            var trainersIds = _trainerService.GetAllTrainerWorkLicenses().Select(x => x.TrainerId).ToList();
+
+            if (showOnlyToUpdateLicenseList)
+            {
+                trainerAppModelsToDisplay = allTrainerAppModels.Where(x=>trainersIds.Contains(x.UserId)).ToList();
+                appToUpdateLicensesCount = trainerAppModelsToDisplay.Count;
+                newAppCount = appCount - appToUpdateLicensesCount;
+            }
+            else
+            {
+                trainerAppModelsToDisplay = allTrainerAppModels.Where(x => !trainersIds.Contains(x.UserId)).ToList();
+                newAppCount = trainerAppModelsToDisplay.Count;
+                appToUpdateLicensesCount = appCount - newAppCount;
+            }
+
+            foreach (var trainerAppModel in trainerAppModelsToDisplay)
             {
                 var trainerAppViewModel = _mapper.MapTrainerApplicationModelToViewModel(trainerAppModel);
                 trainerAppViewModel.GymName = _gymService.GetGymModel(trainerAppModel.GymId).Name;
                 trainerAppViewModels.Add(trainerAppViewModel);
             }
+
+            ViewBag.NewAppCount = newAppCount;
+            ViewBag.AppToUpdateLicensesCount = appToUpdateLicensesCount;
+
             return View(trainerAppViewModels);
         }
 

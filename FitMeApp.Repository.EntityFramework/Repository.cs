@@ -378,6 +378,13 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public IEnumerable<TrainerWorkLicenseEntityBase> GetAllTrainerWorkLicense()
+        {
+            var licenses = _context.TrainerWorkLicenses.ToList();
+            return licenses;
+        }
+
+
 
 
         //Trainer applications

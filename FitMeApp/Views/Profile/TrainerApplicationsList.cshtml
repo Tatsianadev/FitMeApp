@@ -4,12 +4,23 @@
     ViewBag.Title = "List of Trainer applications";
 }
 
+<br/>
 <ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">New applications</a>
+    <li class="nav-item" style="margin: 10px">
+        <a  asp-action="TrainerApplicationsList" asp-controller="Profile" asp-route-showOnlyToUpdateLicenseList="@false" class="btn btn-outline-dark position-relative">
+            New applications
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @ViewBag.NewAppCount
+            </span>
+        </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="UpdateTrainerWorkLicense" asp-controller="Profile"> Apply to update</a>
+    <li class="nav-item" style="margin: 10px">
+        <a  asp-action="TrainerApplicationsList" asp-controller="Profile" asp-route-showOnlyToUpdateLicenseList="@true" class="btn btn-outline-dark position-relative">
+            Apply to update
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @ViewBag.AppToUpdateLicensesCount
+            </span>
+        </a>
     </li>
 </ul>
 
@@ -52,8 +63,8 @@
                 @if (application.ContractNumber != null)
                 {
                     @*<td>
-                        <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                    </td>*@
+                            <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                        </td>*@
                     <td>
                         @application.ContractNumber
                     </td>
@@ -61,8 +72,8 @@
                 else
                 {
                     @*<td>
-                        <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                    </td>*@
+                            <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
+                        </td>*@
                     <td></td>
                 }
                 <td>@application.StartDate.ToString("MM/dd/yyyy")</td>
