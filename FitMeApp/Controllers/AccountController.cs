@@ -76,7 +76,6 @@ namespace FitMeApp.Controllers
                         //for debug - to omit sent emailConfirm part
                         //var addedUser = await _userManager.GetUserAsync(User);
                         //return RedirectToAction("RegisterTrainerPart", new { userId = addedUser.Id });
-                        //---//---//
 
 
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -156,7 +155,7 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "user, admin")]
-        public async Task<IActionResult> RegisterTrainerPart(string userId)
+        public IActionResult RegisterTrainerPart(string userId)
         {
             TrainerRoleAppFormViewModel applicationForm = new TrainerRoleAppFormViewModel()
             {
@@ -170,7 +169,7 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model)
+        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model) //todo check appropriate data 
         {
             try
             {

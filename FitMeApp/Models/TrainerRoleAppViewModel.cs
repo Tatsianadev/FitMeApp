@@ -10,11 +10,13 @@ namespace FitMeApp.Models
     public class TrainerRoleAppFormViewModel
     {
         public string UserId { get; set; }
-        //public bool HasTrainerSubscription { get; set; }
-        //public bool HasContract { get; set; }
+        [Required]
         public string ContractNumber { get; set; }
+        [Required]
         public int GymId { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
+        [Required]
         public DateTime EndDate { get; set; }
     }
 }

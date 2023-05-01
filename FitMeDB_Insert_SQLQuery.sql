@@ -328,14 +328,6 @@ go
 
 
 
-  insert UserSubscriptions (UserId, GymSubscriptionId, StartDate, EndDate)
-  values('189cb89d-f5c1-4dc8-9a1b-67715f6b6fcf', '47', '2022-12-01', '2022-12-31')
-  ,('871dd4aa-19dd-4749-86ec-c2d902c290e3', '48', '2022-12-10', '2023-01-09')
-  ,('afb2a4c0-7ff4-400c-98c1-448908b39e46', '50', '2022-12-15', '2023-01-14')
-  go
-
-
-
 insert AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
 values ('410c528f-e262-404c-80bf-ab4fb5014cc5', 'user', 'USER', 'ae7eb6ef-9961-49a8-8414-dc9ba8e7b5e9')
 , ('aa25d694-f274-49b9-8ddc-ab40b1b9044d', 'blocked', 'BLOCKED', 'a2b7170e-25d8-42f6-bd79-8dd22a547757')

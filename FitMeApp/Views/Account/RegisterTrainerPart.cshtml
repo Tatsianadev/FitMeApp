@@ -52,7 +52,7 @@
                             <label asp-for="StartDate"> Start date</label>
                             <input type="date" class="form-control" asp-for="StartDate" min="@minDate" max="@today" value="@minDate">
                             <label asp-for="EndDate"> Expire date</label>
-                            <input type="date" class="form-control" asp-for="EndDate" min="@today" max="@maxDate" value="@minDate">
+                            <input type="date" class="form-control" asp-for="EndDate" min="@today" max="@maxDate" value="@today">
                         </div>
                         <div style="text-align: center">
                             <input type="hidden" asp-for="UserId" />
