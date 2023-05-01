@@ -169,13 +169,19 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model) //todo check appropriate data 
+        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model) 
         {
             try
             {
                 if (string.IsNullOrEmpty(model.ContractNumber))
                 {
                     ModelState.AddModelError("", "Write the contract number over");
+                    return View(model);
+                }
+
+                if (model.StartDate >= model.EndDate)
+                {
+                    ModelState.AddModelError("", "The date of the start contract cannot be later or equal to the expiration date.");
                     return View(model);
                 }
 
@@ -199,7 +205,7 @@ namespace FitMeApp.Controllers
                 else
                 {
                     string message = "There was a problem with registration trainers data." +
-                                   "Please try fill form again on Profile page.";
+                                   "Please try fill form again on the Profile page.";
                     return View("CustomError", message);
                 }
             }
@@ -211,15 +217,6 @@ namespace FitMeApp.Controllers
 
                 return View("CustomError", message);
             }
-        }
-
-
-        [Authorize(Roles = "user, admin")]
-        public IActionResult ApplyForTrainerRoleLater()
-        {
-            var userId = _userManager.GetUserId(User);
-            ViewBag.AppliedForTrainerRole = false;
-            return View("RegisterAsUserCompleted", userId);
         }
 
 

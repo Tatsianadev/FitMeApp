@@ -610,8 +610,6 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
-
                     var availableTrainerSubscriptionsBySelectedGym = _gymService.GetSubscriptionsByFilterByUser(changedModel.Id,
                           new List<SubscriptionValidStatusEnum>() { SubscriptionValidStatusEnum.validNow },
                           new List<int>() { changedModel.GymId });
@@ -707,8 +705,50 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "trainer")]
         public IActionResult UpdateTrainerWorkLicense(TrainerWorkLicenseViewModel newLicenseModel)
         {
-            
-            return View();
+            try
+            {
+                if (string.IsNullOrEmpty(newLicenseModel.ContractNumber))
+                {
+                    ModelState.AddModelError("", "Write the contract number over");
+                    return View(newLicenseModel);
+                }
+
+                if (newLicenseModel.StartDate >= newLicenseModel.EndDate)
+                {
+                    ModelState.AddModelError("", "The date of the start contract cannot be later or equal to the expiration date.");
+                    return View(newLicenseModel);
+                }
+
+                var userId = _userManager.GetUserId(User);
+
+                TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
+                {
+                    UserId = userId,
+                    ContractNumber = newLicenseModel.ContractNumber,
+                    GymId = newLicenseModel.GymId,
+                    StartDate = newLicenseModel.StartDate,
+                    EndDate = newLicenseModel.EndDate,
+                    ApplyingDate = DateTime.Today
+                };
+
+                int appId = _trainerService.AddTrainerApplication(trainerAppModel);
+                if (appId != 0)
+                {
+                    return RedirectToAction("TrainerPersonalAndJobData");
+                }
+                else
+                {
+                    throw new Exception("Failed attempt to add records (new TrainerApplication) into DB");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Failed attempt to update a work license. Please, try again later.";
+                return View("CustomError", message);
+            }
         }
 
 

@@ -336,7 +336,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public void DeleteTAllTrainerWorkLicensesByTrainer(string trainerId)
+        public void DeleteAllTrainerWorkLicensesByTrainer(string trainerId)
         {
             var trainerWorkLicenses = _context.TrainerWorkLicenses
                 .Where(x => x.TrainerId == trainerId)
@@ -348,6 +348,17 @@ namespace FitMeApp.Repository.EntityFramework
             }
 
             _context.SaveChanges();
+        }
+
+
+        public void DeleteTrainerWorkLicense(int licenseId)
+        {
+            var license = _context.TrainerWorkLicenses.FirstOrDefault(x => x.Id == licenseId);
+            if (license != null)
+            {
+                _context.Remove(license);
+                _context.SaveChanges();
+            }
         }
 
 

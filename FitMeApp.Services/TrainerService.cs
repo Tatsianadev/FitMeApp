@@ -244,7 +244,7 @@ namespace FitMeApp.Services
             _repository.DeleteAllTrainingTrainerConnectionsByTrainer(id);
             _repository.DeleteTrainerWorkHoursByTrainer(id);
             _repository.DeleteTrainer(id);
-            _repository.DeleteTAllTrainerWorkLicensesByTrainer(id);
+            _repository.DeleteAllTrainerWorkLicensesByTrainer(id);
         }
 
 
@@ -357,32 +357,41 @@ namespace FitMeApp.Services
                 trainerLicense.EndDate = application.EndDate;
             }
 
+            //check: if User has already had license => delete previous license and add the new one,   else => add license and add User to Trainer table and Training table
+            var previousLicense = GetTrainerWorkLicenseByTrainer(userId);
             int licenseId = _repository.AddTrainerWorkLicense(trainerLicense);
             if (licenseId == 0)
             {
                 return false;
             }
 
-            var trainerInfo = new TrainerEntityBase()
+            if (previousLicense != null)
             {
-                Id = application.UserId,
-                Specialization = TrainerSpecializationsEnum.personal.ToString(),
-                WorkLicenseId = licenseId
-            };
-
-            bool addTrainerSucceed = _repository.AddTrainer(trainerInfo);
-            if (addTrainerSucceed)
-            {
-                //Default type - personalTraining. If not -> Some logic of work with trainers Contracts area to get training types
-                int defaultTrainingId = _repository.GetAllTrainings().First(x => x.Name == "Personal training").Id;
-                _repository.AddTrainingTrainerConnection(trainerLicense.TrainerId, defaultTrainingId);
-                _repository.DeleteTrainerApplication(application.Id);
+                _repository.DeleteTrainerWorkLicense(previousLicense.Id);
             }
             else
             {
-                return false;
+                var trainerInfo = new TrainerEntityBase()
+                {
+                    Id = application.UserId,
+                    Specialization = TrainerSpecializationsEnum.personal.ToString(),
+                    WorkLicenseId = licenseId
+                };
+
+                bool addTrainerSucceed = _repository.AddTrainer(trainerInfo);
+                if (addTrainerSucceed)
+                {
+                    //Default type - personalTraining. If not -> Some logic of work with trainers Contracts area to get training types
+                    int defaultTrainingId = _repository.GetAllTrainings().First(x => x.Name == "Personal training").Id;
+                    _repository.AddTrainingTrainerConnection(trainerLicense.TrainerId, defaultTrainingId);
+                }
+                else
+                {
+                    return false;
+                }
             }
 
+            _repository.DeleteTrainerApplication(application.Id);
             return true;
         }
 
@@ -422,7 +431,7 @@ namespace FitMeApp.Services
         public void ReplaceTrainerWorkLicense(string userId, TrainerWorkLicenseModel newLicense)
         {
             var trainerWorkLicenseEntityBase = _mapper.MapTrainerWorkLicenseModelToEntityBase(newLicense);
-            _repository.DeleteTAllTrainerWorkLicensesByTrainer(userId);
+            _repository.DeleteAllTrainerWorkLicensesByTrainer(userId);
             var newLicenseId = _repository.AddTrainerWorkLicense(trainerWorkLicenseEntityBase);
             UpdateLicenseIdForTrainer(userId, newLicenseId);
         }

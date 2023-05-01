@@ -48,9 +48,10 @@
                     <br/>
                     <br/>
                     <form asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <label asp-for="ContractNumber">Contract number</label>
-                        <br />
-                        <input type="text" asp-for="ContractNumber" />
+                        <br/>
+                        <input type="text" asp-for="ContractNumber"/>
                         <br/>
                         @{
                             string minDate = DateTime.Today.AddDays(-256).Date.ToString("yyyy-MM-dd");
@@ -59,12 +60,12 @@
 
                         }
                         <label asp-for="StartDate">Start date</label>
-                        <br />
-                        <input type="date" min="@minDate" max="@today" value="@minDate" asp-for="StartDate" />
+                        <br/>
+                        <input type="date" min="@minDate" max="@today" value="@today" asp-for="StartDate"/>
                         <br/>
                         <label asp-for="EndDate">Expire date</label>
-                        <br />
-                        <input type="date" min="@today" max="@maxDate" value="@minDate" asp-for="EndDate" />
+                        <br/>
+                        <input type="date" min="@today" max="@maxDate" value="@today" asp-for="EndDate"/>
                         <br/>
                         <br/>
                         <select class="form-select" asp-for="GymId" aria-label="Default select example">
@@ -75,7 +76,7 @@
                         </select>
                         <br/>
                         <h6>Your previous work license will be updated as soon as the new information is approved by the administrator</h6>
-                        <input type="submit" value="OK" class="btn btn-dark btn-sm" />
+                        <input type="submit" value="OK" class="btn btn-dark btn-sm"/>
                     </form>
                 </div>
             </div>
