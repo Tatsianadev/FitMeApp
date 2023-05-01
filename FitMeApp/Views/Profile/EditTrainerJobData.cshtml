@@ -11,6 +11,9 @@
                     <h4>Edit job data</h4>
                 </div>
                 <hr />
+                <div>
+                    <h5>Work license</h5>
+                </div>
                 <form asp-action="EditTrainerJobData" asp-controller="Profile" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
@@ -45,28 +48,25 @@
                             </td>
                         </tr>
                     </table>
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:30%">Delete</button>
-                    <a asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" class="btn btn-dark btn-sm" style="width:30%">Change</a>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:35%">Delete</button>
+                    <a asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" class="btn btn-dark btn-sm" style="width:35%">Change</a>
                     <hr />
+                    <div>
+                        <h5>Specialization</h5>
+                    </div>
                     <table style="width: 80%; margin: auto">
                         <tr>
                             <td class="col3">Gym</td>
                             <td class="col4">
+                                <input type="hidden" asp-for="@Model.GymId" />
                                 @Model.GymName
-                                @*<select class="form-select" aria-label="Default select example" asp-for="GymId">
-                                        <option selected value="@Model.GymId"> @Model.GymName</option>
-                                        @foreach (var gym in ViewBag.AllGyms)
-                                        {
-                                            <option value="@gym.Id">@gym.Name</option>
-                                        }
-                                    </select>*@
                             </td>
                         </tr>
                         <tr>
                             <td class="col3">Specialization</td>
                             <td class="col4">
+                                <input type="hidden" asp-for="@Model.Specialization" />
                                 @Model.Specialization
-                                @*<input type="text" asp-for="Specialization" class="form-control"/>*@
                             </td>
                         </tr>
                         <tr>
@@ -83,8 +83,8 @@
                         </tr>
                     </table>
                     <br />
-                    <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-outline-dark btn-sm" style="width:30%">Back</a>
-                    <input type="submit" value="Save" class="btn  btn-dark btn-sm" style="width:30%" />
+                    <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-outline-dark btn-sm" style="width:35%">Back</a>
+                    <input type="submit" value="Update specialization" class="btn  btn-dark btn-sm" style="width:35%" />
                 </form>
             </div>
         </div>

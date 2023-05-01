@@ -604,66 +604,46 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel) //todo update method with all conditions (look at schema in the worksheet)
+        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var availableTrainerSubscriptionsBySelectedGym = _gymService.GetSubscriptionsByFilterByUser(changedModel.Id,
-                          new List<SubscriptionValidStatusEnum>() { SubscriptionValidStatusEnum.validNow },
-                          new List<int>() { changedModel.GymId });
-                    if (availableTrainerSubscriptionsBySelectedGym.Count() == 0)
+                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                    foreach (var trainingId in changedModel.TrainingsId)
                     {
-                        ModelState.AddModelError("", "You don't have available trainer subscription for selected Gym.");
+                        trainings.Add(new TrainingViewModel()
+                        {
+                            Id = trainingId
+                        });
                     }
-                    else
+
+                    string specialization = string.Empty;
+                    if (trainings.Count > 0)
                     {
-                        List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                        foreach (var trainingId in changedModel.TrainingsId)
-                        {
-                            trainings.Add(new TrainingViewModel()
-                            {
-                                Id = trainingId
-                            });
-                        }
-
-                        string specialization = string.Empty;
-                        if (trainings.Count > 0)
-                        {
-                            specialization = _trainerService
-                                .GetTrainerSpecializationByTrainings(trainings.Select(x => x.Id).ToList()).ToString();
-                        }
-                       
-
-                        TrainerViewModel newTrainerInfo = new TrainerViewModel()
-                        {
-                            Id = changedModel.Id,
-                            //Specialization = changedModel.Specialization,
-                            Specialization = specialization,
-                            Trainings = trainings,
-                            Gym = new GymViewModel()
-                            {
-                                Id = changedModel.GymId
-                            }
-                        };
-
-                        int previousGymId = _gymService.GetGymIdByTrainer(changedModel.Id);
-                        var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
-                        _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
-
-                        if (previousGymId != changedModel.GymId)
-                        {
-                            _trainerService.DeleteTrainerWorkHoursByTrainer(changedModel.Id);
-                            return RedirectToAction("EditTrainerWorkHours");
-                        }
-
-                        return RedirectToAction("TrainerPersonalAndJobData");
+                        specialization = _trainerService
+                            .GetTrainerSpecializationByTrainings(trainings.Select(x => x.Id).ToList()).ToString();
                     }
+
+                    TrainerViewModel newTrainerInfo = new TrainerViewModel()
+                    {
+                        Id = changedModel.Id,
+                        Specialization = specialization,
+                        Trainings = trainings,
+                        Gym = new GymViewModel()
+                        {
+                            Id = changedModel.GymId
+                        }
+                    };
+
+                    var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
+                    _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                    return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "the form is filled out incorrectly");
+                    ModelState.AddModelError("", "The form is filled out incorrectly. Choose at least one type of trainings.");
                 }
 
                 ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
