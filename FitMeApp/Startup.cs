@@ -21,6 +21,7 @@ namespace FitMeApp
     {
         public Startup(IConfiguration configuration)
         {
+            Services.SchedulerService.SchedulerTask.StartAsync().GetAwaiter().GetResult();
             Configuration = configuration;
         }
 

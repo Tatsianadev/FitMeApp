@@ -62,18 +62,12 @@
                 </td>
                 @if (application.ContractNumber != null)
                 {
-                    @*<td>
-                            <img src="/Content/images/yes.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                        </td>*@
                     <td>
                         @application.ContractNumber
                     </td>
                 }
                 else
                 {
-                    @*<td>
-                            <img src="/Content/images/no.jpg" class="card-img-top" alt="..." style="height: 25px; width: auto" />
-                        </td>*@
                     <td></td>
                 }
                 <td>@application.StartDate.ToString("MM/dd/yyyy")</td>

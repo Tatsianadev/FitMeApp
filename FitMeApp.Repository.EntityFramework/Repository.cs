@@ -6,6 +6,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace FitMeApp.Repository.EntityFramework
 {
@@ -1295,7 +1296,37 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
-        
+
+        public IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int numberDaysToExpiration)
+        {
+            //var expiringUsersSubscriptions = _context.UserSubscriptions
+            //    .Where(x => (x.EndDate - x.StartDate).TotalDays > 1)
+            //    .Where(x => (x.EndDate - DateTime.Today).TotalDays <= numberDaysToExpiration)
+            //    .ToList();
+
+            var usersWithExpiringSubscriptions = (from userSubscr in _context.UserSubscriptions
+                         join user in _context.Users
+                             on userSubscr.UserId equals user.Id
+                         join gymSubscr in _context.GymSubscriptions
+                             on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                         join gym in _context.Gyms
+                             on gymSubscr.GymId equals gym.Id
+                         where (userSubscr.EndDate - userSubscr.StartDate).TotalDays > 1
+                         where (userSubscr.EndDate - DateTime.Today).TotalDays == numberDaysToExpiration
+                         select new UserSubscriptionFullInfoBase()
+                         {
+                             UserId = user.Id,
+                             UserFirstName = user.FirstName,
+                             UserLastName = user.LastName,
+                             UserEmail = user.Email,
+                             GymId = gym.Id,
+                             GymName = gym.Name
+                         }).ToList();
+
+            return usersWithExpiringSubscriptions;
+        }
+
+
 
 
 
@@ -1583,7 +1614,7 @@ namespace FitMeApp.Repository.EntityFramework
             _context.RemoveRange(dataToDelete);
             _context.SaveChanges();
         }
-        
+
 
         public void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData)
         {
@@ -1608,7 +1639,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var numbersOfVisitorsPerHours = _context.NumberOfVisitorsPerHour
                 .Where(x => x.GymId == gymId)
-                .Where(x=>x.DayOfWeekNumber == (int)day)
+                .Where(x => x.DayOfWeekNumber == (int)day)
                 .OrderBy(x => x.Hour)
                 .ToList();
 
