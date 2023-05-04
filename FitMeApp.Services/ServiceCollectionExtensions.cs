@@ -8,7 +8,9 @@ using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using System.Globalization;
+using FitMeApp.Services.SchedulerService;
 using Microsoft.AspNetCore.Localization;
+using Quartz;
 
 namespace FitMeApp.Services
 {
@@ -51,6 +53,19 @@ namespace FitMeApp.Services
         {
             services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));
         }
+
+        public static void RegisterSchedulerService(this IServiceCollection services, IConfiguration configuration) //todo implement 
+        {
+            services.AddQuartz(q =>
+                {
+                    q.UseMicrosoftDependencyInjectionJobFactory();
+                    q.AddJobAndTrigger<SendEmailJob>(configuration);
+                });
+
+            services.AddQuartzHostedService(q =>
+                q.WaitForJobsToComplete = true);
+        }
+
 
         public static void InitializeDefaultSettings(this IServiceCollection services, IConfiguration configuration)
         {

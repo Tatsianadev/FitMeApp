@@ -21,7 +21,6 @@ namespace FitMeApp
     {
         public Startup(IConfiguration configuration)
         {
-            Services.SchedulerService.SchedulerTask.StartAsync().GetAwaiter().GetResult();
             Configuration = configuration;
         }
 
@@ -30,6 +29,7 @@ namespace FitMeApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterSchedulerService(Configuration);
             services.InitializeDefaultSettings(Configuration);
 
             var connectionString = Configuration.GetConnectionString("Default");

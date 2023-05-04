@@ -9,19 +9,29 @@ using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace FitMeApp.Services.SchedulerService
 {
-    public class SendEmailTask : IJob
+    [DisallowConcurrentExecution]
+    public class SendEmailJob : IJob
     {
         private readonly IRepository _repository;
         private readonly IEmailService _emailService;
+        private readonly ILogger<SendEmailJob> _logger;
 
-        public SendEmailTask(IRepository repository, IEmailService emailService)
+        public SendEmailJob(IRepository repository, IEmailService emailService, ILogger<SendEmailJob> logger)
         {
             _repository = repository;
             _emailService = emailService;
+            _logger = logger;
+        }
+
+        public Task Execute(IJobExecutionContext context)
+        {
+            _logger.LogInformation("Text from Quartz");
+            return Task.CompletedTask;
         }
 
 
@@ -48,21 +58,21 @@ namespace FitMeApp.Services.SchedulerService
         //    }
         //}
 
+        //public Task Execute(IJobExecutionContext context)
+        //{
+        //    var task = Task.Run(() => LogFile(DateTime.Now));
+        //    return task;
+        //}
 
-        public Task Execute(IJobExecutionContext context)
-        {
-            var task = Task.Run(() => LogFile(DateTime.Now));
-            return task;
-        }
 
-        public void LogFile(DateTime time)
-        {
-            string path = @"c:\tatsiana\stud\SelfCodingPractice\SquadTestApp\FitMeAppTest.txt";
-            using (StreamWriter writer = new StreamWriter(path, true))
-            {
-                writer.WriteLine(time);
-                writer.Close();
-            }
-        }
+        //public void LogFile(DateTime time)
+        //{
+        //    string path = @"c:\tatsiana\stud\SelfCodingPractice\SquadTestApp\FitMeAppTest.txt";
+        //    using (StreamWriter writer = new StreamWriter(path, true))
+        //    {
+        //        writer.WriteLine(time);
+        //        writer.Close();
+        //    }
+        //}
     }
 }

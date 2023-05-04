@@ -3931,3 +3931,59 @@ Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+An error occurred instantiating job to be executed. job= 'DEFAULT.SendEmailJob, message=Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'FitMeApp.Services.SchedulerService.SendEmailJob'.'
+All triggers of Job DEFAULT.SendEmailJob set to ERROR state.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+An error occurred instantiating job to be executed. job= 'DEFAULT.SendEmailJob, message=Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'FitMeApp.Services.SchedulerService.SendEmailJob'.'
+All triggers of Job DEFAULT.SendEmailJob set to ERROR state.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
