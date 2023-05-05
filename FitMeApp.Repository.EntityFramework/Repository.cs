@@ -6,16 +6,20 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.Extensions.Logging;
 
 namespace FitMeApp.Repository.EntityFramework
 {
     public sealed class Repository : IRepository
     {
         private readonly ApplicationDbContext _context;
-        public Repository(ApplicationDbContext context)
+        private readonly ILogger<Repository> _logger;
+        public Repository(ApplicationDbContext context, ILogger<Repository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 
@@ -1299,31 +1303,43 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int numberDaysToExpiration)
         {
-            //var expiringUsersSubscriptions = _context.UserSubscriptions
-            //    .Where(x => (x.EndDate - x.StartDate).TotalDays > 1)
-            //    .Where(x => (x.EndDate - DateTime.Today).TotalDays <= numberDaysToExpiration)
-            //    .ToList();
+            try
+            {
+                //var usersWithExpiringSubscriptions = _context.UserSubscriptions
+                //    .Where(x => EF.Functions.DateDiffDay(x.StartDate, x.EndDate) > 1)
+                //    .Where(x => EF.Functions.DateDiffDay(DateTime.Today, x.EndDate) == numberDaysToExpiration)
+                //    .ToList();
 
-            var usersWithExpiringSubscriptions = (from userSubscr in _context.UserSubscriptions
-                         join user in _context.Users
-                             on userSubscr.UserId equals user.Id
-                         join gymSubscr in _context.GymSubscriptions
-                             on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                         join gym in _context.Gyms
-                             on gymSubscr.GymId equals gym.Id
-                         where (userSubscr.EndDate - userSubscr.StartDate).TotalDays > 1
-                         where (userSubscr.EndDate - DateTime.Today).TotalDays == numberDaysToExpiration
-                         select new UserSubscriptionFullInfoBase()
-                         {
-                             UserId = user.Id,
-                             UserFirstName = user.FirstName,
-                             UserLastName = user.LastName,
-                             UserEmail = user.Email,
-                             GymId = gym.Id,
-                             GymName = gym.Name
-                         }).ToList();
 
-            return usersWithExpiringSubscriptions;
+                //return null;
+
+                var usersWithExpiringSubscriptions = (from userSubscr in _context.UserSubscriptions
+                                                      join user in _context.Users
+                                                          on userSubscr.UserId equals user.Id
+                                                      join gymSubscr in _context.GymSubscriptions
+                                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                                      join gym in _context.Gyms
+                                                          on gymSubscr.GymId equals gym.Id
+                                                      where EF.Functions.DateDiffDay(userSubscr.StartDate, userSubscr.EndDate) > 1
+                                                      where EF.Functions.DateDiffDay(DateTime.Today, userSubscr.EndDate) == numberDaysToExpiration
+                                                      select new UserSubscriptionFullInfoBase()
+                                                      {
+                                                          UserId = user.Id,
+                                                          UserFirstName = user.FirstName,
+                                                          UserLastName = user.LastName,
+                                                          UserEmail = user.Email,
+                                                          GymId = gym.Id,
+                                                          GymName = gym.Name
+                                                      }).ToList();
+
+                return usersWithExpiringSubscriptions;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return null;
+            }
+
         }
 
 

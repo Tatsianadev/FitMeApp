@@ -5,6 +5,7 @@ using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace FitMeApp.Services
@@ -96,6 +97,15 @@ namespace FitMeApp.Services
         {
             int actualEventsCount = _repository.GetActualEventsCountByTrainer(trainerId);
             return actualEventsCount;
+        }
+
+
+
+        //TEST (delete later)
+        public int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire)
+        {
+            int count = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).Count();
+            return count;
         }
     }
 }

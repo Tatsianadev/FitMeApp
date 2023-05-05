@@ -34,29 +34,27 @@ namespace FitMeApp.Services.SchedulerService
             return Task.CompletedTask;
         }
 
-
-
         //public Task Execute(IJobExecutionContext context)
         //{
         //    var task = Task.Run(() => SendEmailToTargetUsersAsync());
         //    return task;
         //}
 
-        //private async void SendEmailToTargetUsersAsync()
-        //{
-        //    int numDaysToSubscriptionExpire = 3;
-        //    var targetUsers = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).ToList();
-        //    foreach (var user in targetUsers)
-        //    {
-        //        string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
-        //        string fromEmail = DefaultSettingsStorage.SenderEmail;
-        //        string plainTextContent = $"Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.";
-        //        string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.</strong>";
-        //        string subject = "Subscription expire";
+        public async void SendEmailToTargetUsersAsync()
+        {
+            int numDaysToSubscriptionExpire = 3;
+            var targetUsers = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).ToList();
+            foreach (var user in targetUsers)
+            {
+                string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+                string fromEmail = DefaultSettingsStorage.SenderEmail;
+                string plainTextContent = $"Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.";
+                string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.</strong>";
+                string subject = "Subscription expire";
 
-        //        await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
-        //    }
-        //}
+                await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
+            }
+        }
 
         //public Task Execute(IJobExecutionContext context)
         //{

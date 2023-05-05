@@ -15,5 +15,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
         void ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
+
+        //TEST (delete later)
+        int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire);
     }
 }

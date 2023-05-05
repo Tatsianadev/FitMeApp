@@ -3987,3 +3987,197 @@ Text from Quartz
 Text from Quartz
 Text from Quartz
 Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+The LINQ expression 'DbSet<UserSubscriptionEntity>()
+    .Join(
+        inner: DbSet<User>(), 
+        outerKeySelector: u => u.UserId, 
+        innerKeySelector: u0 => u0.Id, 
+        resultSelector: (u, u0) => new TransparentIdentifier<UserSubscriptionEntity, User>(
+            Outer = u, 
+            Inner = u0
+        ))
+    .Join(
+        inner: DbSet<GymSubscriptionEntity>(), 
+        outerKeySelector: ti => ti.Outer.GymSubscriptionId, 
+        innerKeySelector: g => g.Id, 
+        resultSelector: (ti, g) => new TransparentIdentifier<TransparentIdentifier<UserSubscriptionEntity, User>, GymSubscriptionEntity>(
+            Outer = ti, 
+            Inner = g
+        ))
+    .Join(
+        inner: DbSet<GymEntity>(), 
+        outerKeySelector: ti0 => ti0.Inner.GymId, 
+        innerKeySelector: g0 => g0.Id, 
+        resultSelector: (ti0, g0) => new TransparentIdentifier<TransparentIdentifier<TransparentIdentifier<UserSubscriptionEntity, User>, GymSubscriptionEntity>, GymEntity>(
+            Outer = ti0, 
+            Inner = g0
+        ))
+    .Where(ti1 => (ti1.Outer.Outer.Outer.EndDate - ti1.Outer.Outer.Outer.StartDate).TotalDays > 1)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+The LINQ expression 'DbSet<UserSubscriptionEntity>()
+    .Join(
+        inner: DbSet<User>(), 
+        outerKeySelector: u => u.UserId, 
+        innerKeySelector: u0 => u0.Id, 
+        resultSelector: (u, u0) => new TransparentIdentifier<UserSubscriptionEntity, User>(
+            Outer = u, 
+            Inner = u0
+        ))
+    .Join(
+        inner: DbSet<GymSubscriptionEntity>(), 
+        outerKeySelector: ti => ti.Outer.GymSubscriptionId, 
+        innerKeySelector: g => g.Id, 
+        resultSelector: (ti, g) => new TransparentIdentifier<TransparentIdentifier<UserSubscriptionEntity, User>, GymSubscriptionEntity>(
+            Outer = ti, 
+            Inner = g
+        ))
+    .Join(
+        inner: DbSet<GymEntity>(), 
+        outerKeySelector: ti0 => ti0.Inner.GymId, 
+        innerKeySelector: g0 => g0.Id, 
+        resultSelector: (ti0, g0) => new TransparentIdentifier<TransparentIdentifier<TransparentIdentifier<UserSubscriptionEntity, User>, GymSubscriptionEntity>, GymEntity>(
+            Outer = ti0, 
+            Inner = g0
+        ))
+    .Where(ti1 => (ti1.Outer.Outer.Outer.EndDate - ti1.Outer.Outer.Outer.StartDate).Days > 1)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+The LINQ expression 'DbSet<UserSubscriptionEntity>()
+    .Where(u => (u.EndDate - u.StartDate).TotalDays > 1)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+The LINQ expression 'DbSet<UserSubscriptionEntity>()
+    .Where(u => (u.EndDate - u.StartDate).Days > 1)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+The LINQ expression 'DbSet<UserSubscriptionEntity>()
+    .Where(u => (int)(u.EndDate - u.StartDate).TotalDays == 30)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Text from Quartz
+Text from Quartz
