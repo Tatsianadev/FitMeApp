@@ -16,7 +16,5 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
 
-        //TEST (delete later)
-        //int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire);
     }
 }

@@ -8,7 +8,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using System.Globalization;
-using FitMeApp.Services.SchedulerService;
+using FitMeApp.Services.QuartzService;
 using Microsoft.AspNetCore.Localization;
 using Quartz;
 
@@ -54,12 +54,12 @@ namespace FitMeApp.Services
             services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));
         }
 
-        public static void RegisterSchedulerService(this IServiceCollection services, IConfiguration configuration) //todo implement 
+        public static void RegisterSchedulerService(this IServiceCollection services)
         {
             services.AddQuartz(q =>
                 {
                     q.UseMicrosoftDependencyInjectionJobFactory();
-                    q.AddJobAndTrigger<SendEmailJob>(configuration);
+                    q.AddJobAndTrigger<SendEmailJob>();
                 });
 
             services.AddQuartzHostedService(q =>
@@ -74,6 +74,8 @@ namespace FitMeApp.Services
             Common.DefaultSettingsStorage.AdminPassword = configuration.GetSection("FirstAppStart")["AdminPassword"];
             Common.DefaultSettingsStorage.SenderEmail = configuration.GetSection("DefaultEmail")["Sender"];
             Common.DefaultSettingsStorage.ReceiverEmail = configuration.GetSection("DefaultEmail")["Receiver"];
+            Common.DefaultSettingsStorage.CronForSendEmailJob = configuration.GetSection("Quartz")["SendEmailJob"];
+            Common.DefaultSettingsStorage.SendEmailJobIfDays = configuration.GetSection("Quartz")["SendEmailJobIfDays"];
         }
 
         public static void SetSupportedCulture(this IServiceCollection services)

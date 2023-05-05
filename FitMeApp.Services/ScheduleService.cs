@@ -99,13 +99,5 @@ namespace FitMeApp.Services
             return actualEventsCount;
         }
 
-
-
-        //TEST (delete later)
-        //public int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire)
-        //{
-        //    int count = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).Count();
-        //    return count;
-        //}
     }
 }

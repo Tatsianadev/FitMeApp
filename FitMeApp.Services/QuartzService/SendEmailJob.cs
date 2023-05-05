@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
-namespace FitMeApp.Services.SchedulerService
+namespace FitMeApp.Services.QuartzService
 {
     [DisallowConcurrentExecution]
     public class SendEmailJob : IJob
@@ -37,15 +37,16 @@ namespace FitMeApp.Services.SchedulerService
 
         public async void SendEmailToTargetUsersAsync()
         {
-            int numDaysToSubscriptionExpire = 3; //todo set number from Configuration
-            var targetUsers = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).ToList();
+            int daysBeforeSubscrExpire = Convert.ToInt32(Common.DefaultSettingsStorage.SendEmailJobIfDays); 
+            var targetUsers = _repository.GetAllUsersByExpiringSubscriptions(daysBeforeSubscrExpire).ToList();
+            string fromEmail = DefaultSettingsStorage.SenderEmail;
+            string subject = "Subscription expire";
+
             foreach (var user in targetUsers)
             {
                 string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
-                string fromEmail = DefaultSettingsStorage.SenderEmail;
-                string plainTextContent = $"Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.";
-                string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {numDaysToSubscriptionExpire} days.</strong>";
-                string subject = "Subscription expire";
+                string plainTextContent = $"Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.";
+                string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.</strong>";
 
                 await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
                 _logger.LogInformation($"Email to {user.UserFirstName} was sent.");

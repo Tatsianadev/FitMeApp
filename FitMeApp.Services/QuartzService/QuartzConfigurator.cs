@@ -5,20 +5,18 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Quartz;
 
-namespace FitMeApp.Services.SchedulerService
+namespace FitMeApp.Services.QuartzService
 {
     public static class QuartzConfigurator
     {
-        public static void AddJobAndTrigger<T>(this IServiceCollectionQuartzConfigurator quartz, IConfiguration configuration) where T: IJob
+        public static void AddJobAndTrigger<T>(this IServiceCollectionQuartzConfigurator quartz) where T: IJob
         {
             string jobName = typeof(T).Name;
-
-            var configKey = $"Quartz:{jobName}";
-            var cronSchedule = configuration[configKey];
+            var cronSchedule = Common.DefaultSettingsStorage.CronForSendEmailJob;
 
             if (string.IsNullOrEmpty(cronSchedule))
             {
-                throw new Exception($"No Quartz.NET Cron schedule found for job in configuration at {configKey}");
+                throw new Exception("No Quartz.NET Cron schedule found for job in configuration.");
             }
 
             var jobKey = new JobKey(jobName);
