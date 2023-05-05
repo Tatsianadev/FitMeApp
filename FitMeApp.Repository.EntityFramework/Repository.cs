@@ -1305,14 +1305,6 @@ namespace FitMeApp.Repository.EntityFramework
         {
             try
             {
-                //var usersWithExpiringSubscriptions = _context.UserSubscriptions
-                //    .Where(x => EF.Functions.DateDiffDay(x.StartDate, x.EndDate) > 1)
-                //    .Where(x => EF.Functions.DateDiffDay(DateTime.Today, x.EndDate) == numberDaysToExpiration)
-                //    .ToList();
-
-
-                //return null;
-
                 var usersWithExpiringSubscriptions = (from userSubscr in _context.UserSubscriptions
                                                       join user in _context.Users
                                                           on userSubscr.UserId equals user.Id

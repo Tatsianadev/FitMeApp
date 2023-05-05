@@ -102,10 +102,10 @@ namespace FitMeApp.Services
 
 
         //TEST (delete later)
-        public int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire)
-        {
-            int count = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).Count();
-            return count;
-        }
+        //public int GetAllUsersByExpiringSubscriptions(int numDaysToSubscriptionExpire)
+        //{
+        //    int count = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).Count();
+        //    return count;
+        //}
     }
 }

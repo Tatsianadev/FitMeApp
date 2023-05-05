@@ -20,16 +20,16 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            SendEmailToTargetUsersAsync();
+            //SendEmailToTargetUsersAsync();
             return View();
         }
 
 
         //TEST (delete later)
-        public async void SendEmailToTargetUsersAsync()
-        {
-            int numDaysToSubscriptionExpire = 3;
-            var targetUsers = _scheduleService.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire);
+        //public async void SendEmailToTargetUsersAsync()
+        //{
+        //    int numDaysToSubscriptionExpire = 3;
+        //    var targetUsers = _scheduleService.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire);
             //foreach (var user in targetUsers)
             //{
             //    string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
@@ -40,7 +40,7 @@ namespace FitMeApp.Controllers
 
             //    await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
             //}
-        }
+       // }
         //TEST end
 
 

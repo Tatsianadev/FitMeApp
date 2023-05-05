@@ -28,21 +28,16 @@ namespace FitMeApp.Services.SchedulerService
             _logger = logger;
         }
 
+
         public Task Execute(IJobExecutionContext context)
         {
-            _logger.LogInformation("Text from Quartz");
-            return Task.CompletedTask;
+            var task = Task.Run(() => SendEmailToTargetUsersAsync());
+            return task;
         }
-
-        //public Task Execute(IJobExecutionContext context)
-        //{
-        //    var task = Task.Run(() => SendEmailToTargetUsersAsync());
-        //    return task;
-        //}
 
         public async void SendEmailToTargetUsersAsync()
         {
-            int numDaysToSubscriptionExpire = 3;
+            int numDaysToSubscriptionExpire = 3; //todo set number from Configuration
             var targetUsers = _repository.GetAllUsersByExpiringSubscriptions(numDaysToSubscriptionExpire).ToList();
             foreach (var user in targetUsers)
             {
@@ -53,24 +48,9 @@ namespace FitMeApp.Services.SchedulerService
                 string subject = "Subscription expire";
 
                 await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
+                _logger.LogInformation($"Email to {user.UserFirstName} was sent.");
             }
         }
 
-        //public Task Execute(IJobExecutionContext context)
-        //{
-        //    var task = Task.Run(() => LogFile(DateTime.Now));
-        //    return task;
-        //}
-
-
-        //public void LogFile(DateTime time)
-        //{
-        //    string path = @"c:\tatsiana\stud\SelfCodingPractice\SquadTestApp\FitMeAppTest.txt";
-        //    using (StreamWriter writer = new StreamWriter(path, true))
-        //    {
-        //        writer.WriteLine(time);
-        //        writer.Close();
-        //    }
-        //}
     }
 }
