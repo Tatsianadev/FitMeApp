@@ -95,7 +95,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<UserSubscriptionFullInfoBase> GetExpiredSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds);
         IEnumerable<UserSubscriptionFullInfoBase> GetValidInTheFutureSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds);
         void UpdateUserSubscriptionDates(int subscriptionId, DateTime startDate, DateTime endDate);
-        IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int numberDaysToExpiration);
+        IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int daysBeforeSubscrExpire);
 
 
 

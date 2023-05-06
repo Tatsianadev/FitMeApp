@@ -396,7 +396,7 @@ namespace FitMeApp.Services
         }
 
 
-        public IEnumerable<TrainerWorkLicenseModel> GetAllTrainerWorkLicenses() //todo implement method
+        public IEnumerable<TrainerWorkLicenseModel> GetAllTrainerWorkLicenses()
         {
             List<TrainerWorkLicenseModel> licenseModels = new List<TrainerWorkLicenseModel>();
             var licensesEntityBase = _repository.GetAllTrainerWorkLicense().ToList();

@@ -1301,7 +1301,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int numberDaysToExpiration)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int daysBeforeSubscrExpire)
         {
             try
             {
@@ -1313,7 +1313,7 @@ namespace FitMeApp.Repository.EntityFramework
                                                       join gym in _context.Gyms
                                                           on gymSubscr.GymId equals gym.Id
                                                       where EF.Functions.DateDiffDay(userSubscr.StartDate, userSubscr.EndDate) > 1
-                                                      where EF.Functions.DateDiffDay(DateTime.Today, userSubscr.EndDate) == numberDaysToExpiration
+                                                      where EF.Functions.DateDiffDay(DateTime.Today, userSubscr.EndDate) == daysBeforeSubscrExpire
                                                       select new UserSubscriptionFullInfoBase()
                                                       {
                                                           UserId = user.Id,

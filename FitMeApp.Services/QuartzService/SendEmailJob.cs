@@ -47,9 +47,16 @@ namespace FitMeApp.Services.QuartzService
                 string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
                 string plainTextContent = $"Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.";
                 string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.</strong>";
-
-                await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
-                _logger.LogInformation($"Email to {user.UserFirstName} was sent.");
+               
+                try
+                {
+                    await _emailService.SendEmailAsync(toEmail, user.UserFirstName, fromEmail, subject, plainTextContent, htmlContent);
+                    _logger.LogInformation($"Email to {user.UserFirstName} was sent.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"UserId: {user.UserId} failed SendEmail attempt. " + ex.Message);
+                }
             }
         }
 

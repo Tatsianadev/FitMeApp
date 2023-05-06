@@ -646,3 +646,33 @@ GO
 ALTER TABLE [dbo].[NumberOfVisitorsPerHour]  WITH CHECK ADD FOREIGN KEY([GymId])
 REFERENCES [dbo].[Gyms] ([Id])
 GO
+
+
+
+--GroupTrainings--
+
+create table WeeklyGroupTrainingsSchedule(
+Id int identity primary key not null,
+TrainingTrainerId int not null,
+GymId int not null,
+DayOfWeekNumber int not null,
+StartTime int not null,
+EndTime int not null,
+ParticipantsLimit int not null
+
+foreign key (TrainingTrainerId) references TrainingTrainer(Id),
+foreign key (GymId) references Gyms(Id)
+)
+go
+
+
+
+create table GroupTrainingsParticipants(
+Id int identity primary key not null,
+WeeklyGroupTrainingsScheduleId int not null,
+UserId nvarchar(450) not null
+
+foreign key (WeeklyGroupTrainingsScheduleId) references WeeklyGroupTrainingsSchedule(Id),
+foreign key (UserId) references AspNetUsers(Id)
+)
+go
