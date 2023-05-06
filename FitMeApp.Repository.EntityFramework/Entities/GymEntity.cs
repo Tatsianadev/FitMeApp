@@ -14,6 +14,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
             Trainings = new HashSet<TrainingEntity>();
             Subscriptions = new HashSet<SubscriptionEntity>();
             NumberOfVisitorsPerHour = new HashSet<NumberOfVisitorsPerHourEntity>();
+            WeeklyGroupTrainingsSchedule = new HashSet<WeeklyGroupTrainingsScheduleEntity>();
         }
 
 
@@ -21,5 +22,6 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         public ICollection<TrainingEntity> Trainings { get; set; }
         public ICollection<SubscriptionEntity> Subscriptions { get; set; }
         public ICollection<NumberOfVisitorsPerHourEntity> NumberOfVisitorsPerHour { get; set; }
+        public ICollection<WeeklyGroupTrainingsScheduleEntity> WeeklyGroupTrainingsSchedule { get; set; }
     }
 }

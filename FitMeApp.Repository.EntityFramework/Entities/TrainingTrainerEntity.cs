@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -13,5 +14,12 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         public string TrainerId { get; set; }
         public virtual TrainingEntity Training { get; set; }       
         public virtual TrainerEntity Trainer { get; set; }
+
+        public ICollection<WeeklyGroupTrainingsScheduleEntity> WeeklyGroupTrainingsSchedule { get; set; }
+
+        public TrainingTrainerEntity()
+        {
+            WeeklyGroupTrainingsSchedule = new HashSet<WeeklyGroupTrainingsScheduleEntity>();
+        }
     }
 }
