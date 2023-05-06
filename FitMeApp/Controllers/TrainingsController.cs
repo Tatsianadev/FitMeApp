@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FitMeApp.Mapper;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +32,6 @@ namespace FitMeApp.Controllers
             _logger = logger;
         }
 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
 
 
         [HttpGet]
