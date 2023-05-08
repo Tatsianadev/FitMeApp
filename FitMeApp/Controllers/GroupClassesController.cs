@@ -49,7 +49,6 @@ namespace FitMeApp.Controllers
             var trainingModel = _trainingService.GetTrainingModel(groupClassId);
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
             return View(trainingViewModel);
-
         }
     }
 }

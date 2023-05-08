@@ -13,7 +13,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<GymEntityBase> Gyms { get; set; }
-        public IEnumerable<User> Trainers { get; set; }
+        //public IEnumerable<GymEntityBase> Gyms { get; set; }
+        public IEnumerable<TrainerWithGymAndTrainingsBase> Trainers { get; set; }
     }
 }

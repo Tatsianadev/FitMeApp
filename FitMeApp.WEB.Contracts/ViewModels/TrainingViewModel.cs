@@ -10,7 +10,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<User> Trainers { get; set; }
-        public IEnumerable<GymViewModel> Gyms { get; set; }
+        public IEnumerable<TrainerViewModel> Trainers { get; set; }
+        //public IEnumerable<GymViewModel> Gyms { get; set; }
     }
 }

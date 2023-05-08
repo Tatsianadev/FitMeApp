@@ -1,0 +1,46 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.TrainingViewModel
+
+<div class="container" style="margin: 20px 0">
+    <div class="row">
+        <div class="col-md-4">
+            <div style="text-align: center">
+                <h5>What is @Model.Name like?</h5>
+            </div>
+            Text about type of training
+        </div>
+        <div class="col-md-8">
+            <div style="text-align: center">
+                <h5>Where I can try @Model.Name?</h5>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Gym</th>
+                    <th scope="col">Address</th>
+                    <th scope="col" style="text-align: center">Trainer</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var trainer in Model.Trainers)
+                {
+                    <tr>
+                        <td><span style="font-weight: bold">@trainer.Gym.Name</span></td>
+                        <td>@trainer.Gym.Address</td>
+                        <td style="text-align: center">
+                            <div style="text-align: center">
+                                <img src="@trainer.AvatarPath" alt="Trainer Avatar" style="height: 100px; width: auto"/>
+                                <div>@trainer.FirstName @trainer.LastName</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a asp-action="CurrentGroupClassSchedule" asp-controller="GroupClasses" asp-route-trainerId="@trainer.Id" asp-route-trainengId="@Model.Id" class="btn btn-dark">Show schedule</a>
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

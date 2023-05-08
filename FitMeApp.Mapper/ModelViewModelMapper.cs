@@ -103,23 +103,15 @@ namespace FitMeApp.Mapper
 
         public TrainingViewModel MapTrainingModelToViewModel(TrainingModel trainingModel)
         {
-            List<GymViewModel> gymViewModels = new List<GymViewModel>();
-            foreach (var gymModel in trainingModel.Gyms)
+            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
+            foreach (var trainer in trainingModel.Trainers)
             {
-                var gymViewModel = MapGymModelToViewModelBase(gymModel);
-                gymViewModels.Add(gymViewModel);
+                var trainerViewModel = MapTrainerModelToViewModel(trainer);
+                trainerViewModels.Add(trainerViewModel);
             }
 
-            //List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-            //foreach (var trainer in trainingModel.Trainers)
-            //{
-            //    var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
-            //    trainerViewModels.Add(trainerViewModel);
-            //}
-
             TrainingViewModel groupClassViewModel = MapTrainingModelToViewModelBase(trainingModel);
-            groupClassViewModel.Gyms = gymViewModels;
-            groupClassViewModel.Trainers = trainingModel.Trainers;
+            groupClassViewModel.Trainers = trainerViewModels;
 
             return groupClassViewModel;
         }

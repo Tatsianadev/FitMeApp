@@ -940,24 +940,25 @@ namespace FitMeApp.Repository.EntityFramework
                 return new TrainingWithTrainerAndGymBase();
             }
 
-            var gyms = new List<GymEntityBase>();
-            var trainers = new List<User>();
+            //var gyms = new List<GymEntityBase>();
+            var trainers = new List<TrainerWithGymAndTrainingsBase>();
 
             foreach (var item in trainingTrainerGymJoin)
             {
-                gyms.Add(new GymEntityBase()
+                var gym = new GymEntityBase()
                 {
                     Id = item.GymId,
                     Name = item.GymName,
                     Address = item.GymAdress
-                });
+                };
 
-                trainers.Add(new User()
+                trainers.Add(new TrainerWithGymAndTrainingsBase()
                 {
                     Id = item.TrainerId,
                     FirstName = item.TrainerFirstName,
                     LastName = item.TrainerLastName,
-                    AvatarPath = item.TrainerAvatar
+                    AvatarPath = item.TrainerAvatar,
+                    Gym = gym
                 });
             }
 
@@ -966,7 +967,6 @@ namespace FitMeApp.Repository.EntityFramework
                 Id = trainingTrainerGymJoin.First().Id,
                 Name = trainingTrainerGymJoin.First().Name,
                 Description = trainingTrainerGymJoin.First().Description,
-                Gyms = gyms,
                 Trainers = trainers
             };
 

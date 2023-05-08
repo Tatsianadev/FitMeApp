@@ -9,8 +9,8 @@ namespace FitMeApp.Services.Contracts.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<User> Trainers { get; set; }
-        public IEnumerable<GymModel> Gyms { get; set; }
+        public IEnumerable<TrainerModel> Trainers { get; set; }
+        //public IEnumerable<GymModel> Gyms { get; set; }
 
     }
 }

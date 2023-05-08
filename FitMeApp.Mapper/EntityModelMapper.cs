@@ -137,19 +137,18 @@ namespace FitMeApp.Mapper
         
         public TrainingModel MapTrainingWithTrainersAndGymsBaseToModel(TrainingWithTrainerAndGymBase training)
         {
-            var gymModels = new List<GymModel>();
-            foreach (var gym in training.Gyms)
+            var trainerModels = new List<TrainerModel>();
+            foreach (var trainer in training.Trainers)
             {
-                gymModels.Add(MapGymEntityBaseToModelBase(gym));
+                trainerModels.Add(MapTrainerWithGymAndTrainingsBaseToModel(trainer));
             }
-
+            
             TrainingModel groupClassModel = new TrainingModel()
             {
                 Id = training.Id,
                 Name = training.Name,
                 Description = training.Description,
-                Trainers = training.Trainers,
-                Gyms = gymModels
+                Trainers = trainerModels
             };
 
             return groupClassModel;
