@@ -19,3 +19,30 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var groupClass in @Model)
+        {
+            string picturePath = "/Content/GroupClasses/" + groupClass.Name + ".jpg";
+
+            <div class="col-md-4" style="margin: 15px 0">
+                <div class="card text-center h-100">
+                    <div style="height: 150px; text-align: center">
+                        <img src="@picturePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@groupClass.Name</h5>
+                        <p class="card-text">@groupClass.Description</p>
+                    </div>
+                    <div style="padding: 15px">
+                        <a asp-action="CurrentGroupClass" asp-controller="GroupClasses" class="btn btn-dark" >Show more</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+  
