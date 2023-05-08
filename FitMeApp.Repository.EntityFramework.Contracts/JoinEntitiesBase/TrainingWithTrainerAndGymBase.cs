@@ -1,4 +1,5 @@
-﻿using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
+﻿using FitMeApp.Common;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
         public string Name { get; set; }
         public string Description { get; set; }
         public IEnumerable<GymEntityBase> Gyms { get; set; }
-        public IEnumerable<TrainerEntityBase> Trainers { get; set; }
+        public IEnumerable<User> Trainers { get; set; }
     }
 }

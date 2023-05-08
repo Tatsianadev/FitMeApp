@@ -34,10 +34,12 @@ namespace FitMeApp.Services
         }
 
 
-        public TrainingModel GetTrainingModel(int trainingId)
+        public TrainingModel GetTrainingModel(int trainingId)//todo delete comment
         {
-            var trainingEntity = _repository.GetTraining(trainingId);
-            TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
+            //var trainingEntity = _repository.GetTraining(trainingId);
+            //TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
+            var trainingEntity = _repository.GetTrainingWithTrainersAndGyms(trainingId);
+            TrainingModel trainingModel = _mapper.MapTrainingWithTrainersAndGymsBaseToModel(trainingEntity);
             return trainingModel;
         }
 

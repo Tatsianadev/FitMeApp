@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities.JoinEntityBase;
@@ -905,6 +906,73 @@ namespace FitMeApp.Repository.EntityFramework
 
             return trainerWithGymAndTraining;
         }
+
+
+
+        public TrainingWithTrainerAndGymBase GetTrainingWithTrainersAndGyms(int trainingId)
+        {
+            var trainingTrainerGymJoin = (from training in _context.Trainings
+                                          join trainingTrainer in _context.TrainingTrainer
+                                              on training.Id equals trainingTrainer.TrainingId
+                                          join trainer in _context.Users
+                                              on trainingTrainer.TrainerId equals trainer.Id
+                                          join workLicense in _context.TrainerWorkLicenses
+                                              on trainer.Id equals workLicense.TrainerId
+                                          join gym in _context.Gyms
+                                              on workLicense.GymId equals gym.Id
+                                          where training.Id == trainingId
+                                          select new
+                                          {
+                                              Id = training.Id,
+                                              Name = training.Name,
+                                              Description = training.Description,
+                                              TrainerId = trainer.Id,
+                                              TrainerFirstName = trainer.FirstName,
+                                              TrainerLastName = trainer.LastName,
+                                              TrainerAvatar = trainer.AvatarPath,
+                                              GymId = workLicense.GymId,
+                                              GymName = gym.Name,
+                                              GymAdress = gym.Address
+                                          }).ToList();
+
+            if (trainingTrainerGymJoin.Count == 0)
+            {
+                return new TrainingWithTrainerAndGymBase();
+            }
+
+            var gyms = new List<GymEntityBase>();
+            var trainers = new List<User>();
+
+            foreach (var item in trainingTrainerGymJoin)
+            {
+                gyms.Add(new GymEntityBase()
+                {
+                    Id = item.GymId,
+                    Name = item.GymName,
+                    Address = item.GymAdress
+                });
+
+                trainers.Add(new User()
+                {
+                    Id = item.TrainerId,
+                    FirstName = item.TrainerFirstName,
+                    LastName = item.TrainerLastName,
+                    AvatarPath = item.TrainerAvatar
+                });
+            }
+
+            var trainingWithTrainersAndGyms = new TrainingWithTrainerAndGymBase()
+            {
+                Id = trainingTrainerGymJoin.First().Id,
+                Name = trainingTrainerGymJoin.First().Name,
+                Description = trainingTrainerGymJoin.First().Description,
+                Gyms = gyms,
+                Trainers = trainers
+            };
+
+            return trainingWithTrainersAndGyms;
+        }
+
 
 
         //Filters

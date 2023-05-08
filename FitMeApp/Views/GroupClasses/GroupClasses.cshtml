@@ -36,7 +36,7 @@
                         <p class="card-text">@groupClass.Description</p>
                     </div>
                     <div style="padding: 15px">
-                        <a asp-action="CurrentGroupClass" asp-controller="GroupClasses" class="btn btn-dark" >Show more</a>
+                        <a asp-action="CurrentGroupClass" asp-controller="GroupClasses" asp-route-groupClassId ="@groupClass.Id" class="btn btn-dark" >Show more</a>
                     </div>
                 </div>
             </div>

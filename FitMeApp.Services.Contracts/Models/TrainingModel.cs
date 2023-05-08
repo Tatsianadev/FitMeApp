@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FitMeApp.Common;
 
 
 namespace FitMeApp.Services.Contracts.Models
@@ -8,8 +9,8 @@ namespace FitMeApp.Services.Contracts.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<TrainerModel> Trainers { get; set; }
-        public ICollection<GymModel> Gyms { get; set; }
+        public IEnumerable<User> Trainers { get; set; }
+        public IEnumerable<GymModel> Gyms { get; set; }
 
     }
 }

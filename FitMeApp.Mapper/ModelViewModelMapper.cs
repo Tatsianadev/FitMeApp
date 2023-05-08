@@ -110,16 +110,16 @@ namespace FitMeApp.Mapper
                 gymViewModels.Add(gymViewModel);
             }
 
-            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-            foreach (var trainer in trainingModel.Trainers)
-            {
-                var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
-                trainerViewModels.Add(trainerViewModel);
-            }
+            //List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
+            //foreach (var trainer in trainingModel.Trainers)
+            //{
+            //    var trainerViewModel = MapTrainerModelToViewModelBase(trainer);
+            //    trainerViewModels.Add(trainerViewModel);
+            //}
 
             TrainingViewModel groupClassViewModel = MapTrainingModelToViewModelBase(trainingModel);
             groupClassViewModel.Gyms = gymViewModels;
-            groupClassViewModel.Trainers = trainerViewModels;
+            groupClassViewModel.Trainers = trainingModel.Trainers;
 
             return groupClassViewModel;
         }
