@@ -50,5 +50,11 @@ namespace FitMeApp.Controllers
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
             return View(trainingViewModel);
         }
+
+
+        public IActionResult CurrentGroupClassSchedule(string trainerId, int groupClassId)
+        {
+
+        }
     }
 }

@@ -62,7 +62,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void UpdateTraining(int id, TrainingEntityBase newTrainingData);
         void DeleteTraining(int id);
 
-
+        //GroupClasses
+        IEnumerable<WeeklyGroupTrainingsScheduleEntityBase> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
+        
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
         void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);

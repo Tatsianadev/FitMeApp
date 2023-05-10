@@ -12,8 +12,11 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<int> GetAvailableTimeForTraining (string trainerId, DateTime date);
         bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId);
         bool AddEvent(EventModel newEvent);
-
         
+        //GroupClasses
+        IEnumerable<WeeklyGroupTrainingsScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
+
+
 
     }
 }

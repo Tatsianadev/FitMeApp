@@ -604,6 +604,20 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        //GroupClasses
+
+        public IEnumerable<WeeklyGroupTrainingsScheduleEntityBase> GetSpecificGroupClassSchedule(int groupClassId,
+            string trainerId)
+        {
+            var trainingTrainerId = _context.TrainingTrainer.FirstOrDefault(x => x.TrainerId == trainerId && x.TrainingId == groupClassId)?.Id;
+            var specificGroupClassSchedule = _context.WeeklyGroupTrainingsSchedule
+                .Where(x => x.TrainingTrainerId == trainingTrainerId).ToList();
+
+            return specificGroupClassSchedule;
+        }
+
+
+
         //Trainer-Trainings
         public IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId)
         {
