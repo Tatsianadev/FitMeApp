@@ -1,0 +1,48 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.GroupClassScheduleCalendarViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div>
+            <table class="table table-borderless" style="width: 40%">
+                <tbody>
+                    <tr>
+                        <td>Trainer:</td>
+                        <td>@Model.TrainerFirstName @Model.TrainerLastName</td>
+                    </tr>
+                    <tr>
+                        <td>Gym:</td>
+                        <td>@Model.GymName</td>
+                    </tr>
+                    <tr>
+                        <td>Class:</td>
+                        <td>@Model.GroupClassName</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    @foreach (var day in Enum.GetNames(typeof(DayOfWeek)))
+                    {
+                        <th>@day</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int j = 0; j < 5; j++)
+                {
+                    <tr>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
