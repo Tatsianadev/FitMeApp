@@ -63,8 +63,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void DeleteTraining(int id);
 
         //GroupClasses
-        IEnumerable<GroupTrainingsScheduleEntityBase> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
-        int GetGroupClassParticipantsCountAtSpecificDay(int groupClassScheduleId);
+        IEnumerable<GroupTrainingScheduleEntityBase> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
+        int GetGroupClassParticipantsCount(int groupClassScheduleId);
         
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);

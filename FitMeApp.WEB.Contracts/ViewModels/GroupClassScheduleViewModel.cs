@@ -6,13 +6,10 @@ namespace FitMeApp.WEB.Contracts.ViewModels
 {
     public class GroupClassScheduleViewModel
     {
-        public int GroupClassId { get; set; }
-        public string GroupClassName { get; set; }
-        public string TrainerId { get; set; }
-        public string TrainerFirstName { get; set; }
-        public string TrainerLastName { get; set; }
-        public int GymId { get; set; }
-        public string GymName { get; set; }
-        public IEnumerable<GroupClassScheduleOnSpecificDayViewModel> SpecificDaySchedule { get; set; }
+        public DateTime Date { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public int ParticipantsLimit { get; set; }
+        public int ActualParticipantsCount { get; set; }
     }
 }

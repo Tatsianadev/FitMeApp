@@ -14,7 +14,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool AddEvent(EventModel newEvent);
         
         //GroupClasses
-        IEnumerable<GroupTrainingsScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
+        IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
 
 
 

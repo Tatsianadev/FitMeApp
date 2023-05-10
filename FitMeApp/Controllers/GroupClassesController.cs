@@ -54,8 +54,45 @@ namespace FitMeApp.Controllers
 
         public IActionResult CurrentGroupClassSchedule(string trainerId, int groupClassId)
         {
-            var schedule = _trainingService.GetSpecificGroupClassSchedule(groupClassId, trainerId);
-            return View();
+            try
+            {
+                var dailyInfoModels = _trainingService.GetSpecificGroupClassSchedule(groupClassId, trainerId);
+                var dailyInfoViewModels = new List<GroupClassScheduleViewModel>();
+                foreach (var model in dailyInfoModels)
+                {
+                    dailyInfoViewModels.Add(new GroupClassScheduleViewModel()
+                    {
+                        Date = model.Date,
+                        StartTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(model.StartTime),
+                        EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(model.EndTime),
+                        ParticipantsLimit = model.ParticipantsLimit,
+                        ActualParticipantsCount = model.ActualParticipantsCount
+                    });
+                }
+
+                var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
+
+                var groupClassScheduleCalendar = new GroupClassScheduleCalendarViewModel()
+                {
+                    GroupClassId = groupClassId,
+                    GroupClassName = trainer.Trainings.FirstOrDefault(x => x.Id == groupClassId)?.Name,
+                    TrainerId = trainerId,
+                    TrainerFirstName = trainer.FirstName,
+                    TrainerLastName = trainer.LastName,
+                    GymId = trainer.Gym.Id,
+                    GymName = trainer.Gym.Name,
+                    DailyInfo = dailyInfoViewModels
+                };
+
+                return View(groupClassScheduleCalendar);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Failed to load schedule. Please, try again later.";
+                return View("CustomError", message);
+            }
+            
         }
     }
 }

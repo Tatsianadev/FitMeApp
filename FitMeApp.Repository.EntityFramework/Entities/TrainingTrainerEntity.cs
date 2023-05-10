@@ -15,11 +15,11 @@ namespace FitMeApp.Repository.EntityFramework.Entities
         public virtual TrainingEntity Training { get; set; }       
         public virtual TrainerEntity Trainer { get; set; }
 
-        public ICollection<GroupTrainingsScheduleEntity> WeeklyGroupTrainingsSchedule { get; set; }
+        public ICollection<GroupTrainingScheduleEntity> WeeklyGroupTrainingsSchedule { get; set; }
 
         public TrainingTrainerEntity()
         {
-            WeeklyGroupTrainingsSchedule = new HashSet<GroupTrainingsScheduleEntity>();
+            WeeklyGroupTrainingsSchedule = new HashSet<GroupTrainingScheduleEntity>();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
 {
-    public class GroupTrainingsScheduleEntityBase
+    public class GroupTrainingScheduleEntityBase
     {
         [Key]
         public int Id { get; set; }

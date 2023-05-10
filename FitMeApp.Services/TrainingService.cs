@@ -43,7 +43,7 @@ namespace FitMeApp.Services
             return trainingModel;
         }
 
-        
+
         public IEnumerable<int> GetAvailableTimeForTraining(string trainerId, DateTime date)
         {
             List<int> availableTimeInMinutes = _repository.GetAvailableToApplyTrainingTimeByTrainer(trainerId, date).ToList();
@@ -65,7 +65,7 @@ namespace FitMeApp.Services
 
             return false;
         }
-        
+
 
         public bool AddEvent(EventModel newEvent)
         {
@@ -76,20 +76,20 @@ namespace FitMeApp.Services
 
 
         //GroupClasses
-        public IEnumerable<GroupTrainingsScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
+        public IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
         {
-            var groupClassScheduleModels = new List<GroupTrainingsScheduleModel>();
+            var groupClassScheduleModels = new List<GroupClassScheduleModel>();
 
             var groupClassScheduleEntities = _repository.GetSpecificGroupClassSchedule(groupClassId, trainerId);
-            foreach (var groupClass in groupClassScheduleEntities)
+            foreach (var entity in groupClassScheduleEntities)
             {
-                int participantsCount = _repository.GetGroupClassParticipantsCountAtSpecificDay(groupClass.Id);
-                groupClassScheduleModels.Add(new GroupTrainingsScheduleModel()
+                int participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
+                groupClassScheduleModels.Add(new GroupClassScheduleModel()
                 {
-                   Date = groupClass.Date,
-                    StartTime = groupClass.StartTime,
-                    EndTime = groupClass.EndTime,
-                    ParticipantsLimit = groupClass.ParticipantsLimit,
+                    Date = entity.Date,
+                    StartTime = entity.StartTime,
+                    EndTime = entity.EndTime,
+                    ParticipantsLimit = entity.ParticipantsLimit,
                     ActualParticipantsCount = participantsCount
                 });
             }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FitMeApp.Services.Contracts.Models
 {
-    public class GroupTrainingsScheduleModel
+    public class GroupClassScheduleModel
     {
         //public int Id { get; set; }
         //public int TrainingTrainerId { get; set; }

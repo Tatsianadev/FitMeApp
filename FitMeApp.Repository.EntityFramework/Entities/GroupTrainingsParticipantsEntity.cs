@@ -10,7 +10,7 @@ namespace FitMeApp.Repository.EntityFramework.Entities
     [Table("GroupTrainingsParticipants")]
     public class GroupTrainingsParticipantsEntity: GroupTrainingsParticipantsEntityBase
     {
-        public virtual GroupTrainingsScheduleEntity WeeklyGroupTrainingsSchedule { get; set; }
+        public virtual GroupTrainingScheduleEntity WeeklyGroupTrainingSchedule { get; set; }
         public virtual User Users { get; set; }
     }
 }
