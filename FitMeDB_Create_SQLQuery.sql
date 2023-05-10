@@ -651,11 +651,11 @@ GO
 
 --GroupTrainings--
 
-create table WeeklyGroupTrainingsSchedule(
+create table GroupTrainingsSchedule(
 Id int identity primary key not null,
 TrainingTrainerId int not null,
 GymId int not null,
-DayOfWeekNumber int not null,
+Date date not null,
 StartTime int not null,
 EndTime int not null,
 ParticipantsLimit int not null
@@ -669,10 +669,10 @@ go
 
 create table GroupTrainingsParticipants(
 Id int identity primary key not null,
-WeeklyGroupTrainingsScheduleId int not null,
+GroupTrainingsScheduleId int not null,
 UserId nvarchar(450) not null
 
-foreign key (WeeklyGroupTrainingsScheduleId) references WeeklyGroupTrainingsSchedule(Id),
+foreign key (GroupTrainingsScheduleId) references GroupTrainingsSchedule(Id),
 foreign key (UserId) references AspNetUsers(Id)
 )
 go

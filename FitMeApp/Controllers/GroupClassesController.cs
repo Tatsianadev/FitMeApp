@@ -54,7 +54,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult CurrentGroupClassSchedule(string trainerId, int groupClassId)
         {
-
+            var schedule = _trainingService.GetSpecificGroupClassSchedule(groupClassId, trainerId);
+            return View();
         }
     }
 }

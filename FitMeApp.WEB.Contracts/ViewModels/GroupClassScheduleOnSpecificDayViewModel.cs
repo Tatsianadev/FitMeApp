@@ -6,7 +6,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
 {
     public class GroupClassScheduleOnSpecificDayViewModel
     {
-        public DayOfWeek DayOfWeekName { get; set; }
+        public DateTime Date { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public int ParticipantsLimit { get; set; }

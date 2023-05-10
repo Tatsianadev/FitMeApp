@@ -9,7 +9,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.BaseEntities
     {
         [Key]
         public int Id { get; set; }
-        public int WeeklyGroupTrainingsScheduleId { get; set; }
+        public int GroupTrainingsScheduleId { get; set; }
         public string UserId { get; set; }
     }
 }

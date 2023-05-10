@@ -76,20 +76,21 @@ namespace FitMeApp.Services
 
 
         //GroupClasses
-        public IEnumerable<WeeklyGroupTrainingsScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
+        public IEnumerable<GroupTrainingsScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
         {
-            var groupClassScheduleModels = new List<WeeklyGroupTrainingsScheduleModel>();
+            var groupClassScheduleModels = new List<GroupTrainingsScheduleModel>();
 
             var groupClassScheduleEntities = _repository.GetSpecificGroupClassSchedule(groupClassId, trainerId);
             foreach (var groupClass in groupClassScheduleEntities)
             {
-                groupClassScheduleModels.Add(new WeeklyGroupTrainingsScheduleModel()
+                int participantsCount = _repository.GetGroupClassParticipantsCountAtSpecificDay(groupClass.Id);
+                groupClassScheduleModels.Add(new GroupTrainingsScheduleModel()
                 {
-                    DayOfWeekName = (DayOfWeek)groupClass.DayOfWeekNumber,
+                   Date = groupClass.Date,
                     StartTime = groupClass.StartTime,
                     EndTime = groupClass.EndTime,
                     ParticipantsLimit = groupClass.ParticipantsLimit,
-                    ActualParticipantsCount = 0 //todo add method GetAllParticipantsBySpecificGroupClass
+                    ActualParticipantsCount = participantsCount
                 });
             }
 
