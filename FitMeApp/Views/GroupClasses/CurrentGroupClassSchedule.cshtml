@@ -45,10 +45,14 @@
                         @if (currentDay.DayOfWeek == dayOfWeek)
                         {
                             var tempDate = currentDay;
-                            @if (Model.DailyInfo.Select(x => x.Date.Date).Contains(currentDay.Date))
+                            @if (Model.DailyInfo.Select(x => x.Date.Date).Contains(tempDate.Date))
                             {
                                 <td>
-                                    @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", @Model.DailyInfo.Where(x=>x.Date.Date == tempDate.Date).ToList())
+                                    <div style="font-weight: bold">
+                                        @tempDate.ToString("M")
+                                    </div>
+                                   
+                                    @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", Model.DailyInfo.Where(x => x.Date.Date == tempDate.Date).ToList())
                                 </td>
                             }
                             else

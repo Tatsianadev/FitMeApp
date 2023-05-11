@@ -2,22 +2,15 @@
 
 
 <div class="container">
-    <div class="row">
-        <div>@Model.FirstOrDefault()?.Date.ToString("M")</div>
-    </div>
+    @*<div class="row">
+        <div style="font-weight: bold">@Model.FirstOrDefault()?.Date.ToString("M")</div>
+    </div>*@
     @foreach (var grClass in @Model)
     {
-        <div class="row">
+        <a class="btn btn-outline-primary btn-sm" style="width: 100%">
             <div>@grClass.StartTime - @grClass.EndTime </div>
-        </div>
-        <div class="row">
             @{ var placesLeft = grClass.ParticipantsLimit - grClass.ActualParticipantsCount;}
-            <div>Left: @placesLeft </div>
-        </div>
-        <div class="row">
-            <div>
-                <a class="btn btn-outline-dark btn-sm">Apply</a>
-            </div>
-        </div>
+            <div style="font-size: x-small">Available: <span style="font-weight: bold"> @placesLeft</span> places</div>
+        </a>
     }
 </div>
