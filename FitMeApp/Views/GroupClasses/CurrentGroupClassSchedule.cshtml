@@ -40,21 +40,32 @@
                 <tr>
                     @for (int i = 0; i < 7; i++)
                     {
-                        currentDay = currentDay.AddDays(1);
-                        var tempDate = currentDay;
-                        @if (Model.DailyInfo.Select(x => x.Date.Date).Contains(currentDay.Date))
+                        var dayOfWeek = (DayOfWeek) i;
+
+                        @if (currentDay.DayOfWeek == dayOfWeek)
                         {
-                            <td>
-                                @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", @Model.DailyInfo.Where(x=>x.Date.Date == tempDate.Date).ToList())
-                            </td>
+                            var tempDate = currentDay;
+                            @if (Model.DailyInfo.Select(x => x.Date.Date).Contains(currentDay.Date))
+                            {
+                                <td>
+                                    @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", @Model.DailyInfo.Where(x=>x.Date.Date == tempDate.Date).ToList())
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @*@tempDate.DayOfWeek.ToString();
+                                    <br/>*@
+                                    @tempDate.ToString("M")
+                                </td>
+                            }
+
+                            currentDay = currentDay.AddDays(1);
                         }
                         else
                         {
-                            <td>
-                               @tempDate.ToString("MM/dd/yyyy")
-                            </td>
+                            <td></td>
                         }
-                       
                     }
                 </tr>
             }

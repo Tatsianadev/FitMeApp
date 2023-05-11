@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div>@Model.FirstOrDefault()?.Date.ToString("MM/dd/yyyy")</div>
+        <div>@Model.FirstOrDefault()?.Date.ToString("M")</div>
     </div>
     @foreach (var grClass in @Model)
     {
@@ -16,7 +16,7 @@
         </div>
         <div class="row">
             <div>
-                <a class="btn btn-dark btn-sm">Apply</a>
+                <a class="btn btn-outline-dark btn-sm">Apply</a>
             </div>
         </div>
     }
