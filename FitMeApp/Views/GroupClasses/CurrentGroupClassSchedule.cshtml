@@ -1,4 +1,5 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.GroupClassScheduleCalendarViewModel
+﻿@addTagHelper *,FitMeApp
+@model FitMeApp.WEB.Contracts.ViewModels.GroupClassScheduleCalendarViewModel
 
 
 <div class="container">
@@ -23,12 +24,12 @@
         </div>
     </div>
     <div class="row">
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="width: 100%">
             <thead>
                 <tr>
                     @foreach (var day in Enum.GetNames(typeof(DayOfWeek)))
                     {
-                        <th>@day</th>
+                        <th style="width:14%">@day</th>
                     }
                 </tr>
             </thead>
@@ -38,7 +39,9 @@
                     <tr>
                         @for (int i = 0; i < 7; i++)
                         {
-                            <td></td>
+                            <td>
+                                @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", @Model.DailyInfo)
+                            </td>
                         }
                     </tr>
                 }
