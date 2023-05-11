@@ -1,3 +1,23 @@
-﻿<div>
-    <h6> this is GroupClassesPerDayOnScheduleCalendar</h6>
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.GroupClassScheduleViewModel>
+
+
+<div class="container">
+    <div class="row">
+        <div>@Model.FirstOrDefault()?.Date.ToString("MM/dd/yyyy")</div>
+    </div>
+    @foreach (var grClass in @Model)
+    {
+        <div class="row">
+            <div>@grClass.StartTime - @grClass.EndTime </div>
+        </div>
+        <div class="row">
+            @{ var placesLeft = grClass.ParticipantsLimit - grClass.ActualParticipantsCount;}
+            <div>Left: @placesLeft </div>
+        </div>
+        <div class="row">
+            <div>
+                <a class="btn btn-dark btn-sm">Apply</a>
+            </div>
+        </div>
+    }
 </div>
