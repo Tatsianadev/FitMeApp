@@ -626,9 +626,24 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public GroupTrainingScheduleEntityBase GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId)
+        public GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId)
         {
-            var record = _context.GroupTrainingsSchedule.FirstOrDefault(x => x.Id == groupTrainingScheduleId);
+            var record = (from grSchedule in _context.GroupTrainingsSchedule
+                join trainingTrainer in _context.TrainingTrainer
+                    on grSchedule.TrainingTrainerId equals trainingTrainer.Id
+                    where grSchedule.Id ==groupTrainingScheduleId
+                select new GroupClassScheduleRecordFullInfo()
+                {
+                    Id = grSchedule.Id,
+                    TrainerId = trainingTrainer.TrainerId,
+                    GroupClassId = trainingTrainer.TrainingId,
+                    GymId = grSchedule.GymId,
+                    Date = grSchedule.Date,
+                    StartTime = grSchedule.StartTime,
+                    EndTime = grSchedule.EndTime,
+                    ParticipantsLimit = grSchedule.ParticipantsLimit
+                }).FirstOrDefault();
+
             return record;
         }
 

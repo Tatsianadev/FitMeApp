@@ -65,7 +65,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //GroupClasses
         IEnumerable<GroupTrainingScheduleEntityBase> GetScheduleForSelectedGroupClass(int groupClassId, string trainerId);
         int GetGroupClassParticipantsCount(int groupClassScheduleId);
-        GroupTrainingScheduleEntityBase GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId);
+        GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId);
         
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);

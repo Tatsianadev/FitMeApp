@@ -17,15 +17,23 @@ namespace FitMeApp.Controllers
         private readonly ITrainingService _trainingService;
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
+        private readonly IScheduleService _scheduleService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public GroupClassesController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, UserManager<User> userManager, ILogger<GroupClassesController> logger)
+        public GroupClassesController(
+            ITrainingService trainingService, 
+            IGymService gymService, 
+            ITrainerService trainerService,
+            IScheduleService scheduleService,
+            UserManager<User> userManager, 
+            ILogger<GroupClassesController> logger)
         {
             _trainingService = trainingService;
             _gymService = gymService;
             _trainerService = trainerService;
+            _scheduleService = scheduleService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -122,11 +130,16 @@ namespace FitMeApp.Controllers
                     Date = groupClassScheduleRecord.Date,
                     StartTime = groupClassScheduleRecord.StartTime,
                     EndTime = groupClassScheduleRecord.EndTime,
-                    //todo add trainerId and trainingId
+                    TrainerId = groupClassScheduleRecord.TrainerId,
                     UserId = user.Id,
+                    TrainingId = groupClassScheduleRecord.GroupClassId,
                     Status = Common.EventStatusEnum.Confirmed
                 };
-                //ad participant
+
+                bool result = _trainingService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
+
+
+                //todo ad participant
             }
             else
             {

@@ -8,8 +8,8 @@ namespace FitMeApp.Services.Contracts.Models
     {
         public int Id { get; set; }
         public int GymId { get; set; }
-        //public int TrainerId { get; set; } 
-        //public int GroupClassId { get; set; }
+        public string TrainerId { get; set; }
+        public int GroupClassId { get; set; }
         public DateTime Date { get; set; }
         public int StartTime { get; set; }
         public int EndTime { get; set; }
