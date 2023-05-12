@@ -1,37 +1,49 @@
 ﻿@addTagHelper *,FitMeApp
 @model FitMeApp.WEB.Contracts.ViewModels.GroupClassScheduleCalendarViewModel
 
+@{ string picturePath = "/Content/GroupClasses/" + Model.GroupClassName + ".jpg"; }
+
+<style>
+    body {background: url(@picturePath)}
+</style>
+
 
 <div class="container">
     <div class="row">
-        <div>
-            <table class="table table-borderless" style="width: 40%">
+        <div class ="col-md-4">
+            <table class="table-light table-borderless">
                 <tbody>
-                    <tr>
-                        <td>Trainer:</td>
-                        <td>@Model.TrainerFirstName @Model.TrainerLastName</td>
-                    </tr>
-                    <tr>
-                        <td>Gym:</td>
-                        <td>@Model.GymName</td>
-                    </tr>
-                    <tr>
-                        <td>Class:</td>
-                        <td>@Model.GroupClassName</td>
-                    </tr>
+                <tr>
+                    <td>Class:</td>
+                    <td style="font-weight: bold">@Model.GroupClassName</td>
+                </tr>
+                <tr>
+                    <td>Gym:</td>
+                    <td style="font-weight: bold">@Model.GymName</td>
+                </tr>
+                <tr>
+                    <td>Trainer:</td>
+                    <td style="font-weight: bold">@Model.TrainerFirstName @Model.TrainerLastName</td>
+                </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-8">
+            @*@{ string picturePath = "/Content/GroupClasses/" + Model.GroupClassName + ".jpg"; }
+            <div style="height: 150px; text-align: right">
+                <img src="@picturePath" class="card-img-top" alt="..." style="height:100%; width:auto">
+            </div>*@
         </div>
     </div>
     <div class="row">
         <table class="table table-bordered" style="width: 100%">
             <thead>
-                <tr>
-                    @foreach (var day in Enum.GetNames(typeof(DayOfWeek)))
-                    {
-                        <th style="width:14%">@day</th>
-                    }
-                </tr>
+            <tr class="table-info">
+                @foreach (var day in Enum.GetNames(typeof(DayOfWeek)))
+                {
+                    <th style="width: 14%; text-align: center">@day</th>
+                }
+            </tr>
             </thead>
             <tbody>
             @{ var currentDay = DateTime.Today;}
@@ -51,7 +63,7 @@
                                     <div style="font-weight: bold">
                                         @tempDate.ToString("M")
                                     </div>
-                                   
+
                                     @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", Model.DailyInfo.Where(x => x.Date.Date == tempDate.Date).ToList())
                                 </td>
                             }
