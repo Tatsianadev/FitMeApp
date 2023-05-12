@@ -7,7 +7,7 @@
         var placesLeft = grClass.ParticipantsLimit - grClass.ActualParticipantsCount;
         var disabledFlag = placesLeft <= 0;
 
-        <a class="btn btn-outline-primary btn-sm" asp-action="ApplyForGroupClass" asp-controller="Trainings" asp-route-groupClassScheduleId ="@grClass.Id" style="width: 100%" aria-disabled="@disabledFlag">
+        <a class="btn btn-outline-dark btn-sm" asp-action="ApplyForGroupClass" asp-controller="GroupClasses" asp-route-groupClassScheduleId ="@grClass.Id" style="width: 100%" aria-disabled="@disabledFlag">
             <div>@grClass.StartTime - @grClass.EndTime </div>
             <div style="font-size: x-small">Available: <span style="font-weight: bold"> @placesLeft</span> places</div>
         </a>

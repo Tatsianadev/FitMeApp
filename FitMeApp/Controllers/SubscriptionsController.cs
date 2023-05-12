@@ -292,6 +292,10 @@ namespace FitMeApp.Controllers
             {
                 imagePath = _localizer["WorkAsTrainer"];
             }
+            else if (subscription.DietMonitoring == false && subscription.GroupTraining == false)
+            {
+                imagePath = _localizer["GymAccess"];
+            }
             else if (subscription.DietMonitoring && subscription.GroupTraining == false)
             {
                 imagePath = _localizer["GymAccessDietMonitoring"];

@@ -76,11 +76,13 @@ namespace FitMeApp.Services
 
 
         //GroupClasses
+
+        //List of all groupClass records for schedule Calendar
         public IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
         {
             var groupClassScheduleModels = new List<GroupClassScheduleModel>();
 
-            var groupClassScheduleEntities = _repository.GetSpecificGroupClassSchedule(groupClassId, trainerId);
+            var groupClassScheduleEntities = _repository.GetScheduleForSelectedGroupClass(groupClassId, trainerId);
             foreach (var entity in groupClassScheduleEntities)
             {
                 int participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
@@ -99,6 +101,27 @@ namespace FitMeApp.Services
 
         }
 
-        
+
+        //Full info about concrete groupClass record in Schedule Calendar
+        public GroupClassScheduleModel GetRecordInGroupClassSchedule(int groupClassScheduleId)
+        {
+            var entity = _repository.GetRecordInGroupTrainingSchedule(groupClassScheduleId);
+            var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
+
+            var grClassScheduleRecord = new GroupClassScheduleModel()
+            {
+                Id = entity.Id,
+                GymId = entity.GymId,
+                Date = entity.Date,
+                StartTime = entity.StartTime,
+                EndTime = entity.EndTime,
+                ParticipantsLimit = entity.ParticipantsLimit,
+                ActualParticipantsCount = participantsCount
+            };
+            
+            return grClassScheduleRecord;
+        }
+
+
     }
 }

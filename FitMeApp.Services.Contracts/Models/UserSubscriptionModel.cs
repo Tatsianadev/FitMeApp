@@ -8,6 +8,7 @@ namespace FitMeApp.Services.Contracts.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public int GymId { get; set; }
         public string GymName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

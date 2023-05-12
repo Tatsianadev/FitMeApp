@@ -249,6 +249,7 @@ namespace FitMeApp.Mapper
             {
                 Id = subscriptionBase.Id,
                 UserId = subscriptionBase.UserId,
+                GymId = subscriptionBase.GymId,
                 GymName = subscriptionBase.GymName,
                 StartDate = subscriptionBase.StartDate,
                 EndDate = subscriptionBase.EndDate,
@@ -339,6 +340,19 @@ namespace FitMeApp.Mapper
 
             return licenseModel;
         }
+
+
+        //public GroupClassScheduleModel MapGroupTrainingScheduleEntityBaseToModel(GroupTrainingScheduleEntityBase entity)
+        //{
+        //    GroupClassScheduleModel model = new GroupClassScheduleModel()
+        //    {
+        //        Id = entity.Id,
+        //        Date = entity.Date,
+        //        StartTime = entity.StartTime,
+        //        EndTime = entity.EndTime,
+        //        ParticipantsLimit = entity.ParticipantsLimit
+        //    };
+        //}
 
 
 

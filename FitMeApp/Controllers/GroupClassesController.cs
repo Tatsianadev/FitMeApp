@@ -95,9 +95,48 @@ namespace FitMeApp.Controllers
             }
         }
 
-        public IActionResult ApplyForGroupClass(int grClassScheduleId)
+        public async Task<IActionResult> ApplyForGroupClass(int groupClassScheduleId)
         {
+            //get groupClassSchedule by id
+            var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId);
+            var user = await _userManager.GetUserAsync(User);
+            var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
+            bool hasAvailableSubscription = false;
 
+            foreach (var subscription in userSubscriptions)
+            {
+                if (subscription.StartDate <= groupClassScheduleRecord.Date &&
+                    subscription.EndDate >= groupClassScheduleRecord.Date &&
+                    subscription.GroupTraining &&
+                    subscription.GymId == groupClassScheduleRecord.GymId)
+                {
+                    hasAvailableSubscription = true;
+                }
+            }
+
+            if (hasAvailableSubscription)
+            {
+                //add event
+                var trainingEvent = new EventViewModel()
+                {
+                    Date = groupClassScheduleRecord.Date,
+                    StartTime = groupClassScheduleRecord.StartTime,
+                    EndTime = groupClassScheduleRecord.EndTime,
+                    //todo add trainerId and trainingId
+                    UserId = user.Id,
+                    Status = Common.EventStatusEnum.Confirmed
+                };
+                //ad participant
+            }
+            else
+            {
+                //return view to buy subscription
+            }
+
+
+            
+            
+            return View();
         }
     }
 }

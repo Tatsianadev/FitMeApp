@@ -15,6 +15,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         
         //GroupClasses
         IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
+        GroupClassScheduleModel GetRecordInGroupClassSchedule(int groupClassScheduleId);
 
 
 
