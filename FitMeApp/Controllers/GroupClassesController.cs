@@ -62,6 +62,7 @@ namespace FitMeApp.Controllers
                 {
                     dailyInfoViewModels.Add(new GroupClassScheduleViewModel()
                     {
+                        Id = model.Id,
                         Date = model.Date,
                         StartTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(model.StartTime),
                         EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(model.EndTime),
@@ -92,7 +93,11 @@ namespace FitMeApp.Controllers
                 string message = "Failed to load schedule. Please, try again later.";
                 return View("CustomError", message);
             }
-            
+        }
+
+        public IActionResult ApplyForGroupClass(int grClassScheduleId)
+        {
+
         }
     }
 }

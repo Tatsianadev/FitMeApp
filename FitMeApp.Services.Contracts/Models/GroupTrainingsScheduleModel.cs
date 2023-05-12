@@ -6,9 +6,7 @@ namespace FitMeApp.Services.Contracts.Models
 {
     public class GroupClassScheduleModel
     {
-        //public int Id { get; set; }
-        //public int TrainingTrainerId { get; set; }
-        //public int GymId { get; set; }
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public int StartTime { get; set; }
         public int EndTime { get; set; }

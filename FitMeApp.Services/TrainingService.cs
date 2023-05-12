@@ -86,6 +86,7 @@ namespace FitMeApp.Services
                 int participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
                 groupClassScheduleModels.Add(new GroupClassScheduleModel()
                 {
+                    Id = entity.Id,
                     Date = entity.Date,
                     StartTime = entity.StartTime,
                     EndTime = entity.EndTime,
@@ -97,5 +98,7 @@ namespace FitMeApp.Services
             return groupClassScheduleModels;
 
         }
+
+        
     }
 }
