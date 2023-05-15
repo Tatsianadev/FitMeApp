@@ -651,7 +651,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
         {
-            var participant = new GroupTrainingsParticipantsEntity()
+            var participant = new GroupTrainingsParticipantEntity()
             {
                 GroupTrainingsScheduleId = groupClassScheduleId,
                 UserId = userId
@@ -1667,7 +1667,19 @@ namespace FitMeApp.Repository.EntityFramework
 
             _context.Events.Add(newEventEntity);
             _context.SaveChanges();
-            return newEvent.Id;
+            return newEventEntity.Id;
+        }
+
+
+
+        public void DeleteEvent(int eventId)
+        {
+            var eventToDelete = _context.Events.FirstOrDefault(x => x.Id == eventId);
+            if (eventToDelete != null)
+            {
+                _context.Events.Remove(eventToDelete);
+                _context.SaveChanges();
+            }
         }
 
 

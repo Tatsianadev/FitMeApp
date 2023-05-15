@@ -12,12 +12,11 @@ namespace FitMeApp.Repository.EntityFramework.Entities
     {
         public virtual GymEntity Gym { get; set; }
         public virtual TrainingTrainerEntity TrainingTrainer { get; set; }
-
-        public ICollection<GroupTrainingsParticipantsEntity> GroupTrainingsParticipants { get; set; }
+        public ICollection<GroupTrainingsParticipantEntity> GroupTrainingsParticipants { get; set; }
 
         public GroupTrainingScheduleEntity()
         {
-            GroupTrainingsParticipants = new HashSet<GroupTrainingsParticipantsEntity>();
+            GroupTrainingsParticipants = new HashSet<GroupTrainingsParticipantEntity>();
         }
     }
 }

@@ -108,7 +108,7 @@ namespace FitMeApp.Controllers
             try
             {
                 //get groupClassSchedule by id
-                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId);
+                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId); //GroupClassId =0 , TrainerId = null
                 var user = await _userManager.GetUserAsync(User);
                 var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
                 bool hasAvailableSubscription = false;
@@ -138,6 +138,7 @@ namespace FitMeApp.Controllers
                         Status = Common.EventStatusEnum.Confirmed
                     };
 
+                    //add new event
                     int eventId = _trainingService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
                     if (eventId == 0)
                     {
@@ -149,16 +150,18 @@ namespace FitMeApp.Controllers
                     int participantId = _trainingService.AddGroupClassParticipant(groupClassScheduleId, user.Id);
                     if (participantId == 0)
                     {
+                        _trainingService.DeleteEvent(eventId); //todo maybe remove to ScheduleService (add and delete events)
+                        string massage = "Failed attempt subscribe for group class. Try again later please";
+                        return View("CustomError", massage);
 
                     }
+
+                    //return view about subscribe successfully
                 }
                 else
                 {
                     //return view to buy subscription
                 }
-
-
-
 
                 return View();
             }

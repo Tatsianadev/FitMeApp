@@ -75,6 +75,12 @@ namespace FitMeApp.Services
         }
 
 
+        public void DeleteEvent(int eventId)
+        {
+           _repository.DeleteEvent(eventId);
+        }
+
+
         //GroupClasses
 
         //List of all groupClass records for schedule Calendar
@@ -111,7 +117,9 @@ namespace FitMeApp.Services
             var grClassScheduleRecord = new GroupClassScheduleModel()
             {
                 Id = entity.Id,
+                TrainerId = entity.TrainerId,
                 GymId = entity.GymId,
+                GroupClassId = entity.GroupClassId,
                 Date = entity.Date,
                 StartTime = entity.StartTime,
                 EndTime = entity.EndTime,

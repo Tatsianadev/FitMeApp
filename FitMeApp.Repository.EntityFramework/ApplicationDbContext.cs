@@ -31,7 +31,7 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<NumberOfVisitorsPerHourEntity> NumberOfVisitorsPerHour { get; set; }
 
         public DbSet<GroupTrainingScheduleEntity> GroupTrainingsSchedule { get; set; }
-        public DbSet<GroupTrainingsParticipantsEntity> GroupTrainingsParticipants { get; set; }
+        public DbSet<GroupTrainingsParticipantEntity> GroupTrainingsParticipants { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):
             base(options) 
