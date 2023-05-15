@@ -31,6 +31,7 @@ namespace FitMeApp.Controllers
         private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
         private readonly IScheduleService _scheduleService;
+        private readonly ISubscriptionService _subscriptionService;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
@@ -45,6 +46,7 @@ namespace FitMeApp.Controllers
             ITrainerService trainerService,
             ITrainingService trainingService,
             IScheduleService scheduleService,
+            ISubscriptionService subscriptionService,
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
@@ -57,6 +59,7 @@ namespace FitMeApp.Controllers
             _trainerService = trainerService;
             _trainingService = trainingService;
             _scheduleService = scheduleService;
+            _subscriptionService = subscriptionService;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
@@ -923,7 +926,7 @@ namespace FitMeApp.Controllers
         {
             if (clientId != null)
             {
-                var clientSubscriptionsModels = _gymService.GetUserSubscriptions(clientId);
+                var clientSubscriptionsModels = _subscriptionService.GetUserSubscriptions(clientId);
                 List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
@@ -940,7 +943,7 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> UserSubscriptions()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userSubscriptionModels = _gymService.GetUserSubscriptions(user.Id);
+            var userSubscriptionModels = _subscriptionService.GetUserSubscriptions(user.Id);
 
             List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
             foreach (var subscription in userSubscriptionModels)
@@ -975,7 +978,7 @@ namespace FitMeApp.Controllers
 
             var user = await _userManager.GetUserAsync(User);
             List<UserSubscriptionViewModel> userSubscriptionViewModels = new List<UserSubscriptionViewModel>();
-            var subscriptionModels = _gymService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
+            var subscriptionModels = _subscriptionService.GetSubscriptionsByFilterByUser(user.Id, validStatuses, gymIds);
 
             foreach (var sudscriptionModel in subscriptionModels)
             {

@@ -65,20 +65,7 @@ namespace FitMeApp.Services
 
             return false;
         }
-
-
-        //public int AddEvent(EventModel newEvent)
-        //{
-        //    var eventEntityBase = _mapper.MapEventModelToEntityBase(newEvent);
-        //    int eventId = _repository.AddEvent(eventEntityBase);
-        //    return eventId;
-        //}
-
-
-        //public void DeleteEvent(int eventId)
-        //{
-        //   _repository.DeleteEvent(eventId);
-        //}
+        
 
 
         //GroupClasses

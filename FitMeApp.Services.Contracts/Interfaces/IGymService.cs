@@ -16,22 +16,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<GymModel> GetGymsByTrainings(List<int> groupClassesId);
         IEnumerable<GymWorkHoursModel> GetWorkHoursByGym(int gymId);
         int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek);
-        int GetGymIdByTrainer(string trainerId);    
-
-        
-        //Subscriptions
-        IEnumerable<SubscriptionModel> GetSubscriptionsForVisitorsByGymByFilter(int gymId, List<int> periods, bool groupTraining, bool dietMonitoring);
-        IEnumerable<SubscriptionModel> GetAllSubscriptionsForVisitorsByGym(int gymId);
-        IEnumerable<SubscriptionModel> GetAllSubscriptionsForTrainersByGym(int gymId);
-        IEnumerable<int> GetAllSubscriptionPeriods();
-        SubscriptionModel GetSubscriptionByGym(int subscriptionId, int gymId);
-
-
-        //UserSubscriptions
-        int AddUserSubscription(string userId, int gymId, int subscriptionId, DateTime startDate);
-        IEnumerable<UserSubscriptionModel> GetUserSubscriptions(string userId);
-        IEnumerable<UserSubscriptionModel> GetSubscriptionsByFilterByUser(string userId, List<SubscriptionValidStatusEnum> validStatuses, List<int> gymIds);
-        void DeleteUserSubscription(int userSubscriptionId);
+        int GetGymIdByTrainer(string trainerId);
 
         //Charts
         AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day);

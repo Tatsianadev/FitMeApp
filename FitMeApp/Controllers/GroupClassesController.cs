@@ -18,6 +18,7 @@ namespace FitMeApp.Controllers
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly IScheduleService _scheduleService;
+        private readonly ISubscriptionService _subscriptionService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
@@ -27,6 +28,7 @@ namespace FitMeApp.Controllers
             IGymService gymService, 
             ITrainerService trainerService,
             IScheduleService scheduleService,
+            ISubscriptionService subscriptionService,
             UserManager<User> userManager, 
             ILogger<GroupClassesController> logger)
         {
@@ -34,6 +36,7 @@ namespace FitMeApp.Controllers
             _gymService = gymService;
             _trainerService = trainerService;
             _scheduleService = scheduleService;
+            _subscriptionService = subscriptionService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -109,7 +112,7 @@ namespace FitMeApp.Controllers
             {
                 var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId); 
                 var user = await _userManager.GetUserAsync(User);
-                var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
+                var userSubscriptions = _subscriptionService.GetUserSubscriptions(user.Id);
                 bool hasAvailableSubscription = false;
 
                 foreach (var subscription in userSubscriptions)
@@ -152,7 +155,6 @@ namespace FitMeApp.Controllers
                         _scheduleService.DeleteEvent(eventId); 
                         string massage = "Failed attempt subscribe for group class. Try again later please";
                         return View("CustomError", massage);
-
                     }
 
                     return RedirectToAction("ApplyForTrainingSubmitted", "Trainings", new { isPersonalTraining = false});
