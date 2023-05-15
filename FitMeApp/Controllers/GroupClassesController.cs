@@ -107,8 +107,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                //get groupClassSchedule by id
-                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId); //GroupClassId =0 , TrainerId = null
+                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId); 
                 var user = await _userManager.GetUserAsync(User);
                 var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
                 bool hasAvailableSubscription = false;
@@ -139,7 +138,7 @@ namespace FitMeApp.Controllers
                     };
 
                     //add new event
-                    int eventId = _trainingService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
+                    int eventId = _scheduleService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
                     if (eventId == 0)
                     {
                         string massage = "Failed attempt subscribe for group class. Try again later please";
@@ -150,20 +149,20 @@ namespace FitMeApp.Controllers
                     int participantId = _trainingService.AddGroupClassParticipant(groupClassScheduleId, user.Id);
                     if (participantId == 0)
                     {
-                        _trainingService.DeleteEvent(eventId); //todo maybe remove to ScheduleService (add and delete events)
+                        _scheduleService.DeleteEvent(eventId); 
                         string massage = "Failed attempt subscribe for group class. Try again later please";
                         return View("CustomError", massage);
 
                     }
 
-                    //return view about subscribe successfully
+                    return RedirectToAction("ApplyForTrainingSubmitted", "Trainings", new { isPersonalTraining = false});
                 }
                 else
                 {
-                    //return view to buy subscription
+                    return RedirectToAction("NoAvailableSubscription", "Trainings",
+                        new {gymId = groupClassScheduleRecord.GymId});
                 }
 
-                return View();
             }
             catch (Exception ex)
             {

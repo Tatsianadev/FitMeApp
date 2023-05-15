@@ -18,15 +18,22 @@ namespace FitMeApp.Controllers
         private readonly ITrainingService _trainingService;
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
+        private readonly IScheduleService _scheduleService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainingsController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, UserManager<User> userManager, ILogger<TrainersController> logger)
+        public TrainingsController(ITrainingService trainingService, 
+            IGymService gymService, 
+            ITrainerService trainerService, 
+            IScheduleService scheduleService,
+            UserManager<User> userManager, 
+            ILogger<TrainersController> logger)
         {
             _trainingService = trainingService;
             _gymService = gymService;
             _trainerService = trainerService;
+            _scheduleService = scheduleService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -86,10 +93,10 @@ namespace FitMeApp.Controllers
                         };
 
                         var eventModel = _mapper.MapEventViewModelToModel(newEvent);
-                        int eventId = _trainingService.AddEvent(eventModel);
+                        int eventId = _scheduleService.AddEvent(eventModel);
                         if (eventId != 0)
                         {
-                            return RedirectToAction("ApplyForTrainingSubmitted");
+                            return RedirectToAction("ApplyForTrainingSubmitted", new{ isPersonalTraining = true});
                         }
                     }
                     else
@@ -119,9 +126,9 @@ namespace FitMeApp.Controllers
             return View("NoAvailableSubscription", gymId.ToString());
         }
 
-        public IActionResult ApplyForTrainingSubmitted()
+        public IActionResult ApplyForTrainingSubmitted(bool isPersonalTraining)
         {
-            return View();
+            return View("ApplyForTrainingSubmitted", isPersonalTraining);
         }
     }
 }

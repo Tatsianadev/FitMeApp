@@ -8,6 +8,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface IScheduleService
     {
         IEnumerable<EventModel> GetAllEvents();
+        int AddEvent(EventModel newEvent);
+        void DeleteEvent(int eventId);
         IEnumerable<EventModel> GetEventsByUser(string userId);
         IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime);
         IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
