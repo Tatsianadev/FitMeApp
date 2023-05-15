@@ -649,6 +649,20 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
+        public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
+        {
+            var participant = new GroupTrainingsParticipantsEntity()
+            {
+                GroupTrainingsScheduleId = groupClassScheduleId,
+                UserId = userId
+            };
+
+            _context.GroupTrainingsParticipants.Add(participant);
+            _context.SaveChanges();
+            return participant.Id;
+        }
+
+
         //Trainer-Trainings
         public IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId)
         {
@@ -1638,7 +1652,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public bool AddEvent(EventEntityBase newEvent)
+        public int AddEvent(EventEntityBase newEvent)
         {
             EventEntity newEventEntity = new EventEntity()
             {
@@ -1652,8 +1666,8 @@ namespace FitMeApp.Repository.EntityFramework
             };
 
             _context.Events.Add(newEventEntity);
-            int addedRowCount = _context.SaveChanges();
-            return addedRowCount > 0;
+            _context.SaveChanges();
+            return newEvent.Id;
         }
 
 

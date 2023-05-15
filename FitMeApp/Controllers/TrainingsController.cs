@@ -86,8 +86,8 @@ namespace FitMeApp.Controllers
                         };
 
                         var eventModel = _mapper.MapEventViewModelToModel(newEvent);
-                        bool result = _trainingService.AddEvent(eventModel);
-                        if (result)
+                        int eventId = _trainingService.AddEvent(eventModel);
+                        if (eventId != 0)
                         {
                             return RedirectToAction("ApplyForTrainingSubmitted");
                         }

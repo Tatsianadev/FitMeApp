@@ -105,51 +105,70 @@ namespace FitMeApp.Controllers
 
         public async Task<IActionResult> ApplyForGroupClass(int groupClassScheduleId)
         {
-            //get groupClassSchedule by id
-            var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId);
-            var user = await _userManager.GetUserAsync(User);
-            var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
-            bool hasAvailableSubscription = false;
-
-            foreach (var subscription in userSubscriptions)
+            try
             {
-                if (subscription.StartDate <= groupClassScheduleRecord.Date &&
-                    subscription.EndDate >= groupClassScheduleRecord.Date &&
-                    subscription.GroupTraining &&
-                    subscription.GymId == groupClassScheduleRecord.GymId)
+                //get groupClassSchedule by id
+                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId);
+                var user = await _userManager.GetUserAsync(User);
+                var userSubscriptions = _gymService.GetUserSubscriptions(user.Id);
+                bool hasAvailableSubscription = false;
+
+                foreach (var subscription in userSubscriptions)
                 {
-                    hasAvailableSubscription = true;
+                    if (subscription.StartDate <= groupClassScheduleRecord.Date &&
+                        subscription.EndDate >= groupClassScheduleRecord.Date &&
+                        subscription.GroupTraining &&
+                        subscription.GymId == groupClassScheduleRecord.GymId)
+                    {
+                        hasAvailableSubscription = true;
+                    }
                 }
-            }
 
-            if (hasAvailableSubscription)
-            {
-                //add event
-                var trainingEvent = new EventViewModel()
+                if (hasAvailableSubscription)
                 {
-                    Date = groupClassScheduleRecord.Date,
-                    StartTime = groupClassScheduleRecord.StartTime,
-                    EndTime = groupClassScheduleRecord.EndTime,
-                    TrainerId = groupClassScheduleRecord.TrainerId,
-                    UserId = user.Id,
-                    TrainingId = groupClassScheduleRecord.GroupClassId,
-                    Status = Common.EventStatusEnum.Confirmed
-                };
+                    //add event
+                    var trainingEvent = new EventViewModel()
+                    {
+                        Date = groupClassScheduleRecord.Date,
+                        StartTime = groupClassScheduleRecord.StartTime,
+                        EndTime = groupClassScheduleRecord.EndTime,
+                        TrainerId = groupClassScheduleRecord.TrainerId,
+                        UserId = user.Id,
+                        TrainingId = groupClassScheduleRecord.GroupClassId,
+                        Status = Common.EventStatusEnum.Confirmed
+                    };
 
-                bool result = _trainingService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
+                    int eventId = _trainingService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
+                    if (eventId == 0)
+                    {
+                        string massage = "Failed attempt subscribe for group class. Try again later please";
+                        return View("CustomError", massage);
+                    }
+
+                    //add participant
+                    int participantId = _trainingService.AddGroupClassParticipant(groupClassScheduleId, user.Id);
+                    if (participantId == 0)
+                    {
+
+                    }
+                }
+                else
+                {
+                    //return view to buy subscription
+                }
 
 
-                //todo ad participant
+
+
+                return View();
             }
-            else
+            catch (Exception ex)
             {
-                //return view to buy subscription
+                _logger.LogError(ex, ex.Message);
+                string massage = "Failed attempt subscribe for group class. Try again later please";
+                return View("CustomError", massage);
             }
-
-
-            
-            
-            return View();
+           
         }
     }
 }

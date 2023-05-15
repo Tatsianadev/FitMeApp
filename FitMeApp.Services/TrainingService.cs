@@ -67,11 +67,11 @@ namespace FitMeApp.Services
         }
 
 
-        public bool AddEvent(EventModel newEvent)
+        public int AddEvent(EventModel newEvent)
         {
             var eventEntityBase = _mapper.MapEventModelToEntityBase(newEvent);
-            bool result = _repository.AddEvent(eventEntityBase);
-            return result;
+            int eventId = _repository.AddEvent(eventEntityBase);
+            return eventId;
         }
 
 
@@ -120,6 +120,14 @@ namespace FitMeApp.Services
             };
             
             return grClassScheduleRecord;
+        }
+
+
+
+        public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
+        {
+            int participantId = _repository.AddGroupClassParticipant(groupClassScheduleId, userId);
+            return participantId;
         }
 
 

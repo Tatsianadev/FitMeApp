@@ -66,7 +66,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<GroupTrainingScheduleEntityBase> GetScheduleForSelectedGroupClass(int groupClassId, string trainerId);
         int GetGroupClassParticipantsCount(int groupClassScheduleId);
         GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId);
-        
+        int AddGroupClassParticipant(int groupClassScheduleId, string userId);
+
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
         void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
@@ -116,7 +117,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
         IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
-        bool AddEvent(EventEntityBase newEvent);
+        int AddEvent(EventEntityBase newEvent);
 
         //Chat
         IEnumerable<ChatMessageEntityBase> GetAllMessagesByUser(string userId);
