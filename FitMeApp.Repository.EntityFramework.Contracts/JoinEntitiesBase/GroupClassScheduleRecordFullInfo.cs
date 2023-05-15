@@ -10,5 +10,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase
     {
         public string TrainerId { get; set; }
         public int GroupClassId { get; set; }
+        public string GroupClassName { get; set; }
+
     }
 }

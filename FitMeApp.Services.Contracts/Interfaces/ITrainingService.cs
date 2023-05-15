@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services.Contracts.Interfaces
@@ -15,7 +16,9 @@ namespace FitMeApp.Services.Contracts.Interfaces
         //GroupClasses
         IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId);
         GroupClassScheduleModel GetRecordInGroupClassSchedule(int groupClassScheduleId);
+        IEnumerable<GroupClassScheduleModel> GetAllGroupClassesScheduleByTrainer(string trainerId);
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
+       
 
 
 

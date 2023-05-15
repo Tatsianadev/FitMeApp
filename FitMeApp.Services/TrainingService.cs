@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
+using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
 
@@ -65,7 +66,7 @@ namespace FitMeApp.Services
 
             return false;
         }
-        
+
 
 
         //GroupClasses
@@ -91,7 +92,6 @@ namespace FitMeApp.Services
             }
 
             return groupClassScheduleModels;
-
         }
 
 
@@ -99,6 +99,32 @@ namespace FitMeApp.Services
         public GroupClassScheduleModel GetRecordInGroupClassSchedule(int groupClassScheduleId)
         {
             var entity = _repository.GetRecordInGroupTrainingSchedule(groupClassScheduleId);
+            return GetRecordInGroupClassSchedule(entity);
+        }
+
+
+        public IEnumerable<GroupClassScheduleModel> GetAllGroupClassesScheduleByTrainer(string trainerId)
+        {
+            var groupClassScheduleEntities = _repository.GetAllGroupClassesScheduleByTrainer(trainerId);
+            var groupClassScheduleModels = new List<GroupClassScheduleModel>();
+            foreach (var entity in groupClassScheduleEntities)
+            {
+                var groupClassScheduleModel = GetRecordInGroupClassSchedule(entity);
+                groupClassScheduleModels.Add(groupClassScheduleModel);
+
+            }
+            return groupClassScheduleModels;
+        }
+
+
+        public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
+        {
+            int participantId = _repository.AddGroupClassParticipant(groupClassScheduleId, userId);
+            return participantId;
+        }
+
+        private GroupClassScheduleModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)
+        {
             var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
 
             var grClassScheduleRecord = new GroupClassScheduleModel()
@@ -107,23 +133,22 @@ namespace FitMeApp.Services
                 TrainerId = entity.TrainerId,
                 GymId = entity.GymId,
                 GroupClassId = entity.GroupClassId,
+                GroupClassName = entity.GroupClassName,
                 Date = entity.Date,
                 StartTime = entity.StartTime,
                 EndTime = entity.EndTime,
                 ParticipantsLimit = entity.ParticipantsLimit,
                 ActualParticipantsCount = participantsCount
             };
-            
+
             return grClassScheduleRecord;
         }
 
 
+        
 
-        public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
-        {
-            int participantId = _repository.AddGroupClassParticipant(groupClassScheduleId, userId);
-            return participantId;
-        }
+
+   
 
 
     }

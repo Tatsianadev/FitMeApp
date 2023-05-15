@@ -663,6 +663,31 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public IEnumerable<GroupClassScheduleRecordFullInfo> GetAllGroupClassesScheduleByTrainer(string trainerId)
+        {
+            var records = (from grSchedule in _context.GroupTrainingsSchedule
+                join trainingTrainer in _context.TrainingTrainer
+                    on grSchedule.TrainingTrainerId equals trainingTrainer.Id
+                    join training in _context.Trainings
+                        on trainingTrainer.TrainingId equals training.Id
+                where trainingTrainer.TrainerId == trainerId
+                select new GroupClassScheduleRecordFullInfo()
+                {
+                    Id = grSchedule.Id,
+                    TrainerId = trainingTrainer.TrainerId,
+                    GroupClassId = trainingTrainer.TrainingId,
+                    GroupClassName = training.Name,
+                    GymId = grSchedule.GymId,
+                    Date = grSchedule.Date,
+                    StartTime = grSchedule.StartTime,
+                    EndTime = grSchedule.EndTime,
+                    ParticipantsLimit = grSchedule.ParticipantsLimit
+                }).ToList();
+
+            return records;
+        }
+
+
         //Trainer-Trainings
         public IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId)
         {

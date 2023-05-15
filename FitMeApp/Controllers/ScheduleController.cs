@@ -19,14 +19,20 @@ namespace FitMeApp.Controllers
     {
         private readonly IScheduleService _scheduleService;
         private readonly ITrainerService _trainerService;
+        private readonly ITrainingService _trainingService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, ITrainerService trainerService, UserManager<User> userManager, ILogger<ScheduleController> logger)
+        public ScheduleController(IScheduleService scheduleService,
+            ITrainerService trainerService, 
+            ITrainingService trainingService,
+            UserManager<User> userManager, 
+            ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
             _trainerService = trainerService;
+            _trainingService = trainingService;
             _userManager = userManager;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
@@ -70,7 +76,7 @@ namespace FitMeApp.Controllers
 
 
 
-        //Caledar - PartialView
+        //Calendar - PartialView
 
         public IActionResult Calendar()
         {
@@ -131,19 +137,26 @@ namespace FitMeApp.Controllers
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 string trainerId = _userManager.GetUserId(User);
                 var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainerId);
-                var workDayesOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
+                var workDaysOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
-                if (!workDayesOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
+                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
                 {
                     model.SelectedDayIsWorkOff = true;
                     return View("Index", model);
                 }
 
-                var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, model.Date);
+                var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, model.Date); //todo get only personalTrainings
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 foreach (var eventModel in eventModels)
                 {
                     eventsViewModels.Add(_mapper.MapEventModelToViewModel(eventModel));
+                }
+
+                //todo get all groupClassesSchedule by trainerId
+                var groupClassesScheduleModels = _trainingService.GetAllGroupClassesScheduleByTrainer(trainerId);
+                foreach (var grClassScheduleModel in groupClassesScheduleModels)
+                {
+                    //var actualParticipantsCount = _trainingService.  //todo get actualParticipantsCount
                 }
 
                 model.Events = eventsViewModels;
