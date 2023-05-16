@@ -123,6 +123,9 @@ namespace FitMeApp.Services
             return participantId;
         }
 
+
+
+
         private GroupClassScheduleModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)
         {
             var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
@@ -143,13 +146,5 @@ namespace FitMeApp.Services
 
             return grClassScheduleRecord;
         }
-
-
-        
-
-
-   
-
-
     }
 }

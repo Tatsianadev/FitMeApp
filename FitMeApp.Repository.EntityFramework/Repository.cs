@@ -629,20 +629,20 @@ namespace FitMeApp.Repository.EntityFramework
         public GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId)
         {
             var record = (from grSchedule in _context.GroupTrainingsSchedule
-                join trainingTrainer in _context.TrainingTrainer
-                    on grSchedule.TrainingTrainerId equals trainingTrainer.Id
-                    where grSchedule.Id ==groupTrainingScheduleId
-                select new GroupClassScheduleRecordFullInfo()
-                {
-                    Id = grSchedule.Id,
-                    TrainerId = trainingTrainer.TrainerId,
-                    GroupClassId = trainingTrainer.TrainingId,
-                    GymId = grSchedule.GymId,
-                    Date = grSchedule.Date,
-                    StartTime = grSchedule.StartTime,
-                    EndTime = grSchedule.EndTime,
-                    ParticipantsLimit = grSchedule.ParticipantsLimit
-                }).FirstOrDefault();
+                          join trainingTrainer in _context.TrainingTrainer
+                              on grSchedule.TrainingTrainerId equals trainingTrainer.Id
+                          where grSchedule.Id == groupTrainingScheduleId
+                          select new GroupClassScheduleRecordFullInfo()
+                          {
+                              Id = grSchedule.Id,
+                              TrainerId = trainingTrainer.TrainerId,
+                              GroupClassId = trainingTrainer.TrainingId,
+                              GymId = grSchedule.GymId,
+                              Date = grSchedule.Date,
+                              StartTime = grSchedule.StartTime,
+                              EndTime = grSchedule.EndTime,
+                              ParticipantsLimit = grSchedule.ParticipantsLimit
+                          }).FirstOrDefault();
 
             return record;
         }
@@ -666,23 +666,23 @@ namespace FitMeApp.Repository.EntityFramework
         public IEnumerable<GroupClassScheduleRecordFullInfo> GetAllGroupClassesScheduleByTrainer(string trainerId)
         {
             var records = (from grSchedule in _context.GroupTrainingsSchedule
-                join trainingTrainer in _context.TrainingTrainer
-                    on grSchedule.TrainingTrainerId equals trainingTrainer.Id
-                    join training in _context.Trainings
-                        on trainingTrainer.TrainingId equals training.Id
-                where trainingTrainer.TrainerId == trainerId
-                select new GroupClassScheduleRecordFullInfo()
-                {
-                    Id = grSchedule.Id,
-                    TrainerId = trainingTrainer.TrainerId,
-                    GroupClassId = trainingTrainer.TrainingId,
-                    GroupClassName = training.Name,
-                    GymId = grSchedule.GymId,
-                    Date = grSchedule.Date,
-                    StartTime = grSchedule.StartTime,
-                    EndTime = grSchedule.EndTime,
-                    ParticipantsLimit = grSchedule.ParticipantsLimit
-                }).ToList();
+                           join trainingTrainer in _context.TrainingTrainer
+                               on grSchedule.TrainingTrainerId equals trainingTrainer.Id
+                           join training in _context.Trainings
+                               on trainingTrainer.TrainingId equals training.Id
+                           where trainingTrainer.TrainerId == trainerId
+                           select new GroupClassScheduleRecordFullInfo()
+                           {
+                               Id = grSchedule.Id,
+                               TrainerId = trainingTrainer.TrainerId,
+                               GroupClassId = trainingTrainer.TrainingId,
+                               GroupClassName = training.Name,
+                               GymId = grSchedule.GymId,
+                               Date = grSchedule.Date,
+                               StartTime = grSchedule.StartTime,
+                               EndTime = grSchedule.EndTime,
+                               ParticipantsLimit = grSchedule.ParticipantsLimit
+                           }).ToList();
 
             return records;
         }
@@ -1552,7 +1552,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date)
+        public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date) //todo if never used - delete
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
 
@@ -1584,6 +1584,45 @@ namespace FitMeApp.Repository.EntityFramework
                                    })
                                     .OrderBy(x => x.StartTime)
                                     .ToList();
+
+            return eventsWithNames;
+        }
+
+
+        public IEnumerable<EventWithNamesBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date)
+        {
+            string dateOnly = date.ToString("yyyy-MM-dd");
+            var personalTrainingId = _context.Trainings.FirstOrDefault(x => x.Name == "Personal training")?.Id;
+
+            var eventsWithNames = (from events in _context.Events
+                                   join user in _context.Users
+                                       on events.UserId equals user.Id
+                                   join trainer in _context.Trainers
+                                       on events.TrainerId equals trainer.Id
+                                   join license in _context.TrainerWorkLicenses
+                                       on events.TrainerId equals license.TrainerId
+                                   join gym in _context.Gyms
+                                       on license.GymId equals gym.Id
+                                   join training in _context.Trainings
+                                       on events.TrainingId equals training.Id
+                                   where events.TrainerId == trainerId
+                                   where events.Date.ToString() == dateOnly
+                                   where events.TrainingId == personalTrainingId
+                                   select new EventWithNamesBase()
+                                   {
+                                       Id = events.Id,
+                                       Date = events.Date,
+                                       StartTime = events.StartTime,
+                                       EndTime = events.EndTime,
+                                       UserId = events.UserId,
+                                       UserFirstName = user.FirstName,
+                                       UserLastName = user.LastName,
+                                       TrainingId = events.TrainingId,
+                                       TrainingName = training.Name,
+                                       Status = events.Status
+                                   })
+                .OrderBy(x => x.StartTime)
+                .ToList();
 
             return eventsWithNames;
         }

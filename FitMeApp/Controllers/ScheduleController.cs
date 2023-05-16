@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
+using DocumentFormat.OpenXml.Office2021.DocumentTasks;
+using System.Threading.Tasks;
+using Task = DocumentFormat.OpenXml.Office2021.DocumentTasks.Task;
 
 namespace FitMeApp.Controllers
 {
@@ -25,9 +27,9 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
 
         public ScheduleController(IScheduleService scheduleService,
-            ITrainerService trainerService, 
+            ITrainerService trainerService,
             ITrainingService trainingService,
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
@@ -38,7 +40,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
         }
 
-        
+
 
         public IActionResult Index()
         {
@@ -130,13 +132,13 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult ShowTrainersEvents(CalendarPageWithEventsViewModel model)
+        public async Task<IActionResult> ShowTrainersEvents(CalendarPageWithEventsViewModel model)
         {
             try
             {
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
-                string trainerId = _userManager.GetUserId(User);
-                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainerId);
+                var trainer = await _userManager.GetUserAsync(User);
+                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainer.Id);
                 var workDaysOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
                 if (!workDaysOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
@@ -145,21 +147,47 @@ namespace FitMeApp.Controllers
                     return View("Index", model);
                 }
 
-                var eventModels = _scheduleService.GetEventsByTrainerAndDate(trainerId, model.Date); //todo get only personalTrainings
-                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
-                foreach (var eventModel in eventModels)
+
+                //var trainerSpecialization = _trainerService. get trainer specialization 
+                var trainerSpecialization = "group";
+
+                List<EventViewModel> personalTrainingEventsViewModels = new List<EventViewModel>();
+                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
+                    trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
                 {
-                    eventsViewModels.Add(_mapper.MapEventModelToViewModel(eventModel));
+                    var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainer.Id, model.Date); //todo get only personalTrainings
+                    foreach (var personalTraining in personalTrainings)
+                    {
+                        personalTrainingEventsViewModels.Add(_mapper.MapEventModelToViewModel(personalTraining));
+                    }
                 }
 
-                //todo get all groupClassesSchedule by trainerId
-                var groupClassesScheduleModels = _trainingService.GetAllGroupClassesScheduleByTrainer(trainerId);
-                foreach (var grClassScheduleModel in groupClassesScheduleModels)
+                List<GroupClassScheduleViewModel> groupClassesSchedule = new List<GroupClassScheduleViewModel>();
+                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
+                    trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
                 {
-                    //var actualParticipantsCount = _trainingService.  //todo get actualParticipantsCount
+                    var groupClassesScheduleModels = _trainingService.GetAllGroupClassesScheduleByTrainer(trainer.Id);
+
+                    foreach (var grClassScheduleModel in groupClassesScheduleModels)
+                    {
+                        groupClassesSchedule.Add(new GroupClassScheduleViewModel()
+                        {
+                            Id = grClassScheduleModel.Id,
+                            TrainerId = grClassScheduleModel.TrainerId,
+                            GroupClassId = grClassScheduleModel.GroupClassId,
+                            GroupClassName = grClassScheduleModel.GroupClassName,
+                            Date = grClassScheduleModel.Date,
+                            StartTime = WorkHoursTypesConverter.ConvertIntTimeToString(grClassScheduleModel.StartTime),
+                            EndTime = WorkHoursTypesConverter.ConvertIntTimeToString(grClassScheduleModel.EndTime),
+                            ParticipantsLimit = grClassScheduleModel.ParticipantsLimit,
+                            ActualParticipantsCount = grClassScheduleModel.ActualParticipantsCount
+                        });
+                    }
                 }
 
-                model.Events = eventsViewModels;
+
+                model.GroupClasses = groupClassesSchedule;
+                model.Events = personalTrainingEventsViewModels;
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
                 model.SelectedDayIsWorkOff = false;
 
@@ -202,10 +230,10 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "trainer")]
-        public IActionResult ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
+        public async Task<IActionResult> ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
         {
             _scheduleService.ChangeEventStatus(eventId);
-            return ShowTrainersEvents(model);
+            return await ShowTrainersEvents(model);
         }
     }
 
