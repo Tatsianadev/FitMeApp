@@ -72,24 +72,24 @@ namespace FitMeApp.Services
         }
 
 
-        public IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime)
-        {
-            var eventWithNamesBases = _repository.GetEventsByTrainerAndDate(trainerId, dateTime);
-            List<EventModel> eventModels = new List<EventModel>();
-            foreach (var entity in eventWithNamesBases)
-            {
-                eventModels.Add(_mapper.MapEventWithNamesBaseToModel(entity));
-            }
-            return eventModels;
-        }
+        //public IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime)
+        //{
+        //    var eventWithNamesBases = _repository.GetEventsByTrainerAndDate(trainerId, dateTime);
+        //    List<EventModel> eventModels = new List<EventModel>();
+        //    foreach (var entity in eventWithNamesBases)
+        //    {
+        //        eventModels.Add(_mapper.MapEventWithNamesBaseToModel(entity));
+        //    }
+        //    return eventModels;
+        //}
 
         public IEnumerable<EventModel> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime dateTime)
         {
-            var personalTrainingsWithNamesBases = _repository.GetEventsByTrainerAndDate(trainerId, dateTime);
+            var personalTrainingsWithNamesBases = _repository.GetPersonalTrainingsByTrainerAndDate(trainerId, dateTime);
             List<EventModel> eventModels = new List<EventModel>();
-            foreach (var entity in personalTrainingsWithNamesBases)
+            foreach (var personalTraining in personalTrainingsWithNamesBases)
             {
-                eventModels.Add(_mapper.MapEventWithNamesBaseToModel(entity));
+                eventModels.Add(_mapper.MapEventWithNamesBaseToModel(personalTraining));
             }
             return eventModels;
         }

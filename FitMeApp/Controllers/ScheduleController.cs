@@ -141,16 +141,18 @@ namespace FitMeApp.Controllers
                 var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainer.Id);
                 var workDaysOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
-                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek)) // если выбранный день выходной для тренера, открывать WorkOffPartialView
+                // If selected day is WorkOffDay for trainer -> display WorkOffPartialView
+                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek)) 
                 {
                     model.SelectedDayIsWorkOff = true;
                     return View("Index", model);
                 }
 
 
-                //var trainerSpecialization = _trainerService. get trainer specialization 
-                var trainerSpecialization = "group";
+                var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
 
+                //Personal trainings and group classes are shown different
+                // If trainer do personal trainings -> Get all personal trainings for selected date
                 List<EventViewModel> personalTrainingEventsViewModels = new List<EventViewModel>();
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
@@ -162,6 +164,7 @@ namespace FitMeApp.Controllers
                     }
                 }
 
+                //If trainer do group classes ->  Get all group classes for selected date
                 List<GroupClassScheduleViewModel> groupClassesSchedule = new List<GroupClassScheduleViewModel>();
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
@@ -184,7 +187,6 @@ namespace FitMeApp.Controllers
                         });
                     }
                 }
-
 
                 model.GroupClasses = groupClassesSchedule;
                 model.Events = personalTrainingEventsViewModels;

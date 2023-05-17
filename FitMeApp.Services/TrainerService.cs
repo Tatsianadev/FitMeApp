@@ -262,6 +262,19 @@ namespace FitMeApp.Services
         }
 
 
+        public string GetTrainerSpecialization(string trainerId)
+        {
+            string specialization = string.Empty;
+            var trainer = _repository.GetTrainer(trainerId);
+            if (trainer != null)
+            {
+                specialization = trainer.Specialization;
+            }
+
+            return specialization;
+        }
+
+
         //TrainingTrainer
         public void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId)
         {

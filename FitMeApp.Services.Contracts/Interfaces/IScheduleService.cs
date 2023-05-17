@@ -12,7 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void DeleteEvent(int eventId);
         IEnumerable<EventModel> GetEventsByUser(string userId);
         IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime);
-        IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
+        //IEnumerable<EventModel> GetEventsByTrainerAndDate(string trainerId, DateTime dateTime);
         IEnumerable<EventModel> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime dateTime);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);

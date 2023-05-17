@@ -21,6 +21,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void DeleteTrainer(string id);
         void DeleteTrainerWorkHoursByTrainer(string trainerId);
         bool AddTrainer(TrainerModel trainer);
+        string GetTrainerSpecialization(string trainerId);
 
 
         //Training-Trainer Connection

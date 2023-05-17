@@ -4691,3 +4691,35 @@ Application started. Press Ctrl+C to shut down.
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Invalid password for user.
+User 83192926-4d5b-4a27-93f1-a2958c69f069 failed to provide the correct password.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
