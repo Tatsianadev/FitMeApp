@@ -169,21 +169,21 @@ namespace FitMeApp.Controllers
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
                 {
-                    var groupClassesScheduleModels = _trainingService.GetAllGroupClassesScheduleByTrainer(trainer.Id);
+                    var groupClassEventModels = _trainingService.GetAllGroupClassesEventsByTrainerAndDate(trainer.Id, model.Date);
 
-                    foreach (var grClassScheduleModel in groupClassesScheduleModels)
+                    foreach (var grClassEventModel in groupClassEventModels)
                     {
                         eventsViewModels.Add(new EventViewModel()
                         {
-                            Id = grClassScheduleModel.Id,
-                            TrainerId = grClassScheduleModel.TrainerId,
-                            TrainingId = grClassScheduleModel.GroupClassId,
-                            TrainingName = grClassScheduleModel.GroupClassName,
-                            Date = grClassScheduleModel.Date,
-                            StartTime = grClassScheduleModel.StartTime,
-                            EndTime = grClassScheduleModel.EndTime,
-                            ParticipantsLimit = grClassScheduleModel.ParticipantsLimit,
-                            ActualParticipantsCount = grClassScheduleModel.ActualParticipantsCount,
+                            Id = grClassEventModel.Id,
+                            TrainerId = grClassEventModel.TrainerId,
+                            TrainingId = grClassEventModel.GroupClassId,
+                            TrainingName = grClassEventModel.GroupClassName,
+                            Date = grClassEventModel.Date,
+                            StartTime = grClassEventModel.StartTime,
+                            EndTime = grClassEventModel.EndTime,
+                            ParticipantsLimit = grClassEventModel.ParticipantsLimit,
+                            ActualParticipantsCount = grClassEventModel.ActualParticipantsCount,
                             Status = EventStatusEnum.Confirmed
                         });
                     }

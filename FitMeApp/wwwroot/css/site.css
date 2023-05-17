@@ -169,6 +169,11 @@ body {
 .text-emphasize {
     font-style: italic;
     text-decoration: underline;
+    font-weight: normal;
+}
+
+.text-emphasizeBolt {
+    font-weight: bold;
 }
 
 

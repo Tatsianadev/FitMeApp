@@ -33,7 +33,7 @@
             </thead>
             <tbody>
                 @{int rowTime = ViewBag.StartWork; //Start time for schedule drawing
-                    bool secondPartOfHourDrawn = true;                   
+                    bool secondPartOfHourDrawn = true;
                     int startScheduleTime = ViewBag.StartWork / 30;
                     int endScheduleTime = ViewBag.EndWork / 30;
                     if ((ViewBag.StartWork % 60) != 0)
@@ -43,108 +43,189 @@
                 }
 
                 @for (int i = startScheduleTime; i < endScheduleTime; i++)
-                { 
+                {
                     @foreach (var eventItem in Model.Events)
                     {
                         List<int> eventsId = new List<int>();
-                        string colorRow = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
-                        string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? "Cancel" : "Confirm";
-                        while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
+
+                        @if (eventItem.TrainingName == "Personal training")
                         {
-                            if (secondPartOfHourDrawn)
+                            string colorRow = "table-info";
+                            string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? "Confirm" : "Cancel";
+                            while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                             {
-                                if (!eventsId.Contains(eventItem.Id))
+                                if (secondPartOfHourDrawn)
                                 {
-                                    <tr class="@colorRow">
-                                        <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">00</td>
-                                        <td id="(@i)_3">
-                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
-                                            <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
-                                        </td>
-                                        <td id="(@i)_4">@eventItem.Status</td>
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status</td>
 
-                                        <td id="(@i)_5">
-                                            <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
-                                                <input type="hidden" asp-for="Date" value="@Model.Date" />
-                                                <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
-                                                @foreach (var item in Model.DatesEventsCount)
-                                                {
-                                                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
-                                                }
-                                                <input type="hidden" name="eventId" value="@eventItem.Id" />
-                                                <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    eventsId.Add(eventItem.Id);
+                                            <td id="(@i)_5">
+                                                <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                    <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
+                                    secondPartOfHourDrawn = false;
+                                    rowTime = rowTime + 30;
+                                    i++;
                                 }
                                 else
                                 {
-                                    <tr class="@colorRow">
-                                        <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">00</td>
-                                        <td id="(@i)_3">
-                                            -//-
-                                        </td>
-                                        <td id="(@i)_4">-//-</td>
-                                        <td id="(@i)_5">-//-</td>
-                                    </tr>
-                                }
-                                secondPartOfHourDrawn = false;
-                                rowTime = rowTime + 30;
-                                i++;
-                            }
-                            else
-                            {
-                                if (!eventsId.Contains(eventItem.Id))
-                                {
-                                    <tr class="@colorRow" style="border-bottom:2px solid">
-                                        <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">30</td>
-                                        <td id="(@i)_3">
-                                            <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
-                                            <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
-                                        </td>
-                                        <td id="(@i)_4">@eventItem.Status </td>
-                                        <td id="(@i)_5">
-                                            <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
-                                                <input type="hidden" asp-for="Date" value="@Model.Date" />
-                                                <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
-                                                @foreach (var item in Model.DatesEventsCount)
-                                                {
-                                                    <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
-                                                }
-                                                <input type="hidden" name="eventId" value="@eventItem.Id" />
-                                                <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    eventsId.Add(eventItem.Id);
-                                }
-                                else
-                                {
-                                    <tr class="@colorRow" style="border-bottom:2px solid">
-                                        <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
-                                        <td id="(@i)_2">30</td>
-                                        <td id="(@i)_3">
-                                            -//-
-                                        </td>
-                                        <td id="(@i)_4">-//-</td>
-                                        <td id="(@i)_5">-//-</td>
-                                    </tr>
-                                }
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status </td>
+                                            <td id="(@i)_5">
+                                                <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                    <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
 
-                                secondPartOfHourDrawn = true;
-                                rowTime = rowTime + 30;
-                                i++;
+                                    secondPartOfHourDrawn = true;
+                                    rowTime = rowTime + 30;
+                                    i++;
+                                }
                             }
                         }
+                        else
+                        {
+                            string colorRow = "table-warning";
+                            int availablePlacesCount = eventItem.ParticipantsLimit - eventItem.ActualParticipantsCount;
+                            while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
+                            {
+                                if (secondPartOfHourDrawn)
+                                {
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Group class:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Participants:</span> @eventItem.ActualParticipantsCount&#160
+                                                <span class="text-emphasize">Places left:</span> @availablePlacesCount &#160
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status</td>
+                                            <td id="(@i)_5"></td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
+                                    secondPartOfHourDrawn = false;
+                                    rowTime = rowTime + 30;
+                                    i++;
+                                }
+                                else
+                                {
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Group class:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Participants:</span> @eventItem.ActualParticipantsCount&#160
+                                                <span class="text-emphasize">Places left:</span> @availablePlacesCount &#160
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status </td>
+                                            <td id="(@i)_5"></td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
+
+                                    secondPartOfHourDrawn = true;
+                                    rowTime = rowTime + 30;
+                                    i++;
+                                }
+                            }
+                        }
+
 
                     }
                     if (secondPartOfHourDrawn)
                     {
-                        <tr >
+                        <tr>
                             <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                             <td id="(@i)_2">00</td>
                             <td id="(@i)_3"></td>

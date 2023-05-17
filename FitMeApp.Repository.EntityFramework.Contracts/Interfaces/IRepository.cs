@@ -67,7 +67,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int GetGroupClassParticipantsCount(int groupClassScheduleId);
         GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId);
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
-        IEnumerable<GroupClassScheduleRecordFullInfo> GetAllGroupClassesScheduleByTrainer(string trainerId);
+        IEnumerable<GroupClassScheduleRecordFullInfo> GetAllGroupClassEventsByTrainerAndDate(string trainerId, DateTime date);
 
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
@@ -110,7 +110,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
         IEnumerable<EventFullInfoBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
-        IEnumerable<EventFullInfoBase> GetEventsByTrainerAndDate(string trainerId, DateTime date);
         IEnumerable<EventFullInfoBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);

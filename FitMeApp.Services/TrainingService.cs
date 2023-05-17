@@ -102,18 +102,20 @@ namespace FitMeApp.Services
             return GetRecordInGroupClassSchedule(entity);
         }
 
+        
 
-        public IEnumerable<GroupClassScheduleModel> GetAllGroupClassesScheduleByTrainer(string trainerId)
+        public IEnumerable<GroupClassScheduleModel> GetAllGroupClassesEventsByTrainerAndDate(string trainerId,
+            DateTime date)
         {
-            var groupClassScheduleEntities = _repository.GetAllGroupClassesScheduleByTrainer(trainerId);
-            var groupClassScheduleModels = new List<GroupClassScheduleModel>();
-            foreach (var entity in groupClassScheduleEntities)
+            var groupClassEventsEntities = _repository.GetAllGroupClassEventsByTrainerAndDate(trainerId, date);
+            var groupClassEventsModels = new List<GroupClassScheduleModel>(); //todo naming?!
+            foreach (var entity in groupClassEventsEntities)
             {
-                var groupClassScheduleModel = GetRecordInGroupClassSchedule(entity);
-                groupClassScheduleModels.Add(groupClassScheduleModel);
-
+                var groupClassEventModel = GetRecordInGroupClassSchedule(entity);
+                groupClassEventsModels.Add(groupClassEventModel);
             }
-            return groupClassScheduleModels;
+
+            return groupClassEventsModels;
         }
 
 
