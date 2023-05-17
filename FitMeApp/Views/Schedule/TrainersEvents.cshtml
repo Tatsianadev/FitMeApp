@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                @{int rowTime = ViewBag.StartWork; //начальное значение времени для отрисовки расписания
+                @{int rowTime = ViewBag.StartWork; //Start time for schedule drawing
                     bool secondPartOfHourDrawn = true;                   
                     int startScheduleTime = ViewBag.StartWork / 30;
                     int endScheduleTime = ViewBag.EndWork / 30;
@@ -56,7 +56,7 @@
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
                                     <tr class="@colorRow">
-                                        <td style="font-size:medium; font:bold" id="(@i)_1">@(i/2)</td>
+                                        <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                         <td id="(@i)_2">00</td>
                                         <td id="(@i)_3">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160

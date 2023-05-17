@@ -153,19 +153,19 @@ namespace FitMeApp.Controllers
 
                 //Personal trainings and group classes are shown different
                 // If trainer do personal trainings -> Get all personal trainings for selected date
-                List<EventViewModel> personalTrainingEventsViewModels = new List<EventViewModel>();
+                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
                 {
                     var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainer.Id, model.Date); //todo get only personalTrainings
                     foreach (var personalTraining in personalTrainings)
                     {
-                        personalTrainingEventsViewModels.Add(_mapper.MapEventModelToViewModel(personalTraining));
+                        eventsViewModels.Add(_mapper.MapEventModelToViewModel(personalTraining));
                     }
                 }
 
                 //If trainer do group classes ->  Get all group classes for selected date
-                List<GroupClassScheduleViewModel> groupClassesSchedule = new List<GroupClassScheduleViewModel>();
+               
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
                 {
@@ -173,23 +173,23 @@ namespace FitMeApp.Controllers
 
                     foreach (var grClassScheduleModel in groupClassesScheduleModels)
                     {
-                        groupClassesSchedule.Add(new GroupClassScheduleViewModel()
+                        eventsViewModels.Add(new EventViewModel()
                         {
                             Id = grClassScheduleModel.Id,
                             TrainerId = grClassScheduleModel.TrainerId,
-                            GroupClassId = grClassScheduleModel.GroupClassId,
-                            GroupClassName = grClassScheduleModel.GroupClassName,
+                            TrainingId = grClassScheduleModel.GroupClassId,
+                            TrainingName = grClassScheduleModel.GroupClassName,
                             Date = grClassScheduleModel.Date,
-                            StartTime = WorkHoursTypesConverter.ConvertIntTimeToString(grClassScheduleModel.StartTime),
-                            EndTime = WorkHoursTypesConverter.ConvertIntTimeToString(grClassScheduleModel.EndTime),
+                            StartTime = grClassScheduleModel.StartTime,
+                            EndTime = grClassScheduleModel.EndTime,
                             ParticipantsLimit = grClassScheduleModel.ParticipantsLimit,
-                            ActualParticipantsCount = grClassScheduleModel.ActualParticipantsCount
+                            ActualParticipantsCount = grClassScheduleModel.ActualParticipantsCount,
+                            Status = EventStatusEnum.Confirmed
                         });
                     }
                 }
 
-                model.GroupClasses = groupClassesSchedule;
-                model.Events = personalTrainingEventsViewModels;
+                model.Events = eventsViewModels.OrderBy(x=>x.StartTime).ToList();
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
                 model.SelectedDayIsWorkOff = false;
 

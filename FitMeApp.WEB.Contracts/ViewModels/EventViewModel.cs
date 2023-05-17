@@ -17,11 +17,12 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int GymId { get; set; }
         public string GymName { get; set; }
         public string UserId { get; set; }
-        //public string UserName { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public int TrainingId { get; set; }
         public string TrainingName { get; set; }
+        public int ParticipantsLimit { get; set; }
+        public int ActualParticipantsCount { get; set; }
         public EventStatusEnum Status { get; set; }
     }
 }

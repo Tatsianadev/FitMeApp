@@ -13,7 +13,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string MonthName { get; set; }       
         public IDictionary<DateTime, int> DatesEventsCount { get; set; } //коллекция, поскольку на ОДНОЙ странице календаря должны отображаться события для всех дней в месяце 
         public ICollection<EventViewModel> Events { get; set; } //поле имеет значение только после выбора конкретной даты 
-        public IEnumerable<GroupClassScheduleViewModel> GroupClasses { get; set; }
+        //public IEnumerable<GroupClassScheduleViewModel> GroupClasses { get; set; }
 
       
     }

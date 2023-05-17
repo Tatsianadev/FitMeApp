@@ -188,7 +188,7 @@ namespace FitMeApp.Mapper
             return eventModel;
         }
 
-        public EventModel MapEventWithNamesBaseToModel(EventWithNamesBase eventEntityBase)
+        public EventModel MapEventWithNamesBaseToModel(EventFullInfoBase eventEntityBase)
         {
             EventModel eventModel = new EventModel()
             {

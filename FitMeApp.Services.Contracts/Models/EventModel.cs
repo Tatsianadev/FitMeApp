@@ -17,7 +17,6 @@ namespace FitMeApp.Services.Contracts.Models
         public int GymId { get; set; }
         public string GymName { get; set; }
         public string UserId { get; set; }
-        //public string UserName { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public int TrainingId { get; set; }

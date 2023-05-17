@@ -1509,7 +1509,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<EventWithNamesBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
+        public IEnumerable<EventFullInfoBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
 
@@ -1528,7 +1528,7 @@ namespace FitMeApp.Repository.EntityFramework
                                    on events.TrainingId equals training.Id
                                    where events.UserId == userId
                                    where events.Date.ToString() == dateOnly
-                                   select new EventWithNamesBase()
+                                   select new EventFullInfoBase()
                                    {
                                        Id = events.Id,
                                        Date = events.Date,
@@ -1540,6 +1540,8 @@ namespace FitMeApp.Repository.EntityFramework
                                        GymId = gym.Id,
                                        GymName = gym.Name,
                                        UserId = events.UserId,
+                                       UserFirstName = user.FirstName,
+                                       UserLastName = user.LastName,
                                        TrainingId = events.TrainingId,
                                        TrainingName = training.Name,
                                        Status = events.Status
@@ -1552,7 +1554,7 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public IEnumerable<EventWithNamesBase> GetEventsByTrainerAndDate(string trainerId, DateTime date) //todo if never used - delete
+        public IEnumerable<EventFullInfoBase> GetEventsByTrainerAndDate(string trainerId, DateTime date) //todo if never used - delete
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
 
@@ -1569,7 +1571,7 @@ namespace FitMeApp.Repository.EntityFramework
                                    on events.TrainingId equals training.Id
                                    where events.TrainerId == trainerId
                                    where events.Date.ToString() == dateOnly
-                                   select new EventWithNamesBase()
+                                   select new EventFullInfoBase()
                                    {
                                        Id = events.Id,
                                        Date = events.Date,
@@ -1589,7 +1591,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<EventWithNamesBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date)
+        public IEnumerable<EventFullInfoBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date)
         {
             string dateOnly = date.ToString("yyyy-MM-dd");
             var personalTrainingId = _context.Trainings.FirstOrDefault(x => x.Name == "Personal training")?.Id;
@@ -1608,7 +1610,7 @@ namespace FitMeApp.Repository.EntityFramework
                                    where events.TrainerId == trainerId
                                    where events.Date.ToString() == dateOnly
                                    where events.TrainingId == personalTrainingId
-                                   select new EventWithNamesBase()
+                                   select new EventFullInfoBase()
                                    {
                                        Id = events.Id,
                                        Date = events.Date,
@@ -1617,6 +1619,8 @@ namespace FitMeApp.Repository.EntityFramework
                                        UserId = events.UserId,
                                        UserFirstName = user.FirstName,
                                        UserLastName = user.LastName,
+                                       GymId = gym.Id,
+                                       GymName = gym.Name,
                                        TrainingId = events.TrainingId,
                                        TrainingName = training.Name,
                                        Status = events.Status
