@@ -607,7 +607,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         //GroupClasses
 
-        public IEnumerable<GroupTrainingScheduleEntityBase> GetScheduleForSelectedGroupClass(int groupClassId,
+        public IEnumerable<GroupClassScheduleRecordEntityBase> GetAllRecordsInGroupClassScheduleByClassAndTrainer(int groupClassId,
             string trainerId)
         {
             var trainingTrainerId = _context.TrainingTrainer.FirstOrDefault(x => x.TrainerId == trainerId && x.TrainingId == groupClassId)?.Id;
@@ -664,7 +664,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public IEnumerable<GroupClassScheduleRecordFullInfo> GetAllGroupClassEventsByTrainerAndDate(string trainerId, DateTime date)
+        public IEnumerable<GroupClassScheduleRecordFullInfo> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId, DateTime date)
         {
             var groupClassEvents = (from grSchedule in _context.GroupTrainingsSchedule
                                     join trainingTrainer in _context.TrainingTrainer

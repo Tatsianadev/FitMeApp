@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
-    public class GroupClassScheduleViewModel
+    public class GroupClassScheduleRecordViewModel
     {
         public int Id { get; set; }
         public string TrainerId { get; set; }

@@ -67,14 +67,14 @@
                             @if (currentDay.DayOfWeek == dayOfWeek)
                             {
                                 var tempDate = currentDay;
-                                @if (Model.DailyInfo.Select(x => x.Date.Date).Contains(tempDate.Date))
+                                @if (Model.GroupClassScheduleRecords.Select(x => x.Date.Date).Contains(tempDate.Date))
                                 {
                                     <td>
                                         <div style="font-weight: bold">
                                             @tempDate.ToString("M")
                                         </div>
 
-                                        @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", Model.DailyInfo.Where(x => x.Date.Date == tempDate.Date).ToList())
+                                        @await Component.InvokeAsync("GroupClassesPerDayOnScheduleCalendar", Model.GroupClassScheduleRecords.Where(x => x.Date.Date == tempDate.Date).ToList())
                                     </td>
                                 }
                                 else

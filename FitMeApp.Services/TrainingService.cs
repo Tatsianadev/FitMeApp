@@ -72,15 +72,15 @@ namespace FitMeApp.Services
         //GroupClasses
 
         //List of all groupClass records for schedule Calendar
-        public IEnumerable<GroupClassScheduleModel> GetSpecificGroupClassSchedule(int groupClassId, string trainerId)
+        public IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByClassAndTrainer(int groupClassId, string trainerId)
         {
-            var groupClassScheduleModels = new List<GroupClassScheduleModel>();
+            var groupClassScheduleModels = new List<GroupClassScheduleRecordModel>();
 
-            var groupClassScheduleEntities = _repository.GetScheduleForSelectedGroupClass(groupClassId, trainerId);
+            var groupClassScheduleEntities = _repository.GetAllRecordsInGroupClassScheduleByClassAndTrainer(groupClassId, trainerId);
             foreach (var entity in groupClassScheduleEntities)
             {
                 int participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
-                groupClassScheduleModels.Add(new GroupClassScheduleModel()
+                groupClassScheduleModels.Add(new GroupClassScheduleRecordModel()
                 {
                     Id = entity.Id,
                     Date = entity.Date,
@@ -96,7 +96,7 @@ namespace FitMeApp.Services
 
 
         //Full info about concrete groupClass record in Schedule Calendar
-        public GroupClassScheduleModel GetRecordInGroupClassSchedule(int groupClassScheduleId)
+        public GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(int groupClassScheduleId)
         {
             var entity = _repository.GetRecordInGroupTrainingSchedule(groupClassScheduleId);
             return GetRecordInGroupClassSchedule(entity);
@@ -104,11 +104,11 @@ namespace FitMeApp.Services
 
         
 
-        public IEnumerable<GroupClassScheduleModel> GetAllGroupClassesEventsByTrainerAndDate(string trainerId,
+        public IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId,
             DateTime date)
         {
-            var groupClassEventsEntities = _repository.GetAllGroupClassEventsByTrainerAndDate(trainerId, date);
-            var groupClassEventsModels = new List<GroupClassScheduleModel>(); //todo naming?!
+            var groupClassEventsEntities = _repository.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date);
+            var groupClassEventsModels = new List<GroupClassScheduleRecordModel>(); //todo naming?!
             foreach (var entity in groupClassEventsEntities)
             {
                 var groupClassEventModel = GetRecordInGroupClassSchedule(entity);
@@ -128,11 +128,11 @@ namespace FitMeApp.Services
 
 
 
-        private GroupClassScheduleModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)
+        private GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)
         {
             var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
 
-            var grClassScheduleRecord = new GroupClassScheduleModel()
+            var grClassScheduleRecord = new GroupClassScheduleRecordModel()
             {
                 Id = entity.Id,
                 TrainerId = entity.TrainerId,

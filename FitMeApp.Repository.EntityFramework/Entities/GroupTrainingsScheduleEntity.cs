@@ -8,7 +8,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
     [Table("GroupTrainingsSchedule")]
-    public class GroupTrainingScheduleEntity: GroupTrainingScheduleEntityBase
+    public class GroupTrainingScheduleEntity: GroupClassScheduleRecordEntityBase
     {
         public virtual GymEntity Gym { get; set; }
         public virtual TrainingTrainerEntity TrainingTrainer { get; set; }

@@ -169,7 +169,7 @@ namespace FitMeApp.Controllers
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
                 {
-                    var groupClassEventModels = _trainingService.GetAllGroupClassesEventsByTrainerAndDate(trainer.Id, model.Date);
+                    var groupClassEventModels = _trainingService.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainer.Id, model.Date);
 
                     foreach (var grClassEventModel in groupClassEventModels)
                     {

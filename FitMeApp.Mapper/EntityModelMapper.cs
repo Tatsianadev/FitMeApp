@@ -342,9 +342,9 @@ namespace FitMeApp.Mapper
         }
 
 
-        //public GroupClassScheduleModel MapGroupTrainingScheduleEntityBaseToModel(GroupTrainingScheduleEntityBase entity)
+        //public GroupClassScheduleRecordModel MapGroupTrainingScheduleEntityBaseToModel(GroupClassScheduleRecordEntityBase entity)
         //{
-        //    GroupClassScheduleModel model = new GroupClassScheduleModel()
+        //    GroupClassScheduleRecordModel model = new GroupClassScheduleRecordModel()
         //    {
         //        Id = entity.Id,
         //        Date = entity.Date,

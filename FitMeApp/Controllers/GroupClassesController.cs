@@ -67,11 +67,11 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var dailyInfoModels = _trainingService.GetSpecificGroupClassSchedule(groupClassId, trainerId);
-                var dailyInfoViewModels = new List<GroupClassScheduleViewModel>();
-                foreach (var model in dailyInfoModels)
+                var groupClassScheduleRecordsModels = _trainingService.GetAllRecordsInGroupClassScheduleByClassAndTrainer(groupClassId, trainerId);
+                var groupClassScheduleRecordsViewModels = new List<GroupClassScheduleRecordViewModel>();
+                foreach (var model in groupClassScheduleRecordsModels)
                 {
-                    dailyInfoViewModels.Add(new GroupClassScheduleViewModel()
+                    groupClassScheduleRecordsViewModels.Add(new GroupClassScheduleRecordViewModel()
                     {
                         Id = model.Id,
                         Date = model.Date,
@@ -93,7 +93,7 @@ namespace FitMeApp.Controllers
                     TrainerLastName = trainer.LastName,
                     GymId = trainer.Gym.Id,
                     GymName = trainer.Gym.Name,
-                    DailyInfo = dailyInfoViewModels
+                    GroupClassScheduleRecords = groupClassScheduleRecordsViewModels
                 };
 
                 return View(groupClassScheduleCalendar);
@@ -153,8 +153,8 @@ namespace FitMeApp.Controllers
                     if (participantId == 0)
                     {
                         _scheduleService.DeleteEvent(eventId); 
-                        string massage = "Failed attempt subscribe for group class. Try again later please";
-                        return View("CustomError", massage);
+                        string message = "Failed attempt subscribe for group class. Try again later please";
+                        return View("CustomError", message);
                     }
 
                     return RedirectToAction("ApplyForTrainingSubmitted", "Trainings", new { isPersonalTraining = false});
@@ -169,8 +169,8 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                string massage = "Failed attempt subscribe for group class. Try again later please";
-                return View("CustomError", massage);
+                string message = "Failed attempt subscribe for group class. Try again later please";
+                return View("CustomError", message);
             }
            
         }

@@ -8,9 +8,9 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 namespace FitMeApp.Repository.EntityFramework.Entities
 {
     [Table("GroupTrainingsParticipants")]
-    public class GroupTrainingsParticipantEntity: GroupTrainingsParticipantEntityBase
+    public class GroupTrainingsParticipantEntity: GroupClassParticipantEntityBase
     {
-        public virtual GroupTrainingScheduleEntity GroupTrainingsSchedule { get; set; }
+        public virtual GroupTrainingScheduleEntity GroupClassesScheduleRecord { get; set; }
         public virtual User Users { get; set; }
     }
 }

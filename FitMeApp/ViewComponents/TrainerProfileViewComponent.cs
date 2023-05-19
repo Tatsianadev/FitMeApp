@@ -28,6 +28,7 @@ namespace FitMeApp.ViewComponents
         {
             var trainerId = _userManager.GetUserId((ClaimsPrincipal)User);
             ViewBag.OpenedEventsCount = _scheduleService.GetOpenedEventsCountByTrainer(trainerId);
+            ViewBag.NewMessenges = 5;
             return View("TrainerProfile");
         }
     }

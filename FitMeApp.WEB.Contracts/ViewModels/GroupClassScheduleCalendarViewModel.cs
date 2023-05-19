@@ -13,6 +13,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string TrainerLastName { get; set; }
         public int GymId { get; set; }
         public string GymName { get; set; }
-        public IEnumerable<GroupClassScheduleViewModel> DailyInfo { get; set; }
+        public IEnumerable<GroupClassScheduleRecordViewModel> GroupClassScheduleRecords { get; set; }
     }
 }

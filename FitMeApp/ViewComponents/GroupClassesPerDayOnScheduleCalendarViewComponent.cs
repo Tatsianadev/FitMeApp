@@ -9,7 +9,7 @@ namespace FitMeApp.ViewComponents
 {
     public class GroupClassesPerDayOnScheduleCalendarViewComponent: ViewComponent
     {
-        public IViewComponentResult Invoke(List<GroupClassScheduleViewModel> schedulePerDayInfo)
+        public IViewComponentResult Invoke(List<GroupClassScheduleRecordViewModel> schedulePerDayInfo)
         {
             return View("GroupClassesPerDayOnScheduleCalendar", schedulePerDayInfo);
         }
