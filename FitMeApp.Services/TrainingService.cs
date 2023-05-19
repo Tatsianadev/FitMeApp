@@ -35,10 +35,8 @@ namespace FitMeApp.Services
         }
 
 
-        public TrainingModel GetTrainingModel(int trainingId)//todo delete comment
+        public TrainingModel GetTrainingModel(int trainingId)
         {
-            //var trainingEntity = _repository.GetTraining(trainingId);
-            //TrainingModel trainingModel = _mapper.MapTrainingEntityBaseToModelBase(trainingEntity);
             var trainingEntity = _repository.GetTrainingWithTrainersAndGyms(trainingId);
             TrainingModel trainingModel = _mapper.MapTrainingWithTrainersAndGymsBaseToModel(trainingEntity);
             return trainingModel;
@@ -107,15 +105,15 @@ namespace FitMeApp.Services
         public IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId,
             DateTime date)
         {
-            var groupClassEventsEntities = _repository.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date);
-            var groupClassEventsModels = new List<GroupClassScheduleRecordModel>(); //todo naming?!
-            foreach (var entity in groupClassEventsEntities)
+            var groupClassScheduleRecordEntities = _repository.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date);
+            var groupClassScheduleRecordModels = new List<GroupClassScheduleRecordModel>(); 
+            foreach (var entity in groupClassScheduleRecordEntities)
             {
                 var groupClassEventModel = GetRecordInGroupClassSchedule(entity);
-                groupClassEventsModels.Add(groupClassEventModel);
+                groupClassScheduleRecordModels.Add(groupClassEventModel);
             }
 
-            return groupClassEventsModels;
+            return groupClassScheduleRecordModels;
         }
 
 

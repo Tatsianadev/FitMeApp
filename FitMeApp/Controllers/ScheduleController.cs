@@ -157,7 +157,7 @@ namespace FitMeApp.Controllers
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
                 {
-                    var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainer.Id, model.Date); //todo get only personalTrainings
+                    var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainer.Id, model.Date);
                     foreach (var personalTraining in personalTrainings)
                     {
                         eventsViewModels.Add(_mapper.MapEventModelToViewModel(personalTraining));
