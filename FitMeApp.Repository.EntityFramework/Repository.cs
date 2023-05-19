@@ -1514,6 +1514,17 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public IEnumerable<EventEntityBase> GetOpenedEventsByTrainer(string trainerId)
+        {
+            var openedEvents = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.Status == EventStatusEnum.Open)
+                .ToList();
+
+            return openedEvents;
+        }
+
+
         public IEnumerable<EventFullInfoBase> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
             string dateOnly = dateTime.ToString("yyyy-MM-dd");
@@ -1700,7 +1711,6 @@ namespace FitMeApp.Repository.EntityFramework
 
             return actualEvents;
         }
-
 
 
         public int AddEvent(EventEntityBase newEvent)

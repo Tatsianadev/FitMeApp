@@ -109,6 +109,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Schedule
         IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
+        IEnumerable<EventEntityBase> GetOpenedEventsByTrainer(string trainerId);
         IEnumerable<EventFullInfoBase> GetEventsByUserAndDate(string userId, DateTime dateTime);
         IEnumerable<EventFullInfoBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
