@@ -926,7 +926,10 @@ namespace FitMeApp.Controllers
         {
             if (clientId != null)
             {
-                var clientSubscriptionsModels = _subscriptionService.GetUserSubscriptions(clientId);
+                var trainerId = _userManager.GetUserId(User);
+                int gymId = _trainerService.GetTrainerWithGymAndTrainings(trainerId).Gym.Id;
+
+                var clientSubscriptionsModels = _subscriptionService.GetUserSubscriptions(clientId).Where(x=>x.GymId == gymId);
                 List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
