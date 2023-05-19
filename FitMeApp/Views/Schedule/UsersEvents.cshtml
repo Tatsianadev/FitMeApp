@@ -38,6 +38,8 @@
                 {
                     @foreach (var eventItem in Model.Events)
                     {
+                        string rowColor = eventItem.TrainingName == "Personal training" ? "table-info" : "table-warning";
+
                         List<int> eventsId = new List<int>();
                         while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                         {
@@ -45,27 +47,35 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr>
+                                    <tr class=@rowColor>
                                         <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="table-info" id="(@i)_2">00</td>
-                                        <td class="table-info" id="(@i)_3">
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3" class="text-emphasizeBolt">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Trainer:</span> @eventItem.TrainerFirstName @eventItem.TrainerLastName&#160
                                             <span class="text-emphasize">Gym:</span> @eventItem.GymName
                                         </td>
-                                        <td class="table-info" id="(@i)_4">@eventItem.Status</td>
+                                        @if (eventItem.Status == FitMeApp.Common.EventStatusEnum.Open)
+                                        {
+                                            <td id="(@i)_4" style="color: red">@eventItem.Status</td>
+                                        }
+                                        else
+                                        {
+                                            <td id="(@i)_4">@eventItem.Status</td>
+                                        }
+
                                     </tr>
                                     eventsId.Add(eventItem.Id);
                                 }
                                 else
                                 {
-                                    <tr>
+                                    <tr class=@rowColor>
                                         <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="table-info" id="(@i)_2">00</td>
-                                        <td class="table-info" id="(@i)_3">
+                                        <td id="(@i)_2">00</td>
+                                        <td id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td class="table-info" id="(@i)_4">-//-</td>
+                                        <td id="(@i)_4">-//-</td>
                                     </tr>
                                 }
                                 secondPartOfHourDrawn = false;
@@ -76,27 +86,34 @@
                             {
                                 if (!eventsId.Contains(eventItem.Id))
                                 {
-                                    <tr style="border-bottom:2px solid">
+                                    <tr class=@rowColor style="border-bottom:2px solid">
                                         <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="table-info" id="(@i)_2">30</td>
-                                        <td class="table-info" id="(@i)_3">
+                                        <td id="(@i)_2">30</td>
+                                        <td id="(@i)_3" class="text-emphasizeBolt">
                                             <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
                                             <span class="text-emphasize">Trainer:</span> @eventItem.TrainerFirstName @eventItem.TrainerLastName&#160
                                             <span class="text-emphasize">Gym:</span> @eventItem.GymName
                                         </td>
-                                        <td class="table-info" id="(@i)_4">@eventItem.Status </td>
+                                        @if (eventItem.Status == FitMeApp.Common.EventStatusEnum.Open)
+                                        {
+                                            <td id="(@i)_4" style="color: red">@eventItem.Status</td>
+                                        }
+                                        else
+                                        {
+                                            <td id="(@i)_4">@eventItem.Status</td>
+                                        }
                                     </tr>
                                     eventsId.Add(eventItem.Id);
                                 }
                                 else
                                 {
-                                    <tr style="border-bottom:2px solid">
+                                    <tr class=@rowColor style="border-bottom:2px solid">
                                         <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
-                                        <td class="table-info" id="(@i)_2">30</td>
-                                        <td class="table-info" id="(@i)_3">
+                                        <td id="(@i)_2">30</td>
+                                        <td id="(@i)_3">
                                             -//-
                                         </td>
-                                        <td class="table-info" id="(@i)_4">-//-</td>
+                                        <td id="(@i)_4">-//-</td>
                                     </tr>
                                 }
 

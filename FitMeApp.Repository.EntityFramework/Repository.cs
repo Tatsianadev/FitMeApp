@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using FitMeApp.Common;
 using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
@@ -1622,28 +1623,44 @@ namespace FitMeApp.Repository.EntityFramework
             return dateEventCount;
         }
 
-
+      
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
-            var allEventsByTrainer = _context.Events
+            var personalTrainingId = _context.Trainings.FirstOrDefault(x => x.Name == "Personal training")?.Id;
+
+            var allPersonalTrainingsByTrainer = _context.Events
                 .Where(x => x.TrainerId == trainerId)
-                .OrderBy(x => x.Date)
-                .ToList();
+                .Where(x=>x.TrainingId == personalTrainingId)               
+                .ToList();         
+
+            var groupClassesByTrainer = (from groupClassSchedule in _context.GroupTrainingsSchedule
+                                         join trainingTrainer in _context.TrainingTrainer
+                                         on groupClassSchedule.TrainingTrainerId equals trainingTrainer.Id
+                                         where trainingTrainer.TrainerId == trainerId
+                                         select new EventEntity{
+                                             Date = groupClassSchedule.Date                                       
+                                         }).ToList();
+
+            var allEvents = new List<EventEntity>();
+            allEvents.AddRange(allPersonalTrainingsByTrainer);
+            allEvents.AddRange(groupClassesByTrainer);
+            allEvents.OrderBy(x => x.Date);
 
             Dictionary<DateTime, int> dateEventCount = new Dictionary<DateTime, int>();
 
-            foreach (var eventItem in allEventsByTrainer)
+            foreach (var eventItem in allEvents)
             {
                 if (!dateEventCount.ContainsKey(eventItem.Date))
                 {
-                    int eventCount = allEventsByTrainer.Count(x => x.Date == eventItem.Date);
+                    int eventCount = allEvents.Count(x => x.Date == eventItem.Date);
                     dateEventCount.Add(eventItem.Date, eventCount);
                 }
             }
 
             return dateEventCount;
         }
+
 
 
         public void ChangeEventStatus(int eventId)
