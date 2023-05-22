@@ -79,8 +79,37 @@ namespace FitMeApp.APIControllers
         public bool CheckIfSelectedTimeAvailableForDays(string trainerId, string selectedTime,
             List<string> selectedDaysOfWeek)
         {
+            if (selectedTime == null)
+            {
+                return false;
+            }
+            int startTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(selectedTime);
+            var datesToCheck = new List<DateTime>();
+
+            foreach (var day in selectedDaysOfWeek)
+            {
+                datesToCheck.AddRange(GetDatesInSpanByDayOfWeek(day,30));
+            }
+             
+
             return false;
         }
+
+        private IEnumerable<DateTime> GetDatesInSpanByDayOfWeek(string day, int daysSpan)
+        {
+            int fromDateNumber = DateTime.Today.DayOfYear;
+            int toDateNumber = DateTime.Today.AddDays(daysSpan).DayOfYear;
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            int dayNumber = DateTime.Now.Day;
+
+            List<DateTime> dates = Enumerable.Range(1, daysSpan)
+                .Where(d => new DateTime(year, month, dayNumber).AddDays(d-1).ToString("dddd").Equals(day))
+                .Select(d => new DateTime(year, month, dayNumber).AddDays(d-1)).ToList();
+
+            return dates;
+        }
+        
 
     }
 }
