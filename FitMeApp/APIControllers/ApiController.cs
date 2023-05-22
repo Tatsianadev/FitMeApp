@@ -74,5 +74,13 @@ namespace FitMeApp.APIControllers
             return timeVisitorsLineJsonString;
         }
 
+        [HttpPost]
+        [Route("checkselectedtimefordays")]
+        public bool CheckIfSelectedTimeAvailableForDays(string trainerId, string selectedTime,
+            List<string> selectedDaysOfWeek)
+        {
+            return false;
+        }
+
     }
 }

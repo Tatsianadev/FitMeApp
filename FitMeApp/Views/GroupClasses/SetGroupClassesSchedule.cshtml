@@ -34,7 +34,7 @@
                                 </select>
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
                         <div class="row">
                             <div class="col-md-4">
@@ -49,7 +49,7 @@
                                 <input id="selectDate" type="date" asp-for="Dates" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px" />
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
                         <div class="row">
                             <div class="col-md-4">
@@ -63,7 +63,7 @@
                                 <span asp-validation-for="StartTime" class="card-text small"></span>
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
                         <div class="row">
                             <div class="col-md-4">
@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
                         <div class="row">
                             <div class="col-md-4">
@@ -90,7 +90,7 @@
                                 <input class="form-control" type="text" placeholder="Count of people" aria-label="default input example" asp-for="ParticipantsLimit">
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
                         <div class="row">
                             <div class="col-md-4">
@@ -99,22 +99,24 @@
                                 </p>
                             </div>
                             <div class="col-md-8">
-                                <div class="form-check">
-                                    @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-                                    {
-                                        if (Model.WorkDaysOfWeek.Contains((DayOfWeek)day))
+                                @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                {
+                                    <div class="form-check">
+                                        @if (Model.WorkDaysOfWeek.Contains((DayOfWeek)day))
                                         {
-                                            <input class="form-check-input" type="checkbox" value="@day.ToString()" id="dayOfWeek">
+                                            <input class="form-check-input" type="checkbox" name=daysOfWeek value="@day.ToString()" id="@day.ToString()">
                                         }
                                         else
                                         {
-                                            <input class="form-check-input" type="checkbox" value="" id="dayOfWeek" disabled>
+                                            <input class="form-check-input" type="checkbox" name=daysOfWeek value="" id="@day.ToString()" disabled>
                                         }
-                                        <label class="form-check-label" for="dayOfWeek">
+                                        <label class="form-check-label" for="@day.ToString()">
                                             @day.ToString()
                                         </label>
-                                    }
-                                </div>
+                                    </div>
+                                }
+                                <div id="daysOfWeekErrorMessage"></div>
+                                @*<div id="test">900</div>*@
                             </div>
                         </div>
                     </div>
@@ -140,10 +142,10 @@
             var selectedDate = document.getElementById("selectDate").value;
             var trainerId = document.getElementById("trainerId").value;
             $.post(`https://localhost:44384/api/getavailabletime`,
-                    {
-                        trainerId: trainerId,
-                        selectedDate: selectedDate
-                    })
+                {
+                    trainerId: trainerId,
+                    selectedDate: selectedDate
+                })
                 .done(function (data) {
                     if (data.length != 0) {
                         var html = '';
@@ -161,4 +163,35 @@
                     }
                 });
         });
+
+
+    try {
+        var checkboxes = document.querySelectorAll("input[type = checkbox][name = daysOfWeek]");
+        let enabledDays = [];
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change',
+                function () {
+                    enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value);
+                    var trainerId = document.getElementById("trainerId").value;
+                    var selectedTime = document.getElementById("startTimeSelect").value;
+
+                    $.post(`https://localhost:44384/api/checkselectedtimefordays`,
+                            {
+                                trainerId: trainerId,
+                                selectedTime: selectedTime,
+                                selectedDaysOfWeek: enabledDays
+                            })
+                        .done(function (data) {
+                            if (data == false) {
+                                document.getElementById("daysOfWeekErrorMessage").innerHTML = "Selected time doesn't available for selected days of week. Please, select other days or time.";
+                            }
+                        });
+                });
+        });
+    } catch (err) {
+        alert(err.message);
+    } 
+    
+
 </script>
