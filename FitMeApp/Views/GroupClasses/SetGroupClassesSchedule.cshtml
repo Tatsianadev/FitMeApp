@@ -1,0 +1,72 @@
+﻿@model FitMeApp.WEB.Contracts.ViewModels.SetCroupClassScheduleViewModel
+
+<div class="container" style="text-align:center">
+    <div class="row">
+        <div class=" col-md-3">
+
+        </div>
+        <div class="col-md-6" style="text-align: center">
+            <div class="card mb-3" style="width: 20rem; margin: 20px;">
+                <form asp-controller="GroupClasses" asp-action="SetGroupClassesSchedule" method="post">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="card-text small text-danger"></div>
+
+                        <h4 class="card-title text-center">new group class appointment</h4>
+                        <h5 class="card-title text-center">
+                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId" />
+                            Gym: @Model.GymName
+                            <input type="hidden" asp-for="GymId" value="@Model.GymId" />
+                            <input type="hidden" asp-for="GymName" value="@Model.GymName" />
+                        </h5>
+                        <hr />
+                        <p class="card-text">
+                            Group class
+                        </p>
+                        <select class="form-select" aria-label="Default select example" id="groupClassSelect" asp-for="SelectedGroupClassId">
+                            @foreach (var groupClass in Model.GroupClasses)
+                            {
+                                <option value="@groupClass.Id">@groupClass.Name</option>
+                            }
+                        </select>
+                        <br />
+                        <p class="card-text">
+                            Select date
+                        </p>
+                        @{
+                            string minDate = DateTime.Today.AddDays(1).Date.ToString("yyyy-MM-dd");
+                            string maxDate = DateTime.Today.AddDays(31).Date.ToString("yyyy-MM-dd");}
+                        <input id="selectDate" type="date" asp-for="Dates" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px" />
+                        <br />
+                        <p class="card-text">
+                            Select time
+                        </p>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="StartTime"></select>
+                        <div id="errorBlock" class="card-text small text-danger"></div>
+                        <span asp-validation-for="StartTime" class="card-text small"></span>
+                        <br />
+                        <p class="card-text">
+                            Select duration of training
+                        </p>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
+                            <option value="60">60 min</option>
+                            <option value="90">90 min</option>
+                        </select>
+                        <br />
+                        <p class="card-text">
+                            Participants limit
+                        </p>
+                        <input class="form-control" type="text" placeholder="Count of people" aria-label="default input example" asp-for="ParticipantsLimit">
+                    </div>
+                    <div class="card-footer">
+                        <a asp-controller="GroupClasses" asp-action="GroupClasses" class="btn btn-dark" style="width: 30%">Cancel</a>
+                        <input type="submit" value="Ok" class="btn btn-dark" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class=" col-md-3">
+
+        </div>
+    </div>
+</div>

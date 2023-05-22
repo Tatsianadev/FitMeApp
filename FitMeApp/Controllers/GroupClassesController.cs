@@ -174,5 +174,28 @@ namespace FitMeApp.Controllers
             }
            
         }
+
+
+
+        public IActionResult SetGroupClassesSchedule()
+        {
+            var trainerId = _userManager.GetUserId(User);
+            var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
+            var groupClasses = new List<TrainingViewModel>();
+            foreach (var groupClassModel in trainer.Trainings.Where(x=>x.Name != "Personal training"))
+            {
+                groupClasses.Add(_mapper.MapTrainingModelToViewModel(groupClassModel));
+            }
+
+            var viewModel = new SetCroupClassScheduleViewModel()
+            {
+                TrainerId = trainerId,
+                GymId = trainer.Gym.Id,
+                GymName = trainer.Gym.Name,
+                GroupClasses = groupClasses
+            };
+
+            return View(viewModel);
+        }
     }
 }
