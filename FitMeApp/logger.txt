@@ -4919,3 +4919,8 @@ Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
 Email to User1 was sent.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Email to User1 was sent.

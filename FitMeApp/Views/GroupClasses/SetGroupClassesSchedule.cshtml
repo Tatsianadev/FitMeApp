@@ -132,3 +132,33 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.getElementById("selectDate").addEventListener("change",
+        function (e) {
+            var selectedDate = document.getElementById("selectDate").value;
+            var trainerId = document.getElementById("trainerId").value;
+            $.post(`https://localhost:44384/api/getavailabletime`,
+                    {
+                        trainerId: trainerId,
+                        selectedDate: selectedDate
+                    })
+                .done(function (data) {
+                    if (data.length != 0) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0) {
+                                html += "<option selected value=" + data[i] + ">" + data[i] + "</option>";
+                            }
+                            html += "<option value=" + data[i] + ">" + data[i] + "</option>";
+                        }
+                        document.getElementById("startTimeSelect").innerHTML = html;
+                        document.getElementById("errorBlock").innerText = "";
+                    } else {
+                        document.getElementById("startTimeSelect").innerHTML = '';
+                        document.getElementById("errorBlock").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
+                    }
+                });
+        });
+</script>

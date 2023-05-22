@@ -305,6 +305,10 @@ namespace FitMeApp.Repository.EntityFramework
                 .Select(x => new { StartEvent = x.StartTime, EndEvent = x.EndTime })
                 .ToList();
 
+            var existingGroupClassesStartEnd = GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date)
+                .Select(x => new {StartEvent = x.StartTime, EndEvent = x.EndTime}).ToList();
+            existingEventsStartEnd.AddRange(existingGroupClassesStartEnd);
+
             List<int> occupiedTime = new List<int>();
 
             //Time at 30 minutes before events is not available to applying training
