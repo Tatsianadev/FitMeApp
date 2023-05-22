@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
+    <ProjectReference Include="..\FitMeApp.Services.Contracts\FitMeApp.Services.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

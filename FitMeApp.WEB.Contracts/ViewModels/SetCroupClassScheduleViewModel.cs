@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMeApp.Services.Contracts.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -11,7 +12,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public IEnumerable<DayOfWeek> WorkDaysOfWeek { get; set; } 
         public int GymId { get; set; }
         public string GymName { get; set; }
-        public IEnumerable<TrainingViewModel> GroupClasses { get; set; }
+        public IEnumerable<TrainingModel> GroupClasses { get; set; }
         [Required]
         public int SelectedGroupClassId { get; set; }
         [Required]

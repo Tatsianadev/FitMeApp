@@ -181,15 +181,14 @@ namespace FitMeApp.Controllers
         {
             var trainerId = _userManager.GetUserId(User);
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
-            var groupClasses = new List<TrainingViewModel>();
-            foreach (var groupClassModel in trainer.Trainings.Where(x=>x.Name != "Personal training"))
-            {
-                groupClasses.Add(_mapper.MapTrainingModelToViewModel(groupClassModel));
-            }
+            var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
+
+            var groupClasses = trainer.Trainings.Where(x=>x.Name != "Personal training");
 
             var viewModel = new SetCroupClassScheduleViewModel()
             {
                 TrainerId = trainerId,
+                WorkDaysOfWeek = workDaysOfWeek,
                 GymId = trainer.Gym.Id,
                 GymName = trainer.Gym.Name,
                 GroupClasses = groupClasses
