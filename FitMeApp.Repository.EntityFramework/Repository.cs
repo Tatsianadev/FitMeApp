@@ -306,7 +306,7 @@ namespace FitMeApp.Repository.EntityFramework
                 .ToList();
 
             var existingGroupClassesStartEnd = GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date)
-                .Select(x => new {StartEvent = x.StartTime, EndEvent = x.EndTime}).ToList();
+                .Select(x => new { StartEvent = x.StartTime, EndEvent = x.EndTime }).ToList();
             existingEventsStartEnd.AddRange(existingGroupClassesStartEnd);
 
             List<int> occupiedTime = new List<int>();
@@ -694,6 +694,24 @@ namespace FitMeApp.Repository.EntityFramework
 
             return groupClassEvents;
 
+        }
+
+
+        public int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime)
+        {
+            var trainingTrainerIds = GetAllTrainingIdsByTrainer(trainerId);
+
+            int groupClassRecordsCount = _context.GroupTrainingsSchedule.
+                Where(x => dates.Contains(x.Date))
+                .Where(x => trainingTrainerIds.Contains(x.TrainingTrainerId))
+                .Where(x => (x.StartTime <= startTime && x.EndTime >= startTime) ||
+                            (x.StartTime <= endTime && x.EndTime >= endTime) ||
+                            (x.StartTime <= startTime && x.EndTime >= endTime) ||
+                            (x.StartTime >= startTime && x.EndTime <= endTime))
+                .ToList()
+                .Count;
+
+            return groupClassRecordsCount;
         }
 
 
@@ -1638,7 +1656,7 @@ namespace FitMeApp.Repository.EntityFramework
             return dateEventCount;
         }
 
-      
+
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId)
         {
@@ -1646,15 +1664,16 @@ namespace FitMeApp.Repository.EntityFramework
 
             var allPersonalTrainingsByTrainer = _context.Events
                 .Where(x => x.TrainerId == trainerId)
-                .Where(x=>x.TrainingId == personalTrainingId)               
-                .ToList();         
+                .Where(x => x.TrainingId == personalTrainingId)
+                .ToList();
 
             var groupClassesByTrainer = (from groupClassSchedule in _context.GroupTrainingsSchedule
                                          join trainingTrainer in _context.TrainingTrainer
                                          on groupClassSchedule.TrainingTrainerId equals trainingTrainer.Id
                                          where trainingTrainer.TrainerId == trainerId
-                                         select new EventEntity{
-                                             Date = groupClassSchedule.Date                                       
+                                         select new EventEntity
+                                         {
+                                             Date = groupClassSchedule.Date
                                          }).ToList();
 
             var allEvents = new List<EventEntity>();
@@ -1687,7 +1706,7 @@ namespace FitMeApp.Repository.EntityFramework
                             (x.StartTime <= startTime && x.EndTime >= endTime) ||
                             (x.StartTime >= startTime && x.EndTime <= endTime))
                 .ToList()
-                .GroupBy(x => new {x.Date, x.StartTime})
+                .GroupBy(x => new { x.Date, x.StartTime })
                 .Select(x => x.First())
                 .ToList()
                 .Count;

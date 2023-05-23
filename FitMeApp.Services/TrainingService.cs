@@ -124,6 +124,13 @@ namespace FitMeApp.Services
         }
 
 
+        public int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime)
+        {
+            int groupClassRecordsCount = _repository.GetGroupClassScheduleRecordsCount(trainerId, dates, startTime, endTime);
+            return groupClassRecordsCount;
+        }
+
+
 
 
         private GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)

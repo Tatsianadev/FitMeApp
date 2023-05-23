@@ -93,14 +93,16 @@ namespace FitMeApp.APIControllers
                 datesToCheck.AddRange(GetDatesInSpanByDayOfWeek(day,30));
             }
 
-            //todo continue implementation
-            //GetEventsCount(trainerId, dates, time)
             int endTime = startTime + duration;
             int eventsCount = _scheduleService.GetEventsCount(trainerId, datesToCheck, startTime, endTime);
-            //GetGroupClassesCount(trainerId, dates, time)
-
-            //if count == 0 => true, else => false
-             
+            if (eventsCount == 0)
+            {
+                int groupClassScheduleRecordsCount = _trainingService.GetGroupClassScheduleRecordsCount(trainerId, datesToCheck, startTime, endTime);
+                if (groupClassScheduleRecordsCount == 0)
+                {
+                    return true;
+                }
+            }
 
             return false;
         }

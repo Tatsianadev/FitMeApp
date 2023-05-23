@@ -196,5 +196,11 @@ namespace FitMeApp.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult SetGroupClassesSchedule(SetCroupClassScheduleViewModel viewModel)
+        {
+            return View();
+        }
     }
 }
