@@ -79,7 +79,7 @@ namespace FitMeApp.APIControllers
         [HttpPost]
         [Route("checkselectedtimefordays")]
         public bool CheckIfSelectedTimeAvailableForDays(string trainerId, string selectedTime,
-            List<string> selectedDaysOfWeek)
+            List<string> selectedDaysOfWeek, int duration = 60)
         {
             if (selectedTime == null)
             {
@@ -95,7 +95,8 @@ namespace FitMeApp.APIControllers
 
             //todo continue implementation
             //GetEventsCount(trainerId, dates, time)
-            int eventsCount = _scheduleService.GetEventsCount(trainerId, datesToCheck, startTime, startTime + 60);
+            int endTime = startTime + duration;
+            int eventsCount = _scheduleService.GetEventsCount(trainerId, datesToCheck, startTime, endTime);
             //GetGroupClassesCount(trainerId, dates, time)
 
             //if count == 0 => true, else => false

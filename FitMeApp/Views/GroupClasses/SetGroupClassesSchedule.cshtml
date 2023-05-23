@@ -72,7 +72,7 @@
                                 </p>
                             </div>
                             <div class="col-md-8">
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectDuration" asp-for="DurationInMinutes">
                                     <option value="60">60 min</option>
                                     <option value="90">90 min</option>
                                 </select>
@@ -175,12 +175,14 @@
                     enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value);
                     var trainerId = document.getElementById("trainerId").value;
                     var selectedTime = document.getElementById("startTimeSelect").value;
+                    var duration = document.getElementById("selectDuration").value;
 
                     $.post(`https://localhost:44384/api/checkselectedtimefordays`,
                             {
                                 trainerId: trainerId,
                                 selectedTime: selectedTime,
-                                selectedDaysOfWeek: enabledDays
+                                selectedDaysOfWeek: enabledDays,
+                                duration: duration
                             })
                         .done(function (data) {
                             if (data == false) {
