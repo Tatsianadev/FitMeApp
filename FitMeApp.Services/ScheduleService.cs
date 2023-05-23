@@ -127,5 +127,11 @@ namespace FitMeApp.Services
             return openedEventsCount;
         }
 
+        public int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime)
+        {
+            int eventsCount = _repository.GetEventsCount(trainerId, dates, startTime, endTime);
+            return eventsCount;
+        }
+
     }
 }

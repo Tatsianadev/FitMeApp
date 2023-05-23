@@ -1677,7 +1677,26 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime)
+        {
+            var eventsCount = _context.Events
+                .Where(x => dates.Contains(x.Date))
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => (x.StartTime <= startTime && x.EndTime >= startTime) ||
+                            (x.StartTime <= endTime && x.EndTime >= endTime) ||
+                            (x.StartTime <= startTime && x.EndTime >= endTime) ||
+                            (x.StartTime >= startTime && x.EndTime <= endTime))
+                .ToList()
+                .GroupBy(x => new {x.Date, x.StartTime})
+                .Select(x => x.First())
+                .ToList()
+                .Count;
 
+            return eventsCount;
+        }
+
+
+        //Events
         public void ChangeEventStatus(int eventId)
         {
             var currentEvent = _context.Events.FirstOrDefault(x => x.Id == eventId);

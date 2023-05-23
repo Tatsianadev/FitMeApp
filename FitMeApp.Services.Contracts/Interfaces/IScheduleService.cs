@@ -18,6 +18,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void ChangeEventStatus(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
         int GetOpenedEventsCountByTrainer(string trainerId);
+        int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
 
     }
 }

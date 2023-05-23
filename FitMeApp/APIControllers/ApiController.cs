@@ -15,13 +15,15 @@ namespace FitMeApp.APIControllers
         private readonly ITrainingService _trainingService;
         private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
+        private readonly IScheduleService _scheduleService;
         private readonly ILogger _logger;
 
-        public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, ILogger<ApiController> logger)
+        public ApiController(ITrainingService trainingService, IGymService gymService, ITrainerService trainerService, IScheduleService scheduleService, ILogger<ApiController> logger)
         {
             _trainingService = trainingService;
             _gymService = gymService;
             _trainerService = trainerService;
+            _scheduleService = scheduleService;
             _logger = logger;
         }
 
@@ -90,6 +92,13 @@ namespace FitMeApp.APIControllers
             {
                 datesToCheck.AddRange(GetDatesInSpanByDayOfWeek(day,30));
             }
+
+            //todo continue implementation
+            //GetEventsCount(trainerId, dates, time)
+            int eventsCount = _scheduleService.GetEventsCount(trainerId, datesToCheck, startTime, startTime + 60);
+            //GetGroupClassesCount(trainerId, dates, time)
+
+            //if count == 0 => true, else => false
              
 
             return false;
@@ -97,8 +106,6 @@ namespace FitMeApp.APIControllers
 
         private IEnumerable<DateTime> GetDatesInSpanByDayOfWeek(string day, int daysSpan)
         {
-            int fromDateNumber = DateTime.Today.DayOfYear;
-            int toDateNumber = DateTime.Today.AddDays(daysSpan).DayOfYear;
             int year = DateTime.Now.Year;
             int month = DateTime.Now.Month;
             int dayNumber = DateTime.Now.Day;

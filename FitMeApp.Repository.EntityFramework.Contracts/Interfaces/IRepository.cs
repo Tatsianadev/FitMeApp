@@ -114,6 +114,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IEnumerable<EventFullInfoBase> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime date);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
+        int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
 
 
 
