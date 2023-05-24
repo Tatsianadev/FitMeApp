@@ -87,9 +87,9 @@ namespace FitMeApp.APIControllers
                 return false;
             }
 
-            if (selectedDate < DateTime.Today)
+            if (selectedDate <= DateTime.Today)
             {
-                selectedDate = DateTime.Today;
+                selectedDate = DateTime.Today.AddDays(1);
             }
 
             int startTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(selectedTime);

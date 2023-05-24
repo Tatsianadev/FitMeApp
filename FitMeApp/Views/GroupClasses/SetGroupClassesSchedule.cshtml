@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-8">
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="StartTime"></select>
-                                <div id="errorBlock" class="card-text small text-danger"></div>
+                                <div id="timeErrorMessage" class="card-text small text-danger"></div>
                                 <span asp-validation-for="StartTime" class="card-text small"></span>
                             </div>
                         </div>
@@ -85,12 +85,12 @@
                         <div class="row">
                             <div class="col-md-4 card-text" style="text-align: right">
                                 Duplicate for a month*
-                                    <br />
-                                    <br />
-                                    <span style="font-size: smaller; font-style: italic">
-                                        *group classes will be scheduled on selected days of the week
-                                        and at selected times for the next 30 days from the selected date.
-                                    </span>
+                                <br />
+                                <br />
+                                <span style="font-size: smaller; font-style: italic">
+                                    *group classes will be scheduled on selected days of the week
+                                    and at selected times for the next 30 days from the selected date.
+                                </span>
                             </div>
                             <div class="col-md-8">
                                 @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
@@ -138,19 +138,19 @@
                     selectedDate: selectedDate
                 })
                 .done(function (data) {
-                    if (data.length != 0) {
+                    if (data.length !== 0) {
                         var html = '';
                         for (var i = 0; i < data.length; i++) {
-                            if (i == 0) {
+                            if (i === 0) {
                                 html += "<option selected value=" + data[i] + ">" + data[i] + "</option>";
                             }
                             html += "<option value=" + data[i] + ">" + data[i] + "</option>";
                         }
                         document.getElementById("startTimeSelect").innerHTML = html;
-                        document.getElementById("errorBlock").innerText = "";
+                        document.getElementById("timeErrorMessage").innerText = "";
                     } else {
                         document.getElementById("startTimeSelect").innerHTML = '';
-                        document.getElementById("errorBlock").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
+                        document.getElementById("timeErrorMessage").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
                     }
                 });
         });
@@ -163,13 +163,17 @@
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change',
                 function () {
-                    enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
-                    var trainerId = document.getElementById("trainerId").value;
                     var selectedTime = document.getElementById("startTimeSelect").value;
-                    var duration = document.getElementById("selectDuration").value;
-                    var selectedDate = document.getElementById("selectDate").value;
+                    if (selectedTime === "") {
+                        document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
+                    }
+                    else {
+                        enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
+                        var trainerId = document.getElementById("trainerId").value;
+                        var duration = document.getElementById("selectDuration").value;
+                        var selectedDate = document.getElementById("selectDate").value;
 
-                    $.post(`https://localhost:44384/api/checkselectedtimefordays`,
+                        $.post(`https://localhost:44384/api/checkselectedtimefordays`,
                             {
                                 trainerId: trainerId,
                                 selectedTime: selectedTime,
@@ -177,16 +181,18 @@
                                 selectedDaysOfWeek: enabledDays,
                                 duration: duration
                             })
-                        .done(function (data) {
-                            if (data == false) {
-                                document.getElementById("daysOfWeekErrorMessage").innerHTML = "Selected time doesn't available for selected days of week. Please, select other days or time.";
-                            }
-                        });
+                            .done(function (data) {
+                                if (data === false) {
+                                    document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
+                                }
+                            });
+                    }
+
                 });
         });
     } catch (err) {
         alert(err.message);
-    } 
-    
+    }
+
 
 </script>
