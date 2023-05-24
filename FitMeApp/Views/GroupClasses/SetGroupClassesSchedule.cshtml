@@ -20,10 +20,8 @@
                         </h5>
                         <hr />
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Group class
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Group class
                             </div>
                             <div class="col-md-8">
                                 <select class="form-select" aria-label="Default select example" id="groupClassSelect" asp-for="SelectedGroupClassId">
@@ -37,10 +35,8 @@
                         <br />
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Date
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Date
                             </div>
                             <div class="col-md-8">
                                 @{
@@ -52,10 +48,8 @@
                         <br />
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Time
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Time
                             </div>
                             <div class="col-md-8">
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="StartTime"></select>
@@ -66,10 +60,8 @@
                         <br />
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Training duration
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Training duration
                             </div>
                             <div class="col-md-8">
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectDuration" asp-for="DurationInMinutes">
@@ -81,10 +73,8 @@
                         <br />
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Participants limit
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Participants limit
                             </div>
                             <div class="col-md-8">
                                 <input class="form-control" type="text" placeholder="Count of people" aria-label="default input example" asp-for="ParticipantsLimit">
@@ -93,15 +83,19 @@
                         <br />
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <p class="card-text">
-                                    Duplicate for a month
-                                </p>
+                            <div class="col-md-4 card-text" style="text-align: right">
+                                Duplicate for a month*
+                                    <br />
+                                    <br />
+                                    <span style="font-size: smaller; font-style: italic">
+                                        *group classes will be scheduled on selected days of the week
+                                        and at selected times for the next 30 days from the selected date.
+                                    </span>
                             </div>
                             <div class="col-md-8">
                                 @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
                                 {
-                                    <div class="form-check">
+                                    <div class="form-check" style="text-align: left">
                                         @if (Model.WorkDaysOfWeek.Contains((DayOfWeek)day))
                                         {
                                             <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="@day" id="@day.ToString()">
@@ -120,12 +114,10 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a asp-controller="Schedule" asp-action="Index" class="btn btn-dark" style="width: 30%">Cancel</a>
-                        <input type="submit" value="Ok" class="btn btn-dark" />
+                        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-secondary" style="width: 20%">Cancel</a>
+                        <input type="submit" value="Ok" class="btn btn-dark" style="width: 20%" />
                     </div>
-
                 </form>
-
             </div>
         </div>
         <div class=" col-md-2">
