@@ -175,11 +175,13 @@
                     var trainerId = document.getElementById("trainerId").value;
                     var selectedTime = document.getElementById("startTimeSelect").value;
                     var duration = document.getElementById("selectDuration").value;
+                    var selectedDate = document.getElementById("selectDate").value;
 
                     $.post(`https://localhost:44384/api/checkselectedtimefordays`,
                             {
                                 trainerId: trainerId,
                                 selectedTime: selectedTime,
+                                selectedDate: selectedDate,
                                 selectedDaysOfWeek: enabledDays,
                                 duration: duration
                             })

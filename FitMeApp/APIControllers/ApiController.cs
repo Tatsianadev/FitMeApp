@@ -76,21 +76,28 @@ namespace FitMeApp.APIControllers
             return timeVisitorsLineJsonString;
         }
 
+
         [HttpPost]
         [Route("checkselectedtimefordays")]
-        public bool CheckIfSelectedTimeAvailableForDays(string trainerId, string selectedTime,
+        public bool CheckIfSelectedTimeAvailableForDays(string trainerId, string selectedTime, DateTime selectedDate,
             List<string> selectedDaysOfWeek, int duration = 60)
         {
             if (selectedTime == null)
             {
                 return false;
             }
+
+            if (selectedDate < DateTime.Today)
+            {
+                selectedDate = DateTime.Today;
+            }
+
             int startTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(selectedTime);
             var datesToCheck = new List<DateTime>();
 
-            foreach (var day in selectedDaysOfWeek)
+            foreach (var dayOfWeekName in selectedDaysOfWeek)
             {
-                datesToCheck.AddRange(GetDatesInSpanByDayOfWeek(day,30));
+                datesToCheck.AddRange(Common.DateManager.GetDatesInSpanByDayOfWeek(selectedDate, 30, dayOfWeekName));
             }
 
             int endTime = startTime + duration;
@@ -106,20 +113,5 @@ namespace FitMeApp.APIControllers
 
             return false;
         }
-
-        private IEnumerable<DateTime> GetDatesInSpanByDayOfWeek(string day, int daysSpan)
-        {
-            int year = DateTime.Now.Year;
-            int month = DateTime.Now.Month;
-            int dayNumber = DateTime.Now.Day;
-
-            List<DateTime> dates = Enumerable.Range(1, daysSpan)
-                .Where(d => new DateTime(year, month, dayNumber).AddDays(d-1).ToString("dddd").Equals(day))
-                .Select(d => new DateTime(year, month, dayNumber).AddDays(d-1)).ToList();
-
-            return dates;
-        }
-        
-
     }
 }
