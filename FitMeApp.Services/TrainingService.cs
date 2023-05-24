@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using FitMeApp.Mapper;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Interfaces;
@@ -97,7 +99,7 @@ namespace FitMeApp.Services
         public GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(int groupClassScheduleId)
         {
             var entity = _repository.GetRecordInGroupTrainingSchedule(groupClassScheduleId);
-            return GetRecordInGroupClassSchedule(entity);
+            return GetGroupClassScheduleRecordModelByEntity(entity);
         }
 
         
@@ -109,7 +111,7 @@ namespace FitMeApp.Services
             var groupClassScheduleRecordModels = new List<GroupClassScheduleRecordModel>(); 
             foreach (var entity in groupClassScheduleRecordEntities)
             {
-                var groupClassEventModel = GetRecordInGroupClassSchedule(entity);
+                var groupClassEventModel = GetGroupClassScheduleRecordModelByEntity(entity);
                 groupClassScheduleRecordModels.Add(groupClassEventModel);
             }
 
@@ -131,9 +133,31 @@ namespace FitMeApp.Services
         }
 
 
+        public IEnumerable<int> AddGroupClassScheduleRecords(List<GroupClassScheduleRecordModel> groupClassScheduleModels)
+        {
+            var groupClassScheduleRecordsIds = new List<int>();
+
+            if (groupClassScheduleModels.Count > 1)
+            {
+                var groupClassScheduleRecordsEntityBase = new List<GroupClassScheduleRecordEntityBase>();
+                foreach (var model in groupClassScheduleModels)
+                {
+                    groupClassScheduleRecordsEntityBase.Add(GetGroupClassScheduleEntityBaseByModel(model));
+                }
+
+                groupClassScheduleRecordsIds = _repository.AddRangeGroupClassScheduleRecords(groupClassScheduleRecordsEntityBase).ToList();
+            }
+            else
+            {
+                var groupClassScheduleRecordEntityBase = GetGroupClassScheduleEntityBaseByModel(groupClassScheduleModels.First());
+                groupClassScheduleRecordsIds.Add(_repository.AddGroupClassScheduleRecord(groupClassScheduleRecordEntityBase));
+            }
+
+            return groupClassScheduleRecordsIds;
+        }
 
 
-        private GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(GroupClassScheduleRecordFullInfo entity)
+        private GroupClassScheduleRecordModel GetGroupClassScheduleRecordModelByEntity(GroupClassScheduleRecordFullInfo entity)
         {
             var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
 
@@ -152,6 +176,25 @@ namespace FitMeApp.Services
             };
 
             return grClassScheduleRecord;
+        }
+
+
+        private GroupClassScheduleRecordEntityBase GetGroupClassScheduleEntityBaseByModel(GroupClassScheduleRecordModel model)
+        {
+            int trainerTrainingId = _repository.GetTrainingTrainerConnectionId(model.TrainerId, model.GroupClassId);
+
+            var entityBase = new GroupClassScheduleRecordEntityBase()
+            {
+                Id = model.Id,
+                TrainingTrainerId = trainerTrainingId,
+                GymId = model.GymId,
+                Date = model.Date,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                ParticipantsLimit = model.ParticipantsLimit
+            };
+
+            return entityBase;
         }
     }
 }

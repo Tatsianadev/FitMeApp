@@ -1,6 +1,7 @@
 ﻿using FitMeApp.Common;
 using FitMeApp.Mapper;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
 using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -200,7 +201,53 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult SetGroupClassesSchedule(SetCroupClassScheduleViewModel viewModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var dates = new List<DateTime>();
+                dates.Add(viewModel.Dates.First());
+
+                if (viewModel.SelectedDaysOfWeek != null) {
+                    
+                    foreach (var dayOfWeek in viewModel.SelectedDaysOfWeek)
+                    {
+                        var date = DateManager.GetDatesInSpanByDayOfWeek(viewModel.Dates.FirstOrDefault(), 30, dayOfWeek.ToString());
+                        dates.AddRange(date);
+                    }
+                }
+
+                var groupClassScheduleRecordsModels = new List<GroupClassScheduleRecordModel>();
+                int startTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(viewModel.StartTime);
+                int endTime = startTime + viewModel.DurationInMinutes;
+
+                foreach (var date in dates)
+                {
+                    var model = new GroupClassScheduleRecordModel()
+                    {
+                        TrainerId = viewModel.TrainerId,
+                        GroupClassId = viewModel.SelectedGroupClassId,
+                        GymId = viewModel.GymId,
+                        Date = date,
+                        StartTime = startTime,
+                        EndTime = endTime,
+                        ParticipantsLimit = viewModel.ParticipantsLimit
+                    };
+                    groupClassScheduleRecordsModels.Add(model);
+                }
+
+                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList();
+
+                return RedirectToAction("Index", "Home");
+
+
+            }
+
+
+            var trainer = _trainerService.GetTrainerWithGymAndTrainings(viewModel.TrainerId);
+            var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(viewModel.TrainerId).Select(x => x.DayName).ToList();
+            var groupClasses = trainer.Trainings.Where(x => x.Name != "Personal training");
+            viewModel.WorkDaysOfWeek = workDaysOfWeek;
+            viewModel.GroupClasses = groupClasses;
+            return View(viewModel);
         }
     }
 }

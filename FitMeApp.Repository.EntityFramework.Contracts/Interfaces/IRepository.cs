@@ -69,12 +69,15 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
         IEnumerable<GroupClassScheduleRecordFullInfo> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId, DateTime date);
         int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
+        int AddGroupClassScheduleRecord(GroupClassScheduleRecordEntityBase groupClassScheduleRecord);
+        IEnumerable<int> AddRangeGroupClassScheduleRecords(List<GroupClassScheduleRecordEntityBase> groupClassScheduleRecords);
 
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
         void DeleteTrainingTrainerConnection(string trainerId, int trainingToDeleteId);
         bool AddTrainingTrainerConnection(string trainerId, int trainingToAddId);
         void DeleteAllTrainingTrainerConnectionsByTrainer(string trainerId);
+        int GetTrainingTrainerConnectionId(string trainerId, int trainingId);
 
         //Gym - Trainer - Training connection
         GymWithTrainersAndTrainings GetGymWithTrainersAndTrainings(int gymId);

@@ -22,6 +22,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string StartTime { get; set; }
         public int DurationInMinutes { get; set; }
         [Required]
+        [Range(1,20)]
         public int ParticipantsLimit { get; set; }
 
     }

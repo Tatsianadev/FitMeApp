@@ -713,6 +713,45 @@ namespace FitMeApp.Repository.EntityFramework
 
             return groupClassRecordsCount;
         }
+        
+
+        public int AddGroupClassScheduleRecord(GroupClassScheduleRecordEntityBase groupClassScheduleRecord)
+        {
+            _context.GroupTrainingsSchedule.Add(MapGroupClassScheduleEntityBaseToEntity(groupClassScheduleRecord));
+            _context.SaveChanges();
+            return groupClassScheduleRecord.Id;
+        }
+
+
+        public IEnumerable<int> AddRangeGroupClassScheduleRecords(List<GroupClassScheduleRecordEntityBase> groupClassScheduleRecords)
+        {
+            var entities = new List<GroupTrainingScheduleEntity>();
+            foreach (var entityBase in groupClassScheduleRecords)
+            {
+                entities.Add(MapGroupClassScheduleEntityBaseToEntity(entityBase));
+            }
+
+            _context.GroupTrainingsSchedule.AddRange(entities);
+            _context.SaveChanges();
+            var groupClassScheduleRecordIds = entities.Select(x => x.Id).ToList();
+            return groupClassScheduleRecordIds;
+        }
+
+        private GroupTrainingScheduleEntity MapGroupClassScheduleEntityBaseToEntity(GroupClassScheduleRecordEntityBase entityBase)
+        {
+            var entity = new GroupTrainingScheduleEntity()
+            {
+                TrainingTrainerId = entityBase.TrainingTrainerId,
+                GymId = entityBase.GymId,
+                Date = entityBase.Date,
+                StartTime = entityBase.StartTime,
+                EndTime = entityBase.EndTime,
+                ParticipantsLimit = entityBase.ParticipantsLimit
+            };
+
+            return entity;
+        }
+
 
 
         //Trainer-Trainings
@@ -764,6 +803,19 @@ namespace FitMeApp.Repository.EntityFramework
                 _context.TrainingTrainer.RemoveRange(allTrainingsByTrainer);
                 _context.SaveChanges();
             }
+        }
+
+
+        public int GetTrainingTrainerConnectionId(string trainerId, int trainingId)
+        {
+            var trainingTrainerConnection = _context.TrainingTrainer
+                .FirstOrDefault(x => x.TrainerId == trainerId && x.TrainingId == trainingId);
+            if (trainingTrainerConnection != null)
+            {
+                return trainingTrainerConnection.Id;
+            }
+
+            return 0;
         }
 
 
