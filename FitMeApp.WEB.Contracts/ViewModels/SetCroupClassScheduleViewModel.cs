@@ -9,7 +9,8 @@ namespace FitMeApp.WEB.Contracts.ViewModels
     public class SetCroupClassScheduleViewModel
     {
         public string TrainerId { get; set; }
-        public IEnumerable<DayOfWeek> WorkDaysOfWeek { get; set; } 
+        public IEnumerable<DayOfWeek> WorkDaysOfWeek { get; set; }
+        public IEnumerable<DayOfWeek> SelectedDaysOfWeek { get; set; }
         public int GymId { get; set; }
         public string GymName { get; set; }
         public IEnumerable<TrainingModel> GroupClasses { get; set; }
@@ -18,7 +19,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         [Required]
         public IEnumerable<DateTime> Dates { get; set; }
         [Required]
-        public int StartTime { get; set; }
+        public string StartTime { get; set; }
         public int DurationInMinutes { get; set; }
         public int ParticipantsLimit { get; set; }
 
