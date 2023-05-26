@@ -234,10 +234,11 @@ namespace FitMeApp.Controllers
                     groupClassScheduleRecordsModels.Add(model);
                 }
 
-                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList();
+                //List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList(); //todo open comment after test
 
-                return RedirectToAction("Index", "Home");
-
+                viewModel.EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(endTime);
+                viewModel.SelectedGroupClassName = _trainingService.GetTrainingModel(viewModel.SelectedGroupClassId).Name;
+                return RedirectToAction("SetGroupClassesScheduleComplete", viewModel);
 
             }
 
@@ -247,6 +248,12 @@ namespace FitMeApp.Controllers
             var groupClasses = trainer.Trainings.Where(x => x.Name != "Personal training");
             viewModel.WorkDaysOfWeek = workDaysOfWeek;
             viewModel.GroupClasses = groupClasses;
+            return View(viewModel);
+        }
+
+
+        public IActionResult SetGroupClassesScheduleComplete(SetCroupClassScheduleViewModel viewModel)
+        {
             return View(viewModel);
         }
     }

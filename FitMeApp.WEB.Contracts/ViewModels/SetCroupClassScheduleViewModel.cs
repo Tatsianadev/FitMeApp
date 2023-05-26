@@ -16,10 +16,12 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public IEnumerable<TrainingModel> GroupClasses { get; set; }
         [Required]
         public int SelectedGroupClassId { get; set; }
+        public string SelectedGroupClassName { get; set; }
         [Required]
         public IEnumerable<DateTime> Dates { get; set; }
         [Required]
         public string StartTime { get; set; }
+        public string EndTime { get; set; }
         public int DurationInMinutes { get; set; }
         [Required]
         [Range(1,20)]
