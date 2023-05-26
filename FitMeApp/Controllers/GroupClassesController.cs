@@ -123,7 +123,7 @@ namespace FitMeApp.Controllers
                         subscription.GroupTraining &&
                         subscription.GymId == groupClassScheduleRecord.GymId)
                     {
-                        hasAvailableSubscription = true;
+                        hasAvailableSubscription = true; //todo break
                     }
                 }
 
