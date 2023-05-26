@@ -80,7 +80,7 @@
                                 <input class="form-control" type="text" placeholder="Count of people" aria-label="default input example" asp-for="ParticipantsLimit">
                                 <span asp-validation-for="ParticipantsLimit" class="card-text small"></span>
                             </div>
-                            
+
                         </div>
                         <br />
 
@@ -158,43 +158,82 @@
         });
 
 
-    try {
-        var checkboxes = document.querySelectorAll("input[type = checkbox][name = SelectedDaysOfWeek]");
-        let enabledDays = [];
 
-        checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener('change',
-                function () {
-                    var selectedTime = document.getElementById("startTimeSelect").value;
-                    if (selectedTime === "") {
-                        document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
-                    }
-                    else {
-                        enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
-                        var trainerId = document.getElementById("trainerId").value;
-                        var duration = document.getElementById("selectDuration").value;
-                        var selectedDate = document.getElementById("selectDate").value;
+    var checkboxes = document.querySelectorAll("input[type = checkbox][name = SelectedDaysOfWeek]");
+    let enabledDays = [];
 
-                        $.post(`https://localhost:44384/api/checkselectedtimefordays`,
-                            {
-                                trainerId: trainerId,
-                                selectedTime: selectedTime,
-                                selectedDate: selectedDate,
-                                selectedDaysOfWeek: enabledDays,
-                                duration: duration
-                            })
-                            .done(function (data) {
-                                if (data === false) {
-                                    document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
-                                }
-                            });
-                    }
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', checkTimeAndDayOfWeek)});
+        document.getElementById("startTimeSelect").addEventListener('change', checkTimeAndDayOfWeek);
 
-                });
-        });
-    } catch (err) {
-        alert(err.message);
-    }
 
+        function checkTimeAndDayOfWeek(e) {
+            var selectedTime = document.getElementById("startTimeSelect").value;
+            if (selectedTime === "") {
+                document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
+            }
+            else {
+                enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
+                var trainerId = document.getElementById("trainerId").value;
+                var duration = document.getElementById("selectDuration").value;
+                var selectedDate = document.getElementById("selectDate").value;
+
+                $.post(`https://localhost:44384/api/checkselectedtimefordays`,
+                    {
+                        trainerId: trainerId,
+                        selectedTime: selectedTime,
+                        selectedDate: selectedDate,
+                        selectedDaysOfWeek: enabledDays,
+                        duration: duration
+                    })
+                    .done(function (data) {
+                        if (data === true) {
+                            document.getElementById("daysOfWeekErrorMessage").innerText = "";
+                        }
+                        else {
+                            document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
+                        }
+                    });
+            };
+
+        };
+
+
+
+
+
+    //    checkboxes.forEach(function (checkbox) {
+    //    checkbox.addEventListener('change',
+    //        function () {
+    //            var selectedTime = document.getElementById("startTimeSelect").value;
+    //            if (selectedTime === "") {
+    //                document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
+    //            }
+    //            else {
+    //                enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
+    //                var trainerId = document.getElementById("trainerId").value;
+    //                var duration = document.getElementById("selectDuration").value;
+    //                var selectedDate = document.getElementById("selectDate").value;
+
+    //                $.post(`https://localhost:44384/api/checkselectedtimefordays`,
+    //                    {
+    //                        trainerId: trainerId,
+    //                        selectedTime: selectedTime,
+    //                        selectedDate: selectedDate,
+    //                        selectedDaysOfWeek: enabledDays,
+    //                        duration: duration
+    //                    })
+    //                    .done(function (data) {
+    //                        if (data === true) {
+    //                            document.getElementById("daysOfWeekErrorMessage").innerText = "";
+    //                        }
+    //                        else {
+    //                            document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
+    //                        }
+    //                    });
+    //            }
+
+    //        });
+    //});
 
 </script>

@@ -93,14 +93,29 @@ namespace FitMeApp.APIControllers
             }
 
             int startTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(selectedTime);
-            var datesToCheck = new List<DateTime>();
+            int endTime = startTime + duration;
 
+            //if selected time out of workHours range -> return false
+            var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainerId).ToList();
+            foreach (var selectedDayOfWeek in selectedDaysOfWeek)
+            {
+                foreach (var item in trainerWorkHours)
+                {
+                    if (selectedDayOfWeek == item.DayName.ToString() && 
+                        (startTime < item.StartTime || endTime > item.EndTime))
+                    {
+                        return false;
+                    }
+                }
+            }
+            
+            //if selected time at the same time with event or groupClass -> return false
+            var datesToCheck = new List<DateTime>();
             foreach (var dayOfWeekName in selectedDaysOfWeek)
             {
                 datesToCheck.AddRange(Common.DateManager.GetDatesInSpanByDayOfWeek(selectedDate, 30, dayOfWeekName));
             }
 
-            int endTime = startTime + duration;
             int eventsCount = _scheduleService.GetEventsCount(trainerId, datesToCheck, startTime, endTime);
             if (eventsCount == 0)
             {
