@@ -166,8 +166,7 @@
         checkbox.addEventListener('change', checkTimeAndDayOfWeek)});
         document.getElementById("startTimeSelect").addEventListener('change', checkTimeAndDayOfWeek);
 
-
-        function checkTimeAndDayOfWeek(e) {
+    function checkTimeAndDayOfWeek(e) {
             var selectedTime = document.getElementById("startTimeSelect").value;
             if (selectedTime === "") {
                 document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
@@ -197,43 +196,5 @@
             };
 
         };
-
-
-
-
-
-    //    checkboxes.forEach(function (checkbox) {
-    //    checkbox.addEventListener('change',
-    //        function () {
-    //            var selectedTime = document.getElementById("startTimeSelect").value;
-    //            if (selectedTime === "") {
-    //                document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
-    //            }
-    //            else {
-    //                enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
-    //                var trainerId = document.getElementById("trainerId").value;
-    //                var duration = document.getElementById("selectDuration").value;
-    //                var selectedDate = document.getElementById("selectDate").value;
-
-    //                $.post(`https://localhost:44384/api/checkselectedtimefordays`,
-    //                    {
-    //                        trainerId: trainerId,
-    //                        selectedTime: selectedTime,
-    //                        selectedDate: selectedDate,
-    //                        selectedDaysOfWeek: enabledDays,
-    //                        duration: duration
-    //                    })
-    //                    .done(function (data) {
-    //                        if (data === true) {
-    //                            document.getElementById("daysOfWeekErrorMessage").innerText = "";
-    //                        }
-    //                        else {
-    //                            document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
-    //                        }
-    //                    });
-    //            }
-
-    //        });
-    //});
 
 </script>

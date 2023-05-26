@@ -234,7 +234,7 @@ namespace FitMeApp.Controllers
                     groupClassScheduleRecordsModels.Add(model);
                 }
 
-                //List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList(); //todo open comment after test
+                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList(); 
 
                 viewModel.EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(endTime);
                 viewModel.SelectedGroupClassName = _trainingService.GetTrainingModel(viewModel.SelectedGroupClassId).Name;

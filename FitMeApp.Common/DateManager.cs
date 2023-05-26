@@ -14,8 +14,8 @@ namespace FitMeApp.Common
             int dayNumber = dateStart.Day;
 
             List<DateTime> dates = Enumerable.Range(1, daysSpan)
-                .Where(d => new DateTime(year, month, dayNumber).AddDays(d - 1).ToString("dddd").Equals(dayOfWeekName))
-                .Select(d => new DateTime(year, month, dayNumber).AddDays(d - 1)).ToList();
+                .Where(d => new DateTime(year, month, dayNumber).AddDays(d).ToString("dddd").Equals(dayOfWeekName))
+                .Select(d => new DateTime(year, month, dayNumber).AddDays(d)).ToList();
 
             return dates;
         }
