@@ -1,8 +1,8 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.SetCroupClassScheduleViewModel
 
 <div class="container">
-    <div class="row" style="text-align: center; margin: 20px 0">
-        <h3>New group classes have been set successfully!</h3>
+    <div class="row" style="text-align: center; margin: 30px 0">
+        <h3>The new group class has been added to your Schedule successfully!</h3>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -12,56 +12,62 @@
             @{ var dateString = @Model.Dates.FirstOrDefault().ToString("MM/dd/yyyy"); }
             <table class="table">
                 <tbody>
-                <tr>
-                    <th scope="row">Gym:</th>
-                    <td colspan="2">@Model.GymName</td>
-                </tr>
-                <tr>
-                    <th scope="row">Class:</th>
-                    <td colspan="2">@Model.SelectedGroupClassName</td>
-                </tr>
+                    <tr>
+                        <th scope="row">Gym:</th>
+                        <td colspan="2">@Model.GymName</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Class:</th>
+                        <td colspan="2">@Model.SelectedGroupClassName</td>
+                    </tr>
 
-                @if (!Model.SelectedDaysOfWeek.Any())
-                {
+                    @if (!Model.SelectedDaysOfWeek.Any())
+                    {
+                        <tr>
+                            <th scope="row">Date:</th>
+                            <td colspan="2">@dateString</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <th scope="row">From date:</th>
+                            <td colspan="2">@dateString</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Next 30 days every:</th>
+                            <td colspan="2">
+                                @{
+                                    string daysOfWeek = "";
+                                    foreach (var day in Model.SelectedDaysOfWeek)
+                                    {
+                                        
+                                        daysOfWeek += day.ToString() + ", ";
+                                    }
+                                }
+
+                                @daysOfWeek.Remove(daysOfWeek.Length - 2)
+                            </td>
+                        </tr>
+                    }
                     <tr>
-                        <th scope="row">Date:</th>
-                        <td colspan="2">@dateString</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <th scope="row">From:</th>
-                        <td colspan="2">@dateString</td>
+                        <th scope="row">Time:</th>
+                        <td colspan="2">@Model.StartTime - @Model.EndTime</td>
                     </tr>
                     <tr>
-                        <th scope="row">Every:</th>
-                        <td colspan="2">
-                            @foreach (var day in Model.SelectedDaysOfWeek)
-                            {
-                                string dayOfWeek = day.ToString() + Environment.NewLine;
-                            }
-                        </td>
+                        <th scope="row">Participants limit:</th>
+                        <td colspan="2">@Model.ParticipantsLimit</td>
                     </tr>
-                }
-                <tr>
-                    <th scope="row">Time:</th>
-                    <td colspan="2">@Model.StartTime - @Model.EndTime</td>
-                </tr>
-                <tr>
-                    <th scope="row">Participants limit:</th>
-                    <td colspan="2">@Model.ParticipantsLimit</td>
-                </tr>
                 </tbody>
             </table>
             <div style="text-align: center">
                 <h6>
-                    All information about your group classes schedule you will find in your Profile.
+                    All information about the schedule of your group classes you will find in your Profile.
                 </h6>
+                <br />
+                <a asp-controller="Schedule" asp-action="Index" class="btn btn-dark" style="width: 20%">Ok</a>
             </div>
-            <div>
-                <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-secondary" style="width: 20%">Ok</a>
-            </div>
+
         </div>
         <div class="col-md-3">
 
