@@ -22,6 +22,7 @@ namespace FitMeApp.Controllers
         private readonly IScheduleService _scheduleService;
         private readonly ITrainerService _trainerService;
         private readonly ITrainingService _trainingService;
+        private readonly IEmailService _emailService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
         private readonly ModelViewModelMapper _mapper;
@@ -29,12 +30,14 @@ namespace FitMeApp.Controllers
         public ScheduleController(IScheduleService scheduleService,
             ITrainerService trainerService,
             ITrainingService trainingService,
+            IEmailService emailService,
             UserManager<User> userManager,
             ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
             _trainerService = trainerService;
             _trainingService = trainingService;
+            _emailService = emailService;
             _userManager = userManager;
             _logger = logger;
             _mapper = new ModelViewModelMapper();
@@ -239,7 +242,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantCount)
+        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantCount)
         {
             if (actualParticipantCount == 0)
             {
@@ -254,8 +257,32 @@ namespace FitMeApp.Controllers
                 }
                 var participantIds = _trainingService.GetAllParticipantIdsByGroupClass(grClassScheduleRecordId);
                 var participants = _userManager.Users.Where(x => participantIds.Contains(x.Id)).ToList();
-                
-                //send the emails
+
+                //send the emails to participants
+                foreach (var user in participants)
+                {
+                    var callbackUrl = Url.Action(
+                      "Index",
+                      "Home"
+                    );
+
+                    string grClassDate = groupClassFullInfo.Date.Date.ToString("MM/dd/yyyy");
+                    string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(groupClassFullInfo.StartTime);
+
+                    string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+                    string fromEmail = DefaultSettingsStorage.SenderEmail;
+                    string plainTextContent = $"We have change in Schedule!" +
+                                              $" {groupClassFullInfo.GroupClassName} class {grClassDate} at {startTime} has been canceled." +
+                                              $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a>";
+                    string htmlContent = $"<strong> We have change in Schedule!" +
+                                         $" {groupClassFullInfo.GroupClassName} class {grClassDate} at {startTime} has been canceled." +
+                                         $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a></strong>";
+                    string subject = $"{groupClassFullInfo.GroupClassName} class canceled";
+
+                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+
+                }
+
                 //delete the records in schedule
             }
 

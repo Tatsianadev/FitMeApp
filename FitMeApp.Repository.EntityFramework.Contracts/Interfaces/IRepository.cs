@@ -71,6 +71,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         int AddGroupClassScheduleRecord(GroupClassScheduleRecordEntityBase groupClassScheduleRecord);
         IEnumerable<int> AddRangeGroupClassScheduleRecords(List<GroupClassScheduleRecordEntityBase> groupClassScheduleRecords);
+        void DeleteGroupClassScheduleRecord(int grClassScheduleRecordId);
 
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);
@@ -108,8 +109,6 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void UpdateUserSubscriptionDates(int subscriptionId, DateTime startDate, DateTime endDate);
         IEnumerable<UserSubscriptionFullInfoBase> GetAllUsersByExpiringSubscriptions(int daysBeforeSubscrExpire);
 
-
-
         //Schedule
         IEnumerable<EventEntityBase> GetAllEvents();
         IEnumerable<EventEntityBase> GetEventsByUser(string userId);
@@ -120,7 +119,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
         int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId);
-
+        //void DeleteParticipants(int grClassScheduleRecordId);
 
 
         //Events

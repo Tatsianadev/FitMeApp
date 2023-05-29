@@ -73,7 +73,7 @@ namespace FitMeApp.Controllers
 
                         bool appliedForTrainerRole = model.Role == RolesEnum.trainer;
 
-                        //for debug - to omit sent emailConfirm part
+                        //for debug - to omit sent emailConfirm part //todo activate emailConfirm part
                         //var addedUser = await _userManager.GetUserAsync(User);
                         //return RedirectToAction("RegisterTrainerPart", new { userId = addedUser.Id });
 

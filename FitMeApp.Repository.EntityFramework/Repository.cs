@@ -1777,6 +1777,11 @@ namespace FitMeApp.Repository.EntityFramework
             return participantIds;
         }
 
+        private void DeleteParticipants(int grClassScheduleRecordId)
+        {
+            //var participantsId
+        }
+
 
         //Events
         public void ChangeEventStatus(int eventId)
