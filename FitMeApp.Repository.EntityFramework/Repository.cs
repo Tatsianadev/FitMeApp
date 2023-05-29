@@ -636,12 +636,15 @@ namespace FitMeApp.Repository.EntityFramework
             var record = (from grSchedule in _context.GroupTrainingsSchedule
                           join trainingTrainer in _context.TrainingTrainer
                               on grSchedule.TrainingTrainerId equals trainingTrainer.Id
+                              join training in _context.Trainings
+                                  on trainingTrainer.TrainingId equals training.Id
                           where grSchedule.Id == groupTrainingScheduleId
                           select new GroupClassScheduleRecordFullInfo()
                           {
                               Id = grSchedule.Id,
                               TrainerId = trainingTrainer.TrainerId,
                               GroupClassId = trainingTrainer.TrainingId,
+                              GroupClassName = training.Name,
                               GymId = grSchedule.GymId,
                               Date = grSchedule.Date,
                               StartTime = grSchedule.StartTime,

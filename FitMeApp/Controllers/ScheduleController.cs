@@ -249,7 +249,8 @@ namespace FitMeApp.Controllers
                 var groupClassFullInfo = _trainingService.GetRecordInGroupClassSchedule(grClassScheduleRecordId);
                 if (groupClassFullInfo == null)
                 {
-                    //return error failed attempt to cancel class 
+                    string message = "Failed attempt to cancel group class. Please, try again later.";
+                    return View("CustomError", message);
                 }
                 var participantIds = _trainingService.GetAllParticipantIdsByGroupClass(grClassScheduleRecordId);
                 var participants = _userManager.Users.Where(x => participantIds.Contains(x.Id)).ToList();
@@ -267,13 +268,13 @@ namespace FitMeApp.Controllers
 
                     string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
                     string fromEmail = DefaultSettingsStorage.SenderEmail;
-                    string plainTextContent = $"We have change in Schedule!" +
+                    string plainTextContent = $"We have schedule changes!" +
                                               $" {groupClassFullInfo.GroupClassName} class {grClassDate} at {startTime} has been canceled." +
                                               $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a>";
-                    string htmlContent = $"<strong> We have change in Schedule!" +
+                    string htmlContent = $"<strong> We have schedule changes!" +
                                          $" {groupClassFullInfo.GroupClassName} class {grClassDate} at {startTime} has been canceled." +
                                          $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a></strong>";
-                    string subject = $"{groupClassFullInfo.GroupClassName} class canceled";
+                    string subject = $"{groupClassFullInfo.GroupClassName} canceled";
 
                     await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
 
