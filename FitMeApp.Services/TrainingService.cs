@@ -164,6 +164,18 @@ namespace FitMeApp.Services
         }
 
 
+        public void DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount)
+        {
+            if (actualParticipantsCount > 0)
+            {
+                _repository.DeleteGroupClassEventForAllParticipants(grClassScheduleRecordId);
+                _repository.DeleteParticipants(grClassScheduleRecordId);
+            }
+
+            _repository.DeleteGroupClassScheduleRecord(grClassScheduleRecordId);
+        }
+
+
 
         private GroupClassScheduleRecordModel GetGroupClassScheduleRecordModelByEntity(GroupClassScheduleRecordFullInfo entity)
         {

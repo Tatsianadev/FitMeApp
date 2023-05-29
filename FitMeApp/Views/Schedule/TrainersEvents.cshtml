@@ -164,7 +164,12 @@
                                                 <span class="text-emphasize">Places left:</span> @availablePlacesCount &#160
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status</td>
-                                            <td id="(@i)_5"></td>
+                                            <td id="(@i)_5">
+                                                <a asp-action ="DeleteGroupClassScheduleRecord" asp-controller="Schedule" 
+                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId" 
+                                                   asp-route-actualParticipantsCount ="@eventItem.ActualParticipantsCount" 
+                                                   class="btn btn-outline-danger">Cancel</a>
+                                            </td>
                                         </tr>
                                         eventsId.Add(eventItem.Id);
                                     }

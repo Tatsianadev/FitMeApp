@@ -21,6 +21,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string UserLastName { get; set; }
         public int TrainingId { get; set; }
         public string TrainingName { get; set; }
+        public int GroupClassScheduleRecordId { get; set; }
         public int ParticipantsLimit { get; set; }
         public int ActualParticipantsCount { get; set; }
         public EventStatusEnum Status { get; set; }

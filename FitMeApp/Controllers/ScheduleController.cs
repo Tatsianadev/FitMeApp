@@ -145,7 +145,7 @@ namespace FitMeApp.Controllers
                 var workDaysOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
 
                 // If selected day is WorkOffDay for trainer -> display WorkOffPartialView
-                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek)) 
+                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek))
                 {
                     model.SelectedDayIsWorkOff = true;
                     return View("Index", model);
@@ -168,7 +168,7 @@ namespace FitMeApp.Controllers
                 }
 
                 //If trainer do group classes ->  Get all group classes for selected date
-               
+
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
                 {
@@ -178,7 +178,7 @@ namespace FitMeApp.Controllers
                     {
                         eventsViewModels.Add(new EventViewModel()
                         {
-                            Id = grClassEventModel.Id,
+                            GroupClassScheduleRecordId = grClassEventModel.Id,
                             TrainerId = grClassEventModel.TrainerId,
                             TrainingId = grClassEventModel.GroupClassId,
                             TrainingName = grClassEventModel.GroupClassName,
@@ -192,7 +192,7 @@ namespace FitMeApp.Controllers
                     }
                 }
 
-                model.Events = eventsViewModels.OrderBy(x=>x.StartTime).ToList();
+                model.Events = eventsViewModels.OrderBy(x => x.StartTime).ToList();
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
                 model.SelectedDayIsWorkOff = false;
 
@@ -242,13 +242,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantCount)
+        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount)
         {
-            if (actualParticipantCount == 0)
-            {
-                //method delete GroupClassScheduleRecord
-            }
-            else
+            if (actualParticipantsCount != 0)
             {
                 var groupClassFullInfo = _trainingService.GetRecordInGroupClassSchedule(grClassScheduleRecordId);
                 if (groupClassFullInfo == null)
@@ -282,9 +278,9 @@ namespace FitMeApp.Controllers
                     await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
 
                 }
-
-                //delete the records in schedule
             }
+
+            _trainingService.DeleteGroupClassScheduleRecord(grClassScheduleRecordId, actualParticipantsCount);
 
             return View();
         }

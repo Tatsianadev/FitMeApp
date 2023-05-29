@@ -737,6 +737,18 @@ namespace FitMeApp.Repository.EntityFramework
             return groupClassScheduleRecordIds;
         }
 
+        public void DeleteGroupClassScheduleRecord(int grClassScheduleRecordId)
+        {
+            var grClassScheduleRecord = _context.GroupTrainingsSchedule.FirstOrDefault(x => x.Id == grClassScheduleRecordId);
+            if (grClassScheduleRecord != null)
+            {
+                _context.GroupTrainingsSchedule.Remove(grClassScheduleRecord);
+                _context.SaveChanges();
+            }
+        }
+
+
+
         private GroupTrainingScheduleEntity MapGroupClassScheduleEntityBaseToEntity(GroupClassScheduleRecordEntityBase entityBase)
         {
             var entity = new GroupTrainingScheduleEntity()
@@ -1777,10 +1789,35 @@ namespace FitMeApp.Repository.EntityFramework
             return participantIds;
         }
 
-        private void DeleteParticipants(int grClassScheduleRecordId)
+        public void DeleteParticipants(int grClassScheduleRecordId)
         {
-            //var participantsId
+            var participants =
+                _context.GroupTrainingsParticipants.Where(x => x.GroupTrainingsScheduleId == grClassScheduleRecordId).ToList();
+            if (participants.Count != 0)
+            {
+                _context.GroupTrainingsParticipants.RemoveRange(participants);
+                _context.SaveChanges();
+            }
         }
+
+
+        public void DeleteGroupClassEventForAllParticipants(int grClassScheduleRecordId)
+        {
+            var grClassScheduleRecord = GetRecordInGroupTrainingSchedule(grClassScheduleRecordId);
+            var events = _context.Events
+                .Where(x => x.Date == grClassScheduleRecord.Date)
+                .Where(x => x.StartTime == grClassScheduleRecord.StartTime)
+                .Where(x => x.TrainerId == grClassScheduleRecord.TrainerId)
+                .ToList();
+
+            if (events.Count != 0)
+            {
+                _context.Events.RemoveRange(events);
+                _context.SaveChanges();
+            }
+        }
+
+        
 
 
         //Events

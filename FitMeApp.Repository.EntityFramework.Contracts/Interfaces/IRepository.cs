@@ -119,7 +119,8 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
         int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId);
-        //void DeleteParticipants(int grClassScheduleRecordId);
+        void DeleteParticipants(int grClassScheduleRecordId);
+        void DeleteGroupClassEventForAllParticipants(int grClassScheduleRecordId);
 
 
         //Events
