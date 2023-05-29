@@ -237,6 +237,30 @@ namespace FitMeApp.Controllers
             _scheduleService.ChangeEventStatus(eventId);
             return await ShowTrainersEvents(model);
         }
+
+
+        public IActionResult DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantCount)
+        {
+            if (actualParticipantCount == 0)
+            {
+                //method delete GroupClassScheduleRecord
+            }
+            else
+            {
+                var groupClassFullInfo = _trainingService.GetRecordInGroupClassSchedule(grClassScheduleRecordId);
+                if (groupClassFullInfo == null)
+                {
+                    //return error failed attempt to cancel class 
+                }
+                var participantIds = _trainingService.GetAllParticipantIdsByGroupClass(grClassScheduleRecordId);
+                var participants = _userManager.Users.Where(x => participantIds.Contains(x.Id)).ToList();
+                
+                //send the emails
+                //delete the records in schedule
+            }
+
+            return View();
+        }
     }
 
 

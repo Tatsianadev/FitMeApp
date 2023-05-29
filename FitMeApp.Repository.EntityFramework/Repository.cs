@@ -713,7 +713,7 @@ namespace FitMeApp.Repository.EntityFramework
 
             return groupClassRecordsCount;
         }
-        
+
 
         public int AddGroupClassScheduleRecord(GroupClassScheduleRecordEntityBase groupClassScheduleRecord)
         {
@@ -1764,6 +1764,17 @@ namespace FitMeApp.Repository.EntityFramework
                 .Count;
 
             return eventsCount;
+        }
+
+
+        public IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId)
+        {
+            var participantIds = _context.GroupTrainingsParticipants
+                .Where(x => x.GroupTrainingsScheduleId == groupClassScheduleRecordId)
+                .Select(x=>x.UserId)
+                .ToList();
+
+            return participantIds;
         }
 
 

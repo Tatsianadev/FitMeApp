@@ -20,7 +20,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
         int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         IEnumerable<int> AddGroupClassScheduleRecords(List<GroupClassScheduleRecordModel> groupClassScheduleModels);
-
+        IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId);
 
 
 

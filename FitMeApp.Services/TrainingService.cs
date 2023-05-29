@@ -157,6 +157,14 @@ namespace FitMeApp.Services
         }
 
 
+        public IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId)
+        {
+            var participantIds = _repository.GetAllParticipantIdsByGroupClass(groupClassScheduleRecordId);
+            return participantIds;
+        }
+
+
+
         private GroupClassScheduleRecordModel GetGroupClassScheduleRecordModelByEntity(GroupClassScheduleRecordFullInfo entity)
         {
             var participantsCount = _repository.GetGroupClassParticipantsCount(entity.Id);
