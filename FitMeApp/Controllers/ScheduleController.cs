@@ -245,6 +245,27 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "trainer")]
         public async Task<IActionResult> DeletePersonalTrainingEvent(int eventId, CalendarPageWithEventsViewModel model)
         {
+            var eventModel = _scheduleService.GetEvent(eventId);
+            if (eventModel != null)
+            {
+                var user = await _userManager.FindByIdAsync(eventModel.UserId);
+                if (user != null)
+                {
+                    string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
+                    string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
+
+                    string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+                    string fromEmail = DefaultSettingsStorage.SenderEmail;
+                    string plainTextContent = $"We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.";
+                    string htmlContent = $"<strong> We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.</strong>";
+                    string subject = $"Personal training canceled";
+
+                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+                }
+                
+                _scheduleService.DeleteEvent(eventId);
+            }
+
             return await ShowTrainersEvents(model);
         }
 

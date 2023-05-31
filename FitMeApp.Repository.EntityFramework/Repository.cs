@@ -1835,6 +1835,12 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public EventEntityBase GetEvent(int eventId)
+        {
+            var eventInfo = _context.Events.FirstOrDefault(x => x.Id == eventId);
+            return eventInfo;
+        }
+
         public int GetActualEventsCountByTrainer(string trainerId)
         {
             var actualEventsCount = _context.Events

@@ -125,6 +125,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Events
         void ConfirmEvent(int eventId);
+        EventEntityBase GetEvent(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
         IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId);
         int AddEvent(EventEntityBase newEvent);

@@ -35,7 +35,20 @@ namespace FitMeApp.Services
             }
             return eventModels;
         }
-        
+
+        public EventModel GetEvent(int eventId)
+        {
+            var eventEntityBase = _repository.GetEvent(eventId);
+            var eventModel = new EventModel();
+            if (eventEntityBase != null)
+            {
+                eventModel = _mapper.MapEventEntityBaseToModel(eventEntityBase);
+            }
+
+            return eventModel;
+        }
+
+
         public int AddEvent(EventModel newEvent)
         {
             var eventEntityBase = _mapper.MapEventModelToEntityBase(newEvent);
