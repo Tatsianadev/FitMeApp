@@ -235,9 +235,16 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "trainer")]
-        public async Task<IActionResult> ChangeEventsStatus(int eventId, CalendarPageWithEventsViewModel model)
+        public async Task<IActionResult> ConfirmEvent(int eventId, CalendarPageWithEventsViewModel model)
         {
-            _scheduleService.ChangeEventStatus(eventId);
+            _scheduleService.ConfirmEvent(eventId);
+            return await ShowTrainersEvents(model);
+        }
+
+
+        [Authorize(Roles = "trainer")]
+        public async Task<IActionResult> DeletePersonalTrainingEvent(int eventId, CalendarPageWithEventsViewModel model)
+        {
             return await ShowTrainersEvents(model);
         }
 

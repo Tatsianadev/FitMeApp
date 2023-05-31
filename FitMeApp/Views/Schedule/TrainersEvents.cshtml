@@ -27,8 +27,8 @@
                 <tr>
                     <th scope="col" colspan="2" width="10%">Time</th>
                     <th scope="col" width="50%">Event</th>
-                    <th scope="col" width="20%">Status</th>
-                    <th scope="col" width="20%"></th>
+                    <th scope="col" width="15%">Status</th>
+                    <th scope="col" width="25%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                         @if (eventItem.TrainingName == "Personal training")
                         {
                             string colorRow = "table-info";
-                            string changeStatusButtonValue = eventItem.Status == FitMeApp.Common.EventStatusEnum.Open ? "Confirm" : "Cancel";
+                            string disabled = eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed? "disabled" : "" ;
                             while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                             {
                                 if (secondPartOfHourDrawn)
@@ -68,7 +68,7 @@
                                             <td id="(@i)_4">@eventItem.Status</td>
 
                                             <td id="(@i)_5">
-                                                <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                <form asp-controller="Schedule" asp-action="ConfirmEvent" method="post">
                                                     <input type="hidden" asp-for="Date" value="@Model.Date" />
                                                     <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
                                                     @foreach (var item in Model.DatesEventsCount)
@@ -76,7 +76,17 @@
                                                         <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                                                     }
                                                     <input type="hidden" name="eventId" value="@eventItem.Id" />
-                                                    <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                                    <div class="btn-group">
+                                                        @if (eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed)
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" disabled="disabled" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" />
+                                                        }
+                                                        <input type="submit" value="Cancel" formaction="DeletePersonalTrainingEvent" class="btn btn-outline-danger btn-sm" />
+                                                    </div>
                                                 </form>
                                             </td>
                                         </tr>
@@ -111,7 +121,7 @@
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status </td>
                                             <td id="(@i)_5">
-                                                <form asp-controller="Schedule" asp-action="ChangeEventsStatus" method="post">
+                                                <form asp-controller="Schedule" asp-action="ConfirmEvent" method="post">
                                                     <input type="hidden" asp-for="Date" value="@Model.Date" />
                                                     <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
                                                     @foreach (var item in Model.DatesEventsCount)
@@ -119,7 +129,17 @@
                                                         <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
                                                     }
                                                     <input type="hidden" name="eventId" value="@eventItem.Id" />
-                                                    <input type="submit" name="name" value="@changeStatusButtonValue" class="btn btn-outline-primary btn-sm" />
+                                                    <div class="btn-group">
+                                                        @if (eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed)
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" disabled="disabled" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" />
+                                                        }
+                                                        <input type="submit" value="Cancel" formaction="DeletePersonalTrainingEvent" class="btn btn-outline-danger btn-sm" />
+                                                    </div>
                                                 </form>
                                             </td>
                                         </tr>
@@ -150,11 +170,12 @@
                             int availablePlacesCount = eventItem.ParticipantsLimit - eventItem.ActualParticipantsCount;
                             while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                             {
+                                bool cannotDelete = eventItem.Date <= DateTime.Today;
+
                                 if (secondPartOfHourDrawn)
                                 {
                                     if (!eventsId.Contains(eventItem.Id))
                                     {
-
                                         <tr class="@colorRow">
                                             <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
                                             <td id="(@i)_2">00</td>
@@ -165,10 +186,10 @@
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status</td>
                                             <td id="(@i)_5">
-                                                <a asp-action ="DeleteGroupClassScheduleRecord" asp-controller="Schedule" 
-                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId" 
-                                                   asp-route-actualParticipantsCount ="@eventItem.ActualParticipantsCount" 
-                                                   class="btn btn-outline-danger btn-sm">Cancel</a>
+                                                <a asp-action="DeleteGroupClassScheduleRecord" asp-controller="Schedule"
+                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId"
+                                                   asp-route-actualParticipantsCount="@eventItem.ActualParticipantsCount"
+                                                   class="btn btn-outline-danger btn-sm" aria-disabled="@cannotDelete">Cancel</a>
                                             </td>
                                         </tr>
                                         eventsId.Add(eventItem.Id);
@@ -202,7 +223,12 @@
                                                 <span class="text-emphasize">Places left:</span> @availablePlacesCount &#160
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status </td>
-                                            <td id="(@i)_5"></td>
+                                            <td id="(@i)_5">
+                                                <a asp-action="DeleteGroupClassScheduleRecord" asp-controller="Schedule"
+                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId"
+                                                   asp-route-actualParticipantsCount="@eventItem.ActualParticipantsCount"
+                                                   class="btn btn-outline-danger btn-sm" aria-disabled="@cannotDelete">Cancel</a>
+                                            </td>
                                         </tr>
                                         eventsId.Add(eventItem.Id);
                                     }

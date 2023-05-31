@@ -109,9 +109,9 @@ namespace FitMeApp.Services
         }
 
 
-        public void ChangeEventStatus(int eventId)
+        public void ConfirmEvent(int eventId)
         {
-            _repository.ChangeEventStatus(eventId);
+            _repository.ConfirmEvent(eventId);
         }
 
 

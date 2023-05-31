@@ -15,7 +15,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<EventModel> GetPersonalTrainingsByTrainerAndDate(string trainerId, DateTime dateTime);
         IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId);
         IDictionary<DateTime, int> GetEventsCountForEachDateByTrainer(string trainerId);
-        void ChangeEventStatus(int eventId);
+        void ConfirmEvent(int eventId);
         int GetActualEventsCountByTrainer(string trainerId);
         int GetOpenedEventsCountByTrainer(string trainerId);
         int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);

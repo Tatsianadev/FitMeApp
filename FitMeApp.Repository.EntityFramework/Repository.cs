@@ -636,8 +636,8 @@ namespace FitMeApp.Repository.EntityFramework
             var record = (from grSchedule in _context.GroupTrainingsSchedule
                           join trainingTrainer in _context.TrainingTrainer
                               on grSchedule.TrainingTrainerId equals trainingTrainer.Id
-                              join training in _context.Trainings
-                                  on trainingTrainer.TrainingId equals training.Id
+                          join training in _context.Trainings
+                              on trainingTrainer.TrainingId equals training.Id
                           where grSchedule.Id == groupTrainingScheduleId
                           select new GroupClassScheduleRecordFullInfo()
                           {
@@ -1786,7 +1786,7 @@ namespace FitMeApp.Repository.EntityFramework
         {
             var participantIds = _context.GroupTrainingsParticipants
                 .Where(x => x.GroupTrainingsScheduleId == groupClassScheduleRecordId)
-                .Select(x=>x.UserId)
+                .Select(x => x.UserId)
                 .ToList();
 
             return participantIds;
@@ -1820,23 +1820,16 @@ namespace FitMeApp.Repository.EntityFramework
             }
         }
 
-        
+
 
 
         //Events
-        public void ChangeEventStatus(int eventId)
+        public void ConfirmEvent(int eventId)
         {
             var currentEvent = _context.Events.FirstOrDefault(x => x.Id == eventId);
             if (currentEvent != null)
             {
-                if (currentEvent.Status == Common.EventStatusEnum.Open)
-                {
-                    currentEvent.Status = Common.EventStatusEnum.Confirmed;
-                }
-                else
-                {
-                    currentEvent.Status = Common.EventStatusEnum.Open;
-                }
+                currentEvent.Status = Common.EventStatusEnum.Confirmed;
                 _context.SaveChanges();
             }
         }
