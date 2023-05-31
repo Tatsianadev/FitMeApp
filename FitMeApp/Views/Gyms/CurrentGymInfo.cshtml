@@ -101,13 +101,15 @@
 
                         string picturePath = "/Content/GroupClasses/" + training.Name + ".jpg";
                         <div class="col-md-4">
-                            <div class="card" style="width: 250px;">
+                            <div class="card h-100" style="width: 250px">
                                 <div style="height: 150px; text-align: center">
                                     <img src="@picturePath" class="card-img-top" alt="..." style="height:100%; width:auto">
                                 </div>
-                                <div class="card-body" style="text-align: center">
+                                <div class="card-body" style="text-align: center; padding: 10px">
                                     <h6 class="card-title">@training.Name</h6>
                                     <p class="card-text" style="font-size: small">@training.Description</p>
+                                </div>
+                                <div class="card-footer" style="text-align: center">
                                     <a asp-action="CurrentGroupClass" asp-controller="GroupClasses" asp-route-groupClassId ="@training.Id" asp-route-gymId ="@Model.Id" class="btn btn-dark btn-sm">Show more</a>
                                 </div>
                             </div>
