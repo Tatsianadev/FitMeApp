@@ -37,12 +37,17 @@ namespace FitMeApp.Services
         }
 
 
-        public TrainingModel GetTrainingModel(int trainingId)
+        public TrainingModel GetTrainingModel(int trainingId, int gymId = 0)
         {
             var trainingEntity = _repository.GetTrainingWithTrainersAndGyms(trainingId);
+            if (gymId != 0)
+            {
+                trainingEntity.Trainers = trainingEntity.Trainers.Where(x => x.Gym.Id == gymId);
+            }
             TrainingModel trainingModel = _mapper.MapTrainingWithTrainersAndGymsBaseToModel(trainingEntity);
             return trainingModel;
         }
+
 
 
         public IEnumerable<int> GetAvailableTimeForTraining(string trainerId, DateTime date)

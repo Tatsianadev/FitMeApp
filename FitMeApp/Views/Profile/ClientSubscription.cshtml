@@ -42,7 +42,7 @@
                 </td>
                 <td>@subscription.StartDate.Date.ToString("yyyy-MM-dd")</td>
                 <td>@subscription.EndDate.Date.ToString("yyyy-MM-dd")</td>
-                <td>@(subscription.EndDate.Date >= DateTime.Now?"valid":"closed")</td>
+                <td>@(subscription.EndDate.Date >= DateTime.Now?"valid":"expired")</td>
 
             </tr>
         }

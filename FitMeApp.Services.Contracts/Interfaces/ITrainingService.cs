@@ -9,7 +9,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface ITrainingService
     {
         ICollection<TrainingModel> GetAllTrainingModels();
-        TrainingModel GetTrainingModel(int trainingId);
+        TrainingModel GetTrainingModel(int trainingId, int gymId = 0);
         IEnumerable<int> GetAvailableTimeForTraining (string trainerId, DateTime date);
         bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId);
 

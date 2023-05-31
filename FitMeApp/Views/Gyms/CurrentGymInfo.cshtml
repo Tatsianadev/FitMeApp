@@ -107,8 +107,8 @@
                                 </div>
                                 <div class="card-body" style="text-align: center">
                                     <h6 class="card-title">@training.Name</h6>
-                                    <p class="card-text" style="font: small">@training.Description</p>
-                                    <a href="#" class="btn btn-dark btn-sm">Show more</a>
+                                    <p class="card-text" style="font-size: small">@training.Description</p>
+                                    <a asp-action="CurrentGroupClass" asp-controller="GroupClasses" asp-route-groupClassId ="@training.Id" asp-route-gymId ="@Model.Id" class="btn btn-dark btn-sm">Show more</a>
                                 </div>
                             </div>
                         </div>

@@ -56,9 +56,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult CurrentGroupClass(int groupClassId)
+        public IActionResult CurrentGroupClass(int groupClassId, int gymId = 0)
         {
-            var trainingModel = _trainingService.GetTrainingModel(groupClassId);
+            var trainingModel = _trainingService.GetTrainingModel(groupClassId, gymId);
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
             return View(trainingViewModel);
         }
