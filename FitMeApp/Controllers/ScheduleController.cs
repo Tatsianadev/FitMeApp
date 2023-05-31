@@ -259,9 +259,10 @@ namespace FitMeApp.Controllers
                 foreach (var user in participants)
                 {
                     var callbackUrl = Url.Action(
-                      "Index",
-                      "Home"
-                    );
+                        "Index",
+                        "Home",
+                        new { },
+                        protocol: HttpContext.Request.Scheme);
 
                     string grClassDate = groupClassFullInfo.Date.Date.ToString("MM/dd/yyyy");
                     string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(groupClassFullInfo.StartTime);
@@ -273,11 +274,10 @@ namespace FitMeApp.Controllers
                                               $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a>";
                     string htmlContent = $"<strong> We have schedule changes!" +
                                          $" {groupClassFullInfo.GroupClassName} class {grClassDate} at {startTime} has been canceled." +
-                                         $"For more information follow the link <a href=\"" + callbackUrl + "\">FitMe</a></strong>";
+                                         $"For more information follow the link <a href=\"" + callbackUrl + $"\">{callbackUrl}</a></strong>";
                     string subject = $"{groupClassFullInfo.GroupClassName} canceled";
 
                     await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
-
                 }
             }
 

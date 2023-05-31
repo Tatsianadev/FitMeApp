@@ -77,7 +77,6 @@ namespace FitMeApp.Controllers
                         //var addedUser = await _userManager.GetUserAsync(User);
                         //return RedirectToAction("RegisterTrainerPart", new { userId = addedUser.Id });
 
-
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action(
                             "RegisterAsUserCompleted",
@@ -88,7 +87,7 @@ namespace FitMeApp.Controllers
                         string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
                         string fromEmail = DefaultSettingsStorage.SenderEmail;
                         string plainTextContent = "To finish Registration please follow the link <a href=\"" + callbackUrl + "\">Confirm email</a>";
-                        string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">Confirm email</a></strong>";
+                        string htmlContent = "<strong>To finish Registration please follow the link  <a href=\"" + callbackUrl + "\">" + callbackUrl + "</a></strong>";
                         string subject = "Confirm email";
 
                         await _emailService.SendEmailAsync(toEmail, model.FirstName, fromEmail, subject, plainTextContent, htmlContent);
@@ -113,7 +112,7 @@ namespace FitMeApp.Controllers
             }
         }
 
-        
+
 
 
         [Authorize]
@@ -169,7 +168,7 @@ namespace FitMeApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "user, admin")]
-        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model) 
+        public IActionResult RegisterTrainerPart(TrainerRoleAppFormViewModel model)
         {
             try
             {
