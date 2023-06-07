@@ -672,7 +672,7 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The form is filled out incorrectly. Choose at least one type of trainings.");
+                    ModelState.AddModelError("", "The form is filled out incorrectly. At least one type of trainings should be chosen.");
                 }
 
                 ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();

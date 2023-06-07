@@ -124,9 +124,9 @@
     document.getElementById("training_Personal training").addEventListener("change", function (e) {
         var priceInput = document.getElementById("price");  
         if (this.checked) {
-            priceInput.prop('disabled', false);
+            priceInput.disabled = false;
         } else {
-            priceInput.prop('disabled', true);
+            priceInput.disabled = true;
         }
     });
 </script>
