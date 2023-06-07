@@ -609,6 +609,7 @@ namespace FitMeApp.Controllers
             var trainer = await _userManager.GetUserAsync(User);
             var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainer.Id);
             var workLicense = _trainerService.GetTrainerWorkLicenseByTrainer(trainer.Id);
+            var pricePerHour = _trainingService.GetPrice(trainer.Id);
             TrainerViewModel trainerViewModel = _mapper.MapTrainerModelToViewModel(trainerModel);
             EditTrainerJobDataModel trainerJobData = new EditTrainerJobDataModel()
             {
@@ -617,7 +618,7 @@ namespace FitMeApp.Controllers
                 GymName = trainerViewModel.Gym.Name,
                 Specialization = trainerViewModel.Specialization,
                 TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList(),
-                PricePerHour = 20, //todo get price from DB
+                PricePerHour = pricePerHour,
                 WorkLicense = workLicense
             };
 
@@ -664,7 +665,7 @@ namespace FitMeApp.Controllers
 
                     var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
                     _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
-                    if (changedModel.PricePerHour != 0)
+                    if (specialization != TrainerSpecializationsEnum.group.ToString())
                     {
                         _trainingService.UpdatePersonalTrainingPrice(changedModel.Id, changedModel.PricePerHour);
                     }

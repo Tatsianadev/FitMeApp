@@ -73,6 +73,12 @@ namespace FitMeApp.Services
         }
 
 
+        public int GetPrice(string trainerId)
+        {
+            var price = _repository.GetPrice(trainerId);
+            return price;
+        }
+
         public int UpdatePersonalTrainingPrice(string trainerId, int newPricePerHour)
         {
             int personalTrainingPriceId = _repository.UpdatePersonalTrainingPrice(trainerId, newPricePerHour);

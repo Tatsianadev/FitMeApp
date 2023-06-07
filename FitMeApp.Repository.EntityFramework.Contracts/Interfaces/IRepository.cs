@@ -43,6 +43,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         TrainerWorkLicenseEntityBase GetTrainerWorkLicense(int licenseId);
         TrainerWorkLicenseEntityBase GetTrainerWorkLicenseByTrainer(string trainerId);
         IEnumerable<TrainerWorkLicenseEntityBase> GetAllTrainerWorkLicense();
+        int GetPrice(string trainerId);
         int UpdatePersonalTrainingPrice(string trainerId, int newPricePerHour);
 
 

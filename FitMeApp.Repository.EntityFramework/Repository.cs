@@ -395,6 +395,12 @@ namespace FitMeApp.Repository.EntityFramework
             return licenses;
         }
 
+        public int GetPrice(string trainerId)
+        {
+            var entity = _context.PersonalTrainingPrice.FirstOrDefault(x => x.TrainerId == trainerId);
+            return entity == null ? 0 : entity.Price;
+        }
+
         public int UpdatePersonalTrainingPrice(string trainerId, int newPricePerHour)
         {
             var entity = _context.PersonalTrainingPrice.FirstOrDefault(x => x.TrainerId == trainerId);
@@ -406,8 +412,8 @@ namespace FitMeApp.Repository.EntityFramework
             }
             else
             {
-               int entityId = AddPersonalTrainingPrice(trainerId, newPricePerHour);
-               return entityId;
+                int entityId = AddPersonalTrainingPrice(trainerId, newPricePerHour);
+                return entityId;
             }
         }
 
