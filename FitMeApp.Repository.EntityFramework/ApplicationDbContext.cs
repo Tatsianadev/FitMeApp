@@ -20,6 +20,7 @@ namespace FitMeApp.Repository.EntityFramework
         public DbSet<EventEntity> Events { get; set; }
         public DbSet<GymWorkHoursEntity> GymWorkHours { get; set; }
         public DbSet<TrainerWorkHoursEntity> TrainerWorkHours { get; set; }
+        public DbSet<PersonalTrainingPriceEntity> PersonalTrainingPrice { get; set; }
 
         public DbSet<ChatMessageEntity> ChatMessages { get; set; }
         public  DbSet<ChatContactEntity> ChatContacts { get; set; }

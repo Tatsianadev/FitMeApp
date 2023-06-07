@@ -12,6 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         TrainingModel GetTrainingModel(int trainingId, int gymId = 0);
         IEnumerable<int> GetAvailableTimeForTraining (string trainerId, DateTime date);
         bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId);
+        int UpdatePersonalTrainingPrice(string trainerId, int newPricePerHour);
 
         //GroupClasses
         IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByClassAndTrainer(int groupClassId, string trainerId);

@@ -18,6 +18,8 @@ namespace FitMeApp.Models
         public string GymName { get; set; }
         [Required]
         public List<int> TrainingsId { get; set; }
+        [Range(0,200, ErrorMessage = "Price should be in range 0-200")]
+        public int PricePerHour { get; set; }
         public TrainerWorkLicenseModel WorkLicense { get; set; }
     }
 }

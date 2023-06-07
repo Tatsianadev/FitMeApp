@@ -8,7 +8,6 @@ namespace FitMeApp.Repository.EntityFramework.Entities
 {
     public class TrainerWorkHoursEntity: TrainerWorkHoursEntityBase
     {
-      
         public GymWorkHoursEntity GymWorkHours { get; set; }
     }
 }

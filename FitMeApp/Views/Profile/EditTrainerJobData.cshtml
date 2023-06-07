@@ -1,4 +1,5 @@
-﻿@model FitMeApp.Models.EditTrainerJobDataModel
+﻿@using System.Security.AccessControl
+@model FitMeApp.Models.EditTrainerJobDataModel
 
 <div class="container">
     <div class="row">
@@ -51,6 +52,7 @@
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:35%">Delete</button>
                     <a asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" class="btn btn-dark btn-sm" style="width:35%">Change</a>
                     <hr />
+                    @{ bool personalTrainingChosen = Model.Specialization != FitMeApp.Common.TrainerSpecializationsEnum.@group.ToString();  }
                     <div>
                         <h5>Specialization</h5>
                     </div>
@@ -74,11 +76,17 @@
                             <td class="col4">
                                 @foreach (var training in ViewBag.AllTrainings)
                                 {
-                                    <input type="checkbox" name="TrainingsId" value="@training.Id"
+                                    <input type="checkbox" id ="training_@training.Name" name="TrainingsId" value="@training.Id"
                                            @(Model.TrainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />
                                     @training.Name
                                     <br />
                                 }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col3">Personal training price ($/h)</td>
+                            <td class="col4">
+                                <input type="text" asp-for="@Model.PricePerHour" id="price" class="form-control" disabled=@(personalTrainingChosen? null :"disabled")/>
                             </td>
                         </tr>
                     </table>
@@ -111,3 +119,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("training_Personal training").addEventListener("change", function (e) {
+        var priceInput = document.getElementById("price");  
+        if (this.checked) {
+            priceInput.prop('disabled', false);
+        } else {
+            priceInput.prop('disabled', true);
+        }
+    });
+</script>

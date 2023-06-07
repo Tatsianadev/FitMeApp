@@ -617,6 +617,7 @@ namespace FitMeApp.Controllers
                 GymName = trainerViewModel.Gym.Name,
                 Specialization = trainerViewModel.Specialization,
                 TrainingsId = trainerViewModel.Trainings.Select(x => x.Id).ToList(),
+                PricePerHour = 20, //todo get price from DB
                 WorkLicense = workLicense
             };
 
@@ -663,6 +664,10 @@ namespace FitMeApp.Controllers
 
                     var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
                     _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
+                    if (changedModel.PricePerHour != 0)
+                    {
+                        _trainingService.UpdatePersonalTrainingPrice(changedModel.Id, changedModel.PricePerHour);
+                    }
                     return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 else
