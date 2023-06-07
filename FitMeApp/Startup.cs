@@ -37,13 +37,7 @@ namespace FitMeApp
             services.RegisterIdentity();
             services.RegisterDependencies();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddControllersWithViews()
-                .AddDataAnnotationsLocalization(options =>
-                {
-                    options.DataAnnotationLocalizerProvider = (type, factory) =>
-                        factory.Create(typeof(SharedResource));
-                })
-                .AddViewLocalization();
+            services.AddControllersWithViews();
             services.SetSupportedCulture();
             services.AddSignalR();
             services.AddSwaggerGen(c =>

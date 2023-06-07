@@ -29,15 +29,13 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<SharedResource> _localizer;
-
+        
         public GymsController(IGymService gymService,
             ITrainerService trainerService,
             ITrainingService trainingService,
             IFileService fileService,
             UserManager<User> userManager,
-            ILogger<GymsController> logger,
-            IStringLocalizer<SharedResource> localizer)
+            ILogger<GymsController> logger)
         {
             _gymService = gymService;
             _trainerService = trainerService;
@@ -46,7 +44,6 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
 
@@ -141,7 +138,7 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             int gymId = _trainerService.GetGymIdByTrainer(user.Id);
             var gym = _gymService.GetGymModel(gymId);
-            string blankLocalPath = _localizer["AttendanceChartBlankPath"];
+            string blankLocalPath = Resources.Resources.AttendanceChartBlankPath;
 
             AttendanceChartExcelFileViewModel model = new AttendanceChartExcelFileViewModel()
             {

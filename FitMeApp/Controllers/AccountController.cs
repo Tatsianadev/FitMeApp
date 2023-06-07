@@ -24,10 +24,9 @@ namespace FitMeApp.Controllers
         private readonly ITrainerService _trainerService;
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IGymService gymService,
-            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger, IStringLocalizer<SharedResource> localizer)
+            ITrainerService trainerService, IEmailService emailService, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -35,7 +34,6 @@ namespace FitMeApp.Controllers
             _trainerService = trainerService;
             _emailService = emailService;
             _logger = logger;
-            _localizer = localizer;
         }
 
 
@@ -62,7 +60,7 @@ namespace FitMeApp.Controllers
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        AvatarPath = _localizer["DefaultAvatarPath"]
+                        AvatarPath = Resources.Resources.DefaultAvatarPath
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -73,7 +71,7 @@ namespace FitMeApp.Controllers
 
                         bool appliedForTrainerRole = model.Role == RolesEnum.trainer;
 
-                        //for debug - to omit sent emailConfirm part //todo activate emailConfirm part
+                        //**for debug - to omit sent emailConfirm part //todo activate emailConfirm part
                         //var addedUser = await _userManager.GetUserAsync(User);
                         //return RedirectToAction("RegisterTrainerPart", new { userId = addedUser.Id });
 

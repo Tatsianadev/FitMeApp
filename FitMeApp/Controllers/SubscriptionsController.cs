@@ -25,15 +25,13 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public SubscriptionsController(IGymService gymService,
             ISubscriptionService subscriptionService,
             ITrainerService trainerService,
             IScheduleService scheduleService,
             UserManager<User> userManager,
-            ILogger<GymsController> logger,
-            IStringLocalizer<SharedResource> localizer)
+            ILogger<GymsController> logger)
         {
             _gymService = gymService;
             _subscriptionService = subscriptionService;
@@ -42,7 +40,6 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _userManager = userManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
 
@@ -293,23 +290,23 @@ namespace FitMeApp.Controllers
 
             if (subscription.WorkAsTrainer)
             {
-                imagePath = _localizer["WorkAsTrainer"];
+                imagePath = Resources.Resources.WorkAsTrainer;
             }
             else if (subscription.DietMonitoring == false && subscription.GroupTraining == false)
             {
-                imagePath = _localizer["GymAccess"];
+                imagePath = Resources.Resources.GymAccess;
             }
             else if (subscription.DietMonitoring && subscription.GroupTraining == false)
             {
-                imagePath = _localizer["GymAccessDietMonitoring"];
+                imagePath = Resources.Resources.GymAccessDietMonitoring;
             }
             else if (subscription.DietMonitoring == false && subscription.GroupTraining)
             {
-                imagePath = _localizer["GymAccessGroupTraining"];
+                imagePath = Resources.Resources.GymAccessGroupTraining;
             }
             else
             {
-                imagePath = _localizer["GymAccessGroupTrainingDietMonitoring"];
+                imagePath = Resources.Resources.GymAccessGroupTrainingDietMonitoring;
             }
 
             return imagePath;

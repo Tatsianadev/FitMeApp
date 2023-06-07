@@ -37,7 +37,6 @@ namespace FitMeApp.Controllers
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
         private readonly IEmailService _emailService;
-        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public ProfileController(
             UserManager<User> userManager,
@@ -50,8 +49,7 @@ namespace FitMeApp.Controllers
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
-            IEmailService emailService,
-            IStringLocalizer<SharedResource> localizer)
+            IEmailService emailService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -65,7 +63,6 @@ namespace FitMeApp.Controllers
             _appEnvironment = appEnvironment;
             _fileService = fileService;
             _emailService = emailService;
-            _localizer = localizer;
         }
 
 
@@ -107,7 +104,7 @@ namespace FitMeApp.Controllers
                     }
 
                     DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                    string relativePath = _localizer["UsersFileDestinationPath"];
+                    string relativePath = Resources.Resources.UsersFileDestinationPath;
                     string fullPath = Environment.CurrentDirectory + relativePath;
                     await _fileService.WriteToExcelAsync(table, fullPath);
                 }
@@ -149,7 +146,6 @@ namespace FitMeApp.Controllers
             var trainerAppViewModels = new List<TrainerApplicationViewModel>();
             var allTrainerAppModels = _trainerService.GetAllTrainerApplications().ToList();
             var trainerAppModelsToDisplay = new List<TrainerApplicationModel>();
-            //number of new application and application to update exists license for showing badge notification
             int appCount = allTrainerAppModels.Count;
             int newAppCount = 0;
             int appToUpdateLicensesCount = 0;
@@ -198,7 +194,7 @@ namespace FitMeApp.Controllers
                 {
                     var user = await _userManager.FindByIdAsync(trainerId);
                     await _userManager.AddToRoleAsync(user, RolesEnum.trainer.ToString());
-                    string localPath = _localizer["ApproveAppMessagePath"];
+                    string localPath = Resources.Resources.ApproveAppMessagePath;
                     string text = string.Empty;
                     try
                     {
@@ -240,7 +236,7 @@ namespace FitMeApp.Controllers
 
                 _trainerService.DeleteTrainerApplication(applicationId);
                 var user = await _userManager.FindByIdAsync(userId);
-                string localPath = _localizer["RejectAppMessagePath"];
+                string localPath = Resources.Resources.RejectAppMessagePath;
                 string text = string.Empty;
                 try
                 {
