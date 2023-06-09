@@ -676,3 +676,20 @@ foreign key (GroupTrainingsScheduleId) references GroupTrainingsSchedule(Id),
 foreign key (UserId) references AspNetUsers(Id)
 )
 go
+
+
+
+CREATE TABLE [dbo].[PersonalTrainingPrice](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[TrainerId] [nvarchar](256) NOT NULL,
+	[Price] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[PersonalTrainingPrice]  WITH CHECK ADD FOREIGN KEY([TrainerId])
+REFERENCES [dbo].[Trainers] ([Id])
+GO

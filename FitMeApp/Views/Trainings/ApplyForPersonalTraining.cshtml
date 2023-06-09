@@ -49,17 +49,18 @@
                         <p class="card-text">
                             Select duration of training
                         </p>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
+                        <select id="duration" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="DurationInMinutes">
                             <option value="60">60 min</option>
                             <option value="90">90 min</option>
                         </select>
 
                     </div>
-                    
+
                     <div class="card-footer">
-                        <h3 style="font-weight: bold"> __ $</h3>
+                        <input id="pricePerHour" type="hidden" value="@Model.Price"/>
+                        <h3 id="price" style="font-weight: bold"> @Model.Price $</h3>
                         <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark" style="width: 30%">Cancel</a>
-                        <input type="submit" value="Ok" class="btn btn-dark" />
+                        <input type="submit" value="Ok" class="btn btn-dark"/>
                     </div>
                 </form>
 
@@ -89,7 +90,7 @@
                                 html += "<option selected value=" + data[i] + ">" + data[i] + "</option>";
                             }
                             html += "<option value=" + data[i] + ">" + data[i] + "</option>";
-                            
+
                         }
                         document.getElementById("startTimeSelect").innerHTML = html;
                         document.getElementById("errorBlock").innerText = "";
@@ -98,5 +99,16 @@
                         document.getElementById("errorBlock").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
                     }
                 });
+        });
+
+    
+
+    var durationOptions = document.getElementById("duration");
+    var pricePerHour = document.getElementById("pricePerHour").value;
+    var pricePerMinute = parseInt(pricePerHour) / 60;
+    durationOptions.addEventListener("change",
+        function (e) {
+            var selectedDuration = parseInt(document.getElementById("duration").value);
+            document.getElementById("price").innerText = (pricePerMinute * selectedDuration) + "$";            
         });
 </script>

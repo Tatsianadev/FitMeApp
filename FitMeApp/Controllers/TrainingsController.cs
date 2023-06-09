@@ -51,6 +51,7 @@ namespace FitMeApp.Controllers
             }
 
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
+            int price = _trainingService.GetPrice(trainerId);
             ApplyingForPersonalTrainingViewModel model = new ApplyingForPersonalTrainingViewModel()
             {
                TrainerId = trainer.Id,
@@ -59,7 +60,8 @@ namespace FitMeApp.Controllers
                GymId = trainer.Gym.Id,
                GymName = trainer.Gym.Name,
                GymAddress = trainer.Gym.Address,
-               UserId = user.Id
+               UserId = user.Id,
+               Price = price
             };
 
             return View(model);
