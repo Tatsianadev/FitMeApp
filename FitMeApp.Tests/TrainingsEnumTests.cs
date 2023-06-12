@@ -17,11 +17,7 @@ namespace FitMeApp.Tests
             var trainingsEnum = Enum.GetValues(typeof(Common.TrainingsEnum));
             bool consists = false;
 
-            if (trainings.Count != trainingsEnum.Length)
-            {
-                consists = false;
-            }
-            else
+            if (trainings.Count == trainingsEnum.Length)
             {
                 foreach (var value in trainingsEnum)
                 {
