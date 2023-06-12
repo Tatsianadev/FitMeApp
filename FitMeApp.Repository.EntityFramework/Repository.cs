@@ -1453,27 +1453,51 @@ namespace FitMeApp.Repository.EntityFramework
 
 
 
-        public IEnumerable<UserSubscriptionEntityBase> GetValidSubscriptionsByUserForSpecificGym(string userId, int gymId)
+        public IEnumerable<UserSubscriptionEntityBase> GetValidSubscriptionsByUserForSpecificGym(string userId,
+            int gymId, DateTime dataToCheck)
         {
             var validSubscriptions = (from userSubscr in _context.UserSubscriptions
-                                      join gymSubscr in _context.GymSubscriptions
-                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                                      where userSubscr.UserId == userId
-                                      where gymSubscr.GymId == gymId
-                                      where userSubscr.StartDate <= DateTime.Today
-                                      where userSubscr.EndDate >= DateTime.Today
-                                      select new UserSubscriptionEntityBase()
-                                      {
-                                          Id = userSubscr.Id,
-                                          UserId = userSubscr.UserId,
-                                          GymSubscriptionId = userSubscr.GymSubscriptionId,
-                                          StartDate = userSubscr.StartDate,
-                                          EndDate = userSubscr.EndDate
-                                      })
-                                        .ToList();
+                    join gymSubscr in _context.GymSubscriptions
+                        on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                    where userSubscr.UserId == userId
+                    where gymSubscr.GymId == gymId
+                    where userSubscr.StartDate <= dataToCheck
+                    where userSubscr.EndDate >= dataToCheck
+                    select new UserSubscriptionEntityBase()
+                    {
+                        Id = userSubscr.Id,
+                        UserId = userSubscr.UserId,
+                        GymSubscriptionId = userSubscr.GymSubscriptionId,
+                        StartDate = userSubscr.StartDate,
+                        EndDate = userSubscr.EndDate
+                    })
+                .ToList();
 
             return validSubscriptions;
         }
+
+
+        //public IEnumerable<UserSubscriptionEntityBase> GetValidNowSubscriptionsByUserForSpecificGym(string userId, int gymId)
+        //{
+        //    var validSubscriptions = (from userSubscr in _context.UserSubscriptions
+        //                              join gymSubscr in _context.GymSubscriptions
+        //                                  on userSubscr.GymSubscriptionId equals gymSubscr.Id
+        //                              where userSubscr.UserId == userId
+        //                              where gymSubscr.GymId == gymId
+        //                              where userSubscr.StartDate <= DateTime.Today
+        //                              where userSubscr.EndDate >= DateTime.Today
+        //                              select new UserSubscriptionEntityBase()
+        //                              {
+        //                                  Id = userSubscr.Id,
+        //                                  UserId = userSubscr.UserId,
+        //                                  GymSubscriptionId = userSubscr.GymSubscriptionId,
+        //                                  StartDate = userSubscr.StartDate,
+        //                                  EndDate = userSubscr.EndDate
+        //                              })
+        //                                .ToList();
+
+        //    return validSubscriptions;
+        //}
 
 
         public IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)

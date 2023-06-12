@@ -1,4 +1,7 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
+﻿@using FitMeApp.Common
+
+@inject Microsoft.AspNetCore.Identity.UserManager<User> _userManager
+@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 @*PartialView (main page - /Schedule/Index)*@
 
 @{
@@ -40,6 +43,8 @@
                     {
                         secondPartOfHourDrawn = false;
                     }
+
+                    string authorizedUserId = _userManager.GetUserId(User);
                 }
 
                 @for (int i = startScheduleTime; i < endScheduleTime; i++)
@@ -48,10 +53,10 @@
                     {
                         List<int> eventsId = new List<int>();
 
-                        @if (eventItem.TrainingName == "Personal training")
+                        @if (eventItem.TrainingName == "Personal training" &&  authorizedUserId != eventItem.UserId)
                         {
                             string colorRow = "table-info";
-                            string disabled = eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed? "disabled" : "" ;
+                            string disabled = eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed ? "disabled" : "";
                             while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
                             {
                                 if (secondPartOfHourDrawn)
@@ -164,7 +169,7 @@
                                 }
                             }
                         }
-                        else
+                        else if (authorizedUserId != eventItem.UserId)
                         {
                             string colorRow = "table-warning";
                             int availablePlacesCount = eventItem.ParticipantsLimit - eventItem.ActualParticipantsCount;
@@ -251,7 +256,114 @@
                                 }
                             }
                         }
+                        else
+                        {
+                            string colorRow = "table-success";
+                            while (eventItem.StartTime <= rowTime && eventItem.EndTime > rowTime)
+                            {
+                                if (secondPartOfHourDrawn)
+                                {
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Trainer:</span> @eventItem.TrainerFirstName @eventItem.TrainerLastName &#160
+                                                <span class="text-emphasize">Gym:</span> @eventItem.GymName
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status</td>
 
+                                            <td id="(@i)_5">
+                                                <form asp-controller="Schedule" asp-action="ConfirmEvent" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                    <div class="btn-group">
+                                                        <input type="submit" value="Cancel" formaction="DeletePersonalTrainingEvent" class="btn btn-outline-danger btn-sm" />
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">00</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
+                                    secondPartOfHourDrawn = false;
+                                    rowTime = rowTime + 30;
+                                    i++;
+                                }
+                                else
+                                {
+                                    if (!eventsId.Contains(eventItem.Id))
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size:medium; font-weight:bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3" class="text-emphasizeBolt">
+                                                <span class="text-emphasize">Event:</span> @eventItem.TrainingName&#160
+                                                <span class="text-emphasize">Client:</span> @eventItem.UserFirstName @eventItem.UserLastName&#160
+                                            </td>
+                                            <td id="(@i)_4">@eventItem.Status </td>
+                                            <td id="(@i)_5">
+                                                <form asp-controller="Schedule" asp-action="ConfirmEvent" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="eventId" value="@eventItem.Id" />
+                                                    <div class="btn-group">
+                                                        @if (eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed)
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" disabled="disabled" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="submit" value="Confirm" formaction="ConfirmEvent" class="btn btn-outline-primary btn-sm" />
+                                                        }
+                                                        <input type="submit" value="Cancel" formaction="DeletePersonalTrainingEvent" class="btn btn-outline-danger btn-sm" />
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        eventsId.Add(eventItem.Id);
+                                    }
+                                    else
+                                    {
+                                        <tr class="@colorRow" style="border-bottom:2px solid">
+                                            <td style="font-size: medium; font-weight: bold" id="(@i)_1">@(i/2)</td>
+                                            <td id="(@i)_2">30</td>
+                                            <td id="(@i)_3">
+                                                -//-
+                                            </td>
+                                            <td id="(@i)_4">-//-</td>
+                                            <td id="(@i)_5">-//-</td>
+                                        </tr>
+                                    }
+
+                                    secondPartOfHourDrawn = true;
+                                    rowTime = rowTime + 30;
+                                    i++;
+                                }
+                            }
+                        }
 
                     }
                     if (secondPartOfHourDrawn)
@@ -279,6 +391,8 @@
                         secondPartOfHourDrawn = true;
                     }
                 }
+
+
             </tbody>
         </table>
     </div>

@@ -192,6 +192,15 @@ namespace FitMeApp.Controllers
                     }
                 }
 
+                var trainingsAsCustomer = _scheduleService.GetEventsByUserAndDate(trainer.Id, model.Date);
+                if (trainingsAsCustomer.Count() != 0)
+                {
+                    foreach (var trainingEvent in trainingsAsCustomer)
+                    {
+                        eventsViewModels.Add(_mapper.MapEventModelToViewModel(trainingEvent));
+                    }
+                }
+
                 model.Events = eventsViewModels.OrderBy(x => x.StartTime).ToList();
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
                 model.SelectedDayIsWorkOff = false;
