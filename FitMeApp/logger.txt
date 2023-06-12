@@ -5659,3 +5659,13 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Sequence contains no elements
+Sequence contains no elements
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.

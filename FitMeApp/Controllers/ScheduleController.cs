@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Linq;
 using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Bibliography;
 using Task = DocumentFormat.OpenXml.Office2021.DocumentTasks.Task;
 
 namespace FitMeApp.Controllers
@@ -135,7 +136,7 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public async Task<IActionResult> ShowTrainersEvents(CalendarPageWithEventsViewModel model)
+        public async Task<IActionResult> ShowTrainersEvents(CalendarPageWithEventsViewModel model) //todo separate this method for a few smaller ones
         {
             try
             {
@@ -153,6 +154,8 @@ namespace FitMeApp.Controllers
 
 
                 var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
+                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
+                int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
 
                 //Personal trainings and group classes are shown different
                 // If trainer do personal trainings -> Get all personal trainings for selected date
@@ -199,14 +202,25 @@ namespace FitMeApp.Controllers
                     {
                         eventsViewModels.Add(_mapper.MapEventModelToViewModel(trainingEvent));
                     }
+
+                    int earlierTrainingAsCustomerStartTime = trainingsAsCustomer.Where(x => x.Date == model.Date).Select(x => x.StartTime).Min();
+                    int latestTrainingAsCustomerEndTime = trainingsAsCustomer.Where(x => x.Date == model.Date).Select(x => x.EndTime).Max();
+
+                    if (earlierTrainingAsCustomerStartTime < startWork)
+                    {
+                        startWork = earlierTrainingAsCustomerStartTime;
+                    }
+
+                    if (latestTrainingAsCustomerEndTime > endWork)
+                    {
+                        endWork = latestTrainingAsCustomerEndTime;
+                    }
                 }
 
                 model.Events = eventsViewModels.OrderBy(x => x.StartTime).ToList();
                 model.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(model.Date.Month);
                 model.SelectedDayIsWorkOff = false;
 
-                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
-                int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
                 ViewBag.StartWork = startWork;
                 ViewBag.EndWork = endWork;
 
