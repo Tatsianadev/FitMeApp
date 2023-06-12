@@ -1,5 +1,6 @@
 ﻿@addTagHelper *, FitMeApp
 @using System.Linq
+@using System.Security.AccessControl
 @using FitMeApp.Common
 
 @inject Microsoft.AspNetCore.Identity.UserManager<User> _userManager
@@ -77,7 +78,6 @@
 
     @foreach (var trainer in Model)
     {
-        //string picturePath = "/Content/images/" + trainer.AvatarPath;
         <div class="row" style="padding:15px; border-style:solid; border-color:grey ; margin:15px">
             <div class="col-md-4" style="text-align:center">
                 <img src="@trainer.AvatarPath" alt="Alternate Text" style="height:330px; width:auto" />
@@ -104,6 +104,7 @@
                                 {
                                     trainingsNamesEnum = trainingsNamesEnum + training.Name + ", ";
                                 }
+                                @{ trainingsNamesEnum = trainingsNamesEnum.Remove(trainingsNamesEnum.Length - 2);}
 
                                 @trainingsNamesEnum
                             </td>
@@ -117,7 +118,7 @@
                             <td>Work hours</td>
                             <td>
                                 <p>
-                                    <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapse_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapse_@trainer.Id">
+                                    <a class="btn btn-dark btn-sm" data-bs-toggle="collapse" href="#collapse_@trainer.Id" role="button" aria-expanded="false" aria-controls="collapse_@trainer.Id">
                                         Show
                                     </a>
                                 </p>
@@ -129,23 +130,49 @@
                             </td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                @if (_userManager.GetUserId(User) == trainer.Id)
-                                {
-                                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Apply for training
-                                    </button>
-                                }
-                                else
-                                {
-                                    <a asp-controller="Trainings" asp-action="ApplyForPersonalTraining" asp-route-trainerId="@trainer.Id" class="btn btn-dark">Apply for training</a>
-                                }
+                    <tr>
+                        <td>Personal training</td>
+                        <td>
+                            @if (_userManager.GetUserId(User) == trainer.Id)
+                            {
+                                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Apply
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-controller="Trainings" 
+                                   asp-action="ApplyForPersonalTraining" 
+                                   asp-route-trainerId="@trainer.Id" class="btn btn-dark btn-sm">Apply</a>
+                            }
 
+                        </td>
+                        <td></td>
+                    </tr>
+                    @if (trainer.Specialization != TrainerSpecializationsEnum.personal.ToString())
+                    {
+                        <tr>
+                            <td>Group training</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Choose type
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var training in trainer.Trainings.Where(x => x.Id != (int)TrainingsEnum.personaltraining))
+                                        {
+                                            <li><a class="dropdown-item" 
+                                                   asp-controller="GroupClasses" 
+                                                   asp-action="CurrentGroupClassSchedule"
+                                                   asp-route-trainerId="@trainer.Id" 
+                                                   asp-route-groupClassId="@training.Id">@training.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
                             </td>
                             <td></td>
                         </tr>
+                    }
                     </tbody>
                 </table>
             </div>

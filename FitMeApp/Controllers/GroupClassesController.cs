@@ -46,7 +46,7 @@ namespace FitMeApp.Controllers
         public IActionResult GroupClasses()
         {
             var groupClassesViewModels = new List<TrainingViewModel>();
-            var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Name != "Personal training"); //todo enum for training name
+            var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining); 
             foreach (var groupClassModel in groupClassesModels)
             {
                 groupClassesViewModels.Add(_mapper.MapTrainingModelToViewModelBase(groupClassModel));

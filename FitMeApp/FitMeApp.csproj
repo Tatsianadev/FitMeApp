@@ -50,7 +50,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Views\Trainers\Components\" />
 		<Folder Include="wwwroot\ExcelFiles\Chars\BigRock\" />
 	</ItemGroup>
 
