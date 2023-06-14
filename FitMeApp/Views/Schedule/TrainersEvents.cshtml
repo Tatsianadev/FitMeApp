@@ -276,7 +276,7 @@
                                             <td id="(@i)_4">@eventItem.Status</td>
 
                                             <td id="(@i)_5">
-                                                <form asp-controller="Schedule" asp-action="ConfirmEvent" method="post">
+                                                <form asp-controller="Schedule" asp-action="CancelEventAsCustomer" method="post">
                                                     <input type="hidden" asp-for="Date" value="@Model.Date" />
                                                     <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
                                                     @foreach (var item in Model.DatesEventsCount)
@@ -285,7 +285,7 @@
                                                     }
                                                     <input type="hidden" name="eventId" value="@eventItem.Id" />
                                                     <div class="btn-group">
-                                                        <input type="submit" value="Cancel" formaction="DeletePersonalTrainingEvent" class="btn btn-outline-danger btn-sm" />
+                                                        <input type="submit" value="Cancel" class="btn btn-outline-danger btn-sm" />
                                                     </div>
                                                 </form>
                                             </td>

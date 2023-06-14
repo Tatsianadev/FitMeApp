@@ -13,6 +13,8 @@ using System.Linq;
 using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
+using FitMeApp.Services.Contracts.Models;
+using Quartz.Xml.JobSchedulingData20;
 using Task = DocumentFormat.OpenXml.Office2021.DocumentTasks.Task;
 
 namespace FitMeApp.Controllers
@@ -273,18 +275,21 @@ namespace FitMeApp.Controllers
                 var user = await _userManager.FindByIdAsync(eventModel.UserId);
                 if (user != null)
                 {
-                    string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
-                    string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
+                    string userName = user.FirstName;
+                    SendPersonalTrainingCanceledEmail(eventModel, userName);
 
-                    string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
-                    string fromEmail = DefaultSettingsStorage.SenderEmail;
-                    string plainTextContent = $"We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.";
-                    string htmlContent = $"<strong> We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.</strong>";
-                    string subject = $"Personal training canceled";
+                    //string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
+                    //string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
 
-                    await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
+                    //string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+                    //string fromEmail = DefaultSettingsStorage.SenderEmail;
+                    //string plainTextContent = $"We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.";
+                    //string htmlContent = $"<strong> We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.</strong>";
+                    //string subject = $"Personal training canceled";
+
+                    //await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
                 }
-                
+
                 _scheduleService.DeleteEvent(eventId);
             }
 
@@ -292,7 +297,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount)
+        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount) //todo finish this method (by form)
         {
             if (actualParticipantsCount != 0)
             {
@@ -335,6 +340,71 @@ namespace FitMeApp.Controllers
 
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CancelEventAsCustomer(int eventId, CalendarPageWithEventsViewModel model)
+        {
+            try
+            {
+                var eventModel = _scheduleService.GetEvent(eventId);
+                var trainer = _userManager.Users.FirstOrDefault(x => x.Id == eventModel.TrainerId);
+                var customer = _userManager.Users.FirstOrDefault(x => x.Id == eventModel.UserId);
+
+                if (trainer == null || customer == null)
+                {
+                    string message = "There are some problems with cancel the training. Please, try again later.";
+                    return View("CustomError", message);
+                }
+
+                if (eventModel.TrainingId == (int)TrainingsEnum.personaltraining)
+                {
+                    string trainerName = trainer.FirstName;
+                    SendPersonalTrainingCanceledEmail(eventModel, trainerName);
+                }
+                else
+                {
+                    int groupClassScheduleRecordId = _trainingService.GetGroupClassScheduleRecordId(trainer.Id, eventModel.TrainingId, eventModel.Date, eventModel.StartTime);
+                    _trainingService.DeleteParticipant(customer.Id, groupClassScheduleRecordId);
+                }
+
+                _scheduleService.DeleteEvent(eventId);
+
+                if (User.IsInRole("trainer"))
+                {
+                    return await ShowTrainersEvents(model);
+                }
+                else
+                {
+                    return ShowUsersEvents(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "There are some problems with cancel the training. Please, try again later.";
+                return View("CustomError", message);
+            }
+        }
+
+
+
+
+        private async void SendPersonalTrainingCanceledEmail(EventModel eventModel, string toName)
+        {
+            string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
+            string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
+
+            string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+            string fromEmail = DefaultSettingsStorage.SenderEmail;
+            string plainTextContent = $"We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.";
+            string htmlContent = $"<strong> We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.</strong>";
+            string subject = "Personal training canceled";
+
+            await _emailService.SendEmailAsync(toEmail, toName, fromEmail, subject, plainTextContent, htmlContent);
+        }
+
+
     }
 
 

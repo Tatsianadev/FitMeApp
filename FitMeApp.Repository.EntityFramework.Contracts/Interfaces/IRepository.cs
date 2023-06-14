@@ -70,10 +70,12 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         GroupClassScheduleRecordFullInfo GetRecordInGroupTrainingSchedule(int groupTrainingScheduleId);
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
         IEnumerable<GroupClassScheduleRecordFullInfo> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId, DateTime date);
+        int GetGroupClassScheduleRecordId(int trainerTrainingId, DateTime date, int startTime);
         int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         int AddGroupClassScheduleRecord(GroupClassScheduleRecordEntityBase groupClassScheduleRecord);
         IEnumerable<int> AddRangeGroupClassScheduleRecords(List<GroupClassScheduleRecordEntityBase> groupClassScheduleRecords);
         void DeleteGroupClassScheduleRecord(int grClassScheduleRecordId);
+        void DeleteParticipant(string userId, int groupClassScheduleRecordId);
 
         //Trainer-Training 
         IEnumerable<int> GetAllTrainingIdsByTrainer(string trainerId);

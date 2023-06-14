@@ -127,6 +127,13 @@ namespace FitMeApp.Services
             return groupClassScheduleRecordModels;
         }
 
+        public int GetGroupClassScheduleRecordId(string trainerId, int trainingId, DateTime date, int startTime)
+        {
+            int trainerTrainingId = _repository.GetTrainingTrainerConnectionId(trainerId, trainingId);
+            int groupClassScheduleRecordId = _repository.GetGroupClassScheduleRecordId(trainerTrainingId, date, startTime);
+            return groupClassScheduleRecordId;
+        }
+
 
         public int AddGroupClassParticipant(int groupClassScheduleId, string userId)
         {
@@ -182,6 +189,12 @@ namespace FitMeApp.Services
             }
 
             _repository.DeleteGroupClassScheduleRecord(grClassScheduleRecordId);
+        }
+
+
+        public void DeleteParticipant(string userId, int groupClassScheduleRecordId)
+        {
+            _repository.DeleteParticipant(userId,groupClassScheduleRecordId);
         }
 
 

@@ -19,11 +19,13 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByClassAndTrainer(int groupClassId, string trainerId);
         GroupClassScheduleRecordModel GetRecordInGroupClassSchedule(int groupClassScheduleId);
         IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByTrainerAndDate(string trainerId, DateTime date);
+        int GetGroupClassScheduleRecordId(string trainerId, int trainingId, DateTime date, int startTime);
         int AddGroupClassParticipant(int groupClassScheduleId, string userId);
         int GetGroupClassScheduleRecordsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
         IEnumerable<int> AddGroupClassScheduleRecords(List<GroupClassScheduleRecordModel> groupClassScheduleModels);
         IEnumerable<string> GetAllParticipantIdsByGroupClass(int groupClassScheduleRecordId);
         void DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount);
+        void DeleteParticipant(string userId, int groupClassScheduleRecordId);
 
 
     }

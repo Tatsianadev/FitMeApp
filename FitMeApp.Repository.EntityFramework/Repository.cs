@@ -328,6 +328,15 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public int GetGroupClassScheduleRecordId(int trainerTrainingId, DateTime date, int startTime)
+        {
+            var groupClassScheduleRecord = _context.GroupTrainingsSchedule
+                .FirstOrDefault(x => x.TrainingTrainerId == trainerTrainingId && x.Date == date && x.StartTime == startTime);
+
+            return groupClassScheduleRecord != null? groupClassScheduleRecord.Id: 0;
+        }
+
+
         public int AddTrainerWorkLicense(TrainerWorkLicenseEntityBase license)
         {
             TrainerWorkLicenseEntity licenseEntity = new TrainerWorkLicenseEntity()
@@ -782,6 +791,20 @@ namespace FitMeApp.Repository.EntityFramework
             if (grClassScheduleRecord != null)
             {
                 _context.GroupTrainingsSchedule.Remove(grClassScheduleRecord);
+                _context.SaveChanges();
+            }
+        }
+
+
+        public void DeleteParticipant(string userId, int groupClassScheduleRecordId)
+        {
+            var participant = _context.GroupTrainingsParticipants.FirstOrDefault(x =>
+                x.UserId == userId && 
+                x.GroupTrainingsScheduleId == groupClassScheduleRecordId);
+
+            if (participant != null)
+            {
+                _context.GroupTrainingsParticipants.Remove(participant);
                 _context.SaveChanges();
             }
         }
