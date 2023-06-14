@@ -152,7 +152,6 @@ namespace FitMeApp.Controllers
                     return View("Index", model);
                 }
 
-
                 var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
                 int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
                 int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
