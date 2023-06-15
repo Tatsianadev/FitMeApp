@@ -70,14 +70,24 @@ namespace FitMeApp.Controllers
             };
 
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+            model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
+            
             if (User.IsInRole("trainer"))
             {
-                model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+                IDictionary<DateTime,int> trainersDatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+                foreach (var dateEventElement in trainersDatesEventsCount)
+                {
+                    if (model.DatesEventsCount.ContainsKey(dateEventElement.Key))
+                    {
+                        model.DatesEventsCount[dateEventElement.Key] = model.DatesEventsCount[dateEventElement.Key] + dateEventElement.Value;
+                    }
+                    else
+                    {
+                        model.DatesEventsCount.Add(dateEventElement);
+                    }
+                }
             }
-            else
-            {
-                model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
-            }
+
             return View(model);
         }
 
@@ -277,17 +287,6 @@ namespace FitMeApp.Controllers
                 {
                     string userName = user.FirstName;
                     SendPersonalTrainingCanceledEmail(eventModel, userName);
-
-                    //string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
-                    //string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
-
-                    //string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
-                    //string fromEmail = DefaultSettingsStorage.SenderEmail;
-                    //string plainTextContent = $"We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.";
-                    //string htmlContent = $"<strong> We have schedule changes! Personal training class {eventDate} at {startTime} has been canceled.</strong>";
-                    //string subject = $"Personal training canceled";
-
-                    //await _emailService.SendEmailAsync(toEmail, user.FirstName, fromEmail, subject, plainTextContent, htmlContent);
                 }
 
                 _scheduleService.DeleteEvent(eventId);
