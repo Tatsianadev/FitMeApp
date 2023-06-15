@@ -144,11 +144,11 @@ namespace FitMeApp.Controllers
 
         }
 
-        // two methods because it's need different views
+        
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public async Task<IActionResult> ShowTrainersEvents(CalendarPageWithEventsViewModel model) //todo separate this method for a few smaller ones
+        public async Task<IActionResult> ShowTrainersEvents(CalendarPageWithEventsViewModel model)
         {
             try
             {
@@ -195,7 +195,6 @@ namespace FitMeApp.Controllers
                     }
                 }
 
-                //Personal trainings and group classes are shown different
                 // If trainer do personal trainings -> Get all personal trainings for selected date
                 if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
                     trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
@@ -278,7 +277,8 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount) //todo finish this method (by form)
+        [HttpPost]
+        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount, CalendarPageWithEventsViewModel model) 
         {
             if (actualParticipantsCount != 0)
             {
@@ -318,8 +318,7 @@ namespace FitMeApp.Controllers
             }
 
             _trainingService.DeleteGroupClassScheduleRecord(grClassScheduleRecordId, actualParticipantsCount);
-
-            return View();
+            return await ShowTrainersEvents(model);
         }
 
 

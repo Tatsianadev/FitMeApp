@@ -20,6 +20,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int GetActualEventsCountByTrainer(string trainerId);
         int GetOpenedEventsCountByTrainer(string trainerId);
         int GetEventsCount(string trainerId, List<DateTime> dates, int startTime, int endTime);
+        bool CheckIfNoEventsAtSelectedTime(string userId, int selectedStartTime, int selectedEndTime, DateTime date);
+        bool CheckIfNoGroupClassesAtSelectedTime(string trainerId, int selectedStartTime, int selectedEndTime, DateTime date);
 
     }
 }

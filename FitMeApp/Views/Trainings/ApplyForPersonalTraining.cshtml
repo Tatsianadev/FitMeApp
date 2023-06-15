@@ -37,14 +37,19 @@
                         @{
                             string minDate = DateTime.Today.Date.ToString("yyyy-MM-dd");
                             string maxDate = DateTime.Today.AddDays(60).Date.ToString("yyyy-MM-dd");}
-                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px" />
+                        <input id="selectDate" type="date" asp-for="SelectedDate" min="@minDate" max="@maxDate" value="@Model.SelectedDate.ToString("yyyy-MM-dd")" style="margin: 0px 0px 8px" />
                         <br />
                         <p class="card-text">
                             Select time
                         </p>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="SelectedStartTime"></select>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="SelectedStartTime">
+                            @if (Model.SelectedStartTime != null)
+                            {
+                                <option selected value="@Model.SelectedStartTime">@Model.SelectedStartTime</option>
+                            }
+                        </select>
                         <div id="errorBlock" class="card-text small text-danger"></div>
-                        <span asp-validation-for="SelectedStartTime" class="card-text small"></span>
+                        <span id="modelStateErrorBlock" asp-validation-for="SelectedStartTime" class="card-text small"></span>
                         <br />
                         <p class="card-text">
                             Select duration of training
@@ -57,7 +62,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <input id="pricePerHour" type="hidden" value="@Model.Price"/>
+                        <input id="pricePerHour" type="hidden" asp-for="Price" value="@Model.Price"/>
                         <h3 id="price" style="font-weight: bold"> @Model.Price $</h3>
                         <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark" style="width: 30%">Cancel</a>
                         <input type="submit" value="Ok" class="btn btn-dark"/>
@@ -92,8 +97,10 @@
                             html += "<option value=" + data[i] + ">" + data[i] + "</option>";
 
                         }
+                        document.getElementById("startTimeSelect").innerHTML = "";
                         document.getElementById("startTimeSelect").innerHTML = html;
                         document.getElementById("errorBlock").innerText = "";
+                        document.getElementById("modelStateErrorBlock").innerText = "";
                     } else {
                         document.getElementById("startTimeSelect").innerHTML = '';
                         document.getElementById("errorBlock").innerText = "The selected day is dayOff for a current trainer. Please, select another date";
@@ -108,6 +115,7 @@
     durationOptions.addEventListener("change",
         function (e) {
             var selectedDuration = parseInt(document.getElementById("duration").value);
-            document.getElementById("price").innerText = (pricePerMinute * selectedDuration) + "$";            
+            document.getElementById("price").innerText = (pricePerMinute * selectedDuration) + "$";
+            document.getElementById("pricePerHour").value = pricePerMinute * selectedDuration;
         });
 </script>

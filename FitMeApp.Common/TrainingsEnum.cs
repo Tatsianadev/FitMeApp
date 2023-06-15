@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FitMeApp.Common
 {
-    public enum TrainingsEnum //todo write the unitTest to check if Enum accords with table in DB
+    public enum TrainingsEnum
     {
         yoga = 1,
         pilates = 2,

@@ -1523,7 +1523,7 @@ namespace FitMeApp.Repository.EntityFramework
         //}
 
 
-        public IEnumerable<UserSubscriptionFullInfoBase> GetValidSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)
+        public IEnumerable<UserSubscriptionFullInfoBase> GetValidNowSubscriptionsByUserForGyms(string userId, IEnumerable<int> gymIds)
         {
             var validUserSubscriptions = (from userSubscr in _context.UserSubscriptions
                                           join gymSubscr in _context.GymSubscriptions

@@ -123,7 +123,8 @@ namespace FitMeApp.Controllers
                         subscription.GroupTraining &&
                         subscription.GymId == groupClassScheduleRecord.GymId)
                     {
-                        hasAvailableSubscription = true; //todo break
+                        hasAvailableSubscription = true;
+                        break;
                     }
                 }
 
@@ -141,7 +142,6 @@ namespace FitMeApp.Controllers
                         Status = Common.EventStatusEnum.Confirmed
                     };
 
-                    //add new event
                     int eventId = _scheduleService.AddEvent(_mapper.MapEventViewModelToModel(trainingEvent));
                     if (eventId == 0)
                     {

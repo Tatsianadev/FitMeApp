@@ -131,7 +131,7 @@ namespace FitMeApp.Services
             {
                 if (status == SubscriptionValidStatusEnum.validNow)
                 {
-                    subscriptionsBase.AddRange(_repository.GetValidSubscriptionsByUserForGyms(userId, gymIds));
+                    subscriptionsBase.AddRange(_repository.GetValidNowSubscriptionsByUserForGyms(userId, gymIds));
                 }
 
                 if (status == SubscriptionValidStatusEnum.expired)

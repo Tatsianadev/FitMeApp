@@ -23,11 +23,11 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
-        public TrainingsController(ITrainingService trainingService, 
-            IGymService gymService, 
-            ITrainerService trainerService, 
+        public TrainingsController(ITrainingService trainingService,
+            IGymService gymService,
+            ITrainerService trainerService,
             IScheduleService scheduleService,
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             ILogger<TrainersController> logger)
         {
             _trainingService = trainingService;
@@ -54,14 +54,15 @@ namespace FitMeApp.Controllers
             int price = _trainingService.GetPrice(trainerId);
             ApplyingForPersonalTrainingViewModel model = new ApplyingForPersonalTrainingViewModel()
             {
-               TrainerId = trainer.Id,
-               TrainerFirstName = trainer.FirstName,
-               TrainerLastName = trainer.LastName,
-               GymId = trainer.Gym.Id,
-               GymName = trainer.Gym.Name,
-               GymAddress = trainer.Gym.Address,
-               UserId = user.Id,
-               Price = price
+                TrainerId = trainer.Id,
+                TrainerFirstName = trainer.FirstName,
+                TrainerLastName = trainer.LastName,
+                GymId = trainer.Gym.Id,
+                GymName = trainer.Gym.Name,
+                GymAddress = trainer.Gym.Address,
+                SelectedDate = DateTime.Today,
+                UserId = user.Id,
+                Price = price
             };
 
             return View(model);
@@ -77,17 +78,37 @@ namespace FitMeApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);
+                    int endTime = starTime + model.DurationInMinutes;
+
                     bool userHasAvailableSubscription = _trainingService.CheckIfUserHasAvailableSubscription(model.UserId, model.SelectedDate, model.GymId);
-                    int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
+                    bool noEventsAtSelectedTime = _scheduleService.CheckIfNoEventsAtSelectedTime(model.UserId, starTime, endTime, model.SelectedDate);
+
+                    //if current user is group or universal Trainer
+                    //and there are not events at the selected time (otherwise -> no point to check next)
+                    if (User.IsInRole(RolesEnum.trainer.ToString()) &&
+                        _trainerService.GetTrainerSpecialization(model.UserId) != TrainerSpecializationsEnum.personal.ToString() &&
+                        noEventsAtSelectedTime)
+                    {
+                        noEventsAtSelectedTime = _scheduleService.CheckIfNoGroupClassesAtSelectedTime(model.UserId, starTime, endTime, model.SelectedDate);
+                    }
+
+                    if (noEventsAtSelectedTime == false)
+                    {
+                        ModelState.AddModelError("SelectedStartTime", "You have already had an appointment at selected time. Please, choose another time.");
+                        return View(model);
+                    }
+
+                    //int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
+                    int trainingId = (int)TrainingsEnum.personaltraining;
                     if (userHasAvailableSubscription)
                     {
-                        int starTime = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.SelectedStartTime);
 
                         EventViewModel newEvent = new EventViewModel()
                         {
                             Date = model.SelectedDate,
                             StartTime = starTime,
-                            EndTime = starTime + model.DurationInMinutes,
+                            EndTime = endTime,
                             TrainerId = model.TrainerId,
                             UserId = model.UserId,
                             TrainingId = trainingId,
@@ -98,7 +119,7 @@ namespace FitMeApp.Controllers
                         int eventId = _scheduleService.AddEvent(eventModel);
                         if (eventId != 0)
                         {
-                            return RedirectToAction("ApplyForTrainingSubmitted", new{ isPersonalTraining = true});
+                            return RedirectToAction("ApplyForTrainingSubmitted", new { isPersonalTraining = true });
                         }
                     }
                     else
@@ -115,11 +136,11 @@ namespace FitMeApp.Controllers
             }
             catch (Exception ex)
             {
-               _logger.LogError(ex, ex.Message);
-               string message = "Failed to apply for personal training. Please, try again later.";
-               return View("CustomError", message);
+                _logger.LogError(ex, ex.Message);
+                string message = "Failed to apply for personal training. Please, try again later.";
+                return View("CustomError", message);
             }
-            
+
         }
 
 

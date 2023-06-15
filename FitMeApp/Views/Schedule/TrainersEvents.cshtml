@@ -53,7 +53,7 @@
                     {
                         List<int> eventsId = new List<int>();
 
-                        @if (eventItem.TrainingName == "Personal training" &&  authorizedUserId != eventItem.UserId)
+                        @if (eventItem.TrainingName == "Personal training" && authorizedUserId != eventItem.UserId)
                         {
                             string colorRow = "table-info";
                             string disabled = eventItem.Status == FitMeApp.Common.EventStatusEnum.Confirmed ? "disabled" : "";
@@ -191,10 +191,19 @@
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status</td>
                                             <td id="(@i)_5">
-                                                <a asp-action="DeleteGroupClassScheduleRecord" asp-controller="Schedule"
-                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId"
-                                                   asp-route-actualParticipantsCount="@eventItem.ActualParticipantsCount"
-                                                   class="btn btn-outline-danger btn-sm" aria-disabled="@cannotDelete">Cancel</a>
+                                                <form asp-controller="Schedule" asp-action="DeleteGroupClassScheduleRecord" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="grClassScheduleRecordId" value="@eventItem.GroupClassScheduleRecordId" />
+                                                    <input type="hidden" name="actualParticipantsCount" value="@eventItem.ActualParticipantsCount" />
+                                                    <div class="btn-group">
+                                                        <input type="submit" value="Cancel" class="btn btn-outline-danger btn-sm" disabled="@cannotDelete" />
+                                                    </div>
+                                                </form>
                                             </td>
                                         </tr>
                                         eventsId.Add(eventItem.Id);
@@ -229,10 +238,19 @@
                                             </td>
                                             <td id="(@i)_4">@eventItem.Status </td>
                                             <td id="(@i)_5">
-                                                <a asp-action="DeleteGroupClassScheduleRecord" asp-controller="Schedule"
-                                                   asp-route-grClassScheduleRecordId="@eventItem.GroupClassScheduleRecordId"
-                                                   asp-route-actualParticipantsCount="@eventItem.ActualParticipantsCount"
-                                                   class="btn btn-outline-danger btn-sm" aria-disabled="@cannotDelete">Cancel</a>
+                                                <form asp-controller="Schedule" asp-action="DeleteGroupClassScheduleRecord" method="post">
+                                                    <input type="hidden" asp-for="Date" value="@Model.Date" />
+                                                    <input type="hidden" asp-for="DayOnCalendarSelected" value="@Model.DayOnCalendarSelected" />
+                                                    @foreach (var item in Model.DatesEventsCount)
+                                                    {
+                                                        <input type="hidden" asp-for="DatesEventsCount[item.Key]" value="@item.Value" />
+                                                    }
+                                                    <input type="hidden" name="grClassScheduleRecordId" value="@eventItem.GroupClassScheduleRecordId" />
+                                                    <input type="hidden" name="actualParticipantsCount" value="@eventItem.ActualParticipantsCount" />
+                                                    <div class="btn-group">
+                                                        <input type="submit" value="Cancel" class="btn btn-outline-danger btn-sm" disabled="@cannotDelete" />
+                                                    </div>
+                                                </form>
                                             </td>
                                         </tr>
                                         eventsId.Add(eventItem.Id);

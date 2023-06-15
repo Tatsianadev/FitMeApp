@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace FitMeApp.Services
 {
-    public sealed class ScheduleService: IScheduleService
+    public sealed class ScheduleService : IScheduleService
     {
         private readonly IRepository _repository;
         private readonly ILogger _logger;
@@ -25,7 +25,7 @@ namespace FitMeApp.Services
 
 
 
-        public IEnumerable<EventModel> GetAllEvents() 
+        public IEnumerable<EventModel> GetAllEvents()
         {
             var eventEntityBases = _repository.GetAllEvents();
             List<EventModel> eventModels = new List<EventModel>();
@@ -55,7 +55,7 @@ namespace FitMeApp.Services
             int eventId = _repository.AddEvent(eventEntityBase);
             return eventId;
         }
-        
+
         public void DeleteEvent(int eventId)
         {
             _repository.DeleteEvent(eventId);
@@ -75,7 +75,7 @@ namespace FitMeApp.Services
 
         public IEnumerable<EventModel> GetEventsByUserAndDate(string userId, DateTime dateTime)
         {
-            var eventWithNamesBases = _repository.GetEventsByUserAndDate(userId,dateTime);
+            var eventWithNamesBases = _repository.GetEventsByUserAndDate(userId, dateTime);
             List<EventModel> eventModels = new List<EventModel>();
             foreach (var entity in eventWithNamesBases)
             {
@@ -110,8 +110,8 @@ namespace FitMeApp.Services
 
         public IDictionary<DateTime, int> GetEventsCountForEachDateByUser(string userId)
         {
-           var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);
-           return dateEventsCount;
+            var dateEventsCount = _repository.GetEventsCountForEachDateByUser(userId);
+            return dateEventsCount;
         }
 
 
@@ -145,6 +145,48 @@ namespace FitMeApp.Services
             int eventsCount = _repository.GetEventsCount(trainerId, dates, startTime, endTime);
             return eventsCount;
         }
+
+        public bool CheckIfNoEventsAtSelectedTime(string userId, int selectedStartTime, int selectedEndTime, DateTime date)
+        {
+            var existedEventsByUser = _repository.GetEventsByUserAndDate(userId, date).ToList();
+            
+            if (existedEventsByUser.Any())
+            {
+                foreach (var existedEvent in existedEventsByUser)
+                {
+                    if ((selectedStartTime >= existedEvent.StartTime - 30 && selectedStartTime < existedEvent.EndTime)||
+                        (selectedEndTime >= existedEvent.StartTime && selectedEndTime <= existedEvent.EndTime + 30))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+        //additional for trainers (group or universal specialization) 
+        public bool CheckIfNoGroupClassesAtSelectedTime(string trainerId, int selectedStartTime, int selectedEndTime, DateTime date)
+        {
+            var existedGroupClasses = _repository.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date).ToList();
+            
+            if (existedGroupClasses.Any())
+            {
+                foreach (var existedClass in existedGroupClasses)
+                {
+                    if ((selectedStartTime >= existedClass.StartTime - 30 && selectedStartTime < existedClass.EndTime) ||
+                        (selectedEndTime >= existedClass.StartTime && selectedEndTime <= existedClass.EndTime + 30))
+                    {
+                       return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+
 
     }
 }

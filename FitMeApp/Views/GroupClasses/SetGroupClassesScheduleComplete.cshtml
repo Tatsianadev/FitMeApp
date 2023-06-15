@@ -21,7 +21,7 @@
                         <td colspan="2">@Model.SelectedGroupClassName</td>
                     </tr>
 
-                    @if (!Model.SelectedDaysOfWeek.Any())
+                    @if (Model.SelectedDaysOfWeek == null)
                     {
                         <tr>
                             <th scope="row">Date:</th>
