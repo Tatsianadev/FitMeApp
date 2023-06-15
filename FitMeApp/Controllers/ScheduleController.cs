@@ -154,59 +154,24 @@ namespace FitMeApp.Controllers
             {
                 ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
                 var trainer = await _userManager.GetUserAsync(User);
-                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainer.Id);
+                var trainerWorkHours = _trainerService.GetWorkHoursByTrainer(trainer.Id).ToList();
                 var workDaysOfWeek = trainerWorkHours.Select(x => x.DayName).ToList();
+                var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
+                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
+                int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
+                
+                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
+
+                var trainingsAsCustomer = _scheduleService.GetEventsByUserAndDate(trainer.Id, model.Date).ToList();
 
                 // If selected day is WorkOffDay for trainer -> display WorkOffPartialView
-                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek))
+                if (!workDaysOfWeek.Contains(model.Date.DayOfWeek) && !trainingsAsCustomer.Any())
                 {
                     model.SelectedDayIsWorkOff = true;
                     return View("Index", model);
                 }
 
-                var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
-                int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
-                int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
-
-                //Personal trainings and group classes are shown different
-                // If trainer do personal trainings -> Get all personal trainings for selected date
-                List<EventViewModel> eventsViewModels = new List<EventViewModel>();
-                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
-                    trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
-                {
-                    var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainer.Id, model.Date);
-                    foreach (var personalTraining in personalTrainings)
-                    {
-                        eventsViewModels.Add(_mapper.MapEventModelToViewModel(personalTraining));
-                    }
-                }
-
-                //If trainer do group classes ->  Get all group classes for selected date
-
-                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
-                    trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
-                {
-                    var groupClassEventModels = _trainingService.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainer.Id, model.Date);
-
-                    foreach (var grClassEventModel in groupClassEventModels)
-                    {
-                        eventsViewModels.Add(new EventViewModel()
-                        {
-                            GroupClassScheduleRecordId = grClassEventModel.Id,
-                            TrainerId = grClassEventModel.TrainerId,
-                            TrainingId = grClassEventModel.GroupClassId,
-                            TrainingName = grClassEventModel.GroupClassName,
-                            Date = grClassEventModel.Date,
-                            StartTime = grClassEventModel.StartTime,
-                            EndTime = grClassEventModel.EndTime,
-                            ParticipantsLimit = grClassEventModel.ParticipantsLimit,
-                            ActualParticipantsCount = grClassEventModel.ActualParticipantsCount,
-                            Status = EventStatusEnum.Confirmed
-                        });
-                    }
-                }
-
-                var trainingsAsCustomer = _scheduleService.GetEventsByUserAndDate(trainer.Id, model.Date);
+                // If there are some trainings where current trainer is customer -> add them to schedule
                 if (trainingsAsCustomer.Count() != 0)
                 {
                     foreach (var trainingEvent in trainingsAsCustomer)
@@ -214,6 +179,8 @@ namespace FitMeApp.Controllers
                         eventsViewModels.Add(_mapper.MapEventModelToViewModel(trainingEvent));
                     }
 
+                    //if time of trainings, where current trainer is customer, are outside the trainer work hours ->
+                    //change the schedule time scale to display this trainings.
                     int earlierTrainingAsCustomerStartTime = trainingsAsCustomer.Where(x => x.Date == model.Date).Select(x => x.StartTime).Min();
                     int latestTrainingAsCustomerEndTime = trainingsAsCustomer.Where(x => x.Date == model.Date).Select(x => x.EndTime).Max();
 
@@ -226,6 +193,21 @@ namespace FitMeApp.Controllers
                     {
                         endWork = latestTrainingAsCustomerEndTime;
                     }
+                }
+
+                //Personal trainings and group classes are shown different
+                // If trainer do personal trainings -> Get all personal trainings for selected date
+                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
+                    trainerSpecialization == TrainerSpecializationsEnum.personal.ToString())
+                {
+                    eventsViewModels.AddRange(GetPersonalTrainingsPerDateByTrainer(trainer.Id, model.Date));
+                }
+
+                //If trainer do group classes ->  Get all group classes for selected date
+                if (trainerSpecialization == TrainerSpecializationsEnum.universal.ToString() ||
+                    trainerSpecialization == TrainerSpecializationsEnum.group.ToString())
+                {
+                    eventsViewModels.AddRange(GetGroupClassesPerDateByTrainer(trainer.Id, model.Date));
                 }
 
                 model.Events = eventsViewModels.OrderBy(x => x.StartTime).ToList();
@@ -387,6 +369,46 @@ namespace FitMeApp.Controllers
         }
 
 
+
+
+
+        private IEnumerable<EventViewModel> GetPersonalTrainingsPerDateByTrainer(string trainerId, DateTime date)
+        {
+            var personalTrainingsPerDateByTrainer = new List<EventViewModel>();
+            var personalTrainings = _scheduleService.GetPersonalTrainingsByTrainerAndDate(trainerId, date);
+            foreach (var personalTraining in personalTrainings)
+            {
+                personalTrainingsPerDateByTrainer.Add(_mapper.MapEventModelToViewModel(personalTraining));
+            }
+
+            return personalTrainingsPerDateByTrainer;
+        }
+
+
+        private IEnumerable<EventViewModel> GetGroupClassesPerDateByTrainer(string trainerId, DateTime date)
+        {
+            var groupClassPerDateByTrainer = new List<EventViewModel>();
+            var groupClassEventModels = _trainingService.GetAllRecordsInGroupClassScheduleByTrainerAndDate(trainerId, date);
+
+            foreach (var grClassEventModel in groupClassEventModels)
+            {
+                groupClassPerDateByTrainer.Add(new EventViewModel()
+                {
+                    GroupClassScheduleRecordId = grClassEventModel.Id,
+                    TrainerId = grClassEventModel.TrainerId,
+                    TrainingId = grClassEventModel.GroupClassId,
+                    TrainingName = grClassEventModel.GroupClassName,
+                    Date = grClassEventModel.Date,
+                    StartTime = grClassEventModel.StartTime,
+                    EndTime = grClassEventModel.EndTime,
+                    ParticipantsLimit = grClassEventModel.ParticipantsLimit,
+                    ActualParticipantsCount = grClassEventModel.ActualParticipantsCount,
+                    Status = EventStatusEnum.Confirmed
+                });
+            }
+
+            return groupClassPerDateByTrainer;
+        }
 
 
         private async void SendPersonalTrainingCanceledEmail(EventModel eventModel, string toName)
