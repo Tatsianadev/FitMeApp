@@ -1,6 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -199,6 +200,33 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.personal-training-sign {
+    background-color: #cff4fc;
+    border-style: solid;
+    border-color: #0dcaf0;
+    border-radius: 3px;
+    height: 80%;
+    vertical-align: middle;
+}
+
+.group-class-sign {
+    background-color: #fff3cd;
+    border-style: solid;
+    border-color: #ffc107;
+    border-radius: 3px;
+    height: 80%;
+    vertical-align: middle;
+}
+
+.own-training-sign {
+    background-color: #d1e7dd;
+    border-style: solid;
+    border-color: #198754;
+    border-radius: 3px;
+    height: 80%;
+    vertical-align: middle;
 }
 
 

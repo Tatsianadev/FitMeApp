@@ -1,4 +1,5 @@
 ﻿@addTagHelper*, FitMeApp
+@using FitMeApp.Common
 @model FitMeApp.WEB.Contracts.ViewModels.TrainerViewModel
 
 <div class="container">
@@ -67,6 +68,14 @@
 
                                 </td>
                             </tr>
+                            @if (Model.Specialization != TrainerSpecializationsEnum.group.ToString())
+                            {
+                                <tr>
+                                    <td class="col3">Price ($/hr)</td>
+                                    <td class="col4">@Model.PersonalTrainingPrice</td>
+                                </tr>
+                            }
+                            
                         </table>
                         <a asp-controller="Profile" asp-action="EditTrainerJobData" asp-route-applicationId="@Model.Id" class="btn btn-dark" aria-disabled="False" style="width:40%">Edit job data</a>
                         </div>

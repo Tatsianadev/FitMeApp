@@ -85,7 +85,7 @@ namespace FitMeApp.Controllers
                     bool noEventsAtSelectedTime = _scheduleService.CheckIfNoEventsAtSelectedTime(model.UserId, starTime, endTime, model.SelectedDate);
 
                     //if current user is group or universal Trainer
-                    //and there are not events at the selected time (otherwise -> no point to check next)
+                    //and there are not events at the selected time (otherwise -> no point to check group schedule)
                     if (User.IsInRole(RolesEnum.trainer.ToString()) &&
                         _trainerService.GetTrainerSpecialization(model.UserId) != TrainerSpecializationsEnum.personal.ToString() &&
                         noEventsAtSelectedTime)

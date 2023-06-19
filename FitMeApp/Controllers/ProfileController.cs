@@ -597,6 +597,10 @@ namespace FitMeApp.Controllers
             trainerViewModel.Email = trainer.Email;
             trainerViewModel.Phone = trainer.PhoneNumber;
             trainerViewModel.Year = trainer.Year;
+            if (trainerModel.Specialization != TrainerSpecializationsEnum.group.ToString())
+            {
+                trainerViewModel.PersonalTrainingPrice = _trainingService.GetPrice(trainer.Id);
+            }
 
             ViewBag.ActualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainer.Id);
             return View(trainerViewModel);

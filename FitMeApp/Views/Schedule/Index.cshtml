@@ -1,6 +1,5 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.CalendarPageWithEventsViewModel
 
-
 <h1>Schedule</h1>
 <h5>Here you can find information about all your workouts!</h5>
 
@@ -10,10 +9,62 @@
             @await Html.PartialAsync("Calendar", Model)
             @if (User.IsInRole("trainer"))
             {
-                <br/>
+                <br />
                 <a asp-controller="GroupClasses" asp-action="SetGroupClassesSchedule" class="btn btn-dark"> Set new group class appointment</a>
+                <br />
+                <br />
+                <div id="colorDescribe" class="container" style="width: 100%; margin: 10px; text-align:left">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="personal-training-sign"></div>
+                        </div>
+                        <div class="col-md-10">
+                            - Work / Personal training
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="group-class-sign"></div>
+                        </div>
+                        <div class="col-md-10">
+                            - Work / Group class
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="own-training-sign"></div>
+                        </div>
+                        <div class="col-md-10">
+                            - Own training
+                        </div>
+                    </div>
+                </div>
             }
-            
+            else
+            {
+                <br />
+                <br />
+                <div id="colorDescribe" class="container" style="width: 100%; margin: 10px; text-align:left">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="personal-training-sign"></div>
+                        </div>
+                        <div class="col-md-10">
+                            - Personal training
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="group-class-sign"></div>
+                        </div>
+                        <div class="col-md-10">
+                            - Group class
+                        </div>
+                    </div>
+                </div>
+            }
+
+
         </div>
         <div class="col-md-8">
             @if (Model.DayOnCalendarSelected)
@@ -43,6 +94,6 @@
 
         </div>
     </div>
- 
+
 </div>
 
