@@ -693,3 +693,43 @@ GO
 ALTER TABLE [dbo].[PersonalTrainingPrice]  WITH CHECK ADD FOREIGN KEY([TrainerId])
 REFERENCES [dbo].[Trainers] ([Id])
 GO
+
+
+
+--Diet--
+
+
+create table AnthropometricInfo(
+Id int primary key identity not null,
+UserId nvarchar(450) not null,
+Gender nvarchar(256) not null,
+Height int not null,
+Weight int not null,
+Age int not null,
+PhysicalActivity int not null,
+Date date not null, 
+foreign key (UserId) references AspNetUsers(Id)
+)
+go
+
+
+create table DietGoals(
+Id int primary key identity not null,
+Goal nvarchar(256) not null
+)
+go
+
+
+create table Diets(
+Id int primary key identity not null,
+AnthropometricInfoId int not null,
+CurrentCalorieIntake int,
+DietGoalId int not null,
+RequiredCalorieIntake int not null,
+Proteins int not null,
+Fats int not null,
+Carbohydrates int not null,
+foreign key (AnthropometricInfoId) references AnthropometricInfo(Id),
+foreign key (DietGoalId) references DietGoals(Id)
+)
+go

@@ -475,3 +475,12 @@ values (1, '/Content/BigRock/1.jpg')
 ,(4, '/Content/GoldSection/3.jpg')
 ,(4, '/Content/GoldSection/4.jpg')
 go
+
+
+--Diet--
+insert into DietGoals(Goal)
+values('lose weight')
+,('keep weight')
+,('put weight on')
+,('put muscles on')
+go
