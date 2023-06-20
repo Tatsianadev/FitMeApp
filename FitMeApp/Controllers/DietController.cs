@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
 {
@@ -12,5 +13,14 @@ namespace FitMeApp.Controllers
         {
             return View();
         }
+
+
+        [Authorize]
+        public IActionResult AnthropometricInfo()
+        {
+            return View();
+        }
+
+
     }
 }

@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Welcome to diet plan";
+}
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-8" style="padding:20px">
@@ -13,8 +17,7 @@
             <hr />
         </div>
         <div class="col-md-4">
-            @* add group classes picture  *@
-            <img src="/Content/images/gym4.jpg" class="d-block w-100" alt="picture" style="margin: 15px">
+            <img src="/Content/images/healthyFood4.jpg" class="d-block w-100" alt="picture" style="margin: 15px">
         </div>
     </div>
 </div>
@@ -59,7 +62,15 @@
                     <p class="card-text">Same text about topic 3.</p>
                 </div>
                 <div style="padding: 15px">
-                    <a asp-action="" asp-controller="Diet" class="btn btn-dark">Go button</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="AnthropometryInfo" asp-controller="Diet" class="btn btn-dark">Go button</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Register" asp-controller="Account" class="btn btn-dark">Go button</a>
+                    }
+
                 </div>
             </div>
         </div>
