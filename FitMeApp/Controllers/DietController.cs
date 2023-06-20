@@ -8,7 +8,7 @@ namespace FitMeApp.Controllers
 {
     public class DietController : Controller
     {
-        public IActionResult WelcomeToDiedPlan()
+        public IActionResult WelcomeToDietPlan()
         {
             return View();
         }
