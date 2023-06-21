@@ -15,9 +15,9 @@
                 <div class="row" style="padding: 10px; text-align: center">
                     <h3>My anthropometric data</h3>
                 </div>
-                <div class="row">
-                    <form asp-action="AnthropometricInfo" asp-controller="Diet" method="post">
-                        <div class="col-md-6">
+                <form asp-action="AnthropometricInfo" asp-controller="Diet" method="post">
+                    <div class="row">
+                        <div class="col-md-5">
                             <table class="table table-borderless">
                                 <tr>
                                     <td class="anthropometric-form-col1">
@@ -57,7 +57,7 @@
                                         <label asp-for="Gender"></label>
                                     </td>
                                     <td class="anthropometric-form-col1">
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select asp-for="Gender" class="form-select" aria-label="Default select example">
                                             @foreach (var item in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
                                             {
                                                 <option value="@item.ToString()">@item.ToString()</option>
@@ -69,16 +69,65 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="CurrentCalorieIntake"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <input class="form-control" asp-for="CurrentCalorieIntake" />
+                                        <span asp-validation-for="CurrentCalorieIntake"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2">kkal</td>
+                                </tr>
 
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="PhysicalActivity"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <select asp-for="PhysicalActivity" class="form-select" aria-label="Default select example">
+                                            @foreach (var level in Enum.GetValues(typeof(FitMeApp.Common.PhysicalActivityEnum)))
+                                            {
+                                            <option value="@((int)level)">@((int)level)</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="PhysicalActivity"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2"></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="Goal"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <select asp-for="Goal" class="form-select" aria-label="Default select example">
+                                            @foreach (var goal in Enum.GetValues(typeof(FitMeApp.Common.DietGoalsEnum)))
+                                            {
+                                                <option value="@goal.ToString()">@goal.ToString()</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Goal"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2"></td>
+                                </tr>
+                            </table>
                         </div>
-                        <input type="submit" class="btn btn-dark" value="Next" style="width: 30%" />
-
-                    </form>
-                </div>
+                        <div style="font-size: smaller; font-style: italic">
+                            *The physical activity level is a way to express your daily physical activity as a number
+                            from 0 to 5, where 0 - extremely inactive and 5 - extremely active.
+                        </div>
+                        <div style="text-align: center; margin: 10px">
+                            <a asp-action="WelcomeToDietPlan" asp-controller="Diet" class="btn btn-outline-secondary">Back</a>
+                            <input type="submit" class="btn btn-dark" value="Next" />
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-   
+
 </div>
 

@@ -23,5 +23,13 @@ namespace FitMeApp.Controllers
         }
 
 
+        [Authorize]
+        [HttpPost]
+        public IActionResult AnthropometricInfo(AnthropometricInfoViewModel viewModel)
+        {
+            return View();
+        }
+
+
     }
 }
