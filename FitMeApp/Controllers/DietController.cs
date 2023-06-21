@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FitMeApp.Controllers
@@ -18,7 +19,7 @@ namespace FitMeApp.Controllers
         [Authorize]
         public IActionResult AnthropometricInfo()
         {
-            return View();
+            return View(new AnthropometricInfoViewModel());
         }
 
 

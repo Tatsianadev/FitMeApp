@@ -1,4 +1,5 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.AnthropometricInfoViewModel
+﻿@using System.Security.AccessControl
+@model FitMeApp.WEB.Contracts.ViewModels.AnthropometricInfoViewModel
 
 @{
     ViewData["Title"] = "Welcome to diet plan";
@@ -7,30 +8,77 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-
+            <img src="/Content/images/healthyFood3.jpg" style="width: 100%; height: auto" />
         </div>
-        <form asp-action="AnthropometricInfo" asp-controller="Diet" method="post">
-            <div class="col-md-4">
-                <div class="row g-3 align-items-center">
-                    <div class="col-auto">
-                        <label for="inputPassword6" class="col-form-label">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="password" id="inputPassword6" class="form-control" aria-labelledby="passwordHelpInline">
-                    </div>
-                    <div class="col-auto">
-                        <span id="passwordHelpInline" class="form-text">
-                            Must be 8-20 characters long.
-                        </span>
-                    </div>
+        <div class="col-md-8">
+            <div class="container">
+                <div class="row" style="padding: 10px; text-align: center">
+                    <h3>My anthropometric data</h3>
                 </div>
+                <div class="row">
+                    <form asp-action="AnthropometricInfo" asp-controller="Diet" method="post">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="Height"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <input class="form-control" asp-for="Height" />
+                                        <span asp-validation-for="Height"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2">sm</td>
+                                </tr>
 
-            </div>
-            <div class="col-md-4">
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="Weight"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <input class="form-control" asp-for="Weight" />
+                                        <span asp-validation-for="Weight"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2">kg</td>
+                                </tr>
 
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="Age"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <input class="form-control" asp-for="Age" />
+                                        <span asp-validation-for="Age"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2">years</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="anthropometric-form-col1">
+                                        <label asp-for="Gender"></label>
+                                    </td>
+                                    <td class="anthropometric-form-col1">
+                                        <select class="form-select" aria-label="Default select example">
+                                            @foreach (var item in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
+                                            {
+                                                <option value="@item.ToString()">@item.ToString()</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Gender"></span>
+                                    </td>
+                                    <td class="anthropometric-form-col2">years</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                        <input type="submit" class="btn btn-dark" value="Next" style="width: 30%" />
+
+                    </form>
+                </div>
             </div>
-        </form>
-        
+        </div>
     </div>
+   
 </div>
 

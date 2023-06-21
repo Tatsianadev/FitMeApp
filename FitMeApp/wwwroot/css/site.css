@@ -151,6 +151,22 @@ body {
     font-style: italic;
 }
 
+.anthropometric-form-col1 {
+    width: 40%;
+    height: 10px;
+    text-align: right;
+    font-size: medium;
+    padding: 2px;
+}
+
+.anthropometric-form-col2 {
+    width: 20%;
+    height: 10px;
+    text-align: left;
+    font-size: medium;
+    padding: 2px;
+}
+
 
 .table1 {
     width: 100%;
