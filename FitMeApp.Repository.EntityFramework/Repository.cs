@@ -2085,5 +2085,27 @@ namespace FitMeApp.Repository.EntityFramework
 
             return numbersOfVisitorsPerHours;
         }
+
+
+        //Diet
+
+        public int AddAnthropometricInfo(AnthropometricInfoEntityBase info)
+        {
+            AnthropometricInfoEntity infoEntity = new AnthropometricInfoEntity()
+            {
+                Id = info.Id,
+                UserId = info.UserId,
+                Gender = info.Gender,
+                Height = info.Height,
+                Weight = info.Weight,
+                Age = info.Age,
+                PhysicalActivity = info.PhysicalActivity,
+                Date = info.Date
+            };
+            _context.AnthropometricInfo.Add(infoEntity);
+            _context.SaveChanges();
+
+            return infoEntity.Id;
+        }
     }
 }

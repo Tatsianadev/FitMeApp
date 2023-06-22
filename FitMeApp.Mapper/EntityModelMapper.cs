@@ -340,22 +340,7 @@ namespace FitMeApp.Mapper
 
             return licenseModel;
         }
-
-
-        //public GroupClassScheduleRecordModel MapGroupTrainingScheduleEntityBaseToModel(GroupClassScheduleRecordEntityBase entity)
-        //{
-        //    GroupClassScheduleRecordModel model = new GroupClassScheduleRecordModel()
-        //    {
-        //        Id = entity.Id,
-        //        Date = entity.Date,
-        //        StartTime = entity.StartTime,
-        //        EndTime = entity.EndTime,
-        //        ParticipantsLimit = entity.ParticipantsLimit
-        //    };
-        //}
-
-
-
+        
 
 
         //Model -> Entity
@@ -497,6 +482,23 @@ namespace FitMeApp.Mapper
             return licenseEntityBase;
         }
 
+
+        public AnthropometricInfoEntityBase MapAnthropometricInfoModelToEntityBase(AnthropometricInfoModel model)
+        {
+            var entityBase = new AnthropometricInfoEntityBase()
+            {
+                Id = model.Id,
+                UserId = model.UserId,
+                Gender = model.Gender,
+                Height = model.Height,
+                Weight = model.Weight,
+                Age = model.Age,
+                PhysicalActivity = model.PhysicalActivity,
+                Date = model.Date
+            };
+
+            return entityBase;
+        }
 
     }
 }

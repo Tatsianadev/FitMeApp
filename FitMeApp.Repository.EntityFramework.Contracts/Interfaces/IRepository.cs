@@ -149,6 +149,9 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void AddNumberOfVisitorsPerHourChartData(IEnumerable<NumberOfVisitorsPerHourEntityBase> chartData);
         IEnumerable<NumberOfVisitorsPerHourEntityBase> GetNumOfVisitorsPerHourOnCertainDayByGym(int gymId, DayOfWeek day);
 
+        //Diet
+        int AddAnthropometricInfo(AnthropometricInfoEntityBase info);
+
 
 
 
