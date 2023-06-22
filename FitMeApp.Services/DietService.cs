@@ -29,6 +29,15 @@ namespace FitMeApp.Services
             return infoId;
         }
 
+
+        public int AddDiet(DietModel dietModel)
+        {
+            var dietEntityBase = _mapper.MapDietModelToEntityBase(dietModel);
+            int dietId = _repository.AddDiet(dietEntityBase);
+            return dietId;
+        }
+
+
         public int CalculatingCurrentDailyCalories(AnthropometricInfoModel infoModel)
         {
             double activityRate = GetPhysicalActivityRate(infoModel.PhysicalActivity);
@@ -56,36 +65,6 @@ namespace FitMeApp.Services
             return neededCalories;
         }
 
-
-        private double GetPhysicalActivityRate(int physicalActivityLevel)
-        {
-            var activityLevelRate = new Dictionary<int, double>()
-            {
-                {1, 1.2},
-                {2, 1.375},
-                {3, 1.55},
-                {4, 1.725},
-                {5, 1.9}
-            };
-
-            return activityLevelRate[physicalActivityLevel];
-        }
-
-
-        private int MinAllowedCalories(AnthropometricInfoModel infoModel)
-        {
-            int minAllowedCalories;
-            if (infoModel.Gender == GenderEnum.male.ToString())
-            {
-                minAllowedCalories = (int)(66.47 + (13.75 * infoModel.Weight) + (5.003 * infoModel.Height) - (6.755 * infoModel.Age));
-            }
-            else
-            {
-                minAllowedCalories = (int)(655.1 + (9.563 * infoModel.Weight) + (1.850 * infoModel.Height) - (4.676 * infoModel.Age));
-            }
-
-            return minAllowedCalories;
-        }
 
 
         public IDictionary<NutrientsEnum, int> GetNutrientsRates(int calories, int height, GenderEnum gender, DietGoalsEnum goal)
@@ -152,6 +131,37 @@ namespace FitMeApp.Services
             return nutrientsRates;
         }
 
+
+        private double GetPhysicalActivityRate(int physicalActivityLevel)
+        {
+            var activityLevelRate = new Dictionary<int, double>()
+            {
+                {1, 1.2},
+                {2, 1.375},
+                {3, 1.55},
+                {4, 1.725},
+                {5, 1.9}
+            };
+
+            return activityLevelRate[physicalActivityLevel];
+        }
+
+
+        private int MinAllowedCalories(AnthropometricInfoModel infoModel)
+        {
+            int minAllowedCalories;
+            if (infoModel.Gender == GenderEnum.male.ToString())
+            {
+                minAllowedCalories = (int)(66.47 + (13.75 * infoModel.Weight) + (5.003 * infoModel.Height) - (6.755 * infoModel.Age));
+            }
+            else
+            {
+                minAllowedCalories = (int)(655.1 + (9.563 * infoModel.Weight) + (1.850 * infoModel.Height) - (4.676 * infoModel.Age));
+            }
+
+            return minAllowedCalories;
+        }
+        
 
         private double GetChangeCaloriesRate(DietGoalsEnum goal)
         {

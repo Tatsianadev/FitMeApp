@@ -2107,5 +2107,24 @@ namespace FitMeApp.Repository.EntityFramework
 
             return infoEntity.Id;
         }
+
+        public int AddDiet(DietEntityBase diet)
+        {
+            DietEntity dietEntity = new DietEntity()
+            {
+                AnthropometricInfoId = diet.AnthropometricInfoId,
+                CurrentCalorieIntake = diet.CurrentCalorieIntake,
+                RequiredCalorieIntake = diet.RequiredCalorieIntake,
+                DietGoalId = diet.DietGoalId,
+                Proteins = diet.Proteins,
+                Fats = diet.Fats,
+                Carbohydrates = diet.Carbohydrates
+            };
+
+            _context.Diets.Add(dietEntity);
+            _context.SaveChanges();
+
+            return dietEntity.Id;
+        }
     }
 }

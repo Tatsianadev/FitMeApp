@@ -500,5 +500,22 @@ namespace FitMeApp.Mapper
             return entityBase;
         }
 
+        public DietEntityBase MapDietModelToEntityBase(DietModel dietModel)
+        {
+            var dietEntityBase = new DietEntityBase()
+            {
+                Id = dietModel.Id,
+                AnthropometricInfoId = dietModel.AnthropometricInfoId,
+                CurrentCalorieIntake = dietModel.CurrentCalorieIntake,
+                RequiredCalorieIntake = dietModel.RequiredCalorieIntake,
+                DietGoalId = dietModel.DietGoalId,
+                Proteins = dietModel.Proteins,
+                Fats = dietModel.Fats,
+                Carbohydrates = dietModel.Carbohydrates
+            };
+
+            return dietEntityBase;
+        }
+
     }
 }
