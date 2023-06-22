@@ -67,9 +67,18 @@ namespace FitMeApp.Controllers
                     _logger.LogError("Failed attempt to add new anthropometric info to DB");
                 }
 
+                if (viewModel.CurrentCalorieIntake == 0)
+                {
+                    viewModel.CurrentCalorieIntake = _dietService.CalculatingCurrentDailyCalories(infoModel);
+                }
                 
+                int neededCalories = _dietService.CalculatingNeededDailyCalories(infoModel, viewModel.CurrentCalorieIntake, viewModel.Goal, out bool itIsMinAllowedCaloriesValue);
+                if (itIsMinAllowedCaloriesValue)
+                {
+                    //return warning about add activity
+                }
 
-
+                
             }
 
 

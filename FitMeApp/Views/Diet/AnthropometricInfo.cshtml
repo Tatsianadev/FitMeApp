@@ -107,7 +107,7 @@
                                         <select asp-for="Goal" class="form-select" aria-label="Default select example">
                                             @foreach (DietGoalsEnum goal in Enum.GetValues(typeof(DietGoalsEnum)))
                                             {
-                                                <option value="@goal.ToString()">@goal.GetDescription()</option>
+                                                <option value="@goal">@goal.GetDescription()</option>
                                             }
                                         </select>
                                         <span asp-validation-for="Goal"></span>
