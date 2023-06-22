@@ -13,7 +13,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string UserId { get; set; }
 
         [Required]
-        public string Gender { get; set; }
+        public GenderEnum Gender { get; set; }
 
         [Required]
         [Range(40, 220)]

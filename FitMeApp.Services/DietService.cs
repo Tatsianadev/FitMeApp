@@ -19,7 +19,7 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper();
         }
 
-      
+
 
 
         public int AddAnthropometricInfo(AnthropometricInfoModel infoModel)
@@ -37,15 +37,12 @@ namespace FitMeApp.Services
         }
 
 
-        public int CalculatingNeededDailyCalories(AnthropometricInfoModel infoModel, int currentCalories, DietGoalsEnum goal, out bool itIsMinAllowedValue)
+        public int CalculatingRequiredDailyCalories(AnthropometricInfoModel infoModel, int currentCalories, DietGoalsEnum goal, out bool itIsMinAllowedValue)
         {
-            //calc min allowed calorie
             int minAllowedCalories = MinAllowedCalories(infoModel);
-            //calc needed for goal
             double changeCaloriesRate = GetChangeCaloriesRate(goal);
             int neededCalories = (int)(currentCalories * changeCaloriesRate);
-            //compare with min
-            //set flag
+
             if (neededCalories < minAllowedCalories)
             {
                 neededCalories = minAllowedCalories;
@@ -55,12 +52,9 @@ namespace FitMeApp.Services
             {
                 itIsMinAllowedValue = false;
             }
-           
+
             return neededCalories;
         }
-
-
-
 
 
         private double GetPhysicalActivityRate(int physicalActivityLevel)
@@ -94,6 +88,71 @@ namespace FitMeApp.Services
         }
 
 
+        public IDictionary<NutrientsEnum, int> GetNutrientsRates(int calories, int height, GenderEnum gender, DietGoalsEnum goal)
+        {
+            int healthyWeight = CalculateHealthyWeight(height, gender);
+            double proteins;
+            double fats;
+
+            if (gender == GenderEnum.male)
+            {
+                if (goal == DietGoalsEnum.loseWeight)
+                {
+                    proteins = healthyWeight * 2;
+                    fats = healthyWeight * 0.7;
+                }
+                else if (goal == DietGoalsEnum.keepWeight)
+                {
+                    proteins = healthyWeight * 1.8;
+                    fats = healthyWeight * 0.8;
+                }
+                else if (goal == DietGoalsEnum.putWeightOn)
+                {
+                    proteins = healthyWeight * 1.8;
+                    fats = healthyWeight * 1;
+                }
+                else
+                {
+                    proteins = healthyWeight * 2.3;
+                    fats = healthyWeight * 0.8;
+                }
+            }
+            else
+            {
+                if (goal == DietGoalsEnum.loseWeight)
+                {
+                    proteins = healthyWeight * 1.8;
+                    fats = healthyWeight * 0.8;
+                }
+                else if (goal == DietGoalsEnum.keepWeight)
+                {
+                    proteins = healthyWeight * 1.7;
+                    fats = healthyWeight * 1;
+                }
+                else if (goal == DietGoalsEnum.putWeightOn)
+                {
+                    proteins = healthyWeight * 1.7;
+                    fats = healthyWeight * 1.2;
+                }
+                else
+                {
+                    proteins = healthyWeight * 2.2;
+                    fats = healthyWeight * 1.1;
+                }
+            }
+            double carbohydrates = (calories - (proteins * 4) - (fats * 9)) / 4;
+
+            var nutrientsRates = new Dictionary<NutrientsEnum, int>()
+            {
+                {NutrientsEnum.proteins,(int)proteins},
+                {NutrientsEnum.fats, (int)fats},
+                {NutrientsEnum.carbohydrates, (int)carbohydrates}
+            };
+
+            return nutrientsRates;
+        }
+
+
         private double GetChangeCaloriesRate(DietGoalsEnum goal)
         {
             var dietGoalRate = new Dictionary<int, double>()
@@ -106,6 +165,19 @@ namespace FitMeApp.Services
 
             return dietGoalRate[(int)goal];
         }
+
+
+        
+
+
+        private int CalculateHealthyWeight(int height, GenderEnum gender)
+        {
+            int weightPercent = (gender == GenderEnum.male) ? 21 : 23;
+            int healthyWeight = (int)(weightPercent * Math.Pow((double)height / 100, 2));
+            return healthyWeight;
+        }
+
+
 
     }
 }

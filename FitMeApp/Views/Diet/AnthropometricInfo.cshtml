@@ -59,9 +59,9 @@
                                     </td>
                                     <td class="anthropometric-form-col1">
                                         <select asp-for="Gender" class="form-select" aria-label="Default select example">
-                                            @foreach (var item in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
+                                            @foreach (var item in Enum.GetValues(typeof(GenderEnum)))
                                             {
-                                                <option value="@item.ToString()">@item.ToString()</option>
+                                                <option value="@item">@item.ToString()</option>
                                             }
                                         </select>
                                         <span asp-validation-for="Gender"></span>

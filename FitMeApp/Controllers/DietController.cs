@@ -53,7 +53,7 @@ namespace FitMeApp.Controllers
                 var infoModel = new AnthropometricInfoModel()
                 {
                     UserId = userId,
-                    Gender = viewModel.Gender,
+                    Gender = viewModel.Gender.ToString(),
                     Height = viewModel.Height,
                     Weight = viewModel.Weight,
                     Age = viewModel.Age,
@@ -72,13 +72,24 @@ namespace FitMeApp.Controllers
                     viewModel.CurrentCalorieIntake = _dietService.CalculatingCurrentDailyCalories(infoModel);
                 }
                 
-                int neededCalories = _dietService.CalculatingNeededDailyCalories(infoModel, viewModel.CurrentCalorieIntake, viewModel.Goal, out bool itIsMinAllowedCaloriesValue);
-                if (itIsMinAllowedCaloriesValue)
-                {
-                    //return warning about add activity
-                }
-
+                int requiredCalories = _dietService.CalculatingRequiredDailyCalories(infoModel, viewModel.CurrentCalorieIntake, viewModel.Goal, out bool itIsMinAllowedCaloriesValue);
+                IDictionary<NutrientsEnum, int> nutrientsRates = _dietService.GetNutrientsRates(requiredCalories, viewModel.Height, viewModel.Gender, viewModel.Goal);
                 
+                var dietModel = new DietModel()
+                {
+                    AnthropometricInfoId = infoModelId,
+                    CurrentCalorieIntake = viewModel.CurrentCalorieIntake,
+                    DietGoalId = (int)viewModel.Goal,
+                    RequiredCalorieIntake = requiredCalories,
+                    Proteins = nutrientsRates[NutrientsEnum.proteins],
+                    Fats = nutrientsRates[NutrientsEnum.fats],
+                    Carbohydrates = nutrientsRates[NutrientsEnum.carbohydrates]
+                };
+
+                //save dietModel to DB
+                //create diet viewModel
+                //return view (dietViewModel) new page
+
             }
 
 
