@@ -250,6 +250,10 @@ input[type="checkbox"].input-validation-error {
     color: #b94a48;
 }
 
+.border1 {
+    border: 1px solid darkgray;
+}
+
 
 
 

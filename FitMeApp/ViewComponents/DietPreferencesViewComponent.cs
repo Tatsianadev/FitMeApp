@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
+using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitMeApp.ViewComponents
@@ -22,7 +23,17 @@ namespace FitMeApp.ViewComponents
         {
             FileInfo file = new FileInfo(Resources.Resources.NutrientsTablePath);
             var nutrientsModel = await _fileService.ReadNutrientsFromExcelAsync(file);
-            return await Task.FromResult(View("DietPreferences"));
+
+            var dietPreferences = new DietPreferencesViewModel()
+            {
+                AllNutrients = nutrientsModel,
+                LovedNutrients = new NutrientsModel(),
+                UnlovedNutrients = new NutrientsModel(),
+                AllergicTo = new NutrientsModel(),
+                Budget = 0
+            };
+
+            return await Task.FromResult(View("DietPreferences", dietPreferences));
         }
 
     }
