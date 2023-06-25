@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using FitMeApp.Services.Contracts.Models.Chart;
 using System.Threading.Tasks;
+using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
@@ -29,9 +30,16 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
         {
-            List<AttendanceChartModel> output = await _excelReport.ReadFromExcelAsync(file);
+            List<AttendanceChartModel> output = await _excelReport.ReadAttendanceChartFromExcelAsync(file);
+            return output;
+        }
+
+
+        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
+        {
+            var output = await _excelReport.ReadNutrientsFromExcelAsync(file);
             return output;
         }
     }

@@ -26,7 +26,7 @@
                                     </td>
                                     <td class="anthropometric-form-col1">
                                         <input class="form-control" asp-for="Height" />
-                                        <span asp-validation-for="Height"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="Height"></span>
                                     </td>
                                     <td class="anthropometric-form-col2">sm</td>
                                 </tr>
@@ -37,7 +37,7 @@
                                     </td>
                                     <td class="anthropometric-form-col1">
                                         <input class="form-control" asp-for="Weight" />
-                                        <span asp-validation-for="Weight"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="Weight"></span>
                                     </td>
                                     <td class="anthropometric-form-col2">kg</td>
                                 </tr>
@@ -48,7 +48,7 @@
                                     </td>
                                     <td class="anthropometric-form-col1">
                                         <input class="form-control" asp-for="Age" />
-                                        <span asp-validation-for="Age"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="Age"></span>
                                     </td>
                                     <td class="anthropometric-form-col2">years</td>
                                 </tr>
@@ -64,7 +64,7 @@
                                                 <option value="@item">@item.ToString()</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="Gender"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="Gender"></span>
                                     </td>
                                     <td class="anthropometric-form-col2"></td>
                                 </tr>
@@ -78,9 +78,9 @@
                                     </td>
                                     <td class="anthropometric-form-col1">
                                         <input class="form-control" asp-for="CurrentCalorieIntake" />
-                                        <span asp-validation-for="CurrentCalorieIntake"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="CurrentCalorieIntake"></span>
                                     </td>
-                                    <td class="anthropometric-form-col2">kkal</td>
+                                    <td class="anthropometric-form-col2">kcal</td>
                                 </tr>
 
                                 <tr>
@@ -94,7 +94,7 @@
                                             <option value="@((int)level)">@((int)level)</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="PhysicalActivity"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="PhysicalActivity"></span>
                                     </td>
                                     <td class="anthropometric-form-col2"></td>
                                 </tr>
@@ -110,7 +110,7 @@
                                                 <option value="@goal">@goal.GetDescription()</option>
                                             }
                                         </select>
-                                        <span asp-validation-for="Goal"></span>
+                                        <span class="validation-summary-text-errors" asp-validation-for="Goal"></span>
                                     </td>
                                     <td class="anthropometric-form-col2"></td>
                                 </tr>

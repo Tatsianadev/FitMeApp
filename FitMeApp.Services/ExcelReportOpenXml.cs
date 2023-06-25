@@ -77,7 +77,7 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
         {
             List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))

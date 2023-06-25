@@ -245,6 +245,10 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle;
 }
 
+.validation-summary-text-errors {
+    font-size: x-small;
+    color: #b94a48;
+}
 
 
 

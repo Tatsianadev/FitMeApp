@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using FitMeApp.Services.Contracts.Models.Chart;
 using System.Threading.Tasks;
+using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
@@ -34,7 +36,7 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             List<AttendanceChartModel> attendanceChart = new List<AttendanceChartModel>();
@@ -90,6 +92,46 @@ namespace FitMeApp.Services
 
             return attendanceChart;
 
+        }
+
+
+
+        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var nutrientsModel = new NutrientsModel();
+            List<string>[] modelFieldsContainer = new List<string>[3];
+
+            if (file.Exists && file.Extension == ".xlsx")
+            {
+                using (var excelPack = new ExcelPackage(file))
+                {
+                    await excelPack.LoadAsync(file);
+                    int sheetsCount = excelPack.Workbook.Worksheets.Count;
+                    if (sheetsCount > 0)
+                    {
+                        for (int i = 0; i < sheetsCount; i++)
+                        {
+                            var workSheet = excelPack.Workbook.Worksheets[i];
+                            int row = 0;
+                            
+                            while (string.IsNullOrWhiteSpace(workSheet.Cells[row, 2].Value?.ToString()) == false)
+                            {
+                                modelFieldsContainer[i].Add(workSheet.Cells[row, 2].Value.ToString());
+                                row++;
+                            }
+
+                        }
+
+                        nutrientsModel.Proteins = modelFieldsContainer[0];
+                        nutrientsModel.Fats = modelFieldsContainer[1];
+                        nutrientsModel.Carbohydrates = modelFieldsContainer[2];
+                    }
+                }
+
+            }
+
+            return nutrientsModel;
         }
     }
 }
