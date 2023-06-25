@@ -140,6 +140,10 @@
   <data name="GymAccessGroupTrainingDietMonitoring" xml:space="preserve">
     <value>/Content/Subscriptions/gymGroupTrainingDietMonitoring.jpg</value>
   </data>
+  <data name="NutrientsTablePath" xml:space="preserve">
+    <value>wwwroot\\ExcelFiles\\Diet\\NutrientsList.xlsx</value>
+    <comment>Relative path to lists of nutients for DietPreferences view component</comment>
+  </data>
   <data name="RejectAppMessagePath" xml:space="preserve">
     <value>wwwroot\\TextFiles\\RejectApplicationMessage.txt</value>
     <comment>Relative path to "Reject application for Trainer" file (.txt)</comment>

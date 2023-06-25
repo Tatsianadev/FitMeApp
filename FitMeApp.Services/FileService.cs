@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
 using FitMeApp.Services.Contracts.Models.Chart;
 using Microsoft.AspNetCore.Http;
 
@@ -98,6 +99,13 @@ namespace FitMeApp.Services
             }
             
             _fileStorage.AddVisitingChartDataToDb(output);
+        }
+
+
+        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
+        {
+            var nutrients = await _reportService.ReadNutrientsFromExcelAsync(file);
+            return nutrients;
         }
 
 

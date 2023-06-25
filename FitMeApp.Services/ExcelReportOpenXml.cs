@@ -9,6 +9,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
 using FitMeApp.Services.Contracts.Models.Chart;
 using BottomBorder = DocumentFormat.OpenXml.Spreadsheet.BottomBorder;
 using Fill = DocumentFormat.OpenXml.Spreadsheet.Fill;
@@ -369,6 +370,15 @@ namespace FitMeApp.Services
                 );
             return cellFormats;
         }
+
+
+
+        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
+        {
+            //todo implement method
+            return new NutrientsModel();
+        }
+
 
 
         private Column GenerateColumnProperty()

@@ -31,7 +31,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            return View();
+            return View("DietPlan");
         }
 
 
@@ -138,6 +138,10 @@ namespace FitMeApp.Controllers
             needToAddActivity = itIsMinAllowedCaloriesValue;
             return dietModel;
         }
+
+
+
+
 
     }
 }

@@ -124,6 +124,15 @@ namespace FitMeApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to wwwroot\\ExcelFiles\\Diet\\NutrientsList.xlsx.
+        /// </summary>
+        internal static string NutrientsTablePath {
+            get {
+                return ResourceManager.GetString("NutrientsTablePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to wwwroot\\TextFiles\\RejectApplicationMessage.txt.
         /// </summary>
         internal static string RejectAppMessagePath {

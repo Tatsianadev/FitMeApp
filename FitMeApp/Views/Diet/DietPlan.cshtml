@@ -1,5 +1,6 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.DietViewModel
+﻿
+@model FitMeApp.WEB.Contracts.ViewModels.DietViewModel
 
 <div>
-    @Model.Goal.ToString();
+    @await Component.InvokeAsync("DietPreferences")
 </div>

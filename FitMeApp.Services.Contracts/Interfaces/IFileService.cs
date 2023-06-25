@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using FitMeApp.Common;
+using FitMeApp.Services.Contracts.Models;
 using FitMeApp.Services.Contracts.Models.Chart;
 using Microsoft.AspNetCore.Http;
 
@@ -18,6 +19,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
         void CopyFileToDirectory(string sourceFullPath, string destFullPath);
         Task WriteToExcelAsync(DataTable table, string fullPath);
         Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
+
+        Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
 
     }
 }
