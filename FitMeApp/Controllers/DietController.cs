@@ -82,6 +82,11 @@ namespace FitMeApp.Controllers
             return View();
         }
 
+        public IActionResult RefreshDietPreferences()
+        {
+            return ViewComponent("DietPreferences");
+        }
+
         [HttpPost]
         public IActionResult DietPlan(DietPreferencesViewModel viewModel)
         {

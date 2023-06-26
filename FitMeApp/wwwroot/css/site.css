@@ -259,6 +259,15 @@ input[type="checkbox"].input-validation-error {
     font-style: italic;
 }
 
+.backgraundSucced {
+    background-color: #e6ffe6;
+}
+
+.backgraundAlert {
+    background-color: #ffe6e6;
+}
+
+
 
 
 

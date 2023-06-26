@@ -1,6 +1,9 @@
 ﻿@model FitMeApp.WEB.Contracts.ViewModels.DietPreferencesViewModel
 
-<div class="container border1" style="margin: 15px">
+<div class="container border1" style="margin: 15px; padding: 15px">
+    <div style="text-align: center">
+        <h4>Diet preferences</h4>
+    </div>
     <form asp-action="DietPlan" asp-controller="Diet" method="post">
         <div class="row">
             <div style="margin: 10px 0 0 0">
@@ -11,7 +14,7 @@
             <div class="accordion" id="lovedNutrients">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <button class="accordion-button collapsed backgraundSucced" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             Proteins
                         </button>
                     </h2>
@@ -32,7 +35,7 @@
                                             {
                                                 var element = Model.AllNutrients.Proteins.ElementAt(row);
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="@Model.LovedNutrients.Proteins" value="@element" id="PL_@row">
+                                                    <input class="form-check-input" type="checkbox" name="LovedNutrients.Proteins" value="@element" id="PL_@row">
                                                     <label class="form-check-label" for="PL_@row">
                                                         @element
                                                     </label>
@@ -50,7 +53,7 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <button class="accordion-button collapsed backgraundSucced" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Fats
                         </button>
                     </h2>
@@ -71,7 +74,7 @@
                                             {
                                                 var element = Model.AllNutrients.Fats.ElementAt(row);
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="@Model.LovedNutrients.Fats" value="@element" id="FL_@row">
+                                                    <input class="form-check-input" type="checkbox" name="LovedNutrients.Fats" value="@element" id="FL_@row">
                                                     <label class="form-check-label" for="FL_@row">
                                                         @element
                                                     </label>
@@ -88,7 +91,7 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <button class="accordion-button collapsed backgraundSucced" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             Carbohydrates
                         </button>
                     </h2>
@@ -109,7 +112,7 @@
                                             {
                                                 var element = Model.AllNutrients.Carbohydrates.ElementAt(row);
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="@Model.LovedNutrients.Carbohydrates" value="@element" id="LC_@row">
+                                                    <input class="form-check-input" type="checkbox" name="LovedNutrients.Carbohydrates" value="@element" id="LC_@row">
                                                     <label class="form-check-label" for="LC_@row">
                                                         @element
                                                     </label>
@@ -130,144 +133,177 @@
         </div>
 
 
-    <div class="row">
-        <div style="margin: 10px 0 0 0">
-            <h5>
-                Unloved food
-            </h5>
-        </div>
-        <div class="accordion" id="UnlovedNutrients">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne_U" aria-expanded="true" aria-controls="collapseOne_U">
-                        Proteins
-                    </button>
-                </h2>
-                <div id="collapseOne_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        @{
-                            int allElements_PU = Model.AllNutrients.Proteins.Count;
-                            int rowsCount_PU = allElements_PU / 3;
-                            int indexFirstInColumn_PU = 0;
-                            int indexLastInColumn_PU = rowsCount_PU;
-                        }
-                        <div class="container">
-                            <div class="row">
-                                @for (int col = 0; col < 3; col++)
-                                {
-                                    <div class="col-md-4">
-                                        @for (int row = indexFirstInColumn_PU; row < indexLastInColumn_PU; row++)
-                                        {
-                                            var element = Model.AllNutrients.Proteins.ElementAt(row);
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="@Model.UnlovedNutrients.Proteins" value="@element" id="PU_@row">
-                                                <label class="form-check-label" for="PU_@row">
-                                                    @element
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    indexFirstInColumn_PU += rowsCount_PU;
-                                    indexLastInColumn_PU = (indexLastInColumn_PU + rowsCount_PU) > allElements_PU ? allElements_PU : (indexLastInColumn_PU + rowsCount_PU);
-                                }
+        <div class="row">
+            <div style="margin: 10px 0 0 0">
+                <h5>
+                    Unloved food
+                </h5>
+            </div>
+            <div class="accordion" id="UnlovedNutrients">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed backgraundAlert" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne_U" aria-expanded="true" aria-controls="collapseOne_U">
+                            Proteins
+                        </button>
+                    </h2>
+                    <div id="collapseOne_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            @{
+                                int allElements_PU = Model.AllNutrients.Proteins.Count;
+                                int rowsCount_PU = allElements_PU / 3;
+                                int indexFirstInColumn_PU = 0;
+                                int indexLastInColumn_PU = rowsCount_PU;
+                            }
+                            <div class="container">
+                                <div class="row">
+                                    @for (int col = 0; col < 3; col++)
+                                    {
+                                        <div class="col-md-4">
+                                            @for (int row = indexFirstInColumn_PU; row < indexLastInColumn_PU; row++)
+                                            {
+                                                var element = Model.AllNutrients.Proteins.ElementAt(row);
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="UnlovedNutrients.Proteins" value="@element" id="PU_@row">
+                                                    <label class="form-check-label" for="PU_@row">
+                                                        @element
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                        indexFirstInColumn_PU += rowsCount_PU;
+                                        indexLastInColumn_PU = (indexLastInColumn_PU + rowsCount_PU) > allElements_PU ? allElements_PU : (indexLastInColumn_PU + rowsCount_PU);
+                                    }
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo_U" aria-expanded="false" aria-controls="collapseTwo_U">
-                        Fats
-                    </button>
-                </h2>
-                <div id="collapseTwo_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        @{
-                            int allElements_FU = Model.AllNutrients.Fats.Count;
-                            int rowCount_FU = allElements_FU / 3;
-                            int indexFirstInColumn_FU = 0;
-                            int indexLastInColumn_FU = rowCount_FU;
-                        }
-                        <div class="container">
-                            <div class="row">
-                                @for (int col = 0; col < 3; col++)
-                                {
-                                    <div class="col-md-4">
-                                        @for (int row = indexFirstInColumn_FU; row < indexLastInColumn_FU; row++)
-                                        {
-                                            var element = Model.AllNutrients.Fats.ElementAt(row);
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="@Model.UnlovedNutrients.Fats" value="@element" id="FU_@row">
-                                                <label class="form-check-label" for="FU_@row">
-                                                    @element
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    indexFirstInColumn_FU += rowCount_FU;
-                                    indexLastInColumn_FU = (indexLastInColumn_FU + rowCount_FU) > allElements_FU ? allElements_FU : (indexLastInColumn_FU + rowCount_FU);
-                                }
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed backgraundAlert" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo_U" aria-expanded="false" aria-controls="collapseTwo_U">
+                            Fats
+                        </button>
+                    </h2>
+                    <div id="collapseTwo_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            @{
+                                int allElements_FU = Model.AllNutrients.Fats.Count;
+                                int rowCount_FU = allElements_FU / 3;
+                                int indexFirstInColumn_FU = 0;
+                                int indexLastInColumn_FU = rowCount_FU;
+                            }
+                            <div class="container">
+                                <div class="row">
+                                    @for (int col = 0; col < 3; col++)
+                                    {
+                                        <div class="col-md-4">
+                                            @for (int row = indexFirstInColumn_FU; row < indexLastInColumn_FU; row++)
+                                            {
+                                                var element = Model.AllNutrients.Fats.ElementAt(row);
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="UnlovedNutrients.Fats" value="@element" id="FU_@row">
+                                                    <label class="form-check-label" for="FU_@row">
+                                                        @element
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                        indexFirstInColumn_FU += rowCount_FU;
+                                        indexLastInColumn_FU = (indexLastInColumn_FU + rowCount_FU) > allElements_FU ? allElements_FU : (indexLastInColumn_FU + rowCount_FU);
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed backgraundAlert" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree_U" aria-expanded="false" aria-controls="collapseThree_U">
+                            Carbohydrates
+                        </button>
+                    </h2>
+                    <div id="collapseThree_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            @{
+                                int allElements_CU = Model.AllNutrients.Carbohydrates.Count;
+                                int rowCount_CU = allElements_CU / 3;
+                                int indexFirstInColumn_CU = 0;
+                                int indexLastInColumn_CU = rowCount_CU;
+                            }
+                            <div class="container">
+                                <div class="row">
+                                    @for (int col = 0; col < 3; col++)
+                                    {
+                                        <div class="col-md-4">
+                                            @for (int row = indexFirstInColumn_CU; row < indexLastInColumn_CU; row++)
+                                            {
+                                                var element = Model.AllNutrients.Carbohydrates.ElementAt(row);
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="UnlovedNutrients.Carbohydrates" value="@element" id="CU_@row">
+                                                    <label class="form-check-label" for="CU_@row">
+                                                        @element
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                        indexFirstInColumn_CU += rowCount_CU;
+                                        indexLastInColumn_CU = (indexLastInColumn_CU + rowCount_CU) > allElements_CU ? allElements_CU : (indexLastInColumn_CU + rowCount_CU);
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree_U" aria-expanded="false" aria-controls="collapseThree_U">
-                        Carbohydrates
-                    </button>
-                </h2>
-                <div id="collapseThree_U" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        @{
-                            int allElements_CU = Model.AllNutrients.Carbohydrates.Count;
-                            int rowCount_CU = allElements_CU / 3;
-                            int indexFirstInColumn_CU = 0;
-                            int indexLastInColumn_CU = rowCount_CU;
-                        }
-                        <div class="container">
-                            <div class="row">
-                                @for (int col = 0; col < 3; col++)
-                                {
-                                    <div class="col-md-4">
-                                        @for (int row = indexFirstInColumn_CU; row < indexLastInColumn_CU; row++)
-                                        {
-                                            var element = Model.AllNutrients.Carbohydrates.ElementAt(row);
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="@Model.UnlovedNutrients.Carbohydrates" value="@element" id="CU_@row">
-                                                <label class="form-check-label" for="CU_@row">
-                                                    @element
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    indexFirstInColumn_CU += rowCount_CU;
-                                    indexLastInColumn_CU = (indexLastInColumn_CU + rowCount_CU) > allElements_CU ? allElements_CU : (indexLastInColumn_CU + rowCount_CU);
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-    
-    
-    <div class="row">
-        <div style="margin: 10px 0 0 0">
-            <h5>
-                Allergic to
-            </h5>
-        </div>
-        <div class="mb-3">
-            <div class="comment">*List the foods you are allergic to, separated by commas.</div>
-            <textarea class="form-control" placeholder="Firs, second, third..." id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-    </div>
 
+
+        <div class="row">
+            <div style="margin: 10px 0 0 0">
+                <h5>
+                    Allergic to
+                </h5>
+            </div>
+            <div class="mb-3">
+                <div class="comment">*List the foods you are allergic to, separated by commas.</div>
+                <textarea class="form-control" placeholder="Firs, second, third..." asp-for="AllergicTo" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="margin: 10px 0 0 0">
+                <h5>
+                    Budget limit ($/month)
+                </h5>
+                <select class="form-select" asp-for="Budget" aria-label="Default select example">
+                    @for (int i = 200; i < 1050; i += 50)
+                    {
+                        <option value="@i">@i $</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br />
+        <div style="text-align: center; width: 100%">
+            <input type="submit" value="Get diet plan" class="btn btn-dark" />
+            <button class="btn btn-outline-dark" id="refresh">Clean form</button>
+        </div>
     </form>
 
 </div>
+
+@*<script>
+    document.getElementById("refresh").addEventListener('click',
+        function refreshViewComponent() {
+            $.ajax({
+                url: '/DietPreferencesViewComponent',
+                type: 'GET',
+                success: function(result) {
+                    $('#dietPreferences').html(result);
+                }
+            });
+        });
+
+ 
+</script>*@

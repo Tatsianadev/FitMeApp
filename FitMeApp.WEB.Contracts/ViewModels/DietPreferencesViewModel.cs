@@ -10,7 +10,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public NutrientsModel AllNutrients { get; set; }
         public NutrientsModel LovedNutrients { get; set; }
         public NutrientsModel UnlovedNutrients { get; set; }
-        public List<string> AllergicTo { get; set; }
+        public string AllergicTo { get; set; }
         public int Budget { get; set; }
     }
 }
