@@ -254,6 +254,11 @@ input[type="checkbox"].input-validation-error {
     border: 1px solid darkgray;
 }
 
+.comment {
+    font-size: x-small;
+    font-style: italic;
+}
+
 
 
 

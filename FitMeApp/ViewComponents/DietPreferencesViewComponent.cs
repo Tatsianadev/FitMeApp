@@ -29,7 +29,7 @@ namespace FitMeApp.ViewComponents
                 AllNutrients = nutrientsModel,
                 LovedNutrients = new NutrientsModel(),
                 UnlovedNutrients = new NutrientsModel(),
-                AllergicTo = new NutrientsModel(),
+                AllergicTo = new List<string>(),
                 Budget = 0
             };
 
