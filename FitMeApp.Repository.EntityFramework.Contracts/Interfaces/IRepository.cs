@@ -151,7 +151,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
 
         //Diet
         int AddAnthropometricInfo(AnthropometricInfoEntityBase info);
-        int AddDiet(DietEntityBase diet);
+        int AddDiet(DietEntityBase diet, string userId);
 
 
 

@@ -138,7 +138,8 @@ namespace FitMeApp.Controllers
                 Carbohydrates = nutrientsRates[NutrientsEnum.carbohydrates]
             };
 
-            int dietId = _dietService.AddDiet(dietModel);
+            string userId = _userManager.GetUserId(User);
+            int dietId = _dietService.AddDiet(dietModel, userId);
             if (dietId == 0)
             {
                 _logger.LogError("Failed attempt to add new diet info to DB");

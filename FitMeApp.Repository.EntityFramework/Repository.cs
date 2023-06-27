@@ -333,7 +333,7 @@ namespace FitMeApp.Repository.EntityFramework
             var groupClassScheduleRecord = _context.GroupTrainingsSchedule
                 .FirstOrDefault(x => x.TrainingTrainerId == trainerTrainingId && x.Date == date && x.StartTime == startTime);
 
-            return groupClassScheduleRecord != null? groupClassScheduleRecord.Id: 0;
+            return groupClassScheduleRecord != null ? groupClassScheduleRecord.Id : 0;
         }
 
 
@@ -799,7 +799,7 @@ namespace FitMeApp.Repository.EntityFramework
         public void DeleteParticipant(string userId, int groupClassScheduleRecordId)
         {
             var participant = _context.GroupTrainingsParticipants.FirstOrDefault(x =>
-                x.UserId == userId && 
+                x.UserId == userId &&
                 x.GroupTrainingsScheduleId == groupClassScheduleRecordId);
 
             if (participant != null)
@@ -1480,20 +1480,20 @@ namespace FitMeApp.Repository.EntityFramework
             int gymId, DateTime dataToCheck)
         {
             var validSubscriptions = (from userSubscr in _context.UserSubscriptions
-                    join gymSubscr in _context.GymSubscriptions
-                        on userSubscr.GymSubscriptionId equals gymSubscr.Id
-                    where userSubscr.UserId == userId
-                    where gymSubscr.GymId == gymId
-                    where userSubscr.StartDate <= dataToCheck
-                    where userSubscr.EndDate >= dataToCheck
-                    select new UserSubscriptionEntityBase()
-                    {
-                        Id = userSubscr.Id,
-                        UserId = userSubscr.UserId,
-                        GymSubscriptionId = userSubscr.GymSubscriptionId,
-                        StartDate = userSubscr.StartDate,
-                        EndDate = userSubscr.EndDate
-                    })
+                                      join gymSubscr in _context.GymSubscriptions
+                                          on userSubscr.GymSubscriptionId equals gymSubscr.Id
+                                      where userSubscr.UserId == userId
+                                      where gymSubscr.GymId == gymId
+                                      where userSubscr.StartDate <= dataToCheck
+                                      where userSubscr.EndDate >= dataToCheck
+                                      select new UserSubscriptionEntityBase()
+                                      {
+                                          Id = userSubscr.Id,
+                                          UserId = userSubscr.UserId,
+                                          GymSubscriptionId = userSubscr.GymSubscriptionId,
+                                          StartDate = userSubscr.StartDate,
+                                          EndDate = userSubscr.EndDate
+                                      })
                 .ToList();
 
             return validSubscriptions;
@@ -2108,8 +2108,10 @@ namespace FitMeApp.Repository.EntityFramework
             return infoEntity.Id;
         }
 
-        public int AddDiet(DietEntityBase diet)
+        public int AddDiet(DietEntityBase diet, string userId)
         {
+            DeleteDietByUser(userId);
+
             DietEntity dietEntity = new DietEntity()
             {
                 AnthropometricInfoId = diet.AnthropometricInfoId,
@@ -2125,6 +2127,26 @@ namespace FitMeApp.Repository.EntityFramework
             _context.SaveChanges();
 
             return dietEntity.Id;
+        }
+
+
+        private void DeleteDietByUser(string userId)
+        {
+            var diets = (from anthropometricInfo in _context.AnthropometricInfo
+                         join diet in _context.Diets
+                             on anthropometricInfo.Id equals diet.AnthropometricInfoId
+                         where anthropometricInfo.UserId == userId
+                         select diet).ToList();
+
+            if (diets.Any())
+            {
+                foreach (var diet in diets)
+                {
+                    _context.Remove(diet);
+                }
+
+                _context.SaveChanges();
+            }
         }
     }
 }

@@ -30,10 +30,10 @@ namespace FitMeApp.Services
         }
 
 
-        public int AddDiet(DietModel dietModel)
+        public int AddDiet(DietModel dietModel, string userId)
         {
             var dietEntityBase = _mapper.MapDietModelToEntityBase(dietModel);
-            int dietId = _repository.AddDiet(dietEntityBase);
+            int dietId = _repository.AddDiet(dietEntityBase, userId);
             return dietId;
         }
 
