@@ -287,23 +287,27 @@
         <br />
         <div style="text-align: center; width: 100%">
             <input type="submit" value="Get diet plan" class="btn btn-dark" />
-            <button class="btn btn-outline-dark" id="refresh">Clean form</button>
         </div>
     </form>
-
+    <hr />
+    <div style="width: 100%; text-align: right; padding: 5px 10px">
+        <button class="btn btn-sm btn-outline-dark" id="refresh">Clean form</button>
+    </div>
 </div>
 
-@*<script>
+<script>
     document.getElementById("refresh").addEventListener('click',
         function refreshViewComponent() {
             $.ajax({
-                url: '/DietPreferencesViewComponent',
+                url: 'RefreshDietPreferences',
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#dietPreferences').html(result);
                 }
             });
-        });
+        });
 
- 
-</script>*@
+
+
+
+</script>
