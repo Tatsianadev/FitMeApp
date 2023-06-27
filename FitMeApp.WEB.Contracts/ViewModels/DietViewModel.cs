@@ -10,7 +10,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int Id { get; set; }
         public int CurrentCalorieIntake { get; set; }
         public DietGoalsEnum Goal { get; set; }
-        public DietGoalsEnum DietGoal { get; set; }
         public int RequiredCalorieIntake { get; set; }
         public bool ItIsMinAllowedCaloriesValue { get; set; }
         public int Proteins { get; set; }

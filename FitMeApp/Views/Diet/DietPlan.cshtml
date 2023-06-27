@@ -5,11 +5,63 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            @DateTime.Now
+            <div class="container border1" style="margin: 15px; padding: 15px">
+                <div style="text-align: center">
+                    <h4>Diet parameters</h4>
+                </div>
+                <div>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>Current intake:</td>
+                                <td>@Model.CurrentCalorieIntake</td>
+                                <td>kcal</td>
+                            </tr>
+                        <tr>
+                            <td>Goal:</td>
+                            <td>@Model.Goal</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            <tr style="font-weight: bold">
+                                <td>Required intake:</td>
+                                <td>@Model.RequiredCalorieIntake</td>
+                                <td>kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Proteins:</td>
+                                <td>@Model.Proteins</td>
+                                <td>gr</td>
+                            </tr>
+                            <tr>
+                                <td>Fats:</td>
+                                <td>@Model.Fats</td>
+                                <td>gr</td>
+                            </tr>
+                            <tr>
+                                <td>Carbohydrates:</td>
+                                <td>@Model.Carbohydrates</td>
+                                <td>gr</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @if (@Model.ItIsMinAllowedCaloriesValue)
+                    {
+                        <div class="validation-summary-text-errors">
+                            Your current calorie intake is too low.
+                            You must add physical activity to your lifestyle in order to stay healthy and achieve your goal.
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
         <div class="col-md-8" id="dietPreferences">
             @await Component.InvokeAsync("DietPreferences")
         </div>
     </div>
-   
+
 </div>

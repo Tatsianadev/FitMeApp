@@ -31,7 +31,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            return View("DietPlan");
+            return View();
         }
 
 
@@ -72,14 +72,13 @@ namespace FitMeApp.Controllers
                 return View("DietPlan", dietViewModel);
             }
 
-
             return View(viewModel);
         }
 
 
-        public IActionResult DietPlan()
+        public IActionResult DietPlan(DietViewModel viewModel)
         {
-            return View();
+            return View(viewModel);
         }
 
         public IActionResult RefreshDietPreferences()
