@@ -92,16 +92,7 @@ namespace FitMeApp.Controllers
             if (ModelState.IsValid)
             {
                 var userId = _userManager.GetUserId(User);
-                var allergicTo = new List<string>();
-
-                if (!string.IsNullOrWhiteSpace(viewModel.AllergicTo))
-                {
-                    string[] foodItems = viewModel.AllergicTo.Split(',');
-                    foreach (var item in foodItems)
-                    {
-                        allergicTo.Add(item);
-                    }
-                }
+                var allergicTo = SplitText(viewModel.AllergicTo, ',');
 
                 var dietPreferencesModel = new DietPreferencesModel()
                 {
@@ -128,6 +119,34 @@ namespace FitMeApp.Controllers
             }
 
             return View();
+        }
+
+
+        private List<string> SplitText(string text, char signToSplit)
+        {
+            var words = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                string[] foodItems = text.ToLower().Split(signToSplit);
+                foreach (var item in foodItems)
+                {
+                    char[] allDigits = Enumerable.Range('a', 'z' - 'a' + 1).Select(x => (char) x).ToArray();
+
+                    if (item.StartsWith(' '))
+                    {
+                        int indexFirstDigit = item.IndexOfAny(allDigits);
+                        string updatedItem = item.Remove(0, indexFirstDigit);
+                        words.Add(updatedItem);
+                    }
+                    else
+                    {
+                        words.Add(item);
+                    }
+                }
+            }
+
+            return words;
         }
 
 

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
@@ -15,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
+    <ProjectReference Include="..\FitMeApp.Services.Contracts\FitMeApp.Services.Contracts.csproj" />
+    <ProjectReference Include="..\FitMeApp\FitMeApp.csproj" />
   </ItemGroup>
 
 </Project>
