@@ -89,6 +89,44 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult DietPlan(DietPreferencesViewModel viewModel)
         {
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var allergicTo = new List<string>();
+
+                if (!string.IsNullOrWhiteSpace(viewModel.AllergicTo))
+                {
+                    string[] foodItems = viewModel.AllergicTo.Split(',');
+                    foreach (var item in foodItems)
+                    {
+                        allergicTo.Add(item);
+                    }
+                }
+
+                var dietPreferencesModel = new DietPreferencesModel()
+                {
+                    UserId = userId,
+                    LovedNutrients = viewModel.LovedNutrients == null? new NutrientsModel() : viewModel.LovedNutrients,
+                    UnlovedNutrients = viewModel.UnlovedNutrients == null? new NutrientsModel() : viewModel.UnlovedNutrients,
+                    AllergicTo = allergicTo,
+                    Budget = viewModel.Budget
+                };
+
+                bool success = _dietService.CreateDietPlan(dietPreferencesModel);
+                if (success)
+                {
+                    //return view success
+                }
+                else
+                {
+                    string message =
+                        "Unsuccessful attempt to create your Diet plan. " +
+                        "Your anthropometric data have been saved in your Profile. " +
+                        "Try to finish creating the diet plan later in your Profile, please.";
+                    return View("CustomError", message);
+                }
+            }
+
             return View();
         }
 

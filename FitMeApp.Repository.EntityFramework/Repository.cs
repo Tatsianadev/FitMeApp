@@ -2110,7 +2110,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public int AddDiet(DietEntityBase diet, string userId)
         {
-            DeleteDietByUser(userId);
+            DeleteDietIfExists(userId);
 
             DietEntity dietEntity = new DietEntity()
             {
@@ -2130,7 +2130,28 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        private void DeleteDietByUser(string userId)
+        public AnthropometricInfoEntityBase GetAnthropometricInfo(string userId)
+        {
+            var anthropometricInfoEntity = _context.AnthropometricInfo
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .OrderBy(x => x.Date)
+                .Last();
+
+            return anthropometricInfoEntity;
+        }
+
+
+        public DietEntityBase GetDietEntityBase(int anthropometricInfoId)
+        {
+            var dietEntity = _context.Diets.FirstOrDefault(x => x.AnthropometricInfoId == anthropometricInfoId);
+            return dietEntity;
+        }
+
+
+
+
+        private void DeleteDietIfExists(string userId)
         {
             var diets = (from anthropometricInfo in _context.AnthropometricInfo
                          join diet in _context.Diets

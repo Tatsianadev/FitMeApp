@@ -132,6 +132,24 @@ namespace FitMeApp.Services
         }
 
 
+        public bool CreateDietPlan(DietPreferencesModel model)
+        {
+            var anthropometricInfo = _repository.GetAnthropometricInfo(model.UserId);
+            if (anthropometricInfo != null)
+            {
+                var diet = _repository.GetDietEntityBase(anthropometricInfo.Id);
+                if (diet != null)
+                {
+                    //DietPreferences, AnthropometricInfo, Diet are passed as parameters to the dietician-nutritionist additional service.
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
         private double GetPhysicalActivityRate(int physicalActivityLevel)
         {
             var activityLevelRate = new Dictionary<int, double>()
