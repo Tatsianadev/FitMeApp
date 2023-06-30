@@ -25,22 +25,23 @@ namespace FitMeApp.Tests
             var testData = new Dictionary<string, List<string>>()
             {
                 {"methods, properties, events, indexers", new List<string>(){"methods", "properties", "events", "indexers"}},
-                //{"methods, properties, events, indexers,", new List<string>(){"methods", "properties",  "events", "indexers"}},
-                //{"methods properties events indexers", new List<string>(){"methods properties events indexers"}},
-                //{",,,", new List<string>()},
-                //{"", new List<string>()},
-                //{"1,2,3,4", new List<string>(){"1", "2", "3","4"}}
+                {"methods, properties, events, indexers,", new List<string>(){"methods", "properties",  "events", "indexers"}},
+                {"methods properties events indexers", new List<string>(){"methods properties events indexers"}},
+                {"methods,     properties, events,   indexers,   ", new List<string>(){"methods", "properties",  "events", "indexers"}},
+                {",,,", new List<string>()},
+                {"", new List<string>()},
+                {"1,2,3,4", new List<string>(){"1", "2", "3","4"}}
             };
 
-            var store = new Mock<IUserStore<User>>();
-            store.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
+            var userStore = new Mock<IUserStore<User>>();
+            userStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
                 .ReturnsAsync(new User()
                 {
                     Id = "123testUser",
                     FirstName = "TestUser"
                 });
 
-            var userManager = new UserManager<User>(store.Object, null, null, null, null, null, null, null, null);
+            var userManager = new UserManager<User>(userStore.Object, null, null, null, null, null, null, null, null);
             var dietServiceMock = new Mock<IDietService>();
             var loggerMock = new Mock<ILogger<DietController>>();
 

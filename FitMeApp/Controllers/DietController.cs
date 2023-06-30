@@ -31,7 +31,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            return View();
+            //return View();
+            return RedirectToAction("DietPlanComplete");
         }
 
 
@@ -106,7 +107,7 @@ namespace FitMeApp.Controllers
                 bool success = _dietService.CreateDietPlan(dietPreferencesModel);
                 if (success)
                 {
-                    //return view success
+                    return RedirectToAction("DietPlanComplete");
                 }
                 else
                 {
@@ -121,6 +122,18 @@ namespace FitMeApp.Controllers
             return View();
         }
 
+        
+        public IActionResult DietPlanComplete()
+        {
+            return View();
+        }
+
+
+        public IActionResult DownloadDietPDF()
+        {
+            return View();
+        }
+
 
         private List<string> SplitText(string text, char signToSplit)
         {
@@ -129,9 +142,13 @@ namespace FitMeApp.Controllers
             if (!string.IsNullOrWhiteSpace(text))
             {
                 string[] foodItems = text.ToLower().Split(signToSplit);
+                char[] allDigits = Enumerable.Range('a', 'z' - 'a' + 1).Select(x => (char)x).ToArray();
                 foreach (var item in foodItems)
                 {
-                    char[] allDigits = Enumerable.Range('a', 'z' - 'a' + 1).Select(x => (char) x).ToArray();
+                    if (string.IsNullOrWhiteSpace(item))
+                    {
+                        continue;
+                    }
 
                     if (item.StartsWith(' '))
                     {
