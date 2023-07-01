@@ -15,5 +15,9 @@ namespace FitMeApp.Services.Contracts.Interfaces
         Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file);
 
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
+
+        //Pdf
+        void CreateDietPlanPdf(DietPdfReportModel dietPlan);
+
     }
 }

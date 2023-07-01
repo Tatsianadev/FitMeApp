@@ -14,10 +14,12 @@ namespace FitMeApp.Services
     public sealed class ReportService: IReportService
     {
         private readonly IExcelReport _excelReport;
+        private readonly IPdfReport _pdfReport;
 
-        public ReportService(IExcelReport excelReport)
+        public ReportService(IExcelReport excelReport, IPdfReport pdfReport)
         {
             _excelReport = excelReport;
+            _pdfReport = pdfReport;
         }
 
 
@@ -41,6 +43,12 @@ namespace FitMeApp.Services
         {
             var output = await _excelReport.ReadNutrientsFromExcelAsync(file);
             return output;
+        }
+
+
+        public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
+        {
+            _pdfReport.CreateDietPlanPdf(dietPlan);
         }
     }
 }

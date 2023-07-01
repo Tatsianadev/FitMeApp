@@ -109,6 +109,12 @@ namespace FitMeApp.Services
         }
 
 
+        public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
+        {
+            _reportService.CreateDietPlanPdf(dietPlan);
+        }
+
+
         private async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(string fullPath)  //AttendanceChartModel only
         {
             FileInfo file = new FileInfo(fullPath);

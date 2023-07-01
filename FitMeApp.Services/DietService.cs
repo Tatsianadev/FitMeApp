@@ -13,9 +13,12 @@ namespace FitMeApp.Services
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
-        public DietService(IRepository repository)
+        private readonly IFileService _fileService;
+
+        public DietService(IRepository repository, IFileService fileService)
         {
             _repository = repository;
+            _fileService = fileService;
             _mapper = new EntityModelMapper();
         }
 
@@ -141,11 +144,38 @@ namespace FitMeApp.Services
                 if (diet != null)
                 {
                     //DietPreferences, AnthropometricInfo, Diet are passed as parameters to the dietician-nutritionist additional service.
+                    //for educational purposes, simply available dietary information
+                    var dietReportModel = new DietPdfReportModel()
+                    {
+                        UserFirstName = model.UserFirstName,
+                        UserLastName = model.UserLastName,
+                        Gender = anthropometricInfo.Gender,
+                        Height = anthropometricInfo.Height,
+                        Weight = anthropometricInfo.Weight,
+                        Age = anthropometricInfo.Age,
+                        PhysicalActivity = anthropometricInfo.PhysicalActivity,
+                        CurrentCalorieIntake = diet.CurrentCalorieIntake,
+                        DietGoalId = diet.DietGoalId,
+                        RequiredCalorieIntake = diet.RequiredCalorieIntake,
+                        Proteins = diet.Proteins,
+                        Fats = diet.Fats,
+                        Carbohydrates = diet.Carbohydrates,
+                        Budget = model.Budget,
+                        DietPlanCreatedDate = DateTime.Now
+                    };
+
+                    _fileService.CreateDietPlanPdf(dietReportModel);
                     return true;
                 }
             }
 
             return false;
+        }
+
+
+        private void CreatePdfDietReport(DietPdfReportModel model)
+        {
+            _fileService.CreateDietPlanPdf(model);
         }
 
 

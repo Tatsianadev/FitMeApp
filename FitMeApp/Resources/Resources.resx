@@ -128,6 +128,9 @@
   <data name="DefaultAvatarPath" xml:space="preserve">
     <value>/Content/images/defaultAvatar.jpg</value>
   </data>
+  <data name="DietReportImagePath" xml:space="preserve">
+    <value>wwwroot\\Content\\images\\healthyFood2.jpg</value>
+  </data>
   <data name="GymAccess" xml:space="preserve">
     <value>/Content/Subscriptions/gym.jpg</value>
   </data>

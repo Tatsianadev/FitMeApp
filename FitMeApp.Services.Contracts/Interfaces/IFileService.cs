@@ -21,6 +21,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
 
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
+        void CreateDietPlanPdf(DietPdfReportModel dietPlan);
 
     }
 }

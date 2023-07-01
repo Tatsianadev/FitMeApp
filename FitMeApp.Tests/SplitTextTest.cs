@@ -43,9 +43,10 @@ namespace FitMeApp.Tests
 
             var userManager = new UserManager<User>(userStore.Object, null, null, null, null, null, null, null, null);
             var dietServiceMock = new Mock<IDietService>();
+            var fileServiceMock = new Mock<IFileService>();
             var loggerMock = new Mock<ILogger<DietController>>();
 
-            var dietController = new DietController(dietServiceMock.Object, userManager, loggerMock.Object);
+            var dietController = new DietController(dietServiceMock.Object, fileServiceMock.Object, userManager, loggerMock.Object);
             var splitTextMethod =
                 typeof(DietController).GetMethod("SplitText", BindingFlags.NonPublic | BindingFlags.Instance);
 

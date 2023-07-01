@@ -88,6 +88,15 @@ namespace FitMeApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to wwwroot\\Content\\images\\healthyFood2.jpg.
+        /// </summary>
+        internal static string DietReportImagePath {
+            get {
+                return ResourceManager.GetString("DietReportImagePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /Content/Subscriptions/gym.jpg.
         /// </summary>
         internal static string GymAccess {

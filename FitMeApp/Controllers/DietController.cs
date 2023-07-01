@@ -17,12 +17,14 @@ namespace FitMeApp.Controllers
     public class DietController : Controller
     {
         private readonly IDietService _dietService;
+        private readonly IFileService _fileService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
 
-        public DietController(IDietService dietService, UserManager<User> userManager, ILogger<DietController> logger)
+        public DietController(IDietService dietService, IFileService fileService, UserManager<User> userManager, ILogger<DietController> logger)
         {
             _dietService = dietService;
+            _fileService = fileService;
             _userManager = userManager;
             _logger = logger;
         }
@@ -32,6 +34,11 @@ namespace FitMeApp.Controllers
         public IActionResult WelcomeToDietPlan()
         {
             //return View();
+            _fileService.CreateDietPlanPdf(new DietPdfReportModel()
+            {
+                UserFirstName = "UserName",
+                UserLastName = "UserSurname"
+            });
             return RedirectToAction("DietPlanComplete");
         }
 
@@ -88,16 +95,18 @@ namespace FitMeApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult DietPlan(DietPreferencesViewModel viewModel)
+        public async Task<IActionResult> DietPlan(DietPreferencesViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var userId = _userManager.GetUserId(User);
+                var user = await _userManager.GetUserAsync(User);
                 var allergicTo = SplitText(viewModel.AllergicTo, ',');
 
                 var dietPreferencesModel = new DietPreferencesModel()
                 {
-                    UserId = userId,
+                    UserId = user.Id,
+                    UserFirstName = user.FirstName,
+                    UserLastName = user.LastName,
                     LovedNutrients = viewModel.LovedNutrients == null? new NutrientsModel() : viewModel.LovedNutrients,
                     UnlovedNutrients = viewModel.UnlovedNutrients == null? new NutrientsModel() : viewModel.UnlovedNutrients,
                     AllergicTo = allergicTo,
@@ -131,6 +140,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult DownloadDietPDF()
         {
+
             return View();
         }
 

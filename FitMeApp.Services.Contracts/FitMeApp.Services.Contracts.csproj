@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FitMeApp.Common\FitMeApp.Common.csproj" />
     <ProjectReference Include="..\FitMeApp.Repository.EntityFramework.Contracts\FitMeApp.Repository.EntityFramework.Contracts.csproj" />
   </ItemGroup>
