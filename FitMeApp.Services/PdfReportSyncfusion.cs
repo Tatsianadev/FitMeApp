@@ -22,7 +22,7 @@ namespace FitMeApp.Services
             Page page = document.Pages.Add();
 
             //Add image
-            var imagePath = "wwwroot\\Content\\images\\healthyFood2.jpg";
+            var imagePath = @"wwwroot\Content\images\healthyFood2.jpg";
             page.AddImage(imagePath, new Aspose.Pdf.Rectangle(200,630,400,830));
 
             //Add header
@@ -36,13 +36,14 @@ namespace FitMeApp.Services
             //Add table
             var table = new Table
             {
-                ColumnWidths = "200",
+                ColumnWidths = "50 100 250",
                 Border = new BorderInfo(BorderSide.Box, 1f, Color.DarkSlateGray),
                 DefaultCellBorder = new BorderInfo(BorderSide.Box, 0.5f, Color.Black),
                 DefaultCellPadding = new MarginInfo(4.5, 4.5, 4.5, 4.5),
                 Margin =
                 {
-                    Bottom = 10
+                    Bottom = 10,
+                    Top = 10
                 },
                 DefaultCellTextState =
                 {
@@ -50,11 +51,15 @@ namespace FitMeApp.Services
                 }
             };
 
+            
+
             var dataRow = table.Rows.Add();
+            dataRow.Cells.Add("1");
             dataRow.Cells.Add("User name");
             dataRow.Cells.Add(dietPlan.UserFirstName);
 
             var dataRow2 = table.Rows.Add();
+            dataRow2.Cells.Add("2");
             dataRow2.Cells.Add("Last name");
             dataRow2.Cells.Add(dietPlan.UserLastName);
 
