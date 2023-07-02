@@ -156,6 +156,7 @@ namespace FitMeApp.Services
                         PhysicalActivity = anthropometricInfo.PhysicalActivity,
                         CurrentCalorieIntake = diet.CurrentCalorieIntake,
                         DietGoalId = diet.DietGoalId,
+                        AnthropometricInfoDate = anthropometricInfo.Date,
                         RequiredCalorieIntake = diet.RequiredCalorieIntake,
                         Proteins = diet.Proteins,
                         Fats = diet.Fats,

@@ -16,7 +16,7 @@ namespace FitMeApp.Services
     {
         public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
         {
-            string filePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan.pdf";
+            string filePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + dietPlan.UserFirstName + "_" + dietPlan.UserLastName + ".pdf";
             Document document = new Document();
             Page page = document.Pages.Add();
 
@@ -51,7 +51,7 @@ namespace FitMeApp.Services
             };
 
             var content = CreateDietTableContent(dietPlan);
-            table = AddRow(table, content);
+            table = FillTable(table, content);
 
             page.Paragraphs.Add(table);
             document.Save(filePath);
@@ -69,17 +69,18 @@ namespace FitMeApp.Services
                 new List<string>() {"2", "Surname", dietPlan.UserLastName},
                 new List<string>() {"3", "Age", dietPlan.Age.ToString()},
                 new List<string>() {"4", "Gender", dietPlan.Gender},
-                new List<string>() {"5", "Height", dietPlan.Height.ToString()},
-                new List<string>() {"6", "Weight", dietPlan.Weight.ToString()},
+                new List<string>() {"5", "Height, sm", dietPlan.Height.ToString()},
+                new List<string>() {"6", "Weight, sm", dietPlan.Weight.ToString()},
                 new List<string>() {"7", "Activity level", activity.ToString()},
                 new List<string>() {"8", "Current intake, kcal", dietPlan.CurrentCalorieIntake.ToString()},
                 new List<string>() {"9", "Diet goal", dietGoal.ToString()},
                 new List<string>() {"10", "Date", dietPlan.AnthropometricInfoDate.ToString("yy-MM-dd")},
+                new List<string>() {"", "", ""},
                 new List<string>() {"11", "Required intake, kcal", dietPlan.RequiredCalorieIntake.ToString()},
                 new List<string>() {"12", "Proteins, gr", dietPlan.Proteins.ToString()},
                 new List<string>() {"13", "Fats, gr", dietPlan.Fats.ToString()},
                 new List<string>() {"14", "Carbohydrates, gr", dietPlan.Carbohydrates.ToString()},
-                new List<string>() {"15", "Budget, $", dietPlan.Carbohydrates.ToString()},
+                new List<string>() {"15", "Budget, $", dietPlan.Budget.ToString()},
                 new List<string>() {"16", "Diet created date", dietPlan.DietPlanCreatedDate.ToString("yy-MM-dd")}
             };
 
@@ -88,7 +89,7 @@ namespace FitMeApp.Services
 
 
 
-        private Table AddRow(Table table, List<List<string>> content)
+        private Table FillTable(Table table, List<List<string>> content)
         {
             foreach (var rowContent in content)
             {

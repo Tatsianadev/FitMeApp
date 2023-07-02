@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@model string
+
+<div class="container">
     <div class="row" style="margin: 30px 0">
         <div style="text-align: center">
             <h3> Diet plan has been created!</h3>
@@ -11,7 +13,7 @@
     </div>
     <div class="row">
         <div style="text-align: center">
-            <a asp-controller="Diet" asp-action="DownloadDietPDF" class="btn btn-primary">Download plan</a>
+            <a href="@Model" download="DietPlan" class="btn btn-primary">Download plan</a>
         </div>
     </div>
     <div class="row" style="margin: 60px 0 0 0">

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.EMMA;
@@ -33,13 +34,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            //return View();
-            _fileService.CreateDietPlanPdf(new DietPdfReportModel()
-            {
-                UserFirstName = "UserName",
-                UserLastName = "UserSurname"
-            });
-            return RedirectToAction("DietPlanComplete");
+            return View();
         }
 
 
@@ -116,7 +111,14 @@ namespace FitMeApp.Controllers
                 bool success = _dietService.CreateDietPlan(dietPreferencesModel);
                 if (success)
                 {
-                    return RedirectToAction("DietPlanComplete");
+                    string dietReportPath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
+                    string fullPath = @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf"; //todo deal with path (doesn't found)
+                    FileInfo file = new FileInfo(fullPath);
+                    if (file.Exists)
+                    {
+                        return View("DietPlanComplete", dietReportPath);
+                    }
+                    return View("DietPlanComplete", dietReportPath);
                 }
                 else
                 {
@@ -138,10 +140,9 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult DownloadDietPDF()
+        public IActionResult DownloadDietPDF(string dietReportPath)
         {
-
-            return View();
+            return View(dietReportPath);
         }
 
 
