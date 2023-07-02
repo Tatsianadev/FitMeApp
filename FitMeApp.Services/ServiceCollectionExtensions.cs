@@ -49,7 +49,7 @@ namespace FitMeApp.Services
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IExcelReport, ExcelReportEpPlus>();
             //services.AddScoped<IExcelReport, ExcelReportOpenXml>();
-            services.AddScoped<IPdfReport, PdfReportSyncfusion>();
+            services.AddScoped<IPdfReport, PdfReportAspose>();
         }
 
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
