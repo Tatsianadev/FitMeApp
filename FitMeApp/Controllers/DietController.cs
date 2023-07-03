@@ -111,14 +111,14 @@ namespace FitMeApp.Controllers
                 bool success = _dietService.CreateDietPlan(dietPreferencesModel);
                 if (success)
                 {
-                    string dietReportPath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
-                    string fullPath = @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf"; //todo deal with path (doesn't found)
-                    FileInfo file = new FileInfo(fullPath);
+                    string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
+                    string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
+                    FileInfo file = new FileInfo(dietReportAbsolutePath);
                     if (file.Exists)
                     {
-                        return View("DietPlanComplete", dietReportPath);
+                        return View("DietPlanComplete", dietReportRelativePath);
                     }
-                    return View("DietPlanComplete", dietReportPath);
+                    return View("DietPlanComplete", dietReportRelativePath);
                 }
                 else
                 {
@@ -140,10 +140,17 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult DownloadDietPDF(string dietReportPath)
+       
+        //"My Diet" section in Profile
+
+        public IActionResult MyDietSection() //todo implement method
         {
-            return View(dietReportPath);
+            return View();
         }
+
+
+
+
 
 
         private List<string> SplitText(string text, char signToSplit)
