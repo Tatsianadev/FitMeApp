@@ -14,6 +14,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int CalculatingRequiredDailyCalories(AnthropometricInfoModel infoModel, int currentCalories, DietGoalsEnum goal, out bool itIsMinAllowedValue);
         IDictionary<NutrientsEnum, int> GetNutrientsRates(int calories, int height, GenderEnum gender, DietGoalsEnum goal);
         bool CreateDietPlan(DietPreferencesModel model);
+        UserAnthropometricAndDietModel GetAnthropometricAndDietModel(string userId);
 
     }
 }

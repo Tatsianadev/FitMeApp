@@ -2130,7 +2130,7 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public AnthropometricInfoEntityBase GetAnthropometricInfo(string userId)
+        public AnthropometricInfoEntityBase GetLatestAnthropometricInfo(string userId)
         {
             var anthropometricInfoEntity = _context.AnthropometricInfo
                 .Where(x => x.UserId == userId)
@@ -2142,13 +2142,35 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
-        public DietEntityBase GetDietEntityBase(int anthropometricInfoId)
+        public IEnumerable<AnthropometricInfoEntityBase> GetAllAnthropometricInfoByUser(string userId)
+        {
+            var anthropometricInfoEntities = _context.AnthropometricInfo
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .OrderBy(x => x.Date);
+
+            return anthropometricInfoEntities;
+        }
+
+
+        public DietEntityBase GetDiet(int anthropometricInfoId)
         {
             var dietEntity = _context.Diets.FirstOrDefault(x => x.AnthropometricInfoId == anthropometricInfoId);
             return dietEntity;
         }
 
 
+        public DietEntityBase GetDietByUser(string userId)
+        {
+            var dietEntity = (from diet in _context.Diets
+                              join info in _context.AnthropometricInfo
+                                  on diet.AnthropometricInfoId equals info.Id
+                              where info.UserId == userId
+                              select diet)
+                              .FirstOrDefault();
+
+            return dietEntity;
+        }
 
 
         private void DeleteDietIfExists(string userId)

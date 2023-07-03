@@ -340,7 +340,44 @@ namespace FitMeApp.Mapper
 
             return licenseModel;
         }
-        
+
+
+        public AnthropometricInfoModel MapAnthropometricInfoEntityBaseToModel(AnthropometricInfoEntityBase entityBase)
+        {
+            var model = new AnthropometricInfoModel()
+            {
+                Id = entityBase.Id,
+                UserId = entityBase.UserId,
+                Gender = entityBase.Gender,
+                Height = entityBase.Height,
+                Weight = entityBase.Weight,
+                Age = entityBase.Age,
+                PhysicalActivity = entityBase.PhysicalActivity,
+                Date = entityBase.Date
+            };
+
+            return model;
+        }
+
+        public DietModel MapDietEntityBaseToModel(DietEntityBase entityBase)
+        {
+            var model = new DietModel()
+            {
+                Id = entityBase.Id,
+                AnthropometricInfoId = entityBase.AnthropometricInfoId,
+                CurrentCalorieIntake = entityBase.CurrentCalorieIntake,
+                DietGoalId = entityBase.DietGoalId,
+                RequiredCalorieIntake = entityBase.RequiredCalorieIntake,
+                Proteins = entityBase.Proteins,
+                Fats = entityBase.Fats,
+                Carbohydrates = entityBase.Carbohydrates
+            };
+
+            return model;
+        }
+
+
+
 
 
         //Model -> Entity

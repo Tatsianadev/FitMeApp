@@ -152,8 +152,10 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         //Diet
         int AddAnthropometricInfo(AnthropometricInfoEntityBase info);
         int AddDiet(DietEntityBase diet, string userId);
-        AnthropometricInfoEntityBase GetAnthropometricInfo(string userId);
-        DietEntityBase GetDietEntityBase(int anthropometricInfoId);
+        AnthropometricInfoEntityBase GetLatestAnthropometricInfo(string userId);
+        IEnumerable<AnthropometricInfoEntityBase> GetAllAnthropometricInfoByUser(string userId);
+        DietEntityBase GetDiet(int anthropometricInfoId);
+        DietEntityBase GetDietByUser(string userId);
 
 
 

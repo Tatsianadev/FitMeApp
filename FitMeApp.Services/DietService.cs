@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FitMeApp.Common;
 using FitMeApp.Mapper;
@@ -137,10 +138,10 @@ namespace FitMeApp.Services
 
         public bool CreateDietPlan(DietPreferencesModel model)
         {
-            var anthropometricInfo = _repository.GetAnthropometricInfo(model.UserId);
+            var anthropometricInfo = _repository.GetLatestAnthropometricInfo(model.UserId);
             if (anthropometricInfo != null)
             {
-                var diet = _repository.GetDietEntityBase(anthropometricInfo.Id);
+                var diet = _repository.GetDiet(anthropometricInfo.Id);
                 if (diet != null)
                 {
                     //DietPreferences, AnthropometricInfo, Diet are passed as parameters to the dietician-nutritionist additional service.
@@ -174,10 +175,47 @@ namespace FitMeApp.Services
         }
 
 
-        private void CreatePdfDietReport(DietPdfReportModel model)
+
+        public UserAnthropometricAndDietModel GetAnthropometricAndDietModel(string userId)
         {
-            _fileService.CreateDietPlanPdf(model);
+            var anthropometricAndDietModel = new UserAnthropometricAndDietModel()
+            {
+                AnthropometricInfo = new List<AnthropometricInfoModel>(),
+                DietParameters = new DietModel()
+            };
+
+            var infoEntityBases = _repository.GetAllAnthropometricInfoByUser(userId).ToList();
+            var dietEntityBase = _repository.GetDietByUser(userId);
+
+            if (infoEntityBases != null)
+            {
+                foreach (var entityBase in infoEntityBases)
+                {
+                    var anthropometricInfoModel = _mapper.MapAnthropometricInfoEntityBaseToModel(entityBase);
+                    anthropometricAndDietModel.AnthropometricInfo.Add(anthropometricInfoModel);
+                }
+            }
+
+            if (dietEntityBase != null)
+            {
+                int minAllowedCalories =
+                    MinAllowedCalories(anthropometricAndDietModel.AnthropometricInfo.OrderBy(x => x.Date).Last());
+
+                anthropometricAndDietModel.DietParameters = _mapper.MapDietEntityBaseToModel(dietEntityBase);
+                anthropometricAndDietModel.DietParameters.ItIsMinAllowedCaloriesValue =
+                    anthropometricAndDietModel.DietParameters.RequiredCalorieIntake <= minAllowedCalories;
+            }
+
+            return anthropometricAndDietModel;
         }
+
+
+
+
+        //private void CreatePdfDietReport(DietPdfReportModel model)
+        //{
+        //    _fileService.CreateDietPlanPdf(model);
+        //}
 
 
 
@@ -210,7 +248,7 @@ namespace FitMeApp.Services
 
             return minAllowedCalories;
         }
-        
+
 
         private double GetChangeCaloriesRate(DietGoalsEnum goal)
         {
@@ -226,7 +264,7 @@ namespace FitMeApp.Services
         }
 
 
-        
+
 
 
         private int CalculateHealthyWeight(int height, GenderEnum gender)

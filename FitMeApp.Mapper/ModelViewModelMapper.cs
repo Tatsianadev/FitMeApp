@@ -3,6 +3,7 @@ using FitMeApp.WEB.Contracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FitMeApp.Common;
 using FitMeApp.Services.Contracts.Models.Chart;
 
 
@@ -239,6 +240,7 @@ namespace FitMeApp.Mapper
             };
             return trainerAppViewModel;
         }
+
 
 
 

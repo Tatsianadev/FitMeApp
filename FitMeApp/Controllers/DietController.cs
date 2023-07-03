@@ -34,7 +34,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            return View();
+            return RedirectToAction("MyDietSection");
+            //return View();
         }
 
 
@@ -143,8 +144,47 @@ namespace FitMeApp.Controllers
        
         //"My Diet" section in Profile
 
-        public IActionResult MyDietSection() //todo implement method
+        public IActionResult MyDietSection()
         {
+            var userId = _userManager.GetUserId(User);
+            var model = _dietService.GetAnthropometricAndDietModel(userId);
+
+            var viewModel = new UserAnthropometricAndDietViewModel()
+            {
+                AnthropometricInfo = new List<AnthropometricInfoViewModel>(),
+                DietParameters = new DietViewModel()
+            };
+
+            foreach (var infoModel in model.AnthropometricInfo)
+            {
+                viewModel.AnthropometricInfo.Add(new AnthropometricInfoViewModel()
+                {
+                    Id = infoModel.Id,
+                    UserId = infoModel.UserId,
+                    Gender = (GenderEnum)Enum.Parse(typeof(GenderEnum), infoModel.Gender),
+                    Height = infoModel.Height,
+                    Weight = infoModel.Weight,
+                    Age = infoModel.Age,
+                    PhysicalActivity = infoModel.PhysicalActivity,
+                    CurrentCalorieIntake = model.DietParameters.CurrentCalorieIntake,
+                    Goal = (DietGoalsEnum)model.DietParameters.DietGoalId,
+                    Date = infoModel.Date
+                });
+            }
+
+            viewModel.DietParameters = new DietViewModel()
+            {
+                Id = model.DietParameters.Id,
+                CurrentCalorieIntake = model.DietParameters.CurrentCalorieIntake,
+                Goal = (DietGoalsEnum)model.DietParameters.DietGoalId,
+                RequiredCalorieIntake = model.DietParameters.RequiredCalorieIntake,
+                ItIsMinAllowedCaloriesValue = model.DietParameters.ItIsMinAllowedCaloriesValue,
+                Proteins = model.DietParameters.Proteins,
+                Fats = model.DietParameters.Fats,
+                Carbohydrates = model.DietParameters.Carbohydrates
+            };
+           
+
             return View();
         }
 
