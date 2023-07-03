@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Aspose.Pdf;
 using Aspose.Pdf.Text;
+using FitMeApp.Common;
 using Color = Aspose.Pdf.Color;
 
 
@@ -71,9 +72,9 @@ namespace FitMeApp.Services
                 new List<string>() {"4", "Gender", dietPlan.Gender},
                 new List<string>() {"5", "Height, sm", dietPlan.Height.ToString()},
                 new List<string>() {"6", "Weight, sm", dietPlan.Weight.ToString()},
-                new List<string>() {"7", "Activity level", activity.ToString()},
+                new List<string>() {"7", "Activity level", activity.GetDescription()},
                 new List<string>() {"8", "Current intake, kcal", dietPlan.CurrentCalorieIntake.ToString()},
-                new List<string>() {"9", "Diet goal", dietGoal.ToString()},
+                new List<string>() {"9", "Diet goal", dietGoal.GetDescription()},
                 new List<string>() {"10", "Date", dietPlan.AnthropometricInfoDate.ToString("yy-MM-dd")},
                 new List<string>() {"", "", ""},
                 new List<string>() {"11", "Required intake, kcal", dietPlan.RequiredCalorieIntake.ToString()},
