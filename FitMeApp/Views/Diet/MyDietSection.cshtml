@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using System.Security.AccessControl
+@using FitMeApp.Common
+@model FitMeApp.WEB.Contracts.ViewModels.UserAnthropometricAndDietViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-9">
+            <div class="row" style="padding: 20px 0">
+                <div style="text-align: center">
+                    <h5>Anthropometric data</h5>
+                </div>
+                <div class="container">
+                    <div class="scrollspy-container">
+                        <div data-spy="scroll" class="scrollspy-example">
+                            <div>
+                                <table class="table table-bordered my-diet-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <th scope="col">@data.Date.ToString("yy-MM-dd")</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Age</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Age</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Height, sm</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Height</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Activity</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Calorie intake, kcal</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.CurrentCalorieIntake</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Weight, kg</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Weight</td>
+                                            }
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

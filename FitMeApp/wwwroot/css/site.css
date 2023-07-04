@@ -267,6 +267,39 @@ input[type="checkbox"].input-validation-error {
     background-color: #ffe6e6;
 }
 
+.scrollspy-container {
+    height: 300px;
+    overflow: auto;
+    background: #EBFFDB;
+}
+
+.scrollspy-example {
+    width: 3000px;
+}
+
+.my-diet-table {
+    width: auto;
+}
+
+.my-diet-table tr {
+    height: 25px;
+}
+
+.my-diet-table th {
+    width: 150px;
+}
+
+
+/*.scrollspy-example p {
+    float: left;
+    width: 300px;
+}
+
+.scrollspy-example h4 {
+    float: left;
+    width: 200px;
+}*/
+
 
 
 

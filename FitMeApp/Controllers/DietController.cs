@@ -185,7 +185,7 @@ namespace FitMeApp.Controllers
             };
            
 
-            return View();
+            return View(viewModel);
         }
 
 

@@ -189,6 +189,11 @@ namespace FitMeApp.Services
 
             if (infoEntityBases != null)
             {
+                if (infoEntityBases.Count > 19)
+                {
+                    infoEntityBases = infoEntityBases.Take(19).ToList();
+                }
+
                 foreach (var entityBase in infoEntityBases)
                 {
                     var anthropometricInfoModel = _mapper.MapAnthropometricInfoEntityBaseToModel(entityBase);
