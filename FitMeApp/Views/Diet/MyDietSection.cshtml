@@ -19,13 +19,13 @@
                     <div class="scrollspy-container">
                         <div data-spy="scroll" class="scrollspy-example">
                             <div>
-                                <table class="table table-bordered my-diet-table">
+                                <table class="table table-sm table-bordered my-diet-table">
                                     <thead>
                                     <tr>
-                                        <th scope="col"></th>
+                                        <th scope="col" style="background-color: #E1FFCA"></th>
                                         @foreach (var data in Model.AnthropometricInfo)
                                         {
-                                            <th scope="col">@data.Date.ToString("yy-MM-dd")</th>
+                                            <th scope="col" style="background-color: #E1FFCA">@data.Date.ToString("yy-MM-dd")</th>
                                         }
                                     </tr>
                                     </thead>
@@ -73,12 +73,41 @@
                     </div>
                 </div>
             </div>
+            <div class="row" style="text-align: center">
+                <h5>Required parameters to achieve the diet goal</h5>
+            </div>
             <div class="row">
                 <div class="col-md-5">
+                    <table class="table" style="margin: 20px 10px 0 0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nutrient</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Protein, gr</th>
+                                <td>@Model.DietParameters.Proteins</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fat, gr</th>
+                                <td>@Model.DietParameters.Fats</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Carbohydrates, gr</th>
+                                <td>@Model.DietParameters.Carbohydrates</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Calorie intake</th>
+                                <td>@Model.DietParameters.RequiredCalorieIntake</td>
+                            </tr>
 
+                        </tbody>
+                    </table>
                 </div>
                 <div class="col-md-7">
-                    <div class="container" id="nutrientsChartContainer" style="height: 280px; width: 100%"></div>
+                    <div class="container" id="nutrientsChartContainer" style="height: 250px; width: 100%"></div>
                 </div>
             </div>
         </div>
@@ -105,10 +134,10 @@
         var nutrientsChart = new CanvasJS.Chart("nutrientsChartContainer",
             {
                 animationEnabled: true,
-                title: {
-                    text: "Required diet nutrients",
-                    horizontalAlign: "center"
-                },
+                //title: {
+                //    text: "Required diet nutrients",
+                //    horizontalAlign: "center"
+                //},
                 data: [
                     {
                         type: "doughnut",

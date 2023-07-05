@@ -268,7 +268,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .scrollspy-container {
-    height: 300px;
+    height: 230px;
     overflow: auto;
     background: #EBFFDB;
 }
@@ -279,26 +279,24 @@ input[type="checkbox"].input-validation-error {
 
 .my-diet-table {
     width: auto;
+    font-size: small;
 }
 
 .my-diet-table tr {
-    height: 25px;
+    height: 20px;
 }
 
 .my-diet-table th {
-    width: 150px;
+   /* width: 150px;*/
+    background-color: #E1FFCA;
+}
+
+.my-diet-table td {
+     width: 130px;
+   
 }
 
 
-/*.scrollspy-example p {
-    float: left;
-    width: 300px;
-}
-
-.scrollspy-example h4 {
-    float: left;
-    width: 200px;
-}*/
 
 
 
