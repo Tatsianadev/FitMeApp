@@ -2,6 +2,9 @@
 @using FitMeApp.Common
 @model FitMeApp.WEB.Contracts.ViewModels.UserAnthropometricAndDietViewModel
 
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -18,50 +21,50 @@
                             <div>
                                 <table class="table table-bordered my-diet-table">
                                     <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <th scope="col">@data.Date.ToString("yy-MM-dd")</th>
-                                            }
-                                        </tr>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <th scope="col">@data.Date.ToString("yy-MM-dd")</th>
+                                        }
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th>Age</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Age</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Height, sm</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Height</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Activity</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Calorie intake, kcal</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.CurrentCalorieIntake</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Weight, kg</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Weight</td>
-                                            }
-                                        </tr>
+                                    <tr>
+                                        <th>Age</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Age</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Height, sm</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Height</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Activity</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Calorie intake, kcal</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.CurrentCalorieIntake</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Weight, kg</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Weight</td>
+                                        }
+                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -69,15 +72,66 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
             <div class="row">
+                <div class="col-md-5">
 
+                </div>
+                <div class="col-md-7">
+                    <div class="container" id="nutrientsChartContainer" style="height: 280px; width: 100%"></div>
+                </div>
             </div>
         </div>
     </div>
 
 
 </div>
+
+
+<script>
+    window.onload = function () {
+
+        var summary = @Html.Raw(Json.Serialize(Model.DietParameters.RequiredCalorieIntake));
+
+        var prot = @Html.Raw(Json.Serialize(Model.DietParameters.Proteins));
+        var fat = @Html.Raw(Json.Serialize(Model.DietParameters.Fats));
+        var carb = @Html.Raw(Json.Serialize(Model.DietParameters.Carbohydrates));
+
+        var protProc = Math.round((prot * 4 * 100) / summary);
+        var fatProc = Math.round((fat * 9 * 100) / summary);
+        var carbProc = Math.round((carb * 4 * 100) / summary);
+
+
+        var nutrientsChart = new CanvasJS.Chart("nutrientsChartContainer",
+            {
+                animationEnabled: true,
+                title: {
+                    text: "Required diet nutrients",
+                    horizontalAlign: "center"
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        startAngle: 60,
+                        indexLabelPlacement: "outside",
+                        radius: "90%",
+                        innerRadius: "50%",
+                        indexLabelFontSize: 17,
+                        indexLabel: "{label} - #percent%",
+                        toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                        dataPoints: [
+                            { y: protProc, label: "Protein" },
+                            { y: fatProc, label: "Fat" },
+                            { y: carbProc, label: "Carbohydrate" }
+                        ]
+                    }
+                ]
+            });
+
+        nutrientsChart.render();
+    }
+
+</script>
+
+
+
