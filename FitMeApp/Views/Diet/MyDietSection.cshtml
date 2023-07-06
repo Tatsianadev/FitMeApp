@@ -7,7 +7,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" style="margin: 50px 0; text-align: center">
+            <a asp-action="AnthropometricInfo" asp-controller="Diet" class="btn btn-dark">Update my data</a>
+            <br />
+            <br />
+            @if (!String.IsNullOrEmpty(Model.DietReportRelativePath))
+            {
+                <a href="@Model.DietReportRelativePath" download="DietPlan" class="btn btn-primary">Download plan</a>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#downloadModal">Download plan</button>
+            }
 
         </div>
         <div class="col-md-9">
@@ -21,50 +32,57 @@
                             <div>
                                 <table class="table table-sm table-bordered my-diet-table">
                                     <thead>
-                                        <tr>
-                                            <th scope="col" style="background-color: #E1FFCA"></th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <th scope="col" style="background-color: #E1FFCA">@data.Date.ToString("yy-MM-dd")</th>
-                                            }
-                                        </tr>
+                                    <tr>
+                                        <th scope="col" style="background-color: #E1FFCA"></th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <th scope="col" style="background-color: #E1FFCA">@data.Date.ToString("yy-MM-dd")</th>
+                                        }
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th>Age</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Age</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Height, sm</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Height</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Activity</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Calorie intake, kcal</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.CurrentCalorieIntake</td>
-                                            }
-                                        </tr>
-                                        <tr>
-                                            <th>Weight, kg</th>
-                                            @foreach (var data in Model.AnthropometricInfo)
-                                            {
-                                                <td>@data.Weight</td>
-                                            }
-                                        </tr>
+                                    <tr>
+                                        <th>Age</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Age</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Height, sm</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Height</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Activity</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Goal</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@((data.Goal).GetDescription())</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Calorie intake, kcal</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.CurrentCalorieIntake</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <th>Weight, kg</th>
+                                        @foreach (var data in Model.AnthropometricInfo)
+                                        {
+                                            <td>@data.Weight</td>
+                                        }
+                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -80,28 +98,28 @@
                 <div class="col-md-5">
                     <table class="table" style="margin: 15px 10px 0 0">
                         <thead>
-                            <tr>
-                                <th scope="col">Nutrient</th>
-                                <th scope="col">Amount</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">Nutrient</th>
+                            <th scope="col">Amount</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">Protein, gr</th>
-                                <td>@Model.DietParameters.Proteins</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fat, gr</th>
-                                <td>@Model.DietParameters.Fats</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Carbohydrates, gr</th>
-                                <td>@Model.DietParameters.Carbohydrates</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Calorie intake</th>
-                                <td>@Model.DietParameters.RequiredCalorieIntake</td>
-                            </tr>
+                        <tr>
+                            <th scope="row">Protein, gr</th>
+                            <td>@Model.DietParameters.Proteins</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fat, gr</th>
+                            <td>@Model.DietParameters.Fats</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Carbohydrates, gr</th>
+                            <td>@Model.DietParameters.Carbohydrates</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Calorie intake</th>
+                            <td>@Model.DietParameters.RequiredCalorieIntake</td>
+                        </tr>
 
                         </tbody>
                     </table>
@@ -119,8 +137,29 @@
             </div>
         </div>
     </div>
+</div>
 
 
+
+<!-- Modal -->
+<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="downloadModalLabel">You haven't created diet plan yet.</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                To receive a diet plan, you will have to fill out several forms.<br/>
+                You can do it in two ways:<br/>
+                - click the "Update my data" button on this page.<br/>
+                - follow the link <a asp-controller="Diet" asp-action="AnthropometricInfo">Get plan</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

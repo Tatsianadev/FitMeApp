@@ -275,7 +275,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .scrollspy-container {
-    height: 230px;
+    height: 270px;
     overflow: auto;
     background: #EBFFDB;
 }

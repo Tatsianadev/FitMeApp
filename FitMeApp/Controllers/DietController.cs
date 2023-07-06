@@ -34,8 +34,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult WelcomeToDietPlan()
         {
-            return RedirectToAction("MyDietSection");
-            //return View();
+            //return RedirectToAction("MyDietSection");
+            return View();
         }
 
 
@@ -112,13 +112,14 @@ namespace FitMeApp.Controllers
                 bool success = _dietService.CreateDietPlan(dietPreferencesModel);
                 if (success)
                 {
-                    string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
-                    string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
-                    FileInfo file = new FileInfo(dietReportAbsolutePath);
-                    if (file.Exists)
-                    {
-                        return View("DietPlanComplete", dietReportRelativePath);
-                    }
+                    string dietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
+                    //string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
+                    //string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
+                    //FileInfo file = new FileInfo(dietReportAbsolutePath);
+                    //if (file.Exists)
+                    //{
+                    //    return View("DietPlanComplete", dietReportRelativePath);
+                    //}
                     return View("DietPlanComplete", dietReportRelativePath);
                 }
                 else
@@ -144,10 +145,10 @@ namespace FitMeApp.Controllers
        
         //"My Diet" section in Profile
 
-        public IActionResult MyDietSection()
+        public async Task<IActionResult> MyDietSection()
         {
-            var userId = _userManager.GetUserId(User);
-            var model = _dietService.GetAnthropometricAndDietModel(userId);
+            var user = await _userManager.GetUserAsync(User);
+            var model = _dietService.GetAnthropometricAndDietModel(user.Id);
 
             var viewModel = new UserAnthropometricAndDietViewModel()
             {
@@ -183,8 +184,9 @@ namespace FitMeApp.Controllers
                 Fats = model.DietParameters.Fats,
                 Carbohydrates = model.DietParameters.Carbohydrates
             };
-           
 
+            //viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
+            viewModel.DietReportRelativePath = string.Empty;
             return View(viewModel);
         }
 
@@ -280,6 +282,20 @@ namespace FitMeApp.Controllers
             dietModel.Id = dietId;
             needToAddActivity = itIsMinAllowedCaloriesValue;
             return dietModel;
+        }
+
+
+        private string GetDietReportRelativePathIfExists(string userFirstName, string userLastName)
+        {
+            string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + userFirstName + "_" + userLastName + ".pdf";
+            string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + userFirstName + "_" + userLastName + ".pdf";
+            FileInfo file = new FileInfo(dietReportAbsolutePath);
+            if (file.Exists)
+            {
+                return dietReportRelativePath;
+            }
+
+            return string.Empty;
         }
 
 
