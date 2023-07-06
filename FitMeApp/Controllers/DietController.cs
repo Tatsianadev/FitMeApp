@@ -48,12 +48,34 @@ namespace FitMeApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AnthropometricInfo(AnthropometricInfoViewModel viewModel)
+        public IActionResult SaveAnthropometricInfo(AnthropometricInfoViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 AnthropometricInfoModel infoModel = AddAnthropometricInfoToDb(viewModel);
-                
+                if (infoModel == null)
+                {
+                    string message =
+                        "Failed attempt to add the new anthropometric data to your Profile. Please, try again later.";
+                    return View("CustomError", message);
+                }
+
+                return RedirectToAction("MyDietSection");
+            }
+
+            return View("AnthropometricInfo", viewModel);
+        }
+
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult CalculateDietNutrients(AnthropometricInfoViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                AnthropometricInfoModel infoModel = AddAnthropometricInfoToDb(viewModel);
+
                 if (viewModel.CurrentCalorieIntake == 0)
                 {
                     viewModel.CurrentCalorieIntake = _dietService.CalculatingCurrentDailyCalories(infoModel);
@@ -76,7 +98,7 @@ namespace FitMeApp.Controllers
                 return View("DietPlan", dietViewModel);
             }
 
-            return View(viewModel);
+            return View("AnthropometricInfo", viewModel);
         }
 
 
@@ -113,13 +135,6 @@ namespace FitMeApp.Controllers
                 if (success)
                 {
                     string dietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
-                    //string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
-                    //string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + user.FirstName + "_" + user.LastName + ".pdf";
-                    //FileInfo file = new FileInfo(dietReportAbsolutePath);
-                    //if (file.Exists)
-                    //{
-                    //    return View("DietPlanComplete", dietReportRelativePath);
-                    //}
                     return View("DietPlanComplete", dietReportRelativePath);
                 }
                 else
@@ -182,11 +197,12 @@ namespace FitMeApp.Controllers
                 ItIsMinAllowedCaloriesValue = model.DietParameters.ItIsMinAllowedCaloriesValue,
                 Proteins = model.DietParameters.Proteins,
                 Fats = model.DietParameters.Fats,
-                Carbohydrates = model.DietParameters.Carbohydrates
+                Carbohydrates = model.DietParameters.Carbohydrates,
+                Date = model.DietParameters.Date
+                
             };
 
-            //viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
-            viewModel.DietReportRelativePath = string.Empty;
+            viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
             return View(viewModel);
         }
 

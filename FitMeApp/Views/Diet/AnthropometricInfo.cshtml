@@ -122,7 +122,8 @@
                         </div>
                         <div style="text-align: center; margin: 10px">
                             <a asp-action="WelcomeToDietPlan" asp-controller="Diet" class="btn btn-outline-secondary">Back</a>
-                            <input type="submit" class="btn btn-dark" value="Next" />
+                            <input type="submit" class="btn btn-dark" formaction="SaveAnthropometricInfo" value="Save" />
+                            <input type="submit" class="btn btn-dark" formaction="CalculateDietNutrients" value="Create diet plan" />
                         </div>
                     </div>
                 </form>

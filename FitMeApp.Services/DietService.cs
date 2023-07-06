@@ -203,12 +203,14 @@ namespace FitMeApp.Services
 
             if (dietEntityBase != null)
             {
+                DateTime dietCreationDate = infoEntityBases.FirstOrDefault(x => x.Id == dietEntityBase.AnthropometricInfoId).Date;
                 int minAllowedCalories =
-                    MinAllowedCalories(anthropometricAndDietModel.AnthropometricInfo.OrderBy(x => x.Date).Last());
+                    MinAllowedCalories(anthropometricAndDietModel.AnthropometricInfo.FirstOrDefault(x=>x.Date == dietCreationDate));
 
                 anthropometricAndDietModel.DietParameters = _mapper.MapDietEntityBaseToModel(dietEntityBase);
                 anthropometricAndDietModel.DietParameters.ItIsMinAllowedCaloriesValue =
                     anthropometricAndDietModel.DietParameters.RequiredCalorieIntake <= minAllowedCalories;
+                anthropometricAndDietModel.DietParameters.Date = dietCreationDate;
             }
 
             return anthropometricAndDietModel;

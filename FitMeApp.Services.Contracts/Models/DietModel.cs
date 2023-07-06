@@ -15,6 +15,7 @@ namespace FitMeApp.Services.Contracts.Models
         public int Fats { get; set; }
         public int Carbohydrates { get; set; }
         public bool ItIsMinAllowedCaloriesValue { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }
