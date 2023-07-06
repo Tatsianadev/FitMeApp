@@ -259,6 +259,13 @@ input[type="checkbox"].input-validation-error {
     font-style: italic;
 }
 
+.comment-small-red {
+    font-size: small;
+    font-style: italic;
+    color: #b94a48;
+}
+
+
 .backgraundSucced {
     background-color: #e6ffe6;
 }
