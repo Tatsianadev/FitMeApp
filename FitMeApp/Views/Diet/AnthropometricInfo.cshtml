@@ -91,7 +91,7 @@
                                         <select asp-for="PhysicalActivity" class="form-select" aria-label="Default select example">
                                             @foreach (var level in Enum.GetValues(typeof(PhysicalActivityEnum)))
                                             {
-                                            <option value="@((int)level)">@((int)level)</option>
+                                                <option value="@((int)level)">@((int)level)</option>
                                             }
                                         </select>
                                         <span class="validation-summary-text-errors" asp-validation-for="PhysicalActivity"></span>
@@ -121,8 +121,8 @@
                             from 1 to 5, where 1 - extremely inactive and 5 - extremely active.
                         </div>
                         <div style="text-align: center; margin: 10px">
-                            <a asp-action="WelcomeToDietPlan" asp-controller="Diet" class="btn btn-outline-secondary">Back</a>
-                            <input type="submit" class="btn btn-dark" formaction="SaveAnthropometricInfo" value="Save" />
+                            <a class="btn btn-outline-secondary" id="goBackBtn">Cancel</a>
+                            <input type="submit" class="btn btn-dark" formaction="SaveAnthropometricInfo" value="Save and back" />
                             <input type="submit" class="btn btn-dark" formaction="CalculateDietNutrients" value="Create diet plan" />
                         </div>
                     </div>
@@ -130,6 +130,14 @@
             </div>
         </div>
     </div>
-
+     
 </div>
+
+<script>
+    document.getElementById("goBackBtn").addEventListener("click", goBack);
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
