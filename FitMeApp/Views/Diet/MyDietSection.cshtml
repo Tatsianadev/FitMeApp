@@ -9,8 +9,12 @@
     <div class="row">
         <div class="col-md-3" style="margin: 50px 0; text-align: center">
             <a asp-action="AnthropometricInfo" asp-controller="Diet" class="btn btn-dark">Update my data</a>
-            <br />
-            <br />
+            <br/>
+            <hr/>
+            <br/>
+            <p>
+                You can download the Diet Plan created for you in PDF format by clicking on the button bellow.
+            </p>
             @if (!String.IsNullOrEmpty(Model.DietReportRelativePath))
             {
                 <a href="@Model.DietReportRelativePath" download="DietPlan" class="btn btn-primary">Download plan</a>
@@ -19,7 +23,9 @@
             {
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#downloadModal">Download plan</button>
             }
-
+            <div style="padding: 100px 0 0">
+                <img src="/Content/images/healthyFood5.jpg" style="width: 100%; height: auto"/>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="row" style="padding: 20px 0">
@@ -32,57 +38,57 @@
                             <div>
                                 <table class="table table-sm table-bordered my-diet-table">
                                     <thead>
-                                    <tr>
-                                        <th scope="col" style="background-color: #E1FFCA"></th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <th scope="col" style="background-color: #E1FFCA">@data.Date.ToString("yy-MM-dd")</th>
-                                        }
-                                    </tr>
+                                        <tr>
+                                            <th scope="col" style="background-color: #E1FFCA"></th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <th scope="col" style="background-color: #E1FFCA">@data.Date.ToString("yy-MM-dd")</th>
+                                            }
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th>Age</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@data.Age</td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <th>Height, sm</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@data.Height</td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <th>Activity</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <th>Goal</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@((data.Goal).GetDescription())</td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <th>Calorie intake, kcal</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@data.CurrentCalorieIntake</td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <th>Weight, kg</th>
-                                        @foreach (var data in Model.AnthropometricInfo)
-                                        {
-                                            <td>@data.Weight</td>
-                                        }
-                                    </tr>
+                                        <tr>
+                                            <th>Age</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Age</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Height, sm</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Height</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Activity</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@(((PhysicalActivityEnum) data.PhysicalActivity).GetDescription())</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Goal</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@((data.Goal).GetDescription())</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Calorie intake, kcal</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.CurrentCalorieIntake</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <th>Weight, kg</th>
+                                            @foreach (var data in Model.AnthropometricInfo)
+                                            {
+                                                <td>@data.Weight</td>
+                                            }
+                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -98,32 +104,39 @@
                 <div class="col-md-5">
                     <table class="table" style="margin: 15px 10px 0 0">
                         <thead>
-                        <tr style="background-color: #E1FFCA">
-                            <th scope="col">Nutrient</th>
-                            <th scope="col">Amount</th>
-                        </tr>
+                            <tr style="background-color: #E1FFCA">
+                                <th scope="col">Nutrient</th>
+                                <th scope="col">Amount</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">Protein, gr</th>
-                            <td>@Model.DietParameters.Proteins</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Fat, gr</th>
-                            <td>@Model.DietParameters.Fats</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Carbohydrates, gr</th>
-                            <td>@Model.DietParameters.Carbohydrates</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Calorie intake</th>
-                            <td>@Model.DietParameters.RequiredCalorieIntake</td>
-                        </tr>
-                        <tr style="background-color: #E1FFCA">
-                            <th scope="row">Based on data of:</th>
-                            <td>@Model.DietParameters.Date.ToString("yy-MM-dd")</td>
-                        </tr>
+                            <tr>
+                                <th scope="row">Protein, gr</th>
+                                <td>@Model.DietParameters.Proteins</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fat, gr</th>
+                                <td>@Model.DietParameters.Fats</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Carbohydrates, gr</th>
+                                <td>@Model.DietParameters.Carbohydrates</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Calorie intake</th>
+                                <td>@Model.DietParameters.RequiredCalorieIntake</td>
+                            </tr>
+                            <tr style="background-color: #E1FFCA">
+                                <th scope="row">Based on data of:</th>
+                                @if (Model.DietParameters.Id != 0)
+                                {
+                                    <td>@Model.DietParameters.Date.ToString("yy-MM-dd")</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
 
                         </tbody>
                     </table>
@@ -154,9 +167,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                To receive a diet plan, you will have to fill out several forms.<br/>
-                You can do it in two ways:<br/>
-                - click the "Update my data" button on this page.<br/>
+                To receive a diet plan, you will have to fill out several forms.<br />
+                You can do it in two ways:<br />
+                - click the "Update my data" button on this page.<br />
                 - follow the link <a asp-controller="Diet" asp-action="AnthropometricInfo">Get plan</a>
             </div>
             <div class="modal-footer">
@@ -172,42 +185,44 @@
 
         var allCalorie = @Html.Raw(Json.Serialize(Model.DietParameters.RequiredCalorieIntake));
 
-        var prot = @Html.Raw(Json.Serialize(Model.DietParameters.Proteins));
-        var fat = @Html.Raw(Json.Serialize(Model.DietParameters.Fats));
-        var carb = @Html.Raw(Json.Serialize(Model.DietParameters.Carbohydrates));
+        if (allCalorie !== 0) {
+            var prot = @Html.Raw(Json.Serialize(Model.DietParameters.Proteins));
+            var fat = @Html.Raw(Json.Serialize(Model.DietParameters.Fats));
+            var carb = @Html.Raw(Json.Serialize(Model.DietParameters.Carbohydrates));
 
-        var protPercent = Math.round((prot * 4 * 100) / allCalorie);
-        var fatPercent = Math.round((fat * 9 * 100) / allCalorie);
-        var carbPercent = Math.round((carb * 4 * 100) / allCalorie);
+            var protPercent = Math.round((prot * 4 * 100) / allCalorie);
+            var fatPercent = Math.round((fat * 9 * 100) / allCalorie);
+            var carbPercent = Math.round((carb * 4 * 100) / allCalorie);
 
 
-        var nutrientsChart = new CanvasJS.Chart("nutrientsChartContainer",
-            {
-                animationEnabled: true,
-                //title: {
-                //    text: "Required diet nutrients",
-                //    horizontalAlign: "center"
-                //},
-                data: [
-                    {
-                        type: "doughnut",
-                        startAngle: 60,
-                        indexLabelPlacement: "outside",
-                        radius: "90%",
-                        innerRadius: "50%",
-                        indexLabelFontSize: 17,
-                        indexLabel: "{label} - #percent%",
-                        toolTipContent: "<b>{label}:</b> {y} (#percent%)",
-                        dataPoints: [
-                            { y: protPercent, label: "Protein" },
-                            { y: fatPercent, label: "Fat" },
-                            { y: carbPercent, label: "Carbohydrate" }
-                        ]
-                    }
-                ]
-            });
+            var nutrientsChart = new CanvasJS.Chart("nutrientsChartContainer",
+                {
+                    animationEnabled: true,
+                    //title: {
+                    //    text: "Required diet nutrients",
+                    //    horizontalAlign: "center"
+                    //},
+                    data: [
+                        {
+                            type: "doughnut",
+                            startAngle: 60,
+                            indexLabelPlacement: "outside",
+                            radius: "90%",
+                            innerRadius: "50%",
+                            indexLabelFontSize: 17,
+                            indexLabel: "{label} - #percent%",
+                            toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                            dataPoints: [
+                                { y: protPercent, label: "Protein" },
+                                { y: fatPercent, label: "Fat" },
+                                { y: carbPercent, label: "Carbohydrate" }
+                            ]
+                        }
+                    ]
+                });
 
-        nutrientsChart.render();
+            nutrientsChart.render();
+        }
     }
 
 </script>

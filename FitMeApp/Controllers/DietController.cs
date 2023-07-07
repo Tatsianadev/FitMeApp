@@ -188,21 +188,23 @@ namespace FitMeApp.Controllers
                 });
             }
 
-            viewModel.DietParameters = new DietViewModel()
+            if (model.DietParameters.Id != 0)
             {
-                Id = model.DietParameters.Id,
-                CurrentCalorieIntake = model.DietParameters.CurrentCalorieIntake,
-                Goal = (DietGoalsEnum)model.DietParameters.DietGoalId,
-                RequiredCalorieIntake = model.DietParameters.RequiredCalorieIntake,
-                ItIsMinAllowedCaloriesValue = model.DietParameters.ItIsMinAllowedCaloriesValue,
-                Proteins = model.DietParameters.Proteins,
-                Fats = model.DietParameters.Fats,
-                Carbohydrates = model.DietParameters.Carbohydrates,
-                Date = model.DietParameters.Date
-                
-            };
-
-            viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
+                viewModel.DietParameters = new DietViewModel()
+                {
+                    Id = model.DietParameters.Id,
+                    CurrentCalorieIntake = model.DietParameters.CurrentCalorieIntake,
+                    Goal = (DietGoalsEnum)model.DietParameters.DietGoalId,
+                    RequiredCalorieIntake = model.DietParameters.RequiredCalorieIntake,
+                    ItIsMinAllowedCaloriesValue = model.DietParameters.ItIsMinAllowedCaloriesValue,
+                    Proteins = model.DietParameters.Proteins,
+                    Fats = model.DietParameters.Fats,
+                    Carbohydrates = model.DietParameters.Carbohydrates,
+                    Date = model.DietParameters.Date
+                };
+                viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
+            }
+            
             return View(viewModel);
         }
 

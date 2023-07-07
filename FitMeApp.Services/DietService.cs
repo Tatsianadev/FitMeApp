@@ -187,7 +187,7 @@ namespace FitMeApp.Services
             var infoEntityBases = _repository.GetAllAnthropometricInfoByUser(userId).ToList();
             var dietEntityBase = _repository.GetDietByUser(userId);
 
-            if (infoEntityBases != null)
+            if (infoEntityBases.Count != 0)
             {
                 if (infoEntityBases.Count > 19)
                 {
@@ -203,26 +203,22 @@ namespace FitMeApp.Services
 
             if (dietEntityBase != null)
             {
-                DateTime dietCreationDate = infoEntityBases.FirstOrDefault(x => x.Id == dietEntityBase.AnthropometricInfoId).Date;
-                int minAllowedCalories =
-                    MinAllowedCalories(anthropometricAndDietModel.AnthropometricInfo.FirstOrDefault(x=>x.Date == dietCreationDate));
-
                 anthropometricAndDietModel.DietParameters = _mapper.MapDietEntityBaseToModel(dietEntityBase);
+                
+                //Get the date, that the diet plan is based on (it doesn't have to be the last date)
+                DateTime dietCreationDate = infoEntityBases.FirstOrDefault(x => x.Id == dietEntityBase.AnthropometricInfoId).Date;
+                anthropometricAndDietModel.DietParameters.Date = dietCreationDate;
+
+                //Check if the required calorie intake is less than the minimum allowable intake. 
+                int minAllowedCalories = MinAllowedCalories(anthropometricAndDietModel.AnthropometricInfo.FirstOrDefault(x=>x.Date == dietCreationDate));
                 anthropometricAndDietModel.DietParameters.ItIsMinAllowedCaloriesValue =
                     anthropometricAndDietModel.DietParameters.RequiredCalorieIntake <= minAllowedCalories;
-                anthropometricAndDietModel.DietParameters.Date = dietCreationDate;
             }
 
             return anthropometricAndDietModel;
         }
 
 
-
-
-        //private void CreatePdfDietReport(DietPdfReportModel model)
-        //{
-        //    _fileService.CreateDietPlanPdf(model);
-        //}
 
 
 
