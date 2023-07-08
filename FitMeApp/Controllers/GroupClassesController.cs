@@ -16,28 +16,28 @@ namespace FitMeApp.Controllers
     public class GroupClassesController : Controller
     {
         private readonly ITrainingService _trainingService;
-        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly IScheduleService _scheduleService;
         private readonly ISubscriptionService _subscriptionService;
+        private readonly IFileService _fileService;
         private readonly UserManager<User> _userManager;
         private readonly ModelViewModelMapper _mapper;
         private readonly ILogger _logger;
 
         public GroupClassesController(
-            ITrainingService trainingService, 
-            IGymService gymService, 
+            ITrainingService trainingService,
             ITrainerService trainerService,
             IScheduleService scheduleService,
             ISubscriptionService subscriptionService,
+            IFileService fileService,
             UserManager<User> userManager, 
             ILogger<GroupClassesController> logger)
         {
             _trainingService = trainingService;
-            _gymService = gymService;
             _trainerService = trainerService;
             _scheduleService = scheduleService;
             _subscriptionService = subscriptionService;
+            _fileService = fileService;
             _userManager = userManager;
             _mapper = new ModelViewModelMapper();
             _logger = logger;
@@ -45,6 +45,10 @@ namespace FitMeApp.Controllers
 
         public IActionResult GroupClasses()
         {
+            string sectionText = _fileService.GetSpecifiedSectionFromFile(@"wwwroot\TextFiles\GroupClassesDescription.txt",
+                    "Section1", "EndSection");
+
+
             var groupClassesViewModels = new List<TrainingViewModel>();
             var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining); 
             foreach (var groupClassModel in groupClassesModels)
@@ -60,6 +64,8 @@ namespace FitMeApp.Controllers
         {
             var trainingModel = _trainingService.GetTrainingModel(groupClassId, gymId);
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
+            //todo create cod to get full description of training type
+
             return View(trainingViewModel);
         }
 

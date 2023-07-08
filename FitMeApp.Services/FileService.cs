@@ -46,8 +46,7 @@ namespace FitMeApp.Services
             DeleteFileIfExist(fullPath);
             await _fileStorage.SaveFileAsync(uploadedFile, fullPath);
         }
-
-
+        
 
         public async Task<string> GetTextContentFromFileAsync(string localPath)
         {
@@ -63,6 +62,41 @@ namespace FitMeApp.Services
             }
 
             return text;
+        }
+
+
+        public string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker,
+            string sectionEndMarker)
+        {
+            bool isInSection = false;
+            var sectionContent = new StringBuilder();
+            using (StreamReader reader = new StreamReader(localPath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.Contains(sectionStartMarker))
+                    {
+                        isInSection = true;
+                        continue;
+                    }
+
+                    if (line.Contains(sectionEndMarker))
+                    {
+                        isInSection = false;
+                        break;
+                    }
+
+                    if (isInSection)
+                    {
+                        sectionContent.AppendLine(line);
+                    }
+                }
+            }
+
+            string sectionText = sectionContent.ToString();
+            
+            return sectionText;
         }
 
 

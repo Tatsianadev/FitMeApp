@@ -52,7 +52,7 @@ namespace FitMeApp.Mapper
             {
                 Id = training.Id,
                 Name = training.Name,
-                Description = training.Description
+                ShortDescription = training.Description
             };
             return trainingViewModel;
         }
