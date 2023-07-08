@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
@@ -45,9 +46,8 @@ namespace FitMeApp.Controllers
 
         public IActionResult GroupClasses()
         {
-            string sectionText = _fileService.GetSpecifiedSectionFromFile(@"wwwroot\TextFiles\GroupClassesDescription.txt",
-                    "Section1", "EndSection");
-
+            //string sectionText = _fileService.GetSpecifiedSectionFromFile(@"wwwroot\TextFiles\GroupClassesDescription.txt",
+            //        "Section1", "EndSection");
 
             var groupClassesViewModels = new List<TrainingViewModel>();
             var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining); 
@@ -64,7 +64,13 @@ namespace FitMeApp.Controllers
         {
             var trainingModel = _trainingService.GetTrainingModel(groupClassId, gymId);
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
-            //todo create cod to get full description of training type
+            
+            //get the detailed group class description by reading specified section from .txt file  
+            string sectionStartMarker = trainingViewModel.Name.Replace(" ","") + "Start";
+            string sectionEndMarker = trainingViewModel.Name.Replace(" ","") + "End";
+            trainingViewModel.DetailedDescription = _fileService.GetSpecifiedSectionFromFile(Resources.Resources.GroupClassesDescriptionPath, sectionStartMarker, sectionEndMarker);
+            var paragraphs = Regex.Split(trainingViewModel.DetailedDescription, @"/n").Where(p => p.Any(char.IsLetterOrDigit)).ToList();
+            ViewBag.Text = paragraphs;
 
             return View(trainingViewModel);
         }

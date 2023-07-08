@@ -75,13 +75,13 @@ namespace FitMeApp.Services
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.Contains(sectionStartMarker))
+                    if (line.Contains(sectionStartMarker, StringComparison.CurrentCultureIgnoreCase))
                     {
                         isInSection = true;
                         continue;
                     }
 
-                    if (line.Contains(sectionEndMarker))
+                    if (line.Contains(sectionEndMarker, StringComparison.CurrentCultureIgnoreCase))
                     {
                         isInSection = false;
                         break;

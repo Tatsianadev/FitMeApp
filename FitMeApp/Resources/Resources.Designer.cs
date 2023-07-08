@@ -97,6 +97,15 @@ namespace FitMeApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to wwwroot\TextFiles\GroupClassesDescription.txt.
+        /// </summary>
+        internal static string GroupClassesDescriptionPath {
+            get {
+                return ResourceManager.GetString("GroupClassesDescriptionPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /Content/Subscriptions/gym.jpg.
         /// </summary>
         internal static string GymAccess {

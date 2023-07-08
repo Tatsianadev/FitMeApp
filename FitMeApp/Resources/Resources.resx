@@ -131,6 +131,10 @@
   <data name="DietReportImagePath" xml:space="preserve">
     <value>wwwroot\\Content\\images\\healthyFood2.jpg</value>
   </data>
+  <data name="GroupClassesDescriptionPath" xml:space="preserve">
+    <value>wwwroot\TextFiles\GroupClassesDescription.txt</value>
+    <comment>Relative path to GroupClassesDescription file (.txt)</comment>
+  </data>
   <data name="GymAccess" xml:space="preserve">
     <value>/Content/Subscriptions/gym.jpg</value>
   </data>
