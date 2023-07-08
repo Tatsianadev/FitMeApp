@@ -5,17 +5,15 @@
         <div class="col-md-4">
             <div style="text-align: center">
                 <h5>What is @Model.Name like?</h5>
-                <div style="text-align: left">
-                    @foreach (string paragraph in @ViewBag.Text)
-                    {
-                        <h7>@paragraph</h7>
-                        <br />
-                        <br />
-                    }
-                    @*<h7>@Model.DetailedDescription</h7>*@
-                </div>
+                <br />
+                @foreach (string paragraph in @Model.DetailedDescription)
+                {
+                    <h7>@paragraph</h7>
+                    <br />
+                    <br />
+                }
             </div>
-            <br/>
+            <br />
         </div>
         <div class="col-md-8">
             <div style="text-align: center">

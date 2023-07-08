@@ -100,6 +100,18 @@ namespace FitMeApp.Services
         }
 
 
+        public IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark)
+        {
+            var paragraphs = new List<string>();
+            if (!string.IsNullOrEmpty(text))
+            {
+                paragraphs = Regex.Split(text, splitMark).Where(p => p.Any(char.IsLetterOrDigit)).ToList();
+            }
+
+            return paragraphs;
+        }
+
+
         public void CopyFileToDirectory(string sourceFullPath, string destFullPath)
         {
             if (File.Exists(sourceFullPath))

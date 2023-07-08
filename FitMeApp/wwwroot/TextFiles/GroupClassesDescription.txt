@@ -5,39 +5,39 @@ YogaEnd
 
 PilatesStart
 Pilates is a type of exercise that focuses on improving flexibility, strength, and body awareness through controlled movements and was created in the 1920s by German physical trainer Joseph Pilates for rehabilitation purposes./n
-Pilates movements tend to focus on core activation through sets like toe taps, leg extensions, and abdominal curls. During the class, you might experience a nice burn in targeted areas, but afterward you can expect to feel really lengthened, energized, and open. Classes can be performed without equipment using just your body weight, but you can add in weights and resistance bands once you have a stronger foundation./n
+Pilates movements tend to focus on core activation through sets like toe taps, leg extensions, and abdominal curls. During the class, you might experience a nice burn in targeted areas, but afterward you can expect to feel really lengthened, energized, and open./n Classes can be performed without equipment using just your body weight, but you can add in weights and resistance bands once you have a stronger foundation.
 PilatesEnd
 
 
 HiitStart
-HIIT is a type of interval training exercise. It incorporates several rounds that alternate between several minutes of high-intensity movements to significantly increase the heart rate to at least 80% of one’s maximum heart rate, followed by short periods of lower-intensity movements.
+HIIT is a type of interval training exercise. It incorporates several rounds that alternate between several minutes of high-intensity movements to significantly increase the heart rate to at least 80% of one’s maximum heart rate, followed by short periods of lower-intensity movements./n
 Body weight can be used as the main form of resistance so that additional equipment is not needed. HIIT workouts also generally do not require a large amount of space, making the format ideal for a home workout. The interval durations can be timed by using one to five-minute music tracks.
 HiitEnd
 
 
 WaterAerobicsStart
-Water aerobics is performed in waist-deep water or deeper and rarely includes swimming. Many of the exercises in a water aerobics class are similar to a normal aerobics class, but because water is so buoyant, moves can be completed with less impact on the joints.
-In general, water aerobics is a great exercise option for people of all ages, but can be especially useful for seniors or those with joint concerns. 
+Water aerobics is performed in waist-deep water or deeper and rarely includes swimming. Many of the exercises in a water aerobics class are similar to a normal aerobics class, but because water is so buoyant, moves can be completed with less impact on the joints./n
+In general, water aerobics is a great exercise option for people of all ages, but can be especially useful for seniors or those with joint concerns./n 
 The added buoyancy of water helps support your body, lessening the stress on your joints. This may give you a greater range of motion and allow you to perform exercises that wouldn’t be comfortable on land.
 WaterAerobicsEnd
 
 
 CyclingStart
-Biking is a top-notch cardio workout. You’ll burn about 400 calories an hour. Plus it strengthens your lower body, including your legs, hips, and glutes.
-If you want a workout that’s gentle on your back, hips, knees, and ankles, this is a great choice.
+Biking is a top-notch cardio workout. You’ll burn about 400 calories an hour. Plus it strengthens your lower body, including your legs, hips, and glutes./n
+If you want a workout that’s gentle on your back, hips, knees, and ankles, this is a great choice./n
 If you’re a beginner, choose a flat bike path or road. If you’re ready for a tougher workout that also engages your upper body and core, try mountain biking. Mountain biking is trickier because you have to navigate hills and surfaces, so your upper body and core will kick into gear. It’s more of a total-body workout than biking on the road, which is mostly a lower-body cardio workout.
 CyclingEnd
 
 
 ZumbaStart
-This dance class features high- and low-intensity intervals that help improve cardiovascular fitness while also enhancing balance, coordination, agility, and to some degree, strength through the application of beginner-accessible choreography.
+This dance class features high- and low-intensity intervals that help improve cardiovascular fitness while also enhancing balance, coordination, agility, and to some degree, strength through the application of beginner-accessible choreography./n
 You don't need any special dance skills to succeed in Zumba classes but those that have natural rhythm may pick up on the moves faster. Classes typically consist of Latin-inspired songs, starting with a slower warm-up song, building intensity throughout the workout, and ending with a cool-down song. Still, no one is keeping score, so just dance, let go, and have fun.
 ZumbaEnd
 
 
 KickboxingStart
-If knee strikes, kicks, and punches sound like a blast, give this total-body workout a try.
-Burn about 350-450 calories an hour as you punch, jab, and kick your way toward better balance, flexibility, coordination, and endurance. You'll slash stress, too.
+If knee strikes, kicks, and punches sound like a blast, give this total-body workout a try./n
+Burn about 350-450 calories an hour as you punch, jab, and kick your way toward better balance, flexibility, coordination, and endurance. You'll slash stress, too./n
 You'll typically take a group class, usually an hour long, at a kickboxing studio, gym, or rec center. You won't be fighting anyone (unless you're doing kickboxing moves in a martial arts class), but you'll kick and jab at the air and punching bags.
 KickboxingEnd
 

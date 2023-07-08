@@ -15,14 +15,18 @@ namespace FitMeApp.Services.Contracts.Interfaces
     {
         string SetUniqueFileName();
         Task SaveFileAsync(IFormFile uploadedFile, string fullPath);
-        Task<string> GetTextContentFromFileAsync(string localPath);
+        Task<string> GetTextContentFromFileAsync(string localPath); //todo remove txt report
 
-        string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker);
+        string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker); //todo remove txt report
+        IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark); //todo remove txt report
         void CopyFileToDirectory(string sourceFullPath, string destFullPath);
+
+        //Excel
         Task WriteToExcelAsync(DataTable table, string fullPath);
         Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
-
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
+
+        //Pdf
         void CreateDietPlanPdf(DietPdfReportModel dietPlan);
 
     }

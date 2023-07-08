@@ -31,7 +31,7 @@ namespace FitMeApp.Controllers
             IScheduleService scheduleService,
             ISubscriptionService subscriptionService,
             IFileService fileService,
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             ILogger<GroupClassesController> logger)
         {
             _trainingService = trainingService;
@@ -50,7 +50,7 @@ namespace FitMeApp.Controllers
             //        "Section1", "EndSection");
 
             var groupClassesViewModels = new List<TrainingViewModel>();
-            var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining); 
+            var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining);
             foreach (var groupClassModel in groupClassesModels)
             {
                 groupClassesViewModels.Add(_mapper.MapTrainingModelToViewModelBase(groupClassModel));
@@ -64,13 +64,13 @@ namespace FitMeApp.Controllers
         {
             var trainingModel = _trainingService.GetTrainingModel(groupClassId, gymId);
             var trainingViewModel = _mapper.MapTrainingModelToViewModel(trainingModel);
-            
-            //get the detailed group class description by reading specified section from .txt file  
-            string sectionStartMarker = trainingViewModel.Name.Replace(" ","") + "Start";
-            string sectionEndMarker = trainingViewModel.Name.Replace(" ","") + "End";
-            trainingViewModel.DetailedDescription = _fileService.GetSpecifiedSectionFromFile(Resources.Resources.GroupClassesDescriptionPath, sectionStartMarker, sectionEndMarker);
-            var paragraphs = Regex.Split(trainingViewModel.DetailedDescription, @"/n").Where(p => p.Any(char.IsLetterOrDigit)).ToList();
-            ViewBag.Text = paragraphs;
+
+            //getting the detailed group class description by reading specified section from .txt file  
+            string sectionStartMarker = trainingViewModel.Name.Replace(" ", "") + "Start";
+            string sectionEndMarker = trainingViewModel.Name.Replace(" ", "") + "End";
+            string detailedDescriptionLine = _fileService.GetSpecifiedSectionFromFile(Resources.Resources.GroupClassesDescriptionPath, sectionStartMarker, sectionEndMarker);
+
+            trainingViewModel.DetailedDescription = _fileService.SplitTextIntoParagraphs(detailedDescriptionLine, @"/n").ToList();
 
             return View(trainingViewModel);
         }
@@ -123,7 +123,7 @@ namespace FitMeApp.Controllers
         {
             try
             {
-                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId); 
+                var groupClassScheduleRecord = _trainingService.GetRecordInGroupClassSchedule(groupClassScheduleId);
                 var user = await _userManager.GetUserAsync(User);
                 var userSubscriptions = _subscriptionService.GetUserSubscriptions(user.Id);
                 bool hasAvailableSubscription = false;
@@ -165,17 +165,17 @@ namespace FitMeApp.Controllers
                     int participantId = _trainingService.AddGroupClassParticipant(groupClassScheduleId, user.Id);
                     if (participantId == 0)
                     {
-                        _scheduleService.DeleteEvent(eventId); 
+                        _scheduleService.DeleteEvent(eventId);
                         string message = "Failed attempt subscribe for group class. Try again later please";
                         return View("CustomError", message);
                     }
 
-                    return RedirectToAction("ApplyForTrainingSubmitted", "Trainings", new { isPersonalTraining = false});
+                    return RedirectToAction("ApplyForTrainingSubmitted", "Trainings", new { isPersonalTraining = false });
                 }
                 else
                 {
                     return RedirectToAction("NoAvailableSubscription", "Trainings",
-                        new {gymId = groupClassScheduleRecord.GymId});
+                        new { gymId = groupClassScheduleRecord.GymId });
                 }
 
             }
@@ -185,7 +185,7 @@ namespace FitMeApp.Controllers
                 string message = "Failed attempt subscribe for group class. Try again later please";
                 return View("CustomError", message);
             }
-           
+
         }
 
 
@@ -196,7 +196,7 @@ namespace FitMeApp.Controllers
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
 
-            var groupClasses = trainer.Trainings.Where(x=>x.Name != "Personal training");
+            var groupClasses = trainer.Trainings.Where(x => x.Name != "Personal training");
 
             var viewModel = new SetCroupClassScheduleViewModel()
             {
@@ -218,8 +218,9 @@ namespace FitMeApp.Controllers
                 var dates = new List<DateTime>();
                 dates.Add(viewModel.Dates.First());
 
-                if (viewModel.SelectedDaysOfWeek != null) {
-                    
+                if (viewModel.SelectedDaysOfWeek != null)
+                {
+
                     foreach (var dayOfWeek in viewModel.SelectedDaysOfWeek)
                     {
                         var date = DateManager.GetDatesInSpanByDayOfWeek(viewModel.Dates.FirstOrDefault(), 30, dayOfWeek.ToString());
@@ -246,7 +247,7 @@ namespace FitMeApp.Controllers
                     groupClassScheduleRecordsModels.Add(model);
                 }
 
-                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList(); 
+                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList();
 
                 viewModel.EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(endTime);
                 viewModel.SelectedGroupClassName = _trainingService.GetTrainingModel(viewModel.SelectedGroupClassId).Name;
