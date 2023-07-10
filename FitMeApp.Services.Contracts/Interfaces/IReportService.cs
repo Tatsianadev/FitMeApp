@@ -11,13 +11,17 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IReportService
     {
+        //Excel
         Task WriteToExcelAsync(DataTable table, FileInfo file);
         Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file);
-
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
 
         //Pdf
         void CreateDietPlanPdf(DietPdfReportModel dietPlan);
 
+        //Text
+        Task<string> GetTextContentFromFileAsync(string localPath);
+        string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker);
+        IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark);
     }
 }

@@ -15,11 +15,13 @@ namespace FitMeApp.Services
     {
         private readonly IExcelReport _excelReport;
         private readonly IPdfReport _pdfReport;
+        private readonly ITextReport _textReport;
 
-        public ReportService(IExcelReport excelReport, IPdfReport pdfReport)
+        public ReportService(IExcelReport excelReport, IPdfReport pdfReport, ITextReport textReport)
         {
             _excelReport = excelReport;
             _pdfReport = pdfReport;
+            _textReport = textReport;
         }
 
 
@@ -49,6 +51,28 @@ namespace FitMeApp.Services
         public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
         {
             _pdfReport.CreateDietPlanPdf(dietPlan);
+        }
+
+
+        //Text
+        public async Task<string> GetTextContentFromFileAsync(string localPath)
+        {
+            var text = await _textReport.GetTextContentFromFileAsync(localPath);
+            return text;
+        }
+
+
+        public string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker)
+        {
+            var sectionText = _textReport.GetSpecifiedSectionFromFile(localPath, sectionStartMarker, sectionEndMarker);
+            return sectionText;
+        }
+
+
+        public IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark)
+        {
+            var paragraphs = _textReport.SplitTextIntoParagraphs(text, splitMark);
+            return paragraphs;
         }
     }
 }

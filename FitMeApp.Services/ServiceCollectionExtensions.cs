@@ -50,6 +50,7 @@ namespace FitMeApp.Services
             services.AddScoped<IExcelReport, ExcelReportEpPlus>();
             //services.AddScoped<IExcelReport, ExcelReportOpenXml>();
             services.AddScoped<IPdfReport, PdfReportAspose>();
+            services.AddScoped<ITextReport, TextReport>();
         }
 
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
