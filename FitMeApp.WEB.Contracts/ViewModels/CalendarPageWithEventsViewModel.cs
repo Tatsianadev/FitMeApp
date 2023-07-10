@@ -6,12 +6,12 @@ using System.Text;
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
     public class CalendarPageWithEventsViewModel
-    {       //todo write notes in English
-        public DateTime Date { get; set; } //отображает страницу в календаре (Calendar partial view) и конкретный указатель даты в Events partial view 
-        public bool DayOnCalendarSelected { get; set; } //флаг для отображения/скртытия Events partial view 
-        public bool SelectedDayIsWorkOff { get; set; } //флаг для переадресации на WorkOff partial view       
+    {       
+        public DateTime Date { get; set; } //The property displays the page in the calendar (Calendar partial view) and the specific date pointer in the Events partial view
+        public bool DayOnCalendarSelected { get; set; } //flag to show/hide Events partial view 
+        public bool SelectedDayIsWorkOff { get; set; } //flag to redirect to WorkOff partial view       
         public string MonthName { get; set; }       
-        public IDictionary<DateTime, int> DatesEventsCount { get; set; } //коллекция, поскольку на ОДНОЙ странице календаря должны отображаться события для всех дней в месяце 
-        public ICollection<EventViewModel> Events { get; set; } //поле имеет значение только после выбора конкретной даты 
+        public IDictionary<DateTime, int> DatesEventsCount { get; set; } //collection because on th ONE page of the calendar should be shown events for all days in the month 
+        public ICollection<EventViewModel> Events { get; set; } //the field is only meaningful after a specific date has been selected
     }
 }

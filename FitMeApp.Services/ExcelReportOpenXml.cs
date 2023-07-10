@@ -139,6 +139,61 @@ namespace FitMeApp.Services
         }
 
 
+        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
+        {
+            var nutrients = new NutrientsModel();
+
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
+            {
+                var workBook = spreadsheetDocument.WorkbookPart.Workbook;
+                var sheets = workBook.Sheets.Cast<Sheet>().ToList();
+
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                List<WorksheetPart> worksheetParts = workbookPart.WorksheetParts.ToList();
+
+                foreach (var worksheetPart in worksheetParts)
+                {
+                    Worksheet worksheet = worksheetPart.Worksheet;
+                    SheetData sheetData = worksheet.Elements<SheetData>().First();
+                    string partRelationshipId = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart);
+                    var currentSheet = sheets.FirstOrDefault(x => x.Id.HasValue && x.Id.Value == partRelationshipId);
+                   
+                    string colName = GetExcelColumnName(1);
+                    int rowNumber = 1;
+
+                    List<string> productsOnCurrentSheet = new List<string>();
+                    while (rowNumber <= sheetData.Descendants<Row>().Count())
+                    {
+                        string productCellAddress = colName + (rowNumber).ToString();
+                        Cell productCell = worksheet.Descendants<Cell>().Where(x => x.CellReference == productCellAddress).FirstOrDefault();
+                        string product = GetCellValue(spreadsheetDocument, productCell);
+                        if (!string.IsNullOrEmpty(product))
+                        {
+                            productsOnCurrentSheet.Add(product);
+                        }
+
+                        rowNumber++;
+                    }
+
+                    switch (currentSheet.Name.ToString())
+                    {
+                        case "Proteins" :
+                            nutrients.Proteins = productsOnCurrentSheet;
+                            break;
+                        case "Fats":
+                            nutrients.Fats = productsOnCurrentSheet;
+                            break;
+                        case "Carbohydrates":
+                            nutrients.Carbohydrates = productsOnCurrentSheet;
+                            break;
+                    }
+                }
+            }
+
+            return nutrients;
+        }
+
+
         private string GetCellValue(SpreadsheetDocument spreadsheet, Cell cell)
         {
             SharedStringTablePart stringTablePart = spreadsheet.WorkbookPart.SharedStringTablePart;
@@ -373,11 +428,7 @@ namespace FitMeApp.Services
 
 
 
-        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
-        {
-            //todo implement method
-            return new NutrientsModel();
-        }
+
 
 
 
