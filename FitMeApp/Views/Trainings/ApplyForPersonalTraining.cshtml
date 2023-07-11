@@ -62,10 +62,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <input id="pricePerHour" type="hidden" asp-for="Price" value="@Model.Price"/>
+                        <input id="pricePerHour" type="hidden" asp-for="Price" value="@Model.Price" />
                         <h3 id="price" style="font-weight: bold"> @Model.Price $</h3>
-                        <a asp-controller="Trainers" asp-action="Index" class="btn btn-dark" style="width: 30%">Cancel</a>
-                        <input type="submit" value="Ok" class="btn btn-dark"/>
+                        <a id="goBackBtn" class="btn btn-outline-dark" style="width: 30%">Cancel</a>
+                        <input type="submit" value="Ok" class="btn btn-dark" />
                     </div>
                 </form>
 
@@ -108,7 +108,7 @@
                 });
         });
 
-    
+
     var durationOptions = document.getElementById("duration");
     var pricePerHour = document.getElementById("pricePerHour").value;
     var pricePerMinute = parseInt(pricePerHour) / 60;
@@ -118,4 +118,10 @@
             document.getElementById("price").innerText = (pricePerMinute * selectedDuration) + "$";
             document.getElementById("pricePerHour").value = pricePerMinute * selectedDuration;
         });
+
+
+    document.getElementById("goBackBtn").addEventListener("click", function goBack(e) {
+        window.history.back();
+    });
+    
 </script>
