@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models.Chart;
+using IronPython.Hosting;
+using IronPython.Runtime;
+using Microsoft.Scripting.Hosting;
 
 namespace FitMeApp.Services
 {
@@ -24,7 +27,32 @@ namespace FitMeApp.Services
             _mapper = new EntityModelMapper();
         }
 
-        
+
+        //Test python
+        //Start
+        public int GetSumFromPython(int a, int b)
+        {
+            try
+            {
+                ScriptEngine engine = Python.CreateEngine();
+                ScriptSource source = engine.CreateScriptSourceFromFile(Environment.CurrentDirectory + @"\wwwroot\Python\FitMePythonTest.py");
+                var scope = engine.CreateScope();
+                scope.SetVariable("a", a);
+                scope.SetVariable("b", b);
+                source.Execute(scope);
+                var sum = scope.GetVariable<int>("sum");
+                return sum;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return 0;
+        }
+        //End
+
+
         public IEnumerable<GymModel> GetAllGymModels()
         {
             try

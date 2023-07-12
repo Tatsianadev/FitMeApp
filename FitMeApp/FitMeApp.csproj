@@ -5,6 +5,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="wwwroot\Python\FitMePythonTest.py" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Include="Resources\Resources.Designer.cs" />
 	  <Content Include="Resources\Resources.resx" />
 	</ItemGroup>
@@ -47,6 +51,7 @@
 		<None Include="wwwroot\Content\images\Stallone.jpg" />
 		<None Include="wwwroot\Content\images\Statham.jpg" />
 		<None Include="wwwroot\Content\images\Wanda.jpg" />
+		<None Include="wwwroot\Python\FitMePythonTest.py" />
 	</ItemGroup>
 
 	<ItemGroup>
