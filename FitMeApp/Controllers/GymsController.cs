@@ -49,8 +49,6 @@ namespace FitMeApp.Controllers
 
         public IActionResult Index()
         {
-            int sum = _gymService.GetSumFromPython(5,2);
-
             var gymModels = _gymService.GetAllGymsWithGalleryModels();
             List<GymViewModel> gyms = new List<GymViewModel>();
             foreach (var gym in gymModels)

@@ -266,9 +266,7 @@ namespace FitMeApp.Services
             return dietGoalRate[(int)goal];
         }
 
-
-
-
+        
 
         private int CalculateHealthyWeight(int height, GenderEnum gender)
         {

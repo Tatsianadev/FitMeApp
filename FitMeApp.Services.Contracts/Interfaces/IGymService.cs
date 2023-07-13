@@ -9,9 +9,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IGymService
     {
-        //Test python
-        int GetSumFromPython(int a, int b);
-
         //Gyms
         IEnumerable<GymModel> GetAllGymModels();
         IEnumerable<GymModel> GetAllGymsWithGalleryModels();

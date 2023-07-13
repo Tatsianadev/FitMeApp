@@ -26,33 +26,9 @@ namespace FitMeApp.Services
             _logger = logger;
             _mapper = new EntityModelMapper();
         }
+        
 
-
-        //Test python
-        //Start
-        public int GetSumFromPython(int a, int b)
-        {
-            try
-            {
-                ScriptEngine engine = Python.CreateEngine();
-                ScriptSource source = engine.CreateScriptSourceFromFile(Environment.CurrentDirectory + @"\wwwroot\Python\FitMePythonTest.py");
-                var scope = engine.CreateScope();
-                scope.SetVariable("a", a);
-                scope.SetVariable("b", b);
-                source.Execute(scope);
-                var sum = scope.GetVariable<int>("sum");
-                return sum;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-            }
-
-            return 0;
-        }
-        //End
-
-
+        
         public IEnumerable<GymModel> GetAllGymModels()
         {
             try
