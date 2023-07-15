@@ -210,6 +210,13 @@ namespace FitMeApp.Controllers
 
 
 
+        public IActionResult ProductNutrients()
+        {
+            return View();
+        }
+
+
+
 
 
 

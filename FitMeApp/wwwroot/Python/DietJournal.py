@@ -3,7 +3,7 @@ import os
 
 
 def writeToCsv(newElement, fileName):
-    columns = ["name", "prot", "fat", "carb"]
+    columns = ["name", "cal", "prot", "fat", "carb"]
     if os.path.exists(fileName):
         with open(fileName, "a") as file:      
             writer = csv.DictWriter(file, fieldnames = columns)              
@@ -17,10 +17,9 @@ def writeToCsv(newElement, fileName):
 
 def readFromCsv(fileName):
     with open(fileName, "r", newline="") as file:
-        reader = csv.DictReader(file)
-        content = list()
+        reader = csv.DictReader(file)        
         for row in reader:
-            print(row["name"], " : ", row["prot"], ", ", row["fat"], ", ", row["carb"])            
+            print(row["name"], " : ", row["cal"], ", ", row["prot"], ", ", row["fat"], ", ", row["carb"])            
 
 
 def findNamesByStartWith(fileName, letters):
@@ -45,8 +44,8 @@ def findProduct(fileName, productName):
 path = r"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\Csv\Products.csv"
 # product = {"name": "plum", "prot": 0.8, "fat": 0.3, "carb": 9.6}
 # writeToCsv(product, path)
-# readFromCsv(path)
-# findBy = "ba"
-# result = findNamesByStartWith(path, findBy)
-product = findProduct(path, "Banana")
-print(product["name"], " : ", product["prot"], ", ", product["fat"], ", ", product["carb"])
+#readFromCsv(path)
+findBy = "veg"
+result = findNamesByStartWith(path, findBy)
+#product = findProduct(path, "Banana")
+#print(product["name"], " : ", product["cal"], ", ", product["prot"], ", ", product["fat"], ", ", product["carb"])

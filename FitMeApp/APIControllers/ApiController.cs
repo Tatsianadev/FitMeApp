@@ -6,6 +6,9 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Common;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using IronPython.Hosting;
+using IronPython.Runtime;
+using Microsoft.Scripting.Hosting;
 
 namespace FitMeApp.APIControllers
 {
@@ -127,6 +130,28 @@ namespace FitMeApp.APIControllers
             }
 
             return false;
+        }
+
+
+        [HttpPost]
+        [Route("getproductsbystartwith")]
+        public IEnumerable<string> GetProductsByStartWith(string letters)
+        {
+            ScriptEngine engine = Python.CreateEngine();
+            ScriptScope scope = engine.CreateScope();
+            string fullPathToFile = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\Python\DietJournal.py"; //todo put path to Resources 
+            engine.ExecuteFile(fullPathToFile, scope);
+
+            var function = scope.GetVariable("findNamesByStartWith");
+            string allProductsFile = scope.GetVariable("path");
+            var resultPy = function(allProductsFile, letters);
+
+            var result = new List<string>();
+            foreach (var product in resultPy)
+            {
+                result.Add(product);
+            }
+            return result;
         }
     }
 }
