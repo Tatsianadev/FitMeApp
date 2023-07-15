@@ -1,4 +1,11 @@
-import System
+#import System
+#import clr
+#clr.AddReferenceToFileAndPath(r"c:\tatsiana\projects\FitMeApp\FitMeApp.Common\bin\Debug\netcoreapp3.1\FitMeApp.Common.dll")
+#from CommonDll import *
+
+#enumGoals = DietGoalsEnum
+#goal = enumGoals.loseWeight
+
 #import sys
 #sys.modules["System"]
 #System.Collections
