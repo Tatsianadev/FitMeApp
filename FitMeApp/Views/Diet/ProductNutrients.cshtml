@@ -3,14 +3,19 @@
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <div class="row" style="padding: 20px">
-                <div class="col-md-11">
+                <div class="col-md-12">
                     <label for="productSearchBox" class="form-label">Product name</label>
-                    <input type="text" class="form-control" id="productSearchBox" placeholder="type product name...">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="productSearchBox" placeholder="type product name..." aria-label="productSearchBox" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <img id="searchImg" src="/Content/images/search.svg" />
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-1" style="padding: 5px">
-                    <img id="searchImg" src="/Content/images/search.svg" />
+                <div id="searchResult">
+                    <select id="searchResult" class="form-select" multiple aria-label="multiple select example"></select>
                 </div>
-                <div id="searchResult"></div>
+                <div id="test"></div>
             </div>
         </div>
         <div class="col-md-4"></div>
@@ -30,7 +35,19 @@
                             })
                         .done(function(data) {
                             if (data !== null) {
-                                document.getElementById("searchResult").innerText = data;
+                                /*alert(data);*/
+                                var selectOptionsHtml = "";
+                                for (var i = 0; i < data.length; i++){
+                                    //if (i === 0) {
+                                    //    selectOptionsHtml += "<option selected value=" + data[i] + ">" + data[i] + "</option>";
+                                    //}
+                                    selectOptionsHtml += "<option value=" + data[i] + ">" + data[i] + "</option >";
+                                }
+                                document.getElementById("searchResult").innerHTML = "";
+                                document.getElementById("searchResult").innerHTML = selectOptionsHtml;
+                            }
+                            else {
+                                document.getElementById("searchResult").innerHTML = "";
                             }
                         });
 
