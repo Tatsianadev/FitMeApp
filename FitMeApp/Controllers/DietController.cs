@@ -211,17 +211,22 @@ namespace FitMeApp.Controllers
 
 
 
-        public IActionResult ProductNutrients()
+        public IActionResult ProductsInfo()
         {
             string pythonFile = Environment.CurrentDirectory + Resources.Resources.DietJournalPyPath;
             var productNames = _dietService.GetAllProducts(pythonFile);
             if (productNames == null)
             {
-                string message = "Diet journal doesn't work right now. Please, try again later";
+                string message = "Diet journal doesn't work right now. Please, try again later.";
                 return View("CustomError", message);
             }
 
             return View(productNames);
+        }
+
+        public IActionResult InvokeProductNutrientsViewComponent(string productName)
+        {
+            return ViewComponent("ProductNutrients", new {productName = productName });
         }
 
 
