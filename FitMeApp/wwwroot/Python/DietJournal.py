@@ -17,9 +17,12 @@ def writeToCsv(newElement, fileName):
 
 def readFromCsv(fileName):
     with open(fileName, "r", newline="") as file:
-        reader = csv.DictReader(file)        
+        reader = csv.DictReader(file)
+        allProducts = list()        
         for row in reader:
-            print(row["name"], " : ", row["cal"], ", ", row["prot"], ", ", row["fat"], ", ", row["carb"])            
+            # print(row["name"], " : ", row["cal"], ", ", row["prot"], ", ", row["fat"], ", ", row["carb"])
+            allProducts.append(row)
+        return allProducts            
 
 
 def findNamesByStartWith(fileName, letters):
