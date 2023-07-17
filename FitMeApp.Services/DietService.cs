@@ -7,6 +7,7 @@ using FitMeApp.Mapper;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
+using FitMeApp.Services.Contracts.Models.Chart;
 
 namespace FitMeApp.Services
 {
@@ -227,6 +228,12 @@ namespace FitMeApp.Services
         {
             var productNames = _productsService.GetAllProductNames(pythonFile);
             return productNames;
+        }
+
+        public ProductNutrientsModel GetProductInfoByName(string pythonFile, string productName)
+        {
+            var productNutrientsModel = _productsService.GetProductInfoByName(pythonFile, productName);
+            return productNutrientsModel;
         }
 
 

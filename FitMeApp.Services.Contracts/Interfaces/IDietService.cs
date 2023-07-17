@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FitMeApp.Common;
 using FitMeApp.Services.Contracts.Models;
+using FitMeApp.Services.Contracts.Models.Chart;
 
 namespace FitMeApp.Services.Contracts.Interfaces
 {
@@ -18,6 +19,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Python using
         IEnumerable<string> GetAllProducts(string pythonFile);
+        ProductNutrientsModel GetProductInfoByName(string pythonFile, string productName);
 
     }
 }
