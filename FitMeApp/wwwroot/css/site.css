@@ -304,7 +304,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .select-box {
-    margin-top: 100px;
+    margin-top: 20px;
     width: 100%;
     position: relative;
 }

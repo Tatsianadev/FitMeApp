@@ -15,11 +15,13 @@ namespace FitMeApp.Services
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
         private readonly IFileService _fileService;
+        private readonly IProductsService _productsService;
 
-        public DietService(IRepository repository, IFileService fileService)
+        public DietService(IRepository repository, IFileService fileService, IProductsService productsService)
         {
             _repository = repository;
             _fileService = fileService;
+            _productsService = productsService;
             _mapper = new EntityModelMapper();
         }
 
@@ -216,6 +218,15 @@ namespace FitMeApp.Services
             }
 
             return anthropometricAndDietModel;
+        }
+
+
+
+        //IronPython is used
+        public IEnumerable<string> GetAllProducts(string pythonFile)
+        {
+            var productNames = _productsService.GetAllProductNames(pythonFile);
+            return productNames;
         }
 
 

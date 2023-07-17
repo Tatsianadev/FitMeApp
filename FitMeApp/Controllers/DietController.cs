@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
+
 namespace FitMeApp.Controllers
 {
     public class DietController : Controller
@@ -212,7 +213,15 @@ namespace FitMeApp.Controllers
 
         public IActionResult ProductNutrients()
         {
-            return View();
+            string pythonFile = Environment.CurrentDirectory + Resources.Resources.DietJournalPyPath;
+            var productNames = _dietService.GetAllProducts(pythonFile);
+            if (productNames == null)
+            {
+                string message = "Diet journal doesn't work right now. Please, try again later";
+                return View("CustomError", message);
+            }
+
+            return View(productNames);
         }
 
 

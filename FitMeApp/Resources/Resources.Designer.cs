@@ -88,6 +88,15 @@ namespace FitMeApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to \wwwroot\Python\DietJournal.py.
+        /// </summary>
+        internal static string DietJournalPyPath {
+            get {
+                return ResourceManager.GetString("DietJournalPyPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to wwwroot\\Content\\images\\healthyFood2.jpg.
         /// </summary>
         internal static string DietReportImagePath {

@@ -16,5 +16,8 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool CreateDietPlan(DietPreferencesModel model);
         UserAnthropometricAndDietModel GetAnthropometricAndDietModel(string userId);
 
+        //Python using
+        IEnumerable<string> GetAllProducts(string pythonFile);
+
     }
 }

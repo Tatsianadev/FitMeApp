@@ -1,4 +1,8 @@
-﻿<div class="container">
+﻿@model IEnumerable<string>
+
+
+
+<div class="container">
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
@@ -26,16 +30,21 @@
                             <div class="search">
                                 <input type="text" id="optionSearch" placeholder="Search product..."/>
                                 <ul class="options">
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                    <li>4</li>
-                                    <li>22</li>
-                                    <li>33</li>
-                                    <li>235</li>
-                                    <li>285</li>
-                                    <li>34</li>
-                                    <li>48</li>
+                                    @foreach (var name in @Model)
+                                    {
+                                        <li>@name</li>
+                                    }
+                                    @*<li>banana</li>
+                                    <li>apple</li>
+                                    <li>pear</li>
+                                    <li>peach</li>
+                                    <li>melon</li>
+                                    <li>carrot</li>
+                                    <li>beet</li>
+                                    <li>potato</li>
+                                    <li>grape</li>
+                                    <li>mandarin</li>
+                                    <li>mango</li>*@
                                 </ul>
                             </div>
                         </div>
@@ -71,32 +80,53 @@
     });
 
 
-
-    document.getElementById("productSearchBox").addEventListener("keyup",
+    optionSearch.addEventListener("keyup",
         function (e) {
-            if ((e.keyCode > 45 && e.keyCode < 106) || e.keyCode === 8) {
-                var letters = document.getElementById("productSearchBox").value;
-                if (letters.length > 0) {
-                    $.post(`https://localhost:44384/api/getproductsbystartwith`,
-                            {
-                                letters: letters
-                            })
-                        .done(function (data) {
-                            if (data !== null) {
-                                /*alert(data);*/
-                                var selectOptionsHtml = "";
-                                for (var i = 0; i < data.length; i++) {
-                                    selectOptionsHtml += "<option value=" + data[i] + ">" + data[i] + "</option >";
-                                }
-                                document.getElementById("searchResult").innerHTML = "";
-                                document.getElementById("searchResult").innerHTML = selectOptionsHtml;
-                            }
-                            else {
-                                document.getElementById("searchResult").innerHTML = "";
-                            }
-                        });
-
+            var filter, li, i, textValue;
+            filter = optionSearch.value.toLowerCase();
+            li = options.getElementsByTagName('li');
+            for (i = 0; i < li.length; i++) {
+                textValue = li[i].textContent || li[i].innerText;
+                if (textValue.toLowerCase().indexOf(filter) > -1) {
+                    li[i].style.display = '';
+                }
+                else {
+                    li[i].style.display = 'none';
                 }
             }
         });
+
+
+
+
+
+
+
+    //document.getElementById("productSearchBox").addEventListener("keyup",
+    //    function (e) {
+    //        if ((e.keyCode > 45 && e.keyCode < 106) || e.keyCode === 8) {
+    //            var letters = document.getElementById("productSearchBox").value;
+    //            if (letters.length > 0) {
+    //                $.post(`https://localhost:44384/api/getproductsbystartwith`,
+    //                        {
+    //                            letters: letters
+    //                        })
+    //                    .done(function (data) {
+    //                        if (data !== null) {
+    //                            /*alert(data);*/
+    //                            var selectOptionsHtml = "";
+    //                            for (var i = 0; i < data.length; i++) {
+    //                                selectOptionsHtml += "<option value=" + data[i] + ">" + data[i] + "</option >";
+    //                            }
+    //                            document.getElementById("searchResult").innerHTML = "";
+    //                            document.getElementById("searchResult").innerHTML = selectOptionsHtml;
+    //                        }
+    //                        else {
+    //                            document.getElementById("searchResult").innerHTML = "";
+    //                        }
+    //                    });
+
+    //            }
+    //        }
+    //    });
 </script>

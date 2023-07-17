@@ -15,14 +15,14 @@ def writeToCsv(newElement, fileName):
             writer.writerow(newElement)
 
 
-def readFromCsv(fileName):
+def getAllProductNames(fileName):
     with open(fileName, "r", newline="") as file:
         reader = csv.DictReader(file)
-        allProducts = list()        
+        allProductNames = list()        
         for row in reader:
             # print(row["name"], " : ", row["cal"], ", ", row["prot"], ", ", row["fat"], ", ", row["carb"])
-            allProducts.append(row)
-        return allProducts            
+            allProductNames.append(row["name"])
+        return allProductNames           
 
 
 def findNamesByStartWith(fileName, letters):

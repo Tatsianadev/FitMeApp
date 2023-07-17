@@ -44,6 +44,7 @@ namespace FitMeApp.Services
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IDietService, DietService>();
+            services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IFileStorage, FileStorage>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IReportService, ReportService>();
