@@ -7,11 +7,11 @@ namespace FitMeApp.Common
 {
     public enum NutrientsEnum
     {
-        [Description("Proteins")]
+        [Description("Protein")]
         proteins,
-        [Description("Fats")]
+        [Description("Fat")]
         fats,
-        [Description("Carbohydrates")]
+        [Description("Carbohydrate")]
         carbohydrates
     }
 }

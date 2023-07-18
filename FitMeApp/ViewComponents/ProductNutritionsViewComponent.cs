@@ -22,7 +22,7 @@ namespace FitMeApp.ViewComponents
             var product = _dietService.GetProductInfoByName(pythonFile, productName);
             var productViewModel = new ProductNutrientsViewModel()
             {
-                Name = product.Name,
+                Name = product.Name.ToUpper(),
                 Calorie = product.Calorie,
                 Protein = product.Protein,
                 Fat = product.Fat,

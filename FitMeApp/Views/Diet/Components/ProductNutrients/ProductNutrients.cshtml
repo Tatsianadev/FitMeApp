@@ -1,13 +1,39 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.ProductNutrientsViewModel
+﻿@using FitMeApp.Common
+@model FitMeApp.WEB.Contracts.ViewModels.ProductNutrientsViewModel
 
-<div>
-    @Model.Name
-    <br />
-    @Model.Calorie
-    <br />
-    @Model.Protein
-    <br />
-    @Model.Fat
-    <br />
-    @Model.Carbohydrates
+<div class="container">
+    <div class="row" style="padding: 0 20px">
+        <div style="text-align: center; background-color: #F3FFEB; margin-top: 20px">
+            <h3>@Model.Name</h3>
+        </div>
+        <div style="text-align: left; margin-top: 10px">
+            <h6 style="font-style: italic">100gr contains:</h6>
+        </div>
+    </div>
+    <div class="row" style="padding: 0 20px">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Calorie</th>
+                    <td>@Model.Calorie</td>
+                    <td>kcal</td>
+                </tr>
+                <tr>
+                    <th scope="row">@NutrientsEnum.proteins.GetDescription()</th>
+                    <td>@Model.Protein</td>
+                    <td>gr</td>
+                </tr>
+            <tr>
+                <th scope="row">@NutrientsEnum.fats.GetDescription()</th>
+                <td>@Model.Fat</td>
+                <td>gr</td>
+            </tr>
+            <tr>
+                <th scope="row">@NutrientsEnum.carbohydrates.GetDescription()</th>
+                <td>@Model.Carbohydrates</td>
+                <td>gr</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
