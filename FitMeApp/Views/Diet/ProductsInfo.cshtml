@@ -1,23 +1,21 @@
 ﻿@model IEnumerable<string>
 
 
-
-
 <div class="container">
     <div class="row">
-        <div class="col-md-9" style="padding:20px">
+        <div class="col-md-9" style="padding: 20px; height: 150px">
             <h4>
                 Wonder how many calories are in your favorite products?
                 <br />
                 So, let's see!
             </h4>
             <br />
-            <h6>
-                Just select the product in the search box below and see how many calories and nutrients it contain.
+            <h6 style="vertical-align: bottom">
+                Just select the product in the search box below and see how many calories and nutrients it contains.
             </h6>
             <hr />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" style="height: 150px">
             <img src="/Content/images/healthyFood6.jpg" class="d-block w-100" alt="picture">
         </div>
     </div>
@@ -100,39 +98,4 @@
             }
         });
 
-
-    soValue.addEventListener('input', function(e) {
-        alert("text added");
-    });
-
-
-
-
-    //document.getElementById("productSearchBox").addEventListener("keyup",
-    //    function (e) {
-    //        if ((e.keyCode > 45 && e.keyCode < 106) || e.keyCode === 8) {
-    //            var letters = document.getElementById("productSearchBox").value;
-    //            if (letters.length > 0) {
-    //                $.post(`https://localhost:44384/api/getproductsbystartwith`,
-    //                        {
-    //                            letters: letters
-    //                        })
-    //                    .done(function (data) {
-    //                        if (data !== null) {
-    //                            /*alert(data);*/
-    //                            var selectOptionsHtml = "";
-    //                            for (var i = 0; i < data.length; i++) {
-    //                                selectOptionsHtml += "<option value=" + data[i] + ">" + data[i] + "</option >";
-    //                            }
-    //                            document.getElementById("searchResult").innerHTML = "";
-    //                            document.getElementById("searchResult").innerHTML = selectOptionsHtml;
-    //                        }
-    //                        else {
-    //                            document.getElementById("searchResult").innerHTML = "";
-    //                        }
-    //                    });
-
-    //            }
-    //        }
-    //    });
 </script>
