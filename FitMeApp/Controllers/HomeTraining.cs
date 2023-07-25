@@ -3,9 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net.Http;
+using FitMeApp.Mapper;
 using FitMeApp.Services.Contracts.Interfaces;
+using FitMeApp.Services.Contracts.Models;
+using FitMeApp.WEB.Contracts.ViewModels;
+using IronPython.Runtime;
 using Microsoft.Extensions.Logging;
+using Exception = System.Exception;
 
 namespace FitMeApp.Controllers
 {
@@ -13,38 +17,38 @@ namespace FitMeApp.Controllers
     {
         private readonly IHomeTrainingService _homeTrainingService;
         private readonly ILogger<HomeController> _logger;
-
-        //private readonly HttpClient httpClient;
+        private readonly ModelViewModelMapper _mapper;
 
         public HomeTraining(IHomeTrainingService homeTrainingService, ILogger<HomeController> logger)
         {
             _homeTrainingService = homeTrainingService;
             _logger = logger;
-            //httpClient = new HttpClient();
-            //httpClient.BaseAddress = new Uri("http://127.0.0.1:5000/");
+            _mapper = new ModelViewModelMapper();
+
         }
 
-        //private async Task<string> GetPythonApiDataAsync()
-        //{
-        //    try
-        //    {
-        //        HttpResponseMessage response = await httpClient.GetAsync("test");
-        //        response.EnsureSuccessStatusCode();
-        //        string responseContent = await response.Content.ReadAsStringAsync();
-        //        return responseContent;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        return ex.Message;
-        //    }
-        //}
 
-
-        public async Task<IActionResult> TestPyAPI()
+        public async Task<IActionResult> HomeTrainingsList()
         {
-            var response = await _homeTrainingService.GetAllHomeTrainingsAsync();
-            return View("TestPyAPI");
+            var homeTrainingModels = new List<HomeTrainingModel>();
+            try
+            {
+                homeTrainingModels = (await _homeTrainingService.GetAllHomeTrainingsAsync()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Home Trainings page does not available right now. Please, try again later.";
+                return View("CustomError", message);
+            }
+           
+            var homeTrainingViewModels = new List<HomeTrainingViewModel>();
+            foreach (var model in homeTrainingModels)
+            {
+                homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
+            }
+
+            return View("HomeTrainingsList", homeTrainingViewModels);
         }
        
     }

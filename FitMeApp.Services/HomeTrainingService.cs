@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,20 +27,36 @@ namespace FitMeApp.Services
 
         public async Task<IEnumerable<HomeTrainingModel>> GetAllHomeTrainingsAsync()
         {
-            var jsonString = await GetAllHomeTrainingsJsonAsync();
-            var res = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingJsonModel>>(jsonString);
+            var jsonString = await GetJsonResponseAsync("allHomeTrainings");
+            var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingJsonModel>>(jsonString);
 
+            var homeTrainingsModels = new List<HomeTrainingModel>();
+            foreach (var training in homeTrainingsDict.Values)
+            {
+                homeTrainingsModels.Add(new HomeTrainingModel()
+                {
+                    Id = training.Id,
+                    Name = training.Name,
+                    AgeUpTo = training.AgeUpTo,
+                    AverageCalConsumption = training.AverageCalConsumption,
+                    BMIfrom = training.BMIfrom,
+                    BMIupTo = training.BMIupTo,
+                    Duration = training.Duration,
+                    EquipmentIsNeeded = training.EquipmentIsNeeded,
+                    Gender = training.Gender,
+                    ShortDescriptionFile = training.ShortDescriptionFile
+                });
+            }
 
-
-            return new List<HomeTrainingModel>();
+            return homeTrainingsModels;
         }
 
 
-        private async Task<string> GetAllHomeTrainingsJsonAsync()
+        private async Task<string> GetJsonResponseAsync(string endpoint)
         {
             try
             {
-                HttpResponseMessage response = await httpClient.GetAsync("test");
+                HttpResponseMessage response = await httpClient.GetAsync(endpoint);
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return responseContent;

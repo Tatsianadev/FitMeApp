@@ -1,0 +1,18 @@
+﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.HomeTrainingViewModel>
+
+
+<div> Test python API page</div>
+<br/>
+<div id="result">
+   @foreach (var training in Model)
+   {
+       <div>
+           @training.Name
+           <br/>
+           @training.Duration min
+           <br/>
+       </div>
+
+   }
+</div>
+

@@ -242,6 +242,27 @@ namespace FitMeApp.Mapper
         }
 
 
+        public HomeTrainingViewModel MapHomeTrainingModelToViewModel(HomeTrainingModel model)
+        {
+            var viewModel = new HomeTrainingViewModel()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                AgeUpTo = model.AgeUpTo,
+                AverageCalConsumption = model.AverageCalConsumption,
+                BMIfrom = model.BMIfrom,
+                BMIupTo = model.BMIupTo,
+                Duration = model.Duration,
+                EquipmentIsNeeded = model.EquipmentIsNeeded,
+                Gender = model.Gender,
+                ShortDescriptionFile = model.ShortDescriptionFile,
+                ShortDescription = model.ShortDescription
+            };
+
+            return viewModel;
+        }
+
+
 
 
         //Reverse: ViewModel -> Model
