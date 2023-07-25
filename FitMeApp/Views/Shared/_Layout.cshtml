@@ -31,13 +31,13 @@
                         @*To access Swagger from application*@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Swagger" asp-action="Index">Web API</a>
-                        </li>
+                        </li>                       
 
                         @if (User.IsInRole("gymAdmin"))
                         {
                             @await Component.InvokeAsync("GymSettings");
                         }
-                       
+
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {

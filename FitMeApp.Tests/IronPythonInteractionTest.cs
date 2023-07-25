@@ -19,11 +19,9 @@ namespace FitMeApp.Tests
             ScriptEngine engine = Python.CreateEngine();
             ScriptScope scope = engine.CreateScope();
             string fullPath = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\Python\FitMePythonTest.py";
-            //scope.SetVariable("a", 5);
-            //scope.SetVariable("b", 10);
+            scope.SetVariable("a", 5);
+            scope.SetVariable("b", 10);
             engine.ExecuteFile(fullPath, scope);
-            //var resultGoal = scope.GetVariable("goal");
-
 
             var function = scope.GetVariable("universalFunction");
             var sumResult = function(5, 10, "+");

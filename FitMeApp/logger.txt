@@ -7368,3 +7368,37 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+The view '{"1": {"Name": "Beginner Bodyweight", "AverangeCalConsumption": 300, "AgeUpTo": 60, "Gender": "male", "Duration": 45, "BMIfrom": 35, "BMIupTo": 25, "EquipmentIsNeeded": false, "ShortDescriptionFile": "content\\Short description\\Bodyweight beginners.pdf"}}' was not found. Searched locations: /Views/HomeTraining/{"1": {"Name": "Beginner Bodyweight", "AverangeCalConsumption": 300, "AgeUpTo": 60, "Gender": "male", "Duration": 45, "BMIfrom": 35, "BMIupTo": 25, "EquipmentIsNeeded": false, "ShortDescriptionFile": "content/Short description/Bodyweight beginners.pdf"}}.cshtml, /Views/Shared/{"1": {"Name": "Beginner Bodyweight", "AverangeCalConsumption": 300, "AgeUpTo": 60, "Gender": "male", "Duration": 45, "BMIfrom": 35, "BMIupTo": 25, "EquipmentIsNeeded": false, "ShortDescriptionFile": "content/Short description/Bodyweight beginners.pdf"}}.cshtml
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.

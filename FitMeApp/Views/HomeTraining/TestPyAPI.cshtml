@@ -1,0 +1,16 @@
+﻿@model string
+
+
+<div> Test python API page</div>
+<button class="btn btn-dark" id="sendRequest">sent request to python api</button>
+<div id="result">
+    @Model
+</div>
+
+@*<script>
+    document.getElementById("sendRequest").addEventListener('click', function (e) {
+        $.get(`http://127.0.0.1:5000/test`, function (data) {
+                document.getElementById("result").innerText = data;
+            });
+    });
+</script>*@
