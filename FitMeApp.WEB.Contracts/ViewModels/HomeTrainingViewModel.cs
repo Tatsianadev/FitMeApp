@@ -15,7 +15,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int BMIfrom { get; set; }
         public int BMIupTo { get; set; }
         public bool EquipmentIsNeeded { get; set; }
-        public string ShortDescriptionFile { get; set; } //todo delete field if ShortDescription will be accessed
+     /*   public string ShortDescriptionFile { get; set; }*/ //todo delete field if ShortDescription will be accessed
         public string ShortDescription { get; set; }
     }
 }

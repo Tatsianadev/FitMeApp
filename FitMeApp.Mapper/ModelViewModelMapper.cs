@@ -255,7 +255,7 @@ namespace FitMeApp.Mapper
                 Duration = model.Duration,
                 EquipmentIsNeeded = model.EquipmentIsNeeded,
                 Gender = model.Gender,
-                ShortDescriptionFile = model.ShortDescriptionFile,
+                //ShortDescriptionFile = model.ShortDescriptionFile,
                 ShortDescription = model.ShortDescription
             };
 

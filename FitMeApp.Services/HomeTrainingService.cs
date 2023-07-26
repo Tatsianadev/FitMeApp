@@ -28,26 +28,8 @@ namespace FitMeApp.Services
         public async Task<IEnumerable<HomeTrainingModel>> GetAllHomeTrainingsAsync()
         {
             var jsonString = await GetJsonResponseAsync("allHomeTrainings");
-            var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingJsonModel>>(jsonString);
-
-            var homeTrainingsModels = new List<HomeTrainingModel>();
-            foreach (var training in homeTrainingsDict.Values)
-            {
-                homeTrainingsModels.Add(new HomeTrainingModel()
-                {
-                    Id = training.Id,
-                    Name = training.Name,
-                    AgeUpTo = training.AgeUpTo,
-                    AverageCalConsumption = training.AverageCalConsumption,
-                    BMIfrom = training.BMIfrom,
-                    BMIupTo = training.BMIupTo,
-                    Duration = training.Duration,
-                    EquipmentIsNeeded = training.EquipmentIsNeeded,
-                    Gender = training.Gender,
-                    ShortDescriptionFile = training.ShortDescriptionFile
-                });
-            }
-
+            var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingModel>>(jsonString);
+            var homeTrainingsModels = homeTrainingsDict.Values;
             return homeTrainingsModels;
         }
 
