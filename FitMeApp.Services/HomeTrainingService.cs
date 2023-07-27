@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.Extensions.Logging;
-using FitMeApp.Services.Contracts.Models.JsonModels;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -46,7 +45,7 @@ namespace FitMeApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return ex.Message;
+                throw;
             }
         }
     }

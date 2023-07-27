@@ -248,14 +248,12 @@ namespace FitMeApp.Mapper
             {
                 Id = model.Id,
                 Name = model.Name,
-                AgeUpTo = model.AgeUpTo,
+                MaxAge = model.MaxAge,
                 AverageCalConsumption = model.AverageCalConsumption,
-                BMIfrom = model.BMIfrom,
-                BMIupTo = model.BMIupTo,
+                MaxBMI = model.MaxBMI,
                 Duration = model.Duration,
                 EquipmentIsNeeded = model.EquipmentIsNeeded,
                 Gender = model.Gender,
-                //ShortDescriptionFile = model.ShortDescriptionFile,
                 ShortDescription = model.ShortDescription
             };
 
