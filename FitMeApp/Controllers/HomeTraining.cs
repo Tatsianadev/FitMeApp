@@ -41,7 +41,7 @@ namespace FitMeApp.Controllers
                 string message = "Home Trainings page does not available right now. Please, try again later.";
                 return View("CustomError", message);
             }
-           
+
             var homeTrainingViewModels = new List<HomeTrainingViewModel>();
             foreach (var model in homeTrainingModels)
             {
@@ -50,6 +50,30 @@ namespace FitMeApp.Controllers
 
             return View("HomeTrainingsList", homeTrainingViewModels);
         }
-       
+
+
+        [HttpPost]
+        public async Task<IActionResult> HomeTrainingsList(string gender, int age, int calorie, int duration, bool equipment)
+        {
+            var homeTrainingModels = new List<HomeTrainingModel>();
+            try
+            {
+                homeTrainingModels = (await _homeTrainingService.GetHomeTrainingsByFilterAsync(gender, age, calorie, duration, equipment)).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return RedirectToAction("HomeTrainingsList");
+            }
+
+            var homeTrainingViewModels = new List<HomeTrainingViewModel>();
+            foreach (var model in homeTrainingModels)
+            {
+                homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
+            }
+            
+            return View("HomeTrainingsList", homeTrainingViewModels);
+
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -27,6 +28,17 @@ namespace FitMeApp.Services
         public async Task<IEnumerable<HomeTrainingModel>> GetAllHomeTrainingsAsync()
         {
             var jsonString = await GetJsonResponseAsync("allHomeTrainings");
+            var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingModel>>(jsonString);
+            var homeTrainingsModels = homeTrainingsDict.Values;
+            return homeTrainingsModels;
+        }
+
+        //todo cut out of repeatable code!
+        public async Task<IEnumerable<HomeTrainingModel>> GetHomeTrainingsByFilterAsync(string gender, int age,
+            int calorie, int duration, bool equipment)
+        {
+            string endpoint = $"homeTrainingsByFilter?gender={gender}";
+            var jsonString = await GetJsonResponseAsync(endpoint);
             var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingModel>>(jsonString);
             var homeTrainingsModels = homeTrainingsDict.Values;
             return homeTrainingsModels;

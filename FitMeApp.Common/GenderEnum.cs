@@ -8,7 +8,8 @@ namespace FitMeApp.Common
     public enum GenderEnum
     {
        male,
-       female
+       female,
+       all
     }
 
    

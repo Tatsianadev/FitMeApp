@@ -27,7 +27,57 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3" style="background-color: #FFFCE0 ">
+        <div class="col-md-3">
+            <div style="background-color: #FFFCE0; padding: 15px 25px;  margin: 10px">
+                <form asp-action="HomeTrainingsList" asp-controller="HomeTraining" method="post">
+                    <div class="card-text">Gender:</div>
+                    <select name="gender" class="form-select form-select-sm" aria-label="Small select example">
+                        <option selected></option>
+                        @foreach (var gender in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
+                        {
+                            <option value="@gender.ToString()">@gender.ToString()</option>
+                        }
+                    </select>
+
+                    <div class="card-text">Allowable age up to:</div>
+                    <select name="age" class="form-select form-select-sm" aria-label="Small select example">
+                        <option selected></option>
+                        @for (int age = 15; age < 90; age += 5)
+                        {
+                            <option value="@age">@age</option>
+                        }
+                    </select>
+
+                    <div class="card-text">Calories burned from:</div>
+                    <select name="calorie" class="form-select form-select-sm" aria-label="Small select example">
+                        <option selected></option>
+                        @for (int calorie = 150; calorie < 600; calorie += 50)
+                        {
+                            <option value="@calorie">@calorie</option>
+                        }
+                    </select>
+
+                    <div class="card-text">Session duration up to:</div>
+                    <select name="duration" class="form-select form-select-sm" aria-label="Small select example">
+                        <option selected></option>
+                        @for (int min = 15; min < 60; min += 10)
+                        {
+                            <option value="@min">@min min</option>
+                        }
+                    </select>
+
+                    <div class="card-text">Equipment is required?</div>
+                    <select name="equipment" class="form-select form-select-sm" aria-label="Small select example">
+                        <option selected></option>
+                        <option value="@true">yes</option>
+                        <option value="@false">no</option>
+                    </select>
+                    <br />
+                    <div style="text-align: center">
+                        <input type="submit" value="Search by filter" class="btn btn-dark" />
+                    </div>
+                </form>
+            </div>
 
         </div>
         <div class="col-md-9">
