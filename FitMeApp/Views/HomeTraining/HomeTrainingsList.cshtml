@@ -1,18 +1,98 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.HomeTrainingViewModel>
 
+@{
+    ViewData["Title"] = "Home trainings list";
+}
 
-<div> Test python API page</div>
-<br/>
-<div id="result">
-   @foreach (var training in Model)
-   {
-       <div>
-           @training.Name
-           <br/>
-           @training.Duration min
-           <br/>
-       </div>
 
-   }
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="padding:20px">
+            <h4>
+                Going to the gym isn’t the only way to get in a great workout!
+            </h4>
+            <h6>
+                Working out at home can be just as effective as working out in the gym.
+                Just choose the type of training that suits you the most and go to your goal!
+                <br />
+                Use the filter below if you need.
+            </h6>
+            <hr />
+        </div>
+        <div class="col-md-3">
+            <img src="/Content/images/homeTraining1.jpg" alt="picture" style="height: 200px; width: auto; margin: 0 20px">
+        </div>
+    </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" style="background-color: #FFFCE0 ">
+
+        </div>
+        <div class="col-md-9">
+            <div class="container">
+                @foreach (var training in Model)
+                {
+                    <div class="row">
+                        <div class="container" style="border: gray solid; margin: 10px">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div style="margin: 10px; text-align: center">
+                                        <h5 class="card-title">@training.Name</h5>
+                                    </div>
+                                    <div class="card-text">@training.ShortDescription</div>
+                                </div>
+                                <div class="col-md-4" style="padding: 15px 15px 0 15px">
+                                    @{ string yesNoPicture = training.EquipmentIsNeeded ? "/Content/images/yes.jpg" : "/Content/images/no.jpg";}
+                                    <table class="table table-sm" style="background-color: #FFFEF3 ">
+                                        <tbody>
+                                            <tr>
+                                                <td>Сonsumption</td>
+                                                <td>@training.AverageCalConsumption</td>
+                                                <td>kcal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Duration</td>
+                                                <td>@training.Duration</td>
+                                                <td>min</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Max age</td>
+                                                <td>@training.MaxAge</td>
+                                                <td>years</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Max BMI</td>
+                                                <td>@training.MaxBMI</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gender</td>
+                                                <td>@training.Gender</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Equipment</td>
+                                                <td>
+                                                    <img src="@yesNoPicture" style="height: 20px; width: auto" />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
