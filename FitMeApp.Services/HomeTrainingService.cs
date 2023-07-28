@@ -65,7 +65,6 @@ namespace FitMeApp.Services
             }
 
             string endpointString = endpointBuilder.ToString();
-            //int lastCharIndex = endpointBuilder.ToString().Length;
             var resultEndpoint = endpointString.Remove(endpointString.Length-1, 1);
             var jsonString = await GetJsonResponseAsync(resultEndpoint);
             var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
