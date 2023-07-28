@@ -28,17 +28,53 @@ namespace FitMeApp.Services
         public async Task<IEnumerable<HomeTrainingModel>> GetAllHomeTrainingsAsync()
         {
             var jsonString = await GetJsonResponseAsync("allHomeTrainings");
-            var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingModel>>(jsonString);
-            var homeTrainingsModels = homeTrainingsDict.Values;
+            var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
             return homeTrainingsModels;
         }
 
-        //todo cut out of repeatable code!
+        
         public async Task<IEnumerable<HomeTrainingModel>> GetHomeTrainingsByFilterAsync(string gender, int age,
             int calorie, int duration, bool equipment)
         {
-            string endpoint = $"homeTrainingsByFilter?gender={gender}";
-            var jsonString = await GetJsonResponseAsync(endpoint);
+           
+            StringBuilder endpointBuilder = new StringBuilder("homeTrainingsByFilter?");
+
+            if (gender != Common.GenderEnum.all.ToString() && gender != null)
+            {
+                endpointBuilder.Append($"gender={gender}&");
+            }
+
+            if (age != 0)
+            {
+                endpointBuilder.Append($"age={age}&");
+            }
+
+            if (calorie != 0)
+            {
+                endpointBuilder.Append($"calorie={calorie}&");
+            }
+
+            if (duration != 0)
+            {
+                endpointBuilder.Append($"duration={duration}&");
+            }
+
+            if (equipment != true)
+            {
+                endpointBuilder.Append("equipment=0&");
+            }
+
+            string endpointString = endpointBuilder.ToString();
+            //int lastCharIndex = endpointBuilder.ToString().Length;
+            var resultEndpoint = endpointString.Remove(endpointString.Length-1, 1);
+            var jsonString = await GetJsonResponseAsync(resultEndpoint);
+            var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
+            return homeTrainingsModels;
+        }
+
+
+        private IEnumerable<HomeTrainingModel> ConvertJsonResponseToHomeTrainingModels(string jsonString)
+        {
             var homeTrainingsDict = JsonConvert.DeserializeObject<Dictionary<int, HomeTrainingModel>>(jsonString);
             var homeTrainingsModels = homeTrainingsDict.Values;
             return homeTrainingsModels;
