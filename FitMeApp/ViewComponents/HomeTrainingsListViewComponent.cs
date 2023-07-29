@@ -49,6 +49,11 @@ namespace FitMeApp.ViewComponents
                 return await Task.FromResult(View("CustomError", message));
             }
 
+            if (homeTrainingModels.Count == 0)
+            {
+                return await Task.FromResult(View("NoMatchResult"));
+            }
+
             var homeTrainingViewModels = new List<HomeTrainingViewModel>();
             foreach (var model in homeTrainingModels)
             {

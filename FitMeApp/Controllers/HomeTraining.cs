@@ -28,60 +28,16 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> WelcomeToHomeTrainings()
+        public IActionResult WelcomeToHomeTrainings()
         {
-            //var homeTrainingModels = new List<HomeTrainingModel>();
-            //try
-            //{
-            //    homeTrainingModels = (await _homeTrainingService.GetAllHomeTrainingsAsync()).ToList();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, ex.Message);
-            //    string message = "Home Trainings page does not available right now. Please, try again later.";
-            //    return View("CustomError", message);
-            //}
-
-            //var homeTrainingViewModels = new List<HomeTrainingViewModel>();
-            //foreach (var model in homeTrainingModels)
-            //{
-            //    homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
-            //}
-
-            //return View("WelcomeToHomeTrainings", homeTrainingViewModels);
-            return View("WelcomeToHomeTrainings", new List<HomeTrainingViewModel>());
+            return View("WelcomeToHomeTrainings");
         }
 
 
-       
-
-        [HttpPost]
-        public async Task<IActionResult> WelcomeToHomeTrainings(string gender, int age, int calorie, int duration, bool equipment)
+        public IActionResult InvokeHomeTrainingsListViewComponent(string gender, int age, int calorie, int duration,
+            bool equipment)
         {
-            if (gender == string.Empty && age == 0 && calorie == 0 && duration == 0 && equipment == true)
-            {
-                return RedirectToAction("WelcomeToHomeTrainings");
-            }
-
-            var homeTrainingModels = new List<HomeTrainingModel>();
-            try
-            {
-                homeTrainingModels = (await _homeTrainingService.GetHomeTrainingsByFilterAsync(gender, age, calorie, duration, equipment)).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                return RedirectToAction("WelcomeToHomeTrainings");
-            }
-
-            var homeTrainingViewModels = new List<HomeTrainingViewModel>();
-            foreach (var model in homeTrainingModels)
-            {
-                homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
-            }
-            
-            return View("WelcomeToHomeTrainings", homeTrainingViewModels);
-
+            return ViewComponent("HomeTrainingsList", new {gender = gender, age = age, calorie = calorie, duration = duration, equipment = equipment});
         }
     }
 }

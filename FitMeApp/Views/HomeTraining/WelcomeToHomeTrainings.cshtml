@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.HomeTrainingViewModel>
+﻿@*@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.HomeTrainingViewModel>*@
 
 @{
     ViewData["Title"] = "WelcomeToHomeTrainings";
@@ -29,120 +29,96 @@
     <div class="row">
         <div class="col-md-3">
             <div style="background-color: #FFFCE0; padding: 15px 25px;  margin: 10px">
-                <form asp-action="WelcomeToHomeTrainings" asp-controller="HomeTraining" method="post">
-                    <div class="card-text">Gender:</div>
-                    <select name="gender" class="form-select form-select-sm" aria-label="Small select example">
-                        <option selected></option>
-                        @foreach (var gender in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
-                        {
-                            <option value="@gender.ToString()">@gender.ToString()</option>
-                        }
-                    </select>
+                <div class="card-text">Gender:</div>
+                <select id="genderSelector" name="gender" class="form-select form-select-sm" aria-label="Small select example">
+                    <option selected></option>
+                    @foreach (var gender in Enum.GetValues(typeof(FitMeApp.Common.GenderEnum)))
+                    {
+                        <option value="@gender.ToString()">@gender.ToString()</option>
+                    }
+                </select>
 
-                    <div class="card-text">Allowable age:</div>
-                    <select name="age" class="form-select form-select-sm" aria-label="Small select example">
-                        <option selected></option>
-                        @for (int age = 40; age < 90; age += 5)
-                        {
-                            <option value="@age">@age</option>
-                        }
-                    </select>
+                <div class="card-text">For age:</div>
+                <select id="ageSelector" name="age" class="form-select form-select-sm" aria-label="Small select example">
+                    <option selected></option>
+                    @for (int age = 40; age < 90; age += 5)
+                    {
+                        <option value="@age">@age</option>
+                    }
+                </select>
 
-                    <div class="card-text">Calories burned:</div>
-                    <select name="calorie" class="form-select form-select-sm" aria-label="Small select example">
-                        <option selected></option>
-                        @for (int calorie = 150; calorie < 600; calorie += 50)
-                        {
-                            <option value="@calorie">@calorie</option>
-                        }
-                    </select>
+                <div class="card-text">Calories burned:</div>
+                <select id="calorieSelector" name="calorie" class="form-select form-select-sm" aria-label="Small select example">
+                    <option selected></option>
+                    @for (int calorie = 150; calorie < 600; calorie += 50)
+                    {
+                        <option value="@calorie">@calorie</option>
+                    }
+                </select>
 
-                    <div class="card-text">Session no longer than:</div>
-                    <select name="duration" class="form-select form-select-sm" aria-label="Small select example">
-                        <option selected></option>
-                        @for (int min = 15; min < 60; min += 5)
-                        {
-                            <option value="@min">@min min</option>
-                        }
-                    </select>
+                <div class="card-text">Session no longer than:</div>
+                <select id="durationSelector" name="duration" class="form-select form-select-sm" aria-label="Small select example">
+                    <option selected></option>
+                    @for (int min = 15; min < 60; min += 5)
+                    {
+                        <option value="@min">@min min</option>
+                    }
+                </select>
 
-                    <div class="card-text">With equipment?</div>
-                    <select name="equipment" class="form-select form-select-sm" aria-label="Small select example">
-                        <option selected></option>
-                        <option value="@true">yes</option>
-                        <option value="@false">no</option>
-                    </select>
-                    <br />
-                    <div style="text-align: center">
-                        <input type="submit" value="Search by filter" class="btn btn-dark" />
-                    </div>
-                </form>
+                <div class="card-text">With equipment?</div>
+                <select id="equipmentSelector" name="equipment" class="form-select form-select-sm" aria-label="Small select example">
+                    <option selected></option>
+                    <option value="@true">yes</option>
+                    <option value="@false">no</option>
+                </select>
+                <br />
+                <div style="text-align: center">
+                    <a asp-controller="HomeTraining" asp-action="WelcomeToHomeTrainings" class="btn btn-outline-dark btn-sm">Clean</a>
+                    <button id="submitBtn" class="btn btn-dark btn-sm">Search</button>
+                </div>
             </div>
-
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9" id="homeTrainingsList">
             @await Component.InvokeAsync("HomeTrainingsList")
-            @*<div class="container">
-                @foreach (var training in Model)
-                {
-                    <div class="row">
-                        <div class="container" style="border: gray solid; margin: 10px">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div style="margin: 10px; text-align: center">
-                                        <h5 class="card-title">@training.Name</h5>
-                                    </div>
-                                    <div class="card-text">@training.ShortDescription</div>
-                                </div>
-                                <div class="col-md-4" style="padding: 15px 15px 0 15px">
-                                    @{ string yesNoPicture = training.EquipmentIsNeeded ? "/Content/images/yes.jpg" : "/Content/images/no.jpg";}
-                                    <table class="table table-sm" style="background-color: #FFFEF3 ">
-                                        <tbody>
-                                            <tr>
-                                                <td>Сonsumption</td>
-                                                <td>@training.AverageCalConsumption</td>
-                                                <td>kcal</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Duration</td>
-                                                <td>@training.Duration</td>
-                                                <td>min</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Max age</td>
-                                                <td>@training.MaxAge</td>
-                                                <td>years</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Max BMI</td>
-                                                <td>@training.MaxBMI</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gender</td>
-                                                <td>@training.Gender</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Equipment</td>
-                                                <td>
-                                                    <img src="@yesNoPicture" style="height: 20px; width: auto" />
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-
-            </div>*@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    const genderSelector = document.querySelector('#genderSelector');
+    const ageSelector = document.querySelector('#ageSelector');
+    const calorieSelector = document.querySelector('#calorieSelector');
+    const durationSelector = document.querySelector('#durationSelector');
+    const equipmentSelector = document.querySelector('#equipmentSelector');
+
+    document.getElementById("submitBtn").addEventListener('click', function(e) {
+        var gender = genderSelector.value;
+        var age = ageSelector.value;
+        var calorie = calorieSelector.value;
+        var duration = durationSelector.value;
+        var equipment = equipmentSelector.value;
+        var _url = '@Url.Action("InvokeHomeTrainingsListViewComponent", "HomeTraining")';
+
+        $.ajax({
+            type: "Get",
+            url: _url,
+            data: {
+                gender: gender,
+                age: age,
+                calorie: calorie,
+                duration: duration,
+                equipment: equipment
+            },
+            success: function (result) {
+                $('#homeTrainingsList').empty();
+                $('#homeTrainingsList').html(result);
+            }
+        });
+    });
+
+</script>
 
 
 

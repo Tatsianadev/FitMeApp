@@ -9,6 +9,7 @@ using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace FitMeApp.Services
@@ -36,7 +37,6 @@ namespace FitMeApp.Services
         public async Task<IEnumerable<HomeTrainingModel>> GetHomeTrainingsByFilterAsync(string gender, int age,
             int calorie, int duration, bool equipment)
         {
-           
             StringBuilder endpointBuilder = new StringBuilder("homeTrainingsByFilter?");
 
             if (gender != Common.GenderEnum.all.ToString() && gender != null)
@@ -67,6 +67,10 @@ namespace FitMeApp.Services
             string endpointString = endpointBuilder.ToString();
             var resultEndpoint = endpointString.Remove(endpointString.Length-1, 1);
             var jsonString = await GetJsonResponseAsync(resultEndpoint);
+            if (jsonString == string.Empty)
+            {
+                return new List<HomeTrainingModel>();
+            }
             var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
             return homeTrainingsModels;
         }
