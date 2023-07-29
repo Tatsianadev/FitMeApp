@@ -55,6 +55,11 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> HomeTrainingsList(string gender, int age, int calorie, int duration, bool equipment)
         {
+            if (gender == string.Empty && age == 0 && calorie == 0 && duration == 0 && equipment == true)
+            {
+                return RedirectToAction("HomeTrainingsList");
+            }
+
             var homeTrainingModels = new List<HomeTrainingModel>();
             try
             {
