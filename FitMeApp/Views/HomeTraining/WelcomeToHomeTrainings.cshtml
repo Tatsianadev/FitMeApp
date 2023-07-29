@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FitMeApp.WEB.Contracts.ViewModels.HomeTrainingViewModel>
 
 @{
-    ViewData["Title"] = "Home trainings list";
+    ViewData["Title"] = "WelcomeToHomeTrainings";
 }
 
 
@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-md-3">
             <div style="background-color: #FFFCE0; padding: 15px 25px;  margin: 10px">
-                <form asp-action="HomeTrainingsList" asp-controller="HomeTraining" method="post">
+                <form asp-action="WelcomeToHomeTrainings" asp-controller="HomeTraining" method="post">
                     <div class="card-text">Gender:</div>
                     <select name="gender" class="form-select form-select-sm" aria-label="Small select example">
                         <option selected></option>
@@ -81,7 +81,8 @@
 
         </div>
         <div class="col-md-9">
-            <div class="container">
+            @await Component.InvokeAsync("HomeTrainingsList")
+            @*<div class="container">
                 @foreach (var training in Model)
                 {
                     <div class="row">
@@ -138,7 +139,7 @@
                 }
 
 
-            </div>
+            </div>*@
         </div>
     </div>
 </div>

@@ -28,36 +28,39 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> HomeTrainingsList()
+        public async Task<IActionResult> WelcomeToHomeTrainings()
         {
-            var homeTrainingModels = new List<HomeTrainingModel>();
-            try
-            {
-                homeTrainingModels = (await _homeTrainingService.GetAllHomeTrainingsAsync()).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                string message = "Home Trainings page does not available right now. Please, try again later.";
-                return View("CustomError", message);
-            }
+            //var homeTrainingModels = new List<HomeTrainingModel>();
+            //try
+            //{
+            //    homeTrainingModels = (await _homeTrainingService.GetAllHomeTrainingsAsync()).ToList();
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, ex.Message);
+            //    string message = "Home Trainings page does not available right now. Please, try again later.";
+            //    return View("CustomError", message);
+            //}
 
-            var homeTrainingViewModels = new List<HomeTrainingViewModel>();
-            foreach (var model in homeTrainingModels)
-            {
-                homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
-            }
+            //var homeTrainingViewModels = new List<HomeTrainingViewModel>();
+            //foreach (var model in homeTrainingModels)
+            //{
+            //    homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
+            //}
 
-            return View("HomeTrainingsList", homeTrainingViewModels);
+            //return View("WelcomeToHomeTrainings", homeTrainingViewModels);
+            return View("WelcomeToHomeTrainings", new List<HomeTrainingViewModel>());
         }
 
 
+       
+
         [HttpPost]
-        public async Task<IActionResult> HomeTrainingsList(string gender, int age, int calorie, int duration, bool equipment)
+        public async Task<IActionResult> WelcomeToHomeTrainings(string gender, int age, int calorie, int duration, bool equipment)
         {
             if (gender == string.Empty && age == 0 && calorie == 0 && duration == 0 && equipment == true)
             {
-                return RedirectToAction("HomeTrainingsList");
+                return RedirectToAction("WelcomeToHomeTrainings");
             }
 
             var homeTrainingModels = new List<HomeTrainingModel>();
@@ -68,7 +71,7 @@ namespace FitMeApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return RedirectToAction("HomeTrainingsList");
+                return RedirectToAction("WelcomeToHomeTrainings");
             }
 
             var homeTrainingViewModels = new List<HomeTrainingViewModel>();
@@ -77,7 +80,7 @@ namespace FitMeApp.Controllers
                 homeTrainingViewModels.Add(_mapper.MapHomeTrainingModelToViewModel(model));
             }
             
-            return View("HomeTrainingsList", homeTrainingViewModels);
+            return View("WelcomeToHomeTrainings", homeTrainingViewModels);
 
         }
     }
