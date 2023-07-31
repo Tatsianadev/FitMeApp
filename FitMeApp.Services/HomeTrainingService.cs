@@ -4,12 +4,14 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using EllipticCurve.Utils;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using File = System.IO.File;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace FitMeApp.Services
@@ -74,6 +76,13 @@ namespace FitMeApp.Services
             var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
             return homeTrainingsModels;
         }
+
+        //public async Task<byte[]> GetPdfFile(string fileName)
+        //{
+        //    string endpoint = "returnfilepdf?" + fileName;
+            
+
+        //}
 
 
         private IEnumerable<HomeTrainingModel> ConvertJsonResponseToHomeTrainingModels(string jsonString)

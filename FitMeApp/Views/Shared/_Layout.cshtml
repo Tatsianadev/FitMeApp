@@ -31,7 +31,10 @@
                         @*To access Swagger from application*@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Swagger" asp-action="Index">Web API</a>
-                        </li>                       
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Profile" asp-action="DownloadUsersList">download</a>
+                        </li>
 
                         @if (User.IsInRole("gymAdmin"))
                         {

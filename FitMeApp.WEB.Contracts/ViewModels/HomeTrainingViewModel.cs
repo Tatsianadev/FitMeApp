@@ -15,5 +15,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public int MaxBMI { get; set; }
         public bool EquipmentIsNeeded { get; set; }
         public string ShortDescription { get; set; }
+        public string TrainingPlanFile { get; set; }
     }
 }

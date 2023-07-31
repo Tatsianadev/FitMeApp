@@ -77,6 +77,33 @@ namespace FitMeApp.Controllers
         }
 
 
+        public IActionResult DownloadUsersList()
+        {
+            
+            string relativePath = Resources.Resources.UsersFileDestinationPath;
+            string fullPath = Environment.CurrentDirectory + relativePath;
+            //byte[] bytes;
+            //using (var memoryStream = new MemoryStream())
+            //{
+            //    using (var fileStream = System.IO.File.OpenRead(fullPath))
+            //    {
+            //        fileStream.CopyTo(memoryStream);
+            //    }
+
+            //    bytes = memoryStream.ToArray();
+            //}
+            
+            //var result = new FileContentResult(bytes, "application/vnd.ms-excel");
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                return File(System.IO.File.OpenRead(fullPath), "application/vnd.ms-excel", Path.GetFileName(fullPath));
+            }
+
+            return View("CustomError", "File is not found. Please, try again later.");
+        }
+
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> WriteUsersListToExcel(List<string> selectedIds)

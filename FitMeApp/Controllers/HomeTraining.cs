@@ -39,5 +39,11 @@ namespace FitMeApp.Controllers
         {
             return ViewComponent("HomeTrainingsList", new {gender = gender, age = age, calorie = calorie, duration = duration, equipment = equipment});
         }
+
+        public IActionResult DownloadHomeTrainingPlan(string trainingPlanFile)
+        {
+
+            return RedirectToAction("WelcomeToHomeTrainings");
+        }
     }
 }
