@@ -152,6 +152,25 @@ namespace FitMeApp.Controllers
         }
 
 
+        public IActionResult DownloadAttendanceChartBlank() //todo move logic to Service
+        {
+            string relativePath = Resources.Resources.AttendanceChartBlankPath;
+            string absPath = Environment.CurrentDirectory + relativePath;
+
+            if (System.IO.File.Exists(absPath))
+            {
+                var fileStream = System.IO.File.OpenRead(absPath);
+                var contentType = "application/vnd.ms-excel";
+                var fileName = Path.GetFileName(absPath);
+
+                return File(fileStream, contentType, fileName);
+            }
+
+            _logger.LogError($"File {Path.GetFileName(absPath)} is not found by address {absPath}");
+            return RedirectToAction("LoadAttendanceChartData");
+        }
+
+
 
         [HttpPost]
         [Authorize(Roles = "gymAdmin")]

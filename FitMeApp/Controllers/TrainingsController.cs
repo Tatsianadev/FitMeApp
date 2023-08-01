@@ -16,7 +16,6 @@ namespace FitMeApp.Controllers
     public sealed class TrainingsController : Controller
     {
         private readonly ITrainingService _trainingService;
-        private readonly IGymService _gymService;
         private readonly ITrainerService _trainerService;
         private readonly IScheduleService _scheduleService;
         private readonly UserManager<User> _userManager;
@@ -24,14 +23,12 @@ namespace FitMeApp.Controllers
         private readonly ILogger _logger;
 
         public TrainingsController(ITrainingService trainingService,
-            IGymService gymService,
             ITrainerService trainerService,
             IScheduleService scheduleService,
             UserManager<User> userManager,
             ILogger<TrainersController> logger)
         {
             _trainingService = trainingService;
-            _gymService = gymService;
             _trainerService = trainerService;
             _scheduleService = scheduleService;
             _userManager = userManager;

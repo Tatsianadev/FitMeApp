@@ -70,7 +70,7 @@ namespace FitMeApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /ExcelFiles/Blanks/AttendanceChart.xlsx.
+        ///   Looks up a localized string similar to \wwwroot\ExcelFiles\Blanks\AttendanceChart.xlsx.
         /// </summary>
         internal static string AttendanceChartBlankPath {
             get {

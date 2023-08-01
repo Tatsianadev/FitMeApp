@@ -19,14 +19,12 @@ namespace FitMeApp.Controllers
     public class DietController : Controller
     {
         private readonly IDietService _dietService;
-        private readonly IFileService _fileService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
 
-        public DietController(IDietService dietService, IFileService fileService, UserManager<User> userManager, ILogger<DietController> logger)
+        public DietController(IDietService dietService, UserManager<User> userManager, ILogger<DietController> logger)
         {
             _dietService = dietService;
-            _fileService = fileService;
             _userManager = userManager;
             _logger = logger;
         }
@@ -126,8 +124,8 @@ namespace FitMeApp.Controllers
                     UserId = user.Id,
                     UserFirstName = user.FirstName,
                     UserLastName = user.LastName,
-                    LovedNutrients = viewModel.LovedNutrients == null? new NutrientsModel() : viewModel.LovedNutrients,
-                    UnlovedNutrients = viewModel.UnlovedNutrients == null? new NutrientsModel() : viewModel.UnlovedNutrients,
+                    LovedNutrients = viewModel.LovedNutrients == null ? new NutrientsModel() : viewModel.LovedNutrients,
+                    UnlovedNutrients = viewModel.UnlovedNutrients == null ? new NutrientsModel() : viewModel.UnlovedNutrients,
                     AllergicTo = allergicTo,
                     Budget = viewModel.Budget
                 };
@@ -135,8 +133,7 @@ namespace FitMeApp.Controllers
                 bool success = _dietService.CreateDietPlan(dietPreferencesModel);
                 if (success)
                 {
-                    string dietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
-                    return View("DietPlanComplete", dietReportRelativePath);
+                    return View("DietPlanComplete");
                 }
                 else
                 {
@@ -151,14 +148,34 @@ namespace FitMeApp.Controllers
             return View();
         }
 
-        
+
         public IActionResult DietPlanComplete()
         {
             return View();
         }
 
 
-       
+        public async Task<IActionResult> DownloadDietPlatPdfFile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            string dietReportAbsPath = GetDietReportAbsolutePathIfExists(user.FirstName, user.LastName);
+
+            try
+            {
+                var fileStream = System.IO.File.OpenRead(dietReportAbsPath);
+                var contentType = "application/pdf";
+                var fileName = Path.GetFileName(dietReportAbsPath);
+                return File(fileStream, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return View("CustomError", "Failed attempt to download Diet plan. Please, try again later");
+            }
+        }
+
+
+
         //"My Diet" section in Profile
 
         public async Task<IActionResult> MyDietSection()
@@ -203,9 +220,9 @@ namespace FitMeApp.Controllers
                     Carbohydrates = model.DietParameters.Carbohydrates,
                     Date = model.DietParameters.Date
                 };
-                viewModel.DietReportRelativePath = GetDietReportRelativePathIfExists(user.FirstName, user.LastName);
+                viewModel.DietReportAbsolutePath = GetDietReportAbsolutePathIfExists(user.FirstName, user.LastName);
             }
-            
+
             return View(viewModel);
         }
 
@@ -226,7 +243,7 @@ namespace FitMeApp.Controllers
 
         public IActionResult InvokeProductNutrientsViewComponent(string productName)
         {
-            return ViewComponent("ProductNutrients", new {productName = productName });
+            return ViewComponent("ProductNutrients", new { productName = productName });
         }
 
 
@@ -324,14 +341,13 @@ namespace FitMeApp.Controllers
         }
 
 
-        private string GetDietReportRelativePathIfExists(string userFirstName, string userLastName)
+        private string GetDietReportAbsolutePathIfExists(string userFirstName, string userLastName)
         {
-            string dietReportRelativePath = @"/PDF/Diet/DietPlan_" + userFirstName + "_" + userLastName + ".pdf";
             string dietReportAbsolutePath = Environment.CurrentDirectory + @"\wwwroot\PDF\Diet\DietPlan_" + userFirstName + "_" + userLastName + ".pdf";
             FileInfo file = new FileInfo(dietReportAbsolutePath);
             if (file.Exists)
             {
-                return dietReportRelativePath;
+                return dietReportAbsolutePath;
             }
 
             return string.Empty;

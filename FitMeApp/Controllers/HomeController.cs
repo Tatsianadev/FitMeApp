@@ -10,12 +10,6 @@ namespace FitMeApp.Controllers
 {
     public sealed class HomeController : Controller
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HomeController(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
 
         [AllowAnonymous]
         public IActionResult Index()

@@ -9,22 +9,22 @@
     <div class="row">
         <div class="col-md-3" style="margin: 50px 0; text-align: center">
             <a asp-action="AnthropometricInfo" asp-controller="Diet" class="btn btn-dark">Update my data</a>
-            <br/>
-            <hr/>
-            <br/>
+            <br />
+            <hr />
+            <br />
             <p>
                 You can download the Diet Plan created for you in PDF format by clicking on the button bellow.
             </p>
-            @if (!String.IsNullOrEmpty(Model.DietReportRelativePath))
+            @if (!String.IsNullOrEmpty(Model.DietReportAbsolutePath))
             {
-                <a href="@Model.DietReportRelativePath" download="DietPlan" class="btn btn-primary">Download plan</a>
+                <a asp-controller="Diet" asp-action="DownloadDietPlatPdfFile" class="btn btn-primary">Download plan</a>
             }
             else
             {
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#downloadModal">Download plan</button>
             }
             <div style="padding: 100px 0 0">
-                <img src="/Content/images/healthyFood5.jpg" style="width: 100%; height: auto"/>
+                <img src="/Content/images/healthyFood5.jpg" style="width: 100%; height: auto" />
             </div>
         </div>
         <div class="col-md-9">

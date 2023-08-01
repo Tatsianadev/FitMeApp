@@ -15,7 +15,8 @@
                 <h6>
                     1. Download the blank by pressing the button
                 </h6>
-                <a href="@Model.BlankFullPath" download="AttendanceBlank" class="btn btn-dark">Download blank</a>
+                @*<a href="@Model.BlankFullPath" download="AttendanceBlank" class="btn btn-dark">Download blank</a>*@
+                <a asp-controller="Gyms" asp-action="DownloadAttendanceChartBlank" class="btn btn-dark">Download blank</a>
                 <br/>
                 <br/>
                 <h6>

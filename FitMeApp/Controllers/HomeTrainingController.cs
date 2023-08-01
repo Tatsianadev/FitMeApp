@@ -13,13 +13,13 @@ using Exception = System.Exception;
 
 namespace FitMeApp.Controllers
 {
-    public class HomeTraining : Controller
+    public class HomeTrainingController : Controller
     {
         private readonly IHomeTrainingService _homeTrainingService;
         private readonly ILogger<HomeController> _logger;
         private readonly ModelViewModelMapper _mapper;
 
-        public HomeTraining(IHomeTrainingService homeTrainingService, ILogger<HomeController> logger)
+        public HomeTrainingController(IHomeTrainingService homeTrainingService, ILogger<HomeController> logger)
         {
             _homeTrainingService = homeTrainingService;
             _logger = logger;

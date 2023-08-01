@@ -8,7 +8,7 @@ namespace FitMeApp.WEB.Contracts.ViewModels
     {
         public List<AnthropometricInfoViewModel> AnthropometricInfo { get; set; }
         public DietViewModel DietParameters { get; set; }
-        public string DietReportRelativePath { get; set; }
+        public string DietReportAbsolutePath { get; set; }
       
     }
 }

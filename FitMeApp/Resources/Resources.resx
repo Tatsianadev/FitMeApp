@@ -122,8 +122,8 @@
     <comment>Relative path to "Approve application for Trainer" file (.txt)</comment>
   </data>
   <data name="AttendanceChartBlankPath" xml:space="preserve">
-    <value>/ExcelFiles/Blanks/AttendanceChart.xlsx</value>
-    <comment>Local path to attendance chart blank</comment>
+    <value>\wwwroot\ExcelFiles\Blanks\AttendanceChart.xlsx</value>
+    <comment>Relative path to attendance chart blank (.xlsx)</comment>
   </data>
   <data name="DefaultAvatarPath" xml:space="preserve">
     <value>/Content/images/defaultAvatar.jpg</value>

@@ -92,12 +92,13 @@ namespace FitMeApp.Controllers
             {
                 return View("CustomError", "Failed attempt to create Users list. Please, try again later");
             }
-
-            var fileStream = System.IO.File.OpenRead(absPath);
-            var contentType = "application/vnd.ms-excel";
-            var fileName = Path.GetFileName(absPath);
+            
             if (System.IO.File.Exists(absPath))
             {
+                var fileStream = System.IO.File.OpenRead(absPath);
+                var contentType = "application/vnd.ms-excel";
+                var fileName = Path.GetFileName(absPath);
+
                 return File(fileStream, contentType, fileName);
             }
 
