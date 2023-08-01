@@ -17,6 +17,7 @@ using FitMeApp.Models.ExcelModels;
 using FitMeApp.Resources;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
@@ -77,72 +78,32 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult DownloadUsersList()
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DownloadUsersListExcelFile(List<string> selectedIds)
         {
-            
             string relativePath = Resources.Resources.UsersFileDestinationPath;
-            string fullPath = Environment.CurrentDirectory + relativePath;
-            //byte[] bytes;
-            //using (var memoryStream = new MemoryStream())
-            //{
-            //    using (var fileStream = System.IO.File.OpenRead(fullPath))
-            //    {
-            //        fileStream.CopyTo(memoryStream);
-            //    }
-
-            //    bytes = memoryStream.ToArray();
-            //}
-            
-            //var result = new FileContentResult(bytes, "application/vnd.ms-excel");
-
-            if (System.IO.File.Exists(fullPath))
+            string absPath = Environment.CurrentDirectory + relativePath;
+            try
             {
-                return File(System.IO.File.OpenRead(fullPath), "application/vnd.ms-excel", Path.GetFileName(fullPath));
+                await CreateUsersListExcelFileAsync(selectedIds, absPath);
+            }
+            catch (Exception)
+            {
+                return View("CustomError", "Failed attempt to create Users list. Please, try again later");
+            }
+
+            var fileStream = System.IO.File.OpenRead(absPath);
+            var contentType = "application/vnd.ms-excel";
+            var fileName = Path.GetFileName(absPath);
+            if (System.IO.File.Exists(absPath))
+            {
+                return File(fileStream, contentType, fileName);
             }
 
             return View("CustomError", "File is not found. Please, try again later.");
         }
 
-
-        [HttpPost]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> WriteUsersListToExcel(List<string> selectedIds)
-        {
-            try
-            {
-                if (selectedIds.Count != 0)
-                {
-                    var users = _userManager.Users.ToList().Where(x => selectedIds.Contains(x.Id));
-                    var usersExcel = new List<UserExcelModel>();
-                    var positionNumber = 0;
-
-                    foreach (var user in users)
-                    {
-                        positionNumber++;
-                        usersExcel.Add(new UserExcelModel()
-                        {
-                            Id = positionNumber,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            Email = user.Email,
-                            Phone = user.PhoneNumber,
-                            Year = user.Year
-                        });
-                    }
-
-                    DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                    string relativePath = Resources.Resources.UsersFileDestinationPath;
-                    string fullPath = Environment.CurrentDirectory + relativePath;
-                    await _fileService.WriteToExcelAsync(table, fullPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-            }
-
-            return RedirectToAction("UsersList");
-        }
 
 
         [HttpPost]
@@ -168,7 +129,7 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
-        public IActionResult TrainerApplicationsList(bool showOnlyToUpdateLicenseList = false) 
+        public IActionResult TrainerApplicationsList(bool showOnlyToUpdateLicenseList = false)
         {
             var trainerAppViewModels = new List<TrainerApplicationViewModel>();
             var allTrainerAppModels = _trainerService.GetAllTrainerApplications().ToList();
@@ -181,7 +142,7 @@ namespace FitMeApp.Controllers
 
             if (showOnlyToUpdateLicenseList)
             {
-                trainerAppModelsToDisplay = allTrainerAppModels.Where(x=>trainersIds.Contains(x.UserId)).ToList();
+                trainerAppModelsToDisplay = allTrainerAppModels.Where(x => trainersIds.Contains(x.UserId)).ToList();
                 appToUpdateLicensesCount = trainerAppModelsToDisplay.Count;
                 newAppCount = appCount - appToUpdateLicensesCount;
             }
@@ -962,7 +923,7 @@ namespace FitMeApp.Controllers
                 var trainerId = _userManager.GetUserId(User);
                 int gymId = _trainerService.GetTrainerWithGymAndTrainings(trainerId).Gym.Id;
 
-                var clientSubscriptionsModels = _subscriptionService.GetUserSubscriptions(clientId).Where(x=>x.GymId == gymId);
+                var clientSubscriptionsModels = _subscriptionService.GetUserSubscriptions(clientId).Where(x => x.GymId == gymId);
                 List<UserSubscriptionViewModel> userSubscViewModels = new List<UserSubscriptionViewModel>();
                 foreach (var modelItem in clientSubscriptionsModels)
                 {
@@ -1024,6 +985,45 @@ namespace FitMeApp.Controllers
             userSubscriptionViewModels = userSubscriptionViewModels.OrderByDescending(x => x.EndDate).ToList();
             ViewBag.Gyms = _gymService.GetAllGymModels().ToList();
             return View(userSubscriptionViewModels);
+        }
+
+
+
+
+
+        private async Task CreateUsersListExcelFileAsync(List<string> selectedIds, string absPath)
+        {
+            if (selectedIds.Count != 0)
+            {
+                var users = _userManager.Users.ToList().Where(x => selectedIds.Contains(x.Id));
+                var usersExcel = new List<UserExcelModel>();
+                var positionNumber = 0;
+
+                foreach (var user in users)
+                {
+                    positionNumber++;
+                    usersExcel.Add(new UserExcelModel()
+                    {
+                        Id = positionNumber,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Phone = user.PhoneNumber,
+                        Year = user.Year
+                    });
+                }
+
+                try
+                {
+                    DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
+                    await _fileService.WriteToExcelAsync(table, absPath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    throw;
+                }
+            }
         }
 
     }
