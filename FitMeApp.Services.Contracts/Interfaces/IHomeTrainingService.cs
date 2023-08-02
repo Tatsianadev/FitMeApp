@@ -12,5 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         Task<IEnumerable<HomeTrainingModel>> GetHomeTrainingsByFilterAsync(string gender, int age,
             int calorie, int duration, bool equipment);
+
+        Task<byte[]> DownloadPdfFileAsync(int homeTrainingPlanId);
     }
 }

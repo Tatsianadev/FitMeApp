@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.ViewComponents
 {
-    public class UserProfileViewComponent: ViewComponent
+    public class UserProfileViewComponent: ViewComponent //todo do real data instead test
     {
         private readonly UserManager<User> _userManager;
         private readonly IGymService _fitMeService;

@@ -14,18 +14,13 @@ namespace FitMeApp.ViewComponents
 {
     public class ChatListViewComponent: ViewComponent
     {
-        private readonly IChatService _chatService;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
-        private readonly ModelViewModelMapper _mapper;
 
-        public ChatListViewComponent(IChatService chatService, UserManager<User> userManager, ILogger<ChatListViewComponent> logger)
+        public ChatListViewComponent(UserManager<User> userManager, ILogger<ChatListViewComponent> logger)
         {
-            _chatService = chatService;
             _userManager = userManager;
             _logger = logger;
-            _mapper = new ModelViewModelMapper();
-
         }
 
         public IViewComponentResult Invoke(List<string> contactsId)

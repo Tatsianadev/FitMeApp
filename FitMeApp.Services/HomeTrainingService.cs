@@ -30,7 +30,7 @@ namespace FitMeApp.Services
 
         public async Task<IEnumerable<HomeTrainingModel>> GetAllHomeTrainingsAsync()
         {
-            var jsonString = await GetJsonResponseAsync("allHomeTrainings");
+            var jsonString = await GetJsonResponseAsStringAsync("allHomeTrainings");
             var homeTrainingsModels = ConvertJsonResponseToHomeTrainingModels(jsonString);
             return homeTrainingsModels;
         }
@@ -68,7 +68,7 @@ namespace FitMeApp.Services
 
             string endpointString = endpointBuilder.ToString();
             var resultEndpoint = endpointString.Remove(endpointString.Length-1, 1);
-            var jsonString = await GetJsonResponseAsync(resultEndpoint);
+            var jsonString = await GetJsonResponseAsStringAsync(resultEndpoint);
             if (jsonString == string.Empty)
             {
                 return new List<HomeTrainingModel>();
@@ -77,12 +77,12 @@ namespace FitMeApp.Services
             return homeTrainingsModels;
         }
 
-        //public async Task<byte[]> GetPdfFile(string fileName)
-        //{
-        //    string endpoint = "returnfilepdf?" + fileName;
-            
-
-        //}
+        public async Task<byte[]> DownloadPdfFileAsync(int homeTrainingPlanId)
+        {
+            string endpoint = "returnfilepdf/" + homeTrainingPlanId;
+            byte[] response = await GetResponseAsByteArrayAsync(endpoint);
+            return response;
+        }
 
 
         private IEnumerable<HomeTrainingModel> ConvertJsonResponseToHomeTrainingModels(string jsonString)
@@ -93,7 +93,7 @@ namespace FitMeApp.Services
         }
 
 
-        private async Task<string> GetJsonResponseAsync(string endpoint)
+        private async Task<string> GetJsonResponseAsStringAsync(string endpoint)
         {
             try
             {
@@ -107,6 +107,23 @@ namespace FitMeApp.Services
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        private async Task<byte[]> GetResponseAsByteArrayAsync(string endpoint)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(endpoint);
+                response.EnsureSuccessStatusCode();
+                byte[] responseContent = await response.Content.ReadAsByteArrayAsync();
+                return responseContent;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+          
         }
     }
 }

@@ -5,6 +5,7 @@
 }
 
 
+
 <div class="container">
     @foreach (var training in Model)
     {
@@ -16,8 +17,9 @@
                             <h5 class="card-title">@training.Name</h5>
                         </div>
                         <div class="card-text">@training.ShortDescription</div>
-                        <div>
-                            <a asp-controller="HomeTraining" asp-action="DownloadHomeTrainingPlan" ></a>
+                        <div style="text-align: center">
+                            <a asp-controller="HomeTraining" asp-action="DownloadHomeTrainingPlan" 
+                               asp-route-homeTrainingPlanId="@training.Id" asp-route-homeTrainingName="@training.Name" class="btn btn-dark">Download training plan</a>
                         </div>
                     </div>
                     <div class="col-md-4" style="padding: 15px 15px 0 15px">

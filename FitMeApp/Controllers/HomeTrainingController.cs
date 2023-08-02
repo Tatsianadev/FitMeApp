@@ -40,10 +40,22 @@ namespace FitMeApp.Controllers
             return ViewComponent("HomeTrainingsList", new {gender = gender, age = age, calorie = calorie, duration = duration, equipment = equipment});
         }
 
-        public IActionResult DownloadHomeTrainingPlan(string trainingPlanFile)
+        public async Task<IActionResult> DownloadHomeTrainingPlan(int homeTrainingPlanId, string homeTrainingName)
         {
-
-            return RedirectToAction("WelcomeToHomeTrainings");
+            string contentType = "application/pdf";
+            string fileName = homeTrainingName + ".pdf";
+            try
+            {
+                byte[] contentPdf = await _homeTrainingService.DownloadPdfFileAsync(homeTrainingPlanId);
+                return File(contentPdf, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Failed to download the file. Please, try again later.";
+                return View("CustomError", message);
+            }
+           
         }
     }
 }

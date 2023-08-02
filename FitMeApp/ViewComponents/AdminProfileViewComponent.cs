@@ -11,12 +11,10 @@ namespace FitMeApp.ViewComponents
 {
     public class AdminProfileViewComponent : ViewComponent
     {
-        private readonly UserManager<User> _userManager;
         private readonly ITrainerService _trainerService;
 
-        public AdminProfileViewComponent(UserManager<User> userManager, ITrainerService trainerService)
+        public AdminProfileViewComponent(ITrainerService trainerService)
         {
-            _userManager = userManager;
             _trainerService = trainerService;
         }
 
