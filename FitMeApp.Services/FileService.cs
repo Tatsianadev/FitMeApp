@@ -87,11 +87,11 @@ namespace FitMeApp.Services
        
 
         //Excel
-        public async Task WriteToExcelAsync(DataTable table, string fullPath)
+        public async Task CreateUsersListExcelFileAsync(DataTable table, string fullPath)
         {
             FileInfo file = new FileInfo(fullPath);
             DeleteFileIfExist(fullPath);
-            await _reportService.WriteToExcelAsync(table, file); //EPPlus or OpenXml realization
+            await _reportService.CreateUsersListExcelFileAsync(table, file); //EPPlus or OpenXml realization
         }
 
 

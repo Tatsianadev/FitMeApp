@@ -26,11 +26,11 @@ namespace FitMeApp.Services
 
 
 
-        public async Task WriteToExcelAsync(DataTable table, FileInfo file)
+        public async Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file)
         {
             string tableName = file.Name;
             tableName.Replace(file.Extension, string.Empty, true, CultureInfo.CurrentCulture);
-            await _excelReport.WriteToExcelAsync(table, file, tableName); //EPPlus or OpenXml realization
+            await _excelReport.CreateUsersListExcelFileAsync(table, file, tableName); //EPPlus or OpenXml realization
         }
 
 

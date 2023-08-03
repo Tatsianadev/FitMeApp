@@ -26,7 +26,7 @@ namespace FitMeApp.Services
 {
     public sealed class ExcelReportOpenXml : IExcelReport
     {
-        public async Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName)
+        public async Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName)
         {
 
             using (SpreadsheetDocument spreadsheetDocument =

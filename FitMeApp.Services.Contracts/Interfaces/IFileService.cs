@@ -23,7 +23,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark);
        
         //Excel
-        Task WriteToExcelAsync(DataTable table, string fullPath);
+        Task CreateUsersListExcelFileAsync(DataTable table, string fullPath);
         Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
 

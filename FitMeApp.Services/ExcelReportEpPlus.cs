@@ -15,7 +15,7 @@ namespace FitMeApp.Services
 {
     public sealed class ExcelReportEpPlus : IExcelReport
     {
-        public async Task WriteToExcelAsync (DataTable table, FileInfo file, string tableName)
+        public async Task CreateUsersListExcelFileAsync (DataTable table, FileInfo file, string tableName)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 

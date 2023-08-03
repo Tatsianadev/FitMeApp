@@ -936,7 +936,6 @@ namespace FitMeApp.Controllers
         }
 
 
-
         [Authorize]
         public async Task<IActionResult> UserSubscriptions()
         {
@@ -1017,7 +1016,7 @@ namespace FitMeApp.Controllers
                 try
                 {
                     DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                    await _fileService.WriteToExcelAsync(table, absPath);
+                    await _fileService.CreateUsersListExcelFileAsync(table, absPath);
                 }
                 catch (Exception ex)
                 {

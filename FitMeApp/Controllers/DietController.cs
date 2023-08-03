@@ -155,7 +155,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public async Task<IActionResult> DownloadDietPlatPdfFile()
+        public async Task<IActionResult> DownloadDietPlanPdfFile()
         {
             var user = await _userManager.GetUserAsync(User);
             string dietReportAbsPath = GetDietReportAbsolutePathIfExists(user.FirstName, user.LastName);

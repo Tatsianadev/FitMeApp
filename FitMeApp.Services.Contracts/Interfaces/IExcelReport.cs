@@ -11,7 +11,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface IExcelReport
     {
-        Task WriteToExcelAsync(DataTable table, FileInfo file, string tableName);
+        Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName);
         Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file);
 
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
