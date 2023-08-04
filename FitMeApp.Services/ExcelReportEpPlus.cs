@@ -37,58 +37,62 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             List<AttendanceChartModel> attendanceChart = new List<AttendanceChartModel>();
 
-            if (file.Exists && file.Extension == ".xlsx")
+            if (buffer.Length > 0)
             {
-                using (var excelPack = new ExcelPackage(file))
+                using (var ms = new MemoryStream(buffer))
                 {
-                    await excelPack.LoadAsync(file);
-
-                    if (excelPack.Workbook.Worksheets.Count > 0)
+                    using (var excelPack = new ExcelPackage(ms))
                     {
-                        var workSheet = excelPack.Workbook.Worksheets[0];
-                        for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
+                        //await excelPack.LoadAsync(file);
+
+                        if (excelPack.Workbook.Worksheets.Count > 0)
                         {
-                            List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
-                            AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
-                            int row = 4; //row with data to start reading
-
-                            var dayName = workSheet.Cells[2, col].Value.ToString();
-                            if (Enum.IsDefined(typeof(DayOfWeek), dayName))
+                            var workSheet = excelPack.Workbook.Worksheets[0];
+                            for (int col = 1; col <= (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                             {
-                                currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
-                            }
+                                List<VisitorsPerHourModel> timeVisitorsLine = new List<VisitorsPerHourModel>();
+                                AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
+                                int row = 4; //row with data to start reading
 
-                            while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
-                            {
-                                VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
-                                int hour;
-                                bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
-                                if (getTimeSuccess)
+                                var dayName = workSheet.Cells[2, col].Value.ToString();
+                                if (Enum.IsDefined(typeof(DayOfWeek), dayName))
                                 {
-                                    timeVisitors.Hour = hour;
+                                    currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
                                 }
 
-                                int numberOfVisitors;
-                                bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col + 1].Value.ToString(), out numberOfVisitors);
-                                if (getNumberOfVisitorsSuccess)
+                                while (string.IsNullOrWhiteSpace(workSheet.Cells[row, col].Value?.ToString()) == false)
                                 {
-                                    timeVisitors.NumberOfVisitors = numberOfVisitors;
+                                    VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
+                                    int hour;
+                                    bool getTimeSuccess = int.TryParse(workSheet.Cells[row, col].Value.ToString(), out hour);
+                                    if (getTimeSuccess)
+                                    {
+                                        timeVisitors.Hour = hour;
+                                    }
+
+                                    int numberOfVisitors;
+                                    bool getNumberOfVisitorsSuccess = int.TryParse(workSheet.Cells[row, col + 1].Value.ToString(), out numberOfVisitors);
+                                    if (getNumberOfVisitorsSuccess)
+                                    {
+                                        timeVisitors.NumberOfVisitors = numberOfVisitors;
+                                    }
+
+                                    timeVisitorsLine.Add(timeVisitors);
+                                    row++;
                                 }
 
-                                timeVisitorsLine.Add(timeVisitors);
-                                row++;
+                                currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
+                                attendanceChart.Add(currentDayAttendance);
                             }
-
-                            currentDayAttendance.NumberOfVisitorsPerHour = timeVisitorsLine;
-                            attendanceChart.Add(currentDayAttendance);
                         }
                     }
                 }
+                
             }
 
             return attendanceChart;

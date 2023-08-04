@@ -37,7 +37,7 @@ namespace FitMeApp.Services
         }
 
 
-        public void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data)
+        public void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data) //todo remove to ChartService
         {
             var entities = new List<NumberOfVisitorsPerHourEntityBase>();
             foreach (var dayData in data)

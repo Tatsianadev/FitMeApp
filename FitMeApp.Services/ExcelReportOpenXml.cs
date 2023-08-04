@@ -80,64 +80,68 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer)
         {
             List<AttendanceChartModel> attendanceChartModels = new List<AttendanceChartModel>();
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(file.FullName, false))
+            using (var ms = new MemoryStream(buffer))
             {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-
-                Worksheet workSheet = worksheetPart.Worksheet;
-                SheetData sheetData = workSheet.Elements<SheetData>().First();
-
-                for (int col = 0; col < (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
+                using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(ms, false))
                 {
-                    AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
-                    List<VisitorsPerHourModel> visitorsPerHour = new List<VisitorsPerHourModel>();
+                    WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                    WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
 
-                    string colName = GetExcelColumnName(col);
-                    string addressDayNameCell = colName + (2).ToString();
-                    Cell dayNameCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressDayNameCell).FirstOrDefault();
-                    string dayName = GetCellValue(spreadsheetDocument, dayNameCell);
-                    currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
+                    Worksheet workSheet = worksheetPart.Worksheet;
+                    SheetData sheetData = workSheet.Elements<SheetData>().First();
 
-                    int rowNumber = 4;
-
-                    while (rowNumber <= sheetData.Descendants<Row>().Count())
+                    for (int col = 0; col < (2 * Enum.GetValues(typeof(DayOfWeek)).Length); col += 2)
                     {
-                        VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
+                        AttendanceChartModel currentDayAttendance = new AttendanceChartModel();
+                        List<VisitorsPerHourModel> visitorsPerHour = new List<VisitorsPerHourModel>();
 
-                        string addressHourCell = colName + (rowNumber).ToString();
-                        Cell hourCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressHourCell).FirstOrDefault();
-                        decimal hourDecimal;
-                        bool getTimeSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, hourCell), out hourDecimal);
-                        if (getTimeSuccess)
+                        string colName = GetExcelColumnName(col);
+                        string addressDayNameCell = colName + (2).ToString();
+                        Cell dayNameCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressDayNameCell).FirstOrDefault();
+                        string dayName = GetCellValue(spreadsheetDocument, dayNameCell);
+                        currentDayAttendance.DayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayName, true);
+
+                        int rowNumber = 4;
+
+                        while (rowNumber <= sheetData.Descendants<Row>().Count())
                         {
-                            int hour = (int)hourDecimal;
-                            timeVisitors.Hour = hour;
+                            VisitorsPerHourModel timeVisitors = new VisitorsPerHourModel();
+
+                            string addressHourCell = colName + (rowNumber).ToString();
+                            Cell hourCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressHourCell).FirstOrDefault();
+                            decimal hourDecimal;
+                            bool getTimeSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, hourCell), out hourDecimal);
+                            if (getTimeSuccess)
+                            {
+                                int hour = (int)hourDecimal;
+                                timeVisitors.Hour = hour;
+                            }
+
+                            string addressVisitorsCell = GetExcelColumnName(col + 1) + (rowNumber).ToString();
+                            Cell numOfVisitorsCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressVisitorsCell).FirstOrDefault();
+                            decimal numberOfVisitorsDecimal;
+                            bool getNumberOfVisitorsSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitorsDecimal);
+                            if (getNumberOfVisitorsSuccess)
+                            {
+                                int numberOfVisitors = (int)numberOfVisitorsDecimal;
+                                timeVisitors.NumberOfVisitors = numberOfVisitors;
+                            }
+
+                            visitorsPerHour.Add(timeVisitors);
+                            rowNumber++;
                         }
 
-                        string addressVisitorsCell = GetExcelColumnName(col + 1) + (rowNumber).ToString();
-                        Cell numOfVisitorsCell = workSheet.Descendants<Cell>().Where(x => x.CellReference == addressVisitorsCell).FirstOrDefault();
-                        decimal numberOfVisitorsDecimal;
-                        bool getNumberOfVisitorsSuccess = decimal.TryParse(GetCellValue(spreadsheetDocument, numOfVisitorsCell), out numberOfVisitorsDecimal);
-                        if (getNumberOfVisitorsSuccess)
-                        {
-                            int numberOfVisitors = (int)numberOfVisitorsDecimal;
-                            timeVisitors.NumberOfVisitors = numberOfVisitors;
-                        }
-
-                        visitorsPerHour.Add(timeVisitors);
-                        rowNumber++;
+                        currentDayAttendance.NumberOfVisitorsPerHour = visitorsPerHour;
+                        attendanceChartModels.Add(currentDayAttendance);
                     }
 
-                    currentDayAttendance.NumberOfVisitorsPerHour = visitorsPerHour;
-                    attendanceChartModels.Add(currentDayAttendance);
+                    return attendanceChartModels;
                 }
-
-                return attendanceChartModels;
             }
+            
         }
 
 

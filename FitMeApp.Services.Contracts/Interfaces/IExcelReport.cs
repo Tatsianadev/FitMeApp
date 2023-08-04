@@ -12,7 +12,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface IExcelReport
     {
         Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName);
-        Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file);
+        Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer);
 
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
     }

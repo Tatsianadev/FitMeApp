@@ -24,7 +24,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
        
         //Excel
         Task CreateUsersListExcelFileAsync(DataTable table, string fullPath);
-        Task AddVisitingChartDataFromExcelToDbAsync(string fullPath, int gymId);
+        Task AddVisitingChartDataFromExcelToDbAsync(byte[] buffer, int gymId);
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
 
         //Pdf

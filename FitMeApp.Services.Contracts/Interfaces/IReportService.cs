@@ -13,7 +13,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
     {
         //Excel
         Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file);
-        Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file);
+        Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer);
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
 
         //Pdf

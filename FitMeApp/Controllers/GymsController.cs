@@ -152,7 +152,7 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult DownloadAttendanceChartBlank() //todo move logic to Service
+        public IActionResult DownloadAttendanceChartBlank() //todo move logic to another Controller
         {
             string relativePath = Resources.Resources.AttendanceChartBlankPath;
             string absPath = Environment.CurrentDirectory + relativePath;
@@ -180,9 +180,14 @@ namespace FitMeApp.Controllers
             {
                 if (model.AttendanceChartFile != null && Path.GetExtension(model.AttendanceChartFile.FileName) == ".xlsx")
                 {
-                    string fileName = Environment.CurrentDirectory + @"\wwwroot\ExcelFiles\Chars\" + model.GymName + @"\AttendanceChart.xlsx";
-                    await _fileService.SaveFileAsync(model.AttendanceChartFile, fileName);
-                    await _fileService.AddVisitingChartDataFromExcelToDbAsync(fileName, model.GymId);
+                    long length = model.AttendanceChartFile.Length;
+                    byte[] buffer = new byte[length];
+                    using (var fileStream = model.AttendanceChartFile.OpenReadStream())
+                    {
+                        await fileStream.ReadAsync(buffer, 0, (int) model.AttendanceChartFile.Length);
+                    }
+
+                    await _fileService.AddVisitingChartDataFromExcelToDbAsync(buffer, model.GymId);
                     ViewBag.FileUploaded = true;
                 }
                 else

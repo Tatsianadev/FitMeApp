@@ -34,9 +34,9 @@ namespace FitMeApp.Services
         }
 
 
-        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(FileInfo file)
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer)
         {
-            List<AttendanceChartModel> output = await _excelReport.ReadAttendanceChartFromExcelAsync(file);
+            List<AttendanceChartModel> output = await _excelReport.ReadAttendanceChartFromExcelAsync(buffer);
             return output;
         }
 
