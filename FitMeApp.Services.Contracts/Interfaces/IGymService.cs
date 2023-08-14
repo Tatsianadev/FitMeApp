@@ -20,5 +20,6 @@ namespace FitMeApp.Services.Contracts.Interfaces
 
         //Charts
         AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day);
+        void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data);
     }
 }

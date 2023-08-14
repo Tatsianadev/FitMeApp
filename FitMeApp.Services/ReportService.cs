@@ -11,68 +11,35 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public sealed class ReportService: IReportService
+    public sealed class ReportService : IReportService
     {
-        private readonly IExcelReport _excelReport;
-        private readonly IPdfReport _pdfReport;
-        private readonly ITextReport _textReport;
+        private readonly IExcelService _excelService;
+        private readonly IPdfService _pdfService;
 
-        public ReportService(IExcelReport excelReport, IPdfReport pdfReport, ITextReport textReport)
+        public ReportService(IExcelService excelService, IPdfService pdfService)
         {
-            _excelReport = excelReport;
-            _pdfReport = pdfReport;
-            _textReport = textReport;
+            _excelService = excelService;
+            _pdfService = pdfService;
         }
 
-
-
-        public async Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file)
+        
+        public async Task CreateUsersListReportAsync(DataTable table, string fullPath)
         {
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+            }
+
+            FileInfo file = new FileInfo(fullPath);
             string tableName = file.Name;
             tableName.Replace(file.Extension, string.Empty, true, CultureInfo.CurrentCulture);
-            await _excelReport.CreateUsersListExcelFileAsync(table, file, tableName); //EPPlus or OpenXml realization
+            await _excelService.CreateUsersListExcelFileAsync(table, file, tableName); //EPPlus or OpenXml realization
         }
 
-
-        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer)
-        {
-            List<AttendanceChartModel> output = await _excelReport.ReadAttendanceChartFromExcelAsync(buffer);
-            return output;
-        }
-
-
-        public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
-        {
-            var output = await _excelReport.ReadNutrientsFromExcelAsync(file);
-            return output;
-        }
-
-
+        
         public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
         {
-            _pdfReport.CreateDietPlanPdf(dietPlan);
-        }
-
-
-        //Text
-        public async Task<string> GetTextContentFromFileAsync(string localPath)
-        {
-            var text = await _textReport.GetTextContentFromFileAsync(localPath);
-            return text;
-        }
-
-
-        public string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker)
-        {
-            var sectionText = _textReport.GetSpecifiedSectionFromFile(localPath, sectionStartMarker, sectionEndMarker);
-            return sectionText;
-        }
-
-
-        public IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark)
-        {
-            var paragraphs = _textReport.SplitTextIntoParagraphs(text, splitMark);
-            return paragraphs;
+            _pdfService.CreateDietPlanPdf(dietPlan);
         }
     }
 }

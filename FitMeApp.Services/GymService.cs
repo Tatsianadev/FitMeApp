@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.JoinEntitiesBase;
 using FitMeApp.Services.Contracts.Models.Chart;
 using IronPython.Hosting;
@@ -129,6 +130,19 @@ namespace FitMeApp.Services
             }
             
             return null;
+        }
+
+
+        public void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data)
+        {
+            var entities = new List<NumberOfVisitorsPerHourEntityBase>();
+            foreach (var dayData in data)
+            {
+                entities.AddRange(_mapper.MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(dayData));
+            }
+
+            _repository.DeleteNumberOfVisitorsPerHourChartData(entities.Select(x => x.GymId).First());
+            _repository.AddNumberOfVisitorsPerHourChartData(entities);
         }
 
     }

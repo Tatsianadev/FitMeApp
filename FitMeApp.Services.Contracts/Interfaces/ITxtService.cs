@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Services.Contracts.Interfaces
 {
-    public interface ITextReport
+    public interface ITxtService
     {
         Task<string> GetTextContentFromFileAsync(string localPath);
         string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker);

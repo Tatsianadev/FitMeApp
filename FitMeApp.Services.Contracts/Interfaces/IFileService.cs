@@ -21,14 +21,9 @@ namespace FitMeApp.Services.Contracts.Interfaces
         Task<string> GetTextContentFromFileAsync(string localPath); 
         string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker, string sectionEndMarker);
         IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark);
-       
+
         //Excel
-        Task CreateUsersListExcelFileAsync(DataTable table, string fullPath);
-        Task AddVisitingChartDataFromExcelToDbAsync(byte[] buffer, int gymId);
+        Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer, int gymId);
         Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file);
-
-        //Pdf
-        void CreateDietPlanPdf(DietPdfReportModel dietPlan);
-
     }
 }

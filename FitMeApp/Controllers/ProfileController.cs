@@ -37,6 +37,7 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IFileService _fileService;
+        private readonly IReportService _reportService;
         private readonly IEmailService _emailService;
 
         public ProfileController(
@@ -50,6 +51,7 @@ namespace FitMeApp.Controllers
             ILogger<ProfileController> logger,
             IWebHostEnvironment appEnvironment,
             IFileService fileService,
+            IReportService reportService,
             IEmailService emailService)
         {
             _userManager = userManager;
@@ -63,6 +65,7 @@ namespace FitMeApp.Controllers
             _mapper = new ModelViewModelMapper();
             _appEnvironment = appEnvironment;
             _fileService = fileService;
+            _reportService = reportService;
             _emailService = emailService;
         }
 
@@ -92,7 +95,7 @@ namespace FitMeApp.Controllers
             {
                 return View("CustomError", "Failed attempt to create Users list. Please, try again later");
             }
-            
+
             if (System.IO.File.Exists(absPath))
             {
                 var fileStream = System.IO.File.OpenRead(absPath);
@@ -1016,7 +1019,7 @@ namespace FitMeApp.Controllers
                 try
                 {
                     DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(usersExcel), (typeof(DataTable)));
-                    await _fileService.CreateUsersListExcelFileAsync(table, absPath);
+                    await _reportService.CreateUsersListReportAsync(table, absPath);
                 }
                 catch (Exception ex)
                 {

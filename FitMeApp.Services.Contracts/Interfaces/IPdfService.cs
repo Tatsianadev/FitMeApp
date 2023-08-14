@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMeApp.Services.Contracts.Interfaces
 {
-    public interface IPdfReport
+    public interface IPdfService
     {
         void CreateDietPlanPdf(DietPdfReportModel dietPlan);
     }

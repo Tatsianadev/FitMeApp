@@ -187,7 +187,15 @@ namespace FitMeApp.Controllers
                         await fileStream.ReadAsync(buffer, 0, (int) model.AttendanceChartFile.Length);
                     }
 
-                    await _fileService.AddVisitingChartDataFromExcelToDbAsync(buffer, model.GymId);
+                    var output = await _fileService.ReadAttendanceChartFromExcelAsync(buffer, model.GymId);
+                    output = output.OrderBy(x => x.DayOfWeek).ToList();
+                    foreach (var attendanceChartModel in output)
+                    {
+                        attendanceChartModel.GymId = model.GymId;
+                        attendanceChartModel.NumberOfVisitorsPerHour = attendanceChartModel.NumberOfVisitorsPerHour.OrderBy(x => x.Hour).ToList();
+                    }
+
+                    _gymService.AddVisitingChartDataToDb(output);
                     ViewBag.FileUploaded = true;
                 }
                 else

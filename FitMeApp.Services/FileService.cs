@@ -17,13 +17,13 @@ namespace FitMeApp.Services
 {
     public sealed class FileService : IFileService
     {
-        private readonly IFileStorage _fileStorage;
-        private readonly IReportService _reportService;
+        private readonly IExcelService _excelService;
+        private readonly ITxtService _txtService;
 
-        public FileService(IFileStorage fileStorage, IReportService reportServiceService)
+        public FileService(IExcelService excelService, ITxtService txtService)
         {
-            _fileStorage = fileStorage;
-            _reportService = reportServiceService;
+            _excelService = excelService;
+            _txtService = txtService;
         }
 
 
@@ -44,7 +44,10 @@ namespace FitMeApp.Services
             }
 
             DeleteFileIfExist(fullPath);
-            await _fileStorage.SaveFileAsync(uploadedFile, fullPath);
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
+            {
+                await uploadedFile.CopyToAsync(fileStream);
+            }
         }
 
 
@@ -65,7 +68,7 @@ namespace FitMeApp.Services
         //Text
         public async Task<string> GetTextContentFromFileAsync(string localPath)
         {
-            var text = await _reportService.GetTextContentFromFileAsync(localPath);
+            var text = await _txtService.GetTextContentFromFileAsync(localPath);
             return text;
         }
 
@@ -73,62 +76,32 @@ namespace FitMeApp.Services
         public string GetSpecifiedSectionFromFile(string localPath, string sectionStartMarker,
             string sectionEndMarker)
         {
-            var sectionText = _reportService.GetSpecifiedSectionFromFile(localPath, sectionStartMarker, sectionEndMarker);
+            var sectionText = _txtService.GetSpecifiedSectionFromFile(localPath, sectionStartMarker, sectionEndMarker);
             return sectionText;
         }
 
 
-        public IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark)
+        public IEnumerable<string> SplitTextIntoParagraphs(string text, string splitMark) //todo replace ro Common
         {
-            var paragraphs = _reportService.SplitTextIntoParagraphs(text, splitMark);
+            var paragraphs = _txtService.SplitTextIntoParagraphs(text, splitMark);
             return paragraphs;
         }
         
-       
 
-        //Excel
-        public async Task CreateUsersListExcelFileAsync(DataTable table, string fullPath)
+
+        public async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer, int gymId)   //AttendanceChartModel only
         {
-            FileInfo file = new FileInfo(fullPath);
-            DeleteFileIfExist(fullPath);
-            await _reportService.CreateUsersListExcelFileAsync(table, file); //EPPlus or OpenXml realization
-        }
-
-
-        public async Task AddVisitingChartDataFromExcelToDbAsync(byte[] buffer, int gymId)   //AttendanceChartModel only
-        {
-            List<AttendanceChartModel> output = await ReadAttendanceChartFromExcelAsync(buffer);
-            output = output.OrderBy(x => x.DayOfWeek).ToList();
-            foreach (var model in output)
-            {
-                model.GymId = gymId;
-                model.NumberOfVisitorsPerHour = model.NumberOfVisitorsPerHour.OrderBy(x => x.Hour).ToList();
-            }
-
-            _fileStorage.AddVisitingChartDataToDb(output);
+            List<AttendanceChartModel> output = await _excelService.ReadAttendanceChartFromExcelAsync(buffer);
+            return output;
         }
 
 
         public async Task<NutrientsModel> ReadNutrientsFromExcelAsync(FileInfo file)
         {
-            var nutrients = await _reportService.ReadNutrientsFromExcelAsync(file);
+            var nutrients = await _excelService.ReadNutrientsFromExcelAsync(file);
             return nutrients;
         }
 
-        
-        //Pdf
-        public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
-        {
-            _reportService.CreateDietPlanPdf(dietPlan);
-        }
-
-
-        private async Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer)  //AttendanceChartModel only
-        {
-            //FileInfo file = new FileInfo(fullPath);
-            List<AttendanceChartModel> output = await _reportService.ReadAttendanceChartFromExcelAsync(buffer);
-            return output;
-        }
 
 
         private void DeleteFileIfExist(string fullPath)

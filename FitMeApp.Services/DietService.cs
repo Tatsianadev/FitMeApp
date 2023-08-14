@@ -15,13 +15,15 @@ namespace FitMeApp.Services
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
-        private readonly IFileService _fileService;
+        //private readonly IFileService _fileService;
+        private readonly IReportService _reportService;
         private readonly IProductsService _productsService;
 
-        public DietService(IRepository repository, IFileService fileService, IProductsService productsService)
+        public DietService(IRepository repository, IReportService reportService, IProductsService productsService)
         {
             _repository = repository;
-            _fileService = fileService;
+            //_fileService = fileService;
+            _reportService = reportService;
             _productsService = productsService;
             _mapper = new EntityModelMapper();
         }
@@ -169,7 +171,7 @@ namespace FitMeApp.Services
                         DietPlanCreatedDate = DateTime.Now
                     };
 
-                    _fileService.CreateDietPlanPdf(dietReportModel);
+                    _reportService.CreateDietPlanPdf(dietReportModel);
                     return true;
                 }
             }

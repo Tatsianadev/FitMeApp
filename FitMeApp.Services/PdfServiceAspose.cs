@@ -13,7 +13,7 @@ using Color = Aspose.Pdf.Color;
 
 namespace FitMeApp.Services
 {
-    public class PdfReportAspose : IPdfReport
+    public class PdfServiceAspose : IPdfService
     {
         public void CreateDietPlanPdf(DietPdfReportModel dietPlan)
         {

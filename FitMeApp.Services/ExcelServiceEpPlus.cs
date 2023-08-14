@@ -13,7 +13,7 @@ using FitMeApp.Services.Contracts.Models;
 
 namespace FitMeApp.Services
 {
-    public sealed class ExcelReportEpPlus : IExcelReport
+    public sealed class ExcelServiceEpPlus : IExcelService
     {
         public async Task CreateUsersListExcelFileAsync (DataTable table, FileInfo file, string tableName)
         {

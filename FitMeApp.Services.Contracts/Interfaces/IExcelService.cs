@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.Services.Contracts.Interfaces
 {
-    public interface IExcelReport
+    public interface IExcelService
     {
         Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName);
         Task<List<AttendanceChartModel>> ReadAttendanceChartFromExcelAsync(byte[] buffer);

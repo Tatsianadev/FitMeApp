@@ -9,7 +9,7 @@ using FitMeApp.Services.Contracts.Interfaces;
 
 namespace FitMeApp.Services
 {
-    public class TextReport: ITextReport
+    public class TxtReport: ITxtService
     {
         public async Task<string> GetTextContentFromFileAsync(string localPath)
         {

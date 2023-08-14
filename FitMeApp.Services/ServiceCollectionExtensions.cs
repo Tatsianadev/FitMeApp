@@ -46,13 +46,12 @@ namespace FitMeApp.Services
             services.AddScoped<IDietService, DietService>();
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IHomeTrainingService, HomeTrainingService>();
-            services.AddScoped<IFileStorage, FileStorage>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IReportService, ReportService>();
-            //services.AddScoped<IExcelReport, ExcelReportEpPlus>();
-            services.AddScoped<IExcelReport, ExcelReportOpenXml>();
-            services.AddScoped<IPdfReport, PdfReportAspose>();
-            services.AddScoped<ITextReport, TextReport>();
+            //services.AddScoped<IExcelReport, ExcelServiceEpPlus>();
+            services.AddScoped<IExcelService, ExcelServiceOpenXml>();
+            services.AddScoped<IPdfService, PdfServiceAspose>();
+            services.AddScoped<ITxtService, TxtReport>();
         }
 
         public static void RegisterMailService(this IServiceCollection services, string apiKey)

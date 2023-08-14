@@ -24,7 +24,7 @@ using TopBorder = DocumentFormat.OpenXml.Spreadsheet.TopBorder;
 
 namespace FitMeApp.Services
 {
-    public sealed class ExcelReportOpenXml : IExcelReport
+    public sealed class ExcelServiceOpenXml : IExcelService
     {
         public async Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName)
         {
