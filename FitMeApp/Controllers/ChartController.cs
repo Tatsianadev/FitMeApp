@@ -31,7 +31,5 @@ namespace FitMeApp.Controllers
 
             return RedirectToAction("CurrentGymInfo", "Gyms", new { gymId = gymId });
         }
-
-
     }
 }
