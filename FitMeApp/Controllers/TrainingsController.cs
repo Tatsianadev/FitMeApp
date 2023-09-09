@@ -39,6 +39,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> ApplyForPersonalTraining(string trainerId)
         {
             var user = await _userManager.GetUserAsync(User);
