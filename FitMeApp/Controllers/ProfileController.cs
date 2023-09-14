@@ -811,57 +811,74 @@ namespace FitMeApp.Controllers
             try
             {
                 newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //Cut off all "day off" from model
-                foreach (var model in newWorkHours)
+                string trainerId = _userManager.GetUserId(User);
+
+                if (!newWorkHours.Any()) //todo TryToDelete private method
                 {
-                    int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
-                    int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
-                    if (startTimeInt > endTimeInt)
+                    int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainerId);
+                    if (actualEventsCount == 0)
                     {
-                        ModelState.AddModelError("NewDataConflict", "Start work time can't be later than End work time");
+                        _trainerService.DeleteTrainerWorkHoursByTrainer(trainerId);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("NewDataConflict", "You can't delete work hours while you have actual events in your schedule.");
                         return View(newWorkHours);
                     }
                 }
-
-                string trainerId = _userManager.GetUserId(User);
-                foreach (var model in newWorkHours)                         //full required fields in work hours model for NEW days
-                {
-                    model.TrainerId = trainerId;
-                    if (model.GymWorkHoursId == 0)
-                    {
-                        int gymId = _gymService.GetGymIdByTrainer(trainerId);
-                        model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
-                    }
-                }
-
-                var newWorkHoursModels = new List<TrainerWorkHoursModel>();
-
-                foreach (var viewModel in newWorkHours)
-                {
-                    newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
-                }
-
-                bool updateSuccess = _trainerService.TryUpdateTrainerWorkHours(newWorkHoursModels);
-                if (!updateSuccess)
-                {
-                    _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
-                }
                 else
                 {
-                    foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+                    foreach (var model in newWorkHours)
                     {
-                        if (!newWorkHours.Select(x => x.DayName).Contains((DayOfWeek)item))
+                        int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
+                        int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
+                        if (startTimeInt > endTimeInt) //todo add constraint into model (start >= end) for client side validate
                         {
-                            newWorkHours.Add(new TrainerWorkHoursViewModel()
-                            {
-                                DayName = (DayOfWeek)item,
-                                StartTime = "0.00",
-                                EndTime = "0.00"
-                            });
+                            ModelState.AddModelError("NewDataConflict", "Start work time can't be later than End work time");
+                            return View(newWorkHours);
                         }
                     }
-                    List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();
-                    ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with the new data.");
-                    return View(orderedWorkHours);
+
+
+                    foreach (var model in newWorkHours)                         //full required fields in work hours model for NEW days
+                    {
+                        model.TrainerId = trainerId;
+                        if (model.GymWorkHoursId == 0)
+                        {
+                            int gymId = _gymService.GetGymIdByTrainer(trainerId);
+                            model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
+                        }
+                    }
+
+                    var newWorkHoursModels = new List<TrainerWorkHoursModel>();
+                    foreach (var viewModel in newWorkHours)
+                    {
+                        newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
+                    }
+
+                    bool updateSuccess = _trainerService.TryUpdateTrainerWorkHours(newWorkHoursModels);
+                    if (!updateSuccess)
+                    {
+                        _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
+                    }
+                    else
+                    {
+                        foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
+                        {
+                            if (!newWorkHours.Select(x => x.DayName).Contains((DayOfWeek)item))
+                            {
+                                newWorkHours.Add(new TrainerWorkHoursViewModel()
+                                {
+                                    DayName = (DayOfWeek)item,
+                                    StartTime = "0.00",
+                                    EndTime = "0.00"
+                                });
+                            }
+                        }
+                        List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();
+                        ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with the new data.");
+                        return View(orderedWorkHours);
+                    }
                 }
 
                 return RedirectToAction("TrainerPersonalAndJobData");

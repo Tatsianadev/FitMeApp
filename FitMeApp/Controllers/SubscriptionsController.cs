@@ -184,7 +184,7 @@ namespace FitMeApp.Controllers
 
             if (licenseModel.GymId != newGymId)
             {
-                var actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(userId);
+                var actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(userId); 
                 if (actualEventsCount != 0)
                 {
                     return View("FailedTryBuyTrainerSubscription");
