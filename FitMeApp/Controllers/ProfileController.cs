@@ -840,15 +840,10 @@ namespace FitMeApp.Controllers
                     newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
                 }
 
-                bool result = _trainerService.CheckFacilityUpdateTrainerWorkHours(newWorkHoursModels);
-                if (result)
+                bool updateSuccess = _trainerService.TryUpdateTrainerWorkHours(newWorkHoursModels);
+                if (!updateSuccess)
                 {
-                    bool updateSuccess = _trainerService.UpdateTrainerWorkHours(newWorkHoursModels);
-                    if (!updateSuccess)
-                    {
-                        _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
-                    }
-                    return RedirectToAction("TrainerPersonalAndJobData");
+                    _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
                 }
                 else
                 {
@@ -865,9 +860,11 @@ namespace FitMeApp.Controllers
                         }
                     }
                     List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();
-                    ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with new data.");
+                    ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with the new data.");
                     return View(orderedWorkHours);
                 }
+
+                return RedirectToAction("TrainerPersonalAndJobData");
 
             }
             catch (Exception ex)

@@ -44,7 +44,7 @@ namespace FitMeApp.Services.QuartzService
 
             foreach (var user in targetUsers)
             {
-                string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+                string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but in case of study - constant
                 string plainTextContent = $"Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.";
                 string htmlContent = $"<strong>Your {user.GymName} subscription will expire in {daysBeforeSubscrExpire} days.</strong>";
                

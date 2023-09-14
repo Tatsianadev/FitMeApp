@@ -90,20 +90,23 @@ namespace FitMeApp.Services
         }
 
 
-        private bool CheckFacilityUpdateTrainerWorkHoursByGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
+        private bool CheckIfNewTrainerWorkHoursFitsToGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             var gymWorkHours = _repository.GetWorkHoursByGym(gymId);
 
-            List<DayOfWeek> gymWorkDayes = gymWorkHours.Select(x => x.DayOfWeekNumber).ToList();
-            List<DayOfWeek> newTrainerWorkDayes = newWorkHours.Select(x => x.DayName).ToList();
-            if (newTrainerWorkDayes.Except(gymWorkDayes).Count() > 0) //check: Trainer works only the DAYS, when the Gym open 
+            List<DayOfWeek> gymWorkDays = gymWorkHours.Select(x => x.DayOfWeekNumber).ToList();
+            List<DayOfWeek> newTrainerWorkDays = newWorkHours.Select(x => x.DayName).ToList();
+            
+            //check: Trainer works only the DAYS, when the Gym open 
+            if (newTrainerWorkDays.Except(gymWorkDays).Any()) 
             {
                 return false;
             }
 
-            foreach (var newTrainerWorkHours in newWorkHours) // check: Trainer works only the HOURS, when the Gym open
+            // check: Trainer works only the HOURS, when the Gym open
+            foreach (var newTrainerWorkHours in newWorkHours) 
             {
-                var gymWorkHoursById = gymWorkHours.Where(x => x.Id == newTrainerWorkHours.GymWorkHoursId).FirstOrDefault();
+                var gymWorkHoursById = gymWorkHours.FirstOrDefault(x => x.Id == newTrainerWorkHours.GymWorkHoursId);
                 if (gymWorkHoursById != null)
                 {
                     var gymWorkStartTime = gymWorkHoursById.StartTime;
@@ -123,7 +126,7 @@ namespace FitMeApp.Services
         }
 
 
-        private bool CheckFacilityUpdateTrainerWorkHoursByEvents(List<TrainerWorkHoursModel> newWorkHours)
+        private bool CheckIfNewTrainerWorkHoursFitsToExistingEvents(List<TrainerWorkHoursModel> newWorkHours)
         {
             string trainerId = newWorkHours.First().TrainerId;
             var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
@@ -157,14 +160,14 @@ namespace FitMeApp.Services
         }
 
 
-        public bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours)
+        public bool TryUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours)
         {
             string trainerId = newWorkHours.Select(x => x.TrainerId).First().ToString();
             int licenseId = _repository.GetTrainer(trainerId).WorkLicenseId;
             int gymId = _repository.GetTrainerWorkLicense(licenseId).GymId;
-            if (CheckFacilityUpdateTrainerWorkHoursByEvents(newWorkHours) && CheckFacilityUpdateTrainerWorkHoursByGymSchedule(gymId, newWorkHours))
+            if (CheckIfNewTrainerWorkHoursFitsToExistingEvents(newWorkHours) && CheckIfNewTrainerWorkHoursFitsToGymSchedule(gymId, newWorkHours))
             {
-                return true;
+                return UpdateTrainerWorkHours(newWorkHours);
             }
 
             return false;

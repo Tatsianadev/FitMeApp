@@ -79,6 +79,9 @@ namespace FitMeApp.Services
 
         public async Task<byte[]> DownloadPdfFileAsync(int homeTrainingPlanId)
         {
+            //set id = 1 just to make it easier in the tutorial version and not create all homeTraining plans
+            homeTrainingPlanId = 1;
+
             string endpoint = "returnfilepdf/" + homeTrainingPlanId;
             byte[] response = await GetResponseAsByteArrayAsync(endpoint);
             return response;

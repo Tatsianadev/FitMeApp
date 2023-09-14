@@ -13,7 +13,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
         int GetGymIdByTrainer(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
-        bool CheckFacilityUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
+        bool TryUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
         bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);

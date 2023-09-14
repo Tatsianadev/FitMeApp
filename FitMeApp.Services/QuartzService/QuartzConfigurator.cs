@@ -12,18 +12,20 @@ namespace FitMeApp.Services.QuartzService
         public static void AddJobAndTrigger<T>(this IServiceCollectionQuartzConfigurator quartz) where T: IJob
         {
             string jobName = typeof(T).Name;
-            var cronSchedule = Common.DefaultSettingsStorage.CronForSendEmailJob;
+            var cronSchedule = Common.DefaultSettingsStorage.CronForSendEmailJob; //appsettings.json - "SendEmailJob": "0 * * ? * *",
 
             if (string.IsNullOrEmpty(cronSchedule))
             {
-                throw new Exception("No Quartz.NET Cron schedule found for job in configuration.");
+                throw new Exception("No Quartz.NET Cron schedule were found for the job in configuration.");
             }
 
             var jobKey = new JobKey(jobName);
             quartz.AddJob<T>(opts => opts.WithIdentity(jobKey));
 
             quartz.AddTrigger(opts => opts
-                .ForJob(jobKey).WithIdentity(jobName + "Trigger").WithCronSchedule(cronSchedule));
+                .ForJob(jobKey)
+                .WithIdentity(jobName + "Trigger")
+                .WithCronSchedule(cronSchedule));
         }
 
     }
