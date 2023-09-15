@@ -148,7 +148,7 @@ namespace FitMeApp.Services
                 {
                     if (eventItem.Date.DayOfWeek == newTrainerWorkHours.DayName)
                     {
-                        if (eventItem.StartTime <= newTrainerWorkHours.StartTime || eventItem.EndTime >= newTrainerWorkHours.EndTime)
+                        if (eventItem.StartTime < newTrainerWorkHours.StartTime || eventItem.EndTime > newTrainerWorkHours.EndTime)
                         {
                             return false;
                         }

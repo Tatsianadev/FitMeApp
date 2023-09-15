@@ -20,10 +20,10 @@ namespace FitMeApp.Tests.Services.TrainerService
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_FitData_ReturnsTrue()
         {
-            var data = FitData();
+            var data = FitNewWorkHoursData();
 
             var repositoryMock = new Mock<IRepository>();
-            repositoryMock.Setup(x => x.GetActualEventsByTrainer("")).Returns(GetActualEventsByTrainerFakeMethod());
+            repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(GetActualEventsByTrainerFakeMethod());
             var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
             var targetMethod = typeof(FitMeApp.Services.TrainerService).GetMethod(
                 "CheckIfNewTrainerWorkHoursFitsToExistingEvents", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -38,6 +38,48 @@ namespace FitMeApp.Tests.Services.TrainerService
             }
         }
 
+
+        [Test]
+        public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_NoEvents_ReturnsTrue()
+        {
+            var data = FitNewWorkHoursData();
+
+            var repositoryMock = new Mock<IRepository>();
+            repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(new List<EventEntityBase>());
+            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
+            var targetMethod = typeof(FitMeApp.Services.TrainerService).GetMethod(
+                "CheckIfNewTrainerWorkHoursFitsToExistingEvents", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (targetMethod != null)
+            {
+                foreach (var item in data)
+                {
+                    var result = targetMethod.Invoke(serviceMock, new object[] { item });
+                    Assert.AreEqual(true, result);
+                }
+            }
+        }
+
+        [Test]
+        public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_NotFitData_ReturnsFalse()
+        {
+            var data = NotFitNewWorkHoursData();
+
+            var repositoryMock = new Mock<IRepository>();
+            repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(GetActualEventsByTrainerFakeMethod());
+            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
+            var targetMethod = typeof(FitMeApp.Services.TrainerService).GetMethod(
+                "CheckIfNewTrainerWorkHoursFitsToExistingEvents", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (targetMethod != null)
+            {
+                foreach (var item in data)
+                {
+                    var result = targetMethod.Invoke(serviceMock, new object[] { item });
+                    Assert.AreEqual(false, result);
+                }
+            }
+        }
 
 
         private List<EventEntityBase> GetActualEventsByTrainerFakeMethod()
@@ -60,8 +102,7 @@ namespace FitMeApp.Tests.Services.TrainerService
             return output;
         }
 
-
-        private List<List<TrainerWorkHoursModel>> FitData()
+        private List<List<TrainerWorkHoursModel>> FitNewWorkHoursData()
         {
             var data = new List<List<TrainerWorkHoursModel>>();
             var newWorkHours_1 = new List<TrainerWorkHoursModel>()
@@ -104,6 +145,63 @@ namespace FitMeApp.Tests.Services.TrainerService
 
             data.Add(newWorkHours_1);
             data.Add(newWorkHours_2);
+
+            return data;
+        }
+
+        private List<List<TrainerWorkHoursModel>> NotFitNewWorkHoursData()
+        {
+            var data = new List<List<TrainerWorkHoursModel>>();
+            var newWorkHours_1 = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 860, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 480 , EndTime = 800,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            var newWorkHours_2 = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(2).DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(3).DayOfWeek
+                }
+            };
+
+            var newWorkHours_3 = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(2).DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(3).DayOfWeek
+                }
+            };
+
+            data.Add(newWorkHours_1);
+            data.Add(newWorkHours_2);
+            data.Add(newWorkHours_3);
 
             return data;
         }
