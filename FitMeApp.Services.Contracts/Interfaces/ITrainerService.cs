@@ -14,7 +14,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         int GetGymIdByTrainer(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
         bool TryUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
-        bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours);
+        //bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours); private
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);

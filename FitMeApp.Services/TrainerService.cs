@@ -130,7 +130,7 @@ namespace FitMeApp.Services
         {
             string trainerId = newWorkHours.First().TrainerId;
             var actualEvents = _repository.GetActualEventsByTrainer(trainerId);
-            if (actualEvents.Count() == 0)
+            if (!actualEvents.Any())
             {
                 return true;
             }
@@ -174,7 +174,7 @@ namespace FitMeApp.Services
         }
 
 
-        public bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
+        private bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours)
         {
             string trainerId = trainerWorkHours.Select(x => x.TrainerId).First();
             List<int> previousTrainerWorkHoursId = _repository.GerAllTrainerWorkHoursId(trainerId).ToList();
