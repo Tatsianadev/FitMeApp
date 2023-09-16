@@ -1,8 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FitMeApp.Models.RegisterViewModel
 
-@model FitMeApp.Models.RegisterViewModel
 <h2>User registration</h2>
 <form method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
@@ -20,7 +17,7 @@
         <label asp-for="Email"></label><br />
         <input asp-for="Email" />
         <span asp-validation-for="Email"></span>
-    </div>   
+    </div>
     <div>
         <label asp-for="Password"></label><br />
         <input asp-for="Password" />
@@ -50,3 +47,5 @@
         <input type="submit" value="Registration" />
     </div>
 </form>
+
+

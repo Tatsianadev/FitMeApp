@@ -808,17 +808,21 @@ namespace FitMeApp.Controllers
         [HttpPost]
         public IActionResult EditTrainerWorkHours(List<TrainerWorkHoursViewModel> newWorkHours)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(newWorkHours);
+            }
+
             try
             {
                 newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //Cut off all "day off" from model
                 string trainerId = _userManager.GetUserId(User);
 
-                if (!newWorkHours.Any()) //todo TryToDelete private method
+                if (!newWorkHours.Any())
                 {
-                    int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainerId);
-                    if (actualEventsCount == 0)
+                    if (TryDeleteTrainerWorkHours(trainerId))
                     {
-                        _trainerService.DeleteTrainerWorkHoursByTrainer(trainerId);
+                        return RedirectToAction("TrainerPersonalAndJobData");
                     }
                     else
                     {
@@ -828,17 +832,6 @@ namespace FitMeApp.Controllers
                 }
                 else
                 {
-                    foreach (var model in newWorkHours)
-                    {
-                        int startTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.StartTime);
-                        int endTimeInt = Common.WorkHoursTypesConverter.ConvertStringTimeToInt(model.EndTime);
-                        if (startTimeInt > endTimeInt) //todo add constraint into model (start >= end) for client side validate
-                        {
-                            ModelState.AddModelError("NewDataConflict", "Start work time can't be later than End work time");
-                            return View(newWorkHours);
-                        }
-                    }
-
 
                     foreach (var model in newWorkHours)                         //full required fields in work hours model for NEW days
                     {
@@ -1040,6 +1033,20 @@ namespace FitMeApp.Controllers
                     _logger.LogError(ex, ex.Message);
                     throw;
                 }
+            }
+        }
+
+        private bool TryDeleteTrainerWorkHours(string trainerId)
+        {
+            int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(trainerId);
+            if (actualEventsCount == 0)
+            {
+                _trainerService.DeleteTrainerWorkHoursByTrainer(trainerId);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
