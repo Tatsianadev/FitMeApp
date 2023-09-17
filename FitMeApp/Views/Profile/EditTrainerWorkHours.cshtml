@@ -43,7 +43,6 @@
 
                                             }
                                         </select>
-                                        @*<span asp-validation-for="@Model[i].StartTime"></span>*@
                                         <input type="hidden" asp-for="@Model[i].Id" />
                                         <input type="hidden" asp-for="@Model[i].GymWorkHoursId" />
                                         <input type="hidden" asp-for="@Model[i].DayName" />
@@ -74,7 +73,6 @@
                                                 }
                                             }
                                         </select>
-                                        @*<span asp-validation-for="@Model[i].EndTime"></span>*@
                                     </td>
                                 }                                
                                 else
@@ -91,7 +89,6 @@
                                             <option value="@(t+".30")">@(t+".30")</option>
                                         }
                                     </select>
-                                    @*<span asp-validation-for="@Model[i].StartTime"></span>*@
                                 </td>
                                 <td class="col5">-</td>
                                 <td class="col4">
@@ -102,7 +99,6 @@
                                             <option value="@(t+".30")">@(t+".30")</option>
                                         }
                                     </select>
-                                    @*<span asp-validation-for="@Model[i].EndTime"></span>*@
                                 </td>
                                 }
                             </tr>

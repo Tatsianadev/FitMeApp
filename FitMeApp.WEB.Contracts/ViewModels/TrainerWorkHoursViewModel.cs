@@ -14,5 +14,6 @@ namespace FitMeApp.WEB.Contracts.ViewModels
         public string EndTime { get; set; }
         public int GymWorkHoursId { get; set; }
         public DayOfWeek DayName { get; set; }
+
     }
 }

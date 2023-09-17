@@ -806,83 +806,70 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult EditTrainerWorkHours(List<TrainerWorkHoursViewModel> newWorkHours)
+        public IActionResult EditTrainerWorkHours(List<TrainerWorkHoursViewModel> model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid && model != null)
             {
-                return View(newWorkHours);
-            }
-
-            try
-            {
-                newWorkHours.RemoveAll(x => x.StartTime == "0.00" && x.EndTime == "0.00"); //Cut off all "day off" from model
                 string trainerId = _userManager.GetUserId(User);
 
+                //make copy of passed model for the following changes
+                //fill in all required fields for NEW days
+                //cut off all "day off" from the model
+                var newWorkHours = new List<TrainerWorkHoursViewModel>();
+                foreach (var item in model.Where((x => x.StartTime != "0.00" && x.EndTime != "0.00")))
+                {
+                    item.TrainerId = trainerId;
+                    if (item.GymWorkHoursId == 0)
+                    {
+                        int gymId = _gymService.GetGymIdByTrainer(trainerId);
+                        item.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, item.DayName);
+                    }
+                    newWorkHours.Add(item);
+                }
+                
                 if (!newWorkHours.Any())
                 {
                     if (TryDeleteTrainerWorkHours(trainerId))
                     {
                         return RedirectToAction("TrainerPersonalAndJobData");
                     }
-                    else
-                    {
-                        ModelState.AddModelError("NewDataConflict", "You can't delete work hours while you have actual events in your schedule.");
-                        return View(newWorkHours);
-                    }
+
+                    ModelState.AddModelError("NewDataConflict", "You can't delete work hours while you have actual events in your schedule.");
+                    return View(model);
                 }
-                else
+
+                var newWorkHoursModels = new List<TrainerWorkHoursModel>();
+                foreach (var viewModel in newWorkHours)
                 {
-
-                    foreach (var model in newWorkHours)                         //full required fields in work hours model for NEW days
-                    {
-                        model.TrainerId = trainerId;
-                        if (model.GymWorkHoursId == 0)
-                        {
-                            int gymId = _gymService.GetGymIdByTrainer(trainerId);
-                            model.GymWorkHoursId = _gymService.GetGymWorkHoursId(gymId, model.DayName);
-                        }
-                    }
-
-                    var newWorkHoursModels = new List<TrainerWorkHoursModel>();
-                    foreach (var viewModel in newWorkHours)
-                    {
-                        newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
-                    }
-
-                    bool updateSuccess = _trainerService.TryUpdateTrainerWorkHours(newWorkHoursModels);
-                    if (!updateSuccess)
-                    {
-                        _logger.LogError("Update  trainer work hours failed", $"Update work hours for user id: {trainerId} failed");
-                    }
-                    else
-                    {
-                        foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
-                        {
-                            if (!newWorkHours.Select(x => x.DayName).Contains((DayOfWeek)item))
-                            {
-                                newWorkHours.Add(new TrainerWorkHoursViewModel()
-                                {
-                                    DayName = (DayOfWeek)item,
-                                    StartTime = "0.00",
-                                    EndTime = "0.00"
-                                });
-                            }
-                        }
-                        List<TrainerWorkHoursViewModel> orderedWorkHours = newWorkHours.OrderBy(x => ((int)x.DayName)).ToList();
-                        ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with the new data.");
-                        return View(orderedWorkHours);
-                    }
+                    newWorkHoursModels.Add(_mapper.MapTrainerWorkHoursViewModelToModel(viewModel));
                 }
 
-                return RedirectToAction("TrainerPersonalAndJobData");
+                try
+                {
+                    bool updateSuccess = _trainerService.TryUpdateTrainerWorkHours(newWorkHoursModels);
+                    if (updateSuccess)
+                    {
+                        return RedirectToAction("TrainerPersonalAndJobData");
+                    }
 
+                    ModelState.AddModelError("NewDataConflict", "There is a conflict in the entered data. Make sure that the gym schedule or current events do not conflict with the new data.");
+                    return View(model);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    string message = "There was a problem with change work hours data. Try again, please.";
+                    return View("CustomError", message);
+                }
             }
-            catch (Exception ex)
+
+            if (model == null)
             {
-                _logger.LogError(ex, ex.Message);
-                string message = "There was a problem with change work hours data. Try again, please.";
-                return View("CustomError", message);
+                _logger.LogError("Null value has passed into the EditTrainerWorkHours post method");
+                return RedirectToAction("EditTrainerWorkHours");
             }
+
+            return View(model);
         }
 
 
