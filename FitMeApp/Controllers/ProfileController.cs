@@ -259,6 +259,7 @@ namespace FitMeApp.Controllers
 
 
         [Authorize(Roles = "admin")]
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             try
@@ -270,20 +271,22 @@ namespace FitMeApp.Controllers
                     if (userRoles.Contains(RolesEnum.trainer.ToString()))
                     {
                         int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(user.Id);
-                        if (actualEventsCount > 0)
-                        {
-                            //todo trainer has events. alert that failed delete trying
-                            return RedirectToAction("UsersList");
-                        }
-                        else
+                        if (actualEventsCount <0)
                         {
                             _trainerService.DeleteTrainer(user.Id);
                         }
+                        else
+                        {
+                            return RedirectToAction("FailedTryToDeleteTrainer", new{ userFullName = $"{user.FirstName} {user.LastName}"});
+                        }
                     }
-                    await _userManager.DeleteAsync(user);
+                    else
+                    {
+                        await _userManager.DeleteAsync(user);
+                    }
                 }
-                return RedirectToAction("UsersList");
 
+                return RedirectToAction("UsersList");
             }
             catch (Exception ex)
             {
@@ -293,7 +296,10 @@ namespace FitMeApp.Controllers
             }
         }
 
-
+        public IActionResult FailedTryToDeleteTrainer(string userFullName)
+        {
+            return View("FailedTryToDeleteTrainer", userFullName);
+        }
 
 
         //User profile

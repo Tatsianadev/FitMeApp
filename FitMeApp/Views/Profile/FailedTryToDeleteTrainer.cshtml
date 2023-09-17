@@ -1,0 +1,17 @@
+﻿@model string
+@{
+    ViewBag.Title = "Failed try to delete trainer";
+}
+
+<div style="margin:20px; text-align:center">
+
+    <h3>Oops, the attempt to delete @Model account failed.</h3>
+    <br />
+    <h5>You can't delete the account of the trainer who has an actual events.</h5>
+    <h5>Please, make all the trainers events canceled and then try to delete trainer account again.</h5>
+    <br />
+    <a asp-action="UsersList" asp-controller="Profile" class="btn btn-dark">Ok</a>
+</div>
+<div style="text-align:center">
+    <img src="~/Content/images/appConsideration.jpg" alt="Alternate Text" style="height:300px; width:auto" />
+</div>
