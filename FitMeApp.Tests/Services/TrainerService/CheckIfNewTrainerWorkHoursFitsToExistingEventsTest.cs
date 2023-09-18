@@ -16,11 +16,16 @@ namespace FitMeApp.Tests.Services.TrainerService
     [TestFixture]
     class CheckIfNewTrainerWorkHoursFitsToExistingEventsTest
     {
-
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_FitData_ReturnsTrue()
         {
-            var data = FitNewWorkHoursData();
+            var data = new List<List<TrainerWorkHoursModel>>()
+            {
+                EventsInNewWorkHoursRange(),
+                EventsOnStartWorkHoursLimit(),
+                EventsOnEndWorkHoursLimit(),
+                EventsOnNewWorkHoursLimits()
+            } ;
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(GetActualEventsByTrainerFakeMethod());
@@ -42,7 +47,13 @@ namespace FitMeApp.Tests.Services.TrainerService
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_NoEvents_ReturnsTrue()
         {
-            var data = FitNewWorkHoursData();
+            var data = new List<List<TrainerWorkHoursModel>>()
+            {
+                EventsInNewWorkHoursRange(),
+                EventsOnStartWorkHoursLimit(),
+                EventsOnEndWorkHoursLimit(),
+                EventsOnNewWorkHoursLimits()
+            };
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(new List<EventEntityBase>());
@@ -63,7 +74,16 @@ namespace FitMeApp.Tests.Services.TrainerService
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToExistingEvents_NotFitData_ReturnsFalse()
         {
-            var data = NotFitNewWorkHoursData();
+            var data = new List<List<TrainerWorkHoursModel>>()
+            {
+               EventsOutOfWorkHoursRange(),
+               EndWorkHoursDuringEvents(),
+               StartWorkHoursDuringEvents(),
+               EventsEndOnStartWorkHoursLimit(),
+               EventsStartOnEndWorkHoursLimit(),
+               OneEventOnDayOff(),
+               TwoEventsOnDayOff()
+            };
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetActualEventsByTrainer(null)).Returns(GetActualEventsByTrainerFakeMethod());
@@ -102,14 +122,33 @@ namespace FitMeApp.Tests.Services.TrainerService
             return output;
         }
 
-        private List<List<TrainerWorkHoursModel>> FitNewWorkHoursData()
+        //Fit data
+        private List<TrainerWorkHoursModel> EventsInNewWorkHoursRange()
         {
-            var data = new List<List<TrainerWorkHoursModel>>();
-            var newWorkHours_1 = new List<TrainerWorkHoursModel>()
+            var data = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
-                    StartTime = 680, EndTime = 1000,
+                    StartTime = 600, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> EventsOnNewWorkHoursLimits()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 800, EndTime = 860,
                     DayName = DateTime.Today.DayOfWeek
                 },
                 new TrainerWorkHoursModel()
@@ -118,41 +157,71 @@ namespace FitMeApp.Tests.Services.TrainerService
                     DayName = DateTime.Today.AddDays(1).DayOfWeek
                 }
             };
-            
-            var newWorkHours_2 = new List<TrainerWorkHoursModel>()
-            {
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 600, EndTime = 1000,
-                    DayName = DateTime.Today.DayOfWeek
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 600 , EndTime = 1000,
-                    DayName = DateTime.Today.AddDays(1).DayOfWeek
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 600 , EndTime = 1000,
-                    DayName = DateTime.Today.AddDays(2).DayOfWeek
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 600 , EndTime = 1000,
-                    DayName = DateTime.Today.AddDays(3).DayOfWeek
-                }
-            };
-
-            data.Add(newWorkHours_1);
-            data.Add(newWorkHours_2);
 
             return data;
         }
 
-        private List<List<TrainerWorkHoursModel>> NotFitNewWorkHoursData()
+        private List<TrainerWorkHoursModel> EventsOnStartWorkHoursLimit()
         {
-            var data = new List<List<TrainerWorkHoursModel>>();
-            var newWorkHours_1 = new List<TrainerWorkHoursModel>()
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 800, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 800 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+        
+        private List<TrainerWorkHoursModel> EventsOnEndWorkHoursLimit()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600, EndTime = 860,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 860,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+
+        //Not fit data
+        private List<TrainerWorkHoursModel> EventsOutOfWorkHoursRange()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 900, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 500 , EndTime = 600,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+        
+        private List<TrainerWorkHoursModel> EventsEndOnStartWorkHoursLimit()
+        {
+            var data = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
@@ -161,12 +230,74 @@ namespace FitMeApp.Tests.Services.TrainerService
                 },
                 new TrainerWorkHoursModel()
                 {
-                    StartTime = 480 , EndTime = 800,
+                    StartTime = 860 , EndTime = 1000,
                     DayName = DateTime.Today.AddDays(1).DayOfWeek
                 }
             };
 
-            var newWorkHours_2 = new List<TrainerWorkHoursModel>()
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> EventsStartOnEndWorkHoursLimit()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600, EndTime = 800,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600 , EndTime = 800,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> StartWorkHoursDuringEvents()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 850, EndTime = 1000,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 850 , EndTime = 1000,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> EndWorkHoursDuringEvents()
+        {
+            var data = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 400, EndTime = 850,
+                    DayName = DateTime.Today.DayOfWeek
+                },
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 400, EndTime = 850,
+                    DayName = DateTime.Today.AddDays(1).DayOfWeek
+                }
+            };
+
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> OneEventOnDayOff()
+        {
+            var data = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
@@ -176,16 +307,16 @@ namespace FitMeApp.Tests.Services.TrainerService
                 new TrainerWorkHoursModel()
                 {
                     StartTime = 600 , EndTime = 1000,
-                    DayName = DateTime.Today.AddDays(2).DayOfWeek
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 600 , EndTime = 1000,
                     DayName = DateTime.Today.AddDays(3).DayOfWeek
                 }
             };
 
-            var newWorkHours_3 = new List<TrainerWorkHoursModel>()
+            return data;
+        }
+
+        private List<TrainerWorkHoursModel> TwoEventsOnDayOff()
+        {
+            var data = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
@@ -199,11 +330,8 @@ namespace FitMeApp.Tests.Services.TrainerService
                 }
             };
 
-            data.Add(newWorkHours_1);
-            data.Add(newWorkHours_2);
-            data.Add(newWorkHours_3);
-
             return data;
         }
+
     }
 }

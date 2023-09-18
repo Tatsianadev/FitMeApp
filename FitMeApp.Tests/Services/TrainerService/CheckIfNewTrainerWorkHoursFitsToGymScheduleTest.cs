@@ -29,7 +29,7 @@ namespace FitMeApp.Tests.Services.TrainerService
             };
 
             var repositoryMock = new Mock<IRepository>();
-            repositoryMock.Setup(x => x.GetWorkHoursByGym(1)).Returns(GetWorkHoursByGymFakeMethod());
+            repositoryMock.Setup(x => x.GetWorkHoursByGym(gymId)).Returns(GetWorkHoursByGymFakeMethod());
 
             var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
             var targetMethod = typeof(FitMeApp.Services.TrainerService)
@@ -59,7 +59,7 @@ namespace FitMeApp.Tests.Services.TrainerService
             };
 
             var repositoryMock = new Mock<IRepository>();
-            repositoryMock.Setup(x => x.GetWorkHoursByGym(1)).Returns(GetWorkHoursByGymFakeMethod());
+            repositoryMock.Setup(x => x.GetWorkHoursByGym(gymId)).Returns(GetWorkHoursByGymFakeMethod());
 
             var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
             var targetMethod = typeof(FitMeApp.Services.TrainerService)
