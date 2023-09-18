@@ -29,7 +29,7 @@ namespace FitMeApp.Controllers
         private readonly ModelViewModelMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
-        
+
         public GymsController(IGymService gymService,
             ITrainerService trainerService,
             ITrainingService trainingService,
@@ -74,7 +74,7 @@ namespace FitMeApp.Controllers
                 string message = "Gym page is not available now.";
                 return View("CustomError", message);
             }
-            
+
         }
 
 
@@ -87,55 +87,63 @@ namespace FitMeApp.Controllers
                 {
                     return RedirectToAction("AllGyms");
                 }
-                else
+
+                var selectedGymModels = _gymService.GetGymsByTrainings(selectedTrainingsId);
+                List<GymViewModel> selectedGyms = new List<GymViewModel>();
+                foreach (var selectedGymModel in selectedGymModels)
                 {
-                    var selectedGymModels = _gymService.GetGymsByTrainings(selectedTrainingsId);
-                    List<GymViewModel> selectedGyms = new List<GymViewModel>();
-                    foreach (var selectedGymModel in selectedGymModels)
-                    {
-                        selectedGyms.Add(_mapper.MapGymModelToViewModelBase(selectedGymModel));
-                    }
-
-                    var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
-                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                    foreach (var training in trainingModels)
-                    {
-                        trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
-                    }
-                    ViewBag.Trainings = trainings;
-
-                    return View("AllGyms", selectedGyms);
+                    selectedGyms.Add(_mapper.MapGymModelToViewModelBase(selectedGymModel));
                 }
+
+                var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
+                List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                foreach (var training in trainingModels)
+                {
+                    trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
+                }
+                ViewBag.Trainings = trainings;
+
+                return View("AllGyms", selectedGyms);
 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                string message = "There was a problem with using filters. Try again or not use filters, please.";
-
+                string message = "There was a problem with using filters. Please, try again later.";
                 return View("CustomError", message);
             }
         }
 
         public IActionResult CurrentGymInfo(int gymId)
         {
-            var gymModel = _gymService.GetGymModel(gymId);
-            GymViewModel gym = _mapper.MapGymModelToViewModel(gymModel);
-            List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-            foreach (var trainer in gym.Trainers)
+            try
             {
-                foreach (var training in trainer.Trainings)
+                var gymModel = _gymService.GetGymModel(gymId);
+                GymViewModel gym = _mapper.MapGymModelToViewModel(gymModel);
+                List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                foreach (var trainer in gym.Trainers)
                 {
-                    if (!trainings.Select(x => x.Id).ToList().Contains(training.Id) && training.Name != "Personal training")
+                    foreach (var training in trainer.Trainings)
                     {
-                        trainings.Add(training);
+                        if (!trainings.Select(x => x.Id).ToList().Contains(training.Id) &&
+                            training.Name != Common.TrainingsEnum.personaltraining.GetDescription())
+                        {
+                            trainings.Add(training);
+                        }
                     }
                 }
-            }
 
-            ViewBag.Trainings = trainings;
-            ViewBag.WorkHours = _gymService.GetWorkHoursByGym(gymId);
-            return View(gym);
+                ViewBag.Trainings = trainings;
+                ViewBag.WorkHours = _gymService.GetWorkHoursByGym(gymId);
+                return View(gym);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Gym page is not available now.";
+                return View("CustomError", message);
+            }
+            
         }
 
 
@@ -145,20 +153,27 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "gymAdmin")]
         public async Task<IActionResult> LoadAttendanceChartData()
         {
-            var user = await _userManager.GetUserAsync(User);
-            int gymId = _trainerService.GetGymIdByTrainer(user.Id);
-            var gym = _gymService.GetGymModel(gymId);
-            string blankLocalPath = Resources.Resources.AttendanceChartBlankPath;
-
-            AttendanceChartExcelFileViewModel model = new AttendanceChartExcelFileViewModel()
+            try
             {
-                GymId = gymId,
-                GymName = gym.Name,
-                BlankFullPath = blankLocalPath
-            };
+                var user = await _userManager.GetUserAsync(User);
+                int gymId = _trainerService.GetGymIdByTrainer(user.Id);
+                var gym = _gymService.GetGymModel(gymId);
 
-            ViewBag.FileUploaded = false;
-            return View("LoadAttendanceChartData", model);
+                AttendanceChartExcelFileViewModel model = new AttendanceChartExcelFileViewModel()
+                {
+                    GymId = gymId,
+                    GymName = gym.Name
+                };
+
+                ViewBag.FileUploaded = false;
+                return View("LoadAttendanceChartData", model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "This option is not available now.";
+                return View("CustomError", message);
+            }
         }
 
 
@@ -177,7 +192,8 @@ namespace FitMeApp.Controllers
             }
 
             _logger.LogError($"File {Path.GetFileName(absPath)} is not found by address {absPath}");
-            return RedirectToAction("LoadAttendanceChartData");
+            string message = "This option is not available now. Please, try again later.";
+            return View("CustomError", message);
         }
 
 
@@ -194,7 +210,7 @@ namespace FitMeApp.Controllers
                     byte[] buffer = new byte[length];
                     using (var fileStream = model.AttendanceChartFile.OpenReadStream())
                     {
-                        await fileStream.ReadAsync(buffer, 0, (int) model.AttendanceChartFile.Length);
+                        await fileStream.ReadAsync(buffer, 0, (int)model.AttendanceChartFile.Length);
                     }
 
                     var output = await _fileService.ReadAttendanceChartFromExcelAsync(buffer, model.GymId);
