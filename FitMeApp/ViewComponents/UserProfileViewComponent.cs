@@ -9,22 +9,10 @@ using System.Threading.Tasks;
 
 namespace FitMeApp.ViewComponents
 {
-    public class UserProfileViewComponent: ViewComponent //todo do real data instead test
+    public class UserProfileViewComponent: ViewComponent 
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IGymService _fitMeService;
-
-        public UserProfileViewComponent(UserManager<User> userManager, IGymService fitMeService)
-        {
-            _userManager = userManager;
-            _fitMeService = fitMeService;
-        }
-
-
         public IViewComponentResult Invoke()
         {
-            ViewBag.ChangedEventsCount = 2; //test
-            ViewBag.NotificationCount = 2; //test
             return View("UserProfile");
         }
     }

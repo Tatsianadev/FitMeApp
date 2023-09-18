@@ -71,10 +71,10 @@ namespace FitMeApp.Controllers
 
             ViewBag.DaysOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
             model.DatesEventsCount = _scheduleService.GetEventsCountForEachDateByUser(_userManager.GetUserId(User));
-            
+
             if (User.IsInRole("trainer"))
             {
-                IDictionary<DateTime,int> trainersDatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
+                IDictionary<DateTime, int> trainersDatesEventsCount = _scheduleService.GetEventsCountForEachDateByTrainer(_userManager.GetUserId(User));
                 foreach (var dateEventElement in trainersDatesEventsCount)
                 {
                     if (model.DatesEventsCount.ContainsKey(dateEventElement.Key))
@@ -144,7 +144,7 @@ namespace FitMeApp.Controllers
 
         }
 
-        
+
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
@@ -159,7 +159,7 @@ namespace FitMeApp.Controllers
                 var trainerSpecialization = _trainerService.GetTrainerSpecialization(trainer.Id);
                 int startWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.StartTime).First();
                 int endWork = trainerWorkHours.Where(x => x.DayName == model.Date.DayOfWeek).Select(x => x.EndTime).First();
-                
+
                 List<EventViewModel> eventsViewModels = new List<EventViewModel>();
 
                 var trainingsAsCustomer = _scheduleService.GetEventsByUserAndDate(trainer.Id, model.Date).ToList();
@@ -253,6 +253,14 @@ namespace FitMeApp.Controllers
         public async Task<IActionResult> ConfirmEvent(int eventId, CalendarPageWithEventsViewModel model)
         {
             _scheduleService.ConfirmEvent(eventId);
+            var eventModel = _scheduleService.GetEvent(eventId);
+            var user = await _userManager.FindByIdAsync(eventModel.UserId);
+            var trainer = await _userManager.GetUserAsync(User);
+            string trainerFullName = $"{trainer.FirstName} {trainer.LastName}";
+            if (user != null)
+            {
+                SendPersonalTrainingConfirmedEmail(eventModel, user.FirstName, trainerFullName);
+            }
             return await ShowTrainersEvents(model);
         }
 
@@ -278,7 +286,7 @@ namespace FitMeApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount, CalendarPageWithEventsViewModel model) 
+        public async Task<IActionResult> DeleteGroupClassScheduleRecord(int grClassScheduleRecordId, int actualParticipantsCount, CalendarPageWithEventsViewModel model)
         {
             if (actualParticipantsCount != 0)
             {
@@ -366,10 +374,7 @@ namespace FitMeApp.Controllers
                 return View("CustomError", message);
             }
         }
-
-
-
-
+        
 
         private IEnumerable<EventViewModel> GetPersonalTrainingsPerDateByTrainer(string trainerId, DateTime date)
         {
@@ -410,6 +415,21 @@ namespace FitMeApp.Controllers
         }
 
 
+
+        private async void SendPersonalTrainingConfirmedEmail(EventModel eventModel, string toName, string trainerFullName)
+        {
+            string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
+            string startTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(eventModel.StartTime);
+
+            string toEmail = DefaultSettingsStorage.ReceiverEmail; //should be user.Email, but for study case - constant
+            string fromEmail = DefaultSettingsStorage.SenderEmail;
+            string plainTextContent = $"Personal training with {trainerFullName} on the {eventDate} at {startTime} has been confirmed.";
+            string htmlContent = $"<strong> Personal training with {trainerFullName} on the {eventDate} at {startTime} has been confirmed.</strong>";
+            string subject = "Personal training confirmed";
+
+            await _emailService.SendEmailAsync(toEmail, toName, fromEmail, subject, plainTextContent, htmlContent);
+        }
+
         private async void SendPersonalTrainingCanceledEmail(EventModel eventModel, string toName)
         {
             string eventDate = eventModel.Date.Date.ToString("MM/dd/yyyy");
@@ -423,8 +443,6 @@ namespace FitMeApp.Controllers
 
             await _emailService.SendEmailAsync(toEmail, toName, fromEmail, subject, plainTextContent, htmlContent);
         }
-
-
     }
 
 
