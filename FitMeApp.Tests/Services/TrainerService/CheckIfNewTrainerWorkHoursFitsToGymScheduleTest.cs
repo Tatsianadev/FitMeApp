@@ -16,11 +16,17 @@ namespace FitMeApp.Tests.Services.TrainerService
     [TestFixture]
     class CheckIfNewTrainerWorkHoursFitsToGymScheduleTest
     {
-
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToGymSchedule_FitData_ReturnsTrue()
         {
-            var data = FitTestData();
+            const int gymId = 1;
+            var fitData = new List<List<TrainerWorkHoursModel>>()
+            {
+                NewHoursInsideRange(),
+                StartHoursOnRangeLimit(),
+                EndHoursOnRangeLimit(),
+                StartAndEndHoursOnRangeLimit()
+            };
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetWorkHoursByGym(1)).Returns(GetWorkHoursByGymFakeMethod());
@@ -32,9 +38,9 @@ namespace FitMeApp.Tests.Services.TrainerService
 
             if (targetMethod != null)
             {
-                foreach (var item in data)
+                foreach (var item in fitData)
                 {
-                    var result = targetMethod.Invoke(serviceMock, new object[] { 1, item });
+                    var result = targetMethod.Invoke(serviceMock, new object[] { gymId, item });
                     Assert.AreEqual(true, result);
                 }
             }
@@ -43,7 +49,14 @@ namespace FitMeApp.Tests.Services.TrainerService
         [Test]
         public void CheckIfNewTrainerWorkHoursFitsToGymSchedule_NotFitData_ReturnsFalse()
         {
-            var data = NotFitTestData();
+            const int gymId = 1;
+            var notFitData = new List<List<TrainerWorkHoursModel>>()
+            {
+                NewHoursOutsideRange(),
+                StartHoursOutsideRange(),
+                EndHoursOutsideRange(),
+                NewHoursWhenGymDayOff()
+            };
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetWorkHoursByGym(1)).Returns(GetWorkHoursByGymFakeMethod());
@@ -55,16 +68,15 @@ namespace FitMeApp.Tests.Services.TrainerService
 
             if (targetMethod != null)
             {
-                foreach (var item in data)
+                foreach (var item in notFitData)
                 {
-                    var result = targetMethod.Invoke(serviceMock, new object[] { 1, item });
+                    var result = targetMethod.Invoke(serviceMock, new object[] { gymId, item });
                     Assert.AreEqual(false, result);
                 }
             }
         }
-
         
-
+       
         private IEnumerable<GymWorkHoursEntityBase> GetWorkHoursByGymFakeMethod()
         {
             var output = new List<GymWorkHoursEntityBase>()
@@ -124,10 +136,10 @@ namespace FitMeApp.Tests.Services.TrainerService
             return output;
         }
 
-        private List<List<TrainerWorkHoursModel>> FitTestData()
+        //fit data
+        private List<TrainerWorkHoursModel> NewHoursInsideRange()
         {
-            var data = new List<List<TrainerWorkHoursModel>>();
-            var newWorkHours_1 = new List<TrainerWorkHoursModel>()
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
@@ -143,66 +155,58 @@ namespace FitMeApp.Tests.Services.TrainerService
                 }
             };
 
-            var newWorkHours_2 = new List<TrainerWorkHoursModel>()
+            return testData;
+        }
+
+        private List<TrainerWorkHoursModel> StartHoursOnRangeLimit()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 480, EndTime = 1000,
+                    DayName = DayOfWeek.Thursday,
+                    GymWorkHoursId = 17
+                }
+            };
+
+            return testData;
+        }
+
+        private List<TrainerWorkHoursModel> EndHoursOnRangeLimit()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
                     StartTime = 680, EndTime = 1320,
                     DayName = DayOfWeek.Wednesday,
                     GymWorkHoursId = 13
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 480, EndTime = 1000,
-                    DayName = DayOfWeek.Thursday,
-                    GymWorkHoursId = 17
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 480, EndTime = 1320,
-                    DayName = DayOfWeek.Friday,
-                    GymWorkHoursId = 21
                 }
             };
 
-            var newWorkHours_3 = new List<TrainerWorkHoursModel>()
-            {
-                
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 480, EndTime = 1320,
-                    DayName = DayOfWeek.Wednesday,
-                    GymWorkHoursId = 13
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 480, EndTime = 1320,
-                    DayName = DayOfWeek.Friday,
-                    GymWorkHoursId = 21
-                }
-            };
-            
-            data.Add(newWorkHours_1);
-            data.Add(newWorkHours_2);
-            data.Add(newWorkHours_3);
-           
-            return data;
+            return testData;
         }
 
-        private List<List<TrainerWorkHoursModel>> NotFitTestData()
+        private List<TrainerWorkHoursModel> StartAndEndHoursOnRangeLimit()
         {
-            var data = new List<List<TrainerWorkHoursModel>>();
-            var newWorkHours_1 = new List<TrainerWorkHoursModel>()
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
-                    StartTime = 400, EndTime = 1000,
+                    StartTime = 480, EndTime = 1320,
                     DayName = DayOfWeek.Friday,
                     GymWorkHoursId = 21
                 }
             };
 
-            var newWorkHours_2 = new List<TrainerWorkHoursModel>()
+            return testData;
+        }
+
+        //not fit data
+        private List<TrainerWorkHoursModel> NewHoursOutsideRange()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
@@ -212,38 +216,53 @@ namespace FitMeApp.Tests.Services.TrainerService
                 }
             };
 
-            var newWorkHours_3 = new List<TrainerWorkHoursModel>()
+            return testData;
+        }
+
+        private List<TrainerWorkHoursModel> StartHoursOutsideRange()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
-                    StartTime = 800, EndTime = 1500,
+                    StartTime = 400, EndTime = 1000,
                     DayName = DayOfWeek.Friday,
                     GymWorkHoursId = 21
                 }
             };
 
-            var newWorkHours_4 = new List<TrainerWorkHoursModel>()
+            return testData;
+        }
+
+        private List<TrainerWorkHoursModel> EndHoursOutsideRange()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
+            {
+                new TrainerWorkHoursModel()
+                {
+                    StartTime = 600, EndTime = 1500,
+                    DayName = DayOfWeek.Friday,
+                    GymWorkHoursId = 21
+                }
+            };
+
+            return testData;
+        }
+
+        private List<TrainerWorkHoursModel> NewHoursWhenGymDayOff()
+        {
+            var testData = new List<TrainerWorkHoursModel>()
             {
                 new TrainerWorkHoursModel()
                 {
                     StartTime = 540, EndTime = 1200,
                     DayName = DayOfWeek.Sunday,
                     GymWorkHoursId = 1
-                },
-                new TrainerWorkHoursModel()
-                {
-                    StartTime = 680, EndTime = 1000,
-                    DayName = DayOfWeek.Wednesday,
-                    GymWorkHoursId = 13
                 }
             };
 
-            data.Add(newWorkHours_1);
-            data.Add(newWorkHours_2);
-            data.Add(newWorkHours_3);
-            data.Add(newWorkHours_4);
-
-            return data;
+            return testData;
         }
+
     }
 }
