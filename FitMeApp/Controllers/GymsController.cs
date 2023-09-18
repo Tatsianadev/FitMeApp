@@ -47,35 +47,45 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult AllGyms()
         {
-            var gymModels = _gymService.GetAllGymsWithGalleryModels();
-            List<GymViewModel> gyms = new List<GymViewModel>();
-            foreach (var gym in gymModels)
+            try
             {
-                gyms.Add(_mapper.MapGymModelToViewModelBase(gym));
-            }
+                var gymModels = _gymService.GetAllGymsWithGalleryModels();
+                List<GymViewModel> gyms = new List<GymViewModel>();
+                foreach (var gym in gymModels)
+                {
+                    gyms.Add(_mapper.MapGymModelToViewModelBase(gym));
+                }
 
-            var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
-            List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-            foreach (var training in trainingModels)
+                var trainingModels = _trainingService.GetAllTrainingModels(); //info for filter by trainings
+                List<TrainingViewModel> trainings = new List<TrainingViewModel>();
+                foreach (var training in trainingModels)
+                {
+                    trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
+                }
+                ViewBag.Trainings = trainings;
+
+                return View(gyms);
+            }
+            catch (Exception ex)
             {
-                trainings.Add(_mapper.MapTrainingModelToViewModelBase(training));
+                _logger.LogError(ex, ex.Message);
+                string message = "Gym page is not available now.";
+                return View("CustomError", message);
             }
-            ViewBag.Trainings = trainings;
-
-            return View(gyms);
+            
         }
 
 
         [HttpPost]
-        public IActionResult Index(List<int> selectedTrainingsId)
+        public IActionResult GymsByFilter(List<int> selectedTrainingsId)
         {
             try
             {
                 if (selectedTrainingsId.Count == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("AllGyms");
                 }
                 else
                 {
@@ -94,7 +104,7 @@ namespace FitMeApp.Controllers
                     }
                     ViewBag.Trainings = trainings;
 
-                    return View(selectedGyms);
+                    return View("AllGyms", selectedGyms);
                 }
 
             }

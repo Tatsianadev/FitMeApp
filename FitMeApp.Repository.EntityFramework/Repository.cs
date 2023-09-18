@@ -27,7 +27,7 @@ namespace FitMeApp.Repository.EntityFramework
 
         public IEnumerable<GymEntityBase> GetAllGyms()
         {
-            var gyms = _context.Gyms.ToList();
+            var gyms = _context.Gyms.AsNoTracking().ToList();
             return gyms;
         }
 

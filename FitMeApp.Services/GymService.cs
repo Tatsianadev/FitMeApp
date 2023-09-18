@@ -73,47 +73,89 @@ namespace FitMeApp.Services
 
         public GymModel GetGymModel(int id)
         {
-            var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);           
-            GymModel gym = _mapper.MapGymEntityBaseToModel(gymEntityBase);
-            return gym;
+            try
+            {
+                var gymEntityBase = _repository.GetGymWithTrainersAndTrainings(id);
+                GymModel gym = _mapper.MapGymEntityBaseToModel(gymEntityBase);
+                return gym;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
 
         public IEnumerable<GymModel> GetGymsByTrainings(List<int> trainingsId)
         {
-            var gymsByTrainings = _repository.GetGymsByTrainings(trainingsId);
-            List<GymModel> gyms = new List<GymModel>();
-            foreach (var gym in gymsByTrainings)
+            try
             {
-                gyms.Add(_mapper.MapGymWithGalleryBaseToModelBase(gym));
+                var gymsByTrainings = _repository.GetGymsByTrainings(trainingsId);
+                List<GymModel> gyms = new List<GymModel>();
+                foreach (var gym in gymsByTrainings)
+                {
+                    gyms.Add(_mapper.MapGymWithGalleryBaseToModelBase(gym));
+                }
+                return gyms;
             }
-            return gyms;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+           
         }
 
 
         public IEnumerable<GymWorkHoursModel> GetWorkHoursByGym(int gymId)
         {
-            var workHoursEntityBase = _repository.GetWorkHoursByGym(gymId);
-            List<GymWorkHoursModel> workHoursModels = new List<GymWorkHoursModel>();
-            foreach (var item in workHoursEntityBase)
+            try
             {
-                workHoursModels.Add(_mapper.MapGymWorkHoursEntityBaseToModel(item));
+                var workHoursEntityBase = _repository.GetWorkHoursByGym(gymId);
+                List<GymWorkHoursModel> workHoursModels = new List<GymWorkHoursModel>();
+                foreach (var item in workHoursEntityBase)
+                {
+                    workHoursModels.Add(_mapper.MapGymWorkHoursEntityBaseToModel(item));
+                }
+                return workHoursModels;
             }
-            return workHoursModels;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
 
         public int GetGymWorkHoursId(int gymId, DayOfWeek dayOfWeek)
         {
-            int gymWorkHoursId = _repository.GetGymWorkHoursId(gymId, dayOfWeek);
-            return gymWorkHoursId;
+            try
+            {
+                int gymWorkHoursId = _repository.GetGymWorkHoursId(gymId, dayOfWeek);
+                return gymWorkHoursId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            
         }
 
 
         public int GetGymIdByTrainer(string trainerId)
         {
-            int gymId = _repository.GetGymIdByTrainer(trainerId);
-            return gymId;
+            try
+            {
+                int gymId = _repository.GetGymIdByTrainer(trainerId);
+                return gymId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
         
 
@@ -122,27 +164,46 @@ namespace FitMeApp.Services
 
         public AttendanceChartModel GetAttendanceChartDataForCertainDayByGym(int gymId, DayOfWeek day)
         {
-            var attendanceChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day);
-            if (attendanceChartEntities.Count() != 0)
+            try
             {
-                var attendanceCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(attendanceChartEntities);
-                return attendanceCharModel;
+                var attendanceChartEntities = _repository.GetNumOfVisitorsPerHourOnCertainDayByGym(gymId, day).ToList();
+                if (attendanceChartEntities.Any())
+                {
+                    var attendanceCharModel = _mapper.MapNumberOfVisitorsPerHourEntityBaseToAttendanceModel(attendanceChartEntities);
+                    return attendanceCharModel;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
             }
             
-            return null;
         }
 
 
         public void AddVisitingChartDataToDb(IEnumerable<AttendanceChartModel> data)
         {
             var entities = new List<NumberOfVisitorsPerHourEntityBase>();
-            foreach (var dayData in data)
+            try
             {
-                entities.AddRange(_mapper.MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(dayData));
-            }
+                foreach (var dayData in data)
+                {
+                    entities.AddRange(_mapper.MapVisitingChartModelToNumberOfVisitorsPerHourEntityBase(dayData));
+                }
 
-            _repository.DeleteNumberOfVisitorsPerHourChartData(entities.Select(x => x.GymId).First());
-            _repository.AddNumberOfVisitorsPerHourChartData(entities);
+                _repository.DeleteNumberOfVisitorsPerHourChartData(entities.Select(x => x.GymId).First());
+                _repository.AddNumberOfVisitorsPerHourChartData(entities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+           
+           
         }
 
     }
