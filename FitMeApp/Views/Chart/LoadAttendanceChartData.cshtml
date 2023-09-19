@@ -15,8 +15,7 @@
                 <h6>
                     1. Download the blank by pressing the button
                 </h6>
-                @*<a href="@Model.BlankFullPath" download="AttendanceBlank" class="btn btn-dark">Download blank</a>*@
-                <a asp-controller="Gyms" asp-action="DownloadAttendanceChartBlank" class="btn btn-dark">Download blank</a>
+                <a asp-controller="Chart" asp-action="DownloadAttendanceChartBlank" class="btn btn-dark">Download blank</a>
                 <br/>
                 <br/>
                 <h6>
@@ -25,7 +24,7 @@
                 <h6>
                     3. Load filled blank (.xlsx) bellow:
                 </h6>
-                <form asp-controller="Gyms" asp-action="LoadAttendanceChartFile" method="post" enctype="multipart/form-data">
+                <form asp-controller="Chart" asp-action="LoadAttendanceChartFile" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly"></div>
                     <input type="hidden" asp-for="GymId"/>
                     <input type="hidden" asp-for="GymName"/>
