@@ -27,16 +27,26 @@ namespace FitMeApp.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult AllTrainers()
         {
-            var trainerModels = _trainerService.GetAllTrainerModels();
-            List<TrainerViewModel> trainers = new List<TrainerViewModel>();
-            foreach (var trainerModel in trainerModels)
+            try
             {
-                trainers.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
-            }
+                var trainerModels = _trainerService.GetAllTrainerModels();
+                List<TrainerViewModel> trainers = new List<TrainerViewModel>();
+                foreach (var trainerModel in trainerModels)
+                {
+                    trainers.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
+                }
 
-            return View(trainers);
+                return View(trainers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "The list of trainers is not available now. Please, try again later.";
+                return View("CustomError", message);
+            }
+           
         }
 
 
@@ -45,7 +55,7 @@ namespace FitMeApp.Controllers
         {
             if (selectedGenders.Count == 0 && selectedSpecializations.Count == 0)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("AllTrainers");
             }
             
             if (selectedGenders.Count == 0)
@@ -57,22 +67,42 @@ namespace FitMeApp.Controllers
             {
                 selectedSpecializations = Enum.GetValues(typeof(TrainerSpecializationsEnum)).Cast<TrainerSpecializationsEnum>().ToList();
             }
-            
-            var trainerModels = _trainerService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
-            List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
-            foreach (var trainerModel in trainerModels)
+
+            try
             {
-                trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
+                var trainerModels = _trainerService.GetTrainersByFilter(selectedGenders, selectedSpecializations);
+                List<TrainerViewModel> trainerViewModels = new List<TrainerViewModel>();
+                foreach (var trainerModel in trainerModels)
+                {
+                    trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
+                }
+
+                return View("AllTrainers", trainerViewModels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "Filter is not working right now. Please, try again later.";
+                return View("CustomError", message);
             }
 
-            return View("Index", trainerViewModels);
         }
+
 
         public IActionResult SelectedTrainer(string trainerId)
         {
-            var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
-            TrainerViewModel trainer = _mapper.MapTrainerModelToViewModel(trainerModel);
-            return View(trainer);
+            try
+            {
+                var trainerModel = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
+                TrainerViewModel trainer = _mapper.MapTrainerModelToViewModel(trainerModel);
+                return View(trainer);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                string message = "The selected trainer page is not available now. Please, try again later.";
+                return View("CustomError", message);
+            }
         }
     }
 }

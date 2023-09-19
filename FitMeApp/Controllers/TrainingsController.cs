@@ -45,7 +45,7 @@ namespace FitMeApp.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (trainerId == user.Id || string.IsNullOrEmpty(trainerId))
             {
-                return RedirectToAction("Index", "Trainers");
+                return RedirectToAction("AllTrainers", "Trainers");
             }
 
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
