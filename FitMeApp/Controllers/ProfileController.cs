@@ -632,45 +632,20 @@ namespace FitMeApp.Controllers
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
-        public IActionResult EditTrainerJobData(EditTrainerJobDataModel changedModel)
+        public IActionResult EditTrainingSetAndPrice(EditTrainerJobDataModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    List<TrainingViewModel> trainings = new List<TrainingViewModel>();
-                    foreach (var trainingId in changedModel.TrainingsId)
+                    var newSpecialization = _trainerService.GetTrainerSpecializationByTrainings(model.TrainingsId);
+                    if (newSpecialization.ToString() != model.Specialization)
                     {
-                        trainings.Add(new TrainingViewModel()
-                        {
-                            Id = trainingId
-                        });
+                        _trainerService.UpdateTrainerSpecialization(model.Id, newSpecialization);
                     }
+                    _trainerService.UpdateTrainingsSetByTrainer(model.Id, model.TrainingsId);
+                    _trainingService.UpdatePersonalTrainingPrice(model.Id, model.PricePerHour);
 
-                    string specialization = string.Empty;
-                    if (trainings.Count > 0)
-                    {
-                        specialization = _trainerService
-                            .GetTrainerSpecializationByTrainings(trainings.Select(x => x.Id).ToList()).ToString();
-                    }
-
-                    TrainerViewModel newTrainerInfo = new TrainerViewModel()
-                    {
-                        Id = changedModel.Id,
-                        Specialization = specialization,
-                        Trainings = trainings,
-                        Gym = new GymViewModel()
-                        {
-                            Id = changedModel.GymId
-                        }
-                    };
-
-                    var trainerModel = _mapper.MapTrainerViewModelToModel(newTrainerInfo);
-                    _trainerService.UpdateTrainerWithGymAndTrainings(trainerModel);
-                    if (specialization != TrainerSpecializationsEnum.group.ToString())
-                    {
-                        _trainingService.UpdatePersonalTrainingPrice(changedModel.Id, changedModel.PricePerHour);
-                    }
                     return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 else
@@ -679,8 +654,7 @@ namespace FitMeApp.Controllers
                 }
 
                 ViewBag.AllTrainings = _trainingService.GetAllTrainingModels();
-                ViewBag.AllGyms = _gymService.GetAllGymModels().Where(x => x.Id != changedModel.GymId);
-                return View(changedModel);
+                return View("EditTrainerJobData", model);
             }
             catch (Exception ex)
             {

@@ -575,6 +575,17 @@ namespace FitMeApp.Repository.EntityFramework
         }
 
 
+        public void UpdateTrainerSpecialization(string trainerId, TrainerSpecializationsEnum newSpecialization)
+        {
+            var trainer = _context.Trainers.FirstOrDefault(x => x.Id == trainerId);
+            if (trainer!= null)
+            {
+                trainer.Specialization = newSpecialization.ToString();
+                _context.SaveChanges();
+            }
+        }
+
+
         public IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId)
         {
             List<int> allTrainerWorkHoursId = _context.TrainerWorkHours

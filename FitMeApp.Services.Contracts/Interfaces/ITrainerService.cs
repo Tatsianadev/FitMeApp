@@ -9,12 +9,12 @@ namespace FitMeApp.Services.Contracts.Interfaces
     public interface ITrainerService
     {
         List<TrainerModel> GetAllTrainerModels();
-        void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo);
         TrainerModel GetTrainerWithGymAndTrainings(string trainerId);
         int GetGymIdByTrainer(string trainerId);
         IEnumerable<TrainerWorkHoursModel> GetWorkHoursByTrainer(string trainerId);
+        void UpdateTrainingsSetByTrainer(string trainerId, List<int> newTrainingsSet);
+        void UpdateTrainerSpecialization(string trainerId, TrainerSpecializationsEnum newSpecialization);
         bool TryUpdateTrainerWorkHours(List<TrainerWorkHoursModel> newWorkHours);
-        //bool UpdateTrainerWorkHours(List<TrainerWorkHoursModel> trainerWorkHours); private
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);
         IEnumerable<TrainerModel> GetTrainersByFilter(List<GenderEnum> selectedGenders, List<TrainerSpecializationsEnum> selectedSpecializations);

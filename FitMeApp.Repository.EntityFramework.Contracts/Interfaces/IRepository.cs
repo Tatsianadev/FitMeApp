@@ -32,6 +32,7 @@ namespace FitMeApp.Repository.EntityFramework.Contracts.Interfaces
         void AddTrainerWorkHours(TrainerWorkHoursEntityBase workHoursBase);
         void DeleteTrainerWorkHours(int workHoursId);
         void UpdateTrainerWorkHours(TrainerWorkHoursEntityBase newTrainerWorkHours);
+        void UpdateTrainerSpecialization(string trainerId, TrainerSpecializationsEnum newSpecialization);
         IEnumerable<int> GerAllTrainerWorkHoursId(string trainerId);
         IEnumerable<string> GetAllClientsIdByTrainer(string trainerId);
         IEnumerable<string> GetActualClientsIdByTrainer(string trainerId);

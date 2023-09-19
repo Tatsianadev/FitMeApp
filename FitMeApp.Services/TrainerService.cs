@@ -63,33 +63,31 @@ namespace FitMeApp.Services
         }
 
 
-        public void UpdateTrainerWithGymAndTrainings(TrainerModel newTrainerInfo)
+        public void UpdateTrainingsSetByTrainer(string trainerId, List<int> newTrainingsSet)
         {
-            TrainerEntityBase newTrainerInfoBase = new TrainerEntityBase()
-            {
-                Id = newTrainerInfo.Id,
-                Specialization = newTrainerInfo.Specialization
-            };
-            _repository.UpdateTrainer(newTrainerInfoBase);
+            var previousTrainingsId = _repository.GetAllTrainingIdsByTrainer(trainerId).ToList();
 
-            var previousTrainingsId = _repository.GetAllTrainingIdsByTrainer(newTrainerInfo.Id);
-            var newTrainingsId = newTrainerInfo.Trainings.Select(x => x.Id).ToList();
-
-            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsId);
-            var trainingsIdToAdd = newTrainingsId.Except(previousTrainingsId);
+            var trainingsIdToDelete = previousTrainingsId.Except(newTrainingsSet);
+            var trainingsIdToAdd = newTrainingsSet.Except(previousTrainingsId);
 
             foreach (var trainingId in trainingsIdToDelete)
             {
-                _repository.DeleteTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
+                _repository.DeleteTrainingTrainerConnection(trainerId, trainingId);
             }
 
             foreach (var trainingId in trainingsIdToAdd)
             {
-                _repository.AddTrainingTrainerConnection(newTrainerInfo.Id, trainingId);
+                _repository.AddTrainingTrainerConnection(trainerId, trainingId);
             }
         }
 
 
+        public void UpdateTrainerSpecialization(string trainerId, TrainerSpecializationsEnum newSpecialization)
+        {
+            _repository.UpdateTrainerSpecialization(trainerId, newSpecialization);
+        }
+
+       
         private bool CheckIfNewTrainerWorkHoursFitsToGymSchedule(int gymId, List<TrainerWorkHoursModel> newWorkHours)
         {
             var gymWorkHours = _repository.GetWorkHoursByGym(gymId);
@@ -301,7 +299,7 @@ namespace FitMeApp.Services
                 trainingNames.Add(trainingName);
             }
 
-            if (trainingNames.Contains("Personal training"))
+            if (trainingNames.Contains(TrainerSpecializationsEnum.personal.GetDescription()))
             {
                 if (trainingNames.Count > 1)
                 {
