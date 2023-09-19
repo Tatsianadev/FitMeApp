@@ -33,7 +33,7 @@
                                     <p style="font-weight: bold">
                                         Trainers gender
                                     </p>
-                                    @foreach (var gender in ViewBag.Genders)
+                                    @foreach (var gender in Enum.GetValues(typeof(GenderEnum)))
                                     {
                                         <div class="form-check">
                                             <input class="form-check-input" name="selectedGenders" type="checkbox" value="@gender" id="@gender">
@@ -47,12 +47,13 @@
                                     <p style="font-weight:bold">
                                         Trainers specialization
                                     </p>
-                                    @foreach (var specialization in ViewBag.Specializations)
+                                    @foreach (var specialization in Enum.GetValues(typeof(TrainerSpecializationsEnum)))
                                     {
                                         <div class="form-check">
                                             <input class="form-check-input" name="selectedSpecializations" type="checkbox" value="@specialization" id="@specialization" multiple>
                                             <label class="form-check-label" for="@specialization">
-                                                @specialization training
+                                                @((specialization as Enum).GetDescription())
+
                                             </label>
                                         </div>
                                     }

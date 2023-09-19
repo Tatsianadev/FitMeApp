@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Scripting.Utils;
 
 
 namespace FitMeApp.Controllers
@@ -34,19 +35,6 @@ namespace FitMeApp.Controllers
             {
                 trainers.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
             }
-
-            ViewBag.Genders = new List<GenderEnum>()
-            {
-                GenderEnum.male,
-                GenderEnum.female                
-            };
-
-            ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
-            {
-                TrainerSpecializationsEnum.personal,
-                TrainerSpecializationsEnum.group,
-                TrainerSpecializationsEnum.universal
-            };
 
             return View(trainers);
         }
@@ -76,19 +64,6 @@ namespace FitMeApp.Controllers
             {
                 trainerViewModels.Add(_mapper.MapTrainerModelToViewModel(trainerModel));
             }
-
-            ViewBag.Genders = new List<GenderEnum>()
-            {
-                GenderEnum.male,
-                GenderEnum.female
-            };
-
-            ViewBag.Specializations = new List<TrainerSpecializationsEnum>()
-            {
-                TrainerSpecializationsEnum.personal,
-                TrainerSpecializationsEnum.group,
-                TrainerSpecializationsEnum.universal
-            };
 
             return View("Index", trainerViewModels);
         }
