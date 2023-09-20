@@ -16,8 +16,8 @@
                     <h5>Work license</h5>
                 </div>
                 <form asp-action="EditTrainingSetAndPrice" asp-controller="Profile" method="post">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="All" class="text-danger" id="validationErrors"></div>
+                    <input id="trainerId" type="hidden" asp-for="Id" value="@Model.Id" />
                     <table style="width: 80%; margin: auto">
                         <tr>
                             <td class="col3">Work license</td>
@@ -52,7 +52,7 @@
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:35%">Delete</button>
                     <a asp-action="UpdateTrainerWorkLicense" asp-controller="Profile" class="btn btn-dark btn-sm" style="width:35%">Change</a>
                     <hr />
-                    @{ bool personalTrainingChosen = Model.Specialization != FitMeApp.Common.TrainerSpecializationsEnum.@group.ToString();  }
+                    @{ bool personalTrainingChosen = Model.Specialization != FitMeApp.Common.TrainerSpecializationsEnum.@group.ToString(); }
                     <div>
                         <h5>Specialization</h5>
                     </div>
@@ -76,7 +76,7 @@
                             <td class="col4">
                                 @foreach (var training in ViewBag.AllTrainings)
                                 {
-                                    <input type="checkbox" id ="training_@training.Name" name="TrainingsId" value="@training.Id"
+                                    <input type="checkbox" id="training_@training.Name" name="TrainingsId" value="@training.Id"
                                            @(Model.TrainingsId.Contains(training.Id) ? "checked=\"checked\"" : "") />
                                     @training.Name
                                     <br />
@@ -86,10 +86,11 @@
                         <tr>
                             <td class="col3">Personal training price ($/h)</td>
                             <td class="col4">
-                                <input type="text" asp-for="@Model.PricePerHour" id="price" class="form-control" disabled=@(personalTrainingChosen? null :"disabled")/>
+                                <input type="text" asp-for="@Model.PricePerHour" id="price" class="form-control" disabled=@(personalTrainingChosen? null :"disabled") />
                             </td>
                         </tr>
                     </table>
+                    <div id="message" class="text-danger"></div>
                     <br />
                     <a asp-controller="Profile" asp-action="TrainerPersonalAndJobData" class="btn btn-outline-dark btn-sm" style="width:35%">Back</a>
                     <input type="submit" value="Save changes" class="btn  btn-dark btn-sm" style="width:35%" />
@@ -109,7 +110,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                You will lose Trainer status if delete trainer work license.<br/>
+                You will lose Trainer status if delete trainer work license.<br />
                 Do you want to delete current license?
             </div>
             <div class="modal-footer">
@@ -121,12 +122,47 @@
 </div>
 
 <script>
+    var trainingsCheckbox = document.querySelectorAll("input[type='checkbox']");
+    var requiredTrainingIds = [];
+
+    window.addEventListener('load', function (e) {
+        var trainerId = document.getElementById("trainerId").value;
+        $.post(`https://localhost:44384/api/getrequiredtrainingidsbyactualevents`,
+            {
+                trainerId: trainerId
+            })
+            .done(function (data) {
+                if (data.length !== 0) {
+                    requiredTrainingIds = data;
+                }
+            });
+    });
+
+    for (var i = 0; i < trainingsCheckbox.length; i++) {
+        trainingsCheckbox[i].addEventListener('click', checkIfTrainingRequired);
+    }
+
+    function checkIfTrainingRequired(e) {
+        if (e.target.checked === false) {
+            var trainingId = parseInt(e.target.value);
+            if (requiredTrainingIds.includes(trainingId)) {
+                document.getElementById("message").innerText = "You cant quit the training while you have the events toi provide.";
+                e.target.checked = true;
+            }
+        }
+        else {
+            document.getElementById("message").innerText = "";
+        }
+    }
+
     document.getElementById("training_Personal training").addEventListener("change", function (e) {
-        var priceInput = document.getElementById("price");  
+        var priceInput = document.getElementById("price");
         if (this.checked) {
             priceInput.disabled = false;
         } else {
             priceInput.disabled = true;
         }
     });
+
+
 </script>

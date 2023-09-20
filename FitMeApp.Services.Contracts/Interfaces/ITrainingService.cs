@@ -14,6 +14,7 @@ namespace FitMeApp.Services.Contracts.Interfaces
         bool CheckIfUserHasAvailableSubscription(string userId, DateTime trainingDate, int gymId);
         int GetPrice(string trainerId);
         int UpdatePersonalTrainingPrice(string trainerId, int newPricePerHour);
+        IEnumerable<int> GetTrainingIdsOfActualEventsForTrainer(string trainerId);
 
         //GroupClasses
         IEnumerable<GroupClassScheduleRecordModel> GetAllRecordsInGroupClassScheduleByClassAndTrainer(int groupClassId, string trainerId);

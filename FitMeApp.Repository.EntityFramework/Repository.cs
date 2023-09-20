@@ -1944,6 +1944,18 @@ namespace FitMeApp.Repository.EntityFramework
             return actualEventsCount;
         }
 
+        public IEnumerable<int> GetTrainingIdsOfActualEventsForTrainer(string trainerId)
+        {
+            var trainingIds = _context.Events
+                .Where(x => x.TrainerId == trainerId)
+                .Where(x => x.Date >= DateTime.Today)
+                .Select(x => x.TrainingId)
+                .Distinct()
+                .ToList();
+
+            return trainingIds;
+        }
+
 
         public IEnumerable<EventEntityBase> GetActualEventsByTrainer(string trainerId)
         {

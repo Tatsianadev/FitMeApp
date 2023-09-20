@@ -133,25 +133,12 @@ namespace FitMeApp.APIControllers
         }
 
 
-        //[HttpPost]
-        //[Route("getproductsbystartwith")]
-        //public IEnumerable<string> GetProductsByStartWith(string letters)
-        //{
-        //    ScriptEngine engine = Python.CreateEngine();
-        //    ScriptScope scope = engine.CreateScope();
-        //    string fullPathToFile = @"c:\tatsiana\projects\FitMeApp\FitMeApp\wwwroot\Python\DietJournal.py"; //todo put path to Resources 
-        //    engine.ExecuteFile(fullPathToFile, scope);
-
-        //    var function = scope.GetVariable("findNamesByStartWith");
-        //    string allProductsFile = scope.GetVariable("path");
-        //    var resultPy = function(allProductsFile, letters);
-
-        //    var result = new List<string>();
-        //    foreach (var product in resultPy)
-        //    {
-        //        result.Add(product);
-        //    }
-        //    return result;
-        //}
+        [HttpPost]
+        [Route("getrequiredtrainingidsbyactualevents")]
+        public IEnumerable<int> GetRequiredTrainingIdsByActualEvents(string trainerId)
+        {
+            var trainingIds = _trainingService.GetTrainingIdsOfActualEventsForTrainer(trainerId);
+            return trainingIds;
+        }
     }
 }

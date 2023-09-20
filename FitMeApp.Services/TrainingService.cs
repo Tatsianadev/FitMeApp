@@ -76,7 +76,11 @@ namespace FitMeApp.Services
             return personalTrainingPriceId;
         }
 
-
+        public IEnumerable<int> GetTrainingIdsOfActualEventsForTrainer(string trainerId)
+        {
+            var trainingIds = _repository.GetTrainingIdsOfActualEventsForTrainer(trainerId);
+            return trainingIds;
+        }
 
         //GroupClasses
 
