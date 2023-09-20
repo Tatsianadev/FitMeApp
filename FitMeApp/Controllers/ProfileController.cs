@@ -691,50 +691,45 @@ namespace FitMeApp.Controllers
         [Authorize(Roles = "trainer")]
         public IActionResult UpdateTrainerWorkLicense(TrainerWorkLicenseViewModel newLicenseModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(newLicenseModel.ContractNumber))
+                try
                 {
-                    ModelState.AddModelError("", "Write the contract number over");
-                    return View(newLicenseModel);
+                    var userId = _userManager.GetUserId(User);
+
+                    TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
+                    {
+                        UserId = userId,
+                        ContractNumber = newLicenseModel.ContractNumber,
+                        GymId = newLicenseModel.GymId,
+                        StartDate = newLicenseModel.StartDate,
+                        EndDate = newLicenseModel.EndDate,
+                        ApplyingDate = DateTime.Today
+                    };
+
+                    int appId = _trainerService.AddTrainerApplication(trainerAppModel);
+                    if (appId != 0)
+                    {
+                        return RedirectToAction("TrainerPersonalAndJobData");
+                    }
+                    else
+                    {
+                        throw new Exception("Failed attempt to add records (new TrainerApplication) into DB");
+                    }
+
+
                 }
-
-                if (newLicenseModel.StartDate >= newLicenseModel.EndDate)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "The date of the start contract cannot be later or equal to the expiration date.");
-                    return View(newLicenseModel);
+                    _logger.LogError(ex, ex.Message);
+                    string message = "Failed attempt to update a work license. Please, try again later.";
+                    return View("CustomError", message);
                 }
-
-                var userId = _userManager.GetUserId(User);
-
-                TrainerApplicationModel trainerAppModel = new TrainerApplicationModel()
-                {
-                    UserId = userId,
-                    ContractNumber = newLicenseModel.ContractNumber,
-                    GymId = newLicenseModel.GymId,
-                    StartDate = newLicenseModel.StartDate,
-                    EndDate = newLicenseModel.EndDate,
-                    ApplyingDate = DateTime.Today
-                };
-
-                int appId = _trainerService.AddTrainerApplication(trainerAppModel);
-                if (appId != 0)
-                {
-                    return RedirectToAction("TrainerPersonalAndJobData");
-                }
-                else
-                {
-                    throw new Exception("Failed attempt to add records (new TrainerApplication) into DB");
-                }
-
-
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                string message = "Failed attempt to update a work license. Please, try again later.";
-                return View("CustomError", message);
-            }
+
+            ViewBag.Gyms = _gymService.GetAllGymModels();
+            return View(newLicenseModel);
+
         }
 
 

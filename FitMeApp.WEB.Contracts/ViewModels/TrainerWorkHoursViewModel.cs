@@ -5,7 +5,7 @@ using FitMeApp.WEB.Contracts.Attributes;
 
 namespace FitMeApp.WEB.Contracts.ViewModels
 {
-    [StartEarlierThanEndTime]
+    [StartTimeEarlierThanEnd]
     public class TrainerWorkHoursViewModel
     {
         public int Id { get; set; }

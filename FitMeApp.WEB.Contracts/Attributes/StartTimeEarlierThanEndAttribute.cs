@@ -6,9 +6,9 @@ using FitMeApp.WEB.Contracts.ViewModels;
 
 namespace FitMeApp.WEB.Contracts.Attributes
 {
-    public class StartEarlierThanEndTimeAttribute : ValidationAttribute
+    public class StartTimeEarlierThanEndAttribute : ValidationAttribute
     {
-        public StartEarlierThanEndTimeAttribute()
+        public StartTimeEarlierThanEndAttribute()
         {
             ErrorMessage = "Start time of work can't be less than End time of work";
         }
