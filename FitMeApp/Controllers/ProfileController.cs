@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using Microsoft.Scripting.Utils;
 using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
@@ -271,13 +272,13 @@ namespace FitMeApp.Controllers
                     if (userRoles.Contains(RolesEnum.trainer.ToString()))
                     {
                         int actualEventsCount = _scheduleService.GetActualEventsCountByTrainer(user.Id);
-                        if (actualEventsCount <0)
+                        if (actualEventsCount < 0)
                         {
                             _trainerService.DeleteTrainer(user.Id);
                         }
                         else
                         {
-                            return RedirectToAction("FailedTryToDeleteTrainer", new{ userFullName = $"{user.FirstName} {user.LastName}"});
+                            return RedirectToAction("FailedTryToDeleteTrainer", new { userFullName = $"{user.FirstName} {user.LastName}" });
                         }
                     }
                     else
@@ -708,16 +709,12 @@ namespace FitMeApp.Controllers
                     };
 
                     int appId = _trainerService.AddTrainerApplication(trainerAppModel);
-                    if (appId != 0)
+                    if (appId == 0)
                     {
-                        return RedirectToAction("TrainerPersonalAndJobData");
-                    }
-                    else
-                    {
-                        throw new Exception("Failed attempt to add records (new TrainerApplication) into DB");
+                        throw new Exception("Failed attempt to add new TrainerApplication records to the DB");
                     }
 
-
+                    return RedirectToAction("TrainerPersonalAndJobData");
                 }
                 catch (Exception ex)
                 {
@@ -729,7 +726,6 @@ namespace FitMeApp.Controllers
 
             ViewBag.Gyms = _gymService.GetAllGymModels();
             return View(newLicenseModel);
-
         }
 
 
@@ -737,19 +733,14 @@ namespace FitMeApp.Controllers
         public IActionResult EditTrainerWorkHours()
         {
             string trainerId = _userManager.GetUserId(User);
-            var workHoursModel = _trainerService.GetWorkHoursByTrainer(trainerId);
+            var workHoursModel = _trainerService.GetWorkHoursByTrainer(trainerId).ToList();
             List<TrainerWorkHoursViewModel> workHoursViewModel = new List<TrainerWorkHoursViewModel>();
 
-            if (workHoursModel.Count() == 0)
+            if (!workHoursModel.Any())
             {
                 foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
                 {
-                    workHoursViewModel.Add(new TrainerWorkHoursViewModel()
-                    {
-                        DayName = (DayOfWeek)item,
-                        StartTime = "0.00",
-                        EndTime = "0.00"
-                    });
+                    workHoursViewModel.AddRange(AddDayOffToTrainerSchedule(new List<TrainerWorkHoursViewModel>(), (DayOfWeek)item));
                 }
             }
             else
@@ -763,19 +754,26 @@ namespace FitMeApp.Controllers
                 {
                     if (!workHoursViewModel.Select(x => x.DayName).Contains((DayOfWeek)item))
                     {
-                        workHoursViewModel.Add(new TrainerWorkHoursViewModel()
-                        {
-                            DayName = (DayOfWeek)item,
-                            StartTime = "0.00",
-                            EndTime = "0.00"
-                        });
+                        workHoursViewModel.AddRange(AddDayOffToTrainerSchedule(workHoursViewModel, (DayOfWeek)item));
                     }
                 }
             }
 
             List<TrainerWorkHoursViewModel> orderedWorkHours = workHoursViewModel.OrderBy(x => ((int)x.DayName)).ToList();
-
             return View(orderedWorkHours);
+        }
+
+
+        private IEnumerable<TrainerWorkHoursViewModel> AddDayOffToTrainerSchedule(List<TrainerWorkHoursViewModel> workHours, DayOfWeek dayOff)
+        {
+            workHours.Add(new TrainerWorkHoursViewModel()
+            {
+                DayName = dayOff,
+                StartTime = "0.00",
+                EndTime = "0.00"
+            });
+
+            return workHours;
         }
 
 
@@ -801,7 +799,7 @@ namespace FitMeApp.Controllers
                     }
                     newWorkHours.Add(item);
                 }
-                
+
                 if (!newWorkHours.Any())
                 {
                     if (TryDeleteTrainerWorkHours(trainerId))

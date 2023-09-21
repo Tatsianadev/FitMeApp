@@ -8,6 +8,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.BaseEntities;
 using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Services;
 using FitMeApp.Services.Contracts.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -30,8 +31,8 @@ namespace FitMeApp.Tests.Services.TrainerService
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetWorkHoursByGym(gymId)).Returns(GetWorkHoursByGymFakeMethod());
-
-            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
+            var loggerMock = new Mock<ILogger<FitMeApp.Services.TrainerService>>();
+            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object, loggerMock.Object);
             var targetMethod = typeof(FitMeApp.Services.TrainerService)
                 .GetMethod("CheckIfNewTrainerWorkHoursFitsToGymSchedule",
                     BindingFlags.NonPublic | BindingFlags.Instance);
@@ -60,8 +61,8 @@ namespace FitMeApp.Tests.Services.TrainerService
 
             var repositoryMock = new Mock<IRepository>();
             repositoryMock.Setup(x => x.GetWorkHoursByGym(gymId)).Returns(GetWorkHoursByGymFakeMethod());
-
-            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object);
+            var loggerMock = new Mock<ILogger<FitMeApp.Services.TrainerService>>();
+            var serviceMock = new FitMeApp.Services.TrainerService(repositoryMock.Object, loggerMock.Object);
             var targetMethod = typeof(FitMeApp.Services.TrainerService)
                 .GetMethod("CheckIfNewTrainerWorkHoursFitsToGymSchedule",
                     BindingFlags.NonPublic | BindingFlags.Instance);

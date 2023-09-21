@@ -9,6 +9,7 @@ using FitMeApp.Repository.EntityFramework.Contracts.Interfaces;
 using FitMeApp.Repository.EntityFramework.Entities;
 using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FitMeApp.Services
 {
@@ -16,11 +17,13 @@ namespace FitMeApp.Services
     {
         private readonly IRepository _repository;
         private readonly EntityModelMapper _mapper;
+        private readonly ILogger<TrainerService> _logger;
 
-        public TrainerService(IRepository repository)
+        public TrainerService(IRepository repository, ILogger<TrainerService> logger)
         {
             _repository = repository;
             _mapper = new EntityModelMapper();
+            _logger = logger;
         }
 
 
@@ -318,10 +321,19 @@ namespace FitMeApp.Services
 
         public int AddTrainerApplication(TrainerApplicationModel trainerApplication)
         {
-            TrainerApplicationEntityBase trainerAppEntityBase =
-                _mapper.MapTrainerApplicationModelToEntityBase(trainerApplication);
-            int appId = _repository.AddTrainerApplication(trainerAppEntityBase);
-            return appId;
+            try
+            {
+                TrainerApplicationEntityBase trainerAppEntityBase =
+                    _mapper.MapTrainerApplicationModelToEntityBase(trainerApplication);
+                int appId = _repository.AddTrainerApplication(trainerAppEntityBase);
+                return appId;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, ex.Message);
+               throw;
+            }
+           
         }
 
 
