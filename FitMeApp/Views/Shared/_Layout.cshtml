@@ -32,6 +32,10 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Swagger" asp-action="Gyms">Web API</a>
                         </li>
+                        @*redis test*@
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Counter" asp-action="GetGym" asp-route-id="1">Redis</a>
+                        </li>
 
                         @if (User.IsInRole("gymAdmin"))
                         {

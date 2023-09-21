@@ -13,6 +13,7 @@ using FitMeApp.Common;
 using FitMeApp.Resources;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 
 namespace FitMeApp
@@ -47,6 +48,13 @@ namespace FitMeApp
 
             var apiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             services.RegisterMailService(apiKey);
+            
+            // Connect to docker IP
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+                options.InstanceName = "redis";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

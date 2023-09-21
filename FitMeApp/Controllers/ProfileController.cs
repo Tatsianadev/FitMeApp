@@ -14,13 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMeApp.Models.ExcelModels;
-using FitMeApp.Resources;
 using FitMeApp.Services.Contracts.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Localization;
-using Microsoft.Scripting.Utils;
 using Newtonsoft.Json;
 
 namespace FitMeApp.Controllers
@@ -762,20 +757,7 @@ namespace FitMeApp.Controllers
             List<TrainerWorkHoursViewModel> orderedWorkHours = workHoursViewModel.OrderBy(x => ((int)x.DayName)).ToList();
             return View(orderedWorkHours);
         }
-
-
-        private IEnumerable<TrainerWorkHoursViewModel> AddDayOffToTrainerSchedule(List<TrainerWorkHoursViewModel> workHours, DayOfWeek dayOff)
-        {
-            workHours.Add(new TrainerWorkHoursViewModel()
-            {
-                DayName = dayOff,
-                StartTime = "0.00",
-                EndTime = "0.00"
-            });
-
-            return workHours;
-        }
-
+        
 
         [Authorize(Roles = "trainer")]
         [HttpPost]
@@ -844,8 +826,7 @@ namespace FitMeApp.Controllers
 
             return View(model);
         }
-
-
+        
 
         [Authorize(Roles = "trainer")]
         public IActionResult ClientsList()
@@ -884,8 +865,7 @@ namespace FitMeApp.Controllers
             return RedirectToAction("ClientsList");
         }
 
-
-
+        
         [Authorize(Roles = "trainer")]
         public IActionResult ClientSubscription(string clientId)
         {
@@ -1008,6 +988,18 @@ namespace FitMeApp.Controllers
             {
                 return false;
             }
+        }
+
+        private IEnumerable<TrainerWorkHoursViewModel> AddDayOffToTrainerSchedule(List<TrainerWorkHoursViewModel> workHours, DayOfWeek dayOff)
+        {
+            workHours.Add(new TrainerWorkHoursViewModel()
+            {
+                DayName = dayOff,
+                StartTime = "0.00",
+                EndTime = "0.00"
+            });
+
+            return workHours;
         }
 
     }
