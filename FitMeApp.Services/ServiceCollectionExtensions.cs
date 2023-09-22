@@ -54,6 +54,11 @@ namespace FitMeApp.Services
             services.AddScoped<ITxtService, TxtReport>();
         }
 
+        public static void RegisterCacheService(this IServiceCollection services)
+        {
+            services.AddScoped<ICacheService, RedisCacheService>();
+        }
+
         public static void RegisterMailService(this IServiceCollection services, string apiKey)
         {
             services.AddSingleton<IEmailService>(emailService => new EmailService(apiKey));

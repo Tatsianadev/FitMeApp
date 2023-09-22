@@ -7,11 +7,10 @@ namespace FitMeApp.Services.Contracts.Interfaces
 {
     public interface ICacheService
     {
-        Task<string> GetValueAsStringAsync(string key);
-        Task SetKeyValueAsStringAsync(string key, string value);
-        Task<IEnumerable<string>> GetAllKeysAsync();
+        Task<string> GetValueStringAsync(string key);
+        Task SetValueStringAsync(string key, string value);
         Task DeleteKeyValuePairAsync(string key);
-        Task DeleteAllKeyValuePairsAsync();
+        Task RefreshKeyValuePairAsync(string key);
 
     }
 }

@@ -37,6 +37,7 @@ namespace FitMeApp
             services.RegisterDbContext(connectionString);
             services.RegisterIdentity();
             services.RegisterDependencies();
+            services.RegisterCacheService();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews();
             services.SetSupportedCulture();
@@ -52,7 +53,7 @@ namespace FitMeApp
             // Connect to docker IP
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = Configuration.GetSection("Redis")["Port"]; //"localhost:6379"
                 options.InstanceName = "redis";
             });
         }

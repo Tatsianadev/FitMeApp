@@ -8394,3 +8394,29 @@ FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 2
 FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 1
 FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 2
 FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 3
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 1
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 1
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 2
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 3
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 2
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 4
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 5
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 6
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 7
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 3
