@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FitMeApp.Filters;
 
 
 namespace FitMeApp.Controllers
@@ -25,7 +26,7 @@ namespace FitMeApp.Controllers
             _logger = logger;
         }
 
-
+        [TypeFilter(typeof(MethodCallCounterAttribute))]
         public IActionResult AllTrainers()
         {
             try

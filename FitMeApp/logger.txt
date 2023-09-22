@@ -8326,3 +8326,71 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Friday, September 22, 2023 - Method FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp). GymId = 1
+Friday, September 22, 2023 - Method FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp). GymId = 1
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+GymId = 1 - 
+GymId = 3 - 
+GymId = 1 - 0
+GymId = 2 - 
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+GymId = 1 - 0
+GymId = 3 - 0
+GymId = 4 - 0
+GymId = 1 - 1
+GymId = 1 - 2
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+GymId_1 - 1
+GymId_3 - 1
+GymId_2 - 1
+GymId_1 - 2
+GymId_1 - 3
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+GymId_3 - 1
+GymId_2 - 1
+GymId_4 - 1
+GymId_3 - 2
+GymId_3 - 3
+GymId_2 - 2
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 1
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 2
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 1
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 2
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 3

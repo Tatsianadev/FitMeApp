@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FitMeApp.Filters;
+using Microsoft.Extensions.Caching.Distributed;
 
 
 namespace FitMeApp.Controllers
@@ -93,7 +95,7 @@ namespace FitMeApp.Controllers
             }
         }
 
-
+        [TypeFilter(typeof(MethodCallCounterAttribute))]
         public IActionResult CurrentGymInfo(int gymId)
         {
             try
