@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FitMeApp.Services.Contracts.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
@@ -17,7 +18,7 @@ namespace FitMeApp.Services
         }
 
         
-        public async Task<string> GetValueStringAsync(string key)
+        public async Task<T> GetValueAsync<T>(string key)
         {
             if (key == null)
             {
@@ -25,22 +26,30 @@ namespace FitMeApp.Services
             }
 
             var value = await _redis.GetStringAsync(key);
-            return value;
+            if (value is null)
+            {
+                return default(T);
+            }
+
+            return JsonSerializer.Deserialize<T>(value);
         }
         
 
-        public async Task SetValueAsync<T>(string key, T value, TimeSpan? absoluteExpireTime, TimeSpan? slidingExpireTime)
+        public async Task SetValueAsync<T>(string key, T value, TimeSpan? absoluteExpireTime = null, TimeSpan? unusedExpireTime = null)
         {
             if (key == null)
             {
                 throw new ArgumentNullException(nameof(key));
             }
 
-            await _redis.SetStringAsync(key, value.ToString(), new DistributedCacheEntryOptions
+            var jsonData = JsonSerializer.Serialize(value);
+            var cacheOptions = new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = absoluteExpireTime,
-                SlidingExpiration = slidingExpireTime
-            });
+                AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromMinutes(5),
+                SlidingExpiration = unusedExpireTime
+            };
+
+            await _redis.SetStringAsync(key, jsonData, cacheOptions);
         }
 
 

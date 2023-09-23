@@ -23,14 +23,14 @@ namespace FitMeApp.Filters
             string methodName = context.ActionDescriptor.DisplayName;
             try
             {
-                var value = await _cache.GetValueStringAsync(methodName);
+                var value = await _cache.GetValueAsync(methodName);
                 if (value != null)
                 {
                     counter = Convert.ToInt32(value) + 1;
                 }
 
                 _logger.LogInformation($"{methodName} - {counter}");
-                await _cache.SetValueAsync(methodName, $"{counter}", TimeSpan.FromHours(1), null );
+                await _cache.SetValueAsync(methodName, $"{counter}", TimeSpan.FromHours(1), null);
             }
             catch (Exception ex)
             {
