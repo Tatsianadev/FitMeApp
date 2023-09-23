@@ -8420,3 +8420,10 @@ Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
 Scheduler QuartzScheduler_$_NON_CLUSTERED started.
 FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 7
 FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 3
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+Content root path: C:\tatsiana\projects\FitMeApp\FitMeApp
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 1
+FitMeApp.Controllers.GymsController.CurrentGymInfo (FitMeApp) - 2
+FitMeApp.Controllers.TrainersController.AllTrainers (FitMeApp) - 1

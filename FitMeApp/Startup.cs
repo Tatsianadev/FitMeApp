@@ -53,8 +53,8 @@ namespace FitMeApp
             // Connect to docker IP
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = Configuration.GetSection("Redis")["Port"]; //"localhost:6379"
-                options.InstanceName = "redis";
+                options.Configuration = Configuration.GetConnectionString("Redis"); //"localhost:6379"
+                options.InstanceName = "FitMeApp_";
             });
         }
 
