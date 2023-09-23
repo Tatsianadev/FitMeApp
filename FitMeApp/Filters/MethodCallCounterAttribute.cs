@@ -30,7 +30,7 @@ namespace FitMeApp.Filters
                 }
 
                 _logger.LogInformation($"{methodName} - {counter}");
-                await _cache.SetValueStringAsync(methodName, $"{counter}");
+                await _cache.SetValueAsync(methodName, $"{counter}", TimeSpan.FromHours(1), null );
             }
             catch (Exception ex)
             {

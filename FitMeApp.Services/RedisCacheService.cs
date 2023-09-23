@@ -27,19 +27,22 @@ namespace FitMeApp.Services
             var value = await _redis.GetStringAsync(key);
             return value;
         }
+        
 
-        public async Task SetValueStringAsync(string key, string value)
+        public async Task SetValueAsync<T>(string key, T value, TimeSpan? absoluteExpireTime, TimeSpan? slidingExpireTime)
         {
             if (key == null)
             {
                 throw new ArgumentNullException(nameof(key));
             }
 
-            await _redis.SetStringAsync(key, value, new DistributedCacheEntryOptions
+            await _redis.SetStringAsync(key, value.ToString(), new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1),
+                AbsoluteExpirationRelativeToNow = absoluteExpireTime,
+                SlidingExpiration = slidingExpireTime
             });
         }
+
 
         public async Task DeleteKeyValuePairAsync(string key)
         {
@@ -59,6 +62,6 @@ namespace FitMeApp.Services
             await _redis.RefreshAsync(key);
         }
 
-
+       
     }
 }
