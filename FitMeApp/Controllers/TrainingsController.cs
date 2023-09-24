@@ -97,7 +97,6 @@ namespace FitMeApp.Controllers
                         return View(model);
                     }
 
-                    //int trainingId = _trainingService.GetAllTrainingModels().Where(x => x.Name == "Personal training").First().Id;  //todo some Enum with trainings names
                     int trainingId = (int)TrainingsEnum.personaltraining;
                     if (userHasAvailableSubscription)
                     {

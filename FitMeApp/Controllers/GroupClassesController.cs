@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FitMeApp.Controllers
@@ -46,9 +45,6 @@ namespace FitMeApp.Controllers
 
         public IActionResult GroupClasses()
         {
-            //string sectionText = _fileService.GetSpecifiedSectionFromFile(@"wwwroot\TextFiles\GroupClassesDescription.txt",
-            //        "Section1", "EndSection");
-
             var groupClassesViewModels = new List<TrainingViewModel>();
             var groupClassesModels = _trainingService.GetAllTrainingModels().Where(x => x.Id != (int)TrainingsEnum.personaltraining);
             foreach (var groupClassModel in groupClassesModels)
@@ -196,7 +192,7 @@ namespace FitMeApp.Controllers
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
 
-            var groupClasses = trainer.Trainings.Where(x => x.Name != "Personal training");
+            var groupClasses = trainer.Trainings.Where(x => x.Name != TrainerSpecializationsEnum.personal.GetDescription());
 
             var viewModel = new SetCroupClassScheduleViewModel()
             {

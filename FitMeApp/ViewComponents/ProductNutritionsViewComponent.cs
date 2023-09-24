@@ -6,7 +6,6 @@ using FitMeApp.Services.Contracts.Interfaces;
 using FitMeApp.Services.Contracts.Models.Chart;
 using FitMeApp.WEB.Contracts.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace FitMeApp.ViewComponents
 {
