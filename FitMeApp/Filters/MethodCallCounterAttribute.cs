@@ -23,7 +23,7 @@ namespace FitMeApp.Filters
             string methodName = context.ActionDescriptor.DisplayName;
             try
             {
-                var value = await _cache.GetValueAsync(methodName);
+                var value = await _cache.GetValueAsync<string>(methodName);
                 if (value != null)
                 {
                     counter = Convert.ToInt32(value) + 1;
