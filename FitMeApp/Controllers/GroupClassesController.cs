@@ -216,7 +216,6 @@ namespace FitMeApp.Controllers
 
                 if (viewModel.SelectedDaysOfWeek != null)
                 {
-
                     foreach (var dayOfWeek in viewModel.SelectedDaysOfWeek)
                     {
                         var date = DateManager.GetDatesInSpanByDayOfWeek(viewModel.Dates.FirstOrDefault(), 30, dayOfWeek.ToString());
@@ -243,18 +242,17 @@ namespace FitMeApp.Controllers
                     groupClassScheduleRecordsModels.Add(model);
                 }
 
-                List<int> addedRecordIds = _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels).ToList();
+                _trainingService.AddGroupClassScheduleRecords(groupClassScheduleRecordsModels);
 
                 viewModel.EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(endTime);
                 viewModel.SelectedGroupClassName = _trainingService.GetTrainingModel(viewModel.SelectedGroupClassId).Name;
                 return RedirectToAction("SetGroupClassesScheduleComplete", viewModel);
 
             }
-
-
-            var trainer = _trainerService.GetTrainerWithGymAndTrainings(viewModel.TrainerId);
+            
+            var trainer = _trainerService.GetTrainerWithGymAndTrainings(viewModel.TrainerId); //todo clean up the repeatable code
             var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(viewModel.TrainerId).Select(x => x.DayName).ToList();
-            var groupClasses = trainer.Trainings.Where(x => x.Name != "Personal training");
+            var groupClasses = trainer.Trainings.Where(x => x.Name != TrainerSpecializationsEnum.personal.GetDescription());
             viewModel.WorkDaysOfWeek = workDaysOfWeek;
             viewModel.GroupClasses = groupClasses;
             return View(viewModel);

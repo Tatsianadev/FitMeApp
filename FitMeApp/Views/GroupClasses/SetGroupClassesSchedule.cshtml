@@ -41,8 +41,10 @@
                             <div class="col-md-8">
                                 @{
                                     string minDate = DateTime.Today.AddDays(1).Date.ToString("yyyy-MM-dd");
-                                    string maxDate = DateTime.Today.AddDays(31).Date.ToString("yyyy-MM-dd");}
-                                <input id="selectDate" type="date" asp-for="Dates" min="@minDate" max="@maxDate" value="@minDate" style="margin: 0px 0px 8px" />
+                                    string maxDate = DateTime.Today.AddDays(31).Date.ToString("yyyy-MM-dd");
+                                    string selectedDate = Model.Dates != null ? Model.Dates.Min(x => x).ToString("yyyy-MM-dd") : minDate;
+                                }
+                                <input id="selectDate" type="date" asp-for="Dates" min="@minDate" max="@maxDate" value="@selectedDate" style="margin: 0px 0px 8px" />
                             </div>
                         </div>
                         <br />
@@ -52,7 +54,12 @@
                                 Time
                             </div>
                             <div class="col-md-8">
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="StartTime"></select>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="startTimeSelect" asp-for="StartTime">
+                                    @if (Model.StartTime != null)
+                                    {
+                                        <option selected value="@Model.StartTime">@Model.StartTime</option>
+                                    }
+                                </select>
                                 <div id="timeErrorMessage" class="card-text small text-danger"></div>
                                 <span asp-validation-for="StartTime" class="card-text small"></span>
                             </div>
@@ -163,38 +170,39 @@
     let enabledDays = [];
 
     checkboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', checkTimeAndDayOfWeek)});
-        document.getElementById("startTimeSelect").addEventListener('change', checkTimeAndDayOfWeek);
+        checkbox.addEventListener('change', checkTimeAndDayOfWeek)
+    });
+    document.getElementById("startTimeSelect").addEventListener('change', checkTimeAndDayOfWeek);
 
     function checkTimeAndDayOfWeek(e) {
-            var selectedTime = document.getElementById("startTimeSelect").value;
-            if (selectedTime === "") {
-                document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
-            }
-            else {
-                enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
-                var trainerId = document.getElementById("trainerId").value;
-                var duration = document.getElementById("selectDuration").value;
-                var selectedDate = document.getElementById("selectDate").value;
+        var selectedTime = document.getElementById("startTimeSelect").value;
+        if (selectedTime === "") {
+            document.getElementById("timeErrorMessage").innerText = "Please, choose the time before";
+        }
+        else {
+            enabledDays = Array.from(checkboxes).filter(i => i.checked).map(i => i.value.toString());
+            var trainerId = document.getElementById("trainerId").value;
+            var duration = document.getElementById("selectDuration").value;
+            var selectedDate = document.getElementById("selectDate").value;
 
-                $.post(`https://localhost:44384/api/checkselectedtimefordays`,
-                    {
-                        trainerId: trainerId,
-                        selectedTime: selectedTime,
-                        selectedDate: selectedDate,
-                        selectedDaysOfWeek: enabledDays,
-                        duration: duration
-                    })
-                    .done(function (data) {
-                        if (data === true) {
-                            document.getElementById("daysOfWeekErrorMessage").innerText = "";
-                        }
-                        else {
-                            document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
-                        }
-                    });
-            };
-
+            $.post(`https://localhost:44384/api/checkselectedtimefordays`,
+                {
+                    trainerId: trainerId,
+                    selectedTime: selectedTime,
+                    selectedDate: selectedDate,
+                    selectedDaysOfWeek: enabledDays,
+                    duration: duration
+                })
+                .done(function (data) {
+                    if (data === true) {
+                        document.getElementById("daysOfWeekErrorMessage").innerText = "";
+                    }
+                    else {
+                        document.getElementById("daysOfWeekErrorMessage").innerText = "Selected time doesn't available for selected days of week. Please, select other days or time.";
+                    }
+                });
         };
+
+    };
 
 </script>
