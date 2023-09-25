@@ -92,11 +92,9 @@ namespace FitMeApp.Services
                         }
                     }
                 }
-                
             }
 
-            return attendanceChart;
-
+            return await Task.FromResult(attendanceChart) ;
         }
 
 

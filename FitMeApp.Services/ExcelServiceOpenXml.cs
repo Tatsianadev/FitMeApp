@@ -28,7 +28,6 @@ namespace FitMeApp.Services
     {
         public async Task CreateUsersListExcelFileAsync(DataTable table, FileInfo file, string tableName)
         {
-
             using (SpreadsheetDocument spreadsheetDocument =
                     SpreadsheetDocument.Create(file.FullName, SpreadsheetDocumentType.Workbook))
             {
@@ -75,7 +74,7 @@ namespace FitMeApp.Services
                 sheets.Append(sheet);
                 workbookPart.Workbook.Save();
                 spreadsheetDocument.Close();
-
+                await Task.CompletedTask;
             }
         }
 
@@ -138,7 +137,7 @@ namespace FitMeApp.Services
                         attendanceChartModels.Add(currentDayAttendance);
                     }
 
-                    return attendanceChartModels;
+                    return await Task.FromResult(attendanceChartModels);
                 }
             }
             
@@ -196,7 +195,7 @@ namespace FitMeApp.Services
                 }
             }
 
-            return nutrients;
+            return await Task.FromResult(nutrients);
         }
 
 
