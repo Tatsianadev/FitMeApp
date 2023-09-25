@@ -1,4 +1,5 @@
-﻿@model FitMeApp.WEB.Contracts.ViewModels.SetCroupClassScheduleViewModel
+﻿@using System.Linq
+@model FitMeApp.WEB.Contracts.ViewModels.SetCroupClassScheduleViewModel
 
 <div class="container" style="text-align:center">
     <div class="row">
@@ -30,6 +31,12 @@
                                         <option value="@groupClass.Id">@groupClass.Name</option>
                                     }
                                 </select>
+
+                                @for (int i = 0; i < Model.GroupClasses.Count(); i++)
+                                {
+                                    <input type="hidden" asp-for="@Model.GroupClasses[i].Id" value="@Model.GroupClasses[i].Id" />
+                                    <input type="hidden" asp-for="@Model.GroupClasses[i].Name" value="@Model.GroupClasses[i].Name" />
+                                }
                             </div>
                         </div>
                         <br />
