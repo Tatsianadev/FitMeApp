@@ -191,7 +191,6 @@ namespace FitMeApp.Controllers
             var trainerId = _userManager.GetUserId(User);
             var trainer = _trainerService.GetTrainerWithGymAndTrainings(trainerId);
             var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(trainerId).Select(x => x.DayName).ToList();
-
             var groupClasses = trainer.Trainings.Where(x => x.Name != TrainerSpecializationsEnum.personal.GetDescription()).ToList();
 
             var viewModel = new SetCroupClassScheduleViewModel()
@@ -247,14 +246,8 @@ namespace FitMeApp.Controllers
                 viewModel.EndTime = Common.WorkHoursTypesConverter.ConvertIntTimeToString(endTime);
                 viewModel.SelectedGroupClassName = _trainingService.GetTrainingModel(viewModel.SelectedGroupClassId).Name;
                 return RedirectToAction("SetGroupClassesScheduleComplete", viewModel);
-
             }
-            
-            var trainer = _trainerService.GetTrainerWithGymAndTrainings(viewModel.TrainerId); //todo clean up the repeatable code
-            var workDaysOfWeek = _trainerService.GetWorkHoursByTrainer(viewModel.TrainerId).Select(x => x.DayName).ToList();
-            var groupClasses = trainer.Trainings.Where(x => x.Name != TrainerSpecializationsEnum.personal.GetDescription()).ToList();
-            viewModel.WorkDaysOfWeek = workDaysOfWeek;
-            viewModel.GroupClasses = groupClasses;
+
             return View(viewModel);
         }
 

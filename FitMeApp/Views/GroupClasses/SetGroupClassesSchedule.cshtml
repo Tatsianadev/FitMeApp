@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using System.Diagnostics.Eventing.Reader
 @model FitMeApp.WEB.Contracts.ViewModels.SetCroupClassScheduleViewModel
 
 <div class="container" style="text-align:center">
@@ -14,10 +15,22 @@
 
                         <h4 class="card-title text-center">New group class appointment</h4>
                         <h5 class="card-title text-center">
-                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId" />
+
+                            @*Filling up the model properties, that the user doesn't choose on the page.*@
+                            <input id="trainerId" type="hidden" asp-for="TrainerId" value="@Model.TrainerId"/>
+                            <input type="hidden" asp-for="GymId" value="@Model.GymId"/>
+                            <input type="hidden" asp-for="GymName" value="@Model.GymName"/>
+                            @for (int i = 0; i < Model.GroupClasses.Count(); i++)
+                            {
+                                <input type="hidden" asp-for="@Model.GroupClasses[i].Id" value="@Model.GroupClasses[i].Id"/>
+                                <input type="hidden" asp-for="@Model.GroupClasses[i].Name" value="@Model.GroupClasses[i].Name"/>
+                            }
+                            @for (int i = 0; i < Model.WorkDaysOfWeek.Count(); i++)
+                            {
+                                <input type="hidden" asp-for="@Model.WorkDaysOfWeek[i]" value="@Model.WorkDaysOfWeek[i]"/>
+                            }
+
                             Gym: @Model.GymName
-                            <input type="hidden" asp-for="GymId" value="@Model.GymId" />
-                            <input type="hidden" asp-for="GymName" value="@Model.GymName" />
                         </h5>
                         <hr />
                         <div class="row">
@@ -32,11 +45,7 @@
                                     }
                                 </select>
 
-                                @for (int i = 0; i < Model.GroupClasses.Count(); i++)
-                                {
-                                    <input type="hidden" asp-for="@Model.GroupClasses[i].Id" value="@Model.GroupClasses[i].Id" />
-                                    <input type="hidden" asp-for="@Model.GroupClasses[i].Name" value="@Model.GroupClasses[i].Name" />
-                                }
+                               
                             </div>
                         </div>
                         <br />
@@ -111,19 +120,26 @@
                             <div class="col-md-8">
                                 @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
                                 {
-                                    <div class="form-check" style="text-align: left">
-                                        @if (Model.WorkDaysOfWeek.Contains((DayOfWeek)day))
+                                <div class="form-check" style="text-align: left">
+                                    @if (Model.WorkDaysOfWeek.Contains((DayOfWeek)day))
+                                    {
+                                        if (Model.SelectedDaysOfWeek != null && Model.SelectedDaysOfWeek.Contains((DayOfWeek)day))
                                         {
-                                            <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="@day" id="@day.ToString()">
+                                            <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="@day" id="@day.ToString()" checked="checked">
                                         }
                                         else
                                         {
-                                            <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="" id="@day.ToString()" disabled>
+                                            <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="@day" id="@day.ToString()">
                                         }
-                                        <label class="form-check-label" for="@day.ToString()">
-                                            @day.ToString()
-                                        </label>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" name=SelectedDaysOfWeek value="" id="@day.ToString()" disabled>
+                                    }
+                                    <label class="form-check-label" for="@day.ToString()">
+                                        @day.ToString()
+                                    </label>
+                                </div>
                                 }
                                 <div id="daysOfWeekErrorMessage" style="font-size: small; color: red"></div>
                             </div>
